@@ -136,16 +136,18 @@ class TutorCardHeaderView: UIView {
         guard let uid = Auth.auth().currentUser?.uid, let tutorId = tutor?.uid else { return }
         Database.database().reference().child("saved-tutors").child(uid).child(tutorId).setValue(1)
         messageButton.setImage(UIImage(named: "heartIconFilled"), for: .normal)
-        CurrentUser.shared.learner.savedTutorIds?.append(tutorId)
+        CurrentUser.shared.learner.savedTutorIds.append(tutorId)
+        NotificationCenter.default.post(name: NotificationNames.SavedTutors.didUpdate, object: nil)
     }
     
     func unsaveTutor() {
         guard let uid = Auth.auth().currentUser?.uid, let tutorId = tutor?.uid else { return }
         Database.database().reference().child("saved-tutors").child(uid).child(tutorId).removeValue()
         messageButton.setImage(UIImage(named: "heartIcon"), for: .normal)
-        CurrentUser.shared.learner.savedTutorIds?.removeAll(where: { (id) -> Bool in
+        CurrentUser.shared.learner.savedTutorIds.removeAll(where: { (id) -> Bool in
             return id == tutorId
         })
+        NotificationCenter.default.post(name: NotificationNames.SavedTutors.didUpdate, object: nil)
     }
     
     override init(frame: CGRect) {

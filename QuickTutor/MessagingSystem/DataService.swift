@@ -85,16 +85,24 @@ class DataService {
     
     func getStudentWithId(_ uid: String, completion: @escaping TutorCompletion) {
         Database.database().reference().child("account").child(uid).observeSingleEvent(of: .value) { snapshot in
-            guard let value = snapshot.value as? [String: Any] else { return }
+            guard let value = snapshot.value as? [String: Any] else {
+                completion(nil)
+                return
+            }
             Database.database().reference().child("student-info").child(uid).observeSingleEvent(of: .value, with: { snapshot2 in
-                guard let value2 = snapshot2.value as? [String: Any] else { return }
+                guard let value2 = snapshot2.value as? [String: Any] else {
+                    completion(nil)
+                    return
+                }
                 let finalDict = value.merging(value2, uniquingKeysWith: { (_, dict2Value) -> Any in
                     dict2Value
                 })
                 let tutor = ZFTutor(dictionary: finalDict)
                 tutor.uid = uid
                 guard let img = finalDict["img"] as? [String: Any], let profilePicUrl = img["image1"] as? String else {
-                    return }
+                    completion(nil)
+                    return
+                }
                 tutor.profilePicUrl = URL(string: profilePicUrl)
                 tutor.username = finalDict["nm"] as? String
                 completion(tutor)
@@ -416,6 +424,41 @@ class DataService {
     func setFeaturedSubjectNow() {
         let dict = ["subject": "Cooking", "imgUrl": "https://firebasestorage.googleapis.com/v0/b/quicktutor-3c23b.appspot.com/o/adult-blond-board-298926.jpg?alt=media&token=316575cc-debf-4e9b-9cee-c50e1faa514e"]
         Database.database().reference().child("featuredSubjects").childByAutoId().setValue(dict)
+    }
+    
+    func sendQuickCallRequestToId(sessionRequest: SessionRequest, _ id: String, completion: (() -> ())?) {
+        guard let uid = AccountService.shared.currentUser.uid else { return }
+        SessionAnalyticsService.shared.logSessionRequestSent(sessionRequest)
+        guard sessionRequest.endTime != 0 else { return }
+        let expiration = (sessionRequest.endTime - Date().timeIntervalSince1970) / 2
+        let expirationDate = Date().addingTimeInterval(expiration).timeIntervalSince1970
+        sessionRequest.expiration = expirationDate
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
+        
+        NotificationManager.shared.disableAllNotifications()
+        
+        Database.database().reference().child("sessions").childByAutoId().setValue(sessionRequest.dictionaryRepresentation) { _, ref1 in
+            
+            // TODO: When implement quick call on conversation screen, should udpate messages, conversations and converstation meta data as well
+            
+            let senderSessionRef = Database.database().reference().child("userSessions").child(uid).child(userTypeString)
+            let receiverSessionRef = Database.database().reference().child("userSessions").child(id).child(otherUserTypeString)
+            
+            senderSessionRef.updateChildValues([ref1.key!: 0])
+            receiverSessionRef.updateChildValues([ref1.key!: 0])
+            
+            let value: [String : Any] = ["startedBy": uid, "startType": "manual", "sessionType": QTSessionType.quickCalls.rawValue]
+            Database.database().reference().child("sessionStarts").child(uid).child(ref1.key!).setValue(value)
+            Database.database().reference().child("sessionStarts").child(sessionRequest.partnerId()).child(ref1.key!).setValue(value)
+            
+            // remove local notification
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [ref1.key!])
+            
+            if let completion = completion {
+                completion()
+            }
+        }
     }
 }
 

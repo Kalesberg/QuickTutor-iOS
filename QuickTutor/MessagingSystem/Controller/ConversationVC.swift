@@ -624,6 +624,18 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
         } else if let fileDownloadUrl = userMessage.documenUrl {
             guard let url = URL(string: fileDownloadUrl) else { return }
             documentUploadManager?.displayFileAtUrl(url, fromViewController: self)
+        } else {
+            openLinkIfNeeded(message: userMessage)
+        }
+
+    }
+    
+    func openLinkIfNeeded(message: UserMessage) {
+        let links = message.getLinksInText()
+        links.forEach { (link) in
+            if let url = URL(string: link) {
+                UIApplication.shared.open(url)
+            }
         }
     }
     

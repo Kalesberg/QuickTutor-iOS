@@ -64,21 +64,19 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H1C-XJ-PFk">
-                                    <rect key="frame" x="20" y="184" width="374" height="126"/>
+                                    <rect key="frame" x="20" y="184" width="374" height="200"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="126" id="Kxj-Qw-wb1"/>
+                                        <constraint firstAttribute="height" constant="200" id="Kxj-Qw-wb1"/>
                                     </constraints>
-                                    <string key="text">To enter sessions, please add a payment method.
-You will not be charged until you enter a session.
+                                    <string key="text">To enter a session or call a tutor you must add a payment method. Your payment method won’t be charged until you enter a session or call.
 
-There are no subscriptions or upfront payments.
-You only pay for time you need, at a minute-by-minute basis.</string>
+There are no subscription fees or upfront payments; and you will only be charged for the time you are in a session, at a minute-by-minute basis of the agreed hourly rate or session total of your choice. There is a $5.00 minimum to every Quick Call and Session.</string>
                                     <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="shF-44-O0L" customClass="RoundedButton" customModule="QuickTutor" customModuleProvider="target">
-                                    <rect key="frame" x="20" y="320" width="374" height="44"/>
+                                    <rect key="frame" x="20" y="394" width="374" height="44"/>
                                     <color key="backgroundColor" red="0.39607843139999999" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="He7-Z1-9Gn"/>
@@ -98,7 +96,7 @@ You only pay for time you need, at a minute-by-minute basis.</string>
                                     </connections>
                                 </button>
                                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ttc-Kg-5PM" customClass="RoundedButton" customModule="QuickTutor" customModuleProvider="target">
-                                    <rect key="frame" x="20" y="384" width="374" height="44"/>
+                                    <rect key="frame" x="20" y="458" width="374" height="44"/>
                                     <color key="backgroundColor" red="0.0" green="0.4392156862745098" blue="0.72941176470588232" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="Fks-Hc-aUa"/>
@@ -115,7 +113,7 @@ You only pay for time you need, at a minute-by-minute basis.</string>
                                     </userDefinedRuntimeAttributes>
                                 </button>
                                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gVL-RK-i7v" customClass="RoundedButton" customModule="QuickTutor" customModuleProvider="target">
-                                    <rect key="frame" x="20" y="448" width="374" height="44"/>
+                                    <rect key="frame" x="20" y="522" width="374" height="44"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="1vy-Lf-5w3"/>

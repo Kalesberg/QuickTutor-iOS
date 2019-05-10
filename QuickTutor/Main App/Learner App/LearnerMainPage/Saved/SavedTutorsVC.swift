@@ -26,17 +26,130 @@ class SavedTutorsVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupMainView()
+        setupNavigationBar()
+        setupCollectionView()
+        setupObservers()
+        loadSavedTutors()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    func setupMainView() {
         view.backgroundColor = Colors.darkBackground
+    }
+    
+    func setupNavigationBar() {
         navigationItem.title = "Saved"
-        navigationController?.navigationBar.barTintColor = Colors.newBackground
-        navigationController?.navigationBar.backgroundColor = Colors.newBackground
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
         }
     }
     
-    func loadSavedTutors() {
-        
+    func setupCollectionView() {
+        view.addSubview(collectionView)
+        collectionView.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+    }
+    
+    func setupObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(loadSavedTutors), name: NotificationNames.SavedTutors.didUpdate, object: nil)
+    }
+    
+    @objc func loadSavedTutors() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let myGroup = DispatchGroup()
+        var tutors = [AWTutor]()
+        Database.database().reference().child("saved-tutors").child(uid).observeSingleEvent(of: .value) { (snapshot) in
+            guard let tutorIds = snapshot.value as? [String: Any] else {
+                self.datasource = tutors
+                self.collectionView.reloadData()
+                return
+            }
+            tutorIds.forEach({ uid, _ in
+                myGroup.enter()
+                FirebaseData.manager.fetchTutor(uid, isQuery: false, { tutor in
+                    guard let tutor = tutor else {
+                        myGroup.leave()
+                        return
+                    }
+                    if tutor.uid != Auth.auth().currentUser?.uid {
+                        tutors.append(tutor)
+                    }
+                    myGroup.leave()
+                })
+            })
+            myGroup.notify(queue: .main) {
+                self.datasource = tutors
+                self.collectionView.reloadData()
+            }
+        }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+}
+
+extension SavedTutorsVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
+        return datasource.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! TutorCollectionViewCell
+        cell.updateUI(datasource[indexPath.item])
+        cell.profileImageViewHeightAnchor?.constant = 160
+        cell.layoutIfNeeded()
+        return cell
+    }
+    
+    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
+        let screen = UIScreen.main.bounds
+        return CGSize(width: (screen.width - 60) / 2, height: 225)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
+        cell.shrink()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
+        UIView.animate(withDuration: 0.2) {
+            cell.transform = CGAffineTransform.identity
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
+        cell.growSemiShrink {
+            let featuredTutor = self.datasource[indexPath.item]
+            let uid = featuredTutor.uid
+            FirebaseData.manager.fetchTutor(uid!, isQuery: false, { (tutor) in
+                guard let tutor = tutor else { return }
+                let controller = QTProfileViewController.controller
+                controller.subject = featuredTutor.featuredSubject
+                controller.profileViewType = .tutor
+                controller.user = tutor
+                DispatchQueue.main.async {
+                    self.navigationController?.pushViewController(controller, animated: true)
+                }
+            })
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 20
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 20
     }
 }
 

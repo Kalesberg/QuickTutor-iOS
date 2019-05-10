@@ -13,6 +13,8 @@ class LearnerTabBarController: BaseTabBarController {
         super.viewDidLoad()
         let home = UINavigationController(rootViewController: LearnerMainPageVC())
         home.tabBarItem = UITabBarItem(title: "Home", image: UIImage(named: "homeTabBarIcon"), selectedImage: UIImage(named: "homeTabBarIcon"))
+        let saved = UINavigationController(rootViewController: SavedTutorsVC())
+        saved.tabBarItem = UITabBarItem(title: "Saved", image: UIImage(named: "savedTabBarIcon"), selectedImage: UIImage(named: "savedTabBarIcon"))
         let sessions = UINavigationController(rootViewController: LearnerSessionsVC())
         sessions.tabBarItem = UITabBarItem(title: "Sessions", image: UIImage(named: "sessionsTabBarIcon"), selectedImage: UIImage(named: "sessionsTabBarIcon"))
         let messages = UINavigationController(rootViewController: MessagesVC())
@@ -21,7 +23,7 @@ class LearnerTabBarController: BaseTabBarController {
         messages.navigationBar.backgroundColor = Colors.newBackground
         let profile = UINavigationController(rootViewController: ProfileVC())
         profile.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(named: "profileTabBarIcon"), selectedImage: UIImage(named: "profileTabBarIcon"))
-        let controllers = [home, sessions, messages, profile]
+        let controllers = [home, saved, sessions, messages, profile]
 
         for vc in controllers {
             vc.navigationBar.barTintColor = Colors.darkBackground

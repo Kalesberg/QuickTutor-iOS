@@ -25,6 +25,7 @@ class AWTutor: AWLearner {
     var price: Int!
     var secondsTaught: Int!
     var distance: Int!
+    var quickCallPrice: Int!
     var preference: Int!
     var tNumSessions: Int!
     
@@ -55,6 +56,8 @@ class AWTutor: AWLearner {
         price = dictionary["p"] as? Int ?? 0
         secondsTaught = dictionary["hr"] as? Int ?? 0
         distance = dictionary["dst"] as? Int ?? 75
+        quickCallPrice = dictionary["quick_calls"] as? Int ?? -1
+        
         preference = dictionary["prf"] as? Int ?? 3
         tNumSessions = dictionary["nos"] as? Int ?? 0
         isVisible = ((dictionary["h"] as? Int) == 0) ? true : false

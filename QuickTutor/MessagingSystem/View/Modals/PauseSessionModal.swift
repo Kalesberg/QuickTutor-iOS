@@ -19,6 +19,19 @@ class PauseSessionModal: BaseCustomModal {
     var delegate: PauseSessionModalDelegate?
     var partnerUsername: String?
     var isVisible = false
+    var sessionType: QTSessionType? {
+        didSet {
+            guard let username = partnerUsername?.split(separator: " ")[0] else { return }
+            guard let uid = Auth.auth().currentUser?.uid, pausedById != "lostConnection" else { return }
+            if let sessionType = sessionType, sessionType == .quickCalls {
+                inPersonEndSessionButton.setTitle("End Call", for: .normal)
+                titleLabel.text = uid == pausedById ? "You paused the call." : "\(username) paused the call."
+            } else {
+                inPersonEndSessionButton.setTitle("End Session", for: .normal)
+                titleLabel.text = uid == pausedById ? "You paused the session." : "\(username) paused the session."
+            }
+        }
+    }
 
     let unpauseButton: DimmableButton = {
         let button = DimmableButton()
