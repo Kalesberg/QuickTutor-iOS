@@ -24,6 +24,7 @@ class QTProfileViewController: UIViewController {
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var moreButtonsView: UIView!
     @IBOutlet weak var statusImageView: QTCustomImageView!
+    @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var messageButton: UIButton!
     @IBOutlet weak var ratingStarImageView: UIImageView!
     @IBOutlet weak var ratingLabel: UILabel!
@@ -137,6 +138,12 @@ class QTProfileViewController: UIViewController {
     }
     
     // MARK: - Actions
+    @IBAction func onSaveButtonClicked(_ sender: Any) {
+        guard let uid = Auth.auth().currentUser?.uid, let tutorId = user.uid, uid != tutorId else { return }
+        let savedTutorIds = CurrentUser.shared.learner.savedTutorIds
+        savedTutorIds.contains(tutorId) ? unsaveTutor() : saveTutor()
+    }
+    
     @IBAction func onMessageButtonClicked(_ sender: Any) {
         let vc = ConversationVC()
         vc.receiverId = user.uid
@@ -335,6 +342,11 @@ class QTProfileViewController: UIViewController {
             } else {
                 navigationItem.rightBarButtonItem = UIBarButtonItem.init(image: UIImage(named: "ic_dots_horizontal"), style: .plain, target: self, action: #selector(handleMoreButtonClicked))
             }
+            
+            //Update saved button
+            let savedTutorIds = CurrentUser.shared.learner.savedTutorIds
+            savedTutorIds.contains(user.uid) ? saveButton.setImage(UIImage(named:"heartIconFilled"), for: .normal) : saveButton.setImage(UIImage(named:"heartIcon"), for: .normal)
+            
         case .learner:
             moreButtonsView.isHidden = false
             statisticStackView.isHidden = true
@@ -408,6 +420,24 @@ class QTProfileViewController: UIViewController {
                                                                 action: #selector(handleEditProfile))
         }
         bioLabel.superview?.layoutIfNeeded()
+    }
+    
+    func saveTutor() {
+        guard let uid = Auth.auth().currentUser?.uid, let tutorId = user.uid else { return }
+        Database.database().reference().child("saved-tutors").child(uid).child(tutorId).setValue(1)
+        saveButton.setImage(UIImage(named: "heartIconFilled"), for: .normal)
+        CurrentUser.shared.learner.savedTutorIds.append(tutorId)
+        NotificationCenter.default.post(name: NotificationNames.SavedTutors.didUpdate, object: nil)
+    }
+    
+    func unsaveTutor() {
+        guard let uid = Auth.auth().currentUser?.uid, let tutorId = user.uid else { return }
+        Database.database().reference().child("saved-tutors").child(uid).child(tutorId).removeValue()
+        saveButton.setImage(UIImage(named: "heartIcon"), for: .normal)
+        CurrentUser.shared.learner.savedTutorIds.removeAll(where: { (id) -> Bool in
+            return id == tutorId
+        })
+        NotificationCenter.default.post(name: NotificationNames.SavedTutors.didUpdate, object: nil)
     }
     
     func showSchool(user: AWTutor) {

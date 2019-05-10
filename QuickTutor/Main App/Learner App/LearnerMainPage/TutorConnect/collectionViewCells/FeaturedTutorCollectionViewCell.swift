@@ -28,7 +28,9 @@ class TutorCollectionViewCell: UICollectionViewCell {
     
     let saveButton: UIButton = {
         let button = UIButton()
-        button.contentMode = .scaleAspectFit
+        button.imageView?.contentMode = .scaleAspectFit
+        button.contentHorizontalAlignment = .fill
+        button.contentVerticalAlignment = .fill
         button.setImage(UIImage(named: "saveButton"), for: .normal)
         return button
     }()
@@ -88,7 +90,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
     
     func setupViews() {
         setupProfileImageView()
-//        setupSaveButton()
+        setupSaveButton()
         setupInfoContainerView()
         setupNameLabel()
         setupPriceLabel()
@@ -106,7 +108,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
     
     func setupSaveButton() {
         addSubview(saveButton)
-        saveButton.anchor(top: profileImageView.topAnchor, left: nil, bottom: nil, right: profileImageView.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 5, width: 20, height: 20)
+        saveButton.anchor(top: profileImageView.topAnchor, left: nil, bottom: nil, right: profileImageView.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 5, width: 30, height: 30)
         saveButton.addTarget(self, action: #selector(handleSaveButton), for: .touchUpInside)
     }
     
@@ -148,7 +150,8 @@ class TutorCollectionViewCell: UICollectionViewCell {
         subjectLabel.text = tutor.featuredSubject
         priceLabel.text = "$\(tutor.price!)/hr"
         profileImageView.sd_setImage(with: URL(string: tutor.profilePicUrl.absoluteString)!, completed: nil)
-        if let savedTutorIds = CurrentUser.shared.learner.savedTutorIds {
+        if !CurrentUser.shared.learner.savedTutorIds.isEmpty {
+            let savedTutorIds = CurrentUser.shared.learner.savedTutorIds
             savedTutorIds.contains(tutor.uid) ? saveButton.setImage(UIImage(named:"saveButtonFilled"), for: .normal) : saveButton.setImage(UIImage(named:"saveButton"), for: .normal)
         }
         guard let reviewCount = tutor.reviews?.count else { return }
@@ -157,7 +160,8 @@ class TutorCollectionViewCell: UICollectionViewCell {
     
     @objc func handleSaveButton() {
         guard let uid = Auth.auth().currentUser?.uid, let tutorId = tutor?.uid, uid != tutorId else { return }
-        if let savedTutorIds = CurrentUser.shared.learner.savedTutorIds {
+        if !CurrentUser.shared.learner.savedTutorIds.isEmpty {
+            let savedTutorIds = CurrentUser.shared.learner.savedTutorIds
             savedTutorIds.contains(tutorId) ? unsaveTutor() : saveTutor()
         } else {
             saveTutor()
@@ -168,16 +172,24 @@ class TutorCollectionViewCell: UICollectionViewCell {
         guard let uid = Auth.auth().currentUser?.uid, let tutorId = tutor?.uid else { return }
         Database.database().reference().child("saved-tutors").child(uid).child(tutorId).setValue(1)
         saveButton.setImage(UIImage(named: "saveButtonFilled"), for: .normal)
-        CurrentUser.shared.learner.savedTutorIds?.append(tutorId)
+        CurrentUser.shared.learner.savedTutorIds.append(tutorId)
+        NotificationCenter.default.post(name: NotificationNames.SavedTutors.didUpdate, object: nil)
     }
     
     func unsaveTutor() {
         guard let uid = Auth.auth().currentUser?.uid, let tutorId = tutor?.uid else { return }
         Database.database().reference().child("saved-tutors").child(uid).child(tutorId).removeValue()
         saveButton.setImage(UIImage(named: "saveButton"), for: .normal)
-        CurrentUser.shared.learner.savedTutorIds?.removeAll(where: { (id) -> Bool in
+        CurrentUser.shared.learner.savedTutorIds.removeAll(where: { (id) -> Bool in
             return id == tutorId
         })
+        NotificationCenter.default.post(name: NotificationNames.SavedTutors.didUpdate, object: nil)
+    }
+    
+    func updateSaveButton() {
+        guard let tutorId = tutor?.uid else { return }
+        let savedTutorIds = CurrentUser.shared.learner.savedTutorIds
+        savedTutorIds.contains(tutorId) ? saveButton.setImage(UIImage(named:"saveButtonFilled"), for: .normal) : saveButton.setImage(UIImage(named:"saveButton"), for: .normal)
     }
     
     override init(frame: CGRect) {
@@ -185,7 +197,69 @@ class TutorCollectionViewCell: UICollectionViewCell {
         setupViews()
     }
     
+    override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        updateSaveButton()
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+class SavedTutorService {
+    
+    let tutorId: String
+    let saveButton: UIButton
+    
+    func saveTutor() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        Database.database().reference().child("saved-tutors").child(uid).child(tutorId).setValue(1)
+        saveButton.setImage(UIImage(named: "saveButtonFilled"), for: .normal)
+        CurrentUser.shared.learner.savedTutorIds.append(tutorId)
+        NotificationCenter.default.post(name: NotificationNames.SavedTutors.didUpdate, object: nil)
+    }
+    
+    func unsaveTutor() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        Database.database().reference().child("saved-tutors").child(uid).child(tutorId).removeValue()
+        saveButton.setImage(UIImage(named: "saveButton"), for: .normal)
+        CurrentUser.shared.learner.savedTutorIds.removeAll(where: { (id) -> Bool in
+            return id == tutorId
+        })
+        NotificationCenter.default.post(name: NotificationNames.SavedTutors.didUpdate, object: nil)
+    }
+    
+    func loadSavedTutors(completion: @escaping([AWTutor]) -> Void) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let myGroup = DispatchGroup()
+        var tutors = [AWTutor]()
+        Database.database().reference().child("saved-tutors").child(uid).observeSingleEvent(of: .value) { (snapshot) in
+            guard let tutorIds = snapshot.value as? [String: Any] else {
+                completion([])
+                return
+            }
+            tutorIds.forEach({ uid, _ in
+                myGroup.enter()
+                FirebaseData.manager.fetchTutor(uid, isQuery: false, { tutor in
+                    guard let tutor = tutor else {
+                        myGroup.leave()
+                        return
+                    }
+                    if tutor.uid != Auth.auth().currentUser?.uid {
+                        tutors.append(tutor)
+                    }
+                    myGroup.leave()
+                })
+            })
+            myGroup.notify(queue: .main) {
+                completion(tutors)
+            }
+        }
+    }
+
+    init(tutorId: String, saveButton: UIButton) {
+        self.tutorId = tutorId
+        self.saveButton = saveButton
     }
 }

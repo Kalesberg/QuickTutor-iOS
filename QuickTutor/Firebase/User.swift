@@ -520,7 +520,9 @@ class FirebaseData {
                 
                 group.enter()
                 self.fetchSavedTutors(uid: uid, completion: { (savedTutorIds) in
-                    learner.savedTutorIds = savedTutorIds
+                    if let savedTutorIds = savedTutorIds {
+                        learner.savedTutorIds = savedTutorIds
+                    }
                     group.leave()
                 })
 				

@@ -59,6 +59,7 @@
                 <outlet property="reviewsStackView" destination="MNn-CX-TCN" id="RcT-Eg-qra"/>
                 <outlet property="reviewsTabeViewHeight" destination="3Rd-ah-SfD" id="zon-px-NX5"/>
                 <outlet property="reviewsTableView" destination="dRP-ae-8qx" id="5Tq-6Z-xAW"/>
+                <outlet property="saveButton" destination="sc8-fr-3bi" id="V7b-sJ-pRp"/>
                 <outlet property="schoolLabel" destination="DPg-V7-ktW" id="3tH-Yh-QUs"/>
                 <outlet property="schoolLabelHeightConstraint" destination="XrU-pf-6ye" id="gZl-TW-yAH"/>
                 <outlet property="schoolView" destination="sT1-km-iU5" id="WCA-He-NJv"/>
@@ -172,10 +173,26 @@
                                                                                 <action selector="onMessageButtonClicked:" destination="-1" eventType="touchUpInside" id="QdT-Cg-sMB"/>
                                                                             </connections>
                                                                         </button>
+                                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sc8-fr-3bi">
+                                                                            <rect key="frame" x="28.5" y="0.0" width="40" height="40"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="6iD-VP-3y5"/>
+                                                                                <constraint firstAttribute="height" constant="40" id="JTS-go-sDU"/>
+                                                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="beo-ct-2Jr"/>
+                                                                                <constraint firstAttribute="width" constant="40" id="om0-2f-a61"/>
+                                                                            </constraints>
+                                                                            <inset key="imageEdgeInsets" minX="16" minY="0.0" maxX="0.0" maxY="16"/>
+                                                                            <state key="normal" image="savedTabBarIcon"/>
+                                                                            <connections>
+                                                                                <action selector="onSaveButtonClicked:" destination="-1" eventType="touchUpInside" id="Wc7-KC-Tez"/>
+                                                                            </connections>
+                                                                        </button>
                                                                     </subviews>
                                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <constraints>
+                                                                        <constraint firstItem="sc8-fr-3bi" firstAttribute="top" secondItem="a0N-aR-lNB" secondAttribute="top" id="RHK-BY-Ew1"/>
                                                                         <constraint firstAttribute="trailing" secondItem="OLY-2z-Yv0" secondAttribute="trailing" id="SJ0-mu-GGu"/>
+                                                                        <constraint firstItem="OLY-2z-Yv0" firstAttribute="leading" secondItem="sc8-fr-3bi" secondAttribute="trailing" id="TLT-5u-F8P"/>
                                                                         <constraint firstItem="OLY-2z-Yv0" firstAttribute="top" secondItem="a0N-aR-lNB" secondAttribute="top" id="luF-1z-rp1"/>
                                                                         <constraint firstAttribute="height" constant="40" id="sfJ-Lt-3Ai"/>
                                                                     </constraints>
@@ -785,5 +802,6 @@
         <image name="ic_location" width="24" height="24"/>
         <image name="ic_school" width="13" height="13"/>
         <image name="ic_star_filled" width="24" height="24"/>
+        <image name="savedTabBarIcon" width="20" height="18"/>
     </resources>
 </document>
