@@ -91,12 +91,21 @@ class QuickSearchVC: UIViewController {
 extension QuickSearchVC: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         contentView.searchBarContainer.shouldBeginEditing()
+        contentView.searchBarContainer.searchBar.clearButtonTintColor = .white
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        contentView.searchBarContainer.searchBar.clearButtonTintColor = .white
         beginEditing()
         child.inSearchMode = true
-        guard let text = textField.text, !text.isEmpty else { return true }
+        var subject = textField.text
+        if subject == nil || subject!.isEmpty {
+           subject = string
+        } else {
+            subject = subject! + string
+        }
+        child.unknownSubject = subject
+        guard let text = subject, !text.isEmpty else { return true }
         filterSubjects(text)
         return true
     }

@@ -133,12 +133,21 @@ extension TutorAddSubjectsVC: CustomSearchBarDelegate {
 extension TutorAddSubjectsVC: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         contentView.searchBarContainer.shouldBeginEditing()
+        contentView.searchBarContainer.searchBar.clearButtonTintColor = .white
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         beginEditing()
+        contentView.searchBarContainer.searchBar.clearButtonTintColor = .white
         child.inSearchMode = true
-        guard let text = textField.text, !text.isEmpty else { return true}
+        var subject = textField.text
+        if subject == nil || subject!.isEmpty {
+            subject = string
+        } else {
+            subject = subject! + string
+        }
+        child.unknownSubject = subject
+        guard let text = subject, !text.isEmpty else { return true}
         child.filteredSubjects = child.subjects.filter({ $0.range(of: text, options: .caseInsensitive) != nil }).sorted(by: { $0.count < $1.count })
         child.contentView.collectionView.reloadData()
         return true

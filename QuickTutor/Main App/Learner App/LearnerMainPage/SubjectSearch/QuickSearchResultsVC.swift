@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import MessageUI
 
 class QuickSearchResultsVC: UIViewController {
     
     var subjects = [(String, String)]()
+    var unknownSubject: String?
     var filteredSubjects = [(String, String)]()
     var inSearchMode = false
     
@@ -50,12 +52,27 @@ class QuickSearchResultsVC: UIViewController {
         }
     }
     
+    func sendEmail(subject: String) {
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setToRecipients(["userstories@quicktutor.com"])
+            mail.setMessageBody("<p>I’m submitting a subject: <b>\(subject)</b></p>", isHTML: true)
+            present(mail, animated: true)
+        } else {
+            // show failure alert
+        }
+    }
 }
 
 extension QuickSearchResultsVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if currentSubjects.count == 0 {
-            collectionView.setEmptyMessage("No subjects found")
+            if let unknownSubject = unknownSubject, !unknownSubject.isEmpty {
+                collectionView.setEmptyMessage(unknownSubject, didSubmitButtonClicked: {
+                    self.sendEmail(subject: unknownSubject)
+                })
+            }
         } else {
             collectionView.restoreEmptyState()
         }
@@ -91,22 +108,113 @@ extension QuickSearchResultsVC: UICollectionViewDataSource, UICollectionViewDele
     }
 }
 
+extension QuickSearchResultsVC: MFMailComposeViewControllerDelegate {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true)
+    }
+}
+
 extension UICollectionView {
     
-    func setEmptyMessage(_ message: String) {
-        let messageLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.bounds.size.width, height: self.bounds.size.height))
-        messageLabel.text = message
-        messageLabel.textColor = Colors.grayText
-        messageLabel.numberOfLines = 0;
-        messageLabel.textAlignment = .center;
-        messageLabel.font = Fonts.createSize(14)
-        messageLabel.sizeToFit()
-        
-        self.backgroundView = messageLabel;
+    func setEmptyMessage(_ unknownSubject: String, didSubmitButtonClicked: (() -> ())?) {
+        let noSearchResultsView = QuickSearchNoResultsView(frame: CGRect(x: 0, y: 0, width: self.bounds.size.width, height: self.bounds.size.height))
+        noSearchResultsView.didSubmitButtonClicked = didSubmitButtonClicked
+        noSearchResultsView.setupViews(subject: unknownSubject.trimmingCharacters(in: .whitespacesAndNewlines))
+        self.backgroundView = noSearchResultsView
     }
     
     func restoreEmptyState() {
         self.backgroundView = nil
+    }
+}
+
+class QuickSearchNoResultsView: UIView {
+    
+    var didSubmitButtonClicked: (() -> ())?
+    var unknownSubject: String?
+    let titleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.textAlignment = .left
+        label.font = Fonts.createBoldSize(20)
+        label.text = "No search results found."
+        return label
+    }()
+    
+    let guideLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = Colors.grayText80
+        label.textAlignment = .left
+        label.font = Fonts.createSize(14)
+        label.numberOfLines = 0
+        if AccountService.shared.currentUserType == UserType.tutor {
+            label.text = "Try searching something similar or you can submit the subject to our submit queue below to potentially add a new subject to QuickTutor!"
+        } else {
+            label.text = "Try searching something similar, adjusting your filters or submitting the subject to our submit queue below to potentially add a new subject to QuickTutor!"
+        }
+        return label
+    }()
+    
+    let submitButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = Colors.purple
+        button.contentMode = .scaleAspectFit
+        button.layer.cornerRadius = 3
+        button.setTitle("SUBMIT TO QUEUE", for: .normal)
+        button.titleLabel?.font = Fonts.createSize(14)
+        button.setTitleColor(.white, for: .normal)
+        button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
+        return button
+    }()
+    
+    let infoLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = Colors.grayText80
+        label.textAlignment = .left
+        label.font = Fonts.createSize(14)
+        label.numberOfLines = 0
+        label.text = "We’ll review your submission and get back to you within 72 hours.\nThank you."
+        return label
+    }()
+    
+    func setupViews(subject: String) {
+        self.unknownSubject = subject
+        setupTitleLabel()
+        setupGuideLabel()
+        setupSubmitButton()
+        setupInfoLabel()
+    }
+    
+    func setupTitleLabel() {
+        addSubview(titleLabel)
+        titleLabel.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
+    }
+    
+    func setupGuideLabel() {
+        addSubview(guideLabel)
+        guideLabel.anchor(top: titleLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
+    }
+    
+    func setupSubmitButton() {
+        addSubview(submitButton)
+        if let unknownSubject = unknownSubject {
+            submitButton.setTitle("Submit \"\(unknownSubject)\" to queue".uppercased(), for: .normal)
+        }
+        submitButton.anchor(top: guideLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 40, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 34)
+        submitButton.widthAnchor.constraint(equalToConstant: submitButton.titleLabel!.intrinsicContentSize.width + 30).isActive = true
+        submitButton.addTarget(self, action: #selector(handleSubmit), for: .touchUpInside)
+    }
+    
+    func setupInfoLabel() {
+        addSubview(infoLabel)
+        infoLabel.anchor(top: submitButton.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
+    }
+    
+    @objc
+    func handleSubmit() {
+        if let didSubmitButtonClicked = didSubmitButtonClicked {
+            didSubmitButtonClicked()
+        }
     }
 }
 
@@ -161,6 +269,7 @@ class TutorAddSubjectsResultsVC: UIViewController {
     var filteredSubjects = [String]()
     var inSearchMode = false
     var isBeingControlled = false
+    var unknownSubject: String?
     
     var currentSubjects: [String] {
         get {
@@ -221,10 +330,36 @@ class TutorAddSubjectsResultsVC: UIViewController {
         present(ac, animated: true, completion: nil)
     }
     
+    func sendEmail(subject: String) {
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setToRecipients(["userstories@quicktutor.com"])
+            mail.setMessageBody("<p>I’m submitting a subject: <b>\(subject)</b></p>", isHTML: true)
+            present(mail, animated: true)
+        } else {
+            // show failure alert
+        }
+    }
+}
+
+extension TutorAddSubjectsResultsVC: MFMailComposeViewControllerDelegate {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true)
+    }
 }
 
 extension TutorAddSubjectsResultsVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if currentSubjects.count == 0 {
+            if let unknownSubject = unknownSubject, !unknownSubject.isEmpty {
+                collectionView.setEmptyMessage(unknownSubject, didSubmitButtonClicked: {
+                    self.sendEmail(subject: unknownSubject)
+                })
+            }
+        } else {
+            collectionView.restoreEmptyState()
+        }
         return currentSubjects.count
     }
     
