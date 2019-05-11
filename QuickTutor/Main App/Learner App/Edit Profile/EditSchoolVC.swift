@@ -18,7 +18,6 @@ class EditSchoolView: UIView {
         tableView.separatorStyle = .singleLine
         tableView.separatorColor = .black
         tableView.showsVerticalScrollIndicator = false
-        tableView.backgroundColor = Colors.backgroundDark
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = Colors.darkBackground
         return tableView
@@ -75,7 +74,6 @@ class EditSchoolView: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
 }
 
 class EditSchoolVC: UIViewController {
@@ -97,13 +95,12 @@ class EditSchoolVC: UIViewController {
         }
     }
 
-    var shouldUpdateSearchResults: Bool = false
     var automaticScroll: Bool = false
     var searchController = UISearchController(searchResultsController: nil)
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        setupSearchController()
+        setupSearchController()
         hideKeyboardWhenTappedAround()
         configureDelegates()
         loadListOfSchools()
@@ -119,6 +116,7 @@ class EditSchoolVC: UIViewController {
     
     func setupSearchController() {
         if #available(iOS 11.0, *) {
+            searchController.searchResultsUpdater = self
             searchController.searchBar.tintColor = .white
             searchController.obscuresBackgroundDuringPresentation = false
             searchController.searchBar.placeholder = "Search schools"
@@ -131,40 +129,10 @@ class EditSchoolVC: UIViewController {
         view = contentView
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        // contentView.searchBar.becomeFirstResponder()
-    }
-
     private func configureDelegates() {
-        contentView.searchTextField.textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
         contentView.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "idCell")
-    }
-
-    @objc private func textFieldDidChange(_ textField: UITextField) {
-        automaticScroll = true
-
-        guard let text = textField.text else {
-            automaticScroll = false
-            shouldUpdateSearchResults = false
-            return
-        }
-
-        if text == "" {
-            automaticScroll = false
-            shouldUpdateSearchResults = false
-            contentView.tableView.reloadData()
-            return
-        }
-
-        shouldUpdateSearchResults = true
-        filteredSchools = schoolArray.filter { ($0.localizedCaseInsensitiveContains(text)) }
-
-        if filteredSchools.count > 0 {
-            scrollToTop()
-        }
     }
 
     @objc func displaySavedAlertController() {
@@ -199,16 +167,30 @@ class EditSchoolVC: UIViewController {
             }
         }
     }
+    
+    private func isFiltering() -> Bool {
+        return searchController.isActive && !isSearchBarEmpty()
+    }
+    
+    private func isSearchBarEmpty() -> Bool {
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    private func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+        filteredSchools = schoolArray.filter({( school : String) -> Bool in
+            return school.lowercased().contains(searchText.lowercased())
+        })
+    }
 }
 
 extension EditSchoolVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
-        return shouldUpdateSearchResults ? filteredSchools.count : schoolArray.count
+        return isFiltering() ? filteredSchools.count : schoolArray.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "idCell", for: indexPath)
-        let data = shouldUpdateSearchResults ? filteredSchools[indexPath.row] : schoolArray[indexPath.row]
+        let data = isFiltering() ? filteredSchools[indexPath.row] : schoolArray[indexPath.row]
 
         cell.backgroundColor = Colors.darkBackground
         cell.textLabel?.textColor = UIColor.white
@@ -226,7 +208,7 @@ extension EditSchoolVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         var school: String
-        school = shouldUpdateSearchResults ? filteredSchools[indexPath.row] : schoolArray[indexPath.row]
+        school = isFiltering() ? filteredSchools[indexPath.row] : schoolArray[indexPath.row]
         if school == "No School" {
             // Delete School from learner and tutor account
             let nodesToRemove = [
@@ -290,5 +272,12 @@ extension EditSchoolVC: UIScrollViewDelegate {
         if !automaticScroll {
             view.endEditing(true)
         }
+    }
+}
+
+extension EditSchoolVC: UISearchResultsUpdating {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text ?? "")
     }
 }
