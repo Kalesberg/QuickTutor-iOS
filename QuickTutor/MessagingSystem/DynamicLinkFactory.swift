@@ -43,8 +43,12 @@ class DynamicLinkFactory {
 
         let socialParams = DynamicLinkSocialMetaTagParameters()
         socialParams.title = "Quick Tutor: Here's an awesome tutor for you."
-        socialParams.descriptionText = "Check out this user"
-        socialParams.imageURL = URL(string: "https://firebasestorage.googleapis.com/v0/b/quicktutormessaging.appspot.com/o/ItunesArtwork%402x.png?alt=media&token=c7606b8b-f0db-469f-852e-4ef01795758e")
+        socialParams.descriptionText = "Check out this QuickTutor!"
+#if DEVELOPMENT
+        socialParams.imageURL = URL(string: "https://firebasestorage.googleapis.com/v0/b/quicktutor-dev.appspot.com/o/logoWithTrademark.png?alt=media&token=b164967a-310b-4f88-9172-7ec1560b1461")
+#else
+        socialParams.imageURL = URL(string: "https://firebasestorage.googleapis.com/v0/b/quicktutor-3c23b.appspot.com/o/logoWithTrademark.png?alt=media&token=2eea3fd1-df1d-4699-b26e-b5d3f386debb")
+#endif
         components.socialMetaTagParameters = socialParams
 
         components.iOSParameters = iOSParams

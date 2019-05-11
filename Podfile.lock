@@ -14,10 +14,10 @@ PODS:
   - Charts (3.2.2):
     - Charts/Core (= 3.2.2)
   - Charts/Core (3.2.2)
-  - Crashlytics (3.12.0):
-    - Fabric (~> 1.9.0)
+  - Crashlytics (3.13.0):
+    - Fabric (~> 1.10.0)
   - CropViewController (2.5.0)
-  - Fabric (1.9.0)
+  - Fabric (1.10.0)
   - FacebookCore (0.4.0):
     - Bolts (~> 1.9)
     - FBSDKCoreKit (~> 4.36)
@@ -280,9 +280,9 @@ SPEC CHECKSUMS:
   Branch: e4f2a9c361ebdc960c823d16014c187bf19b508c
   Cache: 807c5d86d01a177f06ede9865add3aea269bbfd4
   Charts: f69cf0518b6d1d62608ca504248f1bbe0b6ae77e
-  Crashlytics: 07fb167b1694128c1c9a5a5cc319b0e9c3ca0933
+  Crashlytics: 1f5f752c7feac0add0cc1774756f96444fa3b1a7
   CropViewController: 6c962d6fb264cc5cb325b622d5029d50c6c43e72
-  Fabric: f988e33c97f08930a413e08123064d2e5f68d655
+  Fabric: 09de1e053eb7dc415593166ad3e53d4c88123405
   FacebookCore: 770e57cfe250a4de4458b682191c0ff062dee247
   FacebookLogin: eb0f2251aca835a94d70a5f7e580edc46d1e1603
   FBSDKCoreKit: a823ae35bdb60ebb8d7a7e51abe7c5d87d2bfced
@@ -327,4 +327,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 8c31ae9db12824264ea8f95b51e2d38da1e0dd49
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.5.3
