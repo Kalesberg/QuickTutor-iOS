@@ -112,6 +112,7 @@ class TutorEditProfileVC: LearnerEditProfileVC {
             case 2:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileBioCell", for: indexPath) as! EditProfileBioCell
                 cell.placeholder.text = "Biography"
+                cell.delegate = self
                 if CurrentUser.shared.learner.bio != "" {
                     cell.textView.text = CurrentUser.shared.learner.bio
                     cell.textView.placeholderLabel.text = nil
@@ -253,6 +254,8 @@ class LearnerEditProfileVC: UIViewController {
     let imagePicker = UIImagePickerController()
     var imageToChange: Int = 0
     var tempBio: String?
+    var bioNeedsSaving = false
+    var updatedBio: String?
 
     let contentView: LearnerEditProfileVCView = {
         let view = LearnerEditProfileVCView()
@@ -285,6 +288,7 @@ class LearnerEditProfileVC: UIViewController {
         navigationController?.navigationBar.isOpaque = false
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_back_arrow"), style: .plain, target: self, action: #selector(backAction))
     }
+
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -472,10 +476,10 @@ class LearnerEditProfileVC: UIViewController {
             newNodes = ["/student-info/\(CurrentUser.shared.learner.uid!)/nm": firstName + " " + lastName]
         }
         
-        if !isBioCorrectLength(didTapSave: true) {
+
+        guard saveBioIfNeeded() else {
             return
         }
-        saveBio()
         
         Tutor.shared.updateSharedValues(multiWriteNode: newNodes) { error in
             if let error = error {
@@ -487,26 +491,34 @@ class LearnerEditProfileVC: UIViewController {
         }
     }
     
-    func saveBio() {
-        if let cell = contentView.tableView.cellForRow(at: IndexPath(row: 2, section: 1)) as? EditProfileBioCell {
-            guard let newBio = cell.textView.text else { return }
-            switch AccountService.shared.currentUserType {
-            case .learner:
-                FirebaseData.manager.updateValue(node: "student-info", value: ["bio": newBio]) { error in
-                    if let error = error {
-                        AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
-                    }
-                }
-                CurrentUser.shared.learner.bio = newBio
-                displaySavedAlertController()
-            case .tutor:
-                Tutor.shared.updateValue(value: ["tbio": newBio])
-                CurrentUser.shared.tutor.tBio = newBio
-                displaySavedAlertController()
-            default:
-                break
-            }
+    func saveBioIfNeeded() -> Bool {
+        guard bioNeedsSaving else {
+            return true
         }
+        
+        if !isBioCorrectLength(didTapSave: true) {
+            return false
+        }
+        
+        guard let newBio = updatedBio else { return false }
+        switch AccountService.shared.currentUserType {
+        case .learner:
+            FirebaseData.manager.updateValue(node: "student-info", value: ["bio": newBio]) { error in
+                if let error = error {
+                    AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+                }
+            }
+            CurrentUser.shared.learner.bio = newBio
+            displaySavedAlertController()
+        case .tutor:
+            Tutor.shared.updateValue(value: ["tbio": newBio])
+            CurrentUser.shared.tutor.tBio = newBio
+            displaySavedAlertController()
+        default:
+            break
+        }
+        return true
+
     }
 }
 
@@ -788,6 +800,13 @@ extension LearnerEditProfileVC: CropViewControllerDelegate {
 extension LearnerEditProfileVC: UITextViewDelegate {
     func textViewDidChange(_: UITextView) {
         _ = isBioCorrectLength()
+    }
+}
+
+extension LearnerEditProfileVC: EditProfileBioCellDelegate {
+    func editProfileBioCell(_ editProfileBioCell: EditProfileBioCell, didUpdate bio: String) {
+        updatedBio = bio
+        bioNeedsSaving = true
     }
 }
 

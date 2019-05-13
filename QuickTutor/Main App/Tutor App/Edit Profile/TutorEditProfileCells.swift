@@ -645,6 +645,10 @@ class EditProfileCell: UITableViewCell {
     }
 }
 
+protocol EditProfileBioCellDelegate: class {
+    func editProfileBioCell(_ editProfileBioCell: EditProfileBioCell, didUpdate bio: String)
+}
+
 class EditProfileBioCell: UITableViewCell {
     
     let placeholder: UILabel = {
@@ -678,6 +682,8 @@ class EditProfileBioCell: UITableViewCell {
         return label
     }()
     
+    weak var delegate: EditProfileBioCellDelegate?
+    
     func setupViews() {
         backgroundColor = Colors.darkBackground
         setupPlaceholder()
@@ -693,6 +699,7 @@ class EditProfileBioCell: UITableViewCell {
     func setupTextView() {
         addSubview(textView)
         textView.anchor(top: placeholder.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 96)
+        textView.delegate = self
     }
     
     func setupErrorLabel() {
@@ -703,6 +710,7 @@ class EditProfileBioCell: UITableViewCell {
         errorLabel.anchor(top: textView.bottomAnchor, left: textView.leftAnchor, bottom: nil, right: textView.rightAnchor, paddingTop: 2, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 15)
     }
     
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
@@ -711,5 +719,12 @@ class EditProfileBioCell: UITableViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension EditProfileBioCell: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        guard let bio = textView.text else { return }
+        delegate?.editProfileBioCell(self, didUpdate: bio)
     }
 }
