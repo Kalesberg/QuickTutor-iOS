@@ -150,7 +150,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         AVCaptureDevice.requestAccess(for: .audio) { success in
         }
     }
-
+    
     func animateLaunchScreen() {
         UIView.animate(withDuration: 0.3) {
             self.launchScreen.contentView.icon.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)

@@ -3617,6 +3617,9 @@
 					569F16CE223554FD00820A20 = {
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
+							com.apple.SafariKeychain = {
+								enabled = 1;
+							};
 							com.apple.iCloud = {
 								enabled = 1;
 							};

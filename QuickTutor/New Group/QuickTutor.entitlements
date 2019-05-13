@@ -9,6 +9,7 @@
 		<string>applinks:quicktutor.page.link</string>
 		<string>applinks:quicktutor.app.link</string>
 		<string>applinks:quicktutor-alternate.app.link</string>
+		<string>applinks:quicktutordev.page.link</string>
 	</array>
 	<key>com.apple.developer.ubiquity-kvstore-identifier</key>
 	<string>$(TeamIdentifierPrefix)$(CFBundleIdentifier)</string>

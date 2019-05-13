@@ -12,7 +12,12 @@ import UIKit
 class DynamicLinkFactory {
     static let shared = DynamicLinkFactory()
 
-    let domain = "quicktutor.page.link"
+#if DEVELOPMENT
+    let domain = "https://quicktutordev.page.link"
+#else
+    let domain = "https://quicktutor.page.link"
+#endif
+    
     var sections = [Section]()
     var dictionary = [Params: String]()
     var longLink: URL?
@@ -39,7 +44,8 @@ class DynamicLinkFactory {
             completion(nil)
             return
         }
-        let components = DynamicLinkComponents(link: link, domain: domain)
+        
+        let components = DynamicLinkComponents(link: link, domainURIPrefix: domain)
 
         let socialParams = DynamicLinkSocialMetaTagParameters()
         socialParams.title = "Quick Tutor: Here's an awesome tutor for you."
@@ -49,12 +55,12 @@ class DynamicLinkFactory {
 #else
         socialParams.imageURL = URL(string: "https://firebasestorage.googleapis.com/v0/b/quicktutor-3c23b.appspot.com/o/logoWithTrademark.png?alt=media&token=2eea3fd1-df1d-4699-b26e-b5d3f386debb")
 #endif
-        components.socialMetaTagParameters = socialParams
+        components?.socialMetaTagParameters = socialParams
 
-        components.iOSParameters = iOSParams
-        longLink = components.url
+        components?.iOSParameters = iOSParams
+        longLink = components?.url
 
-        components.shorten { url, _, _ in
+        components?.shorten { url, _, _ in
             guard let url = url else { return }
             completion(url)
         }
