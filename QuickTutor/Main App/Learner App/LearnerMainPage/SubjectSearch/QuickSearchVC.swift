@@ -27,7 +27,12 @@ class QuickSearchVC: UIViewController {
 
     var allSubjects = [(String, String)]()
     
-    var searchFilter: SearchFilter?
+    var searchFilter: SearchFilter? {
+        didSet {
+            updateFiltersIcon()
+        }
+    }
+
     var searchTimer: Timer?
 
     var tableViewIsActive: Bool = false {
@@ -85,6 +90,14 @@ class QuickSearchVC: UIViewController {
     @objc func updateFilters(_ notification: Notification) {
         guard let userInfo = notification.userInfo, let filter = userInfo["filter"] as? SearchFilter else { return }
         self.searchFilter = filter
+    }
+    
+    private func updateFiltersIcon() {
+        if searchFilter != nil {
+            contentView.searchBarContainer.filtersButton.setImage(UIImage(named:"filtersAppliedIcon"), for: .normal)
+        } else {
+            contentView.searchBarContainer.filtersButton.setImage(UIImage(named:"filterIcon"), for: .normal)
+        }
     }
 }
 

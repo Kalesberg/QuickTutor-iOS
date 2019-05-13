@@ -85,7 +85,7 @@ class FiltersVCView: UIView {
     
     let accessoryView: RegistrationAccessoryView = {
         let view = RegistrationAccessoryView()
-        view.nextButton.setTitle("VIEW", for: .normal)
+        view.nextButton.setTitle("APPLY", for: .normal)
         return view
     }()
     

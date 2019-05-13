@@ -26,7 +26,11 @@ class CategorySearchVC: BaseViewController {
     var category: String!
     var subcategory: String!
     var subject: String!
-    var searchFilter: SearchFilter?
+    var searchFilter: SearchFilter? {
+        didSet {
+            updateFiltersIcon()
+        }
+    }
     let locationManager = CLLocationManager()
     var currentLocation: CLLocation? {
         didSet {
@@ -36,6 +40,7 @@ class CategorySearchVC: BaseViewController {
         }
     }
 
+    let menuBtn = UIButton(type: .custom)
     
     override var contentView: CategorySearchVCView {
         return view as! CategorySearchVCView
@@ -60,7 +65,6 @@ class CategorySearchVC: BaseViewController {
     }
     
     func setUpFiltersButton(){
-        let menuBtn = UIButton(type: .custom)
         menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 18, height: 18)
         menuBtn.setImage(UIImage(named:"filterIcon"), for: .normal)
         menuBtn.addTarget(self, action: #selector(showFilters), for: .touchUpInside)
@@ -73,6 +77,13 @@ class CategorySearchVC: BaseViewController {
         self.navigationItem.rightBarButtonItem = menuBarItem
     }
 
+    private func updateFiltersIcon() {
+        if searchFilter != nil {
+            menuBtn.setImage(UIImage(named:"filtersAppliedIcon"), for: .normal)
+        } else {
+            menuBtn.setImage(UIImage(named:"filterIcon"), for: .normal)
+        }
+    }
 
     override func viewDidAppear(_ animated: Bool) {
         navigationController?.setNavigationBarHidden(false, animated: true)
