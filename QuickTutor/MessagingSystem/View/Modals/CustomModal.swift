@@ -106,6 +106,7 @@ class CustomModal: BaseCustomModal {
     }
 
     @objc func handleNevermindButton() {
+        delegate?.handleNevermind()
         dismiss()
     }
 

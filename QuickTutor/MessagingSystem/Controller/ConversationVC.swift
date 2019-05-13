@@ -822,6 +822,7 @@ extension ConversationVC: SessionRequestCellDelegate {
         cancelSessionModal?.sessionId = id
         cancelSessionModal?.delegate = self
         cancelSessionModal?.show()
+        self.resignFirstResponder()
         guard let indexPath = messagesCollection.indexPath(for: cell) else { return }
         cancelSessionIndex = indexPath
     }
@@ -852,12 +853,14 @@ extension ConversationVC: CustomModalDelegate {
         }
 
         cancelSessionModal?.dismiss()
+        self.becomeFirstResponder()
         guard let index = cancelSessionIndex else { return }
         messagesCollection.reloadItems(at: [index])
     }
     
     func handleConfirm() {
         showCardManager()
+        self.becomeFirstResponder()
     }
     
     func markDataStale(sessionId: String, partnerId: String) {
@@ -868,6 +871,10 @@ extension ConversationVC: CustomModalDelegate {
             .child(userTypeString).child(sessionId).setValue(0)
         Database.database().reference().child("userSessions").child(partnerId)
             .child(otherUserTypeString).child(sessionId).setValue(0)
+    }
+    
+    func handleNevermind() {
+        self.becomeFirstResponder()
     }
 }
 
