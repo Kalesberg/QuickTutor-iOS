@@ -173,7 +173,7 @@ class QuickSearchNoResultsView: UIView {
         label.textAlignment = .left
         label.font = Fonts.createSize(14)
         label.numberOfLines = 0
-        label.text = "We’ll review your submission and get back to you within 72 hours.\nThank you."
+        label.text = "We’ll review your submission and get back to you within 72 hours. Thank you."
         return label
     }()
     

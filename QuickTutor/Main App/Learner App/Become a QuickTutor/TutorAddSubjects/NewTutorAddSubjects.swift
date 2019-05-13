@@ -56,9 +56,20 @@ class TutorAddSubjectsVC: UIViewController {
     
     @objc private func handleTextChange() {
         let sender = contentView.searchBarContainer.searchBar
-        if sender.text == nil || sender.text == "" {
+        sender.clearButtonTintColor = .white
+        beginEditing()
+        child.inSearchMode = true
+        
+        guard let text = sender.text, !text.isEmpty else {
+            contentView.searchBarContainer.filtersButton.isHidden = false
             removeChild(resignFirstResponder: false)
+            return
         }
+        
+        contentView.searchBarContainer.filtersButton.isHidden = true
+        child.unknownSubject = text
+        child.filteredSubjects = child.subjects.filter({ $0.range(of: text, options: .caseInsensitive) != nil }).sorted(by: { $0.count < $1.count })
+        child.contentView.collectionView.reloadData()
     }
     
     
@@ -134,23 +145,6 @@ extension TutorAddSubjectsVC: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         contentView.searchBarContainer.shouldBeginEditing()
         contentView.searchBarContainer.searchBar.clearButtonTintColor = .white
-    }
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        beginEditing()
-        contentView.searchBarContainer.searchBar.clearButtonTintColor = .white
-        child.inSearchMode = true
-        var subject = textField.text
-        if subject == nil || subject!.isEmpty {
-            subject = string
-        } else {
-            subject = subject! + string
-        }
-        child.unknownSubject = subject
-        guard let text = subject, !text.isEmpty else { return true}
-        child.filteredSubjects = child.subjects.filter({ $0.range(of: text, options: .caseInsensitive) != nil }).sorted(by: { $0.count < $1.count })
-        child.contentView.collectionView.reloadData()
-        return true
     }
     
     func beginEditing() {

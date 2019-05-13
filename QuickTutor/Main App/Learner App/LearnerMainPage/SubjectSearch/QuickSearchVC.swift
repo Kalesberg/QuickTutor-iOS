@@ -94,22 +94,6 @@ extension QuickSearchVC: UITextFieldDelegate {
         contentView.searchBarContainer.searchBar.clearButtonTintColor = .white
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        contentView.searchBarContainer.searchBar.clearButtonTintColor = .white
-        beginEditing()
-        child.inSearchMode = true
-        var subject = textField.text
-        if subject == nil || subject!.isEmpty {
-           subject = string
-        } else {
-            subject = subject! + string
-        }
-        child.unknownSubject = subject
-        guard let text = subject, !text.isEmpty else { return true }
-        filterSubjects(text)
-        return true
-    }
-    
     private func filterSubjects(_ text: String) {
         searchTimer?.invalidate()
         
@@ -126,12 +110,19 @@ extension QuickSearchVC: UITextFieldDelegate {
     
     @objc func handleTextChange() {
         let sender = contentView.searchBarContainer.searchBar
-        if sender.text == nil || sender.text == "" {
+        sender.clearButtonTintColor = .white
+        beginEditing()
+        child.inSearchMode = true
+        
+        guard let text = sender.text, !text.isEmpty else {
             contentView.searchBarContainer.filtersButton.isHidden = false
             removeChild(popViewController: false)
-        } else {
-            contentView.searchBarContainer.filtersButton.isHidden = true
+            return
         }
+        
+        contentView.searchBarContainer.filtersButton.isHidden = true
+        child.unknownSubject = text
+        filterSubjects(text)
     }
     
     func beginEditing() {
