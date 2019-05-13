@@ -54,7 +54,7 @@ class CategorySectionController: UIViewController, UICollectionViewDelegate, UIC
         let cell = collectionView.cellForItem(at: indexPath) as! CategoryCollectionViewCell
         cell.growSemiShrink {
             let category = CategoryFactory.shared.getCategoryFor(categories[indexPath.item].subcategory.fileToRead)
-            let userInfo: [AnyHashable: Any] = ["category": category?.name ?? ""]
+            let userInfo = ["category": category?.name ?? ""]
             NotificationCenter.default.post(name: NotificationNames.LearnerMainFeed.categoryTapped, object: nil, userInfo: userInfo)
         }
     }

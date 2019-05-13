@@ -491,6 +491,10 @@ class QTProfileViewController: UIViewController {
     }
     
     func initReviews() {
+        // add shadow
+        let shadowView = readReviewsButton.superview?.superview
+        shadowView?.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 4)
+        
         guard let user = user else { return }
         
         readReviewsButton.layer.cornerRadius = 3
