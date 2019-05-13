@@ -97,6 +97,7 @@ extension QuickSearchResultsVC: UICollectionViewDataSource, UICollectionViewDele
         let subject = currentSubjects[indexPath.item].0
         vc.subject = subject
         AnalyticsService.shared.logSubjectTapped(subject)
+        RecentSearchesManager.shared.saveSearch(term: subject)
         vc.navigationItem.title = subject
         navigationController?.pushViewController(vc, animated: true)
     }

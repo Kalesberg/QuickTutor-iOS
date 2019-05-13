@@ -1041,6 +1041,9 @@
 		CF8E88A620C72BFD0044344D /* AcceptAddTimeModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8E88A520C72BFD0044344D /* AcceptAddTimeModal.swift */; };
 		CF8F238A215C0F3A00B4239D /* LearnerMainPageVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8F2389215C0F3A00B4239D /* LearnerMainPageVCView.swift */; };
 		CF8F238C215C5B2C00B4239D /* ConversationMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8F238B215C5B2C00B4239D /* ConversationMetaData.swift */; };
+		CF9F94E9228A3B76002041CF /* RecentSearchesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9F94E8228A3B76002041CF /* RecentSearchesManager.swift */; };
+		CF9F94EB228A3BA0002041CF /* LearnerMainPageSearchBarContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9F94EA228A3BA0002041CF /* LearnerMainPageSearchBarContainer.swift */; };
+		CF9F94EE228A3C01002041CF /* RecentSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9F94ED228A3C01002041CF /* RecentSearchCell.swift */; };
 		CFA0096C213898C900F81EE4 /* InProgressSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA0096B213898C900F81EE4 /* InProgressSessionManager.swift */; };
 		CFA0096E2139FFCE00F81EE4 /* background.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CFA0096D2139FFCE00F81EE4 /* background.mp3 */; };
 		CFA00970213A000200F81EE4 /* BackgroundSoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA0096F213A000200F81EE4 /* BackgroundSoundManager.swift */; };
@@ -1720,6 +1723,9 @@
 		CF8E88A520C72BFD0044344D /* AcceptAddTimeModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptAddTimeModal.swift; sourceTree = "<group>"; };
 		CF8F2389215C0F3A00B4239D /* LearnerMainPageVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerMainPageVCView.swift; sourceTree = "<group>"; };
 		CF8F238B215C5B2C00B4239D /* ConversationMetaData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationMetaData.swift; sourceTree = "<group>"; };
+		CF9F94E8228A3B76002041CF /* RecentSearchesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchesManager.swift; sourceTree = "<group>"; };
+		CF9F94EA228A3BA0002041CF /* LearnerMainPageSearchBarContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerMainPageSearchBarContainer.swift; sourceTree = "<group>"; };
+		CF9F94ED228A3C01002041CF /* RecentSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchCell.swift; sourceTree = "<group>"; };
 		CFA0096B213898C900F81EE4 /* InProgressSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InProgressSessionManager.swift; sourceTree = "<group>"; };
 		CFA0096D2139FFCE00F81EE4 /* background.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = background.mp3; sourceTree = "<group>"; };
 		CFA0096F213A000200F81EE4 /* BackgroundSoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundSoundManager.swift; sourceTree = "<group>"; };
@@ -2755,6 +2761,7 @@
 		84D8C9262066A8AE003C3AEA /* LearnerMainPage */ = {
 			isa = PBXGroup;
 			children = (
+				CF9F94EC228A3BF2002041CF /* RecentSearches */,
 				CF51958821A60F64007EEC37 /* Saved */,
 				CF4C789B2260830500478D83 /* Shared */,
 				CF671AC9225D931800CF4F0A /* Categories */,
@@ -3069,6 +3076,7 @@
 			isa = PBXGroup;
 			children = (
 				CF8F2389215C0F3A00B4239D /* LearnerMainPageVCView.swift */,
+				CF9F94EA228A3BA0002041CF /* LearnerMainPageSearchBarContainer.swift */,
 				846252E620637CF8001DD330 /* LearnerMainPageVC.swift */,
 				CF671AD0225DA48000CF4F0A /* LearnerMainPageCollectionViewHelper.swift */,
 			);
@@ -3375,6 +3383,14 @@
 			path = Delegates;
 			sourceTree = "<group>";
 		};
+		CF9F94EC228A3BF2002041CF /* RecentSearches */ = {
+			isa = PBXGroup;
+			children = (
+				CF9F94ED228A3C01002041CF /* RecentSearchCell.swift */,
+			);
+			path = RecentSearches;
+			sourceTree = "<group>";
+		};
 		CFB60622207FD9A60029CFE4 /* Modals */ = {
 			isa = PBXGroup;
 			children = (
@@ -3515,6 +3531,7 @@
 				CF43AF972177B86000783819 /* RootControllerManager.swift */,
 				CF507FA621813798007FE441 /* TypingIndicatorManager.swift */,
 				CF04A28A2279713F00967725 /* DocumentUploadManager.swift */,
+				CF9F94E8228A3B76002041CF /* RecentSearchesManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -4970,6 +4987,7 @@
 				CFA0096C213898C900F81EE4 /* InProgressSessionManager.swift in Sources */,
 				CF387EC32088EE4A00087449 /* HandlesSessionStartData.swift in Sources */,
 				CFB9B82421C8C5370022333F /* TutorPreferencesVCView.swift in Sources */,
+				CF9F94EE228A3C01002041CF /* RecentSearchCell.swift in Sources */,
 				CF6F58E2205EE68800ACBD32 /* ConversationVC.swift in Sources */,
 				846D9B502069E57300302773 /* FeaturedTutorCollectionViewCell.swift in Sources */,
 				847463262069425C00B70AD9 /* TutorSessions.swift in Sources */,
@@ -5015,6 +5033,7 @@
 				84CE13F8217CED7D005A1B2C /* TutorCardCollectionViewBackground.swift in Sources */,
 				CF6F58E4205EE68800ACBD32 /* SystemMessage.swift in Sources */,
 				CF387EBF2088EDE200087449 /* VideoSessionStartVC.swift in Sources */,
+				CF9F94EB228A3BA0002041CF /* LearnerMainPageSearchBarContainer.swift in Sources */,
 				CF6F58CA205EE68800ACBD32 /* CustomDatePicker.swift in Sources */,
 				CF6F58CB205EE68800ACBD32 /* SubjectPicker.swift in Sources */,
 				CF6325E9207FF2C80037F8AA /* BaseSessionStartVC.swift in Sources */,
@@ -5064,6 +5083,7 @@
 				561003B62242A9AF00A4688F /* QTInPersionSessionViewController.swift in Sources */,
 				CF6F58C0205EE68800ACBD32 /* UserMessageCell.swift in Sources */,
 				84F245181FDA1127006447A8 /* TutorBioVC.swift in Sources */,
+				CF9F94E9228A3B76002041CF /* RecentSearchesManager.swift in Sources */,
 				CFB1475F21F3B86F00C49BA5 /* QuickSearchResultsVC.swift in Sources */,
 				84A6E46C218F68AA00D03681 /* Review.swift in Sources */,
 				841C5070216ED4950035C6C9 /* AddressTextField.swift in Sources */,
