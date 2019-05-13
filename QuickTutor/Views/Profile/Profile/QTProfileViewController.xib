@@ -174,7 +174,7 @@
                                                                                 <action selector="onMessageButtonClicked:" destination="-1" eventType="touchUpInside" id="QdT-Cg-sMB"/>
                                                                             </connections>
                                                                         </button>
-                                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sc8-fr-3bi">
+                                                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sc8-fr-3bi">
                                                                             <rect key="frame" x="28.5" y="0.0" width="40" height="40"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="6iD-VP-3y5"/>

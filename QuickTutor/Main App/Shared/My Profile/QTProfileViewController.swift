@@ -320,6 +320,7 @@ class QTProfileViewController: UIViewController {
         case .tutor:
             moreButtonsView.isHidden = false
             statisticStackView.isHidden = false
+            saveButton.isHidden = false
             if subject?.isEmpty ?? true {
                 if let featuredSubject = user.featuredSubject, !featuredSubject.isEmpty {
                     // Set the featured subject.
