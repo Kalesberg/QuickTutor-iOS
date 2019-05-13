@@ -196,7 +196,9 @@ class MessagesVC: UIViewController {
     }
     
     private func updateTabBarBadge() {
-        guard let rootVC = tabBarController?.viewControllers?[2] else { return }
+        let messageIndex = .learner == AccountService.shared.currentUserType ? 3 : 2
+        
+        guard let rootVC = tabBarController?.viewControllers?[messageIndex] else { return }
         
         let badgeCount = metaDataDictionary.values.filter({ false == $0.hasRead }).count
         if 0 < badgeCount {

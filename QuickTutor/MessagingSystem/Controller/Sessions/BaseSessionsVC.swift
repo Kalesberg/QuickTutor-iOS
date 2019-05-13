@@ -164,7 +164,9 @@ class BaseSessionsVC: UIViewController {
     }
     
     private func updateTabBarBadge() {
-        guard let rootVC = tabBarController?.viewControllers?[1] else { return }
+        let sessionIndex = .learner == AccountService.shared.currentUserType ? 2 : 1
+        
+        guard let rootVC = tabBarController?.viewControllers?[sessionIndex] else { return }
         
         let badgeCount = pendingSessions.count + upcomingSessions.count
         if 0 < badgeCount {

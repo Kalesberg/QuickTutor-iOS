@@ -24,14 +24,20 @@ class InAppNotificationView: UIView {
     let profileImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
-        iv.layer.cornerRadius = 22
+        iv.layer.cornerRadius = 20
         iv.clipsToBounds = true
         return iv
     }()
     
+    let containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        return view
+    }()
+    
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createBoldSize(14)
+        label.font = Fonts.createSemiBoldSize(14)
         label.textAlignment = .left
         label.textColor = .white
         return label
@@ -39,18 +45,12 @@ class InAppNotificationView: UIView {
     
     let messageLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createBoldSize(12)
+        label.font = Fonts.createSize(12)
         label.textAlignment = .left
-        label.textColor = .white
+        label.textColor = UIColor.white.withAlphaComponent(0.5)
+        label.numberOfLines = 2
         label.text = "Do you have time for a session?"
         return label
-    }()
-    
-    let bottomLine: UIView = {
-        let view = UIView()
-        view.backgroundColor = Colors.purple.darker(by: 15)
-        view.layer.cornerRadius = 3
-        return view
     }()
     
     let imagePreviewView: UIImageView = {
@@ -103,17 +103,17 @@ class InAppNotificationView: UIView {
     private func setupInitialPosition() {
         guard let window = UIApplication.shared.keyWindow else { return }
         window.addSubview(self)
-        self.anchor(top: nil, left: window.leftAnchor, bottom: nil, right: window.rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: 0, height: 68)
-        customTopAnchor = self.topAnchor.constraint(equalTo: window.topAnchor, constant: -75)
+        self.anchor(top: nil, left: window.leftAnchor, bottom: nil, right: window.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 86)
+        customTopAnchor = self.topAnchor.constraint(equalTo: window.topAnchor, constant: -100)
         customTopAnchor?.isActive = true
     }
     
     private func animateOntoScreen() {
-        let deltaY = UIApplication.shared.statusBarFrame.height + 75
+        let deltaY = UIApplication.shared.statusBarFrame.height + 100
         UIViewPropertyAnimator(duration: 0.25, curve: .easeOut) {
             self.transform = CGAffineTransform(translationX: 0, y: deltaY)
         }.startAnimation()
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             self.dismiss()
         }
         UINotificationFeedbackGenerator().notificationOccurred(.success)
@@ -147,6 +147,7 @@ class InAppNotificationView: UIView {
     func setupViews() {
         setupMainView()
         setupProfileImageView()
+        setupContainerView()
         setupTitleLabel()
         setupMessageLabel()
         setupImagePreviewView()
@@ -154,36 +155,61 @@ class InAppNotificationView: UIView {
     }
     
     func setupMainView() {
-        backgroundColor = Colors.purple
-        layer.cornerRadius = 8
+        backgroundColor = Colors.newBackground
+        layer.cornerRadius = 5
         addShadow()
     }
     
     func addShadow() {
-        layer.shadowOffset = CGSize(width: 0, height: 5)
-        layer.shadowRadius = 3
+        layer.shadowOffset = CGSize(width: 0, height: 2)
+        layer.shadowRadius = 5
         layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = 0.2
+        layer.shadowOpacity = 0.5
     }
     
     func setupProfileImageView() {
         addSubview(profileImageView)
-        profileImageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 12, paddingLeft: 12, paddingBottom: 12, paddingRight: 0, width: 44, height: 0)
+        profileImageView.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(15)
+            make.width.equalTo(40)
+            make.height.equalTo(40)
+            make.centerY.equalToSuperview()
+        }
+    }
+    
+    func setupContainerView() {
+        addSubview(containerView)
+        containerView.snp.makeConstraints { make in
+            make.left.equalTo(profileImageView.snp.right).offset(10)
+            make.right.equalToSuperview().offset(-15)
+            make.centerY.equalToSuperview()
+        }
     }
     
     func setupTitleLabel() {
-        addSubview(titleLabel)
-        titleLabel.anchor(top: topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 16, paddingLeft: 12, paddingBottom: 0, paddingRight: 40, width: 0, height: 17)
+        containerView.addSubview(titleLabel)
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.left.equalToSuperview()
+            make.right.greaterThanOrEqualToSuperview()
+        }
     }
     
     func setupMessageLabel() {
-        addSubview(messageLabel)
-        messageLabel.anchor(top: titleLabel.bottomAnchor, left: profileImageView.rightAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 12, paddingBottom: 12, paddingRight: 40, width: 0, height: 0)
+        containerView.addSubview(messageLabel)
+        messageLabel.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(5)
+            make.left.equalToSuperview()
+            make.right.greaterThanOrEqualToSuperview()
+            make.bottom.equalToSuperview()
+        }
     }
     
     func setupImagePreviewView() {
         addSubview(imagePreviewView)
-        imagePreviewView.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 12, paddingLeft: 0, paddingBottom: 12, paddingRight: 12, width: 44, height: 0)
+        imagePreviewView.snp.makeConstraints { make in
+            make.edges.equalTo(profileImageView.snp.edges)
+        }
     }
     
     func setupSwipeRecognizer() {
@@ -197,8 +223,8 @@ class InAppNotificationView: UIView {
     }
     
     func dismiss() {
-        let deltaY = UIApplication.shared.statusBarFrame.height + 75
-        UIViewPropertyAnimator(duration: 0.25, curve: .easeOut) {
+        let deltaY = UIApplication.shared.statusBarFrame.height + 100
+        UIViewPropertyAnimator(duration: 0.25, curve: .easeIn) {
             self.transform = CGAffineTransform(translationX: 0, y: -deltaY)
         }.startAnimation()
     }
