@@ -92,7 +92,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
         setupShadowView()
         setupInfoContainerView()
         setupProfileImageView()
-//        setupSaveButton()
+        setupSaveButton()
         setupNameLabel()
         setupPriceLabel()
         setupSubjectLabel()
