@@ -71,9 +71,10 @@ class UserMessage: BaseMessage {
             guard let range = Range(match.range, in: input) else { continue }
             let url = input[range]
             var urlString = String(url)
-            if !urls.contains("http") {
+            if !url.contains("http") {
                 urlString = "http://" + urlString
             }
+            print("Appending url:", urlString)
             urls.append(urlString)
         }
         return urls
