@@ -73,10 +73,15 @@ class LearnerMainPageVC: UIViewController {
     }
     
     @objc func handleCategorySectionTap(_ notification: Notification) {
-        guard let userInfo = notification.userInfo, let category = userInfo["category"] as? String else { return }
+        guard let userInfo = notification.userInfo,
+            let category = userInfo["category"] as? String else { return }
         let next = CategorySearchVC()
         next.category = category
-        next.navigationItem.title = category.capitalizingFirstLetter()
+        if let categoryType = CategoryType(rawValue: category) {
+            next.navigationItem.title = categoryType.title
+        } else {
+            next.navigationItem.title = category.capitalizingFirstLetter()
+        }
         navigationController?.pushViewController(next, animated: true)
     }
     
