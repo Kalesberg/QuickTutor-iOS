@@ -61,7 +61,9 @@ class Tutor {
 	
     public func initTutor(completion: @escaping (Error?) -> Void) {
         
-        guard let data = CurrentUser.shared.learner else { return }
+        guard let data = CurrentUser.shared.learner,
+            !data.uid.isEmpty else { return }
+        
         let subjectNode = buildSubjectNode()
         var subjectDictionary = [String: Any]()
         for subject in TutorRegistrationService.shared.subjects {
@@ -69,7 +71,7 @@ class Tutor {
         }
         var post : [String : Any] =
             [
-                "/tutor-info/\(CurrentUser.shared.learner.uid!)" :
+                "/tutor-info/\(data.uid!)" :
                     [
                         "nm"  : data.name,
                         "img" : data.images,

@@ -43,7 +43,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
         view.layer.borderWidth = 1
         view.layer.cornerRadius = 4
         view.clipsToBounds = true
-        view.backgroundColor = Colors.darkBackground
+        view.backgroundColor = Colors.newBackground
         return view
     }()
     
@@ -112,7 +112,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
     func setupInfoContainerView() {
         shadowView.addSubview(infoContainerView)
         infoContainerView.snp.makeConstraints { make in
-            make.size.equalToSuperview()
+            make.edges.equalToSuperview()
         }
     }
     
