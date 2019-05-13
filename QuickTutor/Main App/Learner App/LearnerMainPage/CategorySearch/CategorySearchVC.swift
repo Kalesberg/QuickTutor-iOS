@@ -84,10 +84,6 @@ class CategorySearchVC: BaseViewController {
             menuBtn.setImage(UIImage(named:"filterIcon"), for: .normal)
         }
     }
-
-    override func viewDidAppear(_ animated: Bool) {
-        navigationController?.setNavigationBarHidden(false, animated: true)
-    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
