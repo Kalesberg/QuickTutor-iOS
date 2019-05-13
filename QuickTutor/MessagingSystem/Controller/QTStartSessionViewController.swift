@@ -199,7 +199,7 @@ class QTStartSessionViewController: UIViewController {
             // Get the partner name.
             self.partnerId = self.session?.partnerId()
             if let partnerId = self.partnerId {
-                DataService.shared.getUserOfOppositeTypeWithId(partnerId, completion: { user in
+                UserFetchService.shared.getUserOfOppositeTypeWithId(partnerId, completion: { user in
                     self.partner = user
                     self.partnerUsername = user?.formattedName
                     // Set the partner name.

@@ -111,7 +111,7 @@ class ProfileVCHeaderCell: UICollectionReusableView {
     
     func updateUI() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        DataService.shared.getUserOfCurrentTypeWithId(uid) { (user) in
+        UserFetchService.shared.getUserOfCurrentTypeWithId(uid) { (user) in
             guard let user = user else { return }
             self.nameLabel.text = user.formattedName
             self.profileImageView.sd_setImage(with: user.profilePicUrl, completed: nil)

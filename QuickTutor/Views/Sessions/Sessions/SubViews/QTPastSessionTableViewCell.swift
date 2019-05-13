@@ -54,7 +54,7 @@ class QTPastSessionTableViewCell: UITableViewCell {
     }
     
     func getTutor() {
-        DataService.shared.getTutorWithId(session.partnerId()) { tutor in
+        UserFetchService.shared.getTutorWithId(session.partnerId()) { tutor in
             guard let username = tutor?.formattedName.capitalized, let profilePicUrl = tutor?.profilePicUrl else { return }
             if let sessionType = QTSessionType(rawValue: self.session.type), sessionType == .quickCalls {
                 let attributedText = NSMutableAttributedString(string: username + "(Call)")
@@ -68,7 +68,7 @@ class QTPastSessionTableViewCell: UITableViewCell {
     }
     
     func getLearner() {
-        DataService.shared.getStudentWithId(session.partnerId()) { tutor in
+        UserFetchService.shared.getStudentWithId(session.partnerId()) { tutor in
             guard let username = tutor?.formattedName.capitalized, let profilePicUrl = tutor?.profilePicUrl else { return }
             if let sessionType = QTSessionType(rawValue: self.session.type), sessionType == .quickCalls {
                 let attributedText = NSMutableAttributedString(string: username + "(Call)")

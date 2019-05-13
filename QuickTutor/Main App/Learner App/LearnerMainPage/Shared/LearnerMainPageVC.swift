@@ -107,7 +107,7 @@ class LearnerMainPageVC: UIViewController {
     
     @objc func handleActiveTutorMessageButtonTapped(_ notification: Notification) {
         guard let userInfo = notification.userInfo, let uid = userInfo["uid"] as? String else { return }
-        DataService.shared.getTutorWithId(uid) { tutor in
+        UserFetchService.shared.getTutorWithId(uid) { tutor in
             let vc = ConversationVC()
             vc.receiverId = uid
             vc.chatPartner = tutor!

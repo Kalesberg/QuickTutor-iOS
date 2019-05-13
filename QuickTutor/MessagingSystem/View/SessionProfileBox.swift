@@ -57,7 +57,7 @@ class SessionProfileBox: UIView {
     
     func updateUI(uid: String) {
         guard let myUid = Auth.auth().currentUser?.uid, uid != myUid else {
-            DataService.shared.getStudentWithId(uid) { (userIn) in
+            UserFetchService.shared.getStudentWithId(uid) { (userIn) in
                 guard let user = userIn else { return }
                 self.nameLabel.text = user.formattedName.capitalized
                 self.imageView.sd_setImage(with: user.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
@@ -65,7 +65,7 @@ class SessionProfileBox: UIView {
             return
         }
         
-        DataService.shared.getUserOfOppositeTypeWithId(uid) { (userIn) in
+        UserFetchService.shared.getUserOfOppositeTypeWithId(uid) { (userIn) in
             guard let user = userIn else { return }
             self.nameLabel.text = user.formattedName.capitalized
             self.imageView.sd_setImage(with: user.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))

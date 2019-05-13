@@ -165,7 +165,7 @@ class MessagesVC: UIViewController {
             let message = UserMessage(dictionary: value)
             message.uid = snapshot.key
             
-            DataService.shared.getUserOfOppositeTypeWithId(message.partnerId(), completion: { (user) in
+            UserFetchService.shared.getUserOfOppositeTypeWithId(message.partnerId(), completion: { (user) in
                 message.user = user
                 
                 if !self.userStatuses.isEmpty {

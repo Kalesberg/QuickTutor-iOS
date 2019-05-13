@@ -66,7 +66,7 @@ class ConversationManager {
             }
             
             for child in children {
-                DataService.shared.getMessageById(child.key, completion: { message in
+                MessageService.shared.getMessageById(child.key, completion: { message in
                     if let lastMessage = previousMessages.last as? UserMessage, let newMessage = message as? UserMessage,  lastMessage.timeStamp.doubleValue - newMessage.timeStamp.doubleValue < -3600 {
                         print("Messages are an hour apart")
                         let timestampDate = Date(timeIntervalSince1970: newMessage.timeStamp.doubleValue)
@@ -105,7 +105,7 @@ class ConversationManager {
         query.observe(.childAdded) { snapshot in
             let messageId = snapshot.key
             guard !self.messages.contains(where: {$0.uid == messageId}) else { return }
-            DataService.shared.getMessageById(messageId, completion: { message in
+            MessageService.shared.getMessageById(messageId, completion: { message in
                 if message.senderId == self.uid {
                     self.lastSendMessageIndex = self.messages.count - 1
                     self.readReceiptManager?.invalidateReadReceipt()

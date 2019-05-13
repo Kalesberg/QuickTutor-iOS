@@ -47,7 +47,7 @@ class NotificationManager {
         SignInManager.shared.handleSignIn {
             
             guard let partnerId = notification.partnerId() else { return }
-            DataService.shared.getUserOfOppositeTypeWithId(partnerId) { (userIn) in
+            UserFetchService.shared.getUserOfOppositeTypeWithId(partnerId) { (userIn) in
                 guard let user = userIn else { return }
                 let vc = ConversationVC()
                 vc.receiverId = notification.partnerId()

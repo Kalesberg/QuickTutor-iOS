@@ -267,7 +267,7 @@ extension CardManagerViewController: UITableViewDelegate, UITableViewDataSource 
         theme.secondaryBackgroundColor = Colors.darkBackground
         
         let theme2 = STPTheme()
-        theme2.primaryBackgroundColor = Colors.purple
+        theme2.primaryBackgroundColor = Colors.darkBackground
         theme2.emphasisFont = Fonts.createBoldSize(18)
         theme2.accentColor = .white
         theme2.primaryForegroundColor = .white

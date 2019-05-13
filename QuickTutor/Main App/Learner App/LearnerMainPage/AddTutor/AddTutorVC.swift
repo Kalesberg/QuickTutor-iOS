@@ -234,7 +234,7 @@ extension AddTutorVC: UITableViewDelegate, UITableViewDataSource {
 
 extension AddTutorVC: AddTutorButtonDelegate {
     func addTutorWithUid(_ uid: String, completion: (() -> Void)?) {
-        DataService.shared.getTutorWithId(uid) { tutor in
+        UserFetchService.shared.getTutorWithId(uid) { tutor in
             if let tutor = tutor {
                 let vc = ConversationVC()
                 vc.receiverId = uid

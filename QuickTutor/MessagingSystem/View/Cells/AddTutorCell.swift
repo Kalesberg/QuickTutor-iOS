@@ -100,7 +100,7 @@ class AddTutorCell: UICollectionViewCell {
 
     func updateUI(_ uid: String) {
         userId = uid
-        DataService.shared.getTutorWithId(uid) { tutorIn in
+        UserFetchService.shared.getTutorWithId(uid) { tutorIn in
             guard let tutor = tutorIn else { return }
             self.profileImageView.imageView.sd_setImage(with: tutor.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
             self.nameLabel.text = tutor.formattedName.capitalized
