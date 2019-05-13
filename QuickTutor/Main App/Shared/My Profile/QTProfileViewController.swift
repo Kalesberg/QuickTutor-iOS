@@ -566,6 +566,11 @@ class QTProfileViewController: UIViewController {
 
         
         guard let profileViewType = profileViewType else { return }
+        
+        // Update the title of connect button based on the connection status.
+        guard let opponentId = user?.uid else { return }
+        setupConnectionObserver(opponentId)
+        
         switch profileViewType {
         case .tutor:
             connectView.isHidden = false
@@ -584,10 +589,6 @@ class QTProfileViewController: UIViewController {
             // Disable the connect button until app gets the connection status.
             connectButton.isEnabled = false
             connectButton.setTitle("CONNECT", for: .normal)
-            
-            // Update the title of connect button based on the connection status.
-            guard let opponentId = user?.uid else { return }
-            setupConnectionObserver(opponentId)
         case .learner,
              .myTutor,
              .myLearner:
