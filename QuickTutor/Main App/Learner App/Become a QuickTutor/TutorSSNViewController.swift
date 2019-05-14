@@ -14,6 +14,7 @@ enum SSNTextFieldTag: Int {
 
 class TutorSSNViewController: BaseRegistrationController {
 
+    @IBOutlet weak var infoLabel: UILabel!
     @IBOutlet weak var ssnAreaNumberTextField: BorderedTextField!
     @IBOutlet weak var ssnGroupNumberTextField: BorderedTextField!
     @IBOutlet weak var ssnSerialNumberTextField: BorderedTextField!
@@ -24,6 +25,13 @@ class TutorSSNViewController: BaseRegistrationController {
         setupTargets()
         hideKeyboardWhenTappedAround()
         progressView.setProgress(3/6)
+        
+        let attributedString = NSMutableAttributedString(string: "For authentication and safety purposes, we’ll need your social security number.")
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 2
+        attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
+        infoLabel.attributedText = attributedString
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
