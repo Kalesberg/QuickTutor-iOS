@@ -100,8 +100,8 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K6c-Px-in4">
-                            <rect key="frame" x="20" y="258" width="297" height="153"/>
-                            <string key="text">In order to get paid on a weekly basis, we require your bank account and routing numbers as well as your Social Security Number to confirm your name with your date of birth. QuickTutor does not have access to your social security number or bank information. QuickTutor utilizes Stripe API, a payment processing system. Stripe handles billions of dollars every year for forward-thinking businesses around the world.</string>
+                            <rect key="frame" x="20" y="258" width="297" height="151"/>
+                            <string key="text">In order to get paid on a weekly basis, we require your bank account and routing numbers as well as your social security number to confirm your name with your date of birth. QuickTutor does not have access to this private information. QuickTutor utilizes Stripe API, a payment processor which handles billions of dollars every year for forward-thinking businesses around the world.</string>
                             <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="13"/>
                             <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
@@ -177,7 +177,7 @@
                         <constraint firstItem="RCf-Ez-H8p" firstAttribute="leading" secondItem="pxK-Lg-eHu" secondAttribute="leading" constant="20" id="e8L-oj-xpJ"/>
                         <constraint firstItem="uuv-MK-Q9x" firstAttribute="top" secondItem="RCf-Ez-H8p" secondAttribute="bottom" constant="28" id="ftt-mJ-1aO"/>
                         <constraint firstAttribute="trailing" secondItem="n1J-SA-8Dg" secondAttribute="trailing" id="hg5-hu-6tT"/>
-                        <constraint firstItem="LXF-Ui-8FH" firstAttribute="top" secondItem="K6c-Px-in4" secondAttribute="bottom" constant="18" id="i8i-0C-RTq"/>
+                        <constraint firstItem="LXF-Ui-8FH" firstAttribute="top" secondItem="K6c-Px-in4" secondAttribute="bottom" constant="20" id="i8i-0C-RTq"/>
                         <constraint firstItem="z6t-iU-tPK" firstAttribute="centerX" secondItem="zBB-Tu-t4y" secondAttribute="centerX" id="j8a-Q1-3GL"/>
                         <constraint firstItem="z6t-iU-tPK" firstAttribute="top" secondItem="LXF-Ui-8FH" secondAttribute="bottom" constant="33" id="k4B-lX-UY1"/>
                         <constraint firstItem="pxK-Lg-eHu" firstAttribute="trailing" secondItem="FAc-5t-qTr" secondAttribute="trailing" constant="20" id="kJL-Vb-JNU"/>

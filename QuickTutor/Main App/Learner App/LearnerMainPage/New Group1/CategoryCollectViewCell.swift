@@ -32,8 +32,8 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         label.textColor = .white
         label.textAlignment = .left
         label.font = Fonts.createSemiBoldSize(17)
-        label.adjustsFontSizeToFitWidth = true
-        label.adjustsFontForContentSizeCategory = true
+//        label.adjustsFontSizeToFitWidth = true
+//        label.adjustsFontForContentSizeCategory = true
         return label
     }()
 
@@ -54,9 +54,9 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     func setupShadowView() {
         addSubview(shadowView)
         shadowView.snp.makeConstraints { make in
-            make.width.equalToSuperview().offset(-4)
             make.center.equalToSuperview()
-            make.height.equalToSuperview().offset(-4)
+            make.width.equalToSuperview().offset(-4)
+            make.height.equalToSuperview().offset(-8)
         }
     }
     
@@ -88,14 +88,10 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     }
     
     private func addShadow() {
-        shadowView.layer.shadowColor = UIColor(white: 0, alpha: 0.06).cgColor
-        shadowView.layer.shadowOpacity = 1
-        shadowView.layer.shadowRadius = 4
-        shadowView.layer.shadowOffset = .zero
+        shadowView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 4)
     }
     
     override func layoutSubviews() {
-//        roundCorners([.topRight, .topLeft], radius: 4)
         bgView.layer.cornerRadius = 4
     }
     

@@ -107,7 +107,7 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
     }
 
     func getTutor() {
-        DataService.shared.getTutorWithId(session.partnerId()) { tutor in
+        UserFetchService.shared.getTutorWithId(session.partnerId()) { tutor in
             guard let username = tutor?.formattedName.capitalized, let profilePicUrl = tutor?.profilePicUrl else { return }
             self.tutorLabel.text = "with \(username)"
             self.profileImage.imageView.sd_setImage(with: profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
@@ -117,7 +117,7 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
     }
 
     func getLearner() {
-        DataService.shared.getStudentWithId(session.partnerId()) { tutor in
+        UserFetchService.shared.getStudentWithId(session.partnerId()) { tutor in
             guard let username = tutor?.formattedName.capitalized, let profilePicUrl = tutor?.profilePicUrl else { return }
             self.tutorLabel.text = "with \(username)"
             self.profileImage.imageView.sd_setImage(with: profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))

@@ -92,7 +92,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
         setupShadowView()
         setupInfoContainerView()
         setupProfileImageView()
-//        setupSaveButton()
+        setupSaveButton()
         setupNameLabel()
         setupPriceLabel()
         setupSubjectLabel()
@@ -104,8 +104,8 @@ class TutorCollectionViewCell: UICollectionViewCell {
         addSubview(shadowView)
         shadowView.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.height.equalToSuperview().offset(-2)
-            make.width.equalToSuperview().offset(-2)
+            make.width.equalToSuperview().offset(-4)
+            make.height.equalToSuperview().offset(-8)
         }
     }
     
@@ -229,10 +229,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
     }
     
     private func addShadow() {
-        shadowView.layer.shadowColor = UIColor(white: 0, alpha: 0.06).cgColor
-        shadowView.layer.shadowOpacity = 1
-        shadowView.layer.shadowRadius = 4
-        shadowView.layer.shadowOffset = .zero
+        shadowView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 4)
     }
     
     override init(frame: CGRect) {

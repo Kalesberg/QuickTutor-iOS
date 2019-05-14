@@ -135,7 +135,7 @@ class TutorCardView: UIView, TutorDataSource {
             vc.tutor = tutor
             self.parentViewController?.navigationController?.pushViewController(vc, animated: true)
         } else {
-            DataService.shared.getTutorWithId(tutor.uid) { tutor in
+            UserFetchService.shared.getTutorWithId(tutor.uid) { tutor in
                 let vc = ConversationVC()
                 vc.receiverId = tutor?.uid
                 vc.chatPartner = tutor

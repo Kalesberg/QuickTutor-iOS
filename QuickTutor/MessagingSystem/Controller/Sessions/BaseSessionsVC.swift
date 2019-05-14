@@ -352,7 +352,7 @@ class BaseSessionsVC: UIViewController {
     }
     
     private func getStudent(uid: String) {
-        DataService.shared.getStudentWithId(uid) { student in
+        UserFetchService.shared.getStudentWithId(uid) { student in
             let vc = ConversationVC()
             vc.receiverId = uid
             vc.chatPartner = student!
@@ -363,7 +363,7 @@ class BaseSessionsVC: UIViewController {
     }
     
     private func getTutor(uid: String) {
-        DataService.shared.getTutorWithId(uid) { tutor in
+        UserFetchService.shared.getTutorWithId(uid) { tutor in
             let vc = ConversationVC()
             vc.receiverId = uid
             vc.chatPartner = tutor!

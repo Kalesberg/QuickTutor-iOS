@@ -102,7 +102,7 @@ class TutorCardHeaderView: UIView {
         if let subject = subject {
             subjectLabel.text = subject
         }
-        DataService.shared.getTutorWithId(tutor.uid) { (tutor2) in
+        UserFetchService.shared.getTutorWithId(tutor.uid) { (tutor2) in
             guard let tutor2 = tutor2 else { return }
             self.profileImageView.sd_setImage(with: tutor2.profilePicUrl, for: .normal, completed: nil)
         }

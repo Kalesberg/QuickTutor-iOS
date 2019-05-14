@@ -156,7 +156,7 @@ class QTConfirmMeetUpViewController: UIViewController {
                     self.statusImageView.backgroundColor = status?.status == .online ? Colors.purple : Colors.gray
                 }
                 
-                DataService.shared.getUserOfOppositeTypeWithId(partnerId, completion: { user in
+                UserFetchService.shared.getUserOfOppositeTypeWithId(partnerId, completion: { user in
                     self.partner = user
                     // Set the partner name.
                     self.usernameLabel.text = user?.formattedName

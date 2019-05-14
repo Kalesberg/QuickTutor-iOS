@@ -26,7 +26,7 @@ class AccountService {
 
     func loadUser() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        DataService.shared.getUserWithUid(uid) { userIn in
+        UserFetchService.shared.getUserWithUid(uid) { userIn in
             guard let user = userIn else { return }
             self.currentUser = user
         }

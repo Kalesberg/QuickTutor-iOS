@@ -33,7 +33,7 @@ class SessionRequestDateView: BaseSessionRequestViewSection {
     override func setupViews() {
         super.setupViews()
         setupDatePicker()
-        titleLabel.text = "Choose the start time"
+        titleLabel.text = "What time would you like to start?"
     }
     
     func setupDatePicker() {

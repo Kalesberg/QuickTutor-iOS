@@ -27,6 +27,7 @@ class LearnerMainPageVC: UIViewController {
         super.viewDidLoad()
         configureView()
         setupObservers()
+        contentView.handleSearchesLoaded()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -36,13 +37,12 @@ class LearnerMainPageVC: UIViewController {
     
     private func configureView() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleSearchTap))
-        contentView.searchBar.addGestureRecognizer(tap)
+        contentView.searchBarContainer.searchBar.addGestureRecognizer(tap)
     }
 
     @objc func handleSearchTap() {
-        let nav = navigationController
         DispatchQueue.main.async {
-            nav?.pushViewController(QuickSearchVC(), animated: false)
+            self.navigationController?.pushViewController(QuickSearchVC(), animated: false)
         }
     }
     
@@ -53,7 +53,7 @@ class LearnerMainPageVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleSeeAllTopTutorsTapped(_:)), name: NotificationNames.LearnerMainFeed.seeAllTopTutorsTapped, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleSuggestedTutorTapped(_:)), name: NotificationNames.LearnerMainFeed.suggestedTutorTapped, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleActiveTutorCellTapped(_:)), name: NotificationNames.LearnerMainFeed.activeTutorCellTapped, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleActiveTutorMessageButtonTapped(_:)), name: NotificationNames.LearnerMainFeed.activeTutorMessageButtonTapped, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleRecentSearchCellTapped(_:)), name: NotificationNames.LearnerMainFeed.recentSearchCellTapped, object: nil)
     }
     
     @objc func handleFeatuedSectionTap(_ notification: Notification) {
@@ -73,10 +73,15 @@ class LearnerMainPageVC: UIViewController {
     }
     
     @objc func handleCategorySectionTap(_ notification: Notification) {
-        guard let userInfo = notification.userInfo, let category = userInfo["category"] as? String else { return }
+        guard let userInfo = notification.userInfo,
+            let category = userInfo["category"] as? String else { return }
         let next = CategorySearchVC()
         next.category = category
-        next.navigationItem.title = category.capitalizingFirstLetter()
+        if let categoryType = CategoryType(rawValue: category) {
+            next.navigationItem.title = categoryType.title
+        } else {
+            next.navigationItem.title = category.capitalizingFirstLetter()
+        }
         navigationController?.pushViewController(next, animated: true)
     }
     
@@ -102,7 +107,7 @@ class LearnerMainPageVC: UIViewController {
     
     @objc func handleActiveTutorMessageButtonTapped(_ notification: Notification) {
         guard let userInfo = notification.userInfo, let uid = userInfo["uid"] as? String else { return }
-        DataService.shared.getTutorWithId(uid) { tutor in
+        UserFetchService.shared.getTutorWithId(uid) { tutor in
             let vc = ConversationVC()
             vc.receiverId = uid
             vc.chatPartner = tutor!
@@ -122,6 +127,14 @@ class LearnerMainPageVC: UIViewController {
             self.navigationController?.pushViewController(controller, animated: true)
         })
 
+    }
+    
+    @objc func handleRecentSearchCellTapped(_ notification: Notification) {
+        guard let userInfo = notification.userInfo, let subject = userInfo["subject"] as? String else { return }
+        let vc = CategorySearchVC()
+        vc.subject = subject
+        vc.navigationItem.title = subject.capitalized
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     deinit {

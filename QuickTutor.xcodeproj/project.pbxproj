@@ -833,7 +833,6 @@
 		9359CECC227A7CAD008E9FB1 /* CardManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9359CEC9227A7CAD008E9FB1 /* CardManagerViewController.swift */; };
 		9359CECD227A7CAD008E9FB1 /* CardManagerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9359CECA227A7CAD008E9FB1 /* CardManagerViewController.xib */; };
 		9359CECE227A7CAD008E9FB1 /* CardManagerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9359CECA227A7CAD008E9FB1 /* CardManagerViewController.xib */; };
-		9359CED1227BE09E008E9FB1 /* CardManagerViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9359CED0227BE09E008E9FB1 /* CardManagerViewControllerTests.swift */; };
 		9359CED3227BEF83008E9FB1 /* ProcessingFeeModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9359CED2227BEF83008E9FB1 /* ProcessingFeeModal.swift */; };
 		9359CED4227BEF83008E9FB1 /* ProcessingFeeModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9359CED2227BEF83008E9FB1 /* ProcessingFeeModal.swift */; };
 		9359CED6227BEF92008E9FB1 /* ProcessingFeeModal.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9359CED5227BEF92008E9FB1 /* ProcessingFeeModal.xib */; };
@@ -945,6 +944,16 @@
 		CF5BFB052155B19100FB8DD6 /* InAppNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5BFB042155B19100FB8DD6 /* InAppNotificationView.swift */; };
 		CF5D06DF224B170B00270115 /* LearnerTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5D06DE224B170B00270115 /* LearnerTabBarController.swift */; };
 		CF5D06E1224B172700270115 /* TutorTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5D06E0224B172700270115 /* TutorTabBarController.swift */; };
+		CF62026C2287F6D800B925B9 /* UserFetchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF62026B2287F6D800B925B9 /* UserFetchService.swift */; };
+		CF62026D2287F6E300B925B9 /* UserFetchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF62026B2287F6D800B925B9 /* UserFetchService.swift */; };
+		CF62026F2287F70400B925B9 /* MessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF62026E2287F70400B925B9 /* MessageService.swift */; };
+		CF6202702287F70400B925B9 /* MessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF62026E2287F70400B925B9 /* MessageService.swift */; };
+		CF6202722287F74400B925B9 /* TutorSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6202712287F74400B925B9 /* TutorSearchService.swift */; };
+		CF6202732287F74400B925B9 /* TutorSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6202712287F74400B925B9 /* TutorSearchService.swift */; };
+		CF6202752287F76000B925B9 /* DatabaseCleaner.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6202742287F76000B925B9 /* DatabaseCleaner.swift */; };
+		CF6202762287F76000B925B9 /* DatabaseCleaner.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6202742287F76000B925B9 /* DatabaseCleaner.swift */; };
+		CF62027A22896CCE00B925B9 /* CardManagerViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF62027922896CCE00B925B9 /* CardManagerViewControllerTests.swift */; };
+		CF62027C2289E13E00B925B9 /* RecentSearchesManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF62027B2289E13E00B925B9 /* RecentSearchesManagerTests.swift */; };
 		CF6325E7207FE15E0037F8AA /* ReportSuccessfulModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325E6207FE15E0037F8AA /* ReportSuccessfulModal.swift */; };
 		CF6325E9207FF2C80037F8AA /* BaseSessionStartVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325E8207FF2C80037F8AA /* BaseSessionStartVC.swift */; };
 		CF6325EB207FF4480037F8AA /* SessionProfileBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325EA207FF4480037F8AA /* SessionProfileBox.swift */; };
@@ -1032,6 +1041,12 @@
 		CF8E88A620C72BFD0044344D /* AcceptAddTimeModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8E88A520C72BFD0044344D /* AcceptAddTimeModal.swift */; };
 		CF8F238A215C0F3A00B4239D /* LearnerMainPageVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8F2389215C0F3A00B4239D /* LearnerMainPageVCView.swift */; };
 		CF8F238C215C5B2C00B4239D /* ConversationMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8F238B215C5B2C00B4239D /* ConversationMetaData.swift */; };
+		CF9F94E9228A3B76002041CF /* RecentSearchesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9F94E8228A3B76002041CF /* RecentSearchesManager.swift */; };
+		CF9F94EB228A3BA0002041CF /* LearnerMainPageSearchBarContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9F94EA228A3BA0002041CF /* LearnerMainPageSearchBarContainer.swift */; };
+		CF9F94EE228A3C01002041CF /* RecentSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9F94ED228A3C01002041CF /* RecentSearchCell.swift */; };
+		CF9F94EF228A3C68002041CF /* LearnerMainPageSearchBarContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9F94EA228A3BA0002041CF /* LearnerMainPageSearchBarContainer.swift */; };
+		CF9F94F0228A3C92002041CF /* RecentSearchesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9F94E8228A3B76002041CF /* RecentSearchesManager.swift */; };
+		CF9F94F1228A3C98002041CF /* RecentSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9F94ED228A3C01002041CF /* RecentSearchCell.swift */; };
 		CFA0096C213898C900F81EE4 /* InProgressSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA0096B213898C900F81EE4 /* InProgressSessionManager.swift */; };
 		CFA0096E2139FFCE00F81EE4 /* background.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CFA0096D2139FFCE00F81EE4 /* background.mp3 */; };
 		CFA00970213A000200F81EE4 /* BackgroundSoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA0096F213A000200F81EE4 /* BackgroundSoundManager.swift */; };
@@ -1519,7 +1534,6 @@
 		93343E5B2278050300A1863D /* TutorSSNViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorSSNViewControllerTests.swift; sourceTree = "<group>"; };
 		9359CEC9227A7CAD008E9FB1 /* CardManagerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardManagerViewController.swift; sourceTree = "<group>"; };
 		9359CECA227A7CAD008E9FB1 /* CardManagerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CardManagerViewController.xib; sourceTree = "<group>"; };
-		9359CED0227BE09E008E9FB1 /* CardManagerViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardManagerViewControllerTests.swift; sourceTree = "<group>"; };
 		9359CED2227BEF83008E9FB1 /* ProcessingFeeModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessingFeeModal.swift; sourceTree = "<group>"; };
 		9359CED5227BEF92008E9FB1 /* ProcessingFeeModal.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProcessingFeeModal.xib; sourceTree = "<group>"; };
 		935BC8DB225A99E200C7B482 /* QuickTutorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuickTutorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1620,6 +1634,12 @@
 		CF5BFB042155B19100FB8DD6 /* InAppNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppNotificationView.swift; sourceTree = "<group>"; };
 		CF5D06DE224B170B00270115 /* LearnerTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerTabBarController.swift; sourceTree = "<group>"; };
 		CF5D06E0224B172700270115 /* TutorTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorTabBarController.swift; sourceTree = "<group>"; };
+		CF62026B2287F6D800B925B9 /* UserFetchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFetchService.swift; sourceTree = "<group>"; };
+		CF62026E2287F70400B925B9 /* MessageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageService.swift; sourceTree = "<group>"; };
+		CF6202712287F74400B925B9 /* TutorSearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorSearchService.swift; sourceTree = "<group>"; };
+		CF6202742287F76000B925B9 /* DatabaseCleaner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseCleaner.swift; sourceTree = "<group>"; };
+		CF62027922896CCE00B925B9 /* CardManagerViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardManagerViewControllerTests.swift; sourceTree = "<group>"; };
+		CF62027B2289E13E00B925B9 /* RecentSearchesManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchesManagerTests.swift; sourceTree = "<group>"; };
 		CF6325E6207FE15E0037F8AA /* ReportSuccessfulModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportSuccessfulModal.swift; sourceTree = "<group>"; };
 		CF6325E8207FF2C80037F8AA /* BaseSessionStartVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSessionStartVC.swift; sourceTree = "<group>"; };
 		CF6325EA207FF4480037F8AA /* SessionProfileBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionProfileBox.swift; sourceTree = "<group>"; };
@@ -1706,6 +1726,9 @@
 		CF8E88A520C72BFD0044344D /* AcceptAddTimeModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptAddTimeModal.swift; sourceTree = "<group>"; };
 		CF8F2389215C0F3A00B4239D /* LearnerMainPageVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerMainPageVCView.swift; sourceTree = "<group>"; };
 		CF8F238B215C5B2C00B4239D /* ConversationMetaData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationMetaData.swift; sourceTree = "<group>"; };
+		CF9F94E8228A3B76002041CF /* RecentSearchesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchesManager.swift; sourceTree = "<group>"; };
+		CF9F94EA228A3BA0002041CF /* LearnerMainPageSearchBarContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerMainPageSearchBarContainer.swift; sourceTree = "<group>"; };
+		CF9F94ED228A3C01002041CF /* RecentSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchCell.swift; sourceTree = "<group>"; };
 		CFA0096B213898C900F81EE4 /* InProgressSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InProgressSessionManager.swift; sourceTree = "<group>"; };
 		CFA0096D2139FFCE00F81EE4 /* background.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = background.mp3; sourceTree = "<group>"; };
 		CFA0096F213A000200F81EE4 /* BackgroundSoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundSoundManager.swift; sourceTree = "<group>"; };
@@ -2741,6 +2764,7 @@
 		84D8C9262066A8AE003C3AEA /* LearnerMainPage */ = {
 			isa = PBXGroup;
 			children = (
+				CF9F94EC228A3BF2002041CF /* RecentSearches */,
 				CF51958821A60F64007EEC37 /* Saved */,
 				CF4C789B2260830500478D83 /* Shared */,
 				CF671AC9225D931800CF4F0A /* Categories */,
@@ -2922,7 +2946,7 @@
 		9359CECF227BDEDA008E9FB1 /* Payment */ = {
 			isa = PBXGroup;
 			children = (
-				9359CED0227BE09E008E9FB1 /* CardManagerViewControllerTests.swift */,
+				CF62027922896CCE00B925B9 /* CardManagerViewControllerTests.swift */,
 			);
 			path = Payment;
 			sourceTree = "<group>";
@@ -3012,6 +3036,7 @@
 				93EFEF22225A9156001E0EF5 /* QuickTutorTests.swift */,
 				93EFEF24225A9156001E0EF5 /* Info.plist */,
 				93205D2B2270BDDA00A11509 /* OnlineStatusServiceTests.swift */,
+				CF62027B2289E13E00B925B9 /* RecentSearchesManagerTests.swift */,
 			);
 			path = QuickTutorTests;
 			sourceTree = "<group>";
@@ -3054,6 +3079,7 @@
 			isa = PBXGroup;
 			children = (
 				CF8F2389215C0F3A00B4239D /* LearnerMainPageVCView.swift */,
+				CF9F94EA228A3BA0002041CF /* LearnerMainPageSearchBarContainer.swift */,
 				846252E620637CF8001DD330 /* LearnerMainPageVC.swift */,
 				CF671AD0225DA48000CF4F0A /* LearnerMainPageCollectionViewHelper.swift */,
 			);
@@ -3125,6 +3151,10 @@
 				CF6F58AA205EE68800ACBD32 /* Controller */,
 				CF6F58EA205EE6B300ACBD32 /* AccountService.swift */,
 				CF6F58EC205EE6B300ACBD32 /* DataService.swift */,
+				CF62026B2287F6D800B925B9 /* UserFetchService.swift */,
+				CF62026E2287F70400B925B9 /* MessageService.swift */,
+				CF6202712287F74400B925B9 /* TutorSearchService.swift */,
+				CF6202742287F76000B925B9 /* DatabaseCleaner.swift */,
 				CF6F58ED205EE6B300ACBD32 /* DynamicLinkFactory.swift */,
 				CF6F58F2205EE6D100ACBD32 /* Extensions.swift */,
 			);
@@ -3356,6 +3386,14 @@
 			path = Delegates;
 			sourceTree = "<group>";
 		};
+		CF9F94EC228A3BF2002041CF /* RecentSearches */ = {
+			isa = PBXGroup;
+			children = (
+				CF9F94ED228A3C01002041CF /* RecentSearchCell.swift */,
+			);
+			path = RecentSearches;
+			sourceTree = "<group>";
+		};
 		CFB60622207FD9A60029CFE4 /* Modals */ = {
 			isa = PBXGroup;
 			children = (
@@ -3496,6 +3534,7 @@
 				CF43AF972177B86000783819 /* RootControllerManager.swift */,
 				CF507FA621813798007FE441 /* TypingIndicatorManager.swift */,
 				CF04A28A2279713F00967725 /* DocumentUploadManager.swift */,
+				CF9F94E8228A3B76002041CF /* RecentSearchesManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -3920,7 +3959,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/Branch/Branch.framework",
@@ -3987,7 +4026,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		104A5895F7E571EC186C4022 /* [CP] Copy Pods Resources */ = {
@@ -3998,7 +4037,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-resources.sh",
 				"${PODS_ROOT}/AccountKit/AccountKitStrings.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -4009,7 +4048,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		1EC0E720E3BEB99E882392F6 /* [CP] Check Pods Manifest.lock */ = {
@@ -4064,7 +4103,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev-resources.sh",
 				"${PODS_ROOT}/AccountKit/AccountKitStrings.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -4075,7 +4114,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		569F18FE223554FD00820A20 /* ShellScript */ = {
@@ -4136,7 +4175,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/Branch/Branch.framework",
@@ -4203,7 +4242,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FB90A4856D39D4C8EFED45F9 /* [CP] Check Pods Manifest.lock */ = {
@@ -4452,6 +4491,7 @@
 				569F17B0223554FD00820A20 /* SessionRequestVC.swift in Sources */,
 				569F17B1223554FD00820A20 /* MeetupRequestCell.swift in Sources */,
 				569F17B2223554FD00820A20 /* BasePostSessionCell.swift in Sources */,
+				CF9F94EF228A3C68002041CF /* LearnerMainPageSearchBarContainer.swift in Sources */,
 				569F17B3223554FD00820A20 /* TutorHelp.swift in Sources */,
 				5697DD29226F859300AC9775 /* QTInviteOthersContactTableViewCell.swift in Sources */,
 				569F17B4223554FD00820A20 /* VerificationVC.swift in Sources */,
@@ -4466,6 +4506,7 @@
 				569F17BE223554FD00820A20 /* InProgressSessionManager.swift in Sources */,
 				569F17C0223554FD00820A20 /* HandlesSessionStartData.swift in Sources */,
 				569F17C1223554FD00820A20 /* TutorPreferencesVCView.swift in Sources */,
+				CF9F94F1228A3C98002041CF /* RecentSearchCell.swift in Sources */,
 				569F17C3223554FD00820A20 /* ConversationVC.swift in Sources */,
 				569F17C4223554FD00820A20 /* FeaturedTutorCollectionViewCell.swift in Sources */,
 				569F17C5223554FD00820A20 /* TutorSessions.swift in Sources */,
@@ -4483,6 +4524,7 @@
 				4DE366922239F06C00A94C37 /* QTProfileViewController.swift in Sources */,
 				93F4F8D1227F4AD900809432 /* CollectionExtensions.swift in Sources */,
 				569F17D3223554FD00820A20 /* ToggleTableViewCell.swift in Sources */,
+				CF6202732287F74400B925B9 /* TutorSearchService.swift in Sources */,
 				569F17D4223554FD00820A20 /* CloseAccountReasonVC.swift in Sources */,
 				569F17D5223554FD00820A20 /* UIViewExtensions.swift in Sources */,
 				5697DD31226F859300AC9775 /* QTInviteOthersSectionHeaderView.swift in Sources */,
@@ -4573,6 +4615,7 @@
 				5697DD2D226F859300AC9775 /* QTInviteOthersHeaderView.swift in Sources */,
 				C46A2F12224CD309005058B1 /* UserStatus.swift in Sources */,
 				569F1830223554FD00820A20 /* ImageMessageAnimator.swift in Sources */,
+				CF6202702287F70400B925B9 /* MessageService.swift in Sources */,
 				CFCE90AC226524CC00CBB1AD /* LearnerMainPageFeaturedSubjectCell.swift in Sources */,
 				569F1831223554FD00820A20 /* QTLocationTableViewCell.swift in Sources */,
 				569F1832223554FD00820A20 /* TheChoiceVC.swift in Sources */,
@@ -4592,6 +4635,7 @@
 				569F1840223554FD00820A20 /* SessionDetailsVC.swift in Sources */,
 				569F1841223554FD00820A20 /* QTTutorDashboardDurationView.swift in Sources */,
 				569F1843223554FD00820A20 /* Session.swift in Sources */,
+				CF62026D2287F6E300B925B9 /* UserFetchService.swift in Sources */,
 				569F1844223554FD00820A20 /* LearnerSessionsVC.swift in Sources */,
 				569F1845223554FD00820A20 /* RequestSessionButtonDelegate.swift in Sources */,
 				569F1846223554FD00820A20 /* AppDelegate.swift in Sources */,
@@ -4642,6 +4686,7 @@
 				569F1874223554FD00820A20 /* AccountPaymentsVC.swift in Sources */,
 				569F1875223554FD00820A20 /* PriceInputView.swift in Sources */,
 				569F1877223554FD00820A20 /* BankList.swift in Sources */,
+				CF9F94F0228A3C92002041CF /* RecentSearchesManager.swift in Sources */,
 				569F1878223554FD00820A20 /* RegistrationTextField.swift in Sources */,
 				569F1879223554FD00820A20 /* SignInVC.swift in Sources */,
 				CF17F22D226BC8A800ABD07D /* TutorPreferenceData.swift in Sources */,
@@ -4696,6 +4741,7 @@
 				569F18AC223554FD00820A20 /* LearnerHarassment.swift in Sources */,
 				569F18AD223554FD00820A20 /* LearnerPastSessionCell.swift in Sources */,
 				569F18AE223554FD00820A20 /* EmptyMessagesBackground.swift in Sources */,
+				CF6202762287F76000B925B9 /* DatabaseCleaner.swift in Sources */,
 				569F18B0223554FD00820A20 /* TutorPreferencesNextButton.swift in Sources */,
 				569F18B1223554FD00820A20 /* UserMessage.swift in Sources */,
 				569F18B2223554FD00820A20 /* CustomError.swift in Sources */,
@@ -4947,6 +4993,7 @@
 				CFA0096C213898C900F81EE4 /* InProgressSessionManager.swift in Sources */,
 				CF387EC32088EE4A00087449 /* HandlesSessionStartData.swift in Sources */,
 				CFB9B82421C8C5370022333F /* TutorPreferencesVCView.swift in Sources */,
+				CF9F94EE228A3C01002041CF /* RecentSearchCell.swift in Sources */,
 				CF6F58E2205EE68800ACBD32 /* ConversationVC.swift in Sources */,
 				846D9B502069E57300302773 /* FeaturedTutorCollectionViewCell.swift in Sources */,
 				847463262069425C00B70AD9 /* TutorSessions.swift in Sources */,
@@ -4963,6 +5010,7 @@
 				848809FD2057875700F204A0 /* TutorTipsVC.swift in Sources */,
 				93F4F8D0227F4AD900809432 /* CollectionExtensions.swift in Sources */,
 				4DE366912239F06C00A94C37 /* QTProfileViewController.swift in Sources */,
+				CF6202722287F74400B925B9 /* TutorSearchService.swift in Sources */,
 				84CF77392118DF9B005755CB /* ToggleTableViewCell.swift in Sources */,
 				84F5FD1920A57DA200CFDA95 /* CloseAccountReasonVC.swift in Sources */,
 				CF5D06E1224B172700270115 /* TutorTabBarController.swift in Sources */,
@@ -4991,6 +5039,7 @@
 				84CE13F8217CED7D005A1B2C /* TutorCardCollectionViewBackground.swift in Sources */,
 				CF6F58E4205EE68800ACBD32 /* SystemMessage.swift in Sources */,
 				CF387EBF2088EDE200087449 /* VideoSessionStartVC.swift in Sources */,
+				CF9F94EB228A3BA0002041CF /* LearnerMainPageSearchBarContainer.swift in Sources */,
 				CF6F58CA205EE68800ACBD32 /* CustomDatePicker.swift in Sources */,
 				CF6F58CB205EE68800ACBD32 /* SubjectPicker.swift in Sources */,
 				CF6325E9207FF2C80037F8AA /* BaseSessionStartVC.swift in Sources */,
@@ -5040,6 +5089,7 @@
 				561003B62242A9AF00A4688F /* QTInPersionSessionViewController.swift in Sources */,
 				CF6F58C0205EE68800ACBD32 /* UserMessageCell.swift in Sources */,
 				84F245181FDA1127006447A8 /* TutorBioVC.swift in Sources */,
+				CF9F94E9228A3B76002041CF /* RecentSearchesManager.swift in Sources */,
 				CFB1475F21F3B86F00C49BA5 /* QuickSearchResultsVC.swift in Sources */,
 				84A6E46C218F68AA00D03681 /* Review.swift in Sources */,
 				841C5070216ED4950035C6C9 /* AddressTextField.swift in Sources */,
@@ -5053,6 +5103,7 @@
 				84E283592004940600B004E7 /* TheChoiceVC.swift in Sources */,
 				CF6F58E3205EE68800ACBD32 /* QuickChatViewDelegate.swift in Sources */,
 				CFB60617207FA6B80029CFE4 /* FileReportActionsheet.swift in Sources */,
+				CF62026F2287F70400B925B9 /* MessageService.swift in Sources */,
 				CFB60619207FB60C0029CFE4 /* FileReportActionsheetCell.swift in Sources */,
 				CFB9B7EE21C23EBA0022333F /* TutorCardInfoView.swift in Sources */,
 				CF6F58E6205EE68800ACBD32 /* ZFUser.swift in Sources */,
@@ -5072,6 +5123,7 @@
 				8491C29B1FBE62350036FC12 /* AppDelegate.swift in Sources */,
 				CFB9B7FE21C23FE50022333F /* TutorCardVC.swift in Sources */,
 				84D19DA8207056DD00216238 /* TutorMyProfileCells.swift in Sources */,
+				CF62026C2287F6D800B925B9 /* UserFetchService.swift in Sources */,
 				CFB40E68216F1F5700828E72 /* LearnerSettingsVC.swift in Sources */,
 				CF5A3FB6221B5BEE0016C332 /* FeaturedSubjectVC.swift in Sources */,
 				848809FB2057835E00F204A0 /* TutorDidNotHelpVC.swift in Sources */,
@@ -5176,6 +5228,7 @@
 				84052F10206BCC3D007B1248 /* LearnerHarassment.swift in Sources */,
 				CF833B83207C4C2600323242 /* LearnerPastSessionCell.swift in Sources */,
 				CF8578BE2060650F0089B6F0 /* EmptyMessagesBackground.swift in Sources */,
+				CF6202752287F76000B925B9 /* DatabaseCleaner.swift in Sources */,
 				CFB9B82821C8C5890022333F /* TutorPreferencesNextButton.swift in Sources */,
 				CF6F58E5205EE68800ACBD32 /* UserMessage.swift in Sources */,
 				8404F43D20EBB3AE00747C01 /* CustomError.swift in Sources */,
@@ -5203,8 +5256,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF62027C2289E13E00B925B9 /* RecentSearchesManagerTests.swift in Sources */,
+				CF62027A22896CCE00B925B9 /* CardManagerViewControllerTests.swift in Sources */,
 				93343E5C2278050300A1863D /* TutorSSNViewControllerTests.swift in Sources */,
-				9359CED1227BE09E008E9FB1 /* CardManagerViewControllerTests.swift in Sources */,
 				93D694FA226E0FEF001207AC /* TutorBioVCTests.swift in Sources */,
 				93EFEF23225A9156001E0EF5 /* QuickTutorTests.swift in Sources */,
 				939F2F262268AAAE006F3F62 /* QTProfileViewControllerTests.swift in Sources */,

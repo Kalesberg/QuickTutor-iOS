@@ -121,7 +121,7 @@ extension DocumentUploadManager: UIDocumentPickerDelegate {
                         print("Firebase upload error", error.debugDescription)
                         return
                     }
-                    DataService.shared.sendDocumentMessage(documentUrl: downloadUrl.absoluteString, receiverId: self.receiverId, completion: {
+                    MessageService.shared.sendDocumentMessage(documentUrl: downloadUrl.absoluteString, receiverId: self.receiverId, completion: {
                         
                     })
                 })

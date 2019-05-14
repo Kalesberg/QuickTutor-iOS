@@ -56,7 +56,7 @@ class QuickSearchResultsVC: UIViewController {
         if MFMailComposeViewController.canSendMail() {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self
-            mail.setToRecipients(["userstories@quicktutor.com"])
+            mail.setToRecipients(["subjects@quicktutor.com"])
             mail.setMessageBody("<p>I’m submitting a subject: <b>\(subject)</b></p>", isHTML: true)
             present(mail, animated: true)
         } else {
@@ -97,6 +97,7 @@ extension QuickSearchResultsVC: UICollectionViewDataSource, UICollectionViewDele
         let subject = currentSubjects[indexPath.item].0
         vc.subject = subject
         AnalyticsService.shared.logSubjectTapped(subject)
+        RecentSearchesManager.shared.saveSearch(term: subject)
         vc.navigationItem.title = subject
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -334,7 +335,7 @@ class TutorAddSubjectsResultsVC: UIViewController {
         if MFMailComposeViewController.canSendMail() {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self
-            mail.setToRecipients(["userstories@quicktutor.com"])
+            mail.setToRecipients(["subjects@quicktutor.com"])
             mail.setMessageBody("<p>I’m submitting a subject: <b>\(subject)</b></p>", isHTML: true)
             present(mail, animated: true)
         } else {

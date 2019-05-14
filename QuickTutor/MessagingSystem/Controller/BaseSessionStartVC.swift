@@ -123,7 +123,7 @@ class BaseSessionStartVC: UIViewController {
             self.senderBox.updateUI(uid: senderId)
             guard let receiverId = self.initiatorId == uid ? self.session?.partnerId() : uid else { return }
             self.receieverBox.updateUI(uid: receiverId)
-            DataService.shared.getUserOfOppositeTypeWithId(partnerId, completion: { user in
+            UserFetchService.shared.getUserOfOppositeTypeWithId(partnerId, completion: { user in
                 self.partner = user
                 self.partnerUsername = user?.formattedName
                 self.updateTitleLabel()

@@ -430,7 +430,7 @@ extension SessionRequestView: UITableViewDelegate, UITableViewDataSource {
         }
         
         let sessionRequest = SessionRequest(data: sessionData)
-        DataService.shared.sendSessionRequestToId(sessionRequest: sessionRequest, chatPartnerId)
+        MessageService.shared.sendSessionRequestToId(sessionRequest: sessionRequest, chatPartnerId)
         dismiss()
     }
     

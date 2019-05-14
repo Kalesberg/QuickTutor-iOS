@@ -9,6 +9,9 @@
 import UIKit
 
 class LearnerMainPageCollectionViewHelper: NSObject, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    var handleScrollViewScroll: ((CGFloat) -> ())?
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 1
     }
@@ -62,5 +65,11 @@ class LearnerMainPageCollectionViewHelper: NSObject, UICollectionViewDelegate, U
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         let topPadding: CGFloat = section == 0 ? 0 : 40
         return UIEdgeInsets(top: topPadding, left: 0, bottom: 0, right: 0)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if let handleScrollViewScroll = handleScrollViewScroll {
+            handleScrollViewScroll(scrollView.contentOffset.y)
+        }
     }
 }

@@ -123,7 +123,7 @@ class SessionRequestVC: UIViewController {
         }
         
         let sessionRequest = SessionRequest(data: sessionData)
-        DataService.shared.sendSessionRequestToId(sessionRequest: sessionRequest, tutor.uid)
+        MessageService.shared.sendSessionRequestToId(sessionRequest: sessionRequest, tutor.uid)
         navigationController?.popViewController(animated: true)
     }
     

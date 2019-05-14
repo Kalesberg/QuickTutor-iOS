@@ -44,7 +44,6 @@ class TheChoiceVC: UIViewController {
                     let endIndex = self.navigationController?.viewControllers.endIndex
                     self.navigationController?.viewControllers.removeFirst(endIndex! - 1)
                 } else {
-                    try! Auth.auth().signOut()
                     self.navigationController?.pushViewController(SignInVC(), animated: true)
                 }
             }
@@ -53,11 +52,9 @@ class TheChoiceVC: UIViewController {
                 if let learner = learner {
                     self.dismissOverlay()
                     CurrentUser.shared.learner = learner
-                    AccountService.shared.currentUserType = .tRegistration
                     self.navigationController?.pushViewController(BecomeTutorVC(), animated: true)
                 } else {
                     self.dismissOverlay()
-                    try! Auth.auth().signOut()
                     self.navigationController?.pushViewController(SignInVC(), animated: true)
                 }
             }

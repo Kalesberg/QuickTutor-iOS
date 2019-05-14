@@ -63,10 +63,7 @@ class LearnerMainPageTopTutorsSectionContainerCell: UICollectionViewCell {
         let shadowView = UIView()
         shadowView.backgroundColor = .clear
         
-        shadowView.layer.shadowColor = UIColor(white: 0, alpha: 0.06).cgColor
-        shadowView.layer.shadowOpacity = 1
-        shadowView.layer.shadowRadius = 4
-        shadowView.layer.shadowOffset = .zero
+        shadowView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 4)
         
         addSubview(shadowView)
         shadowView.snp.makeConstraints { make in

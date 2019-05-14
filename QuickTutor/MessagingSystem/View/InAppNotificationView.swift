@@ -73,7 +73,7 @@ class InAppNotificationView: UIView {
         let accountType: UserType  = pushNotification?.receiverAccountType == "learner" ? .tutor : .learner
         
         if let partnerId = pushNotification?.partnerId() {
-            DataService.shared.getUserWithId(partnerId, type: accountType) { (user) in
+            UserFetchService.shared.getUserWithId(partnerId, type: accountType) { (user) in
                 guard let user = user else { return }
                 self.profileImageView.sd_setImage(with: user.profilePicUrl, placeholderImage: nil)
             }

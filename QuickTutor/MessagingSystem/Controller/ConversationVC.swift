@@ -758,7 +758,7 @@ extension ConversationVC: KeyboardAccessoryViewDelegate {
         guard canSendMessages else { return }
         conversationRead = false
         if let url = message.imageUrl {
-            DataService.shared.sendImageMessage(imageUrl: url, imageWidth: message.data["imageWidth"] as! CGFloat, imageHeight: message.data["imageHeight"] as! CGFloat, receiverId: receiverId, completion: {
+            MessageService.shared.sendImageMessage(imageUrl: url, imageWidth: message.data["imageWidth"] as! CGFloat, imageHeight: message.data["imageHeight"] as! CGFloat, receiverId: receiverId, completion: {
                 self.emptyCellBackground.removeFromSuperview()
             })
             return
@@ -767,12 +767,12 @@ extension ConversationVC: KeyboardAccessoryViewDelegate {
         guard connectionRequestAccepted || conversationManager.messages.count == 0, let text = message.text else { return }
 
         guard connectionRequestAccepted else {
-            DataService.shared.sendConnectionRequestToId(text: text, receiverId)
+            MessageService.shared.sendConnectionRequestToId(text: text, receiverId)
             exitConnectionRequestMode()
             return
         }
 
-        DataService.shared.sendTextMessage(text: text, receiverId: receiverId) {
+        MessageService.shared.sendTextMessage(text: text, receiverId: receiverId) {
             self.emptyCellBackground.removeFromSuperview()
         }
     }

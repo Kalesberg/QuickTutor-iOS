@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 struct MainPageFeaturedItem {
     var subject: String?
@@ -18,19 +19,9 @@ struct MainPageFeaturedItem {
 
 class LearnerMainPageVCView: UIView {
 
-    let searchBar: PaddedTextField = {
-        let field = PaddedTextField()
-        field.padding.left = 40
-        field.backgroundColor = Colors.gray
-        field.textColor = .white
-        let searchIcon = UIImageView(image: UIImage(named:"searchIconMain"))
-        field.leftView = searchIcon
-        field.leftView?.transform = CGAffineTransform(translationX: 12.5, y: 0)
-        field.leftViewMode = .unlessEditing
-        field.attributedPlaceholder = NSAttributedString(string: "Search", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white.withAlphaComponent(0.75)])
-        field.font = Fonts.createBoldSize(16)
-        field.layer.cornerRadius = 4
-        return field
+    let searchBarContainer: LearnerMainPageSearchBarContainer = {
+        let container = LearnerMainPageSearchBarContainer()
+        return container
     }()
     
     let collectionView: UICollectionView = {
@@ -39,7 +30,6 @@ class LearnerMainPageVCView: UIView {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         collectionView.showsVerticalScrollIndicator = false
-        collectionView.backgroundColor = Colors.darkBackground
         collectionView.register(LearnerMainPageFeaturedSectionContainerCell.self, forCellWithReuseIdentifier: "featuredCell")
         collectionView.register(LearnerMainPageTopTutorsSectionContainerCell.self, forCellWithReuseIdentifier: "topTutors")
         collectionView.register(LearnerMainPageCategorySectionContainerCell.self, forCellWithReuseIdentifier: "categoryCell")
@@ -49,10 +39,11 @@ class LearnerMainPageVCView: UIView {
     }()
     
     let collectionViewHelper = LearnerMainPageCollectionViewHelper()
+    var searchBarContainerHeightAnchor: NSLayoutConstraint?
     
     func setupViews() {
         setupMainView()
-        setupSearchBar()
+        setupSearchBarContainer()
         setupCollectionView()
     }
     
@@ -60,22 +51,51 @@ class LearnerMainPageVCView: UIView {
         backgroundColor = Colors.darkBackground
     }
     
-    func setupSearchBar() {
-        addSubview(searchBar)
-        searchBar.anchor(top: getTopAnchor(), left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 47)
-        searchBar.delegate = self
+    func setupSearchBarContainer() {
+        addSubview(searchBarContainer)
+        searchBarContainer.anchor(top: getTopAnchor(), left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        searchBarContainerHeightAnchor = searchBarContainer.heightAnchor.constraint(equalToConstant: 87)
+        searchBarContainerHeightAnchor?.isActive = true
+        layoutIfNeeded()
     }
     
     func setupCollectionView() {
-        addSubview(collectionView)
-        collectionView.anchor(top: searchBar.bottomAnchor, left: leftAnchor, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        insertSubview(collectionView, at: 0)
+        collectionView.anchor(top: searchBarContainer.bottomAnchor, left: leftAnchor, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: -30, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         collectionView.delegate = collectionViewHelper
         collectionView.dataSource = collectionViewHelper
+    }
+    
+    func setupScrollViewDidScrollAction() {
+        collectionViewHelper.handleScrollViewScroll = { offset in
+            guard -offset < 0 && offset != -50 else {
+                self.searchBarContainer.showRecentSearchesCV()
+                return
+            }
+            self.searchBarContainer.hideRecentSearchesCV()
+        }
+    }
+    
+    private func setupObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleSearchesLoaded), name: NotificationNames.LearnerMainFeed.searchesLoaded, object: nil)
+    }
+    
+    @objc func handleSearchesLoaded() {
+        searchBarContainer.recentSearchesCV.reloadData()
+        if RecentSearchesManager.shared.hasNoRecentSearches {
+            self.searchBarContainer.hideRecentSearchesCV()
+            self.collectionView.setContentOffset(.zero, animated: true)
+        } else {
+            self.collectionView.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
+            self.collectionView.setContentOffset(CGPoint(x: 0, y: -50), animated: true)
+        }
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
+        setupScrollViewDidScrollAction()
+        setupObservers()
     }
     
     required init?(coder aDecoder: NSCoder) {

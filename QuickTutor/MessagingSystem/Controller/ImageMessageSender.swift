@@ -90,7 +90,7 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
     }
     
     func sendMessage(_ image: UIImage, imageUrl: URL, videoUrl: URL? = nil) {
-        DataService.shared.sendImageMessage(imageUrl: imageUrl.absoluteString, imageWidth: image.size.width, imageHeight: image.size.height, receiverId: self.receiverId, completion: {
+        MessageService.shared.sendImageMessage(imageUrl: imageUrl.absoluteString, imageWidth: image.size.width, imageHeight: image.size.height, receiverId: self.receiverId, completion: {
             
         })
     }
@@ -105,7 +105,7 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
                 guard let downloadUrl = downloadUrl else { return }
                 guard let image = self.getThumbnailForVideoUrl(url) else { return }
                 self.uploadImageToFirebase(image: image, completion: { (thumbnailUrl) in
-                    DataService.shared.sendVideoMessage(thumbnailUrl: thumbnailUrl, thumbnailWidth: image.size.width, thumbnailHeight: image.size.height, videoUrl: downloadUrl, receiverId: self.receiverId, completion: {
+                    MessageService.shared.sendVideoMessage(thumbnailUrl: thumbnailUrl, thumbnailWidth: image.size.width, thumbnailHeight: image.size.height, videoUrl: downloadUrl, receiverId: self.receiverId, completion: {
                         
                     })
                 })

@@ -64,7 +64,7 @@ class SessionRequestDurationView: BaseSessionRequestViewSection {
         setupCollectionView()
         setupSelectionView()
         setupSelectionLabel()
-        titleLabel.text = "Duration"
+        titleLabel.text = "How long would you like it to be?"
     }
     
     func setupCollectionView() {

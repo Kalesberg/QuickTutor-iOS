@@ -137,7 +137,7 @@ class QTRequestQuickCallViewController: UIViewController {
         ratingView.setRatingTo(rating)
         totalReviewsLabel.text = "\(tutor.reviews?.count ?? 0)"
         
-        DataService.shared.getUserWithId(tutor.uid, type: .tutor) { (tutor) in
+        UserFetchService.shared.getUserWithId(tutor.uid, type: .tutor) { (tutor) in
             self.avatarImageView.sd_setImage(with: tutor?.profilePicUrl)
         }
     }

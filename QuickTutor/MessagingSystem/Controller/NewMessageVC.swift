@@ -94,7 +94,7 @@ class NewMessageVC: UIViewController {
         Database.database().reference().child("connections").child(uid).child(userTypeString).observeSingleEvent(of: .value) { snapshot in
             guard let connections = snapshot.value as? [String: Any] else { return }
             connections.forEach({ key, _ in
-                DataService.shared.getUserWithUid(key, completion: { userIn in
+                UserFetchService.shared.getUserWithUid(key, completion: { userIn in
                     guard let user = userIn else { return }
                     self.connections.append(user)
                 })
@@ -109,7 +109,7 @@ class NewMessageVC: UIViewController {
             connections.forEach({ arg in
 
                 let (key, _) = arg
-                DataService.shared.getUserWithUid(key, completion: { userIn in
+                UserFetchService.shared.getUserWithUid(key, completion: { userIn in
                     guard let user = userIn else { return }
                     self.connectionRequests.append(user)
                     self.contactsCV.reloadSections(IndexSet(integer: 0))

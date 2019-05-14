@@ -183,7 +183,7 @@ class QTProfileViewController: UIViewController {
             vc.tutor = user
             navigationController?.pushViewController(vc, animated: true)
         } else {
-            DataService.shared.getTutorWithId(user.uid) { tutor in
+            UserFetchService.shared.getTutorWithId(user.uid) { tutor in
                 let vc = ConversationVC()
                 vc.receiverId = tutor?.uid
                 vc.chatPartner = tutor
@@ -291,11 +291,11 @@ class QTProfileViewController: UIViewController {
         
         // Set the avatar of user profile.
         if profileViewType == .tutor || profileViewType == .myTutor {
-            DataService.shared.getUserWithId(user.uid, type: .tutor) { (tutor) in
+            UserFetchService.shared.getUserWithId(user.uid, type: .tutor) { (tutor) in
                 self.avatarImageView.sd_setImage(with: tutor?.profilePicUrl)
             }
         } else {
-            DataService.shared.getUserWithId(user.uid, type: .learner) { (learner) in
+            UserFetchService.shared.getUserWithId(user.uid, type: .learner) { (learner) in
                 self.avatarImageView.sd_setImage(with: learner?.profilePicUrl)
                 if let url = learner?.profilePicUrl {
                     self.user.images["image1"] = url.absoluteString
@@ -492,6 +492,10 @@ class QTProfileViewController: UIViewController {
     }
     
     func initReviews() {
+        // add shadow
+        let shadowView = readReviewsButton.superview?.superview
+        shadowView?.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 4)
+        
         guard let user = user else { return }
         
         readReviewsButton.layer.cornerRadius = 3
@@ -775,7 +779,7 @@ class QTProfileViewController: UIViewController {
                     return
                 }
                 
-                DataService.shared.getMessageById(child.key
+                MessageService.shared.getMessageById(child.key
                     , completion: { message in
                         guard let requestId = message.connectionRequestId, message.type == .connectionRequest else {
                             if let completion = completion {

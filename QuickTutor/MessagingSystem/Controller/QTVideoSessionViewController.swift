@@ -348,7 +348,7 @@ class QTVideoSessionViewController: UIViewController {
         // Get the partner name.
         self.partnerId = session.partnerId()
         if let partnerId = self.partnerId {
-            DataService.shared.getUserOfOppositeTypeWithId(partnerId, completion: { user in
+            UserFetchService.shared.getUserOfOppositeTypeWithId(partnerId, completion: { user in
                 // Set the partner name.
                 self.usernameLabel.text = user?.formattedName
                 
@@ -388,7 +388,7 @@ class QTVideoSessionViewController: UIViewController {
     
     func showPauseModal(pausedById: String) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        DataService.shared.getUserOfOppositeTypeWithId(sessionManager?.session.partnerId() ?? "test") { user in
+        UserFetchService.shared.getUserOfOppositeTypeWithId(sessionManager?.session.partnerId() ?? "test") { user in
             guard let username = user?.formattedName else { return }
             // Show the pause blur view
             self.pauseBlurView.isHidden = false
@@ -408,7 +408,7 @@ class QTVideoSessionViewController: UIViewController {
     
     func showConnectionLostModal(pausedById: String) {
         connectionLostModal?.delegate = self
-        DataService.shared.getUserOfOppositeTypeWithId(sessionManager?.session.partnerId() ?? "test") { user in
+        UserFetchService.shared.getUserOfOppositeTypeWithId(sessionManager?.session.partnerId() ?? "test") { user in
             guard let username = user?.formattedName else { return }
             self.connectionLostModal = PauseSessionModal(frame: .zero)
             self.connectionLostModal?.setupAsLostConnection()

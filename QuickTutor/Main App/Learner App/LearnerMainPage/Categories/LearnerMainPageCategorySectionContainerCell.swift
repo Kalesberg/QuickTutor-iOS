@@ -67,8 +67,13 @@ class LearnerMainPageCategorySectionContainerCell: UICollectionViewCell {
     var categorySectionController = CategorySectionController()
     
     func setupViews() {
+        setupMainView()
         setupTitleLabel()
         setupCollectionViewController()
+    }
+    
+    func setupMainView() {
+        backgroundColor = Colors.darkBackground
     }
     
     func setupTitleLabel() {
