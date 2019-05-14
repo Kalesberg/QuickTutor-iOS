@@ -67,12 +67,13 @@ class ConversationManager {
             
             for child in children {
                 MessageService.shared.getMessageById(child.key, completion: { message in
-                    if let lastMessage = previousMessages.last as? UserMessage, let newMessage = message as? UserMessage,  lastMessage.timeStamp.doubleValue - newMessage.timeStamp.doubleValue < -3600 {
+                    if let lastMessage = previousMessages.last as? UserMessage,
+                        lastMessage.timeStamp.doubleValue - message.timeStamp.doubleValue < -3600 {
                         print("Messages are an hour apart")
-                        let timestampDate = Date(timeIntervalSince1970: newMessage.timeStamp.doubleValue)
+                        let timestampDate = Date(timeIntervalSince1970: message.timeStamp.doubleValue)
                         let text = timestampDate.formatRelativeStringForTimeSeparator()
                         let systemTimeMessage = MessageBreakTimestamp(attributedText: text)
-                        systemTimeMessage.timestamp = newMessage.timeStamp
+                        systemTimeMessage.timestamp = message.timeStamp
                         previousMessages.append(systemTimeMessage)
                     }
                     

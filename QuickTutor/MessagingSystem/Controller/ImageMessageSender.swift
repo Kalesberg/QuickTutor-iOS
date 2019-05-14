@@ -100,7 +100,7 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
         let childAutoId = NSUUID().uuidString
         let reference = Storage.storage().reference().child("videoMessages").child(childAutoId)
         reference.putFile(from: url, metadata: nil) { (metaData, error) in
-            guard let metaData = metaData else { return }
+            guard let _ = metaData else { return }
             reference.downloadURL(completion: { (downloadUrl, error) in
                 guard let downloadUrl = downloadUrl else { return }
                 guard let image = self.getThumbnailForVideoUrl(url) else { return }

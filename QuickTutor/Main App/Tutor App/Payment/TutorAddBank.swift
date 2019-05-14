@@ -54,7 +54,6 @@ class TutorAddBank: BaseRegistrationController {
             textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
             textField.inputAccessoryView = accessoryView
         }
-        contentView.nameTextField.textField.becomeFirstResponder()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -124,9 +123,9 @@ class TutorAddBank: BaseRegistrationController {
                 .validate()
                 .responseJSON() { response in
                     switch response.result {
-                    case .success(var value):
+                    case .success:
                         completion(nil)
-                    case .failure(var error):
+                    case .failure(let error):
                         completion(error)
                     }
             }
@@ -163,7 +162,7 @@ class TutorAddBank: BaseRegistrationController {
             if let error = error {
                 AlertController.genericErrorAlert(self, title: "Unable to Add Payout Method", message: error.localizedDescription)
             } else {
-                self.navigationController?.popBackToTutorMain()
+                self.navigationController?.popToRootViewController(animated: true)
             }
             self.dismissOverlay()
         }

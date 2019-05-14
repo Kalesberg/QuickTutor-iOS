@@ -109,7 +109,7 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
     }
     
     @objc func handleRequestSession() {
-        let vc = SessionRequestVC()
+//        let vc = SessionRequestVC()
 //        navigationController?.pushViewController(vc, animated: true)
     }
 

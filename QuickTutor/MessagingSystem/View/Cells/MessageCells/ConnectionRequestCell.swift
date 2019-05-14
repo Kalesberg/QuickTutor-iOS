@@ -138,7 +138,6 @@ class ConnectionRequestCell: UserMessageCell {
     }
     
     func updateMetaDataForAccepted() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
         guard let partnerId = chatPartner?.uid else { return }
         MessageService.shared.sendInvisibleMessage(text: "Connection request accepted", receiverId: partnerId) { (messageId) in
             

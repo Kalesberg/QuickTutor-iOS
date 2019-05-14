@@ -76,9 +76,8 @@ class LearnerMainPageActiveTutorsSectionController: UIViewController, UICollecti
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! ConnectionCell
         cell.growSemiShrink {
-            let uid = self.datasource[indexPath.item].uid
-            let userInfo: [AnyHashable: Any] = ["uid": uid]
-            NotificationCenter.default.post(name: NotificationNames.LearnerMainFeed.activeTutorCellTapped, object: nil, userInfo: userInfo)
+            guard let uid = self.datasource[indexPath.item].uid else { return }
+            NotificationCenter.default.post(name: NotificationNames.LearnerMainFeed.activeTutorCellTapped, object: nil, userInfo: ["uid": uid])
         }
     }
     

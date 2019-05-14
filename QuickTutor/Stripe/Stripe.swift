@@ -122,15 +122,16 @@ class Stripe {
         }
 	}
 	
-	class func destinationCharge(acctId: String, customerId: String, sourceId: String, amount: Int, fee: Int, description: String, _ completion: @escaping (Error?) -> ()) {
+    class func destinationCharge(acctId: String, customerId: String, customerStripeId: String, sourceId: String, amount: Int, fee: Int, description: String, _ completion: @escaping (Error?) -> ()) {
         let requestString = "\(Constants.API_BASE_URL)/stripes/charges"
         let params: [String: Any] = [
             "acct": acctId,
-            "customer": customerId,
+            "customer": customerStripeId,
             "source": sourceId,
             "fee": fee,
             "amount": amount,
-            "description": description]
+            "description": description,
+            "customerId": customerId]
         
         Alamofire.request(requestString, method: .post, parameters: params)
             .validate()
@@ -225,7 +226,7 @@ class Stripe {
                     .responseJSON() { response in
                         switch response.result {
                         case .success:
-                            completion("success")
+                            completion(nil)
                         case .failure(let error):
                             completion(error.localizedDescription)
                         }
@@ -244,7 +245,7 @@ class Stripe {
             .responseJSON() { response in
                 switch response.result {
                 case .success:
-                    completion("success")
+                    completion(nil)
                 case .failure(let error):
                     completion(error.localizedDescription)
                 }
@@ -293,7 +294,7 @@ class Stripe {
                 }
         }
 	}
-	class func dettachSource(customer: STPCustomer, deleting card: STPCard, completion: @escaping STPCustomerCompletionBlock) {
+	class func detachSource(customer: STPCustomer, deleting card: STPCard, completion: @escaping STPCustomerCompletionBlock) {
         let requestString = "\(Constants.API_BASE_URL)/stripes/customers/\(customer.stripeID)/sources"
         let params = ["card": card.stripeID]
         
@@ -322,7 +323,7 @@ class Stripe {
 	
 	class func updateDefaultSource(customer: STPCustomer, new defaultCard: STPCard, completion: @escaping STPCustomerCompletionBlock) {
         let requestString = "\(Constants.API_BASE_URL)/stripes/customers/\(customer.stripeID)/sources/default"
-        let params = ["card": defaultCard.stripeID]
+        let params = ["cardId": defaultCard.stripeID]
         
         Alamofire.request(requestString, method: .put, parameters: params)
             .validate()

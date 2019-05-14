@@ -176,7 +176,7 @@ class UserPolicyVC: BaseRegistrationController {
                                     value = String(value.filter { !" \n\t\r".contains($0) })
                                     print(value)
                                 case .failure(let error):
-                                    print(error.localizedDescription ?? "Unknown Error")
+                                    print(error.localizedDescription)
                                 }
                             })
                         self?.navigationController?.pushViewController(TheChoiceVC(), animated: true)

@@ -699,7 +699,6 @@ class CategoryFactory {
         
         let index = categories.firstIndex { (category2) -> Bool in
             print(category2.subcategory.fileToRead)
-            print(parentCategory?.name)
             return category2.mainPageData.displayName == parentCategory?.name
         }
         
