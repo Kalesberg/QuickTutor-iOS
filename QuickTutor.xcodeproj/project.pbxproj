@@ -1044,6 +1044,9 @@
 		CF9F94E9228A3B76002041CF /* RecentSearchesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9F94E8228A3B76002041CF /* RecentSearchesManager.swift */; };
 		CF9F94EB228A3BA0002041CF /* LearnerMainPageSearchBarContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9F94EA228A3BA0002041CF /* LearnerMainPageSearchBarContainer.swift */; };
 		CF9F94EE228A3C01002041CF /* RecentSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9F94ED228A3C01002041CF /* RecentSearchCell.swift */; };
+		CF9F94EF228A3C68002041CF /* LearnerMainPageSearchBarContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9F94EA228A3BA0002041CF /* LearnerMainPageSearchBarContainer.swift */; };
+		CF9F94F0228A3C92002041CF /* RecentSearchesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9F94E8228A3B76002041CF /* RecentSearchesManager.swift */; };
+		CF9F94F1228A3C98002041CF /* RecentSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9F94ED228A3C01002041CF /* RecentSearchCell.swift */; };
 		CFA0096C213898C900F81EE4 /* InProgressSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA0096B213898C900F81EE4 /* InProgressSessionManager.swift */; };
 		CFA0096E2139FFCE00F81EE4 /* background.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CFA0096D2139FFCE00F81EE4 /* background.mp3 */; };
 		CFA00970213A000200F81EE4 /* BackgroundSoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA0096F213A000200F81EE4 /* BackgroundSoundManager.swift */; };
@@ -4488,6 +4491,7 @@
 				569F17B0223554FD00820A20 /* SessionRequestVC.swift in Sources */,
 				569F17B1223554FD00820A20 /* MeetupRequestCell.swift in Sources */,
 				569F17B2223554FD00820A20 /* BasePostSessionCell.swift in Sources */,
+				CF9F94EF228A3C68002041CF /* LearnerMainPageSearchBarContainer.swift in Sources */,
 				569F17B3223554FD00820A20 /* TutorHelp.swift in Sources */,
 				5697DD29226F859300AC9775 /* QTInviteOthersContactTableViewCell.swift in Sources */,
 				569F17B4223554FD00820A20 /* VerificationVC.swift in Sources */,
@@ -4502,6 +4506,7 @@
 				569F17BE223554FD00820A20 /* InProgressSessionManager.swift in Sources */,
 				569F17C0223554FD00820A20 /* HandlesSessionStartData.swift in Sources */,
 				569F17C1223554FD00820A20 /* TutorPreferencesVCView.swift in Sources */,
+				CF9F94F1228A3C98002041CF /* RecentSearchCell.swift in Sources */,
 				569F17C3223554FD00820A20 /* ConversationVC.swift in Sources */,
 				569F17C4223554FD00820A20 /* FeaturedTutorCollectionViewCell.swift in Sources */,
 				569F17C5223554FD00820A20 /* TutorSessions.swift in Sources */,
@@ -4681,6 +4686,7 @@
 				569F1874223554FD00820A20 /* AccountPaymentsVC.swift in Sources */,
 				569F1875223554FD00820A20 /* PriceInputView.swift in Sources */,
 				569F1877223554FD00820A20 /* BankList.swift in Sources */,
+				CF9F94F0228A3C92002041CF /* RecentSearchesManager.swift in Sources */,
 				569F1878223554FD00820A20 /* RegistrationTextField.swift in Sources */,
 				569F1879223554FD00820A20 /* SignInVC.swift in Sources */,
 				CF17F22D226BC8A800ABD07D /* TutorPreferenceData.swift in Sources */,
