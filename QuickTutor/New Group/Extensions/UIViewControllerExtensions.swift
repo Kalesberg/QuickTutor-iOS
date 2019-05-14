@@ -247,7 +247,6 @@ extension UINavigationController {
 		}
 	}
 	func popViewControllerWithHandler(completion: @escaping ()->()) {
-
 		CATransaction.begin()
 		CATransaction.setCompletionBlock(completion)
 		

@@ -54,7 +54,6 @@ class TutorAddBank: BaseRegistrationController {
             textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
             textField.inputAccessoryView = accessoryView
         }
-        contentView.nameTextField.textField.becomeFirstResponder()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -115,25 +114,21 @@ class TutorAddBank: BaseRegistrationController {
         bankAccount.country = "US"
 
         STPAPIClient.shared().createToken(withBankAccount: bankAccount) { token, error in
-            guard let token = token else { return completion(error) }
-            #if DEVELOPMENT
-            let requestString = "https://quick-tutor-dev.herokuapp.com/addbank.php"
-            #else
-            let requestString = "https://aqueous-taiga-32557.herokuapp.com/addbank.php"
-            #endif
-            let params: [String: Any] = ["acct": CurrentUser.shared.tutor.acctId!, "token": token]
-
-            Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
-                .validate(statusCode: 200 ..< 300)
-                .responseString(completionHandler: { response in
+            guard let accId = CurrentUser.shared.tutor.acctId,
+                let token = token else { return completion(error) }
+            let requestString = "\(Constants.API_BASE_URL)/stripes/accounts/\(accId)/banks"
+            let params = ["token": token]
+            
+            Alamofire.request(requestString, method: .post, parameters: params)
+                .validate()
+                .responseJSON() { response in
                     switch response.result {
                     case .success:
-                        CurrentUser.shared.tutor.hasPayoutMethod = true
-                        return completion(nil)
-                    case let .failure(error):
-                        return completion(error)
+                        completion(nil)
+                    case .failure(let error):
+                        completion(error)
                     }
-                })
+            }
         }
     }
     
@@ -167,7 +162,7 @@ class TutorAddBank: BaseRegistrationController {
             if let error = error {
                 AlertController.genericErrorAlert(self, title: "Unable to Add Payout Method", message: error.localizedDescription)
             } else {
-                self.navigationController?.popBackToTutorMain()
+                self.navigationController?.popToRootViewController(animated: true)
             }
             self.dismissOverlay()
         }

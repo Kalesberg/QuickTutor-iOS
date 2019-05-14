@@ -70,9 +70,7 @@ class MockCollectionViewCell: UIView {
     }
     
     func setupMainView() {
-        layer.cornerRadius = 4
-        layer.borderColor = Colors.gray.cgColor
-        layer.borderWidth = 1
+        layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 4)
         backgroundColor = Colors.newBackground
     }
     

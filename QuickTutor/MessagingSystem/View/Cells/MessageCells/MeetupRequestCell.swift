@@ -179,7 +179,7 @@ class SessionRequestCell: UserMessageCell {
         let predicate = eventStore.predicateForEvents(withStart: startDate as Date, end: endDate as Date, calendars: nil)
         let existingEvents = eventStore.events(matching: predicate)
         for singleEvent in existingEvents {
-            if singleEvent.title == "QuickTutor session: \(session.subject ?? "")" && singleEvent.startDate == startDate as Date && singleEvent.endDate == endDate as Date {
+            if singleEvent.title == "QuickTutor session: \(session.subject)" && singleEvent.startDate == startDate as Date && singleEvent.endDate == endDate as Date {
                 return true
             }
         }

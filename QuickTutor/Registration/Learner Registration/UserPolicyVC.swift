@@ -40,26 +40,29 @@ class UserPolicyVC: BaseRegistrationController {
     }
     
     func createCustomer(_ completion: @escaping (Error?, String?) -> Void) {
-        #if DEVELOPMENT
-        let requestString = "https://quick-tutor-dev.herokuapp.com/createcustomer.php"
-        #else
-        let requestString = "https://aqueous-taiga-32557.herokuapp.com/createcustomer.php"
-        #endif
-        let params: [String: Any] = ["email": Registration.email ?? "unknown", "description": "Student Account"]
+        guard let email = Registration.email else { return }
         
-        Alamofire.request(requestString, method: .post, parameters: params, encoding: URLEncoding.default)
-            .validate(statusCode: 200..<300)
-            .responseString(completionHandler: { response in
+        let requestString = "\(Constants.API_BASE_URL)/stripes/customers"
+        let params = [
+            "email": email,
+            "description": "Student Account"
+        ]
+        Alamofire.request(requestString, method: .post, parameters: params)
+            .validate()
+            .responseJSON() { response in
                 switch response.result {
-                    
-                case .success(var value):
-                    value = String(value.filter { !" \n\t\r".contains($0) })
-                    
-                    completion(nil, value)
+                case .success(let value as [String: Any]):
+                    if let customerId = value["id"] as? String {
+                        completion(nil, customerId)
+                    } else {
+                        completion(nil, nil)
+                    }
                 case .failure(let error):
                     completion(error, nil)
-                }
-            })
+                default:
+                    completion(nil, nil)
+            }
+        }
     }
     
     func checkEmailIsInUse(_ completion: @escaping (Error?, String?) -> Void) {
@@ -173,7 +176,7 @@ class UserPolicyVC: BaseRegistrationController {
                                     value = String(value.filter { !" \n\t\r".contains($0) })
                                     print(value)
                                 case .failure(let error):
-                                    print(error.localizedDescription ?? "Unknown Error")
+                                    print(error.localizedDescription)
                                 }
                             })
                         self?.navigationController?.pushViewController(TheChoiceVC(), animated: true)

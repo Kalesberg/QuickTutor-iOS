@@ -174,7 +174,7 @@ class CardManagerViewController: UIViewController {
             return
         }
         showLoadingAnimation()
-        Stripe.dettachSource(customer: customer, deleting: card) { customer, error in
+        Stripe.detachSource(customer: customer, deleting: card) { customer, error in
             if let error = error {
                 AlertController.genericErrorAlert(self, title: "Error Deleting Card", message: error.localizedDescription)
             } else if let customer = customer {
