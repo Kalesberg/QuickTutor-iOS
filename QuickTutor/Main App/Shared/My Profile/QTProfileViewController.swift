@@ -206,7 +206,7 @@ class QTProfileViewController: UIViewController {
 
         let controller = QTRequestQuickCallViewController.controller
         controller.tutor = user
-        navigationController?.present(controller, animated: true, completion: nil)
+        navigationController?.pushViewController(controller, animated: true)
     }
     
     @objc

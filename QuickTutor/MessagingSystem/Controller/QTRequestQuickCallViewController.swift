@@ -62,7 +62,7 @@ class QTRequestQuickCallViewController: UIViewController {
     
     // MARK: - Actions
     @IBAction func onCloseButtonClicked(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+        navigationController?.popViewController(animated: true)
     }
     
     @IBAction func onCallButtonClicked(_ sender: Any) {
@@ -230,7 +230,7 @@ extension QTRequestQuickCallViewController: CustomModalDelegate {
     
     func handleConfirm() {
         let next = CardManagerViewController()
-        navigationController?.pushViewController(next, animated: true)
+        self.navigationController?.pushViewController(next, animated: true)
     }
     
     func handleCancel(id: String) {
