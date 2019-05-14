@@ -16,6 +16,7 @@ class CustomTitleView: UIView {
     let imageView: UserImageView = {
         let iv = UserImageView()
         iv.imageView.layer.cornerRadius = 19
+        iv.onlineStatusIndicator.isHidden = true
         return iv
     }()
 

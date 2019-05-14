@@ -19,7 +19,9 @@ class UserImageView: UIView {
     
     let onlineStatusIndicator: UIView = {
         let layer = UIView()
-        layer.layer.cornerRadius = 7.5
+        layer.layer.cornerRadius = 10
+        layer.layer.borderColor = Colors.darkBackground.cgColor
+        layer.layer.borderWidth = 2
         return layer
     }()
     
@@ -35,7 +37,7 @@ class UserImageView: UIView {
     
     private func setupOnlineStatusIndicator() {
         addSubview(onlineStatusIndicator)
-        onlineStatusIndicator.anchor(top: nil, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 15, height: 15)
+        onlineStatusIndicator.anchor(top: nil, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 20, height: 20)
     }
     
     override init(frame: CGRect) {
