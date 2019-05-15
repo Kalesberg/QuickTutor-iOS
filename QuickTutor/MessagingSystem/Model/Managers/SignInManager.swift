@@ -14,14 +14,13 @@ class SignInManager {
     
     func handleSignIn(completion: @escaping () -> Void) {
         guard let user = Auth.auth().currentUser else {
-            RootControllerManager.shared.configureRootViewController(controller: SignInVC())
+//            RootControllerManager.shared.configureRootViewController(controller: SignInVC())
             completion()
             return
         }
         
         let typeOfUser: UserType = UserDefaults.standard.bool(forKey: "showHomePage") ? .learner : .tutor
         let vc = typeOfUser == .learner ? LearnerMainPageVC() : QTTutorDashboardViewController.controller // TutorMainPage()
-        
         
         FirebaseData.manager.signInUserOfType(typeOfUser, uid: user.uid) { (successful) in
             guard successful else {
@@ -31,6 +30,11 @@ class SignInManager {
             AccountService.shared.updateFCMTokenIfNeeded()
             CardService.shared.checkForPaymentMethod()
             RootControllerManager.shared.configureRootViewController(controller: vc)
+            
+            if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+                appDelegate.registerForPushNotifications(application: UIApplication.shared)
+            }
+            
             completion()
         }
     }

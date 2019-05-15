@@ -20,8 +20,6 @@ class RootControllerManager {
         } else {
             setupDefaultConfiguration(controller: controller)
         }
-//        setupDefaultConfiguration(controller: WalkthroughVC())
-
     }
     
     func setupDefaultConfiguration(controller: UIViewController) {

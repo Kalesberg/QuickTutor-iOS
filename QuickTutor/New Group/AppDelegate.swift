@@ -57,7 +57,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
 #else
         STPPaymentConfiguration.shared().publishableKey = "pk_live_D8MI9AN23eK4XLw1mCSUHi9V"
 #endif
-        registerForPushNotifications(application: application)
         
         UITextField.appearance().keyboardAppearance = .dark
         let backImage = UIImage(named: "ic_back_arrow")
@@ -81,8 +80,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         
         animateLaunchScreen {
             SignInManager.shared.handleSignIn {
-                self.proceedWithCameraAccess()
-                self.proceedWithMicrophoneAccess()
                 self.observeDataEvents()
                 self.observeNotificationEvents()
                 self.showOnboardingIfNeeded()
@@ -98,10 +95,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     }
     
     func showOnboardingIfNeeded() {
-        if !UserDefaults.standard.bool(forKey: "hasBeenOnboarded") && Auth.auth().currentUser == nil {
-            let vc = WalkthroughVC()
-            RootControllerManager.shared.setupDefaultConfiguration(controller: vc)
-        }
+        guard !UserDefaults.standard.bool(forKey: "hasBeenOnboarded"),
+            nil == Auth.auth().currentUser else { return }
+        
+        let vc = WalkthroughVC()
+        RootControllerManager.shared.setupDefaultConfiguration(controller: vc)
     }
     
     func checkForUnfinishedSessions() {
@@ -138,16 +136,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
                     }
                 }
             })
-        }
-    }
-    
-    func proceedWithCameraAccess()  {
-        AVCaptureDevice.requestAccess(for: .video) { success in
-        }
-    }
-    
-    func proceedWithMicrophoneAccess() {
-        AVCaptureDevice.requestAccess(for: .audio) { success in
         }
     }
     
@@ -248,7 +236,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         return false
     }
     
-    private func registerForPushNotifications(application: UIApplication) {
+    func registerForPushNotifications(application: UIApplication) {
         print("Attempting to register for push notifications")
         Messaging.messaging().delegate = self
         
