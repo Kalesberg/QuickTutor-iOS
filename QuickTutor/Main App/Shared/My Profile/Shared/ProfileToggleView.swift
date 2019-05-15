@@ -118,7 +118,7 @@ class MockCollectionViewCell: UIView {
     func setupSecondaryButton() {
         containerView.addSubview(secondaryButton)
         secondaryButton.snp.makeConstraints { make in
-            make.right.equalTo(primaryButton.snp.left).offset(10)
+            make.right.equalTo(primaryButton.snp.left).offset(-10)
             make.width.equalTo(75)
             make.height.equalTo(30)
             make.centerY.equalToSuperview()
