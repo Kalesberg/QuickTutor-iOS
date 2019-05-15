@@ -29,7 +29,7 @@ class LearnerMainPageSearchBarContainer: UIView {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        cv.backgroundColor = Colors.darkBackground
+        cv.backgroundColor = Colors.newBackground
         cv.allowsMultipleSelection = false
         cv.alwaysBounceHorizontal = true
         cv.delaysContentTouches = false
@@ -63,12 +63,16 @@ class LearnerMainPageSearchBarContainer: UIView {
     }
     
     func hideRecentSearchesCV() {
+        if 0 == recentSearchesCV.alpha { return }
+        
         UIView.animate(withDuration: 0.25) {
             self.recentSearchesCV.alpha = 0
         }
     }
     
     func showRecentSearchesCV() {
+        if 1 == recentSearchesCV.alpha { return }
+        
         UIView.animate(withDuration: 0.25) {
             self.recentSearchesCV.alpha = 1
         }

@@ -22,7 +22,7 @@ abstract_target 'QuickTutorApp' do
         # Pods for backend
         pod 'Alamofire', '~>4.5'
         pod 'SwiftKeychainWrapper'
-        pod 'GeoFire', :git => 'https://github.com/firebase/geofire-objc.git'
+        pod 'GeoFire'
         pod 'Stripe'
 
         # Pods for Facebook

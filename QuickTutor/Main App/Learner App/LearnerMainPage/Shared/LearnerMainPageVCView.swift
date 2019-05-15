@@ -68,7 +68,8 @@ class LearnerMainPageVCView: UIView {
     
     func setupScrollViewDidScrollAction() {
         collectionViewHelper.handleScrollViewScroll = { offset in
-            guard -offset < 0 && offset != -50 else {
+            guard RecentSearchesManager.shared.hasNoRecentSearches
+                || (-offset < 0 && offset != -50) else {
                 self.searchBarContainer.showRecentSearchesCV()
                 return
             }

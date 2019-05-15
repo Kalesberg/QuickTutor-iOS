@@ -197,7 +197,7 @@ DEPENDENCIES:
   - Firebase/Performance
   - Firebase/Storage
   - FirebaseUI/Storage
-  - GeoFire (from `https://github.com/firebase/geofire-objc.git`)
+  - GeoFire
   - GoogleAnalytics
   - Imaginary
   - IQKeyboardManager
@@ -242,6 +242,7 @@ SPEC REPOS:
     - FirebaseRemoteConfig
     - FirebaseStorage
     - FirebaseUI
+    - GeoFire
     - GoogleAnalytics
     - GoogleAppMeasurement
     - GoogleToolboxForMac
@@ -263,15 +264,6 @@ SPEC REPOS:
     - SwiftyJSON
     - SwipeCellKit
     - TwilioVideo
-
-EXTERNAL SOURCES:
-  GeoFire:
-    :git: https://github.com/firebase/geofire-objc.git
-
-CHECKOUT OPTIONS:
-  GeoFire:
-    :commit: 95a0bf39b1bcc87685dc7aba3caf4e23d9600c30
-    :git: https://github.com/firebase/geofire-objc.git
 
 SPEC CHECKSUMS:
   AccountKit: de43ca1f9d3b8227a9cdc128d4f0b5366075c861
@@ -325,6 +317,6 @@ SPEC CHECKSUMS:
   SwipeCellKit: 935ca28c187ec6e1ffb2b578cf8ddca842bfdcbb
   TwilioVideo: e4bd16d69c395fa093636bc9c09a654570578a32
 
-PODFILE CHECKSUM: 8c31ae9db12824264ea8f95b51e2d38da1e0dd49
+PODFILE CHECKSUM: 121ba5878e6cd6e90439f4cc8461506a393a891a
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.1

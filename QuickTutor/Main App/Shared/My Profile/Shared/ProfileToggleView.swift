@@ -29,6 +29,19 @@ class MockCollectionViewCell: UIView {
         }
     }
     
+    let containerView: UIView = {
+        let view = UIView()
+        
+        view.layer.masksToBounds = true
+        view.layer.cornerRadius = 3
+        view.layer.borderColor = Colors.gray.cgColor
+        view.layer.borderWidth = 1
+        
+        view.backgroundColor = Colors.newBackground
+        
+        return view
+    }()
+    
     let titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
@@ -64,6 +77,7 @@ class MockCollectionViewCell: UIView {
     
     func setupViews() {
         setupMainView()
+        setupContainerView()
         setupTitleLabel()
         setupPrimaryButton()
         setupSecondaryButton()
@@ -71,27 +85,44 @@ class MockCollectionViewCell: UIView {
     
     func setupMainView() {
         layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 4)
-        backgroundColor = Colors.newBackground
+    }
+    
+    func setupContainerView() {
+        addSubview(containerView)
+        containerView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
     
     func setupTitleLabel() {
-        addSubview(titleLabel)
-        titleLabel.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        containerView.addSubview(titleLabel)
+        titleLabel.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(15)
+            make.centerY.equalToSuperview()
+        }
         let modeText = AccountService.shared.currentUserType.rawValue
         titleLabel.text = modeText.capitalized + " mode"
     }
     
     func setupPrimaryButton() {
-        addSubview(primaryButton)
-        primaryButton.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 15, width: 60, height: 30)
-        addConstraint(NSLayoutConstraint(item: primaryButton, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
+        containerView.addSubview(primaryButton)
+        primaryButton.snp.makeConstraints { make in
+            make.right.equalToSuperview().offset(-15)
+            make.width.equalTo(60)
+            make.height.equalTo(30)
+            make.centerY.equalToSuperview()
+        }
         primaryButton.addTarget(self, action: #selector(handlePrimaryButton), for: .touchUpInside)
     }
     
     func setupSecondaryButton() {
-        addSubview(secondaryButton)
-        secondaryButton.anchor(top: nil, left: nil, bottom: nil, right: primaryButton.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 75, height: 30)
-        addConstraint(NSLayoutConstraint(item: secondaryButton, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
+        containerView.addSubview(secondaryButton)
+        secondaryButton.snp.makeConstraints { make in
+            make.right.equalTo(primaryButton.snp.left).offset(10)
+            make.width.equalTo(75)
+            make.height.equalTo(30)
+            make.centerY.equalToSuperview()
+        }
         secondaryButton.addTarget(self, action: #selector(handleSecondaryButton), for: .touchUpInside)
     }
 

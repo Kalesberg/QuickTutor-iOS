@@ -57,6 +57,7 @@ class LearnerMainPageActiveTutorsSectionController: UIViewController, UICollecti
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "connectionCell", for: indexPath) as! ConnectionCell
         cell.updateUI(user: datasource[indexPath.item])
         cell.updateToMainFeedLayout()
+        cell.delegate = self
         cell.layoutIfNeeded()
         return cell
     }
@@ -89,4 +90,14 @@ class LearnerMainPageActiveTutorsSectionController: UIViewController, UICollecti
         return 0
     }
     
+}
+
+extension LearnerMainPageActiveTutorsSectionController: ConnectionCellDelegate {
+    func connectionCell(_ connectionCell: ConnectionCell, shouldShowConversationWith user: User) {
+        
+    }
+    
+    func connectionCell(_ connectionCell: ConnectionCell, shouldRequestSessionWith user: User) {
+        
+    }
 }

@@ -60,27 +60,18 @@ class LearnerMainPageTopTutorsSectionContainerCell: UICollectionViewCell {
     }
     
     func setupSeeAllBox() {
-        let shadowView = UIView()
-        shadowView.backgroundColor = .clear
-        
-        shadowView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 4)
-        
-        addSubview(shadowView)
-        shadowView.snp.makeConstraints { make in
+        addSubview(seeAllBox)
+        seeAllBox.snp.makeConstraints { make in
             make.top.equalTo(topTutorsController.view.snp.bottom).offset(16)
             make.left.equalToSuperview().offset(20)
             make.centerX.equalToSuperview()
             make.height.equalTo(50)
         }
-        
-        shadowView.addSubview(seeAllBox)
-        seeAllBox.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
+        seeAllBox.profileDelegate = self
     }
     
-    @objc func handleSeeAllButton(_ sender: UIButton) {
-        let userInfo: [AnyHashable: Any] = ["tutors": topTutorsController.datasource]
+    func handleSeeAllButton() {
+        let userInfo = ["tutors": topTutorsController.datasource]
         NotificationCenter.default.post(name: NotificationNames.LearnerMainFeed.seeAllTopTutorsTapped, object: nil, userInfo: userInfo)
     }
     
@@ -91,5 +82,11 @@ class LearnerMainPageTopTutorsSectionContainerCell: UICollectionViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension LearnerMainPageTopTutorsSectionContainerCell: ProfileModeToggleViewDelegate {
+    func profleModeToggleView(_ profileModeToggleView: MockCollectionViewCell, shouldSwitchTo side: UserType) {
+        handleSeeAllButton()
     }
 }
