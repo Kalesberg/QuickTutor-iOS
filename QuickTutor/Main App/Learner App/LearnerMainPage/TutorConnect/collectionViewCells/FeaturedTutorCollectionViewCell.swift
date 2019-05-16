@@ -33,7 +33,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
         button.imageView?.contentMode = .scaleAspectFit
         button.contentHorizontalAlignment = .fill
         button.contentVerticalAlignment = .fill
-        button.setImage(UIImage(named: "saveButton"), for: .normal)
+        button.setImage(UIImage(named: "heartIcon"), for: .normal)
         return button
     }()
     
@@ -128,7 +128,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
     
     func setupSaveButton() {
         addSubview(saveButton)
-        saveButton.anchor(top: profileImageView.topAnchor, left: nil, bottom: nil, right: profileImageView.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 5, width: 30, height: 30)
+        saveButton.anchor(top: profileImageView.topAnchor, left: nil, bottom: nil, right: profileImageView.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 20, height: 20)
         saveButton.addTarget(self, action: #selector(handleSaveButton), for: .touchUpInside)
     }
     
@@ -188,7 +188,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
         profileImageView.sd_setImage(with: URL(string: tutor.profilePicUrl.absoluteString)!, completed: nil)
         if !CurrentUser.shared.learner.savedTutorIds.isEmpty {
             let savedTutorIds = CurrentUser.shared.learner.savedTutorIds
-            savedTutorIds.contains(tutor.uid) ? saveButton.setImage(UIImage(named:"saveButtonFilled"), for: .normal) : saveButton.setImage(UIImage(named:"saveButton"), for: .normal)
+            savedTutorIds.contains(tutor.uid) ? saveButton.setImage(UIImage(named:"heartIconFilled"), for: .normal) : saveButton.setImage(UIImage(named:"heartIcon"), for: .normal)
         }
         guard let reviewCount = tutor.reviews?.count else { return }
         starLabel.text = "\(reviewCount)"
@@ -207,7 +207,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
     func saveTutor() {
         guard let uid = Auth.auth().currentUser?.uid, let tutorId = tutor?.uid else { return }
         Database.database().reference().child("saved-tutors").child(uid).child(tutorId).setValue(1)
-        saveButton.setImage(UIImage(named: "saveButtonFilled"), for: .normal)
+        saveButton.setImage(UIImage(named: "heartIconFilled"), for: .normal)
         CurrentUser.shared.learner.savedTutorIds.append(tutorId)
         NotificationCenter.default.post(name: NotificationNames.SavedTutors.didUpdate, object: nil)
     }
@@ -215,7 +215,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
     func unsaveTutor() {
         guard let uid = Auth.auth().currentUser?.uid, let tutorId = tutor?.uid else { return }
         Database.database().reference().child("saved-tutors").child(uid).child(tutorId).removeValue()
-        saveButton.setImage(UIImage(named: "saveButton"), for: .normal)
+        saveButton.setImage(UIImage(named: "heartIcon"), for: .normal)
         CurrentUser.shared.learner.savedTutorIds.removeAll(where: { (id) -> Bool in
             return id == tutorId
         })
@@ -225,7 +225,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
     func updateSaveButton() {
         guard let tutorId = tutor?.uid else { return }
         let savedTutorIds = CurrentUser.shared.learner.savedTutorIds
-        savedTutorIds.contains(tutorId) ? saveButton.setImage(UIImage(named:"saveButtonFilled"), for: .normal) : saveButton.setImage(UIImage(named:"saveButton"), for: .normal)
+        savedTutorIds.contains(tutorId) ? saveButton.setImage(UIImage(named:"heartIconFilled"), for: .normal) : saveButton.setImage(UIImage(named:"heartIcon"), for: .normal)
     }
     
     private func addShadow() {
@@ -256,7 +256,7 @@ class SavedTutorService {
     func saveTutor() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         Database.database().reference().child("saved-tutors").child(uid).child(tutorId).setValue(1)
-        saveButton.setImage(UIImage(named: "saveButtonFilled"), for: .normal)
+        saveButton.setImage(UIImage(named: "heartIconFilled"), for: .normal)
         CurrentUser.shared.learner.savedTutorIds.append(tutorId)
         NotificationCenter.default.post(name: NotificationNames.SavedTutors.didUpdate, object: nil)
     }
@@ -264,7 +264,7 @@ class SavedTutorService {
     func unsaveTutor() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         Database.database().reference().child("saved-tutors").child(uid).child(tutorId).removeValue()
-        saveButton.setImage(UIImage(named: "saveButton"), for: .normal)
+        saveButton.setImage(UIImage(named: "heartIcon"), for: .normal)
         CurrentUser.shared.learner.savedTutorIds.removeAll(where: { (id) -> Bool in
             return id == tutorId
         })
