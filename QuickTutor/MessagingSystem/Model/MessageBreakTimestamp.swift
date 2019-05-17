@@ -14,6 +14,7 @@ class MessageBreakTimestamp: SystemMessage {
     
     init(attributedText: NSAttributedString) {
         super.init(text: "")
+        self.text = attributedText.string
         self.customAttributedString = attributedText
     }
     

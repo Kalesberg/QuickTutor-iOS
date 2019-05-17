@@ -573,7 +573,7 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard let message = conversationManager.messages[indexPath.item] as? UserMessage else {
             if conversationManager.messages[indexPath.item] is MessageBreakTimestamp {
-                return CGSize(width: UIScreen.main.bounds.width + 60, height: 30)
+                return CGSize(width: UIScreen.main.bounds.width + 60, height: 55)
             }
             return CGSize(width: UIScreen.main.bounds.width + 60, height: 15)
         }
