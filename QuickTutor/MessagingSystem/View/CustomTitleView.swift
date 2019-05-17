@@ -23,14 +23,14 @@ class CustomTitleView: UIView {
     let titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = Fonts.createBoldSize(16)
+        label.font = Fonts.createBlackSize(16)
         return label
     }()
 
     let activeLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = Fonts.createSize(10)
+        label.font = Fonts.createBoldSize(10)
         label.textAlignment = .center
         return label
     }()
@@ -66,10 +66,20 @@ class CustomTitleView: UIView {
         OnlineStatusService.shared.getLastActiveStringFor(uid: user.uid) { result, status in
             self.imageView.onlineStatusIndicator.backgroundColor = status == .online ? Colors.purple : Colors.gray
             guard let result = result else { return }
-            self.activeLabel.text = result
-            if result == "" {
-                self.updateNameLabelAsInactive()
-            }
+            self.updateActiveLabelAppearence(forStatus: result)
+        }
+    }
+    
+    func updateActiveLabelAppearence(forStatus status: String) {
+        self.activeLabel.text = status
+        if status == "" {
+            self.updateNameLabelAsInactive()
+        }
+        
+        if status == "Active now" {
+            self.activeLabel.textColor = Colors.purple
+        } else {
+            self.activeLabel.textColor = .white
         }
     }
 
@@ -115,20 +125,20 @@ class CustomTitleView: UIView {
     
     private func setupTitleView() {
         addSubview(titleLabel)
-        titleLabel.anchor(top: topAnchor, left: imageView.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 4, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        titleLabel.anchor(top: topAnchor, left: imageView.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         nameLabelHeightAnchor = titleLabel.heightAnchor.constraint(equalToConstant: 20)
         nameLabelHeightAnchor?.isActive = true
     }
     
     private func setupActiveLabel() {
         addSubview(activeLabel)
-        activeLabel.anchor(top: titleLabel.bottomAnchor, left: imageView.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 2, paddingLeft: 4, paddingBottom: 0, paddingRight: 0, width: 0, height: 12)
+        activeLabel.anchor(top: titleLabel.bottomAnchor, left: imageView.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 2, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 0, height: 12)
     }
     
     private func setupArrow() {
         addSubview(arrow)
-        arrow.anchor(top: nil, left: titleLabel.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 6, paddingBottom: 0, paddingRight: 0, width: 7, height: 10)
-        addConstraint(NSLayoutConstraint(item: arrow, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
+        arrow.anchor(top: nil, left: titleLabel.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 6, paddingBottom: 0, paddingRight: 0, width: 6, height: 8)
+        addConstraint(NSLayoutConstraint(item: arrow, attribute: .centerY, relatedBy: .equal, toItem: titleLabel, attribute: .centerY, multiplier: 1, constant: 0))
     }
     
     func updateNameLabelAsInactive() {
