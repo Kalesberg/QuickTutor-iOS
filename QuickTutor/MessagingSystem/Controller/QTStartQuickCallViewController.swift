@@ -1,69 +1,50 @@
 //
-//  QTStartSessionViewController.swift
+//  QTStartQuickCallViewController.swift
 //  QuickTutor
 //
-//  Created by jcooperation0137 on 3/19/19.
+//  Created by jcooperation0137 on 5/16/19.
 //  Copyright © 2019 QuickTutor. All rights reserved.
 //
 
 import UIKit
-import Firebase
 import SocketIO
+import FirebaseAuth
 import AVFoundation
+import FirebaseDatabase
 
-enum QTSessionType: String {
-    case online = "online"
-    case inPerson = "in-person"
-    case quickCalls = "quick-calls"
-}
-
-enum QTSessionStartType: String {
-    case automatic
-    case manual
-}
-
-class QTStartSessionViewController: UIViewController {
+class QTStartQuickCallViewController: UIViewController, QTStartQuickCallModalNavigation {
 
     // MARK: - Properties
-    @IBOutlet weak var avatarImageView: UIImageView!
-    @IBOutlet weak var userNameLabel: UILabel!
-    @IBOutlet weak var statusLabel: UILabel!
-    @IBOutlet weak var subjectLabel: UILabel!
-    @IBOutlet weak var hourlyRateLabel: UILabel!
-    @IBOutlet weak var cancelButton: UIButton!
-    @IBOutlet weak var acceptButton: UIButton!
+    var sessionId: String!
+    var sessionType: QTSessionType!
+    var initiatorId: String!
+    var startType: QTSessionStartType?
+    var parentNavController: UINavigationController?
     
     let manager = SocketManager(socketURL: URL(string: socketUrl)!, config: [.log(true), .forceWebsockets(true)])
     var socket: SocketIOClient!
-    var startType: QTSessionStartType?
-    var session: Session?
-    var partnerId: String?
-    var partner: User?
-    var partnerUsername: String?
-    var addPaymentModal: AddPaymentModal?
-    var meetupConfirmed = false
-    
     var audioPlayer: AVPlayer?
     var vibrationTimer: Timer?
     
-    static var controller: QTStartSessionViewController {
-        return QTStartSessionViewController(nibName: String(describing: QTStartSessionViewController.self), bundle: nil)
-    }
+    var partnerId: String?
+    var partner: User?
+    var session: Session?
+    var partnerUsername: String?
     
-    // MARK: - Parameters
-    var initiatorId: String?
-    var sessionId: String!
-    var sessionType: QTSessionType!
+    var addPaymentModal: AddPaymentModal?
+    var quickCallModal: QTQuickCallModal?
+    
+    static var controller: QTStartQuickCallViewController {
+        return QTStartQuickCallViewController(nibName: String(describing: QTStartQuickCallViewController.self), bundle: nil)
+    }
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavBar()
-        updateUI()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+
+        // Do any additional setup after loading the view.
+        self.view.backgroundColor = .clear
+        self.view.isOpaque = false
         
         setupSocket()
         setupObservers()
@@ -75,7 +56,7 @@ class QTStartSessionViewController: UIViewController {
         #endif
         NotificationManager.shared.disableAllNotifications()
         
-        if sessionType == .online {
+        if sessionType == .online || sessionType == .quickCalls {
             playRingingSound()
             NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: audioPlayer?.currentItem, queue: .main) { _ in
                 self.audioPlayer?.seek(to: CMTime.zero)
@@ -87,12 +68,17 @@ class QTStartSessionViewController: UIViewController {
             })
         }
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        showQuickCallModal()
+    }
     
     override func viewWillDisappear(_ animated: Bool) {
         socket.disconnect()
         NotificationManager.shared.enableAllNotifcations()
         
-        if sessionType == .online {
+        if sessionType == .online || sessionType == .quickCalls {
             audioPlayer?.pause()
             audioPlayer = nil
         } else {
@@ -100,35 +86,61 @@ class QTStartSessionViewController: UIViewController {
         }
     }
     
-    // MARK: - Actions
-    @IBAction func onCancelButtonClicked(_ sender: Any) {
-        guard let id = sessionId else { return }
-        socket.emit(SocketEvents.cancelSession, ["roomKey": id])
-    }
-    
-    @IBAction func onAcceptButtonClicked(_ sender: Any) {
-        currentUserHasPayment { (hasPayment) in
-            guard hasPayment else { return }
+    // MARK: - Functions
+    func showQuickCallModal() {
+        quickCallModal = QTQuickCallModal.view
+        
+        // Get the session information.
+        DataService.shared.getSessionById(sessionId) { (session) in
+            self.session = session
+            
+            // Get the partner name.
+            self.partnerId = self.session?.partnerId()
+            if let partnerId = self.partnerId {
+                UserFetchService.shared.getUserOfOppositeTypeWithId(partnerId, completion: { user in
+                    self.partner = user
+                    self.partnerUsername = user?.formattedName
+                    
+                    if let partnerName = self.partnerUsername,
+                        let profilePictureUrl = user?.profilePicUrl,
+                        let subject = self.session?.subject,
+                        let price = self.session?.price {
+                        
+                        self.quickCallModal?.setData(initiatorId: self.initiatorId,
+                                                     partnerName: partnerName,
+                                                     partnerProfilePicture: profilePictureUrl,
+                                                     subject: subject,
+                                                     price: price)
+                    }
+                })
+            }
+        }
+        
+        quickCallModal?.didHangUpButtonClicked = {
+            self.socket.emit(SocketEvents.cancelSession, ["roomKey": self.sessionId])
+        }
+        quickCallModal?.didPickUpButtonClicked = {
+            // Quick call request requires that users have payment method, so doesn't need to check
             self.removeStartData()
             let data = ["roomKey": self.sessionId!, "sessionId": self.sessionId!, "sessionType": (self.session?.type)!]
             print(data)
             self.socket.emit(SocketEvents.manualStartAccetped, data)
         }
+        quickCallModal?.initiatorId = initiatorId
+        
+        quickCallModal?.show()
     }
     
-    // MARK: - Functions
     func setupObservers() {
         socket.on(SocketEvents.manualStartAccetped) { _, _ in
-            if self.sessionType == .online {
+            self.quickCallModal?.dismiss()
+            self.dismiss(animated: true, completion: {
                 let vc = QTVideoSessionViewController.controller
                 vc.sessionId = self.sessionId
                 vc.sessionType = self.sessionType
-                self.navigationController?.pushViewController(vc, animated: true)
-            } else {
-                let vc = QTConfirmMeetUpViewController.controller
-                vc.sessionId = self.sessionId
-                self.navigationController?.pushViewController(vc, animated: true)
-            }
+                self.parentNavController?.delegate = nil
+                self.parentNavController?.pushViewController(vc, animated: true)
+            })
         }
     }
     
@@ -146,7 +158,8 @@ class QTStartSessionViewController: UIViewController {
             print("should cancel session")
             self.socket.disconnect()
             self.removeStartData()
-            self.navigationController?.popViewController(animated: true)
+            self.quickCallModal?.dismiss()
+            self.dismiss(animated: false, completion: {})
         }
     }
     
@@ -157,96 +170,10 @@ class QTStartSessionViewController: UIViewController {
         }
     }
     
-    func updateUI() {
-        guard let initiatorId = initiatorId else {
-            return
-        }
-        
-        // Update the status label.
-        if AccountService.shared.currentUser.uid == initiatorId {
-            // If I've requested to start this session
-            statusLabel.text = (sessionType == .online) ?
-                "Calling..." : "Starting session..."
-            
-            acceptButton.isHidden = true
-        } else {
-            // If a partner has requested to start this session
-            if let sessionType = sessionType {
-                switch sessionType {
-                case .online:
-                    statusLabel.text = "Wants to start a video session"
-                case .inPerson:
-                    statusLabel.text = "Would like to meet up"
-                default:
-                    break
-                }
-            }
-            
-            acceptButton.isHidden = false
-        }
-        
-        cancelButton.layer.cornerRadius = 3
-        cancelButton.clipsToBounds = true
-        cancelButton.setupTargets()
-        acceptButton.layer.cornerRadius = 3
-        acceptButton.clipsToBounds = true
-        acceptButton.setupTargets()
-        
-        // Get the session information.
-        DataService.shared.getSessionById(sessionId) { (session) in
-            self.session = session
-            
-            // Get the partner name.
-            self.partnerId = self.session?.partnerId()
-            if let partnerId = self.partnerId {
-                UserFetchService.shared.getUserOfOppositeTypeWithId(partnerId, completion: { user in
-                    self.partner = user
-                    self.partnerUsername = user?.formattedName
-                    // Set the partner name.
-                    self.userNameLabel.text = user?.formattedName
-                    
-                    // Set the partner avatar.
-                    self.avatarImageView.sd_setImage(with: user?.profilePicUrl)
-                })
-            }
-            
-            // Get duration and hourly rate.
-            self.hourlyRateLabel.text = self.getDurationAndHourlyRate(session: session)
-            
-            // Set the subject.
-            self.subjectLabel.text = session.subject
-        }
-    }
-    
-    func getDurationAndHourlyRate(session: Session?) -> String? {
-        guard let session = session else { return nil}
-        let lengthInSeconds = session.endTime - session.startTime
-        let lengthInMinutes = Int(lengthInSeconds / 60)
-        return "\(Int(lengthInMinutes)) \(lengthInMinutes == 1 ? "Min" : "Mins"), $\(Int(session.price))"
-    }
-    
     func removeStartData() {
-        guard let uid = Auth.auth().currentUser?.uid, let sessionId = session?.id, let partnerId = partnerId else { return }
+        guard let uid = Auth.auth().currentUser?.uid, let partnerId = partnerId else { return }
         Database.database().reference().child("sessionStarts").child(uid).child(sessionId).removeValue()
         Database.database().reference().child("sessionStarts").child(partnerId).child(sessionId).removeValue()
-    }
-    
-    func currentUserHasPayment(completion: @escaping (Bool) -> Void) {
-        guard AccountService.shared.currentUserType == .learner else {
-            completion(true)
-            return
-        }
-        
-        guard CurrentUser.shared.learner.hasPayment else {
-            self.onCancelButtonClicked(self.cancelButton)
-            addPaymentModal = AddPaymentModal()
-            addPaymentModal?.delegate = self
-            addPaymentModal?.show()
-            completion(false)
-            return
-        }
-        
-        completion(true)
     }
     
     func checkPermissions() -> Bool {
@@ -301,30 +228,43 @@ class QTStartSessionViewController: UIViewController {
         guard let uid = Auth.auth().currentUser?.uid else {
             return
         }
-
+        
         let isInitiator = initiatorId == uid
         let resource = isInitiator ? "phone-ring" : "qtRingtone"
         let ext = isInitiator ? "mp3" : "aiff"
         guard let url = Bundle.main.url(forResource: resource, withExtension: ext) else { return }
-
+        
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, mode: AVAudioSession.Mode.moviePlayback, options: AVAudioSession.CategoryOptions.mixWithOthers)
             try AVAudioSession.sharedInstance().setActive(true)
-
+            
             /* The following line is required for the player to work on iOS 11. Change the file type accordingly*/
             audioPlayer = AVPlayer(url: url)
-
+            
             guard let player = audioPlayer else { return }
             player.play()
-
+            
         } catch let error {
             print(error.localizedDescription)
         }
     }
 }
 
-extension QTStartSessionViewController: CustomModalDelegate {
+extension QTStartQuickCallViewController: CustomModalDelegate {
     func handleConfirm() {
         NotificationCenter.default.post(name: Notifications.showSessionCardManager.name, object: nil, userInfo: nil)
+    }
+}
+
+protocol QTStartQuickCallModalNavigation {
+    func goToVideoSessionViewController(sessionId: String, sessionType: QTSessionType)
+}
+
+extension QTStartQuickCallModalNavigation {
+    func goToVideoSessionViewController(sessionId: String, sessionType: QTSessionType) {
+        let vc = QTVideoSessionViewController.controller
+        vc.sessionId = sessionId
+        vc.sessionType = sessionType
+        navigationController.pushViewController(vc, animated: true)
     }
 }

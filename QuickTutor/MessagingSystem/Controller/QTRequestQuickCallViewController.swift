@@ -90,7 +90,7 @@ class QTRequestQuickCallViewController: UIViewController {
             }
             let sessionRequest = SessionRequest(data: session)
             DataService.shared.sendQuickCallRequestToId(sessionRequest: sessionRequest, self.tutor.uid, completion: {
-                self.dismiss(animated: true, completion: nil)
+                self.navigationController?.popViewController(animated: true)
             })
         }
     }
@@ -168,6 +168,11 @@ class QTRequestQuickCallViewController: UIViewController {
         }
         
         completion(true)
+    }
+    
+    func showQuickCallModal() {
+        let modal = QTQuickCallModal.view
+        
     }
 }
 

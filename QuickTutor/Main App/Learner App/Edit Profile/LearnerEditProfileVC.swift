@@ -720,7 +720,7 @@ extension LearnerEditProfileVC: UIScrollViewDelegate {
     }
 }
 
-extension LearnerEditProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension LearnerEditProfileVC: UIImagePickerControllerDelegate/*, UINavigationControllerDelegate*/ {
 
     func getKeyForCachedImage(number: String) -> String {
         return Storage.storage().reference().child("student-info").child(CurrentUser.shared.learner.uid!).child("student-profile-pic" + number).fullPath
