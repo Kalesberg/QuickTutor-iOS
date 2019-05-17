@@ -18,6 +18,7 @@ extension HandlesSessionStartData {
     func listenForData() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         print("Currently signed in user is: \(uid)")
+        
         let sessionStartsRef = Database.database().reference().child("sessionStarts").child(uid)
         sessionStartsRef.observe(.childAdded, with: { snapshot in
             guard let value = snapshot.value as? [String: Any] else {
@@ -36,15 +37,33 @@ extension HandlesSessionStartData {
             // remove local notification
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [sessionId])
             
-            let vc = QTStartSessionViewController.controller
-            vc.sessionId = sessionId
-            if let initiatorId = value["startedBy"] as? String {
-                vc.initiatorId = initiatorId
+            if QTSessionType(rawValue: sessionType) == QTSessionType.quickCalls {
+                let controller = QTStartQuickCallViewController.controller
+                controller.modalPresentationStyle = .overCurrentContext
+                controller.sessionId = sessionId
+                if let initiatorId = value["startedBy"] as? String {
+                    controller.initiatorId = initiatorId
+                }
+                controller.sessionType = QTSessionType(rawValue: sessionType)
+                controller.startType = QTSessionStartType(rawValue: startType)
+                controller.parentNavController = navigationController
+                
+                if let topController = navigationController.topViewController {
+                    navigationController.delegate = topController
+                }
+                navigationController.navigationBar.isHidden = true
+                navigationController.present(controller, animated: false, completion: nil)
+            } else {
+                let vc = QTStartSessionViewController.controller
+                vc.sessionId = sessionId
+                if let initiatorId = value["startedBy"] as? String {
+                    vc.initiatorId = initiatorId
+                }
+                vc.sessionType = QTSessionType(rawValue: sessionType)
+                vc.startType = QTSessionStartType(rawValue: startType)
+                navigationController.navigationBar.isHidden = false
+                navigationController.pushViewController(vc, animated: true)
             }
-            vc.sessionType = QTSessionType(rawValue: sessionType)
-            vc.startType = QTSessionStartType(rawValue: startType)
-            navigationController.navigationBar.isHidden = false
-            navigationController.pushViewController(vc, animated: true)
         })
     }
 
