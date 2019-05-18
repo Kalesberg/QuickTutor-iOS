@@ -21,6 +21,7 @@ class SessionRequestTutorView: BaseSessionRequestViewSection, MockCollectionView
         let cell = MockCollectionViewCell()
         cell.primaryButton.setTitle("Select", for: .normal)
         cell.titleLabel.font = Fonts.createSize(14)
+        cell.layer.applyShadow(color: UIColor.clear.cgColor, opacity: 0, offset: .zero, radius: 0)
         return cell
     }()
     
