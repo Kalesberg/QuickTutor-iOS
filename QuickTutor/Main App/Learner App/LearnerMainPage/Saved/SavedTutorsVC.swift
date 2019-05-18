@@ -24,11 +24,16 @@ class SavedTutorsVC: UIViewController {
         return cv
     }()
     
+    var emptyBackground: EmptySavedTutorsBackground = {
+        return EmptySavedTutorsBackground()
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupMainView()
         setupNavigationBar()
         setupCollectionView()
+        setupEmptyBackground()
         setupObservers()
         loadSavedTutors()
     }
@@ -59,6 +64,12 @@ class SavedTutorsVC: UIViewController {
     
     func setupObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(loadSavedTutors), name: NotificationNames.SavedTutors.didUpdate, object: nil)
+    }
+    
+    private func setupEmptyBackground() {
+        emptyBackground.isHidden = true
+        view.addSubview(emptyBackground)
+        emptyBackground.anchor(top: collectionView.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 250)
     }
     
     @objc func loadSavedTutors() {
@@ -98,6 +109,8 @@ class SavedTutorsVC: UIViewController {
 
 extension SavedTutorsVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
+        self.emptyBackground.isHidden = datasource.count > 0
+        
         return datasource.count
     }
     

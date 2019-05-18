@@ -828,6 +828,8 @@
 		84F5FD1120A4DCA900CFDA95 /* TutorServiceFee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F5FD1020A4DCA900CFDA95 /* TutorServiceFee.swift */; };
 		84F5FD1420A5544200CFDA95 /* CloseAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F5FD1320A5544200CFDA95 /* CloseAccountVC.swift */; };
 		84F5FD1920A57DA200CFDA95 /* CloseAccountReasonVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F5FD1820A57DA200CFDA95 /* CloseAccountReasonVC.swift */; };
+		93179FA3228FC52100768BBB /* EmptySavedTutorsBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93179FA2228FC52100768BBB /* EmptySavedTutorsBackground.swift */; };
+		93179FA4228FC52100768BBB /* EmptySavedTutorsBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93179FA2228FC52100768BBB /* EmptySavedTutorsBackground.swift */; };
 		931C71E5227E4763003C86F8 /* AddCardHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931C71E4227E4763003C86F8 /* AddCardHeaderView.swift */; };
 		931C71E6227E4763003C86F8 /* AddCardHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931C71E4227E4763003C86F8 /* AddCardHeaderView.swift */; };
 		931C71E8227E4798003C86F8 /* AddCardHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 931C71E7227E4798003C86F8 /* AddCardHeaderView.xib */; };
@@ -1540,6 +1542,7 @@
 		84F5FD1320A5544200CFDA95 /* CloseAccountVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseAccountVC.swift; sourceTree = "<group>"; };
 		84F5FD1820A57DA200CFDA95 /* CloseAccountReasonVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseAccountReasonVC.swift; sourceTree = "<group>"; };
 		90B72B27E2DA5A3D39571E73 /* Pods-QuickTutorTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutorTests/Pods-QuickTutorTests.debug.xcconfig"; sourceTree = "<group>"; };
+		93179FA2228FC52100768BBB /* EmptySavedTutorsBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySavedTutorsBackground.swift; sourceTree = "<group>"; };
 		931C71E4227E4763003C86F8 /* AddCardHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardHeaderView.swift; sourceTree = "<group>"; };
 		931C71E7227E4798003C86F8 /* AddCardHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddCardHeaderView.xib; sourceTree = "<group>"; };
 		931C71EA227E4E1C003C86F8 /* PaymentCardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentCardTableViewCell.swift; sourceTree = "<group>"; };
@@ -3119,6 +3122,7 @@
 			children = (
 				CF51958921A60F72007EEC37 /* SavedTutorsVC.swift */,
 				CF51958B21A7D87A007EEC37 /* AlignedCollectionViewFlowLayout.swift */,
+				93179FA2228FC52100768BBB /* EmptySavedTutorsBackground.swift */,
 			);
 			path = Saved;
 			sourceTree = "<group>";
@@ -4782,6 +4786,7 @@
 				569F18B2223554FD00820A20 /* CustomError.swift in Sources */,
 				569F18B3223554FD00820A20 /* BaseMessageCell.swift in Sources */,
 				569F18B4223554FD00820A20 /* SessionRequestDurationView.swift in Sources */,
+				93179FA4228FC52100768BBB /* EmptySavedTutorsBackground.swift in Sources */,
 				569F18B5223554FD00820A20 /* TutorAddBank.swift in Sources */,
 				56056EA3225301900060C251 /* TutorTabBarController.swift in Sources */,
 				569F18B6223554FD00820A20 /* QTTutorDashboardMarkerView.swift in Sources */,
@@ -5272,6 +5277,7 @@
 				8404F43D20EBB3AE00747C01 /* CustomError.swift in Sources */,
 				CF6F58C3205EE68800ACBD32 /* BaseMessageCell.swift in Sources */,
 				CFB9B7D921C18B280022333F /* SessionRequestDurationView.swift in Sources */,
+				93179FA3228FC52100768BBB /* EmptySavedTutorsBackground.swift in Sources */,
 				CF50ADE420A2C1770035A702 /* TutorAddBank.swift in Sources */,
 				569ECDC921FB1033005491CB /* QTTutorDashboardMarkerView.swift in Sources */,
 				8471FED520C82E6F006E062C /* PhoneAuthentication.swift in Sources */,
