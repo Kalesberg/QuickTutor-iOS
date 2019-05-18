@@ -53,6 +53,7 @@ class LearnerMainPageVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleSeeAllTopTutorsTapped(_:)), name: NotificationNames.LearnerMainFeed.seeAllTopTutorsTapped, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleSuggestedTutorTapped(_:)), name: NotificationNames.LearnerMainFeed.suggestedTutorTapped, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleActiveTutorCellTapped(_:)), name: NotificationNames.LearnerMainFeed.activeTutorCellTapped, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleActiveTutorMessageButtonTapped(_:)), name: NotificationNames.LearnerMainFeed.activeTutorMessageButtonTapped, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleRecentSearchCellTapped(_:)), name: NotificationNames.LearnerMainFeed.recentSearchCellTapped, object: nil)
     }
     
