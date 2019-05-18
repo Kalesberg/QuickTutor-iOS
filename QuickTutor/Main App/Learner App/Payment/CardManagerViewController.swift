@@ -22,6 +22,7 @@ class CardManagerViewController: UIViewController {
     
     var addCardVC: STPAddCardViewController?
     var shouldHideNavBarWhenDismissed = false
+    var isShowingAddCardView = false
     var popBackTo: UIViewController?
     private var cards = [STPCard]()
     private var defaultCard: STPCard?
@@ -58,12 +59,13 @@ class CardManagerViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        navigationController?.navigationBar.barTintColor = Colors.newBackground
         tableView.reloadData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        navigationController?.setNavigationBarHidden(shouldHideNavBarWhenDismissed, animated: false)
+        navigationController?.setNavigationBarHidden(!isShowingAddCardView && shouldHideNavBarWhenDismissed, animated: false)
     }
     
     func configureNavigation() {
@@ -192,6 +194,7 @@ class CardManagerViewController: UIViewController {
 
 extension CardManagerViewController: STPAddCardViewControllerDelegate {
     func addCardViewControllerDidCancel(_ addCardViewController: STPAddCardViewController) {
+        isShowingAddCardView = false
         dismiss(animated: true, completion: nil)
     }
     
@@ -205,6 +208,7 @@ extension CardManagerViewController: STPAddCardViewControllerDelegate {
             CurrentUser.shared.learner.hasPayment = true
             self.loadStripe()
             self.navigationController?.popBackToMain()
+            self.isShowingAddCardView = false
         }
     }
 }
@@ -256,6 +260,8 @@ extension CardManagerViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func showStripeAddCard() {
+        isShowingAddCardView = true
+        
         let theme = STPTheme()
         theme.primaryBackgroundColor = Colors.registrationDark
         theme.font = Fonts.createSize(16)
