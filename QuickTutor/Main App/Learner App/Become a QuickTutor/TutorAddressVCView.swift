@@ -52,22 +52,12 @@ class TutorAddressVCView: BaseRegistrationView {
     
     func setupAddressLine1TextField() {
         addSubview(addressLine1TextField)
-        addressLine1TextField.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom)
-            make.left.equalTo(titleLabel)
-            make.right.equalTo(titleLabel)
-            make.height.equalTo(100)
-        }
+        addressLine1TextField.anchor(top: titleLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: 0, height: 100)
     }
     
     func setupCityTextField() {
         addSubview(cityTextField)
-        cityTextField.snp.makeConstraints { make in
-            make.top.equalTo(addressLine1TextField.snp.bottom)
-            make.left.equalTo(titleLabel)
-            make.right.equalTo(titleLabel)
-            make.height.equalTo(100)
-        }
+        cityTextField.anchor(top: addressLine1TextField.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: 0, height: 100)
     }
     
     func setupStateTextField() {
@@ -77,7 +67,7 @@ class TutorAddressVCView: BaseRegistrationView {
     
     func setupZipTextField() {
         addSubview(zipTextField)
-        zipTextField.anchor(top: cityTextField.bottomAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 30, width: 150, height: 100)
+        zipTextField.anchor(top: cityTextField.bottomAnchor, left: stateTextField.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 30, width: 0, height: 100)
     }
     
     override func updateTitleLabel() {
