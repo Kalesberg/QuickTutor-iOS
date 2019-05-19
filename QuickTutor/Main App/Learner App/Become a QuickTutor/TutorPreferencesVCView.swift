@@ -93,11 +93,6 @@ class TutorPreferencesView: BaseRegistrationView {
         return label
     }()
     
-    let accessoryView: RegistrationAccessoryView = {
-        let view = RegistrationAccessoryView()
-        return view
-    }()
-    
     override func setupViews() {
         super.setupViews()
         setupHourSliderView()
@@ -110,7 +105,6 @@ class TutorPreferencesView: BaseRegistrationView {
         setupCollectionView()
         setupDistanceSliderView()
         setupDistanceInfoLabel()
-        setupAccessoryView()
     }
     
     func setupHourSliderView() {
@@ -167,12 +161,7 @@ class TutorPreferencesView: BaseRegistrationView {
     
     func setupDistanceInfoLabel() {
         addSubview(distanceInfoLabel)
-        distanceInfoLabel.anchor(top: distanceSliderView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 30, paddingBottom: 100, paddingRight: 30, width: 0, height: 0)
-    }
-    
-    func setupAccessoryView() {
-        addSubview(accessoryView)
-        accessoryView.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 80)
+        distanceInfoLabel.anchor(top: distanceSliderView.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 30, paddingBottom: 60, paddingRight: 30, width: 0, height: 0)
     }
     
     override func updateTitleLabel() {

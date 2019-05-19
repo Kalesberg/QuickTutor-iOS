@@ -25,7 +25,7 @@ class EditPreferencesVC: TutorPreferencesVC {
         super.viewDidLoad()
 
         navigationItem.title = "Hourly Rate & Preferences"
-        contentView.accessoryView.removeFromSuperview()
+        accessoryView.isHidden = true//contentView..removeFromSuperview()
         progressView.removeFromSuperview()
         contentView.hourSliderView.slider.value = Float(CurrentUser.shared.tutor.price!)
         contentView.distanceSliderView.slider.value = Float(CurrentUser.shared.tutor.distance!)

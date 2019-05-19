@@ -30,6 +30,7 @@ class TutorPreferencesVC: BaseRegistrationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        setupAccessoryView()
         setupTargets()
         loadPrefences()
         progressView.setProgress(1/6)
@@ -47,17 +48,25 @@ class TutorPreferencesVC: BaseRegistrationController {
 
     func setupViews() {
         view.addSubview(scrollView)
-        scrollView.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: UIScreen.main.bounds.width, height: 0)
+        scrollView.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: UIScreen.main.bounds.width, height: 0)
         scrollView.addSubview(contentView)
+        
         contentView.anchor(top: scrollView.topAnchor, left: scrollView.leftAnchor, bottom: scrollView.bottomAnchor, right: scrollView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         let contentViewHeightAnchor = contentView.heightAnchor.constraint(greaterThanOrEqualTo: scrollView.heightAnchor)
-        contentViewHeightAnchor.priority = UILayoutPriority(rawValue: 250)
+        contentViewHeightAnchor.priority = UILayoutPriority(rawValue: 750)
         contentViewHeightAnchor.isActive = true
     }
     
+    func setupAccessoryView() {
+        view.addSubview(accessoryView)
+        accessoryView.anchor(top: scrollView.bottomAnchor, left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 80)
+        edgesForExtendedLayout = .bottom
+        extendedLayoutIncludesOpaqueBars = true
+    }
+    
     func setupTargets() {
-        contentView.accessoryView.nextButton.addTarget(self, action: #selector(savePreferences), for: .touchUpInside)
+        accessoryView.nextButton.addTarget(self, action: #selector(savePreferences), for: .touchUpInside)
     }
     
     func loadPrefences() {
