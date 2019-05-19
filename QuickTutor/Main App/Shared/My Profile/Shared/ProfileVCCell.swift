@@ -18,7 +18,7 @@ class ProfileCVCell: UICollectionViewCell {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createBoldSize(16)
+        label.font = Fonts.createSemiBoldSize(14)
         label.textColor = .white
         return label
     }()

@@ -81,15 +81,15 @@ struct Fonts {
     }
     
     static func createSemiBoldSize(_ size: CGFloat) -> UIFont {
-        return UIFont(name: "Lato-Semibold", size: size) ?? UIFont.systemFont(ofSize: size)
+        return UIFont(name: "Lato-Semibold", size: size) ?? UIFont.systemFont(ofSize: size, weight: .semibold)
     }
     
     static func createBoldSize(_ size: CGFloat) -> UIFont {
-        return UIFont(name: "Lato-Bold", size: size) ?? UIFont.systemFont(ofSize: size)
+        return UIFont(name: "Lato-Bold", size: size) ?? UIFont.systemFont(ofSize: size, weight: .bold)
     }
     
     static func createBlackSize(_ size: CGFloat) -> UIFont {
-        return UIFont(name: "Lato-Black", size: size) ?? UIFont.systemFont(ofSize: size)
+        return UIFont(name: "Lato-Black", size: size) ?? UIFont.systemFont(ofSize: size, weight: .black)
     }
     
     static func createItalicSize(_ size: CGFloat) -> UIFont {
@@ -101,10 +101,10 @@ struct Fonts {
     }
     
     static func createLightSize(_ size: CGFloat) -> UIFont {
-        return UIFont(name: "Lato-Light", size: size) ?? UIFont.systemFont(ofSize: size)
+        return UIFont(name: "Lato-Light", size: size) ?? UIFont.systemFont(ofSize: size, weight: .light)
     }
     
     static func createMediumSize(_ size: CGFloat) -> UIFont {
-        return UIFont(name: "Lato-Medium", size: size) ?? UIFont.systemFont(ofSize: size)
+        return UIFont(name: "Lato-Medium", size: size) ?? UIFont.systemFont(ofSize: size, weight: .medium)
     }
 }

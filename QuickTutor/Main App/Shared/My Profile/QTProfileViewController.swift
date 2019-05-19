@@ -335,19 +335,19 @@ class QTProfileViewController: UIViewController {
                 if let featuredSubject = user.featuredSubject, !featuredSubject.isEmpty {
                     // Set the featured subject.
                     subject = featuredSubject
-                    self.topSubjectLabel.text = featuredSubject.capitalizingFirstLetter() + " • "
+                    self.topSubjectLabel.text = featuredSubject.capitalizingFirstLetter()
                 } else {
                     // Set the first subject
                     subject = user.subjects?.first
                     if let subject = subject {
-                        self.topSubjectLabel.text = subject.capitalizingFirstLetter() + " • "
+                        self.topSubjectLabel.text = subject.capitalizingFirstLetter()
                     }
                     self.topSubjectLabel.isHidden = subject?.isEmpty ?? true
                 }
             } else {
                 topSubjectLabel.isHidden = subject?.isEmpty ?? true
                 if let subject = subject {
-                    topSubjectLabel.text = subject.capitalizingFirstLetter() + " • "
+                    topSubjectLabel.text = subject.capitalizingFirstLetter()
                 }
             }
             ratingLabel.text = "\(String(describing: user.tRating ?? 5.0))"
@@ -402,19 +402,19 @@ class QTProfileViewController: UIViewController {
                 if let featuredSubject = user.featuredSubject, !featuredSubject.isEmpty {
                     // Set the featured subject.
                     subject = featuredSubject
-                    self.topSubjectLabel.text = featuredSubject.capitalizingFirstLetter() + " • "
+                    self.topSubjectLabel.text = featuredSubject.capitalizingFirstLetter()
                 } else {
                     // Set the first subject
                     subject = user.subjects?.first
                     if let subject = subject {
-                        self.topSubjectLabel.text = subject.capitalizingFirstLetter() + " • "
+                        self.topSubjectLabel.text = subject.capitalizingFirstLetter()
                     }
                     self.topSubjectLabel.isHidden = subject?.isEmpty ?? true
                 }
             } else {
                 topSubjectLabel.isHidden = subject?.isEmpty ?? true
                 if let subject = subject {
-                    topSubjectLabel.text = subject.capitalizingFirstLetter() + " • "
+                    topSubjectLabel.text = subject.capitalizingFirstLetter()
                 }
             }
             ratingLabel.text = "\(String(describing: user.tRating ?? 5.0))"

@@ -12,7 +12,7 @@ class EditLanguageView: UIView {
     
     var tableView: UITableView = {
         let table = UITableView()
-        table.estimatedRowHeight = 25
+        table.estimatedRowHeight = 50
         table.separatorStyle = .singleLine
         table.separatorColor = .black
         table.showsVerticalScrollIndicator = false
@@ -90,7 +90,7 @@ class EditLanguageVC: UIViewController {
     }
 
     func setupNavBar() {
-        navigationItem.title = "Languages I Speak"
+        navigationItem.title = "Languages I speak"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"newCheck"), style: .plain, target: self, action: #selector(saveLanguages))
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_back_arrow"), style: .plain, target: self, action: #selector(backAction))
@@ -214,8 +214,8 @@ extension EditLanguageVC: UITableViewDelegate, UITableViewDataSource {
         let cell: CustomLanguageCell = tableView.cellForRow(at: indexPath) as! CustomLanguageCell
         guard let selectedLanguage = cell.textLabel?.text else { return }
 
-        if selectedCells.count + 1 > 5 && !selectedCells.contains(selectedLanguage) {
-            AlertController.genericErrorAlertWithoutCancel(self, title: "Too Many Languages", message: "We currently only allow a maximum of 5 languages to be chosen.")
+        if selectedCells.count + 1 > 3 && !selectedCells.contains(selectedLanguage) {
+            AlertController.genericErrorAlertWithoutCancel(self, title: "Too Many Languages", message: "We currently only allow a maximum of 3 languages to be chosen.")
             tableView.deselectRow(at: indexPath, animated: true)
             return
         }
@@ -234,7 +234,18 @@ extension EditLanguageVC: UITableViewDelegate, UITableViewDataSource {
 
 class CustomLanguageCell: UITableViewCell {
 
-    let checkbox = RegistrationCheckbox()
+    let checkbox: UIButton = {
+        let button = UIButton(frame: .zero)
+        button.layer.cornerRadius = 17
+        button.layer.borderWidth = 1
+        button.layer.borderColor = Colors.gray.cgColor
+       
+        button.setImage(UIImage(named: "ic_language_normal"), for: .normal)
+        button.setImage(UIImage(named: "ic_language_selected"), for: .selected)
+        button.backgroundColor = .clear
+        
+        return button
+    }()
 
     func setupViews() {
         setupBackground()
@@ -260,9 +271,10 @@ class CustomLanguageCell: UITableViewCell {
         addSubview(checkbox)
         checkbox.isSelected = false
         checkbox.snp.makeConstraints { make in
-            make.right.equalToSuperview()
+            make.right.equalToSuperview().offset(-20)
             make.centerY.equalToSuperview()
-            make.width.equalTo(50)
+            make.width.equalTo(34)
+            make.height.equalTo(34)
         }
     }
     

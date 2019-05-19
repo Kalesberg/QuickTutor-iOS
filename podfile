@@ -49,6 +49,8 @@ abstract_target 'QuickTutorApp' do
         pod 'Charts', '~> 3.2.1'
         pod 'PlaceholderTextView'
         pod 'CropViewController'
+        
+        pod 'SkeletonView'
     end
     
     target 'QuickTutor' do
