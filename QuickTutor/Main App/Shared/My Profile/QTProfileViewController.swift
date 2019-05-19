@@ -109,6 +109,11 @@ class QTProfileViewController: UIViewController {
         
         navigationController?.setNavigationBarHidden(false, animated: false)
         
+        if AccountService.shared.currentUserType == .learner && (profileViewType == .tutor || profileViewType == .myTutor) {
+            tabBarController?.tabBar.isHidden = true
+            edgesForExtendedLayout = .bottom
+            extendedLayoutIncludesOpaqueBars = true
+        }
         if #available(iOS 11.0, *) {
             navigationItem.largeTitleDisplayMode = .never
         }
@@ -117,6 +122,11 @@ class QTProfileViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.locationManager.stopUpdatingLocation()
+        
+        if AccountService.shared.currentUserType == .learner && (profileViewType == .tutor || profileViewType == .myTutor) {
+            tabBarController?.tabBar.isHidden = false
+        }
+        
         if !isPresentedFromSessionScreen {
             navigationController?.setNavigationBarHidden(true, animated: false)
         }
