@@ -250,7 +250,10 @@ extension ProfileVC: ProfileModeToggleViewDelegate {
             }
         } else {
             AccountService.shared.currentUserType = .tRegistration
-            navigationController?.pushViewController(BecomeTutorVC(), animated: true)
+            let vc = BecomeTutorVC()
+            vc.isRegistration = false
+            let becomeTutorNav = CustomNavVC(rootViewController: vc)
+            navigationController?.present(becomeTutorNav, animated: true, completion: nil)
         }
     }
     

@@ -10,6 +10,8 @@ import UIKit
 
 class BecomeTutorVC: BaseRegistrationController {
     
+    var isRegistration = false
+    
     let contentView: BecomeTutorVCView = {
         let view = BecomeTutorVCView()
         return view
@@ -48,6 +50,10 @@ class BecomeTutorVC: BaseRegistrationController {
     }
 
     @objc func backAction() {
-        navigationController?.popViewController(animated: true)
+        if isRegistration {
+            navigationController?.popViewController(animated: true)
+        } else {
+            dismiss(animated: true, completion: nil)
+        }
     }
 }

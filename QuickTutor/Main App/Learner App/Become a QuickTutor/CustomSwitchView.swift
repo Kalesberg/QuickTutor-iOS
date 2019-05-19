@@ -62,7 +62,6 @@ class CustomSwitchView: QTCustomView {
     @objc
     func handleDidTap() {
         isOn = !isOn
-        delegate?.customSwitchValueChanged(isOn)
     }
     
     func setValue() {
@@ -81,6 +80,7 @@ class CustomSwitchView: QTCustomView {
                 
             })
         }
+        delegate?.customSwitchValueChanged(isOn)
     }
     
     override init(frame: CGRect) {

@@ -73,6 +73,8 @@ class TutorPreferencesVC: BaseRegistrationController {
                     self?.contentView.quickCallsSwitchView.isOn = quickCallPrice != -1
                     self?.contentView.quickCallsSliderView.slider.isEnabled = quickCallPrice != -1
                     self?.contentView.quickCallsSliderView.setSliderValue(Float(quickCallPrice))
+                } else {
+                    self?.contentView.quickCallsSwitchView.isOn = false
                 }
                 if let distance = preferenceData["distance"] as? Int {
                     self?.contentView.distanceSliderView.setSliderValue(Float(distance))
@@ -84,6 +86,7 @@ class TutorPreferencesVC: BaseRegistrationController {
         }
         
         if inRegistrationMode {
+            self.contentView.quickCallsSwitchView.isOn = false
             selectIndex(index: 2)
         }
     }
