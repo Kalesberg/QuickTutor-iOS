@@ -202,8 +202,6 @@ extension TutorPreferencesView: CustomSliderViewDelegate {
     func customSlider(_ slider: CustomSlider, didChange value: Float) {
         if slider == hourSliderView.slider {
             hourSliderView.amountLabel.text = "$\(String(format: "%.0f", slider.value))/hr"
-            quickCallsSliderView.slider.maximumValue = slider.value
-            quickCallsSliderView.setSliderValue(quickCallsSliderView.slider.value)
         } else if slider == distanceSliderView.slider {
             distanceSliderView.amountLabel.text = "\(String(format: "%.0f", slider.value)) miles"
         } else {
