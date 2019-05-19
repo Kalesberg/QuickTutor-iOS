@@ -720,33 +720,28 @@ extension LearnerEditProfileVC: UIScrollViewDelegate {
     }
 }
 
-extension LearnerEditProfileVC: UIImagePickerControllerDelegate/*, UINavigationControllerDelegate*/ {
-
+extension LearnerEditProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func getKeyForCachedImage(number: String) -> String {
         return Storage.storage().reference().child("student-info").child(CurrentUser.shared.learner.uid!).child("student-profile-pic" + number).fullPath
     }
 
-    @objc func imagePickerController(_: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        // Local variable inserted by Swift 4.2 migrator.
-        let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
-
-        if let image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as? UIImage {
-            let cropViewController = CropViewController(image: image)
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let image = info[.originalImage] as? UIImage else { return }
+        
+        picker.dismiss(animated: false) {
+            let cropViewController = CropViewController(croppingStyle: .circular, image: image)
             cropViewController.delegate = self
             cropViewController.aspectRatioPreset = .presetSquare
-            cropViewController.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(cropViewController, animated: true)
-            imagePicker.dismiss(animated: true, completion: nil)
+            self.present(cropViewController, animated: false, completion: nil)
         }
     }
-
+    
     func imagePickerControllerDidCancel(_: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
 }
 
 extension LearnerEditProfileVC: CropViewControllerDelegate {
-    
     func getImageViewCells() -> [EditProfileImageCell] {
         var imageViewCells = [EditProfileImageCell]()
         let imagesContainerCell = contentView.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! EditProfileImagesCell
@@ -760,7 +755,7 @@ extension LearnerEditProfileVC: CropViewControllerDelegate {
     }
     
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
-        navigationController?.popViewController(animated: true)
+        
         var imageViews = getImageViewCells()
         
         guard let data = FirebaseData.manager.getCompressedImageDataFor(image) else {
@@ -793,6 +788,8 @@ extension LearnerEditProfileVC: CropViewControllerDelegate {
                 imageViews[index - 1].foregroundImageView.image = forgroundImage
             }
         }
+        
+        cropViewController.dismiss(animated: true, completion: nil)
     }
 
 }
@@ -808,14 +805,4 @@ extension LearnerEditProfileVC: EditProfileBioCellDelegate {
         updatedBio = bio
         bioNeedsSaving = true
     }
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
-    return Dictionary(uniqueKeysWithValues: input.map { key, value in (key.rawValue, value) })
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
-    return input.rawValue
 }

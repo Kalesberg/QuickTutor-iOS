@@ -12,8 +12,56 @@ import FirebaseAuth
 import AVFoundation
 import FirebaseDatabase
 
-class QTStartQuickCallViewController: UIViewController, QTStartQuickCallModalNavigation {
+enum QTAnimatorStyle {
+    case presenting, dismissing
+}
 
+class QTQuickCallDialogAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+    var animationStyle: QTAnimatorStyle?
+    
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+        return 0.2
+    }
+    
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        let containerView = transitionContext.containerView
+        
+        guard let animationStyle = animationStyle else { return }
+        
+        if .presenting == animationStyle {
+            if let toVC = transitionContext.viewController(forKey: .to) as? QTStartQuickCallViewController {
+                containerView.addSubview(toVC.view)
+                toVC.view.frame = containerView.frame
+                if let contentView = toVC.view.subviews.last {
+                    contentView.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+                    UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: {
+                        contentView.transform = CGAffineTransform(scaleX: 1, y: 1)
+                    }, completion: { completed in
+                        transitionContext.completeTransition(completed)
+                    })
+                }
+            }
+        } else {
+            if let fromVC = transitionContext.viewController(forKey: .from) {
+                UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: {
+                    containerView.alpha = 0
+                }, completion: { completed in
+                    fromVC.view.removeFromSuperview()
+                    transitionContext.completeTransition(completed)
+                })
+            }
+        }
+    }
+}
+
+class QTStartQuickCallViewController: UIViewController, QTStartQuickCallModalNavigation {
+    
+    @IBOutlet weak var avatarImageView: QTCustomImageView!
+    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var reasonLabel: UILabel!
+    @IBOutlet weak var hangUpButton: QTCustomButton!
+    @IBOutlet weak var pickUpButton: QTCustomButton!
+    
     // MARK: - Properties
     var sessionId: String!
     var sessionType: QTSessionType!
@@ -31,17 +79,32 @@ class QTStartQuickCallViewController: UIViewController, QTStartQuickCallModalNav
     var session: Session?
     var partnerUsername: String?
     
-    var addPaymentModal: AddPaymentModal?
-    var quickCallModal: QTQuickCallModal?
-    
     static var controller: QTStartQuickCallViewController {
         return QTStartQuickCallViewController(nibName: String(describing: QTStartQuickCallViewController.self), bundle: nil)
+    }
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        
+        transitioningDelegate = self
+        modalPresentationStyle = .overCurrentContext
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        transitioningDelegate = self
+        modalPresentationStyle = .overCurrentContext
     }
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         self.view.backgroundColor = .clear
         self.view.isOpaque = false
@@ -67,28 +130,16 @@ class QTStartQuickCallViewController: UIViewController, QTStartQuickCallModalNav
                 AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
             })
         }
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        showQuickCallModal()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        socket.disconnect()
-        NotificationManager.shared.enableAllNotifcations()
         
-        if sessionType == .online || sessionType == .quickCalls {
-            audioPlayer?.pause()
-            audioPlayer = nil
-        } else {
-            vibrationTimer?.invalidate()
+        if let initiatorId = initiatorId {
+            pickUpButton.isHidden = AccountService.shared.currentUser.uid == initiatorId
         }
+        
+        avatarImageView.superview?.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 4)
     }
     
-    // MARK: - Functions
-    func showQuickCallModal() {
-        quickCallModal = QTQuickCallModal.view
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)        
         
         // Get the session information.
         DataService.shared.getSessionById(sessionId) { (session) in
@@ -106,39 +157,62 @@ class QTStartQuickCallViewController: UIViewController, QTStartQuickCallModalNav
                         let subject = self.session?.subject,
                         let price = self.session?.price {
                         
-                        self.quickCallModal?.setData(initiatorId: self.initiatorId,
-                                                     partnerName: partnerName,
-                                                     partnerProfilePicture: profilePictureUrl,
-                                                     subject: subject,
-                                                     price: price)
+                        self.setData(initiatorId: self.initiatorId,
+                                     partnerName: partnerName,
+                                     partnerProfilePicture: profilePictureUrl,
+                                     subject: subject,
+                                     price: price)
                     }
                 })
             }
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        socket.disconnect()
+        NotificationManager.shared.enableAllNotifcations()
         
-        quickCallModal?.didHangUpButtonClicked = {
-            self.socket.emit(SocketEvents.cancelSession, ["roomKey": self.sessionId])
+        if sessionType == .online || sessionType == .quickCalls {
+            audioPlayer?.pause()
+            audioPlayer = nil
+        } else {
+            vibrationTimer?.invalidate()
         }
-        quickCallModal?.didPickUpButtonClicked = {
-            // Quick call request requires that users have payment method, so doesn't need to check
-            self.removeStartData()
-            let data = ["roomKey": self.sessionId!, "sessionId": self.sessionId!, "sessionType": (self.session?.type)!]
-            print(data)
-            self.socket.emit(SocketEvents.manualStartAccetped, data)
+    }
+    
+    // MARK: - Actions
+    @IBAction func onHangUpButtonClicked(_ sender: Any) {
+        socket.emit(SocketEvents.cancelSession, ["roomKey": self.sessionId])
+    }
+    
+    @IBAction func onPickUpButtonClicked(_ sender: Any) {
+        removeStartData()
+        let data = ["roomKey": self.sessionId!, "sessionId": self.sessionId!, "sessionType": (self.session?.type)!]
+        socket.emit(SocketEvents.manualStartAccetped, data)
+    }
+    
+    // MARK: - Functions
+    private func setData(initiatorId: String,
+                         partnerName: String,
+                         partnerProfilePicture: URL,
+                         subject: String,
+                         price: Double) {
+        usernameLabel.text = partnerName
+        if initiatorId == AccountService.shared.currentUser.uid {
+            reasonLabel.text = "\(price.currencyFormat(precision: 2, divider: 1)) for \(subject.capitalized)..."
+        } else {
+            reasonLabel.text = "is calling you for help \nwith \(subject.capitalized)..."
         }
-        quickCallModal?.initiatorId = initiatorId
         
-        quickCallModal?.show()
+        avatarImageView.sd_setImage(with: partnerProfilePicture)
     }
     
     func setupObservers() {
         socket.on(SocketEvents.manualStartAccetped) { _, _ in
-            self.quickCallModal?.dismiss()
             self.dismiss(animated: true, completion: {
                 let vc = QTVideoSessionViewController.controller
                 vc.sessionId = self.sessionId
                 vc.sessionType = self.sessionType
-                self.parentNavController?.delegate = nil
                 self.parentNavController?.pushViewController(vc, animated: true)
             })
         }
@@ -158,7 +232,6 @@ class QTStartQuickCallViewController: UIViewController, QTStartQuickCallModalNav
             print("should cancel session")
             self.socket.disconnect()
             self.removeStartData()
-            self.quickCallModal?.dismiss()
             self.dismiss(animated: false, completion: {})
         }
     }
@@ -266,5 +339,21 @@ extension QTStartQuickCallModalNavigation {
         vc.sessionId = sessionId
         vc.sessionType = sessionType
         navigationController.pushViewController(vc, animated: true)
+    }
+}
+
+extension QTStartQuickCallViewController: UIViewControllerTransitioningDelegate {
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        let animator = QTQuickCallDialogAnimator()
+        animator.animationStyle = .presenting
+        
+        return animator
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        let animator = QTQuickCallDialogAnimator()
+        animator.animationStyle = .dismissing
+        
+        return animator
     }
 }

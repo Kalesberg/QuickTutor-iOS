@@ -14,6 +14,7 @@ class EditProfileImageCell: UICollectionViewCell {
     
     let backgrounImageView: UIImageView = {
         let iv = UIImageView()
+        iv.layer.masksToBounds = true
         iv.contentMode = .scaleAspectFill
         iv.image = UIImage(named: "addPhotoButtonBackground")
         return iv
@@ -21,6 +22,7 @@ class EditProfileImageCell: UICollectionViewCell {
     
     let foregroundImageView: UIImageView = {
         let iv = UIImageView()
+        iv.layer.masksToBounds = true
         iv.contentMode = .scaleAspectFill
         return iv
     }()
@@ -49,6 +51,13 @@ class EditProfileImageCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        backgrounImageView.layer.cornerRadius = backgrounImageView.frame.size.height / 2
+        foregroundImageView.layer.cornerRadius = foregroundImageView.frame.size.height / 2
     }
     
     required init?(coder aDecoder: NSCoder) {

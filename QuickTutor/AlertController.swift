@@ -11,30 +11,26 @@ class AlertController : NSObject {
 	
 	class func cropImageAlert(_ viewController: UIViewController, imagePicker: UIImagePickerController, allowsEditing: Bool) {
 		let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-		let chooseExisting = UIAlertAction(title: "Choose Exisiting", style: .default) { (alert) in
+		let chooseExisting = UIAlertAction(title: "Choose Existing", style: .default) { _ in
 			if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
 				imagePicker.sourceType = .photoLibrary
 				imagePicker.allowsEditing = allowsEditing
-				viewController.present(imagePicker, animated: true, completion: nil)
+                viewController.present(imagePicker, animated: true, completion: nil)
 			} else {
 				AlertController.genericErrorAlert(viewController, title: "Oops", message: "Photo Library is not available")
 			}
 		}
-		let takePhoto = UIAlertAction(title: "Take Photo", style: .default) { (alert) in
+		let takePhoto = UIAlertAction(title: "Take Photo", style: .default) { _ in
 			if UIImagePickerController.isSourceTypeAvailable(.camera) {
-				imagePicker.sourceType = UIImagePickerController.SourceType.camera
-				imagePicker.cameraCaptureMode =  UIImagePickerController.CameraCaptureMode.photo
-				imagePicker.modalPresentationStyle = .custom
-				
-				viewController.present(imagePicker,animated: true, completion: nil)
+				imagePicker.sourceType = .camera
+				imagePicker.cameraCaptureMode = .photo
+				viewController.present(imagePicker, animated: true, completion: nil)
 			} else {
 				AlertController.genericErrorAlert(viewController, title: "Oops", message: "Camera is not available at this time.")
 			}
 		}
 		
-		let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (alert) in
-			alertController.dismiss(animated: true, completion: nil)
-		}
+		let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
 		
 		alertController.addAction(chooseExisting)
 		alertController.addAction(takePhoto)
@@ -44,7 +40,7 @@ class AlertController : NSObject {
 	}
 	class func cropImageWithRemoveAlert(_ viewController: UIViewController, imagePicker: UIImagePickerController,_ completion: @escaping (Bool) -> Void) {
 		let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-		let chooseExisting = UIAlertAction(title: "Choose Exisiting", style: .default) { (alert) in
+		let chooseExisting = UIAlertAction(title: "Choose Existing", style: .default) { (alert) in
 			if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
 				imagePicker.sourceType = .photoLibrary
 				imagePicker.allowsEditing = false
