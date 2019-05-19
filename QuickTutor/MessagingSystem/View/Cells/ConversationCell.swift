@@ -77,12 +77,14 @@ class ConversationCell: SwipeCollectionViewCell {
     func updateAsUnread() {
         usernameLabel.font = Fonts.createBlackSize(16)
         lastMessageLabel.font = Fonts.createBlackSize(12)
+        lastMessageLabel.textColor = UIColor.white
         timestampLabel.font = Fonts.createBlackSize(12)
     }
     
     func updateAsRead() {
         usernameLabel.font = Fonts.createBoldSize(16)
         lastMessageLabel.font = Fonts.createSize(12)
+        lastMessageLabel.textColor = UIColor.white.withAlphaComponent(0.5)
         timestampLabel.font = Fonts.createSize(12)
     }
     
