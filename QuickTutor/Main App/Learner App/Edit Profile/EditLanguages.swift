@@ -242,7 +242,7 @@ class CustomLanguageCell: UITableViewCell {
        
         button.setImage(UIImage(named: "ic_language_normal"), for: .normal)
         button.setImage(UIImage(named: "ic_language_selected"), for: .selected)
-        button.backgroundColor = .clear
+        button.isUserInteractionEnabled = false
         
         return button
     }()
@@ -271,7 +271,7 @@ class CustomLanguageCell: UITableViewCell {
         addSubview(checkbox)
         checkbox.isSelected = false
         checkbox.snp.makeConstraints { make in
-            make.right.equalToSuperview().offset(-20)
+            make.right.equalToSuperview().offset(-16)
             make.centerY.equalToSuperview()
             make.width.equalTo(34)
             make.height.equalTo(34)
