@@ -83,7 +83,7 @@
 	<key>NSContactsUsageDescription</key>
 	<string>To invite friends to join the platform</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>For matching you with tutors in your area</string>
+	<string>For display tutors who are in your area</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>For video sessions</string>
 	<key>NSPhotoLibraryUsageDescription</key>

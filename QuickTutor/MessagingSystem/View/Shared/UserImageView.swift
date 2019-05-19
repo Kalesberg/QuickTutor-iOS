@@ -32,17 +32,30 @@ class UserImageView: UIView {
     
     private func setupImageView() {
         addSubview(imageView)
-        imageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        imageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
     
     private func setupOnlineStatusIndicator() {
         addSubview(onlineStatusIndicator)
-        onlineStatusIndicator.anchor(top: nil, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 20, height: 20)
+        onlineStatusIndicator.snp.makeConstraints { make in
+            make.right.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.size.equalToSuperview().multipliedBy(0.3)
+        }
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        imageView.layer.cornerRadius = imageView.frame.size.height / 2
+        onlineStatusIndicator.layer.cornerRadius = onlineStatusIndicator.frame.size.height / 2
     }
     
     required init?(coder aDecoder: NSCoder) {

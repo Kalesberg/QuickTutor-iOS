@@ -56,7 +56,7 @@ class TutorBioVCView: BaseRegistrationView {
     }
     
     override func updateTitleLabel() {
-        titleLabel.text = "Biography"
+        titleLabel.text = "Tell us about yourself!"
         titleLabelHeightAnchor?.constant = 30
         layoutIfNeeded()
     }
