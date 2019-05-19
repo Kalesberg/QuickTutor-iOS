@@ -169,7 +169,7 @@ class QTInviteOthersViewController: UIViewController {
 }
 
 // MARK: - MFMessageComposeViewControllerDelegate
-extension QTInviteOthersViewController: MFMessageComposeViewControllerDelegate/*, UINavigationControllerDelegate*/ {
+extension QTInviteOthersViewController: MFMessageComposeViewControllerDelegate, UINavigationControllerDelegate {
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
         controller.dismiss(animated: true, completion: nil)
     }

@@ -203,15 +203,7 @@ extension UIViewController {
     }
 }
 
-extension UIViewController: UINavigationControllerDelegate {
-    public func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        
-        return QTQuickCallModalAnimator()
-    }
-}
-
-extension UINavigationController {
-	
+extension UINavigationController {	
 	func popBackToMain() {
 		for controller in self.viewControllers {
 			if AccountService.shared.currentUserType == .learner {

@@ -82,18 +82,16 @@ class UploadImageVC: BaseRegistrationController {
     
 }
 
-extension UploadImageVC: UIImagePickerControllerDelegate/*, UINavigationControllerDelegate*/ {
+extension UploadImageVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        // Local variable inserted by Swift 4.2 migrator.
-        let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+        guard let image = info[.originalImage] as? UIImage else { return }
         
-        if let image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as? UIImage {
-            let cropViewController = CropViewController(image: image)
+        profilePicker.dismiss(animated: false) {
+            let cropViewController = CropViewController(croppingStyle: .circular, image: image)
             cropViewController.delegate = self
             cropViewController.aspectRatioPreset = .presetSquare
-            navigationController?.pushViewController(cropViewController, animated: true)
-            profilePicker.dismiss(animated: true, completion: nil)
+            self.present(cropViewController, animated: false, completion: nil)
         }
     }
     
@@ -108,23 +106,12 @@ extension UploadImageVC: UIImagePickerControllerDelegate/*, UINavigationControll
 }
 
 extension UploadImageVC: CropViewControllerDelegate {
-    
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
         imagePicked = true
         chosenImage = image
         contentView.imageView.image = image
         imagePicked = true
-        navigationController?.popViewController(animated: true)
+        cropViewController.dismiss(animated: true, completion: nil)
     }
     
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
-    return Dictionary(uniqueKeysWithValues: input.map { key, value in (key.rawValue, value) })
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
-    return input.rawValue
 }

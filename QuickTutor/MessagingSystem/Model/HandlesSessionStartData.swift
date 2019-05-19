@@ -39,7 +39,6 @@ extension HandlesSessionStartData {
             
             if QTSessionType(rawValue: sessionType) == QTSessionType.quickCalls {
                 let controller = QTStartQuickCallViewController.controller
-                controller.modalPresentationStyle = .overCurrentContext
                 controller.sessionId = sessionId
                 if let initiatorId = value["startedBy"] as? String {
                     controller.initiatorId = initiatorId
@@ -48,11 +47,8 @@ extension HandlesSessionStartData {
                 controller.startType = QTSessionStartType(rawValue: startType)
                 controller.parentNavController = navigationController
                 
-                if let topController = navigationController.topViewController {
-                    navigationController.delegate = topController
-                }
                 navigationController.navigationBar.isHidden = true
-                navigationController.present(controller, animated: false, completion: nil)
+                navigationController.present(controller, animated: true, completion: nil)
             } else {
                 let vc = QTStartSessionViewController.controller
                 vc.sessionId = sessionId

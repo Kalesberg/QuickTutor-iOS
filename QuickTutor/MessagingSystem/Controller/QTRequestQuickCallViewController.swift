@@ -164,11 +164,6 @@ class QTRequestQuickCallViewController: UIViewController {
         
         completion(true)
     }
-    
-    func showQuickCallModal() {
-        let modal = QTQuickCallModal.view
-        
-    }
 }
 
 // MARK: - UICollectionViewDelegate
