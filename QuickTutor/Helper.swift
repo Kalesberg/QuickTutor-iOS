@@ -491,7 +491,7 @@ enum Category {
             categoryInfo = "The smell of baked lasagna coming out of the oven, the feel of clay between one’s fingers — music, yoga, travel, arts & crafts, and motivation are all found here. Lifestyle is where all can tutor the things that warm our hearts and drive our souls."
             suggestedPrices = [12, 25, 50]
             
-        case .health: displayName = "Health"
+        case .health: displayName = "Health & Wellness"
             image = #imageLiteral(resourceName: "health")
             categoryInfo = "Ever been told you’re a health nut? Well, whether you’re a doctor, dentist, gym-rat, nutritionist, or fitness model — you can tutor any subject in our health & wellness category."
             suggestedPrices = [18, 45, 90]
@@ -511,7 +511,7 @@ enum Category {
             categoryInfo = "QuickTutor is a learning and teaching community built for everyone. Remedial is provided and intended for people who experience learning difficulties, or who would like to teach others about special education."
             suggestedPrices = [16, 28, 65]
             
-        case .sports: displayName = "Sports"
+        case .sports: displayName = "Sports & Games"
             image = #imageLiteral(resourceName: "sports")
             categoryInfo = "Snowboarding, video games, chess, fantasy sports, or skydiving — The Sports & Games category is where competitive adrenaline junkies and gamers thrive. Tutor anything."
             suggestedPrices = [8, 19, 40]

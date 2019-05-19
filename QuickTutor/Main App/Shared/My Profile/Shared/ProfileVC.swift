@@ -31,7 +31,7 @@ class ProfileVC: UIViewController {
     let cellImages = [UIImage(named: "cardIconProfile"), UIImage(named: "settingsIcon"), UIImage(named: "fileIcon"), UIImage(named: "questionMarkIcon"), UIImage(named: "feedbackIcon"), UIImage(named: "sessionsTabBarIcon")]
     
     struct Dimension {
-        let header: CGFloat = 190
+        let header: CGFloat = 230
         let cell: CGFloat = 57
         let footer: CGFloat = 70
         let separator: CGFloat = 1
@@ -117,6 +117,11 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
             header.parentViewController = self
             header.didClickProfileHeader = {
                 self.showMyProfile()
+            }
+            header.didClickDayModelButton = {
+                let alert = UIAlertController(title: nil, message: "Day Mode: Coming Soon!", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                self.present(alert, animated: true, completion: nil)
             }
             return header
         }

@@ -80,7 +80,7 @@ class InAppNotificationView: UIView {
         }
         
         titleLabel.text = title
-        guard let message = alertData["body"] as? String else { return }
+        guard let message = alertData["body"] as? String, !message.isEmpty else { return }
         messageLabel.text = message
         addImagePreview()
     }

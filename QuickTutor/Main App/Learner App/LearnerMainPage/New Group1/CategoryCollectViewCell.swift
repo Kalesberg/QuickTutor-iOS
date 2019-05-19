@@ -32,8 +32,8 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         label.textColor = .white
         label.textAlignment = .left
         label.font = Fonts.createSemiBoldSize(17)
-//        label.adjustsFontSizeToFitWidth = true
-//        label.adjustsFontForContentSizeCategory = true
+        label.adjustsFontSizeToFitWidth = true
+        label.adjustsFontForContentSizeCategory = true
         return label
     }()
 

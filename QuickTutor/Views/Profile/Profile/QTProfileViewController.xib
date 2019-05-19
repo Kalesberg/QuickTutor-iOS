@@ -101,7 +101,7 @@
                                                     </constraints>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                            <real key="value" value="3"/>
+                                                            <integer key="value" value="45"/>
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
@@ -133,13 +133,13 @@
                                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="6i0-qX-rKr">
                                                                     <rect key="frame" x="0.0" y="31.5" width="125" height="19.5"/>
                                                                     <subviews>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="top subject" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hbV-DZ-rL9">
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="top subject" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="hbV-DZ-rL9">
                                                                             <rect key="frame" x="0.0" y="0.0" width="81.5" height="19.5"/>
                                                                             <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="16"/>
                                                                             <color key="textColor" red="1" green="1" blue="1" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="sRGB"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="0.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CC5-9W-O72">
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="0.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CC5-9W-O72">
                                                                             <rect key="frame" x="86.5" y="0.0" width="22.5" height="19.5"/>
                                                                             <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="16"/>
                                                                             <color key="textColor" red="0.3921568627" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="calibratedRGB"/>
@@ -203,7 +203,7 @@
                                                             <constraints>
                                                                 <constraint firstAttribute="bottom" secondItem="6i0-qX-rKr" secondAttribute="bottom" id="1hj-dV-ZKy"/>
                                                                 <constraint firstItem="6i0-qX-rKr" firstAttribute="leading" secondItem="tz8-KG-zrq" secondAttribute="leading" id="3hi-03-rmX"/>
-                                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="6i0-qX-rKr" secondAttribute="trailing" constant="16" id="4Fy-5q-Rb6"/>
+                                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="6i0-qX-rKr" secondAttribute="trailing" id="4Fy-5q-Rb6"/>
                                                                 <constraint firstItem="6vE-CP-9AF" firstAttribute="top" secondItem="tz8-KG-zrq" secondAttribute="top" id="8Yd-zy-LNL"/>
                                                                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="a0N-aR-lNB" secondAttribute="bottom" id="Abq-ii-EzO"/>
                                                                 <constraint firstItem="6vE-CP-9AF" firstAttribute="leading" secondItem="tz8-KG-zrq" secondAttribute="leading" id="OIp-qq-NvJ"/>
