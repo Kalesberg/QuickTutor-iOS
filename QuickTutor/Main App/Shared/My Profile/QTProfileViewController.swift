@@ -195,7 +195,7 @@ class QTProfileViewController: UIViewController {
     @IBAction func onQuickCallButtonClicked(_ sender: Any) {
         
         if user.quickCallPrice == -1 {
-            let alert = UIAlertController(title: "", message: "Your tutor has not yet activated quickcalls, message them to let them know you want to call them!", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Wait!", message: "Your tutor has not yet activated QuickCalls, message them to let them know you want to give them a call!", preferredStyle: .alert)
 
             // Add "OK" Button to alert, pressing it will bring you to the settings app
             alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))

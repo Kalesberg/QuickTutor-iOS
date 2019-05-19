@@ -60,7 +60,7 @@ class QTQuickCallModal: BaseModalXibView {
         if initiatorId == AccountService.shared.currentUser.uid {
             reasonLabel.text = "\(price.currencyFormat(precision: 2, divider: 1)) for \(subject.capitalized)..."
         } else {
-            reasonLabel.text = "is calling you for \(subject.capitalized)..."
+            reasonLabel.text = "is calling you for help \nwith \(subject.capitalized)..."
         }
         
         avatarImageView.sd_setImage(with: partnerProfilePicture)

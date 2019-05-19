@@ -125,11 +125,6 @@ class QTRequestQuickCallViewController: UIViewController {
         callButton.isEnabled = false
         callButton.backgroundColor = Colors.gray
         
-//        bottomView.layer.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
-//        bottomView.layer.shadowOpacity = 1
-//        bottomView.layer.shadowRadius = 2
-//        bottomView.layer.shadowOffset = CGSize(width: 0, height: -2)
-        
         guard let price = tutor.quickCallPrice else { return }
         quickCallPriceLabel.text = "This tutor’s QuickCall rate is $\(price)/hr."
         usernameLabel.text = tutor.formattedName
