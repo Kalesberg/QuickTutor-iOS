@@ -62,43 +62,68 @@ class TutorAddressVC: BaseRegistrationController {
     }
     
     func validateAddress() -> String? {
-        guard let line1 = textFields[0].text, line1.streetRegex() else {
-            contentView.addressLine1TextField.line.backgroundColor = Colors.qtRed
-            validData = false
-            return nil
-        }
-        contentView.addressLine1TextField.line.backgroundColor = Colors.green
-        return line1
+        let registrationTextField = contentView.addressLine1TextField
+        return validateRegex(registrationTextField, regex: registrationTextField.textField.text?.streetRegex() ?? false)
     }
     
     func validateCity() -> String? {
-        guard let city = textFields[1].text, city.cityRegex() else {
-            contentView.cityTextField.line.backgroundColor = Colors.qtRed
-            validData = false
-            return nil
-        }
-        contentView.cityTextField.line.backgroundColor = Colors.green
-        return city
+        let registrationTextField = contentView.cityTextField
+        return validateRegex(registrationTextField, regex: registrationTextField.textField.text?.cityRegex() ?? false)
     }
     
     func validateState() -> String? {
-        guard let state = textFields[2].text, state.stateRegex() else {
-            contentView.stateTextField.line.backgroundColor = Colors.qtRed
-            validData = false
-            return nil
-        }
-        contentView.stateTextField.line.backgroundColor = Colors.green
-        return state
+        let registrationTextField = contentView.stateTextField
+        return validateRegex(registrationTextField, regex: registrationTextField.textField.text?.stateRegex() ?? false)
     }
     
     func validateZip() -> String? {
-        guard let zipcode = textFields[3].text, zipcode.zipcodeRegex() else {
-            contentView.zipTextField.line.backgroundColor = Colors.qtRed
-            validData = false
+        let registrationTextField = contentView.zipTextField
+        return validateRegex(registrationTextField, regex: registrationTextField.textField.text?.zipcodeRegex() ?? false)
+    }
+    
+    private func validateRegex(_ registrationTextField: RegistrationTextField, regex: Bool) -> String? {
+        guard let text = registrationTextField.textField.text, regex else {
+            invalidateFor(textField: registrationTextField)
             return nil
         }
-        contentView.zipTextField.line.backgroundColor = Colors.green
-        return zipcode
+        validateFor(textField: registrationTextField)
+        return text
+    }
+    
+    private func invalidateFor(textField: RegistrationTextField) {
+        if let text = textField.textField.text, !text.isEmpty {
+            updateTextFieldUI(textField: textField, isValid: false)
+        }
+        validData = false
+    }
+    
+    private func validateFor(textField: RegistrationTextField) {
+        updateTextFieldUI(textField: textField, isValid: true)
+    }
+    
+    private func updateTextFieldUI(textField: RegistrationTextField, isValid: Bool) {
+        let lineColor = isValid ? Colors.green : Colors.qtRed
+        let fileName = isValid ? "circleCheck" : "attention"
+        let tintColor = isValid ? nil : Colors.qtRed
+        
+        textField.line.backgroundColor = lineColor
+        textField.textField.rightView = rightView(named: fileName, tintColor: tintColor)
+        textField.textField.rightViewMode = .unlessEditing
+    }
+    
+    private func setTextFieldPlaceholderColor(_ textField: RegistrationTextField, isValid: Bool) {
+        textField.placeholder.textColor = isValid ? UIColor.white : Colors.qtRed
+    }
+    
+    private func rightView(named name: String, tintColor: UIColor? = nil) -> UIImageView {
+        let rightView = UIImageView(image: UIImage(named: name))
+        rightView.frame = CGRect(x: 0, y: 0, width: 16, height: 16)
+        
+        if let color = tintColor {
+            rightView.overlayTintColor(color: color)
+        }
+        
+        return rightView
     }
     
     @objc func handleNext(_ sender: UIButton) {
@@ -137,6 +162,12 @@ extension TutorAddressVC: UITextFieldDelegate {
 
         guard let text = textField.text else { return true }
         let newLength = text.count + string.count - range.length
+        
+        if newLength == 0 {
+            updatePlaceholderColorIfNeeded(textField)
+        } else {
+            resetPlaceholderColor(textField)
+        }
 
         switch textField {
         case textFields[0]:
@@ -175,5 +206,55 @@ extension TutorAddressVC: UITextFieldDelegate {
             break
         }
         return false
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        guard let text = textField.text, !text.isEmpty else { return }
+        resetPlaceholderColor(textField)
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        updatePlaceholderColorIfNeeded(textField)
+    }
+    
+    func updatePlaceholderColorIfNeeded(_ textField: UITextField) {
+        guard let rightView = textField.rightView else { return }
+        if rightView.tintColor == Colors.qtRed {
+            findAndUpdatePlaceholderColor(textField)
+        }
+    }
+    
+    func findAndUpdatePlaceholderColor(_ textField: UITextField) {
+        switch textField {
+        case textFields[0]:
+            let isValid = textField.text?.streetRegex()
+            setTextFieldPlaceholderColor(contentView.addressLine1TextField, isValid: isValid ?? false)
+        case textFields[1]:
+            let isValid = textField.text?.cityRegex()
+            setTextFieldPlaceholderColor(contentView.cityTextField, isValid: isValid ?? false)
+        case textFields[2]:
+            let isValid = textField.text?.stateRegex()
+            setTextFieldPlaceholderColor(contentView.stateTextField, isValid: isValid ?? false)
+        case textFields[3]:
+            let isValid = textField.text?.zipcodeRegex()
+            setTextFieldPlaceholderColor(contentView.zipTextField, isValid: isValid ?? false)
+        default:
+            break
+        }
+    }
+    
+    func resetPlaceholderColor(_ textField: UITextField) {
+        switch textField {
+        case textFields[0]:
+            contentView.addressLine1TextField.placeholder.textColor = UIColor.white
+        case textFields[1]:
+            contentView.cityTextField.placeholder.textColor = UIColor.white
+        case textFields[2]:
+            contentView.stateTextField.placeholder.textColor = UIColor.white
+        case textFields[3]:
+            contentView.zipTextField.placeholder.textColor = UIColor.white
+        default:
+            break
+        }
     }
 }
