@@ -70,6 +70,7 @@ struct Colors {
     static let brightPurple = UIColor(hex: "962fbf")
     static let warmBlue = UIColor(hex: "4f5bd5")
     static let grayText80 = UIColor.white.withAlphaComponent(0.5)
+    static let facebookColor = UIColor(hex: "0065E1")
     
 }
 

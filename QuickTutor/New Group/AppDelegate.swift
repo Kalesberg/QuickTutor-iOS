@@ -96,7 +96,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     
     func showOnboardingIfNeeded() {
         guard !UserDefaults.standard.bool(forKey: "hasBeenOnboarded"),
-            nil == Auth.auth().currentUser else { return }
+            nil == Auth.auth().currentUser else {
+                let vc = SignInVC()
+                RootControllerManager.shared.setupDefaultConfiguration(controller: vc)
+                return
+        }
         
         let vc = WalkthroughVC()
         RootControllerManager.shared.setupDefaultConfiguration(controller: vc)

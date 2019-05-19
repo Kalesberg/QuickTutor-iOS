@@ -44,7 +44,7 @@ class SignInVCView: UIView {
     
     let facebookButton: DimmableButton = {
         let button = DimmableButton()
-        button.backgroundColor = Colors.purple
+        button.backgroundColor = Colors.facebookColor
         button.setTitle("Login via Facebook", for: .normal)
         button.titleLabel?.font = Fonts.createBoldSize(14)
         button.layer.cornerRadius = 4
