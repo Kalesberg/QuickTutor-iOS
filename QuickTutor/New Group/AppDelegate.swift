@@ -95,15 +95,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     }
     
     func showOnboardingIfNeeded() {
-        guard !UserDefaults.standard.bool(forKey: "hasBeenOnboarded"),
-            nil == Auth.auth().currentUser else {
-                let vc = SignInVC()
-                RootControllerManager.shared.setupDefaultConfiguration(controller: vc)
-                return
+        if UserDefaults.standard.bool(forKey: "hasBeenOnboarded") {
+            let vc = WalkthroughVC()
+            RootControllerManager.shared.setupDefaultConfiguration(controller: vc)
+        } else if Auth.auth().currentUser == nil {
+            let vc = SignInVC()
+            RootControllerManager.shared.setupDefaultConfiguration(controller: vc)
         }
-        
-        let vc = WalkthroughVC()
-        RootControllerManager.shared.setupDefaultConfiguration(controller: vc)
     }
     
     func checkForUnfinishedSessions() {

@@ -132,6 +132,7 @@ class QTInPersonSessionViewController: UIViewController {
         isFinishViewOpened = false
         // Set the subject.
         durationLabel.text = session?.subject
+        durationLabel.textColor = Colors.purple
         finishView.isHidden = true
         timerView.isHidden = false
         pauseButton.isHidden = false
@@ -146,6 +147,7 @@ class QTInPersonSessionViewController: UIViewController {
         guard let info = notification.userInfo as? [String: Any], let timeString = info["timeString"] as? String else { return }
         if isFinishViewOpened {
             durationLabel.text = timeString
+            durationLabel.textColor = Colors.grayText80
         }
         durationCountLabel.text = timeString
     }
@@ -184,6 +186,7 @@ class QTInPersonSessionViewController: UIViewController {
         pauseButton.setupTargets()
         pauseButton.setImage(UIImage(named: "ic_pause")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate), for: .normal)
         pauseButton.imageView?.overlayTintColor(color: UIColor.white)
+        pauseButton.backgroundColor = Colors.brightRed
         
         finishButton.layer.cornerRadius = 3
         finishButton.clipsToBounds = true
@@ -216,6 +219,7 @@ class QTInPersonSessionViewController: UIViewController {
             }
             // Set the subject.
             self.durationLabel.text = session.subject
+            self.durationLabel.textColor = Colors.purple
         }
     }
     
@@ -257,6 +261,7 @@ class QTInPersonSessionViewController: UIViewController {
                 self.pauseLabel.text = "Paused"
                 self.pauseButton.setImage(UIImage(named: "ic_play"), for: .normal)
                 self.pauseButton.imageEdgeInsets = UIEdgeInsets(top: 12, left: 14, bottom: 12, right: 10)
+                self.pauseButton.backgroundColor = Colors.purple
             } else {
                 self.pauseLabel.text = "\(username) paused"
                 self.pauseButton.isHidden = true
@@ -309,6 +314,7 @@ class QTInPersonSessionViewController: UIViewController {
         self.pauseButton.isHidden = false
         self.pauseButton.setImage(UIImage(named: "ic_pause"), for: .normal)
         self.pauseButton.imageEdgeInsets = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
+        self.pauseButton.backgroundColor = Colors.brightPurple
         // Show the in progress label
         inProgressLabel.isHidden = false
     }
