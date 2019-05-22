@@ -173,6 +173,7 @@ class QTProfileViewController: UIViewController {
                 let vc = TutorReviewsVC()
                 vc.datasource = fetchedTutor.reviews ?? [Review]()
                 vc.isViewing = profileViewType == .tutor
+                vc.navigationItem.title = "\(user.name.components(separatedBy: " ")[0])'s Reviews"
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         case .learner, .myLearner:

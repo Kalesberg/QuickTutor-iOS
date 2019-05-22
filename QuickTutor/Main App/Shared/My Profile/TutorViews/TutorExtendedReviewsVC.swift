@@ -24,6 +24,7 @@ class TutorReviewsVCView: UIView {
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .none
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
         return tableView
     }()
     
@@ -67,7 +68,7 @@ class TutorReviewsVC: UIViewController {
 		super.viewDidLoad()
 		contentView.tableView.delegate = self
 		contentView.tableView.dataSource = self
-        navigationItem.title = "Reviews"
+//        navigationItem.title = "Reviews"
 	}
     
     override func viewWillAppear(_ animated: Bool) {
