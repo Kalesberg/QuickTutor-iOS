@@ -49,11 +49,11 @@ class ConnectionCell: UICollectionViewCell {
         }
     }
 
-    let profileImageView: UIImageView = {
-        let iv = UIImageView()
-        iv.contentMode = .scaleAspectFill
-        iv.layer.cornerRadius = 25
-        iv.clipsToBounds = true
+    let profileImageView: UserImageView = {
+        let iv = UserImageView()
+        iv.imageView.contentMode = .scaleAspectFill
+        iv.imageView.layer.cornerRadius = 25
+        iv.imageView.clipsToBounds = true
         return iv
     }()
 
@@ -146,7 +146,7 @@ class ConnectionCell: UICollectionViewCell {
     
     func updateUI(user: User) {
         self.user = user
-        profileImageView.sd_setImage(with: user.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+        profileImageView.imageView.sd_setImage(with: user.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
         nameLabel.text = user.formattedName
         if let zfUser = user as? ZFTutor {
             let subject = zfUser.featuredSubject == "" ? zfUser.subjects?.first : zfUser.featuredSubject
@@ -154,6 +154,14 @@ class ConnectionCell: UICollectionViewCell {
         } else if let awUser = user as? AWTutor {
             let subject = awUser.featuredSubject == "" ? awUser.subjects?.first : awUser.featuredSubject
             featuredSubject.text = subject
+        }
+        updateOnlineStatusIndicator()
+    }
+    
+    private func updateOnlineStatusIndicator() {
+        UserStatusService.shared.getUserStatus(self.user.uid) { (status) in
+            let online = status?.status == UserStatusType.online
+            self.profileImageView.onlineStatusIndicator.backgroundColor = online ? Colors.purple : Colors.gray
         }
     }
     
