@@ -67,13 +67,13 @@ class EmptyMessagesBackground: UIView {
     }
     
     private func setupForLearner() {
-        icon.image = UIImage(named: "searchIcon")
+        icon.image = UIImage(named: "emptyMessagesSearchIcon")
         titleLabel.text = "Start Searching"
         descriptionLabel.text = "When you connect with tutors they’ll appear here, where you can send them messages and schedule sessions."
     }
     
     private func setupForTutor() {
-        icon.image = #imageLiteral(resourceName: "buildIcon")
+        icon.image = UIImage(named: "buildIcon")
         titleLabel.text = "Build Your Profile"
         descriptionLabel.text = "When you connect with learners they’ll appear here, where you can send them messages and schedule sessions."
     }
