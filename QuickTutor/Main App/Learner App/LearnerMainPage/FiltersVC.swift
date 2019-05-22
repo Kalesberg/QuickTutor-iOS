@@ -34,7 +34,7 @@ class FiltersVC: UIViewController {
         if let filter = searchFilter {
             contentView.setFilters(filter)
         }
-        contentView.accessoryView.nextButton.addTarget(self, action: #selector(pop), for: .touchUpInside)
+        contentView.accessoryView.nextButton.addTarget(self, action: #selector(handleApplyButton), for: .touchUpInside)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -45,7 +45,6 @@ class FiltersVC: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-        postFilers()
     }
     
     func setupNavigationBar() {
@@ -60,6 +59,11 @@ class FiltersVC: UIViewController {
     
     @objc func resetFilters() {
         contentView.resetFilters()
+    }
+    
+    @objc func handleApplyButton() {
+        postFilers()
+        pop()
     }
     
     func postFilers() {
