@@ -95,7 +95,6 @@ class QTProfileViewController: UIViewController {
         setupDelegates()
         setupLocationManager()
         
-        navigationController?.setNavigationBarHidden(false, animated: false)
         if #available(iOS 11.0, *) {
             if !isPresentedFromSessionScreen {
                 navigationItem.largeTitleDisplayMode = .never
@@ -107,7 +106,7 @@ class QTProfileViewController: UIViewController {
         super.viewWillAppear(animated)
         initData()
         
-        navigationController?.setNavigationBarHidden(false, animated: false)
+        navigationController?.setNavigationBarHidden(false, animated: true)
         
         if AccountService.shared.currentUserType == .learner && (profileViewType == .tutor || profileViewType == .myTutor) {
             tabBarController?.tabBar.isHidden = true
@@ -128,7 +127,7 @@ class QTProfileViewController: UIViewController {
         }
         
         if !isPresentedFromSessionScreen {
-            navigationController?.setNavigationBarHidden(true, animated: false)
+            navigationController?.setNavigationBarHidden(true, animated: true)
         }
         
         if let connectionRef = connectionRef, let connectionHandle = connectionHandle {
