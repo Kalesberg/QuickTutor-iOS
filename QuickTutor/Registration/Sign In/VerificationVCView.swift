@@ -87,7 +87,7 @@ class VerificationVCView: BaseRegistrationView {
             make.height.equalTo(80)
             make.width.equalToSuperview().multipliedBy(0.8)
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().offset(-75)
+            make.centerY.equalToSuperview().offset(-100)
         }
     }
     
