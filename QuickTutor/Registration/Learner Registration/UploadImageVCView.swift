@@ -16,7 +16,6 @@ class UploadImageVCView: BaseRegistrationView {
         iv.clipsToBounds = true
         iv.tag = 1
         iv.applyDefaultShadow()
-        iv.layer.cornerRadius = 4
         if #available(iOS 11.0, *) {
             iv.adjustsImageSizeForAccessibilityContentSizeCategory = true
         }
@@ -66,6 +65,11 @@ class UploadImageVCView: BaseRegistrationView {
         setupLine()
         setupChoosePhotoButton()
         setupInfoLabel()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        imageView.layer.cornerRadius = imageView.frame.size.height / 2
     }
     
     func setupImageViewButton() {
