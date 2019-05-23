@@ -79,7 +79,7 @@ class LearnerMainPageVC: UIViewController {
         let next = CategorySearchVC()
         next.category = category
         if let categoryType = CategoryType(rawValue: category) {
-            next.navigationItem.title = categoryType.title
+            next.navigationItem.title = categoryType.title.capitalizingFirstLetter()
         } else {
             next.navigationItem.title = category.capitalizingFirstLetter()
         }

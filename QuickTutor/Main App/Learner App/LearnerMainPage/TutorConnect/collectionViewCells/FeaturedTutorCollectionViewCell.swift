@@ -39,11 +39,9 @@ class TutorCollectionViewCell: UICollectionViewCell {
     
     let infoContainerView: UIView = {
         let view = UIView()
-        view.layer.borderColor = UIColor(white: 0, alpha: 0.2).cgColor
-        view.layer.borderWidth = 1
-        view.layer.cornerRadius = 4
         view.clipsToBounds = true
         view.backgroundColor = Colors.newBackground
+        view.layer.cornerRadius = 4
         return view
     }()
     

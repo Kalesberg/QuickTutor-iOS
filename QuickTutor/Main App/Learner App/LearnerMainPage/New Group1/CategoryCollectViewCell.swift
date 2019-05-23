@@ -22,8 +22,6 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         let view = UIView()
         view.clipsToBounds = true
         view.backgroundColor = Colors.newBackground
-        view.layer.borderColor = UIColor.black.withAlphaComponent(0.2).cgColor
-        view.layer.borderWidth = 1
         return view
     }()
 
