@@ -23,8 +23,6 @@ class SessionRequestPaymentView: BaseSessionRequestViewSection {
         cell.titleLabel.text = "Type of charge"
         cell.titleLabel.font = Fonts.createSize(14)
         cell.numberOfButtons = 2
-        cell.layer.borderWidth = 1
-        cell.layer.borderColor = Colors.gray.cgColor
         return cell
     }()
     
@@ -68,7 +66,7 @@ class SessionRequestPaymentView: BaseSessionRequestViewSection {
     }
     
     @objc func textFieldDidChange(_ sender: UITextField) {
-        guard let text = sender.text, text != "" else {
+        guard let text = sender.text, !text.isEmpty else {
             delegate?.sessionRequestPaymentView(self, didEnter: 0)
             return
         }

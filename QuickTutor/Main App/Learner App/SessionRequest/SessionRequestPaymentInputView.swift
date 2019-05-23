@@ -26,12 +26,29 @@ class SessionRequestPaymentInputView: UIView {
         field.keyboardType = .decimalPad
         field.keyboardAppearance = .dark
         field.tintColor = Colors.gray
-        field.attributedPlaceholder = NSAttributedString(string: "0.00", attributes: [NSAttributedString.Key.foregroundColor : Colors.gray])
+        field.attributedPlaceholder = NSAttributedString(string: "0.00", attributes: [.foregroundColor: Colors.gray])
         field.textColor = .white
         return field
     }()
     
-    let separator: UIView = {
+    let separator1: UIView = {
+        let view = UIView()
+        view.backgroundColor = Colors.gray
+        view.layer.cornerRadius = 1
+        return view
+    }()
+    
+    let feeLabel: UILabel = {
+        let label = UILabel()
+        label.font = Fonts.createSize(15)
+        label.textAlignment = .left
+        label.textColor = .white
+        label.adjustsFontSizeToFitWidth = true
+        label.adjustsFontForContentSizeCategory = true
+        return label
+    }()
+    
+    let separator2: UIView = {
         let view = UIView()
         view.backgroundColor = Colors.gray
         view.layer.cornerRadius = 1
@@ -40,7 +57,7 @@ class SessionRequestPaymentInputView: UIView {
     
     let totalLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createBoldSize(12)
+        label.font = Fonts.createBoldSize(13)
         label.text = "Total"
         label.textColor = UIColor.white.withAlphaComponent(0.5)
         return label
@@ -48,7 +65,7 @@ class SessionRequestPaymentInputView: UIView {
     
     let digitsLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createBoldSize(12)
+        label.font = Fonts.createBoldSize(13)
         label.text = "$0.00"
         label.textColor = .white
         return label
@@ -58,9 +75,11 @@ class SessionRequestPaymentInputView: UIView {
         setupMainView()
         setupDollarSignLabel()
         setupInputField()
-        setupSeparator()
+        setupSeparator1()
         setupTotalLabel()
         setupDigitsLabel()
+        setupSeparator2()
+        setupFeeLabel()
     }
     
     func setupMainView() {
@@ -68,33 +87,72 @@ class SessionRequestPaymentInputView: UIView {
         layer.cornerRadius = 4
         layer.borderColor = Colors.gray.cgColor
         layer.borderWidth = 1
+        layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 4)
     }
     
     func setupDollarSignLabel() {
         addSubview(dollarSignLabel)
-        dollarSignLabel.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 13, height: 0)
+        dollarSignLabel.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(15)
+            make.centerY.equalToSuperview()
+            make.width.equalTo(16)
+        }
     }
     
     func setupInputField() {
         addSubview(inputField)
-        inputField.anchor(top: topAnchor, left: dollarSignLabel.rightAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        inputField.delegate = self
+        inputField.snp.makeConstraints { make in
+            make.height.equalToSuperview()
+            make.centerY.equalToSuperview()
+            make.width.equalTo(40)
+            make.left.equalTo(dollarSignLabel.snp.right).offset(5)
+        }
     }
     
-    func setupSeparator() {
-        addSubview(separator)
-        separator.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 95, width: 2, height: 12)
-        addConstraint(NSLayoutConstraint(item: separator, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
+    func setupSeparator1() {
+        addSubview(separator1)
+        separator1.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.left.equalTo(inputField.snp.right).offset(10)
+            make.height.equalTo(12)
+            make.width.equalTo(2)
+        }
     }
     
     func setupTotalLabel() {
         addSubview(totalLabel)
-        totalLabel.anchor(top: topAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 15, paddingLeft: 0, paddingBottom: 0, paddingRight: 25, width: 50, height: 14)
+        totalLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(15)
+            make.right.equalToSuperview().offset(-10)
+            make.width.equalTo(50)
+        }
     }
     
     func setupDigitsLabel() {
         addSubview(digitsLabel)
-        digitsLabel.anchor(top: totalLabel.bottomAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 4, paddingLeft: 0, paddingBottom: 0, paddingRight: 25, width: 50, height: 14)
+        digitsLabel.snp.makeConstraints { make in
+            make.top.equalTo(totalLabel.snp.bottom).offset(4)
+            make.right.equalTo(totalLabel.snp.right)
+            make.width.equalTo(totalLabel.snp.width)
+        }
+    }
+    
+    func setupSeparator2() {
+        addSubview(separator2)
+        separator2.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.right.equalTo(totalLabel.snp.left).offset(-10)
+            make.size.equalTo(separator1.snp.size)
+        }
+    }
+    
+    func setupFeeLabel() {
+        addSubview(feeLabel)
+        feeLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.left.equalTo(separator1.snp.right).offset(10)
+            make.right.equalTo(separator2.snp.left).offset(10)
+        }
     }
     
     override init(frame: CGRect) {
@@ -104,12 +162,5 @@ class SessionRequestPaymentInputView: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-}
-
-extension SessionRequestPaymentInputView: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        //        totalLabel.attributedText = totalLabel.attr
-        return true
     }
 }

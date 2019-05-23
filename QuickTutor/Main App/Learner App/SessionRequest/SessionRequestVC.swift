@@ -128,7 +128,7 @@ class SessionRequestVC: UIViewController {
     }
     
     func showPriceAlert() {
-        let ac = UIAlertController(title: nil, message: "There is a $5 minimum to every session", preferredStyle: .alert)
+        let ac = UIAlertController(title: nil, message: "There is a $5 minimum to every session.", preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: { (action) in
             ac.dismiss(animated: true, completion: nil)
         }))
@@ -136,13 +136,20 @@ class SessionRequestVC: UIViewController {
     }
     
     func updatePriceLabelText(_ price: Double) {
-        if contentView.paymentView.paymentTypeView.secondaryButton.isSelected {
-            guard let priceText = contentView.paymentView.paymentInputView.inputField.text else { return }
-            contentView.paymentView.paymentInputView.digitsLabel.text = "$\(priceText)"
-        } else {
-            let price = calculatePrice(price, duration: duration)
-            contentView.paymentView.paymentInputView.digitsLabel.text = "$\(String(format: "%.2f", price))"
+        var realPrice = price
+        if !contentView.paymentView.paymentTypeView.secondaryButton.isSelected {
+            realPrice = calculatePrice(price, duration: duration)
         }
+        
+        let fee = realPrice * 0.0029 + 0.3
+        // fee
+        let strFee = NSMutableAttributedString(attributedString: NSAttributedString(string: "+Processing Fee: ",
+                                                                                    attributes: [.foregroundColor: UIColor.white.withAlphaComponent(0.5)]))
+        strFee.append(NSAttributedString(string: "$\(String(format: "%.2f", fee))"))
+        contentView.paymentView.paymentInputView.feeLabel.attributedText = strFee
+        
+        // total
+        contentView.paymentView.paymentInputView.digitsLabel.text = "$\(String(format: "%.2f", realPrice + fee))"
     }
     
     func calculatePrice(_ price: Double, duration: Int) -> Double {

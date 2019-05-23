@@ -29,19 +29,6 @@ class MockCollectionViewCell: UIView {
         }
     }
     
-    let containerView: UIView = {
-        let view = UIView()
-        
-        view.layer.masksToBounds = true
-        view.layer.cornerRadius = 3
-        view.layer.borderColor = Colors.gray.cgColor
-        view.layer.borderWidth = 1
-        
-        view.backgroundColor = Colors.newBackground
-        
-        return view
-    }()
-    
     let titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
@@ -77,25 +64,21 @@ class MockCollectionViewCell: UIView {
     
     func setupViews() {
         setupMainView()
-        setupContainerView()
         setupTitleLabel()
         setupPrimaryButton()
         setupSecondaryButton()
     }
     
     func setupMainView() {
+        backgroundColor = Colors.darkBackground
+        layer.cornerRadius = 4
+        layer.borderColor = Colors.gray.cgColor
+        layer.borderWidth = 1
         layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 4)
     }
     
-    func setupContainerView() {
-        addSubview(containerView)
-        containerView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-    }
-    
     func setupTitleLabel() {
-        containerView.addSubview(titleLabel)
+        addSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(15)
             make.centerY.equalToSuperview()
@@ -105,7 +88,7 @@ class MockCollectionViewCell: UIView {
     }
     
     func setupPrimaryButton() {
-        containerView.addSubview(primaryButton)
+        addSubview(primaryButton)
         primaryButton.snp.makeConstraints { make in
             make.right.equalToSuperview().offset(-15)
             make.width.equalTo(60)
@@ -116,7 +99,7 @@ class MockCollectionViewCell: UIView {
     }
     
     func setupSecondaryButton() {
-        containerView.addSubview(secondaryButton)
+        addSubview(secondaryButton)
         secondaryButton.snp.makeConstraints { make in
             make.right.equalTo(primaryButton.snp.left).offset(-10)
             make.width.equalTo(75)
@@ -147,6 +130,7 @@ class MockCollectionViewCell: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
+        setupMainView()
     }
     
     required init?(coder aDecoder: NSCoder) {
