@@ -79,11 +79,7 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        
-        profileView.layer.cornerRadius = 3
-        profileView.layer.borderColor = Colors.gray.cgColor
-        profileView.layer.borderWidth = 1
-        profileView.clipsToBounds = true
+        profileView.superview?.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 4)        
         
         feedbackTextView.layer.cornerRadius = 3
         feedbackTextView.layer.borderColor = Colors.gray.cgColor
