@@ -20,7 +20,7 @@ class SessionRequestPaymentView: BaseSessionRequestViewSection {
         let cell = MockCollectionViewCell()
         cell.primaryButton.setTitle("Per hour", for: .normal)
         cell.secondaryButton.setTitle("Per session", for: .normal)
-        cell.titleLabel.text = "Type of payment"
+        cell.titleLabel.text = "Type of charge"
         cell.titleLabel.font = Fonts.createSize(14)
         cell.numberOfButtons = 2
         cell.layer.borderWidth = 1
@@ -36,7 +36,7 @@ class SessionRequestPaymentView: BaseSessionRequestViewSection {
     let minimumPriceLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.text = "There is a $5.00 minimum to every session"
+        label.text = "There is a $5.00 minimum to every session."
         label.textColor = UIColor.white.withAlphaComponent(0.5)
         label.font = Fonts.createBoldSize(12)
         return label
@@ -47,7 +47,7 @@ class SessionRequestPaymentView: BaseSessionRequestViewSection {
         setupPaymentTypeView()
         setupPaymentInputView()
         setupMinimumPriceLabel()
-        titleLabel.text = "Price"
+        titleLabel.text = "Select a specific price."
     }
     
     func setupPaymentTypeView() {
