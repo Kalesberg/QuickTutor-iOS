@@ -169,7 +169,7 @@ class UserPolicyVC: BaseRegistrationController {
                             "accountId": registrationId
                         ]
                         Alamofire.request("\(Constants.API_BASE_URL)/quicklink/followers", method: .post, parameters: params, encoding: URLEncoding.default)
-                            .validate(statusCode: 200..<300)
+                            .validate()
                             .responseString(completionHandler: { response in
                                 switch response.result {
                                 case .success(var value):

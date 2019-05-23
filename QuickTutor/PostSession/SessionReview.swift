@@ -338,7 +338,7 @@ class SessionReview : BaseViewController {
 				contentView.nextButton.isEnabled = false
 				let costWithTip = costOfSession + Double(PostSessionReviewData.tipAmount)
                 AnalyticsService.shared.logSessionPayment(cost: costOfSession, tip: Double(PostSessionReviewData.tipAmount))
-                createCharge(tutorId: tutor.acctId, cost: Int(costWithTip * 100)) { (error) in
+                createCharge(learnerId: CurrentUser.shared.learner.uid, cost: Int(costWithTip * 100)) { error in
 					if let error = error {
 						AlertController.genericErrorAlertWithoutCancel(self, title: "Payment Error", message: error.localizedDescription)
 						self.hasPaid = false
@@ -406,11 +406,11 @@ class SessionReview : BaseViewController {
 		}
 	}
 
-    private func createCharge(tutorId: String, cost: Int, completion: @escaping (Error?) -> Void) {
+    private func createCharge(learnerId: String, cost: Int, completion: @escaping (Error?) -> Void) {
 		let fee = Int(Double(cost) * 0.1) + 200
 		self.displayLoadingOverlay()
         
-        checkTutor(tutorId: tutorId) { takeRate, paypal, error in
+        checkTutor(learnerId: learnerId) { takeRate, paypal, error in
             Stripe.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { (customer, error) in
                 if let error = error {
                     self.dismissOverlay()
@@ -420,12 +420,18 @@ class SessionReview : BaseViewController {
                         self.dismissOverlay()
                         return completion(StripeError.createChargeError)
                     }
-                    Stripe.destinationCharge(acctId: self.tutor.acctId, customerId: CurrentUser.shared.learner.uid, customerStripeId: customer.stripeID, sourceId: card, amount: cost, fee: fee, description: self.session?.subject ?? " ", { (error) in
+                    Stripe.destinationCharge(acctId: self.tutor.acctId,
+                                             customerId: learnerId,
+                                             customerStripeId: customer.stripeID,
+                                             sourceId: card,
+                                             amount: cost,
+                                             fee: fee,
+                                             description: self.session?.subject ?? "", { error in
                         if let error = error {
                             completion(error)
                         } else if let takeRate = takeRate,
                             let paypal = paypal {
-                            self.createQLPayment(tutorId: tutorId, fee: fee, takeRate: takeRate, paypal: paypal, completion: completion)
+                            self.createQLPayment(learnerId: learnerId, fee: fee, takeRate: takeRate, paypal: paypal, completion: completion)
                         } else {
                             completion(nil)
                         }
@@ -436,11 +442,11 @@ class SessionReview : BaseViewController {
         }
 	}
     
-    private func checkTutor(tutorId: String, completion: @escaping(_ takeRate: Float?, _ paypal: String?,  _ error: Error?) -> Void) {
+    private func checkTutor(learnerId: String, completion: @escaping(_ takeRate: Float?, _ paypal: String?,  _ error: Error?) -> Void) {
         let params = [
-            "tutorId": tutorId
+            "learner_id": learnerId
         ]
-        Alamofire.request("\(Constants.API_BASE_URL)/quicklink/check-tutor", method: .post, parameters: params, encoding: URLEncoding.default)
+        Alamofire.request("\(Constants.API_BASE_URL)/quicklink/check-learner", method: .post, parameters: params, encoding: URLEncoding.default)
             .validate()
             .responseJSON(completionHandler: { response in
                 switch response.result {
@@ -462,9 +468,9 @@ class SessionReview : BaseViewController {
             })
     }
     
-    private func createQLPayment(tutorId: String, fee: Int, takeRate: Float, paypal: String, completion: @escaping(Error?) -> Void) {
+    private func createQLPayment(learnerId: String, fee: Int, takeRate: Float, paypal: String, completion: @escaping(Error?) -> Void) {
         let params: [String: Any] = [
-            "tutorId": tutorId,
+            "learner_id": learnerId,
             "ql_cut": Float(fee) * takeRate,
             "qt_cut": Float(fee) * (1 - takeRate),
             "paypal": paypal

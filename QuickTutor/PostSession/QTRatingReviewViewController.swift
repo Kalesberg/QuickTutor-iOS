@@ -131,7 +131,7 @@ class QTRatingReviewViewController: UIViewController {
                 nextButton.isEnabled = false
                 let tip = Double(PostSessionReviewData.tipAmount)
                 AnalyticsService.shared.logSessionPayment(cost: costOfSession, tip: tip)
-                createCharge(tutorId: tutor.acctId, cost: costInDollars(costOfSession), tip: Int(tip * 100)) { (error) in
+                createCharge(tutorId: tutor.uid, cost: costInDollars(costOfSession), tip: Int(tip * 100)) { error in
                     if let error = error {
                         AlertController.genericErrorAlertWithoutCancel(self, title: "Payment Error", message: error.localizedDescription)
                         self.hasPaid = false
@@ -275,7 +275,13 @@ class QTRatingReviewViewController: UIViewController {
                         self.dismissOverlay()
                         return completion(StripeError.createChargeError)
                     }
-                    Stripe.destinationCharge(acctId: self.tutor.acctId, customerId: CurrentUser.shared.learner.uid, customerStripeId: customer.stripeID, sourceId: card, amount: costWithTip, fee: fee, description: self.session?.subject ?? " ", { (error) in
+                    Stripe.destinationCharge(acctId: self.tutor.acctId,
+                                             customerId: CurrentUser.shared.learner.uid,
+                                             customerStripeId: customer.stripeID,
+                                             sourceId: card,
+                                             amount: costWithTip,
+                                             fee: fee,
+                                             description: self.session?.subject ?? "", { error in
                         if let error = error {
                             completion(error)
                         } else if let takeRate = takeRate,
@@ -293,7 +299,7 @@ class QTRatingReviewViewController: UIViewController {
     
     private func checkTutor(tutorId: String, completion: @escaping(_ takeRate: Float?, _ paypal: String?,  _ error: Error?) -> Void) {
         let params = [
-            "tutorId": tutorId
+            "tutor_id": tutorId
         ]
         Alamofire.request("\(Constants.API_BASE_URL)/quicklink/check-tutor", method: .post, parameters: params, encoding: URLEncoding.default)
             .validate()
@@ -318,10 +324,11 @@ class QTRatingReviewViewController: UIViewController {
     }
     
     private func createQLPayment(tutorId: String, fee: Int, takeRate: Float, paypal: String, completion: @escaping(Error?) -> Void) {
+        let qlCut = Int(Float(fee) * takeRate)
         let params: [String: Any] = [
-            "tutorId": tutorId,
-            "ql_cut": Float(fee) * takeRate,
-            "qt_cut": Float(fee) * (1 - takeRate),
+            "tutor_id": tutorId,
+            "ql_cut": qlCut,
+            "qt_cut": fee - qlCut,
             "paypal": paypal
         ]
         
