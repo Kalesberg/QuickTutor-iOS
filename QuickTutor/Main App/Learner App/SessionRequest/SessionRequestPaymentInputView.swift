@@ -95,7 +95,7 @@ class SessionRequestPaymentInputView: UIView {
         dollarSignLabel.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(15)
             make.centerY.equalToSuperview()
-            make.width.equalTo(16)
+            make.width.equalTo(14)
         }
     }
     
@@ -151,7 +151,7 @@ class SessionRequestPaymentInputView: UIView {
         feeLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.left.equalTo(separator1.snp.right).offset(10)
-            make.right.equalTo(separator2.snp.left).offset(10)
+            make.right.equalTo(separator2.snp.left).offset(-10)
         }
     }
     
