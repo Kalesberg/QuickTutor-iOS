@@ -28,7 +28,7 @@ class AddTutorTableViewCell: UITableViewCell {
 	
 	let nameLabel: UILabel = {
 		let label = UILabel()
-		label.font = Fonts.createBoldSize(10)
+		label.font = Fonts.createBoldSize(12)
 		label.adjustsFontSizeToFitWidth = true
 		label.textColor = .white
 		label.textAlignment = .left

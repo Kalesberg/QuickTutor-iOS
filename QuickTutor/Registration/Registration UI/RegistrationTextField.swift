@@ -97,13 +97,6 @@ class SearchTextField: RegistrationTextField {
             make.centerY.equalToSuperview().multipliedBy(0.6)
         }
         
-        line.snp.makeConstraints { make in
-            make.height.equalTo(1)
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.centerY.equalToSuperview().multipliedBy(1.8)
-        }
-        
         imageView.snp.makeConstraints({ make in
             make.left.equalToSuperview()
             make.centerY.equalTo(textField)
@@ -115,6 +108,12 @@ class SearchTextField: RegistrationTextField {
             make.right.equalToSuperview()
             make.centerY.equalToSuperview().multipliedBy(1.35)
         }
+    }
+    
+    override func setupLine() {
+        addSubview(line)
+        line.backgroundColor = Colors.gray
+        line.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 1)
     }
 
 }

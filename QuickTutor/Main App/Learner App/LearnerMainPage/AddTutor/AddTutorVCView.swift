@@ -45,7 +45,7 @@ class AddTutorView: UIView {
 			make.centerX.equalToSuperview()
 		}
 		loadingIndicator.snp.makeConstraints { make in
-			make.top.equalTo(searchTextField.snp.bottom)
+			make.top.equalTo(searchTextField.snp.bottom).offset(2)
 			make.centerX.width.equalToSuperview()
 			make.height.equalTo(30)
 		}
