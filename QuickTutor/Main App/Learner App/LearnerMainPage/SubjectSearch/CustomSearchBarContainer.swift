@@ -63,6 +63,7 @@ class CustomSearchBarContainer: UIView {
         button.setTitleColor(.white, for: .normal)
         button.setTitle("Cancel", for: .normal)
         button.titleLabel?.font = Fonts.createBoldSize(16)
+        button.isHidden = true
         return button
     }()
     
@@ -78,20 +79,20 @@ class CustomSearchBarContainer: UIView {
     
     func setupSearchBar() {
         addSubview(searchBar)
-        searchBar.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        searchBar.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
         searchBarRightAnchor = searchBar.rightAnchor.constraint(equalTo: rightAnchor, constant: 0)
         searchBarRightAnchor?.isActive = true
     }
     
     func setupCancelEditingButton() {
         insertSubview(cancelEditingButton, belowSubview: searchBar)
-        cancelEditingButton.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 60, height: 0)
+        cancelEditingButton.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 70, height: 0)
         cancelEditingButton.addTarget(self, action: #selector(shouldEndEditing), for: .touchUpInside)
     }
     
     func setupMockLeftViewButton() {
         addSubview(mockLeftViewButton)
-        mockLeftViewButton.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 9, paddingLeft: 7, paddingBottom: 0, paddingRight: 0, width: 30, height: 30)
+        mockLeftViewButton.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 9, paddingLeft: 27, paddingBottom: 0, paddingRight: 0, width: 30, height: 30)
         mockLeftViewButton.addTarget(self, action: #selector(handleMockLeftViewTapped), for: .touchUpInside)
     }
     
@@ -122,9 +123,10 @@ class CustomSearchBarContainer: UIView {
     
     func shouldBeginEditing() {
         isEditing = true
+        cancelEditingButton.isHidden = false
         guard searchBarRightAnchor?.constant == 0 else { return }
         self.layoutIfNeeded()
-        searchBarRightAnchor?.constant = -60
+        searchBarRightAnchor?.constant = -70
         UIView.animate(withDuration: 0.15, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseOut, animations: {
             self.layoutIfNeeded()
         }, completion: nil)
@@ -135,8 +137,10 @@ class CustomSearchBarContainer: UIView {
         isEditing = false
         searchBarRightAnchor?.constant = 0
         searchBar.text = nil
-        UIView.animate(withDuration: 0.2) {
+        UIView.animate(withDuration: 0.2, animations: {
             self.layoutIfNeeded()
+        }) { (_) in
+            self.cancelEditingButton.isHidden = true
         }
         delegate?.customSearchBar(searchBar, shouldEndEditing: true)
     }
