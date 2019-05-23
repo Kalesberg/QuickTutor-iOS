@@ -140,7 +140,7 @@ class SessionRequestVC: UIViewController {
         if !contentView.paymentView.paymentTypeView.secondaryButton.isSelected {
             realPrice = calculatePrice(price, duration: duration)
         }
-        
+        self.price = realPrice
         let fee = realPrice * 0.0029 + 0.3
         // fee
         let strFee = NSMutableAttributedString(attributedString: NSAttributedString(string: "+Processing Fee: ",
@@ -196,7 +196,6 @@ extension SessionRequestVC: SessionRequestDurationViewDelegate {
 
 extension SessionRequestVC: SessionRequestPaymentViewDelegate {
     func sessionRequestPaymentView(_ paymentView: SessionRequestPaymentView, didEnter price: Double) {
-        self.price = price
         checkForErrors()
         updatePriceLabelText(price)
     }
