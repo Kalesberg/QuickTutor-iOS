@@ -18,7 +18,8 @@ extension UIImageView {
     }
     
     func overlayTintColor(color: UIColor) {
-        self.image = self.image?.withRenderingMode(.alwaysTemplate)
+        let templateImage = self.image?.withRenderingMode(.alwaysTemplate)
+        self.image = templateImage
         self.tintColor = color
     }
 }

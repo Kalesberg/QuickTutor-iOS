@@ -39,7 +39,7 @@ class CustomSearchBarContainer: UIView {
         field.font = Fonts.createBoldSize(16)
         field.layer.cornerRadius = 4
         field.returnKeyType = .search
-        field.clearButtonMode = .whileEditing
+        field.clearButtonMode = .never
         field.tintColor = .white
         field.autocorrectionType = .no
         return field
@@ -59,6 +59,13 @@ class CustomSearchBarContainer: UIView {
         return button
     }()
     
+    let searchClearButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named:"ic_search_close"), for: .normal)
+        button.contentMode = .center
+        return button
+    }()
+    
     let cancelEditingButton: UIButton = {
         let button = UIButton()
         button.setTitleColor(.white, for: .normal)
@@ -72,6 +79,7 @@ class CustomSearchBarContainer: UIView {
     
     func setupViews() {
         setupSearchBar()
+        setupSearchClearButton()
         setupMockLeftViewButton()
         setupFiltersButton()
         setupCancelEditingButton()
@@ -83,6 +91,14 @@ class CustomSearchBarContainer: UIView {
         searchBar.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
         searchBarRightAnchor = searchBar.rightAnchor.constraint(equalTo: rightAnchor, constant: 0)
         searchBarRightAnchor?.isActive = true
+        searchClearButton.isHidden = true
+    }
+    
+    func setupSearchClearButton() {
+        addSubview(searchClearButton)
+        searchClearButton.anchor(top: nil, left: nil, bottom: nil, right: searchBar.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 40, height: 40)
+        addConstraint(NSLayoutConstraint(item: searchClearButton, attribute: .centerY, relatedBy: .equal, toItem: searchBar, attribute: .centerY, multiplier: 1, constant: 0))
+        searchClearButton.addTarget(self, action: #selector(handleSearchClearButtonTapped), for: .touchUpInside)
     }
     
     func setupCancelEditingButton() {
@@ -120,6 +136,16 @@ class CustomSearchBarContainer: UIView {
     
     @objc func handleFiltersButtonTapped() {
         delegate?.customSearchBarDidTapFiltersButton(searchBar)
+    }
+    
+    @objc func handleSearchClearButtonTapped() {
+        searchClearButton.isHidden = true
+        searchBar.text = ""
+        delegate?.customSearchBar(searchBar, shouldEndEditing: true)
+    }
+    
+    func showSearchClearButton() {
+        searchClearButton.isHidden = false
     }
     
     func shouldBeginEditing() {

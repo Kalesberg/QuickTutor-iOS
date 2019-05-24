@@ -89,9 +89,8 @@ extension PaddedTextField {
             return clearButton?.tintColor
         }
         set {
-            let image = clearButton?.imageView?.image?.withRenderingMode(.alwaysTemplate)
-            clearButton?.setImage(image, for: .normal)
-            clearButton?.tintColor = newValue
+            clearButton?.imageView?.overlayTintColor(color: .white)
+            clearButton?.imageView?.alpha = 1.0
         }
     }
 }

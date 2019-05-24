@@ -123,7 +123,7 @@ extension QuickSearchVC: UITextFieldDelegate {
     
     @objc func handleTextChange() {
         let sender = contentView.searchBarContainer.searchBar
-        sender.clearButtonTintColor = .white
+        contentView.searchBarContainer.showSearchClearButton()
         beginEditing()
         child.inSearchMode = true
         
@@ -147,6 +147,7 @@ extension QuickSearchVC: UITextFieldDelegate {
         contentView.addSubview(child.view)
         child.view.anchor(top: contentView.searchBarContainer.bottomAnchor, left: contentView.leftAnchor, bottom: contentView.getBottomAnchor(), right: contentView.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         child.didMove(toParent: self)
+        contentView.searchBarContainer.showSearchClearButton()
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -210,6 +211,8 @@ extension QuickSearchVC: UICollectionViewDelegate, UICollectionViewDataSource, U
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerId", for: indexPath) as! QuickSearchSectionHeader
             header.titleLabel.text = categories[indexPath.section].mainPageData.displayName
             header.icon.image = categoryIcons[indexPath.section]
+            header.icon.layer.borderColor = Colors.purple.cgColor
+            header.icon.layer.borderWidth = 1
             return header
         }
         return UICollectionReusableView()
