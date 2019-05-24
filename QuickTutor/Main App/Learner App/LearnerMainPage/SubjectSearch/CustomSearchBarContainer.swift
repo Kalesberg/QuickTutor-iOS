@@ -41,6 +41,7 @@ class CustomSearchBarContainer: UIView {
         field.returnKeyType = .search
         field.clearButtonMode = .whileEditing
         field.tintColor = .white
+        field.autocorrectionType = .no
         return field
     }()
     
