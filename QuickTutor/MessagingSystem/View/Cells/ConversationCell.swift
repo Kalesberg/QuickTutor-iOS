@@ -61,12 +61,12 @@ class ConversationCell: SwipeCollectionViewCell {
     
     private func setupTimestampLabel() {
         contentView.addSubview(timestampLabel)
-        timestampLabel.anchor(top: contentView.topAnchor, left: nil, bottom: contentView.bottomAnchor, right: contentView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 7, width: 60, height: 12)
+        timestampLabel.anchor(top: contentView.topAnchor, left: nil, bottom: contentView.bottomAnchor, right: contentView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 7, width: 90, height: 12)
     }
     
     private func setupUsernameLabel() {
         contentView.addSubview(usernameLabel)
-        usernameLabel.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: timestampLabel.leftAnchor, paddingTop: 13, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 15)
+        usernameLabel.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: timestampLabel.leftAnchor, paddingTop: 13, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 18)
     }
     
     private func setupLastMessageLabel() {

@@ -112,7 +112,7 @@ class ConnectionCell: UICollectionViewCell {
     
     func setupNameLabel() {
         addSubview(nameLabel)
-        nameLabel.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 100, height: 15)
+        nameLabel.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 100, height: 18)
     }
     
     func setupFeaturedSubject() {
