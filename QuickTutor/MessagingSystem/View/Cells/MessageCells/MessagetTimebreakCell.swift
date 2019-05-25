@@ -39,7 +39,7 @@ class MessageGapTimestampCell: SystemMessageCell {
         textFieldWithAnchor = textField.widthAnchor.constraint(equalToConstant: 100)
         textFieldWithAnchor?.isActive = true
         layoutIfNeeded()
-        addConstraint(NSLayoutConstraint(item: textField, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: -25))
+        addConstraint(NSLayoutConstraint(item: textField, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: -30))
     }
     
     func setupLine() {
