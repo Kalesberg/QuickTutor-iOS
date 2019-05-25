@@ -1079,6 +1079,12 @@
 		CFB6061D207FD7000029CFE4 /* CustomModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB6061C207FD7000029CFE4 /* CustomModal.swift */; };
 		CFB60621207FD8CC0029CFE4 /* BaseCustomModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB60620207FD8CC0029CFE4 /* BaseCustomModal.swift */; };
 		CFB60624207FD9CA0029CFE4 /* ReportTypeModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB60623207FD9CA0029CFE4 /* ReportTypeModal.swift */; };
+		CFB767CA22991B28001206DA /* BankManagerVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB767C922991B28001206DA /* BankManagerVCView.swift */; };
+		CFB767CB22991B37001206DA /* BankManagerVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB767C922991B28001206DA /* BankManagerVCView.swift */; };
+		CFB767CD22991B77001206DA /* EarningsHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB767CC22991B77001206DA /* EarningsHistoryCell.swift */; };
+		CFB767CE22991B7A001206DA /* EarningsHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB767CC22991B77001206DA /* EarningsHistoryCell.swift */; };
+		CFB767D022991B97001206DA /* BankManagerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB767CF22991B97001206DA /* BankManagerCollectionViewCell.swift */; };
+		CFB767D122991BA6001206DA /* BankManagerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB767CF22991B97001206DA /* BankManagerCollectionViewCell.swift */; };
 		CFB9B7CD21C18A240022333F /* SessionRequestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B7CC21C18A240022333F /* SessionRequestError.swift */; };
 		CFB9B7CF21C18A420022333F /* SessionRequestVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B7CE21C18A420022333F /* SessionRequestVCView.swift */; };
 		CFB9B7D121C18A690022333F /* BaseSessionRequestViewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B7D021C18A690022333F /* BaseSessionRequestViewSection.swift */; };
@@ -1765,6 +1771,9 @@
 		CFB6061C207FD7000029CFE4 /* CustomModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomModal.swift; sourceTree = "<group>"; };
 		CFB60620207FD8CC0029CFE4 /* BaseCustomModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCustomModal.swift; sourceTree = "<group>"; };
 		CFB60623207FD9CA0029CFE4 /* ReportTypeModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTypeModal.swift; sourceTree = "<group>"; };
+		CFB767C922991B28001206DA /* BankManagerVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankManagerVCView.swift; sourceTree = "<group>"; };
+		CFB767CC22991B77001206DA /* EarningsHistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarningsHistoryCell.swift; sourceTree = "<group>"; };
+		CFB767CF22991B97001206DA /* BankManagerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankManagerCollectionViewCell.swift; sourceTree = "<group>"; };
 		CFB9B7CC21C18A240022333F /* SessionRequestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionRequestError.swift; sourceTree = "<group>"; };
 		CFB9B7CE21C18A420022333F /* SessionRequestVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionRequestVCView.swift; sourceTree = "<group>"; };
 		CFB9B7D021C18A690022333F /* BaseSessionRequestViewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSessionRequestViewSection.swift; sourceTree = "<group>"; };
@@ -2418,6 +2427,9 @@
 			isa = PBXGroup;
 			children = (
 				846252F220637FA7001DD330 /* BankManager.swift */,
+				CFB767CC22991B77001206DA /* EarningsHistoryCell.swift */,
+				CFB767CF22991B97001206DA /* BankManagerCollectionViewCell.swift */,
+				CFB767C922991B28001206DA /* BankManagerVCView.swift */,
 				846466992096BBFD006ABA98 /* TutorAddBank.swift */,
 				CFB9B81721C6D2A00022333F /* TutorAddBankVCView.swift */,
 				841C5071216ED57C0035C6C9 /* EditBillingAddress */,
@@ -4459,6 +4471,7 @@
 				569F1774223554FD00820A20 /* InPersonSessionStartVC.swift in Sources */,
 				569F1775223554FD00820A20 /* SessionRequestVCView.swift in Sources */,
 				569F1776223554FD00820A20 /* LearnerOther.swift in Sources */,
+				CFB767D122991BA6001206DA /* BankManagerCollectionViewCell.swift in Sources */,
 				569F1777223554FD00820A20 /* TutorAddUsernameVC.swift in Sources */,
 				569F1778223554FD00820A20 /* UIImageViewExtensions.swift in Sources */,
 				569F1779223554FD00820A20 /* TutorAddressVCView.swift in Sources */,
@@ -4479,6 +4492,7 @@
 				569F1789223554FD00820A20 /* BankManager.swift in Sources */,
 				569F178A223554FD00820A20 /* LearnerPaymentVC.swift in Sources */,
 				569F178B223554FD00820A20 /* User.swift in Sources */,
+				CFB767CB22991B37001206DA /* BankManagerVCView.swift in Sources */,
 				569F178C223554FD00820A20 /* BaseViewController.swift in Sources */,
 				569F178D223554FD00820A20 /* NoPasteTextField.swift in Sources */,
 				569F178E223554FD00820A20 /* KeyboardAccessoryViewDelegate.swift in Sources */,
@@ -4504,6 +4518,7 @@
 				CFCE90AF226524DC00CBB1AD /* LearnerMainPageSuggestionsSectionContainerCell.swift in Sources */,
 				569F17A3223554FD00820A20 /* CardFooterView.swift in Sources */,
 				569F17A4223554FD00820A20 /* TutorHandbook.swift in Sources */,
+				CFB767CE22991B7A001206DA /* EarningsHistoryCell.swift in Sources */,
 				569F17A5223554FD00820A20 /* SessionsVC.swift in Sources */,
 				569F17A6223554FD00820A20 /* PillCollectionViewCell.swift in Sources */,
 				569F17A7223554FD00820A20 /* TutorUnprofessionalVC.swift in Sources */,
@@ -4948,6 +4963,7 @@
 				8482AFE3203A9E1300F6F805 /* UIImageViewExtensions.swift in Sources */,
 				CFB9B82021C88ED90022333F /* TutorAddressVCView.swift in Sources */,
 				840E75C2201E8419006FC580 /* LearnerFileReportVC.swift in Sources */,
+				CFB767D022991B97001206DA /* BankManagerCollectionViewCell.swift in Sources */,
 				841DD5BC206552D500A70D65 /* TutorUpdatePayment.swift in Sources */,
 				846252FB206381BD001DD330 /* TaxInformation.swift in Sources */,
 				841C506C216ED42D0035C6C9 /* EditBillingAddressVC.swift in Sources */,
@@ -4968,6 +4984,7 @@
 				5697DD24226F859300AC9775 /* QTInviteOthersConnectTableViewCell.swift in Sources */,
 				8423940F1FF4CA1D00827C7D /* NoPasteTextField.swift in Sources */,
 				CF6F58E7205EE68800ACBD32 /* KeyboardAccessoryViewDelegate.swift in Sources */,
+				CFB767CA22991B28001206DA /* BankManagerVCView.swift in Sources */,
 				568B82DE222540CD004DF011 /* QTRatingTipCollectionViewCell.swift in Sources */,
 				CFB9B81621C6C6330022333F /* TutorPolicyVCView.swift in Sources */,
 				843BA324205513F4000C7054 /* UIColorExtensions.swift in Sources */,
@@ -4993,6 +5010,7 @@
 				847463282069482D00B70AD9 /* TutorHandbook.swift in Sources */,
 				84E4C7EC204E9829009C2FC4 /* SessionsVC.swift in Sources */,
 				CFB9B7EC21C23E850022333F /* PillCollectionViewCell.swift in Sources */,
+				CFB767CD22991B77001206DA /* EarningsHistoryCell.swift in Sources */,
 				848809F7205770D000F204A0 /* TutorUnprofessionalVC.swift in Sources */,
 				CF387EBB2088113C00087449 /* InPersonSessionVC.swift in Sources */,
 				84BDE2B920AB2CAB003E66D5 /* ExternalAccounts.swift in Sources */,

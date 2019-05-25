@@ -34,7 +34,9 @@ class TutorAddBank: BaseRegistrationController {
         setupTextFields()
         progressView.setProgress(4/6)
         progressView.isHidden = !isRegistration
-        showInfoModal()
+        if isRegistration {
+            showInfoModal()
+        }
     }
     
     func setupTargets() {
@@ -162,7 +164,7 @@ class TutorAddBank: BaseRegistrationController {
             if let error = error {
                 AlertController.genericErrorAlert(self, title: "Unable to Add Payout Method", message: error.localizedDescription)
             } else {
-                self.navigationController?.popToRootViewController(animated: true)
+                self.navigationController?.popViewController(animated: true)
             }
             self.dismissOverlay()
         }
