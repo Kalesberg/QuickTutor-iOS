@@ -56,7 +56,7 @@ class TutorAddSubjectsVC: UIViewController {
     
     @objc private func handleTextChange() {
         let sender = contentView.searchBarContainer.searchBar
-        sender.clearButtonTintColor = .white
+        contentView.searchBarContainer.showSearchClearButton()
         beginEditing()
         child.inSearchMode = true
         
@@ -100,6 +100,8 @@ extension TutorAddSubjectsVC: UICollectionViewDelegate, UICollectionViewDataSour
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerId", for: indexPath) as! QuickSearchSectionHeader
             header.titleLabel.text = categories[indexPath.section].mainPageData.displayName
             header.icon.image = categoryIcons[indexPath.section]
+            header.icon.layer.borderColor = Colors.purple.cgColor
+            header.icon.layer.borderWidth = 1
             return header
         }
         return UICollectionReusableView()

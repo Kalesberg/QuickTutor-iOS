@@ -207,6 +207,12 @@ class ProfileVCHeaderCell: UICollectionReusableView {
                 self.featuredLabel.text = CurrentUser.shared.tutor.featuredSubject?.capitalizingFirstLetter()
             }
         }
+        
+        if AccountService.shared.currentUserType == .learner {
+            ratingLabel.text = "\(CurrentUser.shared.learner.lRating ?? 5.0)"
+        } else {
+            ratingLabel.text = "\(CurrentUser.shared.tutor.tRating ?? 5.0)"
+        }
     }
     
     func setupTargets() {

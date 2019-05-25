@@ -44,37 +44,37 @@ class StarView: UIView {
     }()
 
     func setupViews() {
-        setupStar1()
-        setupStar2()
-        setupStar3()
-        setupStar4()
         setupStar5()
+        setupStar4()
+        setupStar3()
+        setupStar2()
+        setupStar1()
     }
     
     let rightPadding: CGFloat = 1
     private func setupStar1() {
         addSubview(star1)
-        star1.anchor(top: nil, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: starSideLength, height: starSideLength)
+        star1.anchor(top: nil, left: nil, bottom: bottomAnchor, right: star2.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: rightPadding, width: starSideLength, height: starSideLength)
     }
     
     private func setupStar2() {
         addSubview(star2)
-        star2.anchor(top: nil, left: nil, bottom: bottomAnchor, right: star1.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: rightPadding, width: starSideLength, height: starSideLength)
+        star2.anchor(top: nil, left: nil, bottom: bottomAnchor, right: star3.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: rightPadding, width: starSideLength, height: starSideLength)
     }
     
     private func setupStar3() {
         addSubview(star3)
-        star3.anchor(top: nil, left: nil, bottom: bottomAnchor, right: star2.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: rightPadding, width: starSideLength, height: starSideLength)
+        star3.anchor(top: nil, left: nil, bottom: bottomAnchor, right: star4.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: rightPadding, width: starSideLength, height: starSideLength)
     }
     
     private func setupStar4() {
         addSubview(star4)
-        star4.anchor(top: nil, left: nil, bottom: bottomAnchor, right: star3.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: rightPadding, width: starSideLength, height: starSideLength)
+        star4.anchor(top: nil, left: nil, bottom: bottomAnchor, right: star5.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: rightPadding, width: starSideLength, height: starSideLength)
     }
     
     private func setupStar5() {
         addSubview(star5)
-        star5.anchor(top: nil, left: nil, bottom: bottomAnchor, right: star4.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: rightPadding, width: starSideLength, height: starSideLength)
+        star5.anchor(top: nil, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: rightPadding, width: starSideLength, height: starSideLength)
     }
     
     func tintStars(color: UIColor) {

@@ -56,6 +56,9 @@ class ProfileVC: UIViewController {
         } else if (userType == .lRegistration ) {
             AccountService.shared.currentUserType = .tutor
         }
+        
+        // Update user info whenever visit the profile tap.
+        collectionView.reloadData()
     }
     
     func setupViews() {

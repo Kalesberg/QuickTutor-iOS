@@ -380,7 +380,7 @@ class QTProfileViewController: UIViewController {
             moreButtonsView.isHidden = false
             statisticStackView.isHidden = true
             topSubjectLabel.isHidden = true
-            ratingLabel.text = "\(String(describing: user.tRating ?? 5.0))"
+            ratingLabel.text = "\(String(describing: user.lRating ?? 5.0))"
             addressView.isHidden = false
             addressLabel.text = "United States"
             distanceView.isHidden = true
@@ -434,7 +434,7 @@ class QTProfileViewController: UIViewController {
             moreButtonsView.isHidden = true
             statisticStackView.isHidden = true
             topSubjectLabel.isHidden = true
-            ratingLabel.text = "\(String(describing: user.tRating ?? 5.0))"
+            ratingLabel.text = "\(String(describing: user.lRating ?? 5.0))"
             addressView.isHidden = false
             addressLabel.text = "United States"
             distanceView.isHidden = false

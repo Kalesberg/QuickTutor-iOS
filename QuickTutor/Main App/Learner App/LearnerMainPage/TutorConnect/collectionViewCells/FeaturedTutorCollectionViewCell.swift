@@ -188,6 +188,13 @@ class TutorCollectionViewCell: UICollectionViewCell {
             let savedTutorIds = CurrentUser.shared.learner.savedTutorIds
             savedTutorIds.contains(tutor.uid) ? saveButton.setImage(UIImage(named:"heartIconFilled"), for: .normal) : saveButton.setImage(UIImage(named:"heartIcon"), for: .normal)
         }
+        
+        if let rating = tutor.tRating {
+            starView.setRating(Int(rating))
+        } else {
+            starView.setRating(5)
+        }
+        
         guard let reviewCount = tutor.reviews?.count else { return }
         starLabel.text = "\(reviewCount)"
     }
