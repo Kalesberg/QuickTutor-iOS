@@ -23,7 +23,7 @@ class DynamicLinkFactory {
     var longLink: URL?
     var shortLink: URL?
 
-    func createLink(userId: String?, completion: @escaping (URL?) -> Void) {
+    func createLink(userId: String?, subject: String?, completion: @escaping (URL?) -> Void) {
         dictionary[.link] = "https://quickTutor.com/\(userId ?? "")"
         // Initialize the sections array
         sections = [
@@ -48,12 +48,17 @@ class DynamicLinkFactory {
         let components = DynamicLinkComponents(link: link, domainURIPrefix: domain)
 
         let socialParams = DynamicLinkSocialMetaTagParameters()
-        socialParams.title = "Quick Tutor: Here's an awesome tutor for you."
+        if let subject = subject {
+            socialParams.title = "QuickTutor: Check out this awesome \(subject) tutor!"
+        } else {
+            socialParams.title = "QuickTutor: Check out this awesome tutor!"
+        }
+        
         socialParams.descriptionText = "Check out this QuickTutor!"
 #if DEVELOPMENT
-        socialParams.imageURL = URL(string: "https://firebasestorage.googleapis.com/v0/b/quicktutor-dev.appspot.com/o/logoWithTrademark.png?alt=media&token=b164967a-310b-4f88-9172-7ec1560b1461")
+        socialParams.imageURL = URL(string: "https://firebasestorage.googleapis.com/v0/b/quicktutor-dev.appspot.com/o/logoWithTrademark.png?alt=media&token=2baf6fa7-fd6f-4bf6-a89c-a47429561278")
 #else
-        socialParams.imageURL = URL(string: "https://firebasestorage.googleapis.com/v0/b/quicktutor-3c23b.appspot.com/o/logoWithTrademark.png?alt=media&token=2eea3fd1-df1d-4699-b26e-b5d3f386debb")
+        socialParams.imageURL = URL(string: "https://firebasestorage.googleapis.com/v0/b/quicktutor-3c23b.appspot.com/o/newLogoWithTrademark.png?alt=media&token=6c9610fb-09fa-4f99-8cbf-1b48a6414407")
 #endif
         components?.socialMetaTagParameters = socialParams
 

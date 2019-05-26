@@ -20,6 +20,7 @@ class FileReportActionsheet: UIView {
     var partnerId: String?
     var name: String!
     var panelHeight: CGFloat = 200
+    var subject: String?
     
     var isConnected = true {
         didSet {
@@ -170,7 +171,7 @@ class FileReportActionsheet: UIView {
     func shareUsernameForUserId() {
         dismiss()
         guard let id = partnerId else { return }
-        DynamicLinkFactory.shared.createLink(userId: id) { shareUrl in
+        DynamicLinkFactory.shared.createLink(userId: id, subject: subject) { shareUrl in
             guard let shareUrlString = shareUrl?.absoluteString else { return }
             let ac = UIActivityViewController(activityItems: [shareUrlString], applicationActivities: nil)
             self.parentViewController?.present(ac, animated: true, completion: nil)
