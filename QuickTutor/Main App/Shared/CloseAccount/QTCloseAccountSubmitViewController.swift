@@ -293,7 +293,7 @@ extension QTCloseAccountSubmitViewController: AlertAction {
     }
     
     func verifyAlertPressed(code: String) {
-        if code.isEmpty || !code.contains("—") {
+        if code.isEmpty || code.contains("—") {
             return
         }
         reauthenticateUser(code: code) {error in

@@ -11,24 +11,19 @@ import UIKit
 class BankAddCardHeaderView: BaseView {
     var addCard: UILabel = {
         let label = UILabel()
-
         label.text = "Cards"
         label.textColor = .white
         label.font = Fonts.createBoldSize(18)
         label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
-
         return label
     }()
 
-    let footer = UIView()
 
     override func configureView() {
         addSubview(addCard)
-        addSubview(footer)
         super.configureView()
 
-        footer.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
         applyConstraints()
     }
 
@@ -38,70 +33,61 @@ class BankAddCardHeaderView: BaseView {
             make.height.equalToSuperview()
             make.width.equalToSuperview()
         }
-        footer.snp.makeConstraints { make in
-            make.bottom.equalToSuperview()
-            make.height.equalTo(1)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-        }
     }
 }
 
-class BankAddCardTableViewCell: UITableViewCell {
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configureTableViewCell()
-    }
+protocol BankManagerHeaderViewDelegate: class {
+    func bankManagerHeaderViewDidTapAddBankButton(_ bankManagerHeaderView: BankManagerHeaderView)
+}
+
+class BankManagerHeaderView: UICollectionReusableView {
     
-    required init?(coder _: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    var didTapAddCard: (() -> ())?
-    
-    let addCard: UILabel = {
+    var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Add debit or credit card"
+        label.text = "Banks"
         label.textColor = .white
-        label.font = Fonts.createSize(18)
-        label.textAlignment = .center
+        label.font = Fonts.createBoldSize(16)
+        label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
-    let footer = UIView()
+    let addBankButton: DimmableButton = {
+        let button = DimmableButton()
+        button.setTitleColor(Colors.purple, for: .normal)
+        button.setTitle("Add new", for: .normal)
+        button.titleLabel?.font = Fonts.createBlackSize(16)
+        return button
+    }()
     
-    func configureTableViewCell() {
-        addSubview(addCard)
-        addSubview(footer)
-        
-        let cellBackground = UIView()
-        cellBackground.backgroundColor = Colors.darkBackground
-        selectedBackgroundView = cellBackground
-        footer.backgroundColor = Colors.darkBackground
-        backgroundColor = Colors.darkBackground
-        applyConstraints()
-        
-        addCard.setupTargets(gestureState: { gestureState in
-            if gestureState == .ended {
-                if let didTapAddCard = self.didTapAddCard {
-                    didTapAddCard()
-                }
-            }
-        })
+    weak var delegate: BankManagerHeaderViewDelegate?
+    
+    func setupViews() {
+        setupTitleLabel()
+        setupAddBankButton()
     }
     
-    func applyConstraints() {
-        addCard.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-            make.height.equalToSuperview()
-            make.width.equalToSuperview()
-        }
-        footer.snp.makeConstraints { make in
-            make.bottom.equalToSuperview()
-            make.height.equalTo(1)
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-        }
+    func setupTitleLabel() {
+        addSubview(titleLabel)
+        titleLabel.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 1, paddingBottom: 0, paddingRight: 0, width: 100, height: 0)
+    }
+    
+    func setupAddBankButton() {
+        addSubview(addBankButton)
+        addBankButton.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 1, width: 65, height: 0)
+        addBankButton.addTarget(self, action: #selector(handleAddBank), for: .touchUpInside)
+    }
+    
+    @objc func handleAddBank() {
+        delegate?.bankManagerHeaderViewDidTapAddBankButton(self)
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

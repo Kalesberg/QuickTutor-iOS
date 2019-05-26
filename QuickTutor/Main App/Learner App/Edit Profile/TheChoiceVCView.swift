@@ -14,7 +14,7 @@ class TheChoiceVCView: UIView {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "You're all set"
+        label.text = "You're all set!"
         label.textAlignment = .center
         label.textColor = .white
         label.font = Fonts.createBlackSize(20)

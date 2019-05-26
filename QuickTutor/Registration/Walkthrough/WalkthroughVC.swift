@@ -27,7 +27,7 @@ class WalkthroughVCView: UIView {
                   UIImage(named: "walkthroughReachOut"),
                   UIImage(named: "walkthroughInPersonOnline"),
                   UIImage(named: "walkthoughBecomeTutor"),
-                  UIImage(named: "walkthroughSearch")]
+                  UIImage(named: "img_walkthrough_bg")]
     let titles = ["SEARCH",
                   "REACH OUT",
                   "IN-PERSON AND ONLINE",
@@ -125,6 +125,10 @@ class WalkthroughVCView: UIView {
         self.nextButton.setTitle(nextButtonTitles[pageControl.currentPage + 1].uppercased(), for: .normal)
         collectionView.scrollToItem(at: IndexPath(item: pageControl.currentPage + 1, section: 0), at: .centeredHorizontally, animated: true)
         pageControl.currentPage += 1
+        if pageControl.currentPage == 4 {
+            pageControl.isHidden = true
+            collectionView.isScrollEnabled = false
+        }
     }
     
     override init(frame: CGRect) {

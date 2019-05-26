@@ -352,6 +352,7 @@
                 <outlet property="ratingStar4ImageView" destination="pd4-mc-0tf" id="iFH-Gv-ME6"/>
                 <outlet property="ratingStar5ImageView" destination="iwI-iD-hsc" id="oDS-mi-ls2"/>
                 <outlet property="ratingStarStackView" destination="Lgr-Jr-kdc" id="u5a-AC-ktV"/>
+                <outlet property="ratingStarStackViewTopConstraint" destination="6Yy-c5-1Ul" id="lbe-fc-t0c"/>
                 <outlet property="reviewNumberLabel" destination="eIq-i3-j1O" id="teE-zk-afQ"/>
                 <outlet property="scrollView" destination="aLD-We-aIZ" id="Jxs-Fb-VyI"/>
                 <outlet property="subjectLabel" destination="TUS-kj-J50" id="IWX-Qm-gV2"/>

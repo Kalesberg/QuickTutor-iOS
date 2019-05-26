@@ -19,7 +19,7 @@ class PhoneAuthenicationAction: InteractableView, Interactable {
         let label = UILabel()
 
         label.font = Fonts.createBoldSize(20)
-        label.textColor = Colors.backgroundDark
+        label.textColor = Colors.grayText80
         label.textAlignment = .center
 
         return label
@@ -73,7 +73,7 @@ class PhoneAuthenicationActionCancel: InteractableView, Interactable {
         let label = UILabel()
         label.text = "Cancel"
         label.font = Fonts.createBoldSize(20)
-        label.textColor = Colors.backgroundDark
+        label.textColor = Colors.grayText80
         label.textAlignment = .center
 
         return label
@@ -169,7 +169,7 @@ class PhoneAuthenticationAlertView: InteractableView {
         let textField = NoPasteTextField()
         textField.text = "——————"
         textField.font = Fonts.createBoldSize(35)
-        textField.textColor = .black
+        textField.textColor = .white
         textField.tintColor = .black
         textField.textAlignment = .center
         textField.adjustsFontSizeToFitWidth = true

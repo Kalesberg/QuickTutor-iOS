@@ -56,6 +56,9 @@ class ProfileVC: UIViewController {
         } else if (userType == .lRegistration ) {
             AccountService.shared.currentUserType = .tutor
         }
+        
+        // Update user info whenever visit the profile tap.
+        collectionView.reloadData()
     }
     
     func setupViews() {
@@ -172,7 +175,7 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
     }
     
     func showPayment() {
-        let vc = AccountService.shared.currentUserType == .learner ? CardManagerViewController() : BankManager()
+        let vc = AccountService.shared.currentUserType == .learner ? CardManagerViewController() : BankManagerVC()
         navigationItem.hidesBackButton = true
         navigationController?.pushViewController(vc, animated: true)
     }

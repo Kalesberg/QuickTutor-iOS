@@ -8,75 +8,14 @@
 //
 
 import Stripe
-import UIKit.UITableView
+import UIKit
 import Lottie
+import SwipeCellKit
 
-class BankManagerView: UIView {
-    let subtitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Payout Methods"
-        label.textAlignment = .left
-        label.font = Fonts.createBoldSize(20)
-        label.textColor = .white
-        return label
-    }()
-
-    let tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.estimatedRowHeight = 50
-        tableView.isScrollEnabled = false
-        tableView.separatorInset.left = 0
-        tableView.separatorStyle = .none
-        tableView.backgroundColor = Colors.darkBackground
-        tableView.register(BankManagerTableViewCell.self, forCellReuseIdentifier: "bankCell")
-        tableView.register(BankAddCardTableViewCell.self, forCellReuseIdentifier: "addCardCell")
-        return tableView
-    }()
-
-    func setupViews() {
-        setupMainView()
-        setupSubtitleLabel()
-        setupTableView()
-    }
+class BankManagerVC: UIViewController {
     
-    func setupMainView() {
-        backgroundColor = Colors.darkBackground
-    }
-    
-    func setupSubtitleLabel() {
-        addSubview(subtitleLabel)
-        subtitleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(-30)
-            make.width.equalToSuperview().multipliedBy(0.9)
-            make.centerX.equalToSuperview()
-        }
-    }
-    
-    func setupTableView() {
-        addSubview(tableView)
-        tableView.snp.makeConstraints { make in
-            make.top.equalTo(subtitleLabel.snp.bottom).inset(-10)
-            make.width.equalToSuperview().multipliedBy(0.9)
-            make.height.equalToSuperview().multipliedBy(0.5)
-            make.centerX.equalToSuperview()
-        }
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupViews()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-}
-
-class BankManager: UIViewController {
-    
-    let contentView: BankManagerView = {
-        let view = BankManagerView()
+    let contentView: BankManagerVCView = {
+        let view = BankManagerVCView()
         return view
     }()
 
@@ -92,7 +31,7 @@ class BankManager: UIViewController {
     
     var acctId: String! {
         didSet {
-            contentView.tableView.reloadData()
+            contentView.collectionView.reloadData()
         }
     }
 
@@ -101,15 +40,20 @@ class BankManager: UIViewController {
             setBank()
         }
     }
-
+    
+    private var transactions = [BalanceTransaction.Data]()
+    
     private var banks = [ExternalAccountsData]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Payment"
+        setupNavigationBar()
         setupLoadingIndicator()
-        fetchBanks()
         setupDelegates()
+    }
+    
+    func setupNavigationBar() {
+        navigationItem.title = "Payment"
     }
     
     func setupLoadingIndicator() {
@@ -139,27 +83,41 @@ class BankManager: UIViewController {
                 self.bankList = list.data
             }
             self.hideLoadingAnimation()
+            self.contentView.collectionView.reloadData()
+        }
+    }
+    
+    func fetchTransactions() {
+        guard let tutor = CurrentUser.shared.tutor, let accountId = tutor.acctId else {
+            return
+        }
+        Stripe.retrieveBalanceTransactionList(acctId: accountId) { (_, transactions) in
+            guard let transactions = transactions else { return }
+            self.transactions = transactions.data.filter({ (transactions) -> Bool in
+                if transactions.amount != nil && transactions.amount! > 0 {
+                    return true
+                }
+                return false
+            })
+            self.contentView.collectionView.reloadData()
         }
     }
     
     func setupDelegates() {
-        contentView.tableView.delegate = self
-        contentView.tableView.dataSource = self
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        contentView.tableView.reloadData()
+        contentView.collectionView.delegate = self
+        contentView.collectionView.dataSource = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        fetchBanks()
+        fetchTransactions()
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
     private func setBank() {
         banks = bankList
-        contentView.tableView.reloadData()
+        contentView.collectionView.reloadData()
     }
 
     // TODO: Check if they have any pending sessions.
@@ -175,56 +133,45 @@ class BankManager: UIViewController {
                 }
             })
         }
-//		let editBillingAddress = UIAlertAction(title: "Edit Billing Address", style: .default) { (action) in
-//			self.navigationController?.pushViewController(EditBillingAddressVC(), animated: true)
-//		}
+        
         let cancel = UIAlertAction(title: "Cancel", style: .cancel) { _ in
             alertController.dismiss(animated: true, completion: nil)
         }
         alertController.addAction(setDefault)
-//		alertController.addAction(editBillingAddress)
         alertController.addAction(cancel)
 
         present(alertController, animated: true, completion: nil)
     }
 }
 
-extension BankManager: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
-        return banks.count + 1
+extension BankManagerVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return section == 0 ? banks.count : transactions.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        var height: CGFloat = 50
+        if indexPath.section == 1 {
+            height = 40
+        }
+        return CGSize(width: collectionView.frame.width, height: height)
     }
 
-    func tableView(_ tableView: UITableView, heightForRowAt _: IndexPath) -> CGFloat {
-        return tableView.estimatedRowHeight
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let endIndex = banks.count
-
-        if indexPath.row != endIndex {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "bankCell", for: indexPath) as! BankManagerTableViewCell
-            insertBorder(cell: cell)
-            cell.bankName.text = banks[indexPath.row].bank_name
-            cell.accountLast4.text = "•••• \(banks[indexPath.row].last4)"
-            cell.defaultBank.isHidden = !banks[indexPath.row].default_for_currency
-
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if indexPath.section == 0 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "bankCell", for: indexPath) as! BankManagerCollectionViewCell
+            cell.updateUI(banks[indexPath.item])
+            cell.delegate = self
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "addCardCell", for: indexPath) as! BankAddCardTableViewCell
-
-            cell.addCard.text = "Add bank account"
-            cell.didTapAddCard = {
-                self.navigationController?.pushViewController(TutorAddBank(), animated: true)
-            }
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "earningsCell", for: indexPath) as! EarningsHistoryCell
+            cell.updateUI(transactions[indexPath.item])
             return cell
         }
     }
 
-    func tableView(_: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return (indexPath.row == banks.count) ? false : true
-    }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.row == banks.count {
             if banks.count == 5 {
                 AlertController.genericErrorAlert(self, title: "Too Many Payout Methods", message: "We currently only allow users to have 5 payout methods.")
@@ -233,120 +180,70 @@ extension BankManager: UITableViewDelegate, UITableViewDataSource {
         } else {
             defaultBankAlert(bankId: banks[indexPath.row].id)
         }
-        tableView.deselectRow(at: indexPath, animated: true)
+        collectionView.deselectItem(at: indexPath, animated: true)
+        
     }
 
-    func tableView(_: UITableView, titleForDeleteConfirmationButtonForRowAt _: IndexPath) -> String? {
-        return "Remove Bank"
-    }
-
-    func tableView(_: UITableView, viewForHeaderInSection _: Int) -> UIView? {
-        let view = BankAddCardHeaderView()
-        view.addCard.text = "Banks"
-        return view
-    }
-
-    func tableView(_: UITableView, heightForHeaderInSection _: Int) -> CGFloat {
-        return 50
-    }
-
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            Stripe.removeBank(account: CurrentUser.shared.tutor.acctId, bankId: banks[indexPath.row].id) { error, bankList in
-                if let error = error {
-                    AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
-                } else if let bankList = bankList {
-                    self.banks.remove(at: indexPath.row)
-                    tableView.deleteRows(at: [indexPath], with: .automatic)
-                    self.bankList = bankList.data
-                    guard self.bankList.count > 0 else { return CurrentUser.shared.tutor.hasPayoutMethod = false }
-                }
-            }
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let view = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerCell", for: indexPath) as! BankManagerHeaderView
+        view.delegate = self
+        
+        if indexPath.section == 0 {
+            return view
+        } else {
+            view.titleLabel.text = "Earning history"
+            view.addBankButton.isHidden = true
+            return view
         }
     }
 
-    func insertBorder(cell: UITableViewCell) {
-        let border = UIView(frame: CGRect(x: 0, y: cell.contentView.frame.size.height - 1.0, width: cell.contentView.frame.size.width, height: 1))
-        border.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
-        cell.contentView.addSubview(border)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: 50)
+    }
+
+}
+
+extension BankManagerVC: BankManagerHeaderViewDelegate {
+    func bankManagerHeaderViewDidTapAddBankButton(_ bankManagerHeaderView: BankManagerHeaderView) {
+        let vc = TutorAddBank()
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
-class BankManagerTableViewCell: UITableViewCell {
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configureTableViewCell()
-    }
-
-    required init?(coder _: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    let bankName: UILabel = {
-        let label = UILabel()
-
-        label.textAlignment = .left
-        label.adjustsFontSizeToFitWidth = true
-        label.font = Fonts.createSize(16)
-        label.textColor = .white
-
-        return label
-    }()
-
-    let accountLast4: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .left
-        label.adjustsFontSizeToFitWidth = true
-        label.font = Fonts.createSize(15)
-        label.textColor = .white
-
-        return label
-    }()
-
-    let defaultBank: UILabel = {
-        let label = UILabel()
-        label.text = "Default"
-        label.font = Fonts.createSize(15)
-        label.textColor = .white
-        label.textColor.withAlphaComponent(1.0)
-        label.textAlignment = .center
-        label.backgroundColor = Colors.navBarColor
-		
-        label.isHidden = true
-
-        return label
-    }()
-
-    func configureTableViewCell() {
-        addSubview(bankName)
-        addSubview(accountLast4)
-        addSubview(defaultBank)
-
-        let cellBackground = UIView()
-        cellBackground.backgroundColor = Colors.darkBackground.darker(by: 15)
-        selectedBackgroundView = cellBackground
-        backgroundColor = Colors.darkBackground
-        applyConstraints()
-    }
-
-    func applyConstraints() {
-        bankName.snp.makeConstraints { make in
-            make.width.equalToSuperview().multipliedBy(0.5)
-            make.height.equalToSuperview()
-            make.left.equalToSuperview()
-            make.centerY.equalToSuperview()
+extension BankManagerVC: SwipeCollectionViewCellDelegate {
+    func collectionView(_ collectionView: UICollectionView, editActionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        guard orientation == .right else { return nil }
+        
+        let deleteAction = SwipeAction(style: .default, title: nil) { action, indexPath in
+            self.removeBankAt(indexPath)
         }
-        accountLast4.snp.makeConstraints { make in
-            make.width.equalToSuperview().multipliedBy(0.5)
-            make.height.equalToSuperview()
-            make.left.equalTo(bankName.snp.right)
-            make.centerY.equalToSuperview()
-        }
-        defaultBank.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.right.equalToSuperview()
-            make.width.equalTo(60)
-            make.height.equalTo(20)
+        
+        deleteAction.image = UIImage(named: "deleteCellIcon")
+        deleteAction.highlightedImage = UIImage(named: "deleteCellIcon")?.alpha(0.2)
+        deleteAction.font = Fonts.createSize(16)
+        deleteAction.backgroundColor = Colors.darkBackground
+        deleteAction.highlightedBackgroundColor = Colors.darkBackground
+        
+        return [deleteAction]
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, editActionsOptionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
+        var options = SwipeOptions()
+        options.transitionStyle = .drag
+        return options
+    }
+    
+    func removeBankAt(_ indexPath: IndexPath) {
+        Stripe.removeBank(account: CurrentUser.shared.tutor.acctId, bankId: banks[indexPath.row].id) { error, bankList in
+            if let error = error {
+                AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+            } else if let bankList = bankList {
+                self.banks.remove(at: indexPath.row)
+                self.contentView.collectionView.deleteItems(at: [indexPath])
+                self.bankList = bankList.data
+                guard self.bankList.count > 0 else { return CurrentUser.shared.tutor.hasPayoutMethod = false }
+            }
         }
     }
+    
 }
