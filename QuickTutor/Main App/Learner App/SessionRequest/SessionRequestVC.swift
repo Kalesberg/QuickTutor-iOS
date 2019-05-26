@@ -105,10 +105,7 @@ class SessionRequestVC: UIViewController {
     @objc func sendRequest() {
         var sessionData = [String: Any] ()
         guard let tutor = tutor, let subject = subject, let price = price, let uid = Auth.auth().currentUser?.uid else { return }
-        guard price >= 5 else {
-            showPriceAlert()
-            return
-        }
+        guard isValidPriceRange(price: price) else { return }
         sessionData["subject"] = subject
         sessionData["date"] = startTime.timeIntervalSince1970
         sessionData["startTime"] = startTime.timeIntervalSince1970
@@ -127,8 +124,21 @@ class SessionRequestVC: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    func showPriceAlert() {
-        let ac = UIAlertController(title: nil, message: "There is a $5 minimum to every session.", preferredStyle: .alert)
+    func isValidPriceRange(price: Double) -> Bool {
+        guard price >= 5 else {
+            showPriceAlert(message: "There is a $5 minimum to every session.")
+            return false
+        }
+        
+        guard price <= 15000 else {
+            showPriceAlert(message: "There is a $15,000 maximum to every session.")
+            return false
+        }
+        return true
+    }
+    
+    func showPriceAlert(message: String) {
+        let ac = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: { (action) in
             ac.dismiss(animated: true, completion: nil)
         }))

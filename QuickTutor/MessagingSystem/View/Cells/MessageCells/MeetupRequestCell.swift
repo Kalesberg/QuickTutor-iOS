@@ -135,7 +135,7 @@ class SessionRequestCell: UserMessageCell {
     
     func updatePriceWidthAnchor() {
         if let constant = priceLabel.text?.estimateFrameForFontSize(12).width {
-            priceLabelWidthAnchor = priceLabel.widthAnchor.constraint(equalToConstant: constant + 15)
+            priceLabelWidthAnchor = priceLabel.widthAnchor.constraint(equalToConstant: constant + 30)
             priceLabelWidthAnchor?.isActive = true
             layoutIfNeeded()
         }
