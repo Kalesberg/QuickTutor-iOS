@@ -159,6 +159,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         actionSheet?.isConnected = connectionRequestAccepted
         actionSheet?.parentViewController = self
         actionSheet?.partnerId = chatPartner.uid
+        actionSheet?.subject = subject
         actionSheet?.show()
     }
 
@@ -742,7 +743,7 @@ extension ConversationVC: KeyboardAccessoryViewDelegate {
 
     func shareUsernameForUserId() {
         studentKeyboardAccessory.toggleActionView()
-        DynamicLinkFactory.shared.createLink(userId: receiverId) { shareUrl in
+        DynamicLinkFactory.shared.createLink(userId: receiverId, subject: subject) { shareUrl in
             guard let shareUrlString = shareUrl?.absoluteString else { return }
             let ac = UIActivityViewController(activityItems: [shareUrlString], applicationActivities: nil)
             self.present(ac, animated: true, completion: nil)

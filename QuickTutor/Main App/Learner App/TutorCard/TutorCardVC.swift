@@ -93,6 +93,7 @@ extension TutorCardVC: TutorCardHeaderViewDelegate {
         actionSheet?.partnerId = tutor?.uid
         actionSheet?.parentViewController = self
         actionSheet?.isConnected = contentView.isConnected
+        actionSheet?.subject = subject
         actionSheet?.show()
     }
 }
