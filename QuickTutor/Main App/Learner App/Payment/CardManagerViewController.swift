@@ -14,6 +14,7 @@ import SwipeCellKit
 class CardManagerViewController: UIViewController {
     @IBOutlet weak var noPaymentLabel: UILabel!
     @IBOutlet weak var infoLabel: UILabel!
+    @IBOutlet weak var addDebitOrCreditButton: RoundedButton!
     @IBOutlet weak var feeLabel: UILabel!
     @IBOutlet weak var feeInfoIcon: UIButton!
     @IBOutlet weak var feeInfoView: UIView!
@@ -55,6 +56,7 @@ class CardManagerViewController: UIViewController {
         
         setParagraphStyles()
         addDropShadow()
+        addDimming()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -87,6 +89,10 @@ class CardManagerViewController: UIViewController {
     
     func addDropShadow() {
         feeInfoView?.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.2, offset: CGSize(width: 0, height: -5), radius: 10)
+    }
+    
+    func addDimming() {
+        addDebitOrCreditButton.setupTargets()
     }
     
     func setParagraphStyle(label: UILabel?) {

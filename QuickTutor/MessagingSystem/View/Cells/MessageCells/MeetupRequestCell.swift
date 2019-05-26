@@ -218,7 +218,6 @@ class SessionRequestCell: UserMessageCell {
         buttonView.removeAllButtonActions()
 
         titleLabel.text = "Canceled"
-        buttonView.setupAsCancelled()
         dimContent()
         buttonView.setupAsCancelled()
 
@@ -231,7 +230,6 @@ class SessionRequestCell: UserMessageCell {
         buttonView.removeAllButtonActions()
         
         titleLabel.text = "Expired"
-        buttonView.setupAsExpired()
         dimContent()
         buttonView.setupAsExpired()
         
@@ -506,11 +504,17 @@ class SessionRequestCellButtonView: UIView {
         leftButton.removeTarget(nil, action: nil, for: .allEvents)
         rightButton.removeTarget(nil, action: nil, for: .allEvents)
     }
+    
+    func reapplyDimming() {
+        leftButton.setupTargets()
+        rightButton.setupTargets()
+    }
 
     func setupAsAccepted() {
         setupAsSingleButton()
         setButtonTitleColors(.white)
         setLeftButtonToPrimaryUI()
+        reapplyDimming()
         setButtonTitles("Start Session")
     }
 
@@ -519,6 +523,7 @@ class SessionRequestCellButtonView: UIView {
             setupAsSingleButton()
             setButtonTitleColors(.white)
             setLeftButtonToPrimaryUI()
+            reapplyDimming()
             setButtonTitles("Request a new session")
         } else {
             setupAsSingleButton()
@@ -541,6 +546,7 @@ class SessionRequestCellButtonView: UIView {
         setupAsSingleButton()
         setButtonTitleColors(.white)
         setLeftButtonToPrimaryUI()
+        reapplyDimming()
         setButtonTitles("Cancel request")
     }
 
@@ -549,6 +555,7 @@ class SessionRequestCellButtonView: UIView {
             setupAsSingleButton()
             setButtonTitleColors(.white)
             setLeftButtonToPrimaryUI()
+            reapplyDimming()
             setButtonTitles("Request a new session")
         } else {
             setupAsSingleButton()
@@ -563,6 +570,7 @@ class SessionRequestCellButtonView: UIView {
             setupAsSingleButton()
             setButtonTitleColors(.white)
             setLeftButtonToPrimaryUI()
+            reapplyDimming()
             setButtonTitles("Request a new session")
         } else {
             setupAsSingleButton()

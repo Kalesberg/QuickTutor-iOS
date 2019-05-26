@@ -26,6 +26,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CardManagerViewController" customModule="QuickTutor" customModuleProvider="target">
             <connections>
+                <outlet property="addDebitOrCreditButton" destination="shF-44-O0L" id="prZ-Zd-Tmo"/>
                 <outlet property="addPaymentView" destination="g4D-lS-Pxc" id="fhE-ky-YIw"/>
                 <outlet property="feeInfoIcon" destination="fN6-Pk-twY" id="j4L-Cf-5Cm"/>
                 <outlet property="feeInfoView" destination="mFh-Au-kQx" id="SsY-cj-RG0"/>
