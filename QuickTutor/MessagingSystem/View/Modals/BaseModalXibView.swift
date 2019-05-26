@@ -14,6 +14,8 @@ protocol BaseModalXibViewDelegate {
 
 class BaseModalXibView: UIView {
     
+    static let INITIAL_DELAY = 0.60
+    
     var delegate: BaseModalXibViewDelegate?
     
     override init(frame: CGRect) {

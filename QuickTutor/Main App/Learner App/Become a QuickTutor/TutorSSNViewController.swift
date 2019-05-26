@@ -31,13 +31,11 @@ class TutorSSNViewController: BaseRegistrationController {
         paragraphStyle.lineSpacing = 2
         attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
         infoLabel.attributedText = attributedString
-        
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         setupTextFields()
-        showTrustModal()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + RegistrationSSNModal.INITIAL_DELAY) {
+            self.showTrustModal()
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {

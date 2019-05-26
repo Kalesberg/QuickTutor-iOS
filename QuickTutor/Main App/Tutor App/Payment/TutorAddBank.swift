@@ -35,7 +35,9 @@ class TutorAddBank: BaseRegistrationController {
         progressView.setProgress(4/6)
         progressView.isHidden = !isRegistration
         if isRegistration {
-            showInfoModal()
+            DispatchQueue.main.asyncAfter(deadline: .now() + BankInfoModal.INITIAL_DELAY) {
+                self.showInfoModal()
+            }
         }
     }
     
