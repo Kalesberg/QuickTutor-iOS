@@ -101,7 +101,6 @@ class QTTutorDashboardViewController: UIViewController {
         headerView.avatarImageView.isUserInteractionEnabled = true
         headerView.avatarImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTapTutorProfileImageView)))
         
-        self.tutor = CurrentUser.shared.tutor
         getSessions()
         getEarnings()
     }
@@ -118,7 +117,7 @@ class QTTutorDashboardViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.tutor = CurrentUser.shared.tutor
+        tutor = CurrentUser.shared.tutor
         initUserBasicInformation()
         
         navigationController?.setNavigationBarHidden(true, animated: false)

@@ -167,6 +167,13 @@ class TutorPreferencesVC: BaseRegistrationController {
             preferenceData["p"] = roundedHour()
             preferenceData["quick_calls"] = isEnableQuickCalls() ? roundedQuickCallPrice() : -1
             Database.database().reference().child("tutor-info").child(uid).updateChildValues(preferenceData)
+            
+            // update current user
+            CurrentUser.shared.tutor.preference = index
+            CurrentUser.shared.tutor.price = roundedHour()
+            CurrentUser.shared.tutor.distance = roundedDistance()
+            CurrentUser.shared.tutor.quickCallPrice = isEnableQuickCalls() ? roundedQuickCallPrice() : -1
+            
             displaySavedAlertController()
             navigationController?.popViewController(animated: true)
         }
