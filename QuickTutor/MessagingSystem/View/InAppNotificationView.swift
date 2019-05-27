@@ -191,7 +191,7 @@ class InAppNotificationView: UIView {
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.left.equalToSuperview()
-            make.right.greaterThanOrEqualToSuperview()
+            make.right.lessThanOrEqualToSuperview()
         }
     }
     
@@ -200,7 +200,7 @@ class InAppNotificationView: UIView {
         messageLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(5)
             make.left.equalToSuperview()
-            make.right.greaterThanOrEqualToSuperview()
+            make.right.lessThanOrEqualToSuperview()
             make.bottom.equalToSuperview()
         }
     }

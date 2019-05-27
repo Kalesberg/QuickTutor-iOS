@@ -91,6 +91,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
             // do stuff with deep link data (nav to page, display content, etc)
             print(params as? [String: AnyObject] ?? {})
         }
+        
         return true
     }
     
