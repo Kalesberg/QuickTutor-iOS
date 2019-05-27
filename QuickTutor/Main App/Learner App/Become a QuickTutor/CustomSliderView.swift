@@ -33,7 +33,7 @@ class CustomSliderView: UIView {
     
     let slider: CustomSlider = {
         let slider = CustomSlider()
-        slider.minimumValue = 0
+        slider.minimumValue = 5
         slider.maximumValue = 250
         return slider
     }()

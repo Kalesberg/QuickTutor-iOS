@@ -182,7 +182,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
         self.tutor = tutor
         nameLabel.text = tutor.formattedName
         subjectLabel.text = tutor.featuredSubject
-        priceLabel.text = "$\(tutor.price!)/hr"
+        priceLabel.text = "$\(tutor.price ?? 5)/hr"
         profileImageView.sd_setImage(with: URL(string: tutor.profilePicUrl.absoluteString)!, completed: nil)
         if !CurrentUser.shared.learner.savedTutorIds.isEmpty {
             let savedTutorIds = CurrentUser.shared.learner.savedTutorIds

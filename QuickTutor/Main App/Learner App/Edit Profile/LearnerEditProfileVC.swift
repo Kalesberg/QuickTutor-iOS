@@ -27,7 +27,7 @@ class EditPreferencesVC: TutorPreferencesVC {
         navigationItem.title = "Hourly Rate & Preferences"
         accessoryView.isHidden = true//contentView..removeFromSuperview()
         progressView.removeFromSuperview()
-        contentView.hourSliderView.slider.value = Float(CurrentUser.shared.tutor.price!)
+        contentView.hourSliderView.slider.value = Float(CurrentUser.shared.tutor.price ?? 5)
         contentView.distanceSliderView.slider.value = Float(CurrentUser.shared.tutor.distance!)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"newCheck"), style: .plain, target: self, action: #selector(savePreferences))
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_back_arrow"), style: .plain, target: self, action: #selector(backAction))
