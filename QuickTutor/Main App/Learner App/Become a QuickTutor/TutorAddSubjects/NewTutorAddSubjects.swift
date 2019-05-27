@@ -39,6 +39,11 @@ class TutorAddSubjectsVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
+        
+        // Hide the bottom tab bar and relayout views
+        tabBarController?.tabBar.isHidden = true
+        edgesForExtendedLayout = .bottom
+        extendedLayoutIncludesOpaqueBars = true
     }
     
     private func configureDelegates() {

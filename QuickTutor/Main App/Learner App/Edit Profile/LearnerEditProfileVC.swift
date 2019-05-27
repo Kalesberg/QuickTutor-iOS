@@ -33,6 +33,9 @@ class EditPreferencesVC: TutorPreferencesVC {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_back_arrow"), style: .plain, target: self, action: #selector(backAction))
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
 }
 
 class TutorEditProfileVC: LearnerEditProfileVC {
@@ -44,6 +47,10 @@ class TutorEditProfileVC: LearnerEditProfileVC {
             let indexPath = IndexPath(row: 2, section: 1)
             contentView.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -293,6 +300,12 @@ class LearnerEditProfileVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
+        
+        // Hide the bottom tab bar and relayout views
+        tabBarController?.tabBar.isHidden = true
+        edgesForExtendedLayout = .bottom
+        extendedLayoutIncludesOpaqueBars = true
+        
         updateLearner()
         setupName()
     }

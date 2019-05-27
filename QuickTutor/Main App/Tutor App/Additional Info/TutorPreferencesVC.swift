@@ -30,7 +30,9 @@ class TutorPreferencesVC: BaseRegistrationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        setupAccessoryView()
+        if inRegistrationMode {
+            setupAccessoryView()
+        }
         setupTargets()
         loadPrefences()
         progressView.setProgress(1/6)
@@ -39,6 +41,11 @@ class TutorPreferencesVC: BaseRegistrationController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        
+        // Hide the bottom tab bar and relayout views
+        tabBarController?.tabBar.isHidden = true
+        edgesForExtendedLayout = .bottom
+        extendedLayoutIncludesOpaqueBars = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -48,7 +55,12 @@ class TutorPreferencesVC: BaseRegistrationController {
 
     func setupViews() {
         view.addSubview(scrollView)
-        scrollView.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: UIScreen.main.bounds.width, height: 0)
+        if inRegistrationMode {
+            scrollView.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: UIScreen.main.bounds.width, height: 0)
+        } else {
+            scrollView.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: UIScreen.main.bounds.width, height: 0)
+        }
+        
         scrollView.addSubview(contentView)
         
         contentView.anchor(top: scrollView.topAnchor, left: scrollView.leftAnchor, bottom: scrollView.bottomAnchor, right: scrollView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)

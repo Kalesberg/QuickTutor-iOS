@@ -112,6 +112,11 @@ class EditSchoolVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: false)
+        
+        // Hide the bottom tab bar and relayout views
+        tabBarController?.tabBar.isHidden = true
+        edgesForExtendedLayout = .bottom
+        extendedLayoutIncludesOpaqueBars = true
     }
     
     func setupSearchController() {

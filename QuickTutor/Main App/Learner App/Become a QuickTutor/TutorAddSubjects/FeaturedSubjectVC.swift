@@ -32,6 +32,15 @@ class FeaturedSubjectVC: BaseRegistrationController {
         loadFeatuedSubject()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Hide the bottom tab bar and relayout views
+        tabBarController?.tabBar.isHidden = true
+        edgesForExtendedLayout = .bottom
+        extendedLayoutIncludesOpaqueBars = true
+    }
+    
     override func setupNavBar() {
         super.setupNavBar()
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"newCheck"), style: .plain, target: self, action: #selector(saveChanges))

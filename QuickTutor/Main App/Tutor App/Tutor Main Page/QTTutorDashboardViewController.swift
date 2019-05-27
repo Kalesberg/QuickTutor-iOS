@@ -122,6 +122,9 @@ class QTTutorDashboardViewController: UIViewController {
         initUserBasicInformation()
         
         navigationController?.setNavigationBarHidden(true, animated: false)
+        
+        // Show the tab bar.
+        tabBarController?.tabBar.isHidden = false
     }
 
     // MARK: - Actions
