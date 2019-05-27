@@ -109,7 +109,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
 
     private func setupEmptyBackground() {
         view.addSubview(emptyCellBackground)
-        emptyCellBackground.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 60, paddingLeft: 75, paddingBottom: 0, paddingRight: 75, width: 0, height: 300)
+        emptyCellBackground.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 60, paddingRight: 0, width: 0, height: 0)
     }
 
     private func setupNavBar() {
