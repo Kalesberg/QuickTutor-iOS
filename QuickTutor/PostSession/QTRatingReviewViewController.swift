@@ -260,8 +260,8 @@ class QTRatingReviewViewController: UIViewController {
     }
     
     private func createCharge(tutorId: String, learnerId: String, cost: Int, tip: Int, completion: @escaping (Error?) -> Void) {
-        let fee = calculateFee(cost)
         let costWithTip = cost + tip
+        let fee = calculateFee(costWithTip)
         self.displayLoadingOverlay()
         checkSessionUsers(tutorId: tutorId, learnerId: learnerId) { learnerInfluencerId, tutorInfluencerId, error in
             Stripe.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { (customer, error) in

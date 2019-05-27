@@ -410,7 +410,7 @@ class SessionReview : BaseViewController {
 		let fee = Int(Double(cost) * 0.1) + 200
 		self.displayLoadingOverlay()
         
-        checkSessionUsers(tutorId: tutorId, learnerId: learnerId) { takeRate, paypal, error in
+        checkSessionUsers(tutorId: tutorId, learnerId: learnerId) { learnerInfluencerId, tutorInfluencerId, error in
             Stripe.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { (customer, error) in
                 if let error = error {
                     self.dismissOverlay()
@@ -429,9 +429,9 @@ class SessionReview : BaseViewController {
                                              description: self.session?.subject ?? "", { error in
                         if let error = error {
                             completion(error)
-                        } else if let takeRate = takeRate,
-                            let paypal = paypal {
-                            self.createQLPayment(tutorId: tutorId, learnerId: learnerId, fee: fee, takeRate: takeRate, paypal: paypal, completion: completion)
+                        } else if nil != learnerInfluencerId
+                            || nil != tutorInfluencerId {
+                            self.createQLPayment(tutorId: tutorId, learnerId: learnerId, fee: fee, learnerInfluencerId: learnerInfluencerId, tutorInfluencerId: tutorInfluencerId, completion: completion)
                         } else {
                             completion(nil)
                         }
@@ -442,7 +442,7 @@ class SessionReview : BaseViewController {
         }
 	}
     
-    private func checkSessionUsers(tutorId: String, learnerId: String, completion: @escaping(_ takeRate: Float?, _ paypal: String?,  _ error: Error?) -> Void) {
+    private func checkSessionUsers(tutorId: String, learnerId: String, completion: @escaping(_ learnerInfluencerId: String?, _ tutorInfluencerId: String?,  _ error: Error?) -> Void) {
         let params = [
             "tutor_id": tutorId,
             "learner_id": learnerId
@@ -452,15 +452,7 @@ class SessionReview : BaseViewController {
             .responseJSON(completionHandler: { response in
                 switch response.result {
                 case .success(let value as [String: Any]):
-                    if let status = value["status"] as? Int,
-                        status == 1,
-                        let strTakeRate = value["take_rate"] as? String,
-                        let takeRate = Float(strTakeRate),
-                        let paypal = value["stripe_key"] as? String {
-                        completion(takeRate / 100.0, paypal, nil)
-                    } else {
-                        completion(nil, nil, nil)
-                    }
+                    completion(value["learner_influencer_id"] as? String, value["tutor_influencer_id"] as? String, nil)
                 case .failure(let error):
                     completion(nil, nil, error)
                 default:
@@ -469,14 +461,18 @@ class SessionReview : BaseViewController {
             })
     }
     
-    private func createQLPayment(tutorId: String, learnerId: String, fee: Int, takeRate: Float, paypal: String, completion: @escaping(Error?) -> Void) {
-        let params: [String: Any] = [
+    private func createQLPayment(tutorId: String, learnerId: String, fee: Int, learnerInfluencerId: String?, tutorInfluencerId: String?, completion: @escaping(Error?) -> Void) {
+        var params: [String: Any] = [
             "tutor_id": tutorId,
             "learner_id": learnerId,
-            "ql_cut": Float(fee) * takeRate,
-            "qt_cut": Float(fee) * (1 - takeRate),
-            "paypal": paypal
+            "fee": fee
         ]
+        if let learnerInfluencerId = learnerInfluencerId {
+            params["learner_influencer_id"] = learnerInfluencerId
+        }
+        if let tutorInfluencerId = tutorInfluencerId {
+            params["tutor_influencer_id"] = tutorInfluencerId
+        }
         
         Alamofire.request("\(Constants.API_BASE_URL)/quicklink/payments", method: .post, parameters: params, encoding: URLEncoding.default)
             .validate()
