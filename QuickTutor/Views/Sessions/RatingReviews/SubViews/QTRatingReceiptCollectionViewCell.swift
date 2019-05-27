@@ -15,14 +15,16 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var receiptView: UIView!
     @IBOutlet weak var avatarImageView: QTCustomImageView!
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var hourlyRateLabel: UILabel!
     @IBOutlet weak var subjectLabel: UILabel!
     @IBOutlet weak var sessionLengthCaptionLabel: UILabel!
     @IBOutlet weak var sessionLengthLabel: UILabel!
+    @IBOutlet weak var tutoringCostView: UIView!
+    @IBOutlet weak var tutoringCostLabel: UILabel!
     @IBOutlet weak var processingFeeTitleLabel: UILabel!
     @IBOutlet weak var processingFeeLabel: UILabel!
     @IBOutlet weak var billLabel: UILabel!
     @IBOutlet weak var tipLabel: UILabel!
+    @IBOutlet weak var totalTitleLabel: UILabel!
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var totalSessionNumberLabel: UILabel!
     @IBOutlet weak var partnerSessionLabel: UILabel!
@@ -43,6 +45,7 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
         
         receiptView.layer.cornerRadius = 5
         receiptView.clipsToBounds = true
+        addDropShadow()
     }
     
     public func setProfileInfo(user: Any,
@@ -58,22 +61,11 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
         
         if let tutor = user as? AWTutor {
             let nameSplit = tutor.name.split(separator: " ")
-            nameLabel.text = String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1) + ".")
-            avatarImageView.sd_setImage(with: storageRef.child("student-info").child(tutor.uid).child("student-profile-pic1"))
+            setAvatarImageWith(uid: tutor.uid)
             
-            if let hourlyRate = tutor.price {
-                hourlyRateLabel.text = "$\(hourlyRate)/hr"
-                hourlyRateLabel.isHidden = false
-            }
+            updateLabelsWith(sessionType: sessionType, nameSplit: nameSplit)
             
-            if sessionType == .quickCalls {
-                partnerSessionLabel.text = "Call completed with \(String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1))):"
-                sessionLengthCaptionLabel.text = "Call length:"
-            } else {
-                partnerSessionLabel.text = "Sessions completed with \(String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1))):"
-                sessionLengthCaptionLabel.text = "Session length:"
-            }
-            
+            tutoringCostLabel.text = bill.currencyFormat(precision: 2, divider: 1)
             
             let cost = (bill + 0.3) / 0.971
             processingFeeLabel.text = Double(cost * 0.029 + 0.3).currencyFormat(precision: 2, divider: 1)
@@ -81,27 +73,23 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
             totalLabel.text = (cost + tip).currencyFormat(precision: 2, divider: 1)
         } else if let learner = user as? AWLearner {
             let nameSplit = learner.name.split(separator: " ")
-            nameLabel.text = String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1) + ".")
-            avatarImageView.sd_setImage(with: storageRef.child("student-info").child(learner.uid).child("student-profile-pic1"))
+            setAvatarImageWith(uid: learner.uid)
             
-            if let hourlyRate = CurrentUser.shared.tutor.price {
-                hourlyRateLabel.text = "$\(hourlyRate)/hr"
-                hourlyRateLabel.isHidden = false
-            }
             processingFeeTitleLabel.text = "QuickTutor's service fee:"
-            if sessionType == .quickCalls {
-                partnerSessionLabel.text = "Call completed with \(String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1))):"
-                sessionLengthCaptionLabel.text = "Call length:"
-            } else {
-                partnerSessionLabel.text = "Sessions completed with \(String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1))):"
-                sessionLengthCaptionLabel.text = "Session length:"
-            }
             
+            updateLabelsWith(sessionType: sessionType, nameSplit: nameSplit)
             
-            processingFeeLabel.text = Double(fee).currencyFormat(precision: 2)
+            let processingFee = Double(fee)
+            processingFeeLabel.text = processingFee.currencyFormat(precision: 2)
+            
             billLabel.text = bill.currencyFormat(precision: 2, divider: 1)
-            totalLabel.text = (bill + tip).currencyFormat(precision: 2, divider: 1)
             
+            totalTitleLabel.text = "Earned"
+            let earnings = (bill - (processingFee / 100) + tip)
+            totalLabel.text = earnings.currencyFormat(precision: 2, divider: 1)
+            
+            // hidden tutoring cost
+            tutoringCostView?.isHidden = true
             // hidden tip
             tipLabel.superview?.superview?.superview?.isHidden = true
         }
@@ -126,5 +114,25 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
         } else {
             return "\(seconds) seconds"
         }
+    }
+    
+    func setAvatarImageWith(uid: String) {
+        avatarImageView.sd_setImage(with: storageRef.child("student-info").child(uid).child("student-profile-pic1"))
+    }
+    
+    func updateLabelsWith(sessionType: QTSessionType, nameSplit: [String.SubSequence]) {
+        nameLabel.text = String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1) + ".")
+        
+        if sessionType == .quickCalls {
+            partnerSessionLabel.text = "Call completed with \(String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1))):"
+            sessionLengthCaptionLabel.text = "Call duration:"
+        } else {
+            partnerSessionLabel.text = "Sessions completed with \(String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1))):"
+            sessionLengthCaptionLabel.text = "Session duration:"
+        }
+    }
+    
+    func addDropShadow() {
+        receiptView?.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.6, offset: CGSize(width: 0, height: 0), radius: 3)
     }
 }
