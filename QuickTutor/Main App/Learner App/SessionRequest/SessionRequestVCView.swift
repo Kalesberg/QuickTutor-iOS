@@ -82,7 +82,7 @@ class SessionRequestVCView: UIView, TutorDataSource {
     
     func setupScrollView() {
         addSubview(scrollView)
-        scrollView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        scrollView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 84, paddingRight: 0, width: 0, height: 0)
         scrollView.delegate = self
     }
     
@@ -126,18 +126,20 @@ class SessionRequestVCView: UIView, TutorDataSource {
     
     func setupSessionTypeView() {
         scrollView.addSubview(sessionTypeView)
-        sessionTypeView.anchor(top: paymentView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 74)
+        sessionTypeView.anchor(top: paymentView.bottomAnchor, left: leftAnchor, bottom: scrollView.bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 20, paddingRight: 20, width: 0, height: 74)
     }
     
     func setupSendView() {
-        scrollView.addSubview(sendView)
-        sendView.anchor(top: sessionTypeView.bottomAnchor, left: leftAnchor, bottom: scrollView.bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 84)
+        addSubview(sendView)
+        sendView.anchor(top: scrollView.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 84)
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         tutor = CurrentUser.shared.tutor
         setupViews()
+        
+        sendView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.2, offset: CGSize(width: 0, height: -2), radius: 2)
     }
     
     required init?(coder aDecoder: NSCoder) {

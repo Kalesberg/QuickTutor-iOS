@@ -29,7 +29,7 @@ class SessionRequestTutorCell: ConnectionCell {
     
     @objc func removeSelectedTutor() {
         UIView.animate(withDuration: 0.25) {
-            self.alpha = 0
+            self.isHidden = true
         }
     }
 }

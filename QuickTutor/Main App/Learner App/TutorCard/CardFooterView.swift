@@ -42,6 +42,7 @@ class CardFooterView: UIView {
     func setupConnectButton() {
         addSubview(connectButton)
         connectButton.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 20, paddingRight: 20, width: 168, height: 0)
+        connectButton.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: CGSize(width: 0, height: 3), radius: 4)
     }
     
     func updateUI(_ tutor: AWTutor, connected: Bool = false) {
