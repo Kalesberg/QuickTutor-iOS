@@ -169,8 +169,7 @@ class PageView: UIScrollView {
         height: imageViewSize.height)
     }
 
-    imageView.frame = CGRect(origin: CGPoint.zero, size: realImageViewSize)
-
+    imageView.frame = CGRect(origin: CGPoint.zero, size: realImageViewSize)    
     centerImageView()
   }
 
