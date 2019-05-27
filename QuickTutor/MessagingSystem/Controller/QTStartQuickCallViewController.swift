@@ -303,8 +303,8 @@ class QTStartQuickCallViewController: UIViewController, QTStartQuickCallModalNav
         }
         
         let isInitiator = initiatorId == uid
-        let resource = isInitiator ? "phone-ring" : "qtRingtone"
-        let ext = isInitiator ? "mp3" : "aiff"
+        let resource = isInitiator ? "phone-ring" : "quickcalls_ringtone"
+        let ext = "mp3"
         guard let url = Bundle.main.url(forResource: resource, withExtension: ext) else { return }
         
         do {
