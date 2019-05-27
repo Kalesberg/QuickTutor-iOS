@@ -31,7 +31,7 @@ class ProfileVC: UIViewController {
     let cellImages = [UIImage(named: "cardIconProfile"), UIImage(named: "settingsIcon"), UIImage(named: "fileIcon"), UIImage(named: "questionMarkIcon"), UIImage(named: "feedbackIcon"), UIImage(named: "sessionsTabBarIcon")]
     
     struct Dimension {
-        let header: CGFloat = 230
+        let header: CGFloat = 216
         let cell: CGFloat = 57
         let footer: CGFloat = 70
         let separator: CGFloat = 1

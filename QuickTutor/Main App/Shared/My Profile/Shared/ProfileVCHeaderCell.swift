@@ -83,7 +83,7 @@ class ProfileVCHeaderCell: UICollectionReusableView {
         let label = UILabel()
         label.textColor = .white
         label.text = "View profile"
-        label.font = Fonts.createSemiBoldSize(14)
+        label.font = Fonts.createSemiBoldSize(16)
         return label
     }()
     
