@@ -16,6 +16,9 @@
         <array key="Lato-Heavy.ttf">
             <string>Lato-Heavy</string>
         </array>
+        <array key="Lato-Regular.ttf">
+            <string>Lato-Regular</string>
+        </array>
         <array key="Lato-Semibold.ttf">
             <string>Lato-Semibold</string>
         </array>
@@ -47,16 +50,16 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L92-75-8rm">
-                    <rect key="frame" x="20" y="71" width="120.5" height="17"/>
+                    <rect key="frame" x="20" y="71" width="119.5" height="17"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Subject" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zlc-S7-Izo">
-                            <rect key="frame" x="0.0" y="0.0" width="47" height="17"/>
-                            <fontDescription key="fontDescription" name="Lato-Heavy" family="Lato" pointSize="14"/>
+                            <rect key="frame" x="0.0" y="0.0" width="46" height="17"/>
+                            <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hourly rate" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6fm-5S-Q5Q">
-                            <rect key="frame" x="47" y="0.0" width="73.5" height="17"/>
+                            <rect key="frame" x="46" y="0.0" width="73.5" height="17"/>
                             <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="14"/>
                             <color key="textColor" red="0.39215686274509803" green="0.38431372549019605" blue="0.78823529411764703" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <nil key="highlightedColor"/>

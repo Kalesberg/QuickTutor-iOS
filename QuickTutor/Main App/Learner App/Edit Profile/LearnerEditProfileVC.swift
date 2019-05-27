@@ -600,7 +600,7 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
             case 2:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileBioCell", for: indexPath) as! EditProfileBioCell
                 cell.placeholder.text = "Biography"
-                cell.textView.delegate = self
+                cell.delegate = self
                 if CurrentUser.shared.learner.bio != "" {
                     cell.textView.text = CurrentUser.shared.learner.bio
                     cell.textView.placeholderLabel.text = nil
@@ -805,12 +805,6 @@ extension LearnerEditProfileVC: CropViewControllerDelegate {
         cropViewController.dismiss(animated: true, completion: nil)
     }
 
-}
-
-extension LearnerEditProfileVC: UITextViewDelegate {
-    func textViewDidChange(_: UITextView) {
-        _ = isBioCorrectLength()
-    }
 }
 
 extension LearnerEditProfileVC: EditProfileBioCellDelegate {

@@ -13,6 +13,8 @@ import MessageUI
 
 class ProfileVC: UIViewController {
     
+//    let headerView: ProfileVCHeaderCell?
+    
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -126,6 +128,7 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
                 alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
                 self.present(alert, animated: true, completion: nil)
             }
+            header.updateUI()
             return header
         }
     }

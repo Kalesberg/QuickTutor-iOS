@@ -50,6 +50,7 @@ class FeaturedSubjectVC: BaseRegistrationController {
         guard let uid = Auth.auth().currentUser?.uid, let index = contentView.subjectsCV.indexPathsForSelectedItems?.first else { return }
         let subject = subjects[index.item]
         Database.database().reference().child("tutor-info").child(uid).child("sbj").setValue(subject)
+        CurrentUser.shared.tutor.featuredSubject = subject
         navigationController?.popViewController(animated: true)
     }    
     

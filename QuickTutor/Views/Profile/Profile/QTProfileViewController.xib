@@ -112,13 +112,13 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="225" height="51"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="753" verticalCompressionResistancePriority="753" text="username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6vE-CP-9AF">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="96.5" height="26.5"/>
-                                                                    <fontDescription key="fontDescription" name="Lato-Heavy" family="Lato" pointSize="22"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="88" height="24"/>
+                                                                    <fontDescription key="fontDescription" name="Lato-Heavy" family="Lato" pointSize="20"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="L8b-3j-RqW" customClass="QTCustomImageView" customModule="QuickTutor" customModuleProvider="target">
-                                                                    <rect key="frame" x="101.5" y="9.5" width="10" height="10"/>
+                                                                    <rect key="frame" x="93" y="8" width="10" height="10"/>
                                                                     <color key="backgroundColor" red="0.39215686274509803" green="0.38431372549019605" blue="0.78823529411764703" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="10" id="JH5-bt-i4O"/>
@@ -131,22 +131,22 @@
                                                                     </userDefinedRuntimeAttributes>
                                                                 </imageView>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="6i0-qX-rKr">
-                                                                    <rect key="frame" x="0.0" y="31.5" width="125" height="19.5"/>
+                                                                    <rect key="frame" x="0.0" y="29" width="109" height="22"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="top subject" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="hbV-DZ-rL9">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="81.5" height="19.5"/>
-                                                                            <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="16"/>
+                                                                            <rect key="frame" x="0.0" y="2.5" width="68" height="17"/>
+                                                                            <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
                                                                             <color key="textColor" red="1" green="1" blue="1" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="sRGB"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="0.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CC5-9W-O72">
-                                                                            <rect key="frame" x="86.5" y="0.0" width="22.5" height="19.5"/>
-                                                                            <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="16"/>
+                                                                            <rect key="frame" x="73" y="2.5" width="20" height="17"/>
+                                                                            <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="14"/>
                                                                             <color key="textColor" red="0.3921568627" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="calibratedRGB"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_star_filled" translatesAutoresizingMaskIntoConstraints="NO" id="CMW-hq-mef">
-                                                                            <rect key="frame" x="114" y="4.5" width="11" height="11"/>
+                                                                            <rect key="frame" x="98" y="5.5" width="11" height="11"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="height" constant="11" id="7am-WB-94W"/>
                                                                                 <constraint firstAttribute="width" constant="11" id="FNb-IV-tbe"/>
@@ -158,10 +158,10 @@
                                                                     </constraints>
                                                                 </stackView>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a0N-aR-lNB">
-                                                                    <rect key="frame" x="116.5" y="0.0" width="108.5" height="40"/>
+                                                                    <rect key="frame" x="108" y="0.0" width="117" height="40"/>
                                                                     <subviews>
                                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OLY-2z-Yv0">
-                                                                            <rect key="frame" x="68.5" y="0.0" width="40" height="40"/>
+                                                                            <rect key="frame" x="77" y="0.0" width="40" height="40"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="width" constant="40" id="KkD-Kv-BdH"/>
                                                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="NvD-47-HkM"/>
@@ -175,7 +175,7 @@
                                                                             </connections>
                                                                         </button>
                                                                         <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sc8-fr-3bi">
-                                                                            <rect key="frame" x="28.5" y="0.0" width="40" height="40"/>
+                                                                            <rect key="frame" x="37" y="0.0" width="40" height="40"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="6iD-VP-3y5"/>
                                                                                 <constraint firstAttribute="height" constant="40" id="JTS-go-sDU"/>
