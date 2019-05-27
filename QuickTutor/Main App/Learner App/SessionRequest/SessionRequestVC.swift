@@ -66,6 +66,17 @@ class SessionRequestVC: UIViewController {
             contentView.tutorView.tutorCell.alpha = 1
             checkForErrors()
         }
+        
+        // Hide the bottom tab bar and relayout views
+        tabBarController?.tabBar.isHidden = true
+        edgesForExtendedLayout = .bottom
+        extendedLayoutIncludesOpaqueBars = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        tabBarController?.tabBar.isHidden = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -182,10 +193,13 @@ extension SessionRequestVC: SessionRequestTutorViewDelegate {
     }
     
     func tutorView(_ tutorView: SessionRequestTutorView, didChoose tutor: AWTutor) {
-        tutorView.tutorCell.alpha = 1
+        tutorView.tutorCell.isHidden = false
+        tutorView.tutorSelectView.isHidden = true
         self.tutor = tutor
         contentView.tutorView.tutorCell.updateUI(user: tutor)
     }
+    
+    
 }
 
 extension SessionRequestVC: SessionRequestDateViewDelegate {

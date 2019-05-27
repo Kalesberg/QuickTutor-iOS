@@ -21,13 +21,15 @@ class SessionRequestTutorView: BaseSessionRequestViewSection, MockCollectionView
         let cell = MockCollectionViewCell()
         cell.primaryButton.setTitle("Select", for: .normal)
         cell.titleLabel.font = Fonts.createSize(14)
+        cell.layer.applyShadow(color: UIColor.clear.cgColor, opacity: 1, offset: .zero, radius: 4)
+        
         return cell
     }()
     
     let tutorCell: SessionRequestTutorCell = {
         let cell = SessionRequestTutorCell()
         cell.backgroundColor = Colors.darkBackground
-        cell.alpha = 0
+        cell.isHidden = true
         return cell
     }()
     
