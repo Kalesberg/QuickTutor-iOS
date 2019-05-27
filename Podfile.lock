@@ -1,5 +1,5 @@
 PODS:
-  - AccountKit (5.0.0)
+  - AccountKit (5.0.1)
   - Alamofire (4.8.2)
   - Bolts (1.9.0):
     - Bolts/AppLinks (= 1.9.0)
@@ -269,7 +269,7 @@ SPEC REPOS:
     - TwilioVideo
 
 SPEC CHECKSUMS:
-  AccountKit: de43ca1f9d3b8227a9cdc128d4f0b5366075c861
+  AccountKit: d05258857e74b04386c263a1365b27dbb5ff62b9
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Branch: e4f2a9c361ebdc960c823d16014c187bf19b508c

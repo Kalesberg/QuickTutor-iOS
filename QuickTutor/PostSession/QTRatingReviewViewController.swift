@@ -131,7 +131,7 @@ class QTRatingReviewViewController: UIViewController {
                 nextButton.isEnabled = false
                 let tip = Double(PostSessionReviewData.tipAmount)
                 AnalyticsService.shared.logSessionPayment(cost: costOfSession, tip: tip)
-                createCharge(tutorId: tutor.uid, cost: costInDollars(costOfSession), tip: Int(tip * 100)) { error in
+                createCharge(tutorId: tutor.uid, learnerId: CurrentUser.shared.learner.uid, cost: costInDollars(costOfSession), tip: Int(tip * 100)) { error in
                     if let error = error {
                         AlertController.genericErrorAlertWithoutCancel(self, title: "Payment Error", message: error.localizedDescription)
                         self.hasPaid = false
@@ -163,9 +163,7 @@ class QTRatingReviewViewController: UIViewController {
             break
         default:
             break
-        }
-        
-        
+        }        
     }
     
     @objc
@@ -261,11 +259,11 @@ class QTRatingReviewViewController: UIViewController {
         return Int(cost * 100)
     }
     
-    private func createCharge(tutorId: String, cost: Int, tip: Int, completion: @escaping (Error?) -> Void) {
+    private func createCharge(tutorId: String, learnerId: String, cost: Int, tip: Int, completion: @escaping (Error?) -> Void) {
         let fee = calculateFee(cost)
         let costWithTip = cost + tip
         self.displayLoadingOverlay()
-        checkTutor(tutorId: tutorId) { takeRate, paypal, error in
+        checkSessionUsers(tutorId: tutorId, learnerId: learnerId) { takeRate, paypal, error in
             Stripe.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { (customer, error) in
                 if let error = error {
                     self.dismissOverlay()
@@ -276,7 +274,7 @@ class QTRatingReviewViewController: UIViewController {
                         return completion(StripeError.createChargeError)
                     }
                     Stripe.destinationCharge(acctId: self.tutor.acctId,
-                                             customerId: CurrentUser.shared.learner.uid,
+                                             customerId: learnerId,
                                              customerStripeId: customer.stripeID,
                                              sourceId: card,
                                              amount: costWithTip,
@@ -286,7 +284,7 @@ class QTRatingReviewViewController: UIViewController {
                             completion(error)
                         } else if let takeRate = takeRate,
                             let paypal = paypal {
-                            self.createQLPayment(tutorId: tutorId, fee: fee, takeRate: takeRate, paypal: paypal, completion: completion)
+                            self.createQLPayment(tutorId: tutorId, learnerId: learnerId, fee: fee, takeRate: takeRate, paypal: paypal, completion: completion)
                         } else {
                             completion(nil)
                         }
@@ -297,11 +295,12 @@ class QTRatingReviewViewController: UIViewController {
         }
     }
     
-    private func checkTutor(tutorId: String, completion: @escaping(_ takeRate: Float?, _ paypal: String?,  _ error: Error?) -> Void) {
+    private func checkSessionUsers(tutorId: String, learnerId: String, completion: @escaping(_ takeRate: Float?, _ paypal: String?,  _ error: Error?) -> Void) {
         let params = [
-            "tutor_id": tutorId
+            "tutor_id": tutorId,
+            "learner_id": learnerId
         ]
-        Alamofire.request("\(Constants.API_BASE_URL)/quicklink/check-tutor", method: .post, parameters: params, encoding: URLEncoding.default)
+        Alamofire.request("\(Constants.API_BASE_URL)/quicklink/session-users", method: .post, parameters: params, encoding: URLEncoding.default)
             .validate()
             .responseJSON(completionHandler: { response in
                 switch response.result {
@@ -323,10 +322,11 @@ class QTRatingReviewViewController: UIViewController {
             })
     }
     
-    private func createQLPayment(tutorId: String, fee: Int, takeRate: Float, paypal: String, completion: @escaping(Error?) -> Void) {
+    private func createQLPayment(tutorId: String, learnerId: String, fee: Int, takeRate: Float, paypal: String, completion: @escaping(Error?) -> Void) {
         let qlCut = Int(Float(fee) * takeRate)
         let params: [String: Any] = [
             "tutor_id": tutorId,
+            "learner_id": learnerId,
             "ql_cut": qlCut,
             "qt_cut": fee - qlCut,
             "paypal": paypal
