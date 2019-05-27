@@ -1,33 +1,29 @@
 //
-//  CrossoverPage.swift
+//  QTBecomeTutorViewController.swift
 //  QuickTutor
 //
-//  Created by QuickTutor on 3/14/18.
-//  Copyright © 2018 QuickTutor. All rights reserved.
+//  Created by jcooperation0137 on 5/27/19.
+//  Copyright © 2019 QuickTutor. All rights reserved.
+//
 
-import Foundation
 import UIKit
 
-class BecomeTutorVC: BaseRegistrationController {
-    
+class QTBecomeTutorViewController: BaseRegistrationController {
+
+    // MARK: - Properties
     var isRegistration = false
     
-    let contentView: BecomeTutorVCView = {
-        let view = BecomeTutorVCView()
-        return view
-    }()
-
-    override func loadView() {
-        view = contentView
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupTargets()
-        setupContentView()
-        progressView.isHidden = true
+    static var controller: QTBecomeTutorViewController {
+        return QTBecomeTutorViewController(nibName: String(describing: QTBecomeTutorViewController.self), bundle: nil)
     }
     
+    // MARK: - Lifecycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        progressView.isHidden = true
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -36,19 +32,11 @@ class BecomeTutorVC: BaseRegistrationController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_back_arrow"), style: .plain, target: self, action: #selector(backAction))
     }
     
-    func setupTargets() {
-        contentView.nextButton.addTarget(self, action: #selector(handleNext(_:)), for: .touchUpInside)
-    }
-
-    func setupContentView() {
-        contentView.layoutIfNeeded()
-        contentView.scrollView.contentSize = CGSize(width: contentView.scrollView.frame.width, height: contentView.contentLabel.frame.height)
-    }
-
-    @objc func handleNext(_ sender: UIButton) {
+    // MARK: - Actions
+    @IBAction func onStartTutoringButtonClicked(_ sender: Any) {
         navigationController?.pushViewController(TutorAddSubjectsVC(), animated: true)
     }
-
+    
     @objc func backAction() {
         if isRegistration {
             navigationController?.popViewController(animated: true)

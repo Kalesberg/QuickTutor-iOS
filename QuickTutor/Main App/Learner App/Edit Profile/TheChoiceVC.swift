@@ -52,7 +52,7 @@ class TheChoiceVC: UIViewController {
                 if let learner = learner {
                     self.dismissOverlay()
                     CurrentUser.shared.learner = learner
-                    let vc = BecomeTutorVC()
+                    let vc = QTBecomeTutorViewController.controller
                     vc.isRegistration = true
                     self.navigationController?.pushViewController(vc, animated: true)
                 } else {

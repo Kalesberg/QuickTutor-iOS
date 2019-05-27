@@ -247,6 +247,7 @@ extension ProfileVC: ProfileModeToggleViewDelegate {
     }
     
     func switchToTutor() {
+        
         if CurrentUser.shared.learner.isTutor {
             displayLoadingOverlay()
             prepareForSwitchToTutor { success in
@@ -258,7 +259,7 @@ extension ProfileVC: ProfileModeToggleViewDelegate {
             }
         } else {
             AccountService.shared.currentUserType = .tRegistration
-            let vc = BecomeTutorVC()
+            let vc = QTBecomeTutorViewController.controller
             vc.isRegistration = false
             let becomeTutorNav = CustomNavVC(rootViewController: vc)
             navigationController?.present(becomeTutorNav, animated: true, completion: nil)

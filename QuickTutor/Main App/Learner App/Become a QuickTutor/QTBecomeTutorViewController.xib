@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Lato-Bold.ttf">
+            <string>Lato-Bold</string>
+        </array>
+        <array key="Lato-Heavy.ttf">
+            <string>Lato-Heavy</string>
+        </array>
+        <array key="Lato-Regular.ttf">
+            <string>Lato-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QTBecomeTutorViewController" customModule="QuickTutor" customModuleProvider="target">
+            <connections>
+                <outlet property="view" destination="pMf-6R-sI7" id="L5I-UW-te8"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="pMf-6R-sI7">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rwh-1C-hor">
+                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                    <subviews>
+                        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i5M-Pr-FkT">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Become a QuickTutor" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eDp-kV-fGn">
+                                    <rect key="frame" x="30" y="30" width="354" height="24"/>
+                                    <fontDescription key="fontDescription" name="Lato-Heavy" family="Lato" pointSize="20"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_dollar_sign" translatesAutoresizingMaskIntoConstraints="NO" id="Duh-de-pdy">
+                                    <rect key="frame" x="30" y="75" width="19" height="19"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="19" id="8wb-dd-ped"/>
+                                        <constraint firstAttribute="width" constant="19" id="tvz-D8-qu4"/>
+                                    </constraints>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Earn money tutoring" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uXv-UV-k3A">
+                                    <rect key="frame" x="59" y="74.5" width="325" height="20"/>
+                                    <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="16"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7xU-P1-4c1">
+                                    <rect key="frame" x="30" y="109.5" width="354" height="101"/>
+                                    <string key="text">No matter who you are, QuickTutor enables you to run a freelance tutoring business. We make it safe and straightforward to earn money and teach people around the world either in-person near your hometown or online through video/audio call! Whatever the occasion, we’re here to help!</string>
+                                    <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
+                                    <color key="textColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_clock_purple" translatesAutoresizingMaskIntoConstraints="NO" id="Lmh-5c-cpy">
+                                    <rect key="frame" x="30" y="231" width="19" height="19"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="19" id="YgF-bw-ueR"/>
+                                        <constraint firstAttribute="height" constant="19" id="vWN-11-Z3i"/>
+                                    </constraints>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User freedom" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2EO-F3-gPT">
+                                    <rect key="frame" x="59" y="230.5" width="325" height="20"/>
+                                    <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="16"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CDy-Da-xKS">
+                                    <rect key="frame" x="30" y="265.5" width="354" height="50.5"/>
+                                    <string key="text">With QuickTutor, you are in complete control of your schedule, hourly rate, preferences, policies, and how you communicate with learners.</string>
+                                    <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
+                                    <color key="textColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_shield" translatesAutoresizingMaskIntoConstraints="NO" id="gBG-Ga-NL7">
+                                    <rect key="frame" x="30" y="336.5" width="19" height="19"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="19" id="L2q-40-I5Z"/>
+                                        <constraint firstAttribute="height" constant="19" id="kmF-lV-QD1"/>
+                                    </constraints>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your safety matters" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Mb-67-9es">
+                                    <rect key="frame" x="59" y="336" width="325" height="20"/>
+                                    <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="16"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lhb-Pu-nSA">
+                                    <rect key="frame" x="30" y="371" width="354" height="67.5"/>
+                                    <string key="text">QuickTutor has a rating, reviewing, and reporting system to ensure your safety as a tutor. Remember to thoroughly analyze a learner’s profile before scheduling an in-person session.</string>
+                                    <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
+                                    <color key="textColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YYO-aW-HcA" customClass="QTCustomButton" customModule="QuickTutor" customModuleProvider="target">
+                                    <rect key="frame" x="30" y="744" width="354" height="44"/>
+                                    <color key="backgroundColor" red="0.3921568627" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="44" id="bzS-qD-Piy"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="12"/>
+                                    <state key="normal" title="START TUTORING">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </state>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                            <real key="value" value="5"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="onStartTutoringButtonClicked:" destination="-1" eventType="touchUpInside" id="4YO-Au-hPv"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" red="0.10588235294117647" green="0.10588235294117647" blue="0.14901960784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="0Mb-67-9es" secondAttribute="trailing" constant="30" id="0HY-9w-knH"/>
+                                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="uXv-UV-k3A" secondAttribute="trailing" constant="30" id="36Y-Tj-eoy"/>
+                                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Lhb-Pu-nSA" secondAttribute="trailing" constant="30" id="4VI-24-RgW"/>
+                                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="YYO-aW-HcA" secondAttribute="trailing" constant="30" id="5aa-DS-8E8"/>
+                                <constraint firstItem="uXv-UV-k3A" firstAttribute="centerY" secondItem="Duh-de-pdy" secondAttribute="centerY" id="76z-5o-Ovr"/>
+                                <constraint firstItem="2EO-F3-gPT" firstAttribute="leading" secondItem="Lmh-5c-cpy" secondAttribute="trailing" constant="10" id="7K4-B9-Smh"/>
+                                <constraint firstItem="eDp-kV-fGn" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="30" id="8rH-nl-sAo"/>
+                                <constraint firstItem="Lhb-Pu-nSA" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="FP2-xK-1Zi"/>
+                                <constraint firstItem="0Mb-67-9es" firstAttribute="leading" secondItem="gBG-Ga-NL7" secondAttribute="trailing" constant="10" id="GZI-Ih-5f4"/>
+                                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="2EO-F3-gPT" secondAttribute="trailing" constant="30" id="Ha6-vb-tOO"/>
+                                <constraint firstItem="7xU-P1-4c1" firstAttribute="top" secondItem="uXv-UV-k3A" secondAttribute="bottom" constant="15" id="JMX-06-ZVC"/>
+                                <constraint firstItem="Duh-de-pdy" firstAttribute="top" secondItem="eDp-kV-fGn" secondAttribute="bottom" constant="21" id="Pr0-JZ-s8a"/>
+                                <constraint firstItem="Duh-de-pdy" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="S0E-y4-eBl"/>
+                                <constraint firstItem="gBG-Ga-NL7" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="Sm3-bL-Qia"/>
+                                <constraint firstItem="uXv-UV-k3A" firstAttribute="leading" secondItem="Duh-de-pdy" secondAttribute="trailing" constant="10" id="UOg-vB-qzq"/>
+                                <constraint firstItem="7xU-P1-4c1" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="Vj1-Xh-R7w"/>
+                                <constraint firstItem="Lhb-Pu-nSA" firstAttribute="top" secondItem="0Mb-67-9es" secondAttribute="bottom" constant="15" id="Z1P-Fb-Cbf"/>
+                                <constraint firstItem="YYO-aW-HcA" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="hej-xN-9zs"/>
+                                <constraint firstItem="0Mb-67-9es" firstAttribute="top" secondItem="CDy-Da-xKS" secondAttribute="bottom" constant="20" id="hue-bg-3fu"/>
+                                <constraint firstItem="CDy-Da-xKS" firstAttribute="top" secondItem="2EO-F3-gPT" secondAttribute="bottom" constant="15" id="igX-wg-3zQ"/>
+                                <constraint firstItem="Lmh-5c-cpy" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="jPL-L5-9Im"/>
+                                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="7xU-P1-4c1" secondAttribute="trailing" constant="30" id="jah-rE-GO5"/>
+                                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="CDy-Da-xKS" secondAttribute="trailing" constant="30" id="jcI-J1-pNJ"/>
+                                <constraint firstItem="2EO-F3-gPT" firstAttribute="top" secondItem="7xU-P1-4c1" secondAttribute="bottom" constant="20" id="jrZ-0L-EO5"/>
+                                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="YYO-aW-HcA" secondAttribute="bottom" constant="30" id="kpf-8R-8zo"/>
+                                <constraint firstItem="YYO-aW-HcA" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Lhb-Pu-nSA" secondAttribute="bottom" constant="20" id="o1t-SZ-65t"/>
+                                <constraint firstItem="YYO-aW-HcA" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="owv-Su-A0x"/>
+                                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="eDp-kV-fGn" secondAttribute="trailing" constant="30" id="qa6-TO-GIN"/>
+                                <constraint firstItem="0Mb-67-9es" firstAttribute="centerY" secondItem="gBG-Ga-NL7" secondAttribute="centerY" id="uZj-PQ-5Jf"/>
+                                <constraint firstItem="CDy-Da-xKS" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="urb-bD-sOL"/>
+                                <constraint firstItem="2EO-F3-gPT" firstAttribute="centerY" secondItem="Lmh-5c-cpy" secondAttribute="centerY" id="wtI-lq-tSu"/>
+                                <constraint firstItem="eDp-kV-fGn" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="x91-eR-1na"/>
+                            </constraints>
+                            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+                        </view>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="i5M-Pr-FkT" firstAttribute="height" secondItem="rwh-1C-hor" secondAttribute="height" priority="750" id="3i5-Jd-hvn"/>
+                        <constraint firstAttribute="trailing" secondItem="i5M-Pr-FkT" secondAttribute="trailing" id="76C-kg-qQw"/>
+                        <constraint firstItem="i5M-Pr-FkT" firstAttribute="width" secondItem="rwh-1C-hor" secondAttribute="width" id="T35-WB-Zdh"/>
+                        <constraint firstItem="i5M-Pr-FkT" firstAttribute="leading" secondItem="rwh-1C-hor" secondAttribute="leading" id="XU8-C9-6BO"/>
+                        <constraint firstItem="i5M-Pr-FkT" firstAttribute="centerX" secondItem="rwh-1C-hor" secondAttribute="centerX" id="acE-f2-YCe"/>
+                        <constraint firstItem="i5M-Pr-FkT" firstAttribute="top" secondItem="rwh-1C-hor" secondAttribute="top" id="hkd-a4-Zge"/>
+                        <constraint firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" id="pf5-Oo-UWj"/>
+                    </constraints>
+                </scrollView>
+            </subviews>
+            <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="rwh-1C-hor" firstAttribute="leading" secondItem="FwH-UW-sIV" secondAttribute="leading" id="2zt-n1-PfY"/>
+                <constraint firstItem="rwh-1C-hor" firstAttribute="width" secondItem="FwH-UW-sIV" secondAttribute="width" id="9C2-mw-gtE"/>
+                <constraint firstItem="rwh-1C-hor" firstAttribute="height" secondItem="FwH-UW-sIV" secondAttribute="height" id="FaZ-Dc-cav"/>
+                <constraint firstItem="FwH-UW-sIV" firstAttribute="bottom" secondItem="rwh-1C-hor" secondAttribute="bottom" id="Jcc-iw-0VX"/>
+                <constraint firstItem="FwH-UW-sIV" firstAttribute="trailing" secondItem="rwh-1C-hor" secondAttribute="trailing" id="aFk-cs-iNj"/>
+                <constraint firstItem="rwh-1C-hor" firstAttribute="top" secondItem="FwH-UW-sIV" secondAttribute="top" id="oEV-is-vZL"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="FwH-UW-sIV"/>
+            <point key="canvasLocation" x="-246" y="112"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="ic_clock_purple" width="38" height="38"/>
+        <image name="ic_dollar_sign" width="44" height="44"/>
+        <image name="ic_shield" width="38" height="42"/>
+    </resources>
+</document>

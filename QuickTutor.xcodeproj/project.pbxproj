@@ -65,6 +65,10 @@
 		567E1A172270C46B0094E371 /* QTCloseAccountInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567E1A142270C46B0094E371 /* QTCloseAccountInfoViewController.swift */; };
 		567E1A182270C46B0094E371 /* QTCloseAccountInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 567E1A152270C46B0094E371 /* QTCloseAccountInfoViewController.xib */; };
 		567E1A192270C46B0094E371 /* QTCloseAccountInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 567E1A152270C46B0094E371 /* QTCloseAccountInfoViewController.xib */; };
+		56842BE2229C3EE600D1DA2C /* QTBecomeTutorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56842BE0229C3EE600D1DA2C /* QTBecomeTutorViewController.swift */; };
+		56842BE3229C3EE600D1DA2C /* QTBecomeTutorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56842BE0229C3EE600D1DA2C /* QTBecomeTutorViewController.swift */; };
+		56842BE4229C3EE600D1DA2C /* QTBecomeTutorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56842BE1229C3EE600D1DA2C /* QTBecomeTutorViewController.xib */; };
+		56842BE5229C3EE600D1DA2C /* QTBecomeTutorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56842BE1229C3EE600D1DA2C /* QTBecomeTutorViewController.xib */; };
 		568B82D5222539C2004DF011 /* QTRatingReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568B82D3222539C2004DF011 /* QTRatingReviewViewController.swift */; };
 		568B82D6222539C2004DF011 /* QTRatingReviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 568B82D4222539C2004DF011 /* QTRatingReviewViewController.xib */; };
 		568B82DA222540AE004DF011 /* QTRatingReviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568B82D8222540AE004DF011 /* QTRatingReviewCollectionViewCell.swift */; };
@@ -181,7 +185,6 @@
 		569F1720223554FD00820A20 /* BaseSessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1E43C8207067860033F845 /* BaseSessionCell.swift */; };
 		569F1721223554FD00820A20 /* TutorExtendedReviewsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84812652217820E800B99BED /* TutorExtendedReviewsVC.swift */; };
 		569F1723223554FD00820A20 /* RatingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8451FB53213EF14E00F86DC5 /* RatingCell.swift */; };
-		569F1724223554FD00820A20 /* BecomeTutorVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B82C21C979970022333F /* BecomeTutorVCView.swift */; };
 		569F1725223554FD00820A20 /* Stripe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849029871FF70F4600A4A1D7 /* Stripe.swift */; };
 		569F1726223554FD00820A20 /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3FF6EE20B0F57600E2928C /* ConversationCell.swift */; };
 		569F1727223554FD00820A20 /* PauseSessionModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF360D39208D48DB0096617C /* PauseSessionModal.swift */; };
@@ -312,7 +315,6 @@
 		569F17B3223554FD00820A20 /* TutorHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846252F620637FC5001DD330 /* TutorHelp.swift */; };
 		569F17B4223554FD00820A20 /* VerificationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847D77A81FBE6B69009F4D42 /* VerificationVC.swift */; };
 		569F17B6223554FD00820A20 /* PostSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0B02B62136760D00B90034 /* PostSessionManager.swift */; };
-		569F17B7223554FD00820A20 /* BecomeTutorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848E643A2059EE0A000CD921 /* BecomeTutorVC.swift */; };
 		569F17B8223554FD00820A20 /* RegistrationCheckbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8431A38D1FF8A0F20090AEF2 /* RegistrationCheckbox.swift */; };
 		569F17BA223554FD00820A20 /* TutorAddSubjectsVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD92A72222F507A00704531 /* TutorAddSubjectsVCView.swift */; };
 		569F17BB223554FD00820A20 /* NewTutorAddSubjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD92A74222F50A900704531 /* NewTutorAddSubjects.swift */; };
@@ -733,7 +735,6 @@
 		84880A022058603800F204A0 /* TutorHarassmentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84880A012058603800F204A0 /* TutorHarassmentVC.swift */; };
 		84880A042058643800F204A0 /* TutorOtherVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84880A032058643800F204A0 /* TutorOtherVC.swift */; };
 		848E04EA205C8CF10094A6E9 /* BecomeTutorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848E04E9205C8CF10094A6E9 /* BecomeTutorData.swift */; };
-		848E643B2059EE0A000CD921 /* BecomeTutorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848E643A2059EE0A000CD921 /* BecomeTutorVC.swift */; };
 		848E87E22043DC75007935BE /* BaseScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848E87E12043DC75007935BE /* BaseScrollView.swift */; };
 		848E87E62043EB5D007935BE /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848E87E52043EB5D007935BE /* UIViewExtensions.swift */; };
 		848E91FC20A60C13002D22AA /* CloseAccountSubmissionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848E91FB20A60C13002D22AA /* CloseAccountSubmissionVC.swift */; };
@@ -1131,7 +1132,6 @@
 		CFB9B82621C8C5590022333F /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B82521C8C5590022333F /* CustomSlider.swift */; };
 		CFB9B82821C8C5890022333F /* TutorPreferencesNextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B82721C8C5890022333F /* TutorPreferencesNextButton.swift */; };
 		CFB9B82B21C8CE4F0022333F /* WalkthroughVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B82A21C8CE4F0022333F /* WalkthroughVC.swift */; };
-		CFB9B82D21C979970022333F /* BecomeTutorVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B82C21C979970022333F /* BecomeTutorVCView.swift */; };
 		CFCE90A7226521BA00CBB1AD /* FiltersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFCE90A6226521BA00CBB1AD /* FiltersVC.swift */; };
 		CFCE90A82265249C00CBB1AD /* FiltersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFCE90A6226521BA00CBB1AD /* FiltersVC.swift */; };
 		CFCE90AC226524CC00CBB1AD /* LearnerMainPageFeaturedSubjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF671AC5225D8CD700CF4F0A /* LearnerMainPageFeaturedSubjectCell.swift */; };
@@ -1266,6 +1266,8 @@
 		567E1A0F2270C0350094E371 /* QTCloseAccountReasonTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTCloseAccountReasonTableViewCell.xib; sourceTree = "<group>"; };
 		567E1A142270C46B0094E371 /* QTCloseAccountInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTCloseAccountInfoViewController.swift; sourceTree = "<group>"; };
 		567E1A152270C46B0094E371 /* QTCloseAccountInfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTCloseAccountInfoViewController.xib; sourceTree = "<group>"; };
+		56842BE0229C3EE600D1DA2C /* QTBecomeTutorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTBecomeTutorViewController.swift; sourceTree = "<group>"; };
+		56842BE1229C3EE600D1DA2C /* QTBecomeTutorViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = QTBecomeTutorViewController.xib; path = "../../../Main App/Learner App/Become a QuickTutor/QTBecomeTutorViewController.xib"; sourceTree = "<group>"; };
 		568B82D3222539C2004DF011 /* QTRatingReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTRatingReviewViewController.swift; sourceTree = "<group>"; };
 		568B82D4222539C2004DF011 /* QTRatingReviewViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTRatingReviewViewController.xib; sourceTree = "<group>"; };
 		568B82D8222540AE004DF011 /* QTRatingReviewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTRatingReviewCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -1440,7 +1442,6 @@
 		84880A012058603800F204A0 /* TutorHarassmentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorHarassmentVC.swift; sourceTree = "<group>"; };
 		84880A032058643800F204A0 /* TutorOtherVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorOtherVC.swift; sourceTree = "<group>"; };
 		848E04E9205C8CF10094A6E9 /* BecomeTutorData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BecomeTutorData.swift; sourceTree = "<group>"; };
-		848E643A2059EE0A000CD921 /* BecomeTutorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BecomeTutorVC.swift; sourceTree = "<group>"; };
 		848E87E12043DC75007935BE /* BaseScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseScrollView.swift; sourceTree = "<group>"; };
 		848E87E52043EB5D007935BE /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		848E91FB20A60C13002D22AA /* CloseAccountSubmissionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseAccountSubmissionVC.swift; sourceTree = "<group>"; };
@@ -1820,7 +1821,6 @@
 		CFB9B82521C8C5590022333F /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
 		CFB9B82721C8C5890022333F /* TutorPreferencesNextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorPreferencesNextButton.swift; sourceTree = "<group>"; };
 		CFB9B82A21C8CE4F0022333F /* WalkthroughVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkthroughVC.swift; sourceTree = "<group>"; };
-		CFB9B82C21C979970022333F /* BecomeTutorVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BecomeTutorVCView.swift; sourceTree = "<group>"; };
 		CFCE90A6226521BA00CBB1AD /* FiltersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersVC.swift; sourceTree = "<group>"; };
 		CFD112C3215ACB45000F61F2 /* CategorySearchVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySearchVCView.swift; sourceTree = "<group>"; };
 		CFD92A50222F24B200704531 /* LightboxController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LightboxController.swift; sourceTree = "<group>"; };
@@ -1981,6 +1981,22 @@
 			path = SubViews;
 			sourceTree = "<group>";
 		};
+		56842BE7229C3FC200D1DA2C /* Learner App */ = {
+			isa = PBXGroup;
+			children = (
+				56842BE8229C3FC200D1DA2C /* BecomeTutor */,
+			);
+			path = "Learner App";
+			sourceTree = "<group>";
+		};
+		56842BE8229C3FC200D1DA2C /* BecomeTutor */ = {
+			isa = PBXGroup;
+			children = (
+				56842BE1229C3EE600D1DA2C /* QTBecomeTutorViewController.xib */,
+			);
+			path = BecomeTutor;
+			sourceTree = "<group>";
+		};
 		568B82D2222537F3004DF011 /* RatingReviews */ = {
 			isa = PBXGroup;
 			children = (
@@ -2030,6 +2046,7 @@
 		569ECDA121F9A134005491CB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				56842BE7229C3FC200D1DA2C /* Learner App */,
 				56A8D0AE2240A43500866AD7 /* Sessions */,
 				56A8D0AD2240A42900866AD7 /* Dashboard */,
 				56A8D0AC2240A3EB00866AD7 /* Profile */,
@@ -2564,8 +2581,7 @@
 		848E64392059EDAF000CD921 /* Become a QuickTutor */ = {
 			isa = PBXGroup;
 			children = (
-				848E643A2059EE0A000CD921 /* BecomeTutorVC.swift */,
-				CFB9B82C21C979970022333F /* BecomeTutorVCView.swift */,
+				56842BE0229C3EE600D1DA2C /* QTBecomeTutorViewController.swift */,
 				8425765E2070292300FD295B /* TutorAddSubjects */,
 				84F141A0207E490D003D3193 /* TutorPreferencesVC.swift */,
 				CFB9B82321C8C5370022333F /* TutorPreferencesVCView.swift */,
@@ -3810,6 +3826,7 @@
 				569F18D7223554FD00820A20 /* QTLocationsViewController.xib in Resources */,
 				56A8D0B52240A4AB00866AD7 /* QTStartSessionViewController.xib in Resources */,
 				569F18D8223554FD00820A20 /* quickTutorNotification.aiff in Resources */,
+				56842BE5229C3EE600D1DA2C /* QTBecomeTutorViewController.xib in Resources */,
 				5697DD27226F859300AC9775 /* QTInviteOthersConnectTableViewCell.xib in Resources */,
 				5697DD2B226F859300AC9775 /* QTInviteOthersContactTableViewCell.xib in Resources */,
 				569F18D9223554FD00820A20 /* QTTutorDashboardMarkerView.xib in Resources */,
@@ -3909,6 +3926,7 @@
 				564B6C1E222D83D5004A9EB7 /* QTLocationsViewController.xib in Resources */,
 				56A8D0B42240A4AB00866AD7 /* QTStartSessionViewController.xib in Resources */,
 				CFE18FA12119645E000816C4 /* quickTutorNotification.aiff in Resources */,
+				56842BE4229C3EE600D1DA2C /* QTBecomeTutorViewController.xib in Resources */,
 				5697DD26226F859300AC9775 /* QTInviteOthersConnectTableViewCell.xib in Resources */,
 				5697DD2A226F859300AC9775 /* QTInviteOthersContactTableViewCell.xib in Resources */,
 				569ECDCB21FB1049005491CB /* QTTutorDashboardMarkerView.xib in Resources */,
@@ -4309,6 +4327,7 @@
 				569F16DE223554FD00820A20 /* CategorySearchVC.swift in Sources */,
 				569F16DF223554FD00820A20 /* PageView.swift in Sources */,
 				CF17F229226BC16A00ABD07D /* RangeSlider.swift in Sources */,
+				56842BE3229C3EE600D1DA2C /* QTBecomeTutorViewController.swift in Sources */,
 				560237A422676505005653D5 /* LearnerMainPageActiveTutorsSectionController.swift in Sources */,
 				569F16E1223554FD00820A20 /* LearnerExtendedReviewsVC.swift in Sources */,
 				568E57172270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.swift in Sources */,
@@ -4371,7 +4390,6 @@
 				569F1720223554FD00820A20 /* BaseSessionCell.swift in Sources */,
 				569F1721223554FD00820A20 /* TutorExtendedReviewsVC.swift in Sources */,
 				569F1723223554FD00820A20 /* RatingCell.swift in Sources */,
-				569F1724223554FD00820A20 /* BecomeTutorVCView.swift in Sources */,
 				569F1725223554FD00820A20 /* Stripe.swift in Sources */,
 				56C889E4228E5FDB008D155D /* QTStartQuickCallViewController.swift in Sources */,
 				CFCE90AE226524D400CBB1AD /* LearnerMainPaigeTopTutorsController.swift in Sources */,
@@ -4522,7 +4540,6 @@
 				5697DD29226F859300AC9775 /* QTInviteOthersContactTableViewCell.swift in Sources */,
 				569F17B4223554FD00820A20 /* VerificationVC.swift in Sources */,
 				569F17B6223554FD00820A20 /* PostSessionManager.swift in Sources */,
-				569F17B7223554FD00820A20 /* BecomeTutorVC.swift in Sources */,
 				569F17B8223554FD00820A20 /* RegistrationCheckbox.swift in Sources */,
 				CF17F22A226BC16D00ABD07D /* RangeSliderView.swift in Sources */,
 				4D348100223A31E70004C29A /* QTReviewTableViewCell.swift in Sources */,
@@ -4801,6 +4818,7 @@
 				84C706C6215476E1008900D1 /* ConnectionsBackgroundView.swift in Sources */,
 				845B3B9A2069E664009F8E04 /* CategorySearchVC.swift in Sources */,
 				CFD92A6D222F24B200704531 /* PageView.swift in Sources */,
+				56842BE2229C3EE600D1DA2C /* QTBecomeTutorViewController.swift in Sources */,
 				CFF5017B206990B20085B0E9 /* LearnerExtendedReviewsVC.swift in Sources */,
 				84A090AB2186250000DBD48F /* AddTutorTableViewCell.swift in Sources */,
 				CFD92A772231BA9D00704531 /* TheChoiceVCView.swift in Sources */,
@@ -4859,7 +4877,6 @@
 				CF1E43C9207067860033F845 /* BaseSessionCell.swift in Sources */,
 				84812653217820E800B99BED /* TutorExtendedReviewsVC.swift in Sources */,
 				8451FB54213EF14E00F86DC5 /* RatingCell.swift in Sources */,
-				CFB9B82D21C979970022333F /* BecomeTutorVCView.swift in Sources */,
 				CF4C7895226080F700478D83 /* LeanerMainPageNavigationHelper.swift in Sources */,
 				849029881FF70F4600A4A1D7 /* Stripe.swift in Sources */,
 				CF3FF6F020B0F60B00E2928C /* ConversationCell.swift in Sources */,
@@ -5014,7 +5031,6 @@
 				5697DD30226F859300AC9775 /* QTInviteOthersSectionHeaderView.swift in Sources */,
 				CF0B02B72136760D00B90034 /* PostSessionManager.swift in Sources */,
 				CF671ACC225DA2D200CF4F0A /* LearnerMainPaigeTopTutorsController.swift in Sources */,
-				848E643B2059EE0A000CD921 /* BecomeTutorVC.swift in Sources */,
 				8431A38E1FF8A0F20090AEF2 /* RegistrationCheckbox.swift in Sources */,
 				4D3480FF223A31E70004C29A /* QTReviewTableViewCell.swift in Sources */,
 				CFD92A73222F507A00704531 /* TutorAddSubjectsVCView.swift in Sources */,
