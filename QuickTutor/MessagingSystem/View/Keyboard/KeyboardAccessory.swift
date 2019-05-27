@@ -10,6 +10,8 @@ import Firebase
 import UIKit
 
 class KeyboardAccessory: UIView, UITextViewDelegate {
+    let MAX_MESSAGE_HEIGHT: CGFloat = 200.0
+    
     var delegate: KeyboardAccessoryViewDelegate?
 
     let backgroundView: UIView = {
@@ -92,6 +94,8 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
 
     var actionViewBottomAnchor: NSLayoutConstraint?
     var messageFieldTopAnchor: NSLayoutConstraint?
+    var flexibleMessageHeightConstraint: NSLayoutConstraint?
+    var maxMessageHeightConstraint: NSLayoutConstraint?
     var leftAccessoryViewWidthAnchor: NSLayoutConstraint?
     var leftAccessoryViewLeftAnchor: NSLayoutConstraint?
 
@@ -152,7 +156,13 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
     func setupMessageTextfield() {
         addSubview(messageTextview)
         messageTextview.anchor(top: nil, left: leftAccessoryView.rightAnchor, bottom: getBottomAnchor(), right: submitButton.leftAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, paddingRight: 12, width: 0, height: 0)
-        addConstraint(NSLayoutConstraint(item: messageTextview, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: submitButton, attribute: .height, multiplier: 0.68, constant: 0))
+        
+        flexibleMessageHeightConstraint = NSLayoutConstraint(item: messageTextview, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: submitButton, attribute: .height, multiplier: 0.68, constant: 0)
+        flexibleMessageHeightConstraint?.isActive = true
+        
+        maxMessageHeightConstraint = messageTextview.heightAnchor.constraint(equalToConstant: MAX_MESSAGE_HEIGHT)
+        maxMessageHeightConstraint?.isActive = false
+        
         messageFieldTopAnchor = messageTextview.topAnchor.constraint(equalTo: topAnchor, constant: 8)
         messageFieldTopAnchor?.isActive = true
     }
@@ -179,6 +189,7 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
         let message = UserMessage(dictionary: ["text": text, "timestamp": timestamp, "senderId": uid])
         messageTextview.text = nil
         messageTextview.placeholderLabel.isHidden = false
+        adjustHeightForText()
         delegate?.handleMessageSend(message: message)
     }
     
@@ -204,6 +215,24 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
     @objc func handleTextChange(_ sender: UITextView) {
         let textViewIsEmpty = messageTextview.text.isEmpty
         textViewIsEmpty ? showLeftView() : hideLeftView()
+        
+        adjustHeightForText(messageTextview.text)
+    }
+    
+    private func adjustHeightForText(_ text: String = "") {
+        let height = text.height(withConstrainedWidth: messageTextview.bounds.width, font: messageTextview.font ?? UIFont.systemFont(ofSize: 14))
+        let isOversize = height >= maxMessageHeightConstraint?.constant ?? MAX_MESSAGE_HEIGHT
+        updateMessageConstraintsForOversize(isOversize)
+    }
+    
+    private func updateMessageConstraintsForOversize(_ isOversize: Bool) {
+        self.messageTextview.isScrollEnabled = isOversize
+        messageTextview.setNeedsUpdateConstraints()
+        UIView.animate(withDuration: 0.25) {
+            self.maxMessageHeightConstraint?.isActive = isOversize
+            self.flexibleMessageHeightConstraint?.isActive = !isOversize
+            self.layoutIfNeeded()
+        }
     }
     
     func enterEditingMode() {
