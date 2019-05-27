@@ -107,4 +107,5 @@ struct Fonts {
     static func createMediumSize(_ size: CGFloat) -> UIFont {
         return UIFont(name: "Lato-Medium", size: size) ?? UIFont.systemFont(ofSize: size, weight: .medium)
     }
+    
 }

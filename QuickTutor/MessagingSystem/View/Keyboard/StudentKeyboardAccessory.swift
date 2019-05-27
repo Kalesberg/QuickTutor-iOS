@@ -120,8 +120,8 @@ class StudentKeyboardAccessory: KeyboardAccessory {
     }
 
     private func setupQuickChatView() {
-        chatView.delegate = self
         insertSubview(chatView, belowSubview: backgroundView)
+        chatView.delegate = self
         chatView.anchor(top: nil, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 50)
         quickChatBottomAnchor = chatView.bottomAnchor.constraint(equalTo: messageTextview.topAnchor, constant: 45)
         quickChatBottomAnchor?.isActive = true
