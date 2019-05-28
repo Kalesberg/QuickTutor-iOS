@@ -20,6 +20,7 @@ class SessionRequestVC: UIViewController {
             contentView.subjectView.updateUI()
             price = Double(tutor.price)
             updatePriceLabelText(Double(tutor.price))
+            updateTutorViewAsChosen()
             contentView.paymentView.paymentInputView.inputField.text = "\(tutor.price ?? 0)"
             checkForErrors()
         }
@@ -199,6 +200,12 @@ extension SessionRequestVC: SessionRequestTutorViewDelegate {
         contentView.tutorView.tutorCell.updateUI(user: tutor)
     }
     
+    func updateTutorViewAsChosen() {
+        guard let tutor = tutor else { return }
+        contentView.tutorView.tutorCell.isHidden = false
+        contentView.tutorView.tutorSelectView.isHidden = true
+        contentView.tutorView.tutorCell.updateUI(user: tutor)
+    }
     
 }
 

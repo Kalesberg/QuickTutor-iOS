@@ -10,8 +10,8 @@ import UIKit
 
 class FileReportActionsheet: UIView {
     
-    var titles = ["Share profile", "Disconnect", "Report"]
-    var images = [UIImage(named: "fileReportShareIcon"), UIImage(named: "fileReportDisconnectIcon"), UIImage(named: "fileReportFlag")]
+    var titles = ["Share profile", "Request Session", "Disconnect", "Report"]
+    var images = [UIImage(named: "fileReportShareIcon"), UIImage(named: "sessionsTabBarIcon"), UIImage(named: "fileReportDisconnectIcon"), UIImage(named: "fileReportFlag")]
     var parentViewController: UIViewController?
     var bottomLayoutMargin: CGFloat = 0
     var actionSheetBottomAnchor: NSLayoutConstraint?
@@ -19,7 +19,7 @@ class FileReportActionsheet: UIView {
     var reportTypeModal: ReportTypeModal?
     var partnerId: String?
     var name: String!
-    var panelHeight: CGFloat = 200
+    var panelHeight: CGFloat = 250
     var subject: String?
     
     var isConnected = true {
@@ -27,12 +27,16 @@ class FileReportActionsheet: UIView {
             if isConnected {
                 guard titles.count == 2 && images.count == 2 else { return }
                 titles.insert("Disconnect", at: 1)
+                titles.insert("Request Session", at: 2)
                 images.insert(UIImage(named: "fileReportDisconnectIcon"), at: 1)
-                panelHeight = 200
+                images.insert(UIImage(named: "sessionsTabBarIcon"), at: 2)
+                panelHeight = 250
                 collectionView.reloadData()
             } else {
-                guard titles.count == 3 && images.count == 3 else { return }
+                guard titles.count == 4 && images.count == 4 else { return }
                 titles.remove(at: 1)
+                titles.remove(at: 1)
+                images.remove(at: 1)
                 images.remove(at: 1)
                 panelHeight = 150
                 collectionView.reloadData()
@@ -178,6 +182,19 @@ class FileReportActionsheet: UIView {
         }
     }
     
+    func requestSession() {
+        dismiss()
+        guard let id = partnerId else { return }
+        FirebaseData.manager.fetchRequestSessionData(uid: id) { requestData in
+            let vc = SessionRequestVC()
+            FirebaseData.manager.fetchTutor(id, isQuery: false, { (tutorIn) in
+                guard let tutor = tutorIn else { return }
+                vc.tutor = tutor
+                self.parentViewController?.navigationController?.pushViewController(vc, animated: true)
+            })
+        }
+    }
+    
     private override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -202,7 +219,7 @@ extension FileReportActionsheet: UICollectionViewDelegate {
 
 extension FileReportActionsheet: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return isConnected ? 3 : 2
+        return isConnected ? 4 : 2
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -234,8 +251,10 @@ extension FileReportActionsheet: FileReportActionsheetCellDelegate {
             case 0:
                 shareUsernameForUserId()
             case 1:
-                handleDisconnectButton()
+                requestSession()
             case 2:
+                handleDisconnectButton()
+            case 3:
                 handleReportButton()
             default:
                 break
