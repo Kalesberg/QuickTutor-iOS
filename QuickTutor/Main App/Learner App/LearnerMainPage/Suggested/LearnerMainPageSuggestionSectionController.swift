@@ -120,7 +120,8 @@ extension LearnerMainPageSuggestionController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
         cell.growSemiShrink {
-            guard let uid = self.datasource[indexPath.item].uid else { return }
+            guard self.datasource.count > indexPath.item,
+                let uid = self.datasource[indexPath.item].uid else { return }
             
             let userInfo = ["uid": uid]
             NotificationCenter.default.post(name: NotificationNames.LearnerMainFeed.suggestedTutorTapped, object: nil, userInfo: userInfo)

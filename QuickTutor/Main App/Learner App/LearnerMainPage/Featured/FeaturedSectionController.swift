@@ -93,6 +93,8 @@ extension FeaturedSectionController: UICollectionViewDelegateFlowLayout {
 
 extension FeaturedSectionController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard featuredItems.count > indexPath.item else { return }
+        
         let userInfo: [AnyHashable: Any] = ["featuredItem": featuredItems[indexPath.item]]
         NotificationCenter.default.post(name: NotificationNames.LearnerMainFeed.featuredSectionTapped, object: nil, userInfo: userInfo)
         let vc = CategorySearchVC()

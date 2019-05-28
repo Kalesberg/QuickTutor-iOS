@@ -233,7 +233,7 @@ class CategorySearchVC: UIViewController {
 
 extension CategorySearchVC: SkeletonCollectionViewDataSource {
     func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        return 6
     }
     
     func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
@@ -288,6 +288,8 @@ extension CategorySearchVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
         cell.growSemiShrink {
+            guard self.datasource.count > indexPath.item else { return }
+            
             let featuredTutor = self.datasource[indexPath.item]
             let uid = featuredTutor.uid
             FirebaseData.manager.fetchTutor(uid!, isQuery: false, { (tutor) in
