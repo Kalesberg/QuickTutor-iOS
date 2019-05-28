@@ -64,6 +64,7 @@ class TutorAddSubjectsVC: UIViewController {
         
         guard let text = sender.text, !text.isEmpty else {
             contentView.searchBarContainer.filtersButton.isHidden = false
+            contentView.searchBarContainer.searchClearButton.isHidden = true
             removeChild(resignFirstResponder: false)
             return
         }

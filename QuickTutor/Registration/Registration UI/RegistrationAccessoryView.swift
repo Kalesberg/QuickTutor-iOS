@@ -40,6 +40,7 @@ class RegistrationAccessoryView: UIView {
     
     func addDropShadow() {
         layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.2, offset: CGSize(width: 0, height: -5), radius: 10)
+        nextButton.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.2, offset: .zero, radius: 4)
     }
     
     override init(frame: CGRect) {
