@@ -40,7 +40,7 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
     let messageTextview: MessageTextView = {
         let textView = MessageTextView()
         textView.layer.cornerRadius = 6
-        textView.tintColor = .white
+        textView.tintColor = Colors.purple
         textView.backgroundColor = .clear
         textView.textColor = .white
         textView.font = UIFont.systemFont(ofSize: 14)
@@ -86,7 +86,8 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
     
     let expandLeftViewButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "expandActionViewIcon"), for: .normal)
+        button.setImage(UIImage(named: "expandActionViewIcon")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.tintColor = Colors.purple
         button.backgroundColor = Colors.darkBackground
         button.alpha = 0
         return button
