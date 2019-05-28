@@ -197,6 +197,10 @@ extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        searchController.resignFirstResponder()
+    }
 }
 
 
