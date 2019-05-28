@@ -8,12 +8,13 @@
 
 import UIKit
 import CoreLocation
+import SkeletonView
 
 struct CategorySelected {
     static var title: String!
 }
 
-class CategorySearchVC: BaseViewController {
+class CategorySearchVC: UIViewController {
     
     enum SearchMode {
         case category, subcategory, subject
@@ -42,26 +43,44 @@ class CategorySearchVC: BaseViewController {
 
     let menuBtn = UIButton(type: .custom)
     
-    override var contentView: CategorySearchVCView {
-        return view as! CategorySearchVCView
-    }
-    
-    override func loadView() {
-        view = CategorySearchVCView()
-    }
+    let collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = Colors.newBackground
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.alwaysBounceVertical = true
+        collectionView.contentInset = UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
+        collectionView.isSkeletonable = true
+        
+        return collectionView
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupObservers()
         setupLocationManager()
-        contentView.collectionView.delegate = self
-        contentView.collectionView.dataSource = self
-        contentView.collectionView.register(TutorCollectionViewCell.self, forCellWithReuseIdentifier: "featuredCell")
-        contentView.collectionView.register(CategorySearchSectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerCell")
-        navigationController?.setNavigationBarHidden(false, animated: true)
+        
+        view.addSubview(collectionView)
+        collectionView.snp.makeConstraints { make in
+            make.top.equalTo(view.snp.topMargin)
+            make.bottom.equalTo(view.snp.bottomMargin)
+            make.left.equalTo(view.snp.leftMargin)
+            make.right.equalTo(view.snp.rightMargin)
+        }
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(TutorCollectionViewCell.self, forCellWithReuseIdentifier: TutorCollectionViewCell.reuseIdentifier)
+        
         navigationController?.navigationBar.isHidden = false
         setUpFiltersButton()
         queryNeededTutors(lastKnownKey: nil)
+        
+        collectionView.prepareSkeleton { _ in
+            self.view.showAnimatedSkeleton(usingColor: Colors.gray)
+        }
     }
     
     func setUpFiltersButton(){
@@ -90,18 +109,17 @@ class CategorySearchVC: BaseViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
         guard let filter = self.searchFilter, self.datasource.count > 0 else { return }
         self.applySearchFilterToDataSource(filter)
-        contentView.collectionView.reloadData()
+        collectionView.reloadData()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         locationManager.stopUpdatingLocation()
-        contentView.searchBar.resignFirstResponder()
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        contentView.collectionView.reloadData()
+        collectionView.reloadData()
     }
     
     func setupLocationManager() {
@@ -140,9 +158,11 @@ class CategorySearchVC: BaseViewController {
     private func queryTutorsByCategory(lastKnownKey: String?) {
         TutorSearchService.shared.getTutorsByCategory(category, lastKnownKey: lastKnownKey) { (tutors, loadedAllTutors) in
             guard let tutors = tutors else { return }
+            self.view.hideSkeleton()
+            
             self.loadedAllTutors = loadedAllTutors
             self.datasource.append(contentsOf: tutors.sorted(by: {$0.tNumSessions > $1.tNumSessions}))
-            self.contentView.collectionView.reloadData()
+            self.collectionView.reloadData()
             guard let filter = self.searchFilter, self.datasource.count > 0 else { return }
             self.applySearchFilterToDataSource(filter)
         }
@@ -151,9 +171,11 @@ class CategorySearchVC: BaseViewController {
     private func queryTutorsBySubcategory(lastKnownKey: String?) {
         TutorSearchService.shared.getTutorsBySubcategory(subcategory, lastKnownKey: lastKnownKey) { (tutors, loadedAllTutors) in
             guard let tutors = tutors else { return }
+            self.view.hideSkeleton()
+            
             self.loadedAllTutors = loadedAllTutors
             self.datasource.append(contentsOf: tutors.sorted(by: {$0.tNumSessions > $1.tNumSessions}))
-            self.contentView.collectionView.reloadData()
+            self.collectionView.reloadData()
             guard let filter = self.searchFilter, self.datasource.count > 0 else { return }
             self.applySearchFilterToDataSource(filter)
         }
@@ -162,9 +184,11 @@ class CategorySearchVC: BaseViewController {
     private func queryTutorsBySubject(lastKnownKey: String?) {
         TutorSearchService.shared.getTutorsBySubject(subject, lastKnownKey: lastKnownKey) { (tutors, loadedAllTutors) in
             guard let tutors = tutors else { return }
+            self.view.hideSkeleton()
+            
             self.loadedAllTutors = loadedAllTutors
             self.datasource.append(contentsOf: tutors.sorted(by: {$0.tNumSessions > $1.tNumSessions}))
-            self.contentView.collectionView.reloadData()
+            self.collectionView.reloadData()
             guard let filter = self.searchFilter, self.datasource.count > 0 else { return }
             self.applySearchFilterToDataSource(filter)
         }
@@ -207,36 +231,60 @@ class CategorySearchVC: BaseViewController {
 
 }
 
-extension CategorySearchVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension CategorySearchVC: SkeletonCollectionViewDataSource {
+    func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 4
+    }
+    
+    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
+        return TutorCollectionViewCell.reuseIdentifier
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
     func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
         return datasource.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! TutorCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TutorCollectionViewCell.reuseIdentifier, for: indexPath) as! TutorCollectionViewCell
         cell.updateUI(datasource[indexPath.item])
         cell.profileImageViewHeightAnchor?.constant = 160
         cell.layoutIfNeeded()
         return cell
     }
+}
 
+extension CategorySearchVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
         let screen = UIScreen.main.bounds
         return CGSize(width: (screen.width - 60) / 2, height: 225)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 20
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 20
+    }
+}
 
+extension CategorySearchVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
         cell.shrink()
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
         UIView.animate(withDuration: 0.2) {
             cell.transform = CGAffineTransform.identity
         }
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
         cell.growSemiShrink {
@@ -252,15 +300,7 @@ extension CategorySearchVC: UICollectionViewDelegate, UICollectionViewDataSource
                     self.navigationController?.pushViewController(controller, animated: true)
                 }
             })
-		}
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 20
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 20
+        }
     }
 }
 

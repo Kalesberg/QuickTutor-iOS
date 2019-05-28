@@ -10,14 +10,21 @@ import Foundation
 import SnapKit
 import UIKit
 import Firebase
+import SkeletonView
 
 class TutorCollectionViewCell: UICollectionViewCell {
+    
+    static var reuseIdentifier: String {
+        return String(describing: TutorCollectionViewCell.self)
+    }
     
     var tutor: AWTutor?
     
     let shadowView: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
+        view.isSkeletonable = true
+        
         return view
     }()
     
@@ -25,6 +32,8 @@ class TutorCollectionViewCell: UICollectionViewCell {
         let iv = UIImageView()
         iv.clipsToBounds = true
         iv.contentMode = .scaleAspectFill
+        iv.isSkeletonable = true
+        
         return iv
     }()
     
@@ -34,6 +43,9 @@ class TutorCollectionViewCell: UICollectionViewCell {
         button.contentHorizontalAlignment = .fill
         button.contentVerticalAlignment = .fill
         button.setImage(UIImage(named: "heartIcon"), for: .normal)
+        button.setImage(UIImage(named:"heartIconFilled"), for: .selected)
+        button.isHidden = true
+        
         return button
     }()
     
@@ -42,6 +54,8 @@ class TutorCollectionViewCell: UICollectionViewCell {
         view.clipsToBounds = true
         view.backgroundColor = Colors.newBackground
         view.layer.cornerRadius = 4
+        view.isSkeletonable = true
+        
         return view
     }()
     
@@ -49,6 +63,8 @@ class TutorCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = Fonts.createBoldSize(10)
         label.textColor = UIColor.white.withAlphaComponent(0.5)
+        label.isSkeletonable = true
+        
         return label
     }()
     
@@ -58,6 +74,8 @@ class TutorCollectionViewCell: UICollectionViewCell {
         label.font = Fonts.createBoldSize(10)
         label.textAlignment = .right
         label.text = "$60/hr"
+        label.isHidden = true
+        
         return label
     }()
     
@@ -67,11 +85,14 @@ class TutorCollectionViewCell: UICollectionViewCell {
         label.textColor = .white
         label.adjustsFontSizeToFitWidth = true
         label.font = Fonts.createBlackSize(12)
+        label.isSkeletonable = true
+        
         return label
     }()
     
     let starView: StarView = {
         let view = StarView()
+        view.isHidden = true
         return view
     }()
     
@@ -81,6 +102,8 @@ class TutorCollectionViewCell: UICollectionViewCell {
         label.text = "0"
         label.textAlignment = .left
         label.font = Fonts.createBoldSize(12)
+        label.isHidden = true
+        
         return label
     }()
     
@@ -99,7 +122,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
     }
     
     func setupShadowView() {
-        addSubview(shadowView)
+        contentView.addSubview(shadowView)
         shadowView.snp.makeConstraints { make in
             make.center.equalToSuperview()
             make.width.equalToSuperview().offset(-4)
@@ -125,8 +148,13 @@ class TutorCollectionViewCell: UICollectionViewCell {
     }
     
     func setupSaveButton() {
-        addSubview(saveButton)
-        saveButton.anchor(top: profileImageView.topAnchor, left: nil, bottom: nil, right: profileImageView.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 20, height: 20)
+        contentView.addSubview(saveButton)
+        saveButton.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(10)
+            make.right.equalToSuperview().offset(-10)
+            make.width.equalTo(20)
+            make.height.equalTo(20)
+        }
         saveButton.addTarget(self, action: #selector(handleSaveButton), for: .touchUpInside)
     }
     
@@ -182,19 +210,26 @@ class TutorCollectionViewCell: UICollectionViewCell {
         self.tutor = tutor
         nameLabel.text = tutor.formattedName
         subjectLabel.text = tutor.featuredSubject
+        
+        priceLabel.isHidden = false
         priceLabel.text = "$\(tutor.price ?? 5)/hr"
+        
         profileImageView.sd_setImage(with: URL(string: tutor.profilePicUrl.absoluteString)!, completed: nil)
+        
+        saveButton.isHidden = false
         if !CurrentUser.shared.learner.savedTutorIds.isEmpty {
             let savedTutorIds = CurrentUser.shared.learner.savedTutorIds
-            savedTutorIds.contains(tutor.uid) ? saveButton.setImage(UIImage(named:"heartIconFilled"), for: .normal) : saveButton.setImage(UIImage(named:"heartIcon"), for: .normal)
+            saveButton.isSelected = savedTutorIds.contains(tutor.uid)
         }
         
+        starView.isHidden = false
         if let rating = tutor.tRating {
             starView.setRating(Int(rating))
         } else {
             starView.setRating(5)
         }
         
+        starLabel.isHidden = false
         guard let reviewCount = tutor.reviews?.count else { return }
         starLabel.text = "\(reviewCount)"
     }
@@ -212,7 +247,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
     func saveTutor() {
         guard let uid = Auth.auth().currentUser?.uid, let tutorId = tutor?.uid else { return }
         Database.database().reference().child("saved-tutors").child(uid).child(tutorId).setValue(1)
-        saveButton.setImage(UIImage(named: "heartIconFilled"), for: .normal)
+        saveButton.isSelected = true
         CurrentUser.shared.learner.savedTutorIds.append(tutorId)
         NotificationCenter.default.post(name: NotificationNames.SavedTutors.didUpdate, object: nil)
     }
@@ -220,7 +255,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
     func unsaveTutor() {
         guard let uid = Auth.auth().currentUser?.uid, let tutorId = tutor?.uid else { return }
         Database.database().reference().child("saved-tutors").child(uid).child(tutorId).removeValue()
-        saveButton.setImage(UIImage(named: "heartIcon"), for: .normal)
+        saveButton.isSelected = false
         CurrentUser.shared.learner.savedTutorIds.removeAll(where: { (id) -> Bool in
             return id == tutorId
         })
@@ -230,7 +265,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
     func updateSaveButton() {
         guard let tutorId = tutor?.uid else { return }
         let savedTutorIds = CurrentUser.shared.learner.savedTutorIds
-        savedTutorIds.contains(tutorId) ? saveButton.setImage(UIImage(named:"heartIconFilled"), for: .normal) : saveButton.setImage(UIImage(named:"heartIcon"), for: .normal)
+        saveButton.isSelected = savedTutorIds.contains(tutorId)
     }
     
     private func addShadow() {
@@ -239,6 +274,9 @@ class TutorCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        isSkeletonable = true
+        
         setupViews()
         addShadow()
     }
@@ -261,7 +299,7 @@ class SavedTutorService {
     func saveTutor() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         Database.database().reference().child("saved-tutors").child(uid).child(tutorId).setValue(1)
-        saveButton.setImage(UIImage(named: "heartIconFilled"), for: .normal)
+        saveButton.isSelected = true
         CurrentUser.shared.learner.savedTutorIds.append(tutorId)
         NotificationCenter.default.post(name: NotificationNames.SavedTutors.didUpdate, object: nil)
     }
@@ -269,7 +307,7 @@ class SavedTutorService {
     func unsaveTutor() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         Database.database().reference().child("saved-tutors").child(uid).child(tutorId).removeValue()
-        saveButton.setImage(UIImage(named: "heartIcon"), for: .normal)
+        saveButton.isSelected = false
         CurrentUser.shared.learner.savedTutorIds.removeAll(where: { (id) -> Bool in
             return id == tutorId
         })
