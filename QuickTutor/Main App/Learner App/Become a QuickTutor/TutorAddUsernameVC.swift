@@ -45,7 +45,7 @@ class TutorAddUsernameVC: BaseRegistrationController {
             checkIfUsernamAlreadyExists(text: username) { success in
                 if success {
                     TutorRegistration.username = username
-                    self.navigationController?.pushViewController(TutorPolicyVC(), animated: true)
+                    self.navigationController?.pushViewController(QTTutorPolicyViewController.controller, animated: true)
                     self.contentView.errorLabel.isHidden = true
                 } else {
                     self.contentView.errorLabel.isHidden = false
