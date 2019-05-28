@@ -112,7 +112,7 @@ class ConversationCell: SwipeCollectionViewCell {
     }
     
     private func updateOnlineStatusIndicator() {
-        self.profileImageView.onlineStatusIndicator.backgroundColor = chatPartner.isOnline ? Colors.purple : Colors.gray
+        profileImageView.onlineStatusIndicator.backgroundColor = chatPartner.isOnline ? Colors.purple : Colors.gray
     }
     
     private func updateProfileImage() {
