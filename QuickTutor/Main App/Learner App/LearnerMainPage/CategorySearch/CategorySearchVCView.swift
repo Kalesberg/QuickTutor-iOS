@@ -33,6 +33,8 @@ class CategorySearchVCView: UIView {
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.alwaysBounceVertical = true
         collectionView.contentInset = UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
+        collectionView.isSkeletonable = true
+        
         return collectionView
     }()
     
@@ -59,6 +61,8 @@ class CategorySearchVCView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        isSkeletonable = true
         applyConstraints()
     }
     
