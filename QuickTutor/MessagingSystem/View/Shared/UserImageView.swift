@@ -17,16 +17,26 @@ class UserImageView: UIView {
         return iv
     }()
     
+    let containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = Colors.newBackground
+        view.layer.masksToBounds = true
+        view.layer.cornerRadius = 10
+        
+        return view
+    }()
+    
     let onlineStatusIndicator: UIView = {
-        let layer = UIView()
-        layer.layer.cornerRadius = 10
-        layer.layer.borderColor = Colors.darkBackground.cgColor
-        layer.layer.borderWidth = 2
-        return layer
+        let view = UIView()
+        view.clipsToBounds = true
+        view.layer.masksToBounds = true
+        view.layer.cornerRadius = 8
+        return view
     }()
     
     func setupViews() {
         setupImageView()
+        setupContainerView()
         setupOnlineStatusIndicator()
     }
     
@@ -37,12 +47,21 @@ class UserImageView: UIView {
         }
     }
     
-    private func setupOnlineStatusIndicator() {
-        addSubview(onlineStatusIndicator)
-        onlineStatusIndicator.snp.makeConstraints { make in
+    private func setupContainerView() {
+        addSubview(containerView)
+        containerView.snp.makeConstraints { make in
             make.right.equalToSuperview()
             make.bottom.equalToSuperview()
             make.size.equalToSuperview().multipliedBy(0.3)
+        }
+    }
+    
+    private func setupOnlineStatusIndicator() {
+        addSubview(onlineStatusIndicator)
+        onlineStatusIndicator.snp.makeConstraints { make in
+            make.top.equalTo(containerView.snp.top).offset(2)
+            make.left.equalTo(containerView.snp.left).offset(2)
+            make.center.equalTo(containerView.snp.center)
         }
     }
     
@@ -55,6 +74,7 @@ class UserImageView: UIView {
         super.layoutSubviews()
         
         imageView.layer.cornerRadius = imageView.frame.size.height / 2
+        containerView.layer.cornerRadius = containerView.frame.size.height / 2
         onlineStatusIndicator.layer.cornerRadius = onlineStatusIndicator.frame.size.height / 2
     }
     
