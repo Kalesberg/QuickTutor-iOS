@@ -20,6 +20,7 @@ class SavedTutorsVC: UIViewController {
         cv.backgroundColor = Colors.darkBackground
         cv.allowsMultipleSelection = false
         cv.alwaysBounceVertical = true
+        cv.showsHorizontalScrollIndicator = false
         cv.register(TutorCollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
         return cv
     }()
@@ -57,7 +58,7 @@ class SavedTutorsVC: UIViewController {
     
     func setupCollectionView() {
         view.addSubview(collectionView)
-        collectionView.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
+        collectionView.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
         collectionView.delegate = self
         collectionView.dataSource = self
     }
