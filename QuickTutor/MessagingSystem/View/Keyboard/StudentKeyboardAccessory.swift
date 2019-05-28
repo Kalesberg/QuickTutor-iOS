@@ -27,6 +27,14 @@ class StudentKeyboardAccessory: KeyboardAccessory {
         button.imageView?.tintColor = .white
         return button
     }()
+    
+    let uploadImageButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "mediaIcon"), for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        button.imageView?.tintColor = .white
+        return button
+    }()
 
     let actionView: KeyboardActionView = {
         let view = KeyboardActionView()
@@ -58,9 +66,26 @@ class StudentKeyboardAccessory: KeyboardAccessory {
     
     override func setupButtonStackView() {
         super.setupButtonStackView()
+        setupActionButton()
+        setupUploadImageButton()
+        leftAccessoryViewWidthAnchor?.constant = 90
+    }
+    
+    private func setupActionButton() {
         buttonStackView.insertArrangedSubview(actionButton, at: 0)
         addConstraint(NSLayoutConstraint(item: actionButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 25))
         addConstraint(NSLayoutConstraint(item: actionButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 25))
+    }
+    
+    private func setupUploadImageButton() {
+        buttonStackView.insertArrangedSubview(uploadImageButton, at: 1)
+        addConstraint(NSLayoutConstraint(item: uploadImageButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 25))
+        addConstraint(NSLayoutConstraint(item: uploadImageButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 25))
+        uploadImageButton.addTarget(self, action: #selector(handleImageUpload), for: .touchUpInside)
+    }
+    
+    @objc func handleImageUpload() {
+        actionView.delegate?.handleSendingImage()
     }
     
     private func setupActionView() {
@@ -151,6 +176,16 @@ class StudentKeyboardAccessory: KeyboardAccessory {
         }).startAnimation()
     }
     
+    override func hideLeftView() {
+        leftAccessoryViewLeftAnchor?.constant = -54
+        UIView.animate(withDuration: 0.25) {
+            self.expandLeftViewButton.alpha = 1
+            self.buttonStackView.alpha = 0
+            self.layoutIfNeeded()
+        }
+        guard submitButton.backgroundColor != Colors.purple else { return }
+        changeSendButtonColor(Colors.purple)
+    }
 }
 
 extension StudentKeyboardAccessory: QuickChatViewDelegate {
