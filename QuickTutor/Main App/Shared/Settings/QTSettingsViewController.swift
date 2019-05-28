@@ -141,6 +141,19 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
         showMeSwitchOn(isShowMe)
         CurrentUser.shared.tutor.isVisible = isShowMe
         FirebaseData.manager.updateTutorVisibility(uid: CurrentUser.shared.learner.uid!, status: isShowMe ? 0 : 1)
+        
+        var message = "Currently, you are not visible in search results."
+        if isShowMe {
+            message = "Currently, you are visible in search results."
+        }
+        let alertController = UIAlertController(title: "", message: message, preferredStyle: .alert)
+        
+        present(alertController, animated: true, completion: nil)
+        
+        let when = DispatchTime.now() + 2
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            alertController.dismiss(animated: true)
+        }
     }
     
     @objc

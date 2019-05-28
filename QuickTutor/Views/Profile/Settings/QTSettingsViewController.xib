@@ -612,7 +612,7 @@
                                                         <constraint firstAttribute="height" constant="57" id="2Mc-II-MkR"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="Lato-Medium" family="Lato" pointSize="14"/>
-                                                    <state key="normal" title="Delete an account">
+                                                    <state key="normal" title="Delete Account">
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
                                                     <connections>
