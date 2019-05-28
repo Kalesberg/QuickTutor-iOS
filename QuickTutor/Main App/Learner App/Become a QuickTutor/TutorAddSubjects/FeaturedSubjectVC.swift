@@ -35,10 +35,7 @@ class FeaturedSubjectVC: BaseRegistrationController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Hide the bottom tab bar and relayout views
-        tabBarController?.tabBar.isHidden = true
-        edgesForExtendedLayout = .bottom
-        extendedLayoutIncludesOpaqueBars = true
+        hideTabBar(hidden: true)
     }
     
     override func setupNavBar() {

@@ -201,6 +201,17 @@ extension UIViewController {
             navigationController?.pushViewController(vc, animated: true)
         }
     }
+    
+    func hideTabBar(hidden: Bool) {
+        if hidden {
+            // Hide the bottom tab bar and relayout views
+            tabBarController?.tabBar.isHidden = true
+            edgesForExtendedLayout = .bottom
+            extendedLayoutIncludesOpaqueBars = true
+        } else {
+            tabBarController?.tabBar.isHidden = false
+        }
+    }
 }
 
 extension UINavigationController {	

@@ -301,10 +301,7 @@ class LearnerEditProfileVC: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
         
-        // Hide the bottom tab bar and relayout views
-        tabBarController?.tabBar.isHidden = true
-        edgesForExtendedLayout = .bottom
-        extendedLayoutIncludesOpaqueBars = true
+        hideTabBar(hidden: true)
         
         updateLearner()
         setupName()

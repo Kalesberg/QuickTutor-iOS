@@ -126,10 +126,7 @@ class ChangeEmailVC: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: false)
         
-        // Hide the bottom tab bar and relayout views
-        tabBarController?.tabBar.isHidden = true
-        edgesForExtendedLayout = .bottom
-        extendedLayoutIncludesOpaqueBars = true
+        hideTabBar(hidden: true)
     }
     
     func setupNavBar() {

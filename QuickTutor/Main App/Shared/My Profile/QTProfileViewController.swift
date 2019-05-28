@@ -108,10 +108,7 @@ class QTProfileViewController: UIViewController {
         
         navigationController?.setNavigationBarHidden(false, animated: true)
         
-        // Hide the bottom tab bar and relayout views 
-        tabBarController?.tabBar.isHidden = true
-        edgesForExtendedLayout = .bottom
-        extendedLayoutIncludesOpaqueBars = true
+        hideTabBar(hidden: true)
         
         if #available(iOS 11.0, *) {
             navigationItem.largeTitleDisplayMode = .never
@@ -122,7 +119,7 @@ class QTProfileViewController: UIViewController {
         super.viewWillDisappear(animated)
         self.locationManager.stopUpdatingLocation()
         
-        tabBarController?.tabBar.isHidden = false
+        hideTabBar(hidden: false)
         
         if !isPresentedFromSessionScreen {
             navigationController?.setNavigationBarHidden(true, animated: true)

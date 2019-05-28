@@ -76,7 +76,7 @@ class SessionRequestVC: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        tabBarController?.tabBar.isHidden = false
+        hideTabBar(hidden: false)
     }
     
     override func viewDidAppear(_ animated: Bool) {
