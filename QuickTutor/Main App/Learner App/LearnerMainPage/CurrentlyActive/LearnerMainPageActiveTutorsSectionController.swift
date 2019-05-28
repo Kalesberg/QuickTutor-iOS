@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import SkeletonView
 
-class LearnerMainPageActiveTutorsSectionController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class LearnerMainPageActiveTutorsSectionController: UIViewController {
     
     var datasource = [AWTutor]()
     
@@ -21,13 +22,21 @@ class LearnerMainPageActiveTutorsSectionController: UIViewController, UICollecti
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.isPagingEnabled = true
-        collectionView.register(ConnectionCell.self, forCellWithReuseIdentifier: "connectionCell")
+        collectionView.register(ConnectionCell.self, forCellWithReuseIdentifier: ConnectionCell.reuseIdentifier)
+        collectionView.isSkeletonable = true
+        
         return collectionView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.isSkeletonable = true
         setupCollectionView()
+        
+        collectionView.prepareSkeleton { _ in
+            self.view.showAnimatedSkeleton(usingColor: Colors.gray)
+        }
         fetchTutors()
     }
     
@@ -44,9 +53,20 @@ class LearnerMainPageActiveTutorsSectionController: UIViewController, UICollecti
     
     func fetchTutors() {
         TutorSearchService.shared.getCurrentlyOnlineTutors { (tutors) in
+            self.view.hideSkeleton()
             self.datasource.append(contentsOf: tutors)
             self.collectionView.reloadData()
         }
+    }
+}
+
+extension LearnerMainPageActiveTutorsSectionController: SkeletonCollectionViewDataSource {
+    func numSections(in collectionSkeletonView: UICollectionView) -> Int {
+        return 3
+    }
+    
+    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
+        return ConnectionCell.reuseIdentifier
     }
     
     func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
@@ -54,19 +74,31 @@ class LearnerMainPageActiveTutorsSectionController: UIViewController, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "connectionCell", for: indexPath) as! ConnectionCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ConnectionCell.reuseIdentifier, for: indexPath) as! ConnectionCell
         cell.updateUI(user: datasource[indexPath.item])
         cell.updateToMainFeedLayout()
         cell.delegate = self
         cell.layoutIfNeeded()
         return cell
     }
-    
+}
+
+extension LearnerMainPageActiveTutorsSectionController: UICollectionViewDelegateFlowLayout {
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
         let screen = UIScreen.main.bounds
         return CGSize(width: screen.width, height: 60)
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }    
+}
+
+extension LearnerMainPageActiveTutorsSectionController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! ConnectionCell
         UIView.animate(withDuration: 0.2) {
@@ -81,15 +113,6 @@ class LearnerMainPageActiveTutorsSectionController: UIViewController, UICollecti
             NotificationCenter.default.post(name: NotificationNames.LearnerMainFeed.activeTutorCellTapped, object: nil, userInfo: ["uid": uid])
         }
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-    
 }
 
 extension LearnerMainPageActiveTutorsSectionController: ConnectionCellDelegate {

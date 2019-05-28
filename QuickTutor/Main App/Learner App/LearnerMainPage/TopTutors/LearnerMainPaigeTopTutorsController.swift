@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import SkeletonView
 
-class LearnerMainPaigeTopTutorsController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class LearnerMainPaigeTopTutorsController: UIViewController {
     
     var datasource = [AWTutor]()
     
@@ -23,14 +24,22 @@ class LearnerMainPaigeTopTutorsController: UIViewController, UICollectionViewDel
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.isScrollEnabled = false
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-        collectionView.register(TutorCollectionViewCell.self, forCellWithReuseIdentifier: "featuredCell")
+        collectionView.register(TutorCollectionViewCell.self, forCellWithReuseIdentifier: TutorCollectionViewCell.reuseIdentifier)
+        collectionView.isSkeletonable = true
+        
         return collectionView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.isSkeletonable = true
         setupCollectionView()
         fetchTutors()
+        
+        collectionView.prepareSkeleton { _ in
+            self.view.showAnimatedSkeleton(usingColor: Colors.gray)
+        }
     }
     
     func setupViews() {
@@ -45,10 +54,21 @@ class LearnerMainPaigeTopTutorsController: UIViewController, UICollectionViewDel
     }
     
     func fetchTutors() {
-        TutorSearchService.shared.getTopTutors { (tutors) in
+        TutorSearchService.shared.getTopTutors { tutors in
+            self.view.hideSkeleton()
             self.datasource.append(contentsOf: tutors.sorted(by: {$0.tNumSessions > $1.tNumSessions}))
             self.collectionView.reloadData()
         }
+    }
+}
+
+extension LearnerMainPaigeTopTutorsController: SkeletonCollectionViewDataSource {
+    func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 4
+    }
+    
+    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
+        return TutorCollectionViewCell.reuseIdentifier
     }
     
     func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
@@ -56,16 +76,29 @@ class LearnerMainPaigeTopTutorsController: UIViewController, UICollectionViewDel
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! TutorCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TutorCollectionViewCell.reuseIdentifier, for: indexPath) as! TutorCollectionViewCell
         cell.updateUI(datasource[indexPath.item])
         return cell
     }
-    
+}
+
+extension LearnerMainPaigeTopTutorsController: UICollectionViewDelegateFlowLayout {
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
         let screen = UIScreen.main.bounds
         return CGSize(width: (screen.width - 60) / 2, height: 225)
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 20
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 20
+    }
+    
+}
+
+extension LearnerMainPaigeTopTutorsController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
         UIView.animate(withDuration: 0.2) {
@@ -81,13 +114,4 @@ class LearnerMainPaigeTopTutorsController: UIViewController, UICollectionViewDel
             NotificationCenter.default.post(name: NotificationNames.LearnerMainFeed.topTutorTapped, object: nil, userInfo: userInfo)
         }
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 20
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 20
-    }
-    
 }

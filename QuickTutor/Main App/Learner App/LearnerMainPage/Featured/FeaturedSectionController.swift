@@ -7,27 +7,36 @@
 //
 
 import UIKit
+import SkeletonView
 
-class FeaturedSectionController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+class FeaturedSectionController: UIViewController {
     
-    var featuredItems = [MainPageFeaturedItem]()
+    var featuredItems: [MainPageFeaturedItem] = []
     
     let collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 0
-        collectionView.collectionViewLayout = layout
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.isPagingEnabled = true
-        collectionView.register(LearnerMainPageFeaturedSubjectCell.self, forCellWithReuseIdentifier: "cellId")
+        collectionView.register(LearnerMainPageFeaturedSubjectCell.self, forCellWithReuseIdentifier: LearnerMainPageFeaturedSubjectCell.reuseIdentifier)
+        collectionView.isSkeletonable = true
+        
         return collectionView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.isSkeletonable = true
         setupCollectionView()
+        loadFeaturedSubjects()
+        
+        collectionView.prepareSkeleton { _ in
+            self.view.showAnimatedSkeleton(usingColor: Colors.gray)
+        }
     }
     
     func setupCollectionView() {
@@ -37,18 +46,40 @@ class FeaturedSectionController: UIViewController, UICollectionViewDataSource, U
         collectionView.dataSource = self
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! LearnerMainPageFeaturedSubjectCell
-        cell.updateUI(featuredItems[indexPath.item])
-        return cell
+    func loadFeaturedSubjects() {
+        DataService.shared.featchMainPageFeaturedSubject { (items) in
+            self.view.hideSkeleton()
+            guard let items = items else { return }
+            self.featuredItems = items
+            self.collectionView.reloadData()
+        }
+    }    
+}
+
+extension FeaturedSectionController: SkeletonCollectionViewDataSource {
+    func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 1
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
+    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
+        return LearnerMainPageFeaturedSubjectCell.reuseIdentifier
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return featuredItems.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LearnerMainPageFeaturedSubjectCell.reuseIdentifier, for: indexPath) as! LearnerMainPageFeaturedSubjectCell
+        cell.updateUI(featuredItems[indexPath.item])
+        return cell
+    }
+    
+}
+
+extension FeaturedSectionController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -58,7 +89,9 @@ class FeaturedSectionController: UIViewController, UICollectionViewDataSource, U
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
-    
+}
+
+extension FeaturedSectionController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let userInfo: [AnyHashable: Any] = ["featuredItem": featuredItems[indexPath.item]]
         NotificationCenter.default.post(name: NotificationNames.LearnerMainFeed.featuredSectionTapped, object: nil, userInfo: userInfo)

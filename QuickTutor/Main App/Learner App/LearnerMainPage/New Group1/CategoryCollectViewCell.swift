@@ -12,6 +12,10 @@ import UIKit
 
 class CategoryCollectionViewCell: UICollectionViewCell {
     
+    static var reuseIdentifier: String {
+        return String(describing: CategoryCollectionViewCell.self)
+    }
+    
     let shadowView: UIView = {
         let view = UIView()
         view.backgroundColor = .clear

@@ -25,7 +25,6 @@ class LearnerMainPageFeaturedSectionContainerCell: UICollectionViewCell {
         setupMainView()
         setupTitleLabel()
         setupCollectionViewController()
-        loadFeaturedSubjects()
     }
     
     func setupMainView() {
@@ -40,14 +39,6 @@ class LearnerMainPageFeaturedSectionContainerCell: UICollectionViewCell {
     func setupCollectionViewController() {
         addSubview(featuredSectionController.view)
         featuredSectionController.view.anchor(top: titleLabel.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-    }
-    
-    func loadFeaturedSubjects() {
-        DataService.shared.featchMainPageFeaturedSubject { (items) in
-            guard let items = items else { return }
-            self.featuredSectionController.featuredItems = items
-            self.featuredSectionController.collectionView.reloadData()
-        }
     }
     
     override init(frame: CGRect) {

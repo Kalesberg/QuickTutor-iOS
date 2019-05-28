@@ -49,11 +49,17 @@ class ConnectionCell: UICollectionViewCell {
         }
     }
 
+    static var reuseIdentifier: String {
+        return String(describing: ConnectionCell.self)
+    }
+    
     let profileImageView: UserImageView = {
         let iv = UserImageView()
         iv.imageView.contentMode = .scaleAspectFill
         iv.imageView.layer.cornerRadius = 25
         iv.imageView.clipsToBounds = true
+        iv.isSkeletonable = true
+        
         return iv
     }()
 
@@ -61,6 +67,9 @@ class ConnectionCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = .white
         label.font = Fonts.createBlackSize(14)
+        label.text = "JH Lee"
+        label.isSkeletonable = true
+        
         return label
     }()
 
@@ -70,6 +79,8 @@ class ConnectionCell: UICollectionViewCell {
         label.textColor = Colors.purple
         label.font = Fonts.createBoldSize(12)
         label.text = "Auburn, AL"
+        label.isSkeletonable = true
+        
         return label
     }()
 
@@ -77,6 +88,8 @@ class ConnectionCell: UICollectionViewCell {
         let button = DimmableButton()
         button.setImage(UIImage(named: "messageIconCircle"), for: .normal)
         button.titleLabel?.font = Fonts.createBoldSize(12)
+        button.isHidden = true
+        
         return button
     }()
     
@@ -90,12 +103,10 @@ class ConnectionCell: UICollectionViewCell {
     let separatorLine: UIView = {
         let view = UIView()
         view.backgroundColor = Colors.backgroundDark
+        view.isHidden = true
         return view
     }()
     
-    var messageButtonWidthAnchor: NSLayoutConstraint?
-    var messageButtonHeightAnchor: NSLayoutConstraint?
-
     func setupViews() {
         setupProfileImageView()
         setupNameLabel()
@@ -106,42 +117,62 @@ class ConnectionCell: UICollectionViewCell {
     }
     
     func setupProfileImageView() {
-        addSubview(profileImageView)
-        profileImageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 5, paddingLeft: 10.5, paddingBottom: 5, paddingRight: 0, width: 50, height: 50)
+        contentView.addSubview(profileImageView)
+        profileImageView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(5)
+            make.centerY.equalToSuperview()
+            make.left.equalToSuperview().offset(10)
+            make.height.equalTo(50)
+            make.width.equalTo(50)
+        }
     }
     
     func setupNameLabel() {
-        addSubview(nameLabel)
-        nameLabel.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 100, height: 18)
+        contentView.addSubview(nameLabel)
+        nameLabel.snp.makeConstraints { make in
+            make.top.equalTo(profileImageView.snp.top).offset(10)
+            make.left.equalTo(profileImageView.snp.right).offset(10)
+        }
     }
     
     func setupFeaturedSubject() {
-        addSubview(featuredSubject)
-        featuredSubject.anchor(top: nameLabel.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 150, height: 0)
+        contentView.addSubview(featuredSubject)
+        featuredSubject.snp.makeConstraints { make in
+            make.top.equalTo(nameLabel.snp.bottom).offset(5)
+            make.left.equalTo(nameLabel.snp.left)
+        }
     }
     
     func setupMessageButton() {
-        addSubview(messageButton)
-        messageButton.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 0, height: 35)
-        messageButtonWidthAnchor = messageButton.widthAnchor.constraint(equalToConstant: 35)
-        messageButtonWidthAnchor?.isActive = true
-        messageButtonHeightAnchor = messageButton.heightAnchor.constraint(equalToConstant: 35)
-        messageButtonHeightAnchor?.isActive = true
-        messageButton.layoutIfNeeded()
-        addConstraint(NSLayoutConstraint(item: messageButton, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
+        contentView.addSubview(messageButton)
+        messageButton.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.right.equalToSuperview().offset(-20)
+            make.width.equalTo(35)
+            make.height.equalTo(35)
+        }
         messageButton.addTarget(self, action: #selector(showConversation), for: .touchUpInside)
     }
     
     func setupRequestSessionButton() {
-        addSubview(requestSessionButton)
-        requestSessionButton.anchor(top: nil, left: nil, bottom: nil, right: messageButton.leftAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 20, width: 35, height: 35)
-        addConstraint(NSLayoutConstraint(item: requestSessionButton, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
+        contentView.addSubview(requestSessionButton)
+        requestSessionButton.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.right.equalToSuperview().offset(-20)
+            make.width.equalTo(35)
+            make.height.equalTo(35)
+        }
         requestSessionButton.addTarget(self, action: #selector(requestSession), for: .touchUpInside)
     }
     
      func setupSeparatorLine() {
-        addSubview(separatorLine)
-        separatorLine.anchor(top: nil, left: profileImageView.rightAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 1)
+        contentView.addSubview(separatorLine)
+        separatorLine.snp.makeConstraints { make in
+            make.bottom.equalToSuperview()
+            make.left.equalTo(profileImageView.snp.right)
+            make.right.equalToSuperview()
+            make.height.equalTo(1)
+        }
     }
     
     func updateUI(user: User) {
@@ -155,6 +186,7 @@ class ConnectionCell: UICollectionViewCell {
             let subject = awUser.featuredSubject == "" ? awUser.subjects?.first : awUser.featuredSubject
             featuredSubject.text = subject
         }
+        messageButton.isHidden = false
         updateOnlineStatusIndicator()
     }
     
@@ -168,15 +200,20 @@ class ConnectionCell: UICollectionViewCell {
     func updateAsLearnerCell() {
         featuredSubject.removeFromSuperview()
         nameLabel.removeFromSuperview()
-        addSubview(nameLabel)
-        nameLabel.anchor(top: topAnchor, left: profileImageView.rightAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 250, height: 0)
+        contentView.addSubview(nameLabel)
+        nameLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.left.equalTo(profileImageView.snp.right).offset(10)
+            make.bottom.equalToSuperview()
+        }
     }
     
     func updateToMainFeedLayout() {
         messageButton.setImage(nil, for: .normal)
-        messageButtonWidthAnchor?.constant = 75
-        messageButtonHeightAnchor?.constant = 30
-        messageButton.layoutIfNeeded()
+        messageButton.snp.updateConstraints { make in
+            make.width.equalTo(75)
+            make.height.equalTo(35)
+        }
         messageButton.setTitle("Message", for: .normal)
         messageButton.backgroundColor = Colors.purple
         messageButton.layer.cornerRadius = 4
@@ -202,6 +239,8 @@ class ConnectionCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        isSkeletonable = true
         setupViews()
     }
     

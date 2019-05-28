@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import SkeletonView
 
-class LearnerMainPageSuggestionController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class LearnerMainPageSuggestionController: UIViewController {
     
     var datasource = [AWTutor]()
     
@@ -21,14 +22,22 @@ class LearnerMainPageSuggestionController: UIViewController, UICollectionViewDel
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-        collectionView.register(TutorCollectionViewCell.self, forCellWithReuseIdentifier: "featuredCell")
+        collectionView.register(TutorCollectionViewCell.self, forCellWithReuseIdentifier: TutorCollectionViewCell.reuseIdentifier)
+        collectionView.isSkeletonable = true
+        
         return collectionView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.isSkeletonable = true
         setupCollectionView()
         fetchTutors()
+        
+        collectionView.prepareSkeleton { _ in
+            self.view.showAnimatedSkeleton(usingColor: Colors.gray)
+        }
     }
     
     func setupViews() {
@@ -48,6 +57,7 @@ class LearnerMainPageSuggestionController: UIViewController, UICollectionViewDel
                 self.fetchDefaultTutors()
                 return
             }
+            self.view.hideSkeleton()
             self.datasource.append(contentsOf: tutors)
             self.collectionView.reloadData()
         }
@@ -55,10 +65,21 @@ class LearnerMainPageSuggestionController: UIViewController, UICollectionViewDel
     
     func fetchDefaultTutors() {
         TutorSearchService.shared.getTutorsByCategory("academics", lastKnownKey: nil, completion: { (tutors, _) in
+            self.view.hideSkeleton()
             guard let tutors = tutors else { return }
             self.datasource.append(contentsOf: tutors)
             self.collectionView.reloadData()
         })
+    }
+}
+
+extension LearnerMainPageSuggestionController: SkeletonCollectionViewDataSource {
+    func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 2
+    }
+    
+    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
+        return TutorCollectionViewCell.reuseIdentifier
     }
     
     func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
@@ -66,18 +87,29 @@ class LearnerMainPageSuggestionController: UIViewController, UICollectionViewDel
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! TutorCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TutorCollectionViewCell.reuseIdentifier, for: indexPath) as! TutorCollectionViewCell
         cell.updateUI(datasource[indexPath.item])
-        cell.profileImageViewHeightAnchor?.constant = 160
-        cell.layoutIfNeeded()
         return cell
     }
-    
+}
+
+extension LearnerMainPageSuggestionController: UICollectionViewDelegateFlowLayout {
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
         let screen = UIScreen.main.bounds
         return CGSize(width: (screen.width - 60) / 2, height: 225)
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 20
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 20
+    }
+    
+}
+
+extension LearnerMainPageSuggestionController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
         UIView.animate(withDuration: 0.2) {
@@ -94,14 +126,4 @@ class LearnerMainPageSuggestionController: UIViewController, UICollectionViewDel
             NotificationCenter.default.post(name: NotificationNames.LearnerMainFeed.suggestedTutorTapped, object: nil, userInfo: userInfo)
         }
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 20
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 20
-    }
-    
 }
-
