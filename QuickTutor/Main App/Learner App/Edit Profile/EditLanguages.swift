@@ -12,9 +12,8 @@ class EditLanguageView: UIView {
     
     var tableView: UITableView = {
         let table = UITableView()
-        table.estimatedRowHeight = 50
-        table.separatorStyle = .singleLine
-        table.separatorColor = .black
+        table.estimatedRowHeight = 60
+        table.separatorStyle = .none
         table.showsVerticalScrollIndicator = false
         table.backgroundColor = Colors.darkBackground
         table.allowsMultipleSelection = true
@@ -32,7 +31,7 @@ class EditLanguageView: UIView {
     
     func setupTableView() {
         addSubview(tableView)
-        tableView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        tableView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 10, paddingRight: 0, width: 0, height: 0)
     }
     
     override init(frame: CGRect) {
@@ -238,7 +237,7 @@ class CustomLanguageCell: UITableViewCell {
 
     let checkbox: UIButton = {
         let button = UIButton(frame: .zero)
-        button.layer.cornerRadius = 17
+        button.layer.cornerRadius = 20
         button.layer.borderWidth = 1
         button.layer.borderColor = Colors.gray.cgColor
        
@@ -265,7 +264,7 @@ class CustomLanguageCell: UITableViewCell {
     
     func setupTextLabel() {
         textLabel?.textColor = UIColor.white
-        textLabel?.font = Fonts.createSize(16)
+        textLabel?.font = Fonts.createBlackSize(18)
         textLabel?.adjustsFontSizeToFitWidth = true
     }
     
@@ -275,8 +274,9 @@ class CustomLanguageCell: UITableViewCell {
         checkbox.snp.makeConstraints { make in
             make.right.equalToSuperview().offset(-16)
             make.centerY.equalToSuperview()
-            make.width.equalTo(34)
-            make.height.equalTo(34)
+            make.top.equalToSuperview().offset(8)
+            make.width.equalTo(40)
+            make.height.equalTo(40)
         }
     }
     
