@@ -17,6 +17,8 @@ class BaseTabBarController: UITabBarController {
         tabBar.isTranslucent = false
         tabBar.backgroundColor = Colors.registrationDark
         selectedIndex = 0
+        
+        tabBar.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.2, offset: CGSize(width: 0, height: -10), radius: 10)
     }
 }
 

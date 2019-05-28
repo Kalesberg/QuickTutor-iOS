@@ -50,6 +50,7 @@ class LearnerMainPageSearchBarContainer: UIView {
         addSubview(searchBar)
         searchBar.anchor(top: getTopAnchor(), left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 47)
         searchBar.delegate = self
+        searchBar.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.2, offset: CGSize(width: 0, height: 0), radius: 5)
     }
     
     func setupRecentSearchesCV() {
