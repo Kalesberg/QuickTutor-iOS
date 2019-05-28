@@ -59,7 +59,7 @@ class QTTutorDashboardViewController: UIViewController {
     var topSubject: String? {
         didSet {
             if let topSubject = topSubject, !topSubject.isEmpty {
-                headerView.subjectLabel.text = topSubject.capitalizingFirstLetter() + " • "
+                headerView.subjectLabel.text = topSubject.capitalizingFirstLetter()
                 return
             } else if topSubject == nil {
                 findTopSubjects()

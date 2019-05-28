@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -18,6 +18,9 @@
         </array>
         <array key="Lato-Medium.ttf">
             <string>Lato-Medium</string>
+        </array>
+        <array key="Lato-Semibold.ttf">
+            <string>Lato-Semibold</string>
         </array>
     </customFonts>
     <objects>
@@ -199,7 +202,40 @@
                             </stackView>
                             <view contentMode="scaleToFill" horizontalCompressionResistancePriority="748" verticalCompressionResistancePriority="748" translatesAutoresizingMaskIntoConstraints="NO" id="eDD-lc-gWY" customClass="LineChartView" customModule="Charts">
                                 <rect key="frame" x="10" y="63" width="258" height="139.5"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fqU-wd-aCB">
+                                        <rect key="frame" x="49" y="17" width="160" height="97"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_empty_chart" translatesAutoresizingMaskIntoConstraints="NO" id="hsU-ZR-w7M">
+                                                <rect key="frame" x="50" y="0.0" width="60" height="60"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="60" id="0sz-8C-azj"/>
+                                                    <constraint firstAttribute="height" constant="60" id="PbI-VN-P3E"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="There is no date available." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WgQ-Az-QSH">
+                                                <rect key="frame" x="0.0" y="80" width="160" height="17"/>
+                                                <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="14"/>
+                                                <color key="textColor" red="0.3921568627" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="WgQ-Az-QSH" firstAttribute="centerX" secondItem="hsU-ZR-w7M" secondAttribute="centerX" id="1V9-tU-37I"/>
+                                            <constraint firstItem="WgQ-Az-QSH" firstAttribute="top" secondItem="hsU-ZR-w7M" secondAttribute="bottom" constant="20" id="ED9-SG-eWj"/>
+                                            <constraint firstAttribute="bottom" secondItem="WgQ-Az-QSH" secondAttribute="bottom" id="Ia9-NT-Vx2"/>
+                                            <constraint firstItem="hsU-ZR-w7M" firstAttribute="top" secondItem="fqU-wd-aCB" secondAttribute="top" id="K0c-DN-o3r"/>
+                                            <constraint firstItem="hsU-ZR-w7M" firstAttribute="centerX" secondItem="fqU-wd-aCB" secondAttribute="centerX" id="POY-Mp-arh"/>
+                                            <constraint firstItem="WgQ-Az-QSH" firstAttribute="width" secondItem="fqU-wd-aCB" secondAttribute="width" id="VzB-wG-EY9"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
                                 <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstItem="fqU-wd-aCB" firstAttribute="top" secondItem="eDD-lc-gWY" secondAttribute="top" constant="17" id="buz-J5-VYM"/>
+                                    <constraint firstItem="fqU-wd-aCB" firstAttribute="centerX" secondItem="eDD-lc-gWY" secondAttribute="centerX" id="tAG-ne-hMt"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -246,6 +282,7 @@
                 <outlet property="leftTitleLabel" destination="lZt-NZ-Dwl" id="qs7-tf-FLR"/>
                 <outlet property="leftValueLabel" destination="6Ud-km-bIi" id="rUM-Ry-l9A"/>
                 <outlet property="lineChartView" destination="eDD-lc-gWY" id="ceu-S9-48o"/>
+                <outlet property="noDataView" destination="fqU-wd-aCB" id="xhu-fC-FFq"/>
                 <outlet property="rateLabel" destination="4rM-0V-yfm" id="mJg-1Z-EgR"/>
                 <outlet property="rightArrowImageView" destination="0dl-UQ-NXp" id="bxK-ql-pHQ"/>
                 <outlet property="rightInfoStackView" destination="QAa-iI-4gK" id="whv-mi-k6d"/>
@@ -257,5 +294,6 @@
     </objects>
     <resources>
         <image name="ic_arrow_up" width="24" height="24"/>
+        <image name="ic_empty_chart" width="70" height="66"/>
     </resources>
 </document>

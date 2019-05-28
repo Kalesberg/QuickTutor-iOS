@@ -204,6 +204,10 @@ class MessagesVC: UIViewController {
         if 0 < badgeCount {
             rootVC.tabBarItem.badgeColor = .qtAccentColor
             rootVC.tabBarItem.badgeValue = 9 < badgeCount ? "9+" : "\(badgeCount)"
+            // Update the badge position
+            if let tabBarController = rootVC.tabBarController {
+                tabBarController.adjustBadgePosition(tabBarItemView: tabBarController.tabBar.subviews[messageIndex + 1])
+            }
         } else {
             rootVC.tabBarItem.badgeValue = nil
         }
@@ -254,7 +258,8 @@ class MessagesVC: UIViewController {
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        tabBarItem = UITabBarItem(title: "Chat", image: UIImage(named: "chatTabBarIcon"), selectedImage: UIImage(named: "chatTabBarIcon"))
+        tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "chatTabBarIcon"), selectedImage: UIImage(named: "chatTabBarIcon"))
+        tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
     }
     
     required init?(coder aDecoder: NSCoder) {

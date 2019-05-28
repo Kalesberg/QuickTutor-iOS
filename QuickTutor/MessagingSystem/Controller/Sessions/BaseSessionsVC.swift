@@ -172,6 +172,10 @@ class BaseSessionsVC: UIViewController {
         if 0 < badgeCount {
             rootVC.tabBarItem.badgeColor = .qtAccentColor
             rootVC.tabBarItem.badgeValue = 9 < badgeCount ? "9+" : "\(badgeCount)"
+            // Update the badge position
+            if let tabBarController = rootVC.tabBarController {
+                tabBarController.adjustBadgePosition(tabBarItemView: tabBarController.tabBar.subviews[sessionIndex + 1])
+            }
         } else {
             rootVC.tabBarItem.badgeValue = nil
         }

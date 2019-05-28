@@ -50,6 +50,7 @@ class QTTutorDashboardTableViewCell: UITableViewCell {
     @IBOutlet weak var rightValueLabel: UILabel!
     @IBOutlet weak var rightTitleLabel: UILabel!
     @IBOutlet weak var lineChartView: LineChartView!
+    @IBOutlet weak var noDataView: UIView!
     
     var chartType: QTTutorDashboardChartType!
     var durationType: QTTutorDashboardDurationType!
@@ -97,8 +98,7 @@ class QTTutorDashboardTableViewCell: UITableViewCell {
         lineChartView.scaleYEnabled = false
         lineChartView.noDataFont = UIFont.qtRegularFont(size: 12)
         lineChartView.noDataTextColor = UIColor.qtAccentColor
-        lineChartView.noDataText = "There is no data available."
-        
+        lineChartView.noDataText = ""
         
         
         panGesture = UIPanGestureRecognizer(target: self, action: #selector(onLineChartViewPanGestureRecognized(_:)))
@@ -175,6 +175,7 @@ class QTTutorDashboardTableViewCell: UITableViewCell {
             self.leftValueLabel.text = "\(Int(total))"
         }
         
+        noDataView.isHidden = total > 0
         if total > 0 {
             let marker = QTTutorDashboardMarkerView.view as QTTutorDashboardMarkerView
             marker.setChartType(type: chartType)

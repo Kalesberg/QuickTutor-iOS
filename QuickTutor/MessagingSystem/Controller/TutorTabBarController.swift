@@ -12,11 +12,22 @@ class BaseTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tabBar.barTintColor = Colors.registrationDark
-        tabBar.tintColor = .white
+        tabBar.tintColor = .qtAccentColor
         tabBar.isOpaque = false
         tabBar.isTranslucent = false
         tabBar.backgroundColor = Colors.registrationDark
         selectedIndex = 0
+    }
+}
+
+extension UITabBarController {
+    func adjustBadgePosition(tabBarItemView: UIView) {
+        for badgeView in tabBarItemView.subviews {
+            if NSStringFromClass(badgeView.classForCoder) == "_UIBadgeView" {
+                badgeView.layer.transform = CATransform3DIdentity
+                badgeView.layer.transform = CATransform3DMakeTranslation(1.0, 8.0, 1.0)
+            }
+        }
     }
 }
 
@@ -25,17 +36,21 @@ class TutorTabBarController: BaseTabBarController {
         super.viewDidLoad()
         
         let home = UINavigationController(rootViewController: QTTutorDashboardViewController.controller) // TutorMainPage()
-        home.tabBarItem = UITabBarItem(title: "Dashboard", image: UIImage(named: "dashboardTabIcon"), selectedImage: UIImage(named: "dashboardTabIcon"))
+        home.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "dashboardTabIcon"), selectedImage: UIImage(named: "dashboardTabIcon"))
+        home.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
         home.navigationBar.barTintColor = Colors.newBackground
         home.navigationBar.backgroundColor = Colors.newBackground
         let sessions = UINavigationController(rootViewController: TutorSessionsVC())
-        sessions.tabBarItem = UITabBarItem(title: "Sessions", image: UIImage(named: "sessionsTabBarIcon"), selectedImage: UIImage(named: "sessionsTabBarIcon"))
+        sessions.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "sessionsTabBarIcon"), selectedImage: UIImage(named: "sessionsTabBarIcon"))
+        sessions.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
         let messages = UINavigationController(rootViewController: MessagesVC())
-        messages.tabBarItem = UITabBarItem(title: "Messages", image: UIImage(named: "chatTabBarIcon"), selectedImage: UIImage(named: "chatTabBarIcon"))
+        messages.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "chatTabBarIcon"), selectedImage: UIImage(named: "chatTabBarIcon"))
+        messages.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
         messages.navigationBar.barTintColor = Colors.newBackground
         messages.navigationBar.backgroundColor = Colors.newBackground
         let profile = UINavigationController(rootViewController: ProfileVC())
-        profile.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(named: "profileTabBarIcon"), selectedImage: UIImage(named: "profileTabBarIcon"))
+        profile.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "profileTabBarIcon"), selectedImage: UIImage(named: "profileTabBarIcon"))
+        profile.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
         let controllers = [home, sessions, messages, profile]
         
         for vc in controllers {
