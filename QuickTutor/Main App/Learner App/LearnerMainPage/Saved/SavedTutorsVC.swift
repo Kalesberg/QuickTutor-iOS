@@ -20,7 +20,7 @@ class SavedTutorsVC: UIViewController {
         cv.backgroundColor = Colors.darkBackground
         cv.allowsMultipleSelection = false
         cv.alwaysBounceVertical = true
-        cv.showsHorizontalScrollIndicator = false
+        cv.showsVerticalScrollIndicator = false
         cv.register(TutorCollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
         return cv
     }()
