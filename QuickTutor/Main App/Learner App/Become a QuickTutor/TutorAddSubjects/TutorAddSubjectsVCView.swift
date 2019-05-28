@@ -50,15 +50,6 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
         return label
     }()
     
-    let requestSessionButton: DimmableButton = {
-        let button = DimmableButton()
-        button.setTitle("Save", for: .normal)
-        button.titleLabel?.font = Fonts.createBoldSize(16)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = Colors.purple
-        return button
-    }()
-    
     var selectedSubjectsHeightAnchor: NSLayoutConstraint?
     var collectionViewTopAnchor: NSLayoutConstraint?
     
@@ -67,7 +58,6 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
         setupSelectedSubjectsCV()
         setupAccessoryView()
         setupAccessoryTextLabel()
-//        setupRequestSessionButton()
         let backIcon = UIImageView(image: UIImage(named:"newBackButton"))
         searchBarContainer.searchBar.leftView = backIcon
         searchBarContainer.cancelEditingButton.setTitle("Done", for: .normal)
@@ -76,9 +66,9 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
         searchBarContainer.filtersButton.isHidden = true
         if TutorRegistrationService.shared.subjects.count > 0 {
             showSelectedSubjectsCVIfNeeded(animated: false)
-            updateAccessoryViewTextLabel()
             selectedSubjectsCV.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
         }
+        updateAccessoryViewTextLabel()
     }
     
     func setupSelectedSubjectsCV() {
@@ -86,7 +76,6 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
         selectedSubjectsCV.anchor(top: searchBarContainer.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         selectedSubjectsHeightAnchor = selectedSubjectsCV.heightAnchor.constraint(equalToConstant: 0)
         selectedSubjectsHeightAnchor?.isActive = true
-        layoutIfNeeded()
         selectedSubjectsCV.delegate = self
         selectedSubjectsCV.dataSource = self
     }
@@ -101,25 +90,11 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
         accessoryTextLabel.anchor(top: accessoryView.topAnchor, left: accessoryView.leftAnchor, bottom: accessoryView.bottomAnchor, right: accessoryView.nextButton.leftAnchor, paddingTop: 5, paddingLeft: 20, paddingBottom: 5, paddingRight: 5, width: 0, height: 0)
     }
     
-    func setupRequestSessionButton() {
-        addSubview(requestSessionButton)
-        requestSessionButton.anchor(top: nil, left: leftAnchor, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 65)
-        requestSessionButton.addTarget(self, action: #selector(handleRequestSession), for: .touchUpInside)
-        layoutIfNeeded()
-    }
-    
-    @objc func handleRequestSession() {
-//        let vc = SessionRequestVC()
-//        navigationController?.pushViewController(vc, animated: true)
-    }
-
-    
     override func setupCollectionView() {
         addSubview(collectionView)
         collectionView.anchor(top: nil, left: leftAnchor, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         collectionViewTopAnchor = collectionView.topAnchor.constraint(equalTo: searchBarContainer.bottomAnchor, constant: 10)
         collectionViewTopAnchor?.isActive = true
-        layoutIfNeeded()
     }
     
     func setupObservers() {
@@ -157,6 +132,14 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
     func updateAccessoryViewTextLabel() {
         let remainingSubjectsCount = 20 - TutorRegistrationService.shared.subjects.count
         accessoryTextLabel.text = "Add up to \(remainingSubjectsCount) more subjects."
+        
+        if 0 < TutorRegistrationService.shared.subjects.count {
+            accessoryView.nextButton.isUserInteractionEnabled = true
+            accessoryView.nextButton.backgroundColor = Colors.purple
+        } else {
+            accessoryView.nextButton.isUserInteractionEnabled = false
+            accessoryView.nextButton.backgroundColor = Colors.gray
+        }
     }
     
     func showRemovePromptFor(subject: String) {
@@ -179,7 +162,7 @@ extension TutorAddSubjectsVCView: UICollectionViewDelegate, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! QuickSearchSubcategoryCell
         cell.titleLabel.text = TutorRegistrationService.shared.subjects[indexPath.item]
-        cell.backgroundColor =  Colors.purple
+        cell.backgroundColor = Colors.purple
         return cell
     }
     
