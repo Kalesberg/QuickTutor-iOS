@@ -124,7 +124,7 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
 
     func setupLeftAccessoryView() {
         addSubview(leftAccessoryView)
-        leftAccessoryView.anchor(top: nil, left: nil, bottom: getBottomAnchor(), right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 48)
+        leftAccessoryView.anchor(top: nil, left: nil, bottom: getBottomAnchor(), right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 7.5, paddingRight: 0, width: 0, height: 48)
         leftAccessoryViewWidthAnchor = leftAccessoryView.widthAnchor.constraint(equalToConstant: 0)
         leftAccessoryViewWidthAnchor?.isActive = true
         leftAccessoryViewLeftAnchor = leftAccessoryView.leftAnchor.constraint(equalTo: leftAnchor, constant: 8)
@@ -150,13 +150,13 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
 
     func setupSubmitButton() {
         addSubview(submitButton)
-        submitButton.anchor(top: nil, left: nil, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, width: 67, height: 34)
+        submitButton.anchor(top: nil, left: nil, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 15, paddingRight: 8, width: 67, height: 34)
         submitButton.addTarget(self, action: #selector(handleSend), for: .touchUpInside)
     }
 
     func setupMessageTextfield() {
         addSubview(messageTextview)
-        messageTextview.anchor(top: nil, left: leftAccessoryView.rightAnchor, bottom: getBottomAnchor(), right: submitButton.leftAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, paddingRight: 12, width: 0, height: 0)
+        messageTextview.anchor(top: nil, left: leftAccessoryView.rightAnchor, bottom: getBottomAnchor(), right: submitButton.leftAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 15, paddingRight: 12, width: 0, height: 0)
         
         flexibleMessageHeightConstraint = NSLayoutConstraint(item: messageTextview, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: submitButton, attribute: .height, multiplier: 0.68, constant: 0)
         flexibleMessageHeightConstraint?.isActive = true
@@ -164,18 +164,18 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
         maxMessageHeightConstraint = messageTextview.heightAnchor.constraint(equalToConstant: MAX_MESSAGE_HEIGHT)
         maxMessageHeightConstraint?.isActive = false
         
-        messageFieldTopAnchor = messageTextview.topAnchor.constraint(equalTo: topAnchor, constant: 8)
+        messageFieldTopAnchor = messageTextview.topAnchor.constraint(equalTo: topAnchor, constant: 15)
         messageFieldTopAnchor?.isActive = true
     }
 
     func setupBackgroundView() {
         insertSubview(backgroundView, at: 0)
-        backgroundView.anchor(top: messageTextview.topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: -8, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 300)
+        backgroundView.anchor(top: messageTextview.topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: -15, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 300)
     }
 
     func setupSeparator() {
         addSubview(lineSeparatorView)
-        lineSeparatorView.anchor(top: messageTextview.topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: -8, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.5)
+        lineSeparatorView.anchor(top: messageTextview.topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: -15, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.5)
     }
 
     func setupTextFieldCover() {
