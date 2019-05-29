@@ -72,7 +72,7 @@ extension LearnerMainPaigeTopTutorsController: SkeletonCollectionViewDataSource 
     }
     
     func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
-        return datasource.count
+        return 4 < datasource.count ? 4 : datasource.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

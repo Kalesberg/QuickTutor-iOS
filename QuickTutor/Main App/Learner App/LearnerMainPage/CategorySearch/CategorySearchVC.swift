@@ -21,7 +21,7 @@ class CategorySearchVC: UIViewController {
     }
 
     let itemsPerBatch: UInt = 10
-    var datasource = [AWTutor]()
+    var datasource: [AWTutor] = []
     var didLoadMore: Bool = false
     var loadedAllTutors = false
     var category: String!
@@ -78,8 +78,10 @@ class CategorySearchVC: UIViewController {
         setUpFiltersButton()
         queryNeededTutors(lastKnownKey: nil)
         
-        collectionView.prepareSkeleton { _ in
-            self.view.showAnimatedSkeleton(usingColor: Colors.gray)
+        if 0 == datasource.count {
+            collectionView.prepareSkeleton { _ in
+                self.view.showAnimatedSkeleton(usingColor: Colors.gray)
+            }
         }
     }
     
