@@ -27,6 +27,10 @@ class EditProfileImageCell: UICollectionViewCell {
         return iv
     }()
     
+    static var reuseIdentifier: String {
+        return String(describing: EditProfileImageCell.self)
+    }
+    
     func setupViews() {
         setupMainView()
         setupBackgroundImageView()
@@ -71,18 +75,21 @@ protocol EditProfileImagesCellDelegate: class {
 
 class EditProfileImagesCell: UITableViewCell {
     
+    var learner: AWLearner?
     var profilePicReferences = [URL?]()
     weak var delegate: EditProfileImagesCellDelegate?
 
+    let profileImagesMax = 8
+    
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.register(EditProfileImageCell.self, forCellWithReuseIdentifier: "cellId")
-        cv.backgroundColor = Colors.darkBackground 
+        cv.register(EditProfileImageCell.self, forCellWithReuseIdentifier: EditProfileImageCell.reuseIdentifier)
+        cv.backgroundColor = Colors.darkBackground
         cv.showsHorizontalScrollIndicator = false
-        cv.alwaysBounceVertical = true
-        cv.isScrollEnabled = false
+        cv.alwaysBounceVertical = false
+        cv.isScrollEnabled = true
         return cv
     }()
     
@@ -94,19 +101,38 @@ class EditProfileImagesCell: UITableViewCell {
     func setupCollectionView() {
         addSubview(collectionView)
         collectionView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        collectionView.dataSource = self
-        collectionView.delegate = self
     }
     
     func loadImages() {
         let databaseRef = Database.database().reference().child("student-info").child(CurrentUser.shared.learner.uid!).child("img")
-        databaseRef.observe(.childAdded) { (snapshot) in
-            guard let urlString = snapshot.value as? String, let url = URL(string: urlString) else {
-                self.profilePicReferences.append(nil)
-                return
+        databaseRef.observeSingleEvent(of: .value) { (snapshot) in
+            
+            // Get all images.
+            if snapshot.exists() {
+                for child in snapshot.children {
+                    // Get image urls and add it into profile pic references.
+                    if let data = child as? DataSnapshot {
+                        
+                        if let urlString = data.value as? String, let url = URL(string: urlString) {
+                            self.profilePicReferences.append(url)
+                        } else {
+                            // If image doesn't existed, add nil object
+                            self.profilePicReferences.append(nil)
+                        }
+                    }
+                }
+                
+                // If the number of profile pictures is not 8, will add rest of pictures.
+                if self.profilePicReferences.count < self.profileImagesMax {
+                    for _ in self.profilePicReferences.count..<self.profileImagesMax {
+                        self.profilePicReferences.append(nil)
+                    }
+                }
+                
+                self.collectionView.dataSource = self
+                self.collectionView.delegate = self
+                self.collectionView.reloadData()
             }
-            self.profilePicReferences.append(url)
-            self.collectionView.reloadData()
         }
     }
     
@@ -139,10 +165,14 @@ extension EditProfileImagesCell: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! EditProfileImageCell
-        guard let url = profilePicReferences[indexPath.item] else {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EditProfileImageCell.reuseIdentifier, for: indexPath) as! EditProfileImageCell
+
+        guard profilePicReferences.count > indexPath.item, let url = profilePicReferences[indexPath.item] else {
+            cell.backgrounImageView.image = UIImage(named: "addPhotoButtonBackground")
+            cell.foregroundImageView.image = nil
             return cell
         }
+        
         cell.backgrounImageView.sd_setImage(with: url, placeholderImage: nil, options: []) { (image, error, cacheType, url) in
             if image == nil {
                 cell.backgrounImageView.image = UIImage(named: "addPhotoButtonBackground")
