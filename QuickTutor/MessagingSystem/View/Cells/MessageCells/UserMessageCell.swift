@@ -57,6 +57,7 @@ class UserMessageCell: BaseMessageCell {
         view.backgroundColor = Colors.darkBackground
         view.layer.borderColor = Colors.gray.cgColor
         view.layer.borderWidth = 1
+        view.applyDefaultShadow()
         return view
     }()
 
@@ -128,6 +129,7 @@ class UserMessageCell: BaseMessageCell {
         if #available(iOS 11.0, *) {
             bubbleView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner, .layerMinXMaxYCorner]
         }
+        bubbleView.backgroundColor = Colors.gray
         bubbleViewRightAnchor?.isActive = true
         bubbleViewLeftAnchor?.isActive = false
         profileImageView.isHidden = true

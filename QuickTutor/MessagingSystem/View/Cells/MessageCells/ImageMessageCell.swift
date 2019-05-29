@@ -31,7 +31,7 @@ class ImageMessageCell: UserMessageCell {
 
     override func updateUI(message: UserMessage) {
         super.updateUI(message: message)
-
+        bubbleView.layer.borderWidth = 0
         if let imageUrl = message.imageUrl {
             imageView.isHidden = false
             imageView.loadImage(urlString: imageUrl)

@@ -97,6 +97,11 @@ class SessionRequestCell: UserMessageCell {
         getSessionRequestWithId(message.sessionRequestId!)
         userMessage = message
     }
+    
+    override func setupBubbleViewAsSentMessage() {
+        super.setupBubbleViewAsSentMessage()
+        bubbleView.backgroundColor = .clear
+    }
 
     func getSessionRequestWithId(_ id: String) {
         Database.database().reference().child("sessions").child(id).observeSingleEvent(of: .value) { snapshot in
@@ -307,6 +312,9 @@ class SessionRequestCell: UserMessageCell {
     func setupMockBubbleViewBackground() {
         addSubview(mockBubbleViewBackground)
         mockBubbleViewBackground.anchor(top: bubbleView.topAnchor, left: bubbleView.leftAnchor, bottom: nil, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 85)
+        bubbleView.layer.shadowOpacity = 0
+        mockBubbleViewBackground.applyDefaultShadow()
+        buttonView.applyDefaultShadow()
     }
 
     func setupSubjectLabel() {
@@ -432,7 +440,6 @@ class SessionRequestCellButtonView: UIView {
 
     let leftButton: DimmableButton = {
         let button = DimmableButton()
-        button.backgroundColor = Colors.purple
         button.layer.cornerRadius = 4
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = Fonts.createBoldSize(12)
@@ -545,7 +552,7 @@ class SessionRequestCellButtonView: UIView {
     func setupAsPending() {
         setupAsSingleButton()
         setButtonTitleColors(.white)
-        setLeftButtonToPrimaryUI()
+        setLeftButtonToSecondaryUI()
         reapplyDimming()
         setButtonTitles("Cancel request")
     }
