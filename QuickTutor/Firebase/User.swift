@@ -527,8 +527,10 @@ class FirebaseData {
                 })
 				
 				guard let images = learnerData["img"] as? [String : String] else { return }
-				learner.images = images
-				
+                images.forEach({ (key, value) in
+                    learner.images[key] = value
+                })
+                
 				group.notify(queue: .main) {
 					completion(learner)
 				}

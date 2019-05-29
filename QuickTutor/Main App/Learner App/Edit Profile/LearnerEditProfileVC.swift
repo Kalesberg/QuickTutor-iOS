@@ -572,6 +572,7 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
         switch indexPath.section {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "EditProfileImagesCell", for: indexPath) as! EditProfileImagesCell
+            cell.learner = self.learner
             cell.delegate = self
             return cell
         case 1:
@@ -754,30 +755,32 @@ extension LearnerEditProfileVC: UIImagePickerControllerDelegate, UINavigationCon
 extension LearnerEditProfileVC: CropViewControllerDelegate {
     func getImageViewCells() -> [EditProfileImageCell] {
         var imageViewCells = [EditProfileImageCell]()
-        let imagesContainerCell = contentView.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! EditProfileImagesCell
-        let imageCell1 = imagesContainerCell.collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! EditProfileImageCell
-        imageViewCells.append(imageCell1)
-        let imageCell2 = imagesContainerCell.collectionView.cellForItem(at: IndexPath(item: 1, section: 0)) as! EditProfileImageCell
-        imageViewCells.append(imageCell2)
-        let imageCell3 = imagesContainerCell.collectionView.cellForItem(at: IndexPath(item: 2, section: 0)) as! EditProfileImageCell
-        imageViewCells.append(imageCell3)
+        guard let imagesContainerCell = contentView.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? EditProfileImagesCell else {
+            return imageViewCells
+        }
+        
+        for index in 0...7 {
+            if let imageCell = imagesContainerCell.collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? EditProfileImageCell {
+                imageViewCells.append(imageCell)
+            }
+        }
+        
         return imageViewCells
     }
     
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
-        
-        var imageViews = getImageViewCells()
         
         guard let data = FirebaseData.manager.getCompressedImageDataFor(image) else {
             AlertController.genericErrorAlert(self, title: "Unable to Upload Image", message: "Your image could not be uploaded. Please try again.")
             return
         }
         
+        /*
         func getFirstEmptyImageIndex() -> Int? {
             return imageViews.firstIndex(where: { (cell) -> Bool in
                 return cell.backgrounImageView.image == nil || cell.backgrounImageView.image == UIImage(named: "addPhotoButtonBackground")
             })
-        }
+        }*/
         
         let index = imageToChange
         
@@ -793,9 +796,15 @@ extension LearnerEditProfileVC: CropViewControllerDelegate {
         SDImageCache.shared().removeImage(forKey: getKeyForCachedImage(number: String(index)), fromDisk: false) {
             SDImageCache.shared().store(image, forKey: self.getKeyForCachedImage(number: String(index)), toDisk: false) {
                 print("Changin image at index", index)
-                imageViews[index - 1].backgrounImageView.image = image
+                guard let imagesContainerCell = self.contentView.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? EditProfileImagesCell else {
+                    return
+                }
+                guard let imageCell = imagesContainerCell.collectionView.cellForItem(at: IndexPath(item: index-1, section: 0)) as? EditProfileImageCell else {
+                    return
+                }
+                imageCell.backgrounImageView.image = image
                 let forgroundImage = index != 1 ? UIImage(named: "deletePhotoIcon") : UIImage(named: "uploadImageIcon")
-                imageViews[index - 1].foregroundImageView.image = forgroundImage
+                imageCell.foregroundImageView.image = forgroundImage
             }
         }
         
