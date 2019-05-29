@@ -56,7 +56,8 @@ class TutorTabBarController: BaseTabBarController {
         let controllers = [home, sessions, messages, profile]
         
         for vc in controllers {
-            vc.navigationBar.barTintColor = Colors.purple
+            vc.navigationBar.barTintColor = Colors.darkBackground
+            vc.navigationBar.backgroundColor = Colors.darkBackground
             vc.navigationBar.tintColor = .white
             vc.navigationBar.isTranslucent = false
             vc.navigationBar.isOpaque = false
