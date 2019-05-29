@@ -9,6 +9,7 @@
 import AVFoundation
 import Firebase
 import UIKit
+import CropViewController
 
 class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     var parentViewController: UIViewController!
@@ -16,7 +17,6 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
     
     let imagePicker: UIImagePickerController = {
         let picker = UIImagePickerController()
-        picker.allowsEditing = true
         picker.mediaTypes = ["public.image", "public.movie"]
         return picker
     }()
@@ -45,25 +45,21 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
         parentViewController.present(ac, animated: true, completion: nil)
     }
 
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let image = info[.originalImage] as? UIImage else { return }
         if let url = info[.mediaURL] as? URL {
             uploadVideoToFirebase(url)
         }
-        
-        guard let imageToUplaod = getImageFromInfoKeys(info) else { return }
-        uploadImageToFirebase(image: imageToUplaod) { (imageUrl) in
-            self.sendMessage(imageToUplaod, imageUrl: imageUrl)
+        picker.dismiss(animated: false) {
+            let cropViewController = CropViewController(image: image)
+            cropViewController.delegate = self
+            cropViewController.aspectRatioPreset = .presetSquare
+            self.parentViewController.present(cropViewController, animated: true, completion: nil)
         }
     }
     
-    private func getImageFromInfoKeys(_ info:[UIImagePickerController.InfoKey: Any]) -> UIImage? {
-        var image: UIImage?
-        if let editedImage = info[.editedImage] as? UIImage {
-            image = editedImage
-        } else if let originalImage = info[.originalImage] as? UIImage {
-            image = originalImage
-        }
-        return image
+    func imagePickerControllerDidCancel(_: UIImagePickerController) {
+        self.parentViewController.dismiss(animated: true, completion: nil)
     }
 
     func uploadImageToFirebase(image: UIImage, completion: @escaping(URL) -> Void) {
@@ -162,5 +158,14 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
 
     init(parentViewController: UIViewController) {
         self.parentViewController = parentViewController
+    }
+}
+
+extension ImageMessageSender: CropViewControllerDelegate {
+    func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
+        uploadImageToFirebase(image: image) { (imageUrl) in
+            self.sendMessage(image, imageUrl: imageUrl)
+        }
+        cropViewController.dismiss(animated: true, completion: nil)
     }
 }
