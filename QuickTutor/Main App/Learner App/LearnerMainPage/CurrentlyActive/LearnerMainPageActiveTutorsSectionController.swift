@@ -77,8 +77,6 @@ extension LearnerMainPageActiveTutorsSectionController: SkeletonCollectionViewDa
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ConnectionCell.reuseIdentifier, for: indexPath) as! ConnectionCell
         cell.updateUI(user: datasource[indexPath.item])
         cell.updateToMainFeedLayout()
-        cell.delegate = self
-        cell.layoutIfNeeded()
         return cell
     }
 }
@@ -109,18 +107,10 @@ extension LearnerMainPageActiveTutorsSectionController: UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! ConnectionCell
         cell.growSemiShrink {
-            guard let uid = self.datasource[indexPath.item].uid else { return }
+            guard self.datasource.count > indexPath.item,
+                let uid = self.datasource[indexPath.item].uid else { return }
+            
             NotificationCenter.default.post(name: NotificationNames.LearnerMainFeed.activeTutorCellTapped, object: nil, userInfo: ["uid": uid])
         }
-    }
-}
-
-extension LearnerMainPageActiveTutorsSectionController: ConnectionCellDelegate {
-    func connectionCell(_ connectionCell: ConnectionCell, shouldShowConversationWith user: User) {
-        
-    }
-    
-    func connectionCell(_ connectionCell: ConnectionCell, shouldRequestSessionWith user: User) {
-        
     }
 }
