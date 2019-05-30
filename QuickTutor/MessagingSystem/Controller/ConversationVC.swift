@@ -566,6 +566,7 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
             return cell
         case .text:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! UserMessageCell
+            cell.bubbleView.backgroundColor = .clear
             cell.updateUI(message: message)
             cell.bubbleWidthAnchor?.constant = cell.textView.text.estimateFrameForFontSize(14).width + 30
             cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
