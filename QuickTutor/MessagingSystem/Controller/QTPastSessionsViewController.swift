@@ -114,6 +114,9 @@ class QTPastSessionsViewController: UIViewController {
                                 group.leave()
                                 return
                             }
+                        } else {
+                            group.leave()
+                            return
                         }
                     })
                 }
