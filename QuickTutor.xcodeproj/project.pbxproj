@@ -49,6 +49,10 @@
 		564B6C1E222D83D5004A9EB7 /* QTLocationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 564B6C1C222D83D5004A9EB7 /* QTLocationsViewController.xib */; };
 		564B6C22222D8891004A9EB7 /* QTLocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564B6C20222D8891004A9EB7 /* QTLocationTableViewCell.swift */; };
 		564B6C23222D8891004A9EB7 /* QTLocationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 564B6C21222D8891004A9EB7 /* QTLocationTableViewCell.xib */; };
+		564C429022A0259300FC8AE1 /* QTPastSessionSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564C428F22A0259300FC8AE1 /* QTPastSessionSectionHeaderView.swift */; };
+		564C429122A0259300FC8AE1 /* QTPastSessionSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564C428F22A0259300FC8AE1 /* QTPastSessionSectionHeaderView.swift */; };
+		564C429322A0293B00FC8AE1 /* QTPastSessionSectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 564C429222A0293B00FC8AE1 /* QTPastSessionSectionHeaderView.xib */; };
+		564C429422A0293B00FC8AE1 /* QTPastSessionSectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 564C429222A0293B00FC8AE1 /* QTPastSessionSectionHeaderView.xib */; };
 		564DD5BE2285C53F00912E36 /* QTRequestQuickCallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564DD5BC2285C53F00912E36 /* QTRequestQuickCallViewController.swift */; };
 		564DD5BF2285C53F00912E36 /* QTRequestQuickCallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564DD5BC2285C53F00912E36 /* QTRequestQuickCallViewController.swift */; };
 		564DD5C02285C53F00912E36 /* QTRequestQuickCallViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 564DD5BD2285C53F00912E36 /* QTRequestQuickCallViewController.xib */; };
@@ -1250,6 +1254,8 @@
 		564B6C1C222D83D5004A9EB7 /* QTLocationsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTLocationsViewController.xib; sourceTree = "<group>"; };
 		564B6C20222D8891004A9EB7 /* QTLocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTLocationTableViewCell.swift; sourceTree = "<group>"; };
 		564B6C21222D8891004A9EB7 /* QTLocationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTLocationTableViewCell.xib; sourceTree = "<group>"; };
+		564C428F22A0259300FC8AE1 /* QTPastSessionSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTPastSessionSectionHeaderView.swift; sourceTree = "<group>"; };
+		564C429222A0293B00FC8AE1 /* QTPastSessionSectionHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTPastSessionSectionHeaderView.xib; sourceTree = "<group>"; };
 		564DD5BC2285C53F00912E36 /* QTRequestQuickCallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTRequestQuickCallViewController.swift; sourceTree = "<group>"; };
 		564DD5BD2285C53F00912E36 /* QTRequestQuickCallViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTRequestQuickCallViewController.xib; sourceTree = "<group>"; };
 		5669A5CB229D8EE5007B3202 /* QTTutorPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorPolicyViewController.swift; sourceTree = "<group>"; };
@@ -1925,6 +1931,8 @@
 			children = (
 				561003C12243163600A4688F /* QTPastSessionTableViewCell.swift */,
 				561003C22243163600A4688F /* QTPastSessionTableViewCell.xib */,
+				564C428F22A0259300FC8AE1 /* QTPastSessionSectionHeaderView.swift */,
+				564C429222A0293B00FC8AE1 /* QTPastSessionSectionHeaderView.xib */,
 			);
 			path = SubViews;
 			sourceTree = "<group>";
@@ -3794,6 +3802,7 @@
 				569F18D1223554FD00820A20 /* languages.txt in Resources */,
 				561003BF2242D23600A4688F /* QTPastSessionsViewController.xib in Resources */,
 				569F19092235564000820A20 /* GoogleService-Info.plist in Resources */,
+				564C429422A0293B00FC8AE1 /* QTPastSessionSectionHeaderView.xib in Resources */,
 				569F18D2223554FD00820A20 /* Lato-Bold.ttf in Resources */,
 				BE817220229C724A0089FA1E /* quickcalls_ringtone.mp3 in Resources */,
 				561003B92242BCC100A4688F /* QTInPersonSessionViewController.xib in Resources */,
@@ -3897,6 +3906,7 @@
 				8423F73F214B60E900B3E4D0 /* languages.txt in Resources */,
 				561003BE2242D23600A4688F /* QTPastSessionsViewController.xib in Resources */,
 				56DC6D9C220BD7DF00935F47 /* Lato-Bold.ttf in Resources */,
+				564C429322A0293B00FC8AE1 /* QTPastSessionSectionHeaderView.xib in Resources */,
 				56DC6D9D220BD7DF00935F47 /* Lato-BoldItalic.ttf in Resources */,
 				BE81721F229C724A0089FA1E /* quickcalls_ringtone.mp3 in Resources */,
 				561003B72242A9AF00A4688F /* QTInPersonSessionViewController.xib in Resources */,
@@ -4615,6 +4625,7 @@
 				569F181A223554FD00820A20 /* EmailVCView.swift in Sources */,
 				569F181D223554FD00820A20 /* TutorCardConnectView.swift in Sources */,
 				569F181E223554FD00820A20 /* SubjectSearchTableViewHeader.swift in Sources */,
+				564C429122A0259300FC8AE1 /* QTPastSessionSectionHeaderView.swift in Sources */,
 				569F181F223554FD00820A20 /* KeyboardFrameObserversManager.swift in Sources */,
 				569F1821223554FD00820A20 /* DynamicLinkFactory.swift in Sources */,
 				561003B82242A9BB00A4688F /* QTInPersonSessionViewController.swift in Sources */,
@@ -5099,6 +5110,7 @@
 				844FECF6210F97CD00C1797B /* SubjectSearchTableViewHeader.swift in Sources */,
 				CF24997B217E926500614AF0 /* KeyboardFrameObserversManager.swift in Sources */,
 				CF6F58F1205EE6B300ACBD32 /* DynamicLinkFactory.swift in Sources */,
+				564C429022A0259300FC8AE1 /* QTPastSessionSectionHeaderView.swift in Sources */,
 				561003B62242A9AF00A4688F /* QTInPersonSessionViewController.swift in Sources */,
 				CF6F58C0205EE68800ACBD32 /* UserMessageCell.swift in Sources */,
 				84F245181FDA1127006447A8 /* TutorBioVC.swift in Sources */,
