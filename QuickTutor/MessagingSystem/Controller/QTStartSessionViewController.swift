@@ -22,7 +22,7 @@ enum QTSessionStartType: String {
     case manual
 }
 
-class QTStartSessionViewController: UIViewController {
+class QTStartSessionViewController: QTSessionBaseViewController {
 
     // MARK: - Properties
     @IBOutlet weak var avatarImageView: UIImageView!
@@ -120,6 +120,9 @@ class QTStartSessionViewController: UIViewController {
     func setupObservers() {
         socket.on(SocketEvents.manualStartAccetped) { _, _ in
             if self.sessionType == .online {
+                // Update the session start time.
+                self.updateSessionStartTime(sessionId: self.sessionId)
+                
                 let vc = QTVideoSessionViewController.controller
                 vc.sessionId = self.sessionId
                 vc.sessionType = self.sessionType

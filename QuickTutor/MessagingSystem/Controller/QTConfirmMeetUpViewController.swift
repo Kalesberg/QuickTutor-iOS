@@ -12,7 +12,7 @@ import AVFoundation
 import Firebase
 import SocketIO
 
-class QTConfirmMeetUpViewController: UIViewController {
+class QTConfirmMeetUpViewController: QTSessionBaseViewController {
 
     // MARK: - Properties
     @IBOutlet weak var avatarImageView: UIImageView!
@@ -283,6 +283,9 @@ class QTConfirmMeetUpViewController: UIViewController {
     }
     
     func proceedToSession() {
+        // Update the session start time.
+        self.updateSessionStartTime(sessionId: self.sessionId)
+        
         let vc = QTInPersonSessionViewController.controller
         vc.sessionId = sessionId
         navigationController?.pushViewController(vc, animated: true)
