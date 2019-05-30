@@ -28,6 +28,7 @@ class SessionRequest {
     var senderId: String
     var receiverId: String
     var paymentType: QTSessionPaymentType = .hour
+    var duration: Int
     var type: String
     var receiverAccountType: String?
 
@@ -45,6 +46,7 @@ class SessionRequest {
         dictionary["receiverId"] = receiverId
         dictionary["type"] = type
         dictionary["paymentType"] = paymentType.rawValue
+        dictionary["duration"] = duration
         dictionary["receiverAccountType"] = receiverAccountType
         return dictionary
     }
@@ -65,6 +67,7 @@ class SessionRequest {
         } else {
             paymentType = .hour
         }
+        duration = data["duration"] as? Int ?? 0
         type = data["type"] as? String ?? ""
         receiverAccountType = data["receiverAccountType"] as? String
         if isExpired() {

@@ -21,6 +21,7 @@ class Session: Codable {
     var cost: Double
     var type: String
     var paymentType: String
+    var duration: Int
     var status: String
     var runTime: Int
 
@@ -37,6 +38,7 @@ class Session: Codable {
         cost = dictionary["cost"] as? Double ?? 0
         runTime = dictionary["runTime"] as? Int ?? 0
         paymentType = dictionary["paymentType"] as? String ?? QTSessionPaymentType.hour.rawValue
+        duration = dictionary["duration"] as? Int ?? 1200
         self.id = id
     }
 
@@ -65,4 +67,12 @@ class Session: Codable {
     }
 
     func cancel() {}
+    
+    var sessionPrice: Double {
+        if .learner == AccountService.shared.currentUserType {
+            return (price + 0.3) / 0.971
+        }
+        
+        return price
+    }
 }

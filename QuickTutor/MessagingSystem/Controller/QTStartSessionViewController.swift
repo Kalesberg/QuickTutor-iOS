@@ -238,9 +238,8 @@ class QTStartSessionViewController: QTSessionBaseViewController {
     
     func getDurationAndHourlyRate(session: Session?) -> String? {
         guard let session = session else { return nil}
-        let lengthInSeconds = session.endTime - session.startTime
-        let lengthInMinutes = Int(lengthInSeconds / 60)
-        return "\(Int(lengthInMinutes)) \(lengthInMinutes == 1 ? "Min" : "Mins"), $\(Int(session.price))"
+        let lengthInMinutes = Int(session.duration / 60)
+        return "\(Int(lengthInMinutes)) \(lengthInMinutes == 1 ? "Min" : "Mins"), $\(String(format: "%.2f", session.sessionPrice))"
     }
     
     func removeStartData() {

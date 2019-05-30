@@ -129,6 +129,7 @@ class SessionRequestVC: UIViewController {
         sessionData["senderId"] = uid
         sessionData["receiverId"] = tutor.uid
         sessionData["paymentType"] = paymentType.rawValue
+        sessionData["duration"] = duration * 60 // sec
         guard let _ = sessionData["subject"], let _ = sessionData["date"], let _ = sessionData["startTime"], let _ = sessionData["endTime"], let _ = sessionData["type"], let _ = sessionData["price"] else {
             return
         }
@@ -198,7 +199,6 @@ extension SessionRequestVC: SessionRequestTutorViewDelegate {
     
     func tutorView(_ tutorView: SessionRequestTutorView, didChoose tutor: AWTutor) {
         tutorView.tutorCell.isHidden = false
-        tutorView.tutorSelectView.isHidden = true
         self.tutor = tutor
         contentView.tutorView.tutorCell.updateUI(user: tutor)
     }
@@ -206,7 +206,6 @@ extension SessionRequestVC: SessionRequestTutorViewDelegate {
     func updateTutorViewAsChosen() {
         guard let tutor = tutor else { return }
         contentView.tutorView.tutorCell.isHidden = false
-        contentView.tutorView.tutorSelectView.isHidden = true
         contentView.tutorView.tutorCell.updateUI(user: tutor)
     }
     

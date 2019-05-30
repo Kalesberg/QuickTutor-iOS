@@ -747,8 +747,7 @@ class PostSessionHelper {
             return nil
         }
         
-        let duration = QTSessionPaymentType.session.rawValue == session.paymentType ? session.endTime - session.startTime : 3600
-        let cost = calculateCostOfSession(price: session.price, runtime: session.runTime, duration: duration)
+        let cost = calculateCostOfSession(price: session.price, runtime: session.runTime, duration: session.duration)
         
         let vc = QTRatingReviewViewController.controller
         vc.session = session
@@ -757,9 +756,9 @@ class PostSessionHelper {
         return vc
     }
     
-    private func calculateCostOfSession(price: Double, runtime: Int, duration: Double) -> Double {
+    private func calculateCostOfSession(price: Double, runtime: Int, duration: Int) -> Double {
         let minimumSessionPrice = 5.0
-        let cost = price / duration * Double(runtime)
+        let cost = price / Double(duration) * Double(runtime)
         return cost < minimumSessionPrice ? minimumSessionPrice : round(cost * 1000) / 1000
     }
 }

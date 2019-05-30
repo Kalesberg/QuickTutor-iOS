@@ -125,30 +125,17 @@ class SessionManager {
     }
 
     func getFormattedRuntimeString() -> String {
-        let hours = sessionRuntime / 60 / 60
-        let minutes = (sessionRuntime - hours * 60 * 60) / 60
-        let seconds = sessionRuntime - (sessionRuntime - hours * 60 * 60) - (sessionRuntime - minutes * 60)
-        let secondsString = String(seconds)
-        var decimalPlaceString = ""
-        print(secondsString)
-        if secondsString.count == 2 {
-            decimalPlaceString = "0"
-        }
+        let hours = Int(sessionRuntime / 3600)
+        let minutes = Int((sessionRuntime % 3600) / 60)
+        let seconds = Int((sessionRuntime % 3600) % 60)
         
-        var minuteString: String
-        if minutes == 0 {
-            minuteString = "\(minutes)0"
+        if 0 < hours {
+            return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+        } else if 0 < minutes {
+            return String(format: "%d:%02d", minutes, seconds)
         } else {
-            minuteString = "\(minutes)"
+            return String(format: "%02d:%02d", minutes, seconds)
         }
-        
-        var timeString: String
-        if hours == 0 {
-            timeString = "\(minutes):\(decimalPlaceString)\(seconds * -1)"
-        } else {
-            timeString = "\(hours):\(minutes):\(decimalPlaceString)\(seconds * -1)"
-        }
-        return timeString
     }
     
     func sessionRuntimeExpired() -> Bool {
