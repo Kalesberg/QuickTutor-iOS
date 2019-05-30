@@ -300,11 +300,6 @@ class BaseSessionStartVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        #if targetEnvironment(simulator)
-        // for sim only
-        #else
-        guard checkPermissions() else { return }
-        #endif
         NotificationManager.shared.disableAllNotifications()
     }
     
@@ -312,45 +307,5 @@ class BaseSessionStartVC: UIViewController {
         navigationController?.navigationBar.barTintColor = Colors.navBarColor
         socket.disconnect()
         NotificationManager.shared.enableAllNotifcations()
-    }
-    
-    func checkPermissions() -> Bool {
-        if checkCameraAccess() && checkMicrophoneAccess() {
-            return true
-        } else {
-            return false
-        }
-    }
-
-    func checkCameraAccess() -> Bool {
-        if AVCaptureDevice.authorizationStatus(for: .video) == .authorized {
-            return true
-        } else {
-            let alert = UIAlertController(title: "Camera Required", message: "Camera access is required for video sessions.", preferredStyle: .alert)
-
-            // Add "OK" Button to alert, pressing it will bring you to the settings app
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
-                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
-            }))
-            // Show the alert with animation
-            present(alert, animated: true)
-            return false
-        }
-    }
-
-    func checkMicrophoneAccess() -> Bool {
-        if AVCaptureDevice.authorizationStatus(for: .audio) == .authorized {
-            return true
-        } else {
-            let alert = UIAlertController(title: "Microphone Required", message: "Microphone access is required for video sessions", preferredStyle: .alert)
-
-            // Add "OK" Button to alert, pressing it will bring you to the settings app
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
-                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
-            }))
-            // Show the alert with animation
-            present(alert, animated: true)
-            return false
-        }
     }
 }

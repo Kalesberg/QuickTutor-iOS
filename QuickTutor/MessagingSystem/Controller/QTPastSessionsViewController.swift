@@ -30,7 +30,6 @@ class QTPastSessionsViewController: UIViewController {
         super.viewDidLoad()
         initControls()
         fetchSessions()
-        setupNavBar()
     }
 
     override func viewWillAppear(_ animated: Bool) {
