@@ -41,20 +41,20 @@
                         </userDefinedRuntimeAttributes>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yzR-Mu-BDg">
-                        <rect key="frame" x="90" y="23.5" width="63.5" height="17"/>
-                        <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="14"/>
+                        <rect key="frame" x="90" y="23.5" width="72.5" height="19.5"/>
+                        <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="16"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="subject" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1H4-b1-Ly0">
-                        <rect key="frame" x="90" y="45.5" width="38.5" height="15"/>
-                        <fontDescription key="fontDescription" name="Lato-Medium" family="Lato" pointSize="12"/>
-                        <color key="textColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <rect key="frame" x="90" y="48" width="44.5" height="17"/>
+                        <fontDescription key="fontDescription" name="Lato-Medium" family="Lato" pointSize="14"/>
+                        <color key="textColor" red="0.3921568627" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="duration" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="frN-i9-3zT">
-                        <rect key="frame" x="239" y="45.5" width="45" height="15"/>
-                        <fontDescription key="fontDescription" name="Lato-Medium" family="Lato" pointSize="12"/>
+                        <rect key="frame" x="231.5" y="48" width="52.5" height="17"/>
+                        <fontDescription key="fontDescription" name="Lato-Medium" family="Lato" pointSize="14"/>
                         <color key="textColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
