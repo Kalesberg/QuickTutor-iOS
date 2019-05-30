@@ -136,7 +136,7 @@ class QTRatingReviewViewController: UIViewController {
                         self.hasPaid = false
                     } else {
                         self.hasPaid = true
-                        PostSessionManager.shared.setUnfinishedFlag(sessionId: (self.session?.id)!, status: SessionStatus.paymentCharged)
+                        PostSessionManager.shared.setUnfinishedFlag(sessionId: (self.session?.id)!, status: .paymentCharged)
                         self.finishAndUpload()
                         self.currentStep = self.currentStep + 1
                         self.collectionView.scrollToItem(at: IndexPath(item: self.currentStep, section: 0), at: .centeredHorizontally, animated: true)
