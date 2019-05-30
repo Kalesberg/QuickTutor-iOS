@@ -137,7 +137,7 @@ extension UIViewController {
         }
     }
     
-	func displayLoadingOverlay() {
+    func displayLoadingOverlay(verticalOffset: CGFloat = 0) {
 		if let _ = self.view.viewWithTag(69)  {
 			return
 		}
@@ -146,7 +146,7 @@ extension UIViewController {
 		let loadingView : LOTAnimationView = LOTAnimationView(name: "loadingNew")
         
         loadingView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        loadingView.center = self.view.center
+        loadingView.center = self.view.center.applying(CGAffineTransform(translationX: 0, y: verticalOffset))
         loadingView.contentMode = .scaleAspectFill
         loadingView.loopAnimation = true
         loadingView.tag = 69
