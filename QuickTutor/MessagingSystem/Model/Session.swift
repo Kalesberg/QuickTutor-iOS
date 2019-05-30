@@ -39,7 +39,23 @@ class Session: Codable {
         paymentType = dictionary["paymentType"] as? String ?? QTSessionPaymentType.hour.rawValue
         self.id = id
     }
-
+    
+    init(_ session: Session) {
+        senderId = session.senderId
+        receiverId = session.receiverId
+        startTime = session.startTime
+        endTime = session.startTime
+        date = session.date
+        price = session.price
+        type = session.type
+        status = session.status
+        subject = session.subject
+        cost = session.cost
+        runTime = session.runTime
+        paymentType = session.paymentType
+        id = session.id
+    }
+    
     func lengthInMinutes() -> Double {
         let lengthInSeconds = endTime - startTime
         print(lengthInSeconds)
