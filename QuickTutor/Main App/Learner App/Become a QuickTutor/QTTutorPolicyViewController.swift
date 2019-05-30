@@ -65,11 +65,11 @@ class QTTutorPolicyViewController: UIViewController {
     
     // MARK: - Functions
     func createConnectAccount(_ completion: @escaping (Bool) -> Void) {
-        Stripe.createConnectAccountToken(ssn: TutorRegistration.ssn!, line1: TutorRegistration.line1, city: TutorRegistration.city, state: TutorRegistration.state, zipcode: TutorRegistration.zipcode) { token, error in
+        StripeService.createConnectAccountToken(ssn: TutorRegistration.ssn!, line1: TutorRegistration.line1, city: TutorRegistration.city, state: TutorRegistration.state, zipcode: TutorRegistration.zipcode) { token, error in
             if let error = error {
                 AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
             } else if let token = token {
-                Stripe.createConnectAccount(bankAccountToken: TutorRegistration.bankToken!, connectAccountToken: token, { error, value in
+                StripeService.createConnectAccount(bankAccountToken: TutorRegistration.bankToken!, connectAccountToken: token, { error, value in
                     if let error = error {
                         AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
                         return completion(false)
@@ -88,7 +88,7 @@ class QTTutorPolicyViewController: UIViewController {
         FirebaseData.manager.fetchTutor(CurrentUser.shared.learner.uid!, isQuery: false) { tutor in
             if let tutor = tutor {
                 CurrentUser.shared.tutor = tutor
-                Stripe.retrieveConnectAccount(acctId: tutor.acctId, { error, account in
+                StripeService.retrieveConnectAccount(acctId: tutor.acctId, { error, account in
                     if let error = error {
                         AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
                         completion(false)

@@ -10,9 +10,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="Lato-Black.ttf">
-            <string>Lato-Black</string>
-        </array>
         <array key="Lato-Semibold.ttf">
             <string>Lato-Semibold</string>
         </array>
@@ -25,38 +22,21 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cards" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mGJ-KL-9HH">
-                    <rect key="frame" x="20" y="0.0" width="92" height="60"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="92" id="DM3-bd-fvD"/>
-                    </constraints>
+                    <rect key="frame" x="20" y="26" width="38" height="18"/>
                     <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="15"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rFx-zl-nRi">
-                    <rect key="frame" x="296" y="8" width="59" height="44"/>
-                    <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="14"/>
-                    <state key="normal" title="Add New">
-                        <color key="titleColor" red="0.3921568627" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </state>
-                    <connections>
-                        <action selector="tappedAddNewButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="soP-GB-vgr"/>
-                    </connections>
-                </button>
             </subviews>
             <color key="backgroundColor" red="0.10588235294117647" green="0.10588235294117647" blue="0.14901960784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="mGJ-KL-9HH" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="UgN-kv-OKa"/>
                 <constraint firstItem="mGJ-KL-9HH" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="WvE-Pu-aof"/>
-                <constraint firstAttribute="bottom" secondItem="mGJ-KL-9HH" secondAttribute="bottom" id="Z7H-DM-HOe"/>
-                <constraint firstItem="rFx-zl-nRi" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="kuh-V1-E7N"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="rFx-zl-nRi" secondAttribute="trailing" constant="20" id="qRd-Jq-MtZ"/>
-                <constraint firstAttribute="bottom" secondItem="rFx-zl-nRi" secondAttribute="bottom" constant="8" id="z8Y-dF-BmZ"/>
+                <constraint firstItem="mGJ-KL-9HH" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="k6M-HG-ohT"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="mGJ-KL-9HH" secondAttribute="trailing" constant="20" id="uEM-8L-yZE"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
-                <outlet property="addNewButton" destination="rFx-zl-nRi" id="sGo-UP-TfI"/>
                 <outlet property="headerLabel" destination="mGJ-KL-9HH" id="TdQ-lb-IK2"/>
             </connections>
             <point key="canvasLocation" x="-89.130434782608702" y="-19.419642857142858"/>

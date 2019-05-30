@@ -16,11 +16,14 @@ public struct Constants {
     static let DATABASE_URL = "https://quicktutor-dev.firebaseio.com/"
     static let STORAGE_URL = "gs://quicktutor-dev.appspot.com"
     static let API_BASE_URL = "https://us-central1-quicktutor-dev.cloudfunctions.net/api"
+    static let STRIPE_PUBLISH_KEY = "pk_test_TtFmn5n1KhfNPgXXoGfg3O97"
     #else
     static let DATABASE_URL = "https://quicktutor-3c23b.firebaseio.com/"
     static let STORAGE_URL = "gs://quicktutor-3c23b.appspot.com"
     static let API_BASE_URL = "https://us-central1-quicktutor-3c23b.cloudfunctions.net/api"
+    static let STRIPE_PUBLISH_KEY = "pk_live_D8MI9AN23eK4XLw1mCSUHi9V"
     #endif
+    static let APPLE_PAY_MERCHANT_ID = "merchant.com.quicktutor"
     
     static var showSwipeTutorial : Bool = false
     static var showMainPageTutorial : Bool = false

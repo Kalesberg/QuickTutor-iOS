@@ -101,7 +101,7 @@ class CardService {
             return
         }
         
-        Stripe.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { customer, error in
+        StripeService.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { customer, error in
             if error == nil {
                 guard let customer = customer, let cards = customer.sources as? [STPCard] else {
                     return

@@ -264,16 +264,13 @@ class QTRatingReviewViewController: UIViewController {
         let fee = calculateFee(costWithTip)
         self.displayLoadingOverlay()
         checkSessionUsers(tutorId: tutorId, learnerId: learnerId) { learnerInfluencerId, tutorInfluencerId, error in
-            Stripe.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { (customer, error) in
-                if let error = error {
-                    self.dismissOverlay()
-                    completion(error)
-                } else if let customer = customer {
+            StripeService.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { (customer, error) in
+                if let customer = customer {
                     guard let card = customer.defaultSource?.stripeID else {
                         self.dismissOverlay()
                         return completion(StripeError.createChargeError)
                     }
-                    Stripe.destinationCharge(acctId: self.tutor.acctId,
+                    StripeService.destinationCharge(acctId: self.tutor.acctId,
                                              customerId: learnerId,
                                              customerStripeId: customer.stripeID,
                                              sourceId: card,
@@ -290,6 +287,9 @@ class QTRatingReviewViewController: UIViewController {
                         }
                         self.dismissOverlay()
                     })
+                } else {
+                    self.dismissOverlay()
+                    completion(error)
                 }
             }
         }

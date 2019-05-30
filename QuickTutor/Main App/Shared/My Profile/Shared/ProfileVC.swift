@@ -276,7 +276,7 @@ extension ProfileVC: ProfileModeToggleViewDelegate {
                 return completion(false)
             }
             CurrentUser.shared.tutor = tutor
-            Stripe.retrieveConnectAccount(acctId: tutor.acctId, { error, account in
+            StripeService.retrieveConnectAccount(acctId: tutor.acctId, { error, account in
                 if let error = error {
                     AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
                     return completion(false)

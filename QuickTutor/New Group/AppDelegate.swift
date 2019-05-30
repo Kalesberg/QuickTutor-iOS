@@ -52,11 +52,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         DeviceInfo.textFieldFontSize = fontSize
         DeviceInfo.multiplier = multiplier
         // Stripe
-#if DEVELOPMENT
-        STPPaymentConfiguration.shared().publishableKey = "pk_test_TtFmn5n1KhfNPgXXoGfg3O97"
-#else
-        STPPaymentConfiguration.shared().publishableKey = "pk_live_D8MI9AN23eK4XLw1mCSUHi9V"
-#endif
+        #if DEVELOPMENT
+        STPPaymentConfiguration.shared().publishableKey = Constants.STRIPE_PUBLISH_KEY
+        #else
+        STPPaymentConfiguration.shared().publishableKey = Constants.STRIPE_PUBLISH_KEY
+        #endif
+        STPPaymentConfiguration.shared().appleMerchantIdentifier = Constants.APPLE_PAY_MERCHANT_ID
         
         UITextField.appearance().keyboardAppearance = .dark
         let backImage = UIImage(named: "ic_back_arrow")

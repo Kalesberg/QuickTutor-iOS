@@ -8,7 +8,7 @@
 import Stripe
 import Alamofire
 
-class Stripe {
+class StripeService {
 	
 	private init() {
 		print("Stripe initialized.")

@@ -31,14 +31,14 @@
                         <rect key="frame" x="20" y="10" width="280" height="44"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="b0M-zl-j6j">
-                                <rect key="frame" x="15" y="6" width="55" height="28"/>
+                                <rect key="frame" x="15" y="7" width="48" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="55" id="pGx-5I-Foj"/>
-                                    <constraint firstAttribute="height" constant="28" id="uFb-km-bDf"/>
+                                    <constraint firstAttribute="width" secondItem="b0M-zl-j6j" secondAttribute="height" multiplier="8:5" id="mtE-g6-C4Q"/>
+                                    <constraint firstAttribute="width" constant="48" id="pGx-5I-Foj"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="•••• 1234" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MGS-ag-Pgt">
-                                <rect key="frame" x="80" y="15" width="58" height="14"/>
+                                <rect key="frame" x="73" y="15" width="58" height="14"/>
                                 <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="12"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -47,7 +47,7 @@
                                 <rect key="frame" x="210" y="11" width="55" height="22"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="55" id="uRs-UA-ADK"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="55" id="uRs-UA-ADK"/>
                                     <constraint firstAttribute="height" constant="22" id="wb3-Q8-pLU"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="10"/>
@@ -72,8 +72,9 @@
                         <constraints>
                             <constraint firstItem="6WA-87-TQl" firstAttribute="centerY" secondItem="uPU-Q7-4tF" secondAttribute="centerY" id="FvM-oR-ow4"/>
                             <constraint firstAttribute="trailing" secondItem="6WA-87-TQl" secondAttribute="trailing" constant="15" id="JIo-If-mjF"/>
-                            <constraint firstItem="b0M-zl-j6j" firstAttribute="centerY" secondItem="uPU-Q7-4tF" secondAttribute="centerY" constant="-2" id="Khn-MZ-JM3"/>
+                            <constraint firstItem="b0M-zl-j6j" firstAttribute="centerY" secondItem="uPU-Q7-4tF" secondAttribute="centerY" id="Khn-MZ-JM3"/>
                             <constraint firstAttribute="height" constant="44" id="LHj-wb-dEK"/>
+                            <constraint firstItem="6WA-87-TQl" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="MGS-ag-Pgt" secondAttribute="trailing" constant="10" id="Zc6-NI-uFw"/>
                             <constraint firstItem="MGS-ag-Pgt" firstAttribute="leading" secondItem="b0M-zl-j6j" secondAttribute="trailing" constant="10" id="k5V-Ds-Diu"/>
                             <constraint firstItem="b0M-zl-j6j" firstAttribute="leading" secondItem="uPU-Q7-4tF" secondAttribute="leading" constant="15" id="mcw-rx-pzm"/>
                             <constraint firstItem="MGS-ag-Pgt" firstAttribute="centerY" secondItem="uPU-Q7-4tF" secondAttribute="centerY" id="yaT-Qh-qyy"/>

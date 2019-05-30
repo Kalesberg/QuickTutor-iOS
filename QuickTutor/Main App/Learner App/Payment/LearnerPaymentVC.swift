@@ -570,7 +570,7 @@ class LearnerPaymentVC: BaseViewController {
 
         } else {
             displayLoadingOverlay()
-            Stripe.attachSource(cusID: CurrentUser.shared.learner.customer, adding: card, completion: { response in
+            StripeService.attachSource(cusID: CurrentUser.shared.learner.customer, adding: card, completion: { response in
                 if let response = response {
                     AlertController.genericErrorAlert(self, title: "Error Processing Card", message: response)
                     self.contentView.nextButton.isUserInteractionEnabled = true

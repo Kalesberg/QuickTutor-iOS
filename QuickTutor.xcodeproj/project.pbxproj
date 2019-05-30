@@ -189,7 +189,7 @@
 		569F1720223554FD00820A20 /* BaseSessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1E43C8207067860033F845 /* BaseSessionCell.swift */; };
 		569F1721223554FD00820A20 /* TutorExtendedReviewsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84812652217820E800B99BED /* TutorExtendedReviewsVC.swift */; };
 		569F1723223554FD00820A20 /* RatingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8451FB53213EF14E00F86DC5 /* RatingCell.swift */; };
-		569F1725223554FD00820A20 /* Stripe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849029871FF70F4600A4A1D7 /* Stripe.swift */; };
+		569F1725223554FD00820A20 /* StripeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849029871FF70F4600A4A1D7 /* StripeService.swift */; };
 		569F1726223554FD00820A20 /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3FF6EE20B0F57600E2928C /* ConversationCell.swift */; };
 		569F1727223554FD00820A20 /* PauseSessionModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF360D39208D48DB0096617C /* PauseSessionModal.swift */; };
 		569F1728223554FD00820A20 /* EmptyConversationBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0711022117AEC00035A6FF /* EmptyConversationBackground.swift */; };
@@ -740,7 +740,7 @@
 		848E87E62043EB5D007935BE /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848E87E52043EB5D007935BE /* UIViewExtensions.swift */; };
 		848E91FC20A60C13002D22AA /* CloseAccountSubmissionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848E91FB20A60C13002D22AA /* CloseAccountSubmissionVC.swift */; };
 		848F83282009B4CC0099D997 /* MainLayoutViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848F83272009B4CC0099D997 /* MainLayoutViews.swift */; };
-		849029881FF70F4600A4A1D7 /* Stripe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849029871FF70F4600A4A1D7 /* Stripe.swift */; };
+		849029881FF70F4600A4A1D7 /* StripeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849029871FF70F4600A4A1D7 /* StripeService.swift */; };
 		8491C29B1FBE62350036FC12 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8491C29A1FBE62350036FC12 /* AppDelegate.swift */; };
 		8491C2A31FBE62350036FC12 /* QuickTutor.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8491C2A11FBE62350036FC12 /* QuickTutor.xcdatamodeld */; };
 		8491C2A81FBE62350036FC12 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8491C2A61FBE62350036FC12 /* LaunchScreen.storyboard */; };
@@ -1451,7 +1451,7 @@
 		848E87E52043EB5D007935BE /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		848E91FB20A60C13002D22AA /* CloseAccountSubmissionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseAccountSubmissionVC.swift; sourceTree = "<group>"; };
 		848F83272009B4CC0099D997 /* MainLayoutViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainLayoutViews.swift; sourceTree = "<group>"; };
-		849029871FF70F4600A4A1D7 /* Stripe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stripe.swift; sourceTree = "<group>"; };
+		849029871FF70F4600A4A1D7 /* StripeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripeService.swift; sourceTree = "<group>"; };
 		8491C2971FBE62350036FC12 /* QuickTutor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuickTutor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8491C29A1FBE62350036FC12 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8491C2A21FBE62350036FC12 /* QuickTutor.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = QuickTutor.xcdatamodel; sourceTree = "<group>"; };
@@ -2618,7 +2618,7 @@
 			isa = PBXGroup;
 			children = (
 				84C9C00E20A23751000DE1C9 /* Model */,
-				849029871FF70F4600A4A1D7 /* Stripe.swift */,
+				849029871FF70F4600A4A1D7 /* StripeService.swift */,
 			);
 			path = Stripe;
 			sourceTree = "<group>";
@@ -3712,6 +3712,9 @@
 					569F16CE223554FD00820A20 = {
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
+							com.apple.ApplePay = {
+								enabled = 1;
+							};
 							com.apple.SafariKeychain = {
 								enabled = 1;
 							};
@@ -3725,6 +3728,9 @@
 						LastSwiftMigration = 1020;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
+							com.apple.ApplePay = {
+								enabled = 1;
+							};
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
 							};
@@ -4404,7 +4410,7 @@
 				569F1720223554FD00820A20 /* BaseSessionCell.swift in Sources */,
 				569F1721223554FD00820A20 /* TutorExtendedReviewsVC.swift in Sources */,
 				569F1723223554FD00820A20 /* RatingCell.swift in Sources */,
-				569F1725223554FD00820A20 /* Stripe.swift in Sources */,
+				569F1725223554FD00820A20 /* StripeService.swift in Sources */,
 				56C889E4228E5FDB008D155D /* QTStartQuickCallViewController.swift in Sources */,
 				CFCE90AE226524D400CBB1AD /* LearnerMainPaigeTopTutorsController.swift in Sources */,
 				CFCE90B1226524E200CBB1AD /* LeanerMainPageNavigationHelper.swift in Sources */,
@@ -4891,7 +4897,7 @@
 				84812653217820E800B99BED /* TutorExtendedReviewsVC.swift in Sources */,
 				8451FB54213EF14E00F86DC5 /* RatingCell.swift in Sources */,
 				CF4C7895226080F700478D83 /* LeanerMainPageNavigationHelper.swift in Sources */,
-				849029881FF70F4600A4A1D7 /* Stripe.swift in Sources */,
+				849029881FF70F4600A4A1D7 /* StripeService.swift in Sources */,
 				CF3FF6F020B0F60B00E2928C /* ConversationCell.swift in Sources */,
 				CF360D3A208D48DB0096617C /* PauseSessionModal.swift in Sources */,
 				CFE18F9F2118F6F2000816C4 /* EmptyConversationBackground.swift in Sources */,
