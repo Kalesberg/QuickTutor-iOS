@@ -12,7 +12,7 @@ import AVFoundation
 import Firebase
 import SocketIO
 
-class QTConfirmMeetUpViewController: UIViewController {
+class QTConfirmMeetUpViewController: QTSessionBaseViewController {
 
     // MARK: - Properties
     @IBOutlet weak var avatarImageView: UIImageView!
@@ -207,11 +207,6 @@ class QTConfirmMeetUpViewController: UIViewController {
     }
     
     func confirmManualStart() {
-        #if targetEnvironment(simulator)
-        // for sim only
-        #else
-        guard checkPermissions() else { return }
-        #endif
         removeStartData()
         let data = ["roomKey": sessionId!, "sessionId": sessionId!, "sessionType": (session?.type)!]
         socket.emit(SocketEvents.manualStartAccetped, data)
@@ -236,46 +231,6 @@ class QTConfirmMeetUpViewController: UIViewController {
         
     }
     
-    func checkPermissions() -> Bool {
-        if checkCameraAccess() && checkMicrophoneAccess() {
-            return true
-        } else {
-            return false
-        }
-    }
-    
-    func checkCameraAccess() -> Bool {
-        if AVCaptureDevice.authorizationStatus(for: .video) == .authorized {
-            return true
-        } else {
-            let alert = UIAlertController(title: "Camera Required", message: "Camera access is required for video sessions.", preferredStyle: .alert)
-            
-            // Add "OK" Button to alert, pressing it will bring you to the settings app
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
-                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
-            }))
-            // Show the alert with animation
-            present(alert, animated: true)
-            return false
-        }
-    }
-    
-    func checkMicrophoneAccess() -> Bool {
-        if AVCaptureDevice.authorizationStatus(for: .audio) == .authorized {
-            return true
-        } else {
-            let alert = UIAlertController(title: "Microphone Required", message: "Microphone access is required for video sessions", preferredStyle: .alert)
-            
-            // Add "OK" Button to alert, pressing it will bring you to the settings app
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
-                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
-            }))
-            // Show the alert with animation
-            present(alert, animated: true)
-            return false
-        }
-    }
-    
     func removeStartData() {
         guard let uid = Auth.auth().currentUser?.uid, let sessionId = session?.id, let partnerId = partnerId else { return }
         Database.database().reference().child("sessionStarts").child(uid).child(sessionId).removeValue()
@@ -283,6 +238,9 @@ class QTConfirmMeetUpViewController: UIViewController {
     }
     
     func proceedToSession() {
+        // Update the session start time.
+        self.updateSessionStartTime(sessionId: self.sessionId)
+        
         let vc = QTInPersonSessionViewController.controller
         vc.sessionId = sessionId
         navigationController?.pushViewController(vc, animated: true)

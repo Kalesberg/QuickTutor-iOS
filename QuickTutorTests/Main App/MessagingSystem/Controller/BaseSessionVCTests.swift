@@ -10,12 +10,10 @@ import XCTest
 @testable import QuickTutor
 
 class BaseSessionVCTests: XCTestCase {
-    var baseSessionVC: BaseSessionVC!
     var postSessionHelper: PostSessionHelper!
 
     override func setUp() {
         super.setUp()
-        baseSessionVC = BaseSessionVC()
         postSessionHelper = PostSessionHelper()
     }
     

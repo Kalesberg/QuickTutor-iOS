@@ -75,8 +75,7 @@ class QTRatingReviewViewController: UIViewController {
         }
         
         Database.database().reference().child("sessions").child(sessionId).child("cost").setValue(costOfSession)
-        Database.database().reference().child("sessions").child(sessionId).updateChildValues(["endedAt": Date().timeIntervalSince1970])
-
+        
         displayLoadingOverlay()
         
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleViewTap)))

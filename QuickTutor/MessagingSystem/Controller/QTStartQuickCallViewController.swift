@@ -54,7 +54,7 @@ class QTQuickCallDialogAnimator: NSObject, UIViewControllerAnimatedTransitioning
     }
 }
 
-class QTStartQuickCallViewController: UIViewController, QTStartQuickCallModalNavigation {
+class QTStartQuickCallViewController: QTSessionBaseViewController, QTStartQuickCallModalNavigation {
     
     @IBOutlet weak var avatarImageView: QTCustomImageView!
     @IBOutlet weak var usernameLabel: UILabel!
@@ -210,6 +210,9 @@ class QTStartQuickCallViewController: UIViewController, QTStartQuickCallModalNav
     func setupObservers() {
         socket.on(SocketEvents.manualStartAccetped) { _, _ in
             self.dismiss(animated: true, completion: {
+                // Update the session start time.
+                self.updateSessionStartTime(sessionId: self.sessionId)
+                
                 let vc = QTVideoSessionViewController.controller
                 vc.sessionId = self.sessionId
                 vc.sessionType = self.sessionType
