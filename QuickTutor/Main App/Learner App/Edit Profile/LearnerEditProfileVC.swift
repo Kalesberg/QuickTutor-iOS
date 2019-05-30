@@ -202,7 +202,10 @@ class TutorEditProfileVC: LearnerEditProfileVC {
         }
     }
     
-    override func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) as? EditProfileCell {
+            cell.flashCellLine()
+        }
         switch indexPath.section {
         case 2:
             switch indexPath.item {
@@ -660,7 +663,10 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
         }
     }
 
-    func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) as? EditProfileCell {
+            cell.flashCellLine()
+        }
         switch indexPath.section {
         case 2:
             switch indexPath.item {

@@ -675,6 +675,16 @@ class EditProfileCell: UITableViewCell {
         setupViews()
     }
     
+    func flashCellLine() {
+        UIView.animate(withDuration: 0.15, animations: {
+            self.textField.line.backgroundColor = .white
+        }) { (_) in
+            UIView.animate(withDuration: 0.15, animations: {
+                self.textField.line.backgroundColor = Colors.gray
+            })
+        }
+    }
+    
     override func prepareForReuse() {
         textField.isUserInteractionEnabled = true
     }
