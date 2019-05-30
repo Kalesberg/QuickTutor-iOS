@@ -20,6 +20,7 @@ class Session: Codable {
     var price: Double
     var cost: Double
     var type: String
+    var paymentType: String
     var status: String
     var runTime: Int
 
@@ -35,6 +36,7 @@ class Session: Codable {
         subject = dictionary["subject"] as? String ?? ""
         cost = dictionary["cost"] as? Double ?? 0
         runTime = dictionary["runTime"] as? Int ?? 0
+        paymentType = dictionary["paymentType"] as? String ?? QTSessionPaymentType.hour.rawValue
         self.id = id
     }
 

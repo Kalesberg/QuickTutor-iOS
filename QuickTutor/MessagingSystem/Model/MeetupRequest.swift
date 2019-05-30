@@ -11,6 +11,10 @@ import Foundation
 
 var sessionCache = [String: SessionRequest]()
 
+enum QTSessionPaymentType: String {
+    case session, hour
+}
+
 class SessionRequest {
     var subject: String
     var date: Double
@@ -23,6 +27,7 @@ class SessionRequest {
     var id: String?
     var senderId: String
     var receiverId: String
+    var paymentType: QTSessionPaymentType = .hour
     var type: String
     var receiverAccountType: String?
 
@@ -39,6 +44,7 @@ class SessionRequest {
         dictionary["senderId"] = senderId
         dictionary["receiverId"] = receiverId
         dictionary["type"] = type
+        dictionary["paymentType"] = paymentType.rawValue
         dictionary["receiverAccountType"] = receiverAccountType
         return dictionary
     }
@@ -54,6 +60,11 @@ class SessionRequest {
         expiration = data["expiration"] as? Double
         senderId = data["senderId"] as? String ?? ""
         receiverId = data["receiverId"] as? String ?? ""
+        if let paymentType = data["paymentType"] as? String {
+            self.paymentType = QTSessionPaymentType(rawValue: paymentType) ?? .hour
+        } else {
+            paymentType = .hour
+        }
         type = data["type"] as? String ?? ""
         receiverAccountType = data["receiverAccountType"] as? String
         if isExpired() {

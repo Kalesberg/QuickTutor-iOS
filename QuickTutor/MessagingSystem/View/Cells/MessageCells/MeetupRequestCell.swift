@@ -107,6 +107,9 @@ class SessionRequestCell: UserMessageCell {
         Database.database().reference().child("sessions").child(id).observeSingleEvent(of: .value) { snapshot in
             guard let value = snapshot.value as? [String: Any] else { return }
             let sessionRequest = SessionRequest(data: value)
+            if sessionRequest.startTime < Date().timeIntervalSince1970 {
+                sessionRequest.status = "expired"
+            }
             sessionRequest.id = id
             self.sessionRequest = sessionRequest
             self.loadFromRequest()
@@ -131,7 +134,8 @@ class SessionRequestCell: UserMessageCell {
     func updateTextData() {
         guard let subject = sessionRequest?.subject, let price = sessionRequest?.price, let date = sessionRequest?.formattedDate(), let startTime = sessionRequest?.formattedStartTime(), let endTime = sessionRequest?.formattedEndTime(), let type = sessionRequest?.type else { return }
         subjectLabel.text = subject
-        let priceString = String(format: "%.2f", price)
+        let realPrice = .learner == AccountService.shared.currentUserType ? (price + 0.3) / 0.971 : price
+        let priceString = String(format: "%.2f", realPrice)
         priceLabel.text = "$\(priceString)"
         sessionTypeLabel.text = type == "online" ? "Online" : "In-Person"
         dateLabel.text = "\(date)"
