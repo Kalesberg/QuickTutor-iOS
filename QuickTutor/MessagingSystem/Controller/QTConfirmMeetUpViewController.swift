@@ -141,11 +141,18 @@ class QTConfirmMeetUpViewController: QTSessionBaseViewController {
         panGesture.minimumNumberOfTouches = 1
         slidingButton.addGestureRecognizer(panGesture)
         
+        // Need to activate after get session info.
+        slidingButton.isEnabled = false
+        slidingButton.alpha = 0.5
+        
         // Set the active status of user.
         self.statusImageView.backgroundColor = Colors.gray
         
         // Get the session information.
         DataService.shared.getSessionById(sessionId) { (session) in
+            // Activate slidingButton
+            self.slidingButton.isEnabled = true
+            self.slidingButton.alpha = 1.0
             self.session = session
 
             // Get the partner name.
@@ -238,8 +245,13 @@ class QTConfirmMeetUpViewController: QTSessionBaseViewController {
     }
     
     func proceedToSession() {
-        // Update the session start time.
-        self.updateSessionStartTime(sessionId: self.sessionId)
+        // Get the duration of the session.
+        guard let session = self.session else {
+            return
+        }
+        let duration = session.endTime - session.startTime
+        // Update the session start time and end time.
+        self.updateSessionStartTime(sessionId: self.sessionId, duration: duration)
         
         let vc = QTInPersonSessionViewController.controller
         vc.sessionId = sessionId

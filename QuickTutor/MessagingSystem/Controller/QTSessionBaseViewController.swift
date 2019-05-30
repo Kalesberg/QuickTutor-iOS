@@ -17,13 +17,13 @@ class QTSessionBaseViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-
-    func updateSessionStartTime(sessionId: String) {
+    func updateSessionStartTime(sessionId: String, duration: Double) {
         // Updated the startTime of a session because the session is able to start early than expected.
+        let startTime = Date().timeIntervalSince1970
         Database.database().reference()
             .child("sessions")
             .child(sessionId)
-            .updateChildValues(["startTime": Date().timeIntervalSince1970])
+            .updateChildValues(["startTime": startTime, "endTime": startTime + duration])
     }
     
     func updateSessionEndTime(sessionId: String) {

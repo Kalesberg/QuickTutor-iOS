@@ -108,6 +108,7 @@ class QTStartSessionViewController: QTSessionBaseViewController {
     }
     
     @IBAction func onAcceptButtonClicked(_ sender: Any) {
+        guard let _ = session else { return }
         currentUserHasPayment { (hasPayment) in
             guard hasPayment else { return }
             self.removeStartData()
@@ -121,8 +122,13 @@ class QTStartSessionViewController: QTSessionBaseViewController {
     func setupObservers() {
         socket.on(SocketEvents.manualStartAccetped) { _, _ in
             if self.sessionType == .online {
-                // Update the session start time.
-                self.updateSessionStartTime(sessionId: self.sessionId)
+                // Get the duration of the session.
+                guard let session = self.session else {
+                    return
+                }
+                let duration = session.endTime - session.startTime
+                // Update the session start time and end time.
+                self.updateSessionStartTime(sessionId: self.sessionId, duration: duration)
                 
                 let vc = QTVideoSessionViewController.controller
                 vc.sessionId = self.sessionId
@@ -196,9 +202,17 @@ class QTStartSessionViewController: QTSessionBaseViewController {
         acceptButton.clipsToBounds = true
         acceptButton.setupTargets()
         
+        // Activate accept button after get session info.
+        acceptButton.isEnabled = false
+        acceptButton.alpha = 0.5
+        
         // Get the session information.
         DataService.shared.getSessionById(sessionId) { (session) in
             self.session = session
+            
+            // Activate accept button
+            self.acceptButton.isEnabled = true
+            self.acceptButton.alpha = 1.0
             
             // Get the partner name.
             self.partnerId = self.session?.partnerId()
