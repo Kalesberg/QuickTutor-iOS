@@ -11,6 +11,7 @@ import Stripe
 import UIKit
 import Lottie
 import SwipeCellKit
+import Firebase
 
 class BankManagerVC: UIViewController {
     
@@ -41,7 +42,7 @@ class BankManagerVC: UIViewController {
         }
     }
     
-    private var transactions = [BalanceTransaction.Data]()
+    private var pastSessions = [Session]()
     
     private var banks = [ExternalAccountsData]()
 
@@ -88,19 +89,29 @@ class BankManagerVC: UIViewController {
     }
     
     func fetchTransactions() {
-        guard let tutor = CurrentUser.shared.tutor, let accountId = tutor.acctId else {
-            return
-        }
-        Stripe.retrieveBalanceTransactionList(acctId: accountId) { (_, transactions) in
-            guard let transactions = transactions else { return }
-            self.transactions = transactions.data.filter({ (transactions) -> Bool in
-                if transactions.amount != nil && transactions.amount! > 0 {
-                    return true
-                }
-                return false
+        guard let uid = Auth.auth().currentUser?.uid, self.pastSessions.isEmpty else { return }
+        let currentUserType = AccountService.shared.currentUserType.rawValue
+        Database.database().reference().child("userSessions").child(uid).child(currentUserType).observe(.value) { (snapshot) in
+            let group = DispatchGroup()
+            guard let sessionsDict = snapshot.value as? [String: Any] else { return }
+            sessionsDict.forEach({ (key, value) in
+                group.enter()
+                
+                DataService.shared.getSessionById(key, completion: { (session) in
+                    guard session.status == "completed" else {
+                        group.leave()
+                        return
+                    }
+                    self.pastSessions.append(session)
+                    group.leave()
+                })
             })
-            self.contentView.collectionView.reloadData()
+            
+            group.notify(queue: .main, execute: {
+                self.contentView.collectionView.reloadSections(IndexSet(arrayLiteral: 1))
+            })
         }
+
     }
     
     func setupDelegates() {
@@ -146,8 +157,12 @@ class BankManagerVC: UIViewController {
 
 extension BankManagerVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 2
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return section == 0 ? banks.count : transactions.count
+        return section == 0 ? banks.count : pastSessions.count
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -166,12 +181,15 @@ extension BankManagerVC: UICollectionViewDelegate, UICollectionViewDataSource, U
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "earningsCell", for: indexPath) as! EarningsHistoryCell
-            cell.updateUI(transactions[indexPath.item])
+            cell.updateUI(pastSessions[indexPath.item])
             return cell
         }
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard indexPath.section == 0 else {
+            return
+        }
         if indexPath.row == banks.count {
             if banks.count == 5 {
                 AlertController.genericErrorAlert(self, title: "Too Many Payout Methods", message: "We currently only allow users to have 5 payout methods.")

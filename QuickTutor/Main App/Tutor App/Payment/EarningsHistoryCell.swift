@@ -14,6 +14,7 @@ class EarningsHistoryCell: UICollectionViewCell {
         let view = UIImageView()
         view.contentMode = .scaleAspectFill
         view.layer.cornerRadius = 20
+        view.clipsToBounds = true
         return view
     }()
     
@@ -71,9 +72,19 @@ class EarningsHistoryCell: UICollectionViewCell {
         timeLabel.anchor(top: topAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 4, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 14)
     }
     
-    func updateUI(_ transaction: BalanceTransaction.Data) {
-        timeLabel.text = "\(transaction.created)"
-        amountLabel.text = "\(transaction.amount ?? 0)"
+    func updateUI(_ session: Session) {
+        UserFetchService.shared.getStudentWithId(session.senderId) { (user) in
+            guard let user = user else { return }
+            self.updateTimestampLabel(session: session)
+            self.amountLabel.text = "$\(String(format: "%.2f", session.cost))"
+            self.usernameLabel.text = user.formattedName
+            self.profilePicImageView.sd_setImage(with: user.profilePicUrl)
+        }
+    }
+    
+    private func updateTimestampLabel(session: Session) {
+        let timestampDate = Date(timeIntervalSince1970: session.date)
+        timeLabel.text = timestampDate.formatRelativeString()
     }
     
     override init(frame: CGRect) {
