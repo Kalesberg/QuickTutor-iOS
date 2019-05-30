@@ -380,7 +380,7 @@ extension QTInPersonSessionViewController: SessionManagerDelegate {
 // MARK: - PauseSessionModalDelegate
 extension QTInPersonSessionViewController: PauseSessionModalDelegate {
     func pauseSessionModalShouldEndSession(_ pauseSessionModal: PauseSessionModal) {
-        self.onFinishButtonClicked(self.finishButton)
+        sessionManager?.endSocketSession()
     }
     
     func pauseSessionModalDidUnpause(_ pauseSessionModal: PauseSessionModal) {

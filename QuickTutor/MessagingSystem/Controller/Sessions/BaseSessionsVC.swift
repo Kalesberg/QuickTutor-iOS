@@ -27,7 +27,7 @@ class BaseSessionsVC: UIViewController {
         return cv
     }()
     
-    var addPaymentModal = AddPaymentModal()
+    var addPaymentModal: AddPaymentModal?
     var cancelSessionModal: CancelSessionModal?
     var collectionViewBottomAnchor: NSLayoutConstraint?
     
