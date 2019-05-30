@@ -67,12 +67,13 @@ class QTStartSessionViewController: QTSessionBaseViewController {
         
         setupSocket()
         setupObservers()
-        
+        if sessionType == QTSessionType.online {
         #if targetEnvironment(simulator)
         // for sim only
         #else
-        guard checkPermissions() else { return }
+            guard checkPermissions() else { return }
         #endif
+        }
         NotificationManager.shared.disableAllNotifications()
         
         if sessionType == .online {
