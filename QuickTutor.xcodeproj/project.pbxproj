@@ -966,6 +966,8 @@
 		CF6325E7207FE15E0037F8AA /* ReportSuccessfulModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325E6207FE15E0037F8AA /* ReportSuccessfulModal.swift */; };
 		CF6325EB207FF4480037F8AA /* SessionProfileBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325EA207FF4480037F8AA /* SessionProfileBox.swift */; };
 		CF6325EF20801D3C0037F8AA /* SessionsNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325EE20801D3C0037F8AA /* SessionsNavBar.swift */; };
+		CF6605DE22A096150020A2B7 /* EarningsHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6605DD22A096150020A2B7 /* EarningsHistoryTableViewCell.swift */; };
+		CF6605DF22A096290020A2B7 /* EarningsHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6605DD22A096150020A2B7 /* EarningsHistoryTableViewCell.swift */; };
 		CF671AC2225D8C8B00CF4F0A /* FeaturedSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF671AC1225D8C8B00CF4F0A /* FeaturedSectionController.swift */; };
 		CF671AC4225D8CB500CF4F0A /* LearnerMainPageFeaturedSectionContainerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF671AC3225D8CB500CF4F0A /* LearnerMainPageFeaturedSectionContainerCell.swift */; };
 		CF671AC6225D8CD700CF4F0A /* LearnerMainPageFeaturedSubjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF671AC5225D8CD700CF4F0A /* LearnerMainPageFeaturedSubjectCell.swift */; };
@@ -1660,6 +1662,7 @@
 		CF6325E6207FE15E0037F8AA /* ReportSuccessfulModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportSuccessfulModal.swift; sourceTree = "<group>"; };
 		CF6325EA207FF4480037F8AA /* SessionProfileBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionProfileBox.swift; sourceTree = "<group>"; };
 		CF6325EE20801D3C0037F8AA /* SessionsNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsNavBar.swift; sourceTree = "<group>"; };
+		CF6605DD22A096150020A2B7 /* EarningsHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarningsHistoryTableViewCell.swift; sourceTree = "<group>"; };
 		CF671AC1225D8C8B00CF4F0A /* FeaturedSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedSectionController.swift; sourceTree = "<group>"; };
 		CF671AC3225D8CB500CF4F0A /* LearnerMainPageFeaturedSectionContainerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerMainPageFeaturedSectionContainerCell.swift; sourceTree = "<group>"; };
 		CF671AC5225D8CD700CF4F0A /* LearnerMainPageFeaturedSubjectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerMainPageFeaturedSubjectCell.swift; sourceTree = "<group>"; };
@@ -2453,6 +2456,7 @@
 				CFB9B81721C6D2A00022333F /* TutorAddBankVCView.swift */,
 				841C5071216ED57C0035C6C9 /* EditBillingAddress */,
 				93F4F8D2227FD43900809432 /* BankAddCardHeaderView.swift */,
+				CF6605DD22A096150020A2B7 /* EarningsHistoryTableViewCell.swift */,
 			);
 			path = Payment;
 			sourceTree = "<group>";
@@ -4739,6 +4743,7 @@
 				569F1886223554FD00820A20 /* EditBillingAddressView.swift in Sources */,
 				569F1888223554FD00820A20 /* SessionRequestView.swift in Sources */,
 				569F1889223554FD00820A20 /* WalkthroughVC.swift in Sources */,
+				CF6605DF22A096290020A2B7 /* EarningsHistoryTableViewCell.swift in Sources */,
 				569F188A223554FD00820A20 /* AddTutorCell.swift in Sources */,
 				569F188B223554FD00820A20 /* ImageMessageSender.swift in Sources */,
 				569F188C223554FD00820A20 /* TextLabel.swift in Sources */,
@@ -5225,6 +5230,7 @@
 				CFEF943F20B3583800413727 /* ImageMessageSender.swift in Sources */,
 				84C8F5E41FF8997400737A59 /* TextLabel.swift in Sources */,
 				CFEDF90320D57FF100457E77 /* OnlineStatusService.swift in Sources */,
+				CF6605DE22A096150020A2B7 /* EarningsHistoryTableViewCell.swift in Sources */,
 				CF507FAB218138A5007FE441 /* MessageBreakTimestamp.swift in Sources */,
 				CF7D8AB421995F0A00463B0E /* ProfileVCCell.swift in Sources */,
 				CF833B75207C4B6E00323242 /* LearnerPendingSessionCell.swift in Sources */,

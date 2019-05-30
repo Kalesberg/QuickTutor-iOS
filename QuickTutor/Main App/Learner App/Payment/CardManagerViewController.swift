@@ -10,6 +10,7 @@ import UIKit
 import Stripe
 import Lottie
 import SwipeCellKit
+import Firebase
 
 class CardManagerViewController: UIViewController {
     @IBOutlet weak var noPaymentLabel: UILabel!
@@ -26,6 +27,7 @@ class CardManagerViewController: UIViewController {
     var isShowingAddCardView = false
     var popBackTo: UIViewController?
     private var cards = [STPCard]()
+    private var pastSessions = [Session]()
     private var defaultCard: STPCard?
     
     var customer: STPCustomer! {
@@ -47,8 +49,10 @@ class CardManagerViewController: UIViewController {
         setupLoadingIndicator()
         
         loadStripe()
+        fetchTransactions()
         
         tableView.register(UINib(nibName: "PaymentCardTableViewCell", bundle: nil), forCellReuseIdentifier: "cardCell")
+        tableView.register(EarningsHistoryTaleViewCell.self, forCellReuseIdentifier: "earningsCell")
         
         let image = UIImage(named: "informationIcon")?.withRenderingMode(.alwaysTemplate)
         feeInfoIcon?.setImage(image, for: .normal)
@@ -138,6 +142,31 @@ class CardManagerViewController: UIViewController {
         }
     }
     
+    func fetchTransactions() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let currentUserType = AccountService.shared.currentUserType.rawValue
+        Database.database().reference().child("userSessions").child(uid).child(currentUserType).observe(.value) { (snapshot) in
+            let group = DispatchGroup()
+            guard let sessionsDict = snapshot.value as? [String: Any] else { return }
+            sessionsDict.forEach({ (key, value) in
+                group.enter()
+                DataService.shared.getSessionById(key, completion: { (session) in
+                    guard session.status == "completed" else {
+                        group.leave()
+                        return
+                    }
+                    self.pastSessions.append(session)
+                    group.leave()
+                })
+            })
+            
+            group.notify(queue: .main, execute: {
+                self.tableView.reloadSections(IndexSet(arrayLiteral: 1), with: .automatic)
+            })
+        }
+        
+    }
+    
     private func setCustomer() {
         guard let cards = customer.sources as? [STPCard] else { return }
         self.cards = cards
@@ -220,31 +249,47 @@ extension CardManagerViewController: STPAddCardViewControllerDelegate {
 }
 
 extension CardManagerViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
-        return cards.count
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt _: IndexPath) -> CGFloat {
-        return tableView.estimatedRowHeight
+    func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return section == 0 ? cards.count : pastSessions.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return indexPath.section == 0 ? tableView.estimatedRowHeight : 40
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cardCell", for: indexPath) as! PaymentCardTableViewCell
-    
-        if let card = cards[safe: indexPath.row] {
-            cell.setLastFour(text: card.last4)
-            cell.brandImage?.image = STPImageLibrary.brandImage(for: card.brand)
-            let cardChoice: CardChoice = card == defaultCard ? .defaultCard : .optionalCard
-            cell.setCardButtonType(type: cardChoice)
-            cell.row = indexPath.row
-            cell.defaultPaymentButtonDelegate = self
-            cell.delegate = self
+        if indexPath.section == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cardCell", for: indexPath) as! PaymentCardTableViewCell
+            
+            if let card = cards[safe: indexPath.row] {
+                cell.setLastFour(text: card.last4)
+                cell.brandImage?.image = STPImageLibrary.brandImage(for: card.brand)
+                let cardChoice: CardChoice = card == defaultCard ? .defaultCard : .optionalCard
+                cell.setCardButtonType(type: cardChoice)
+                cell.row = indexPath.row
+                cell.defaultPaymentButtonDelegate = self
+                cell.delegate = self
+            }
+            
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "earningsCell", for: indexPath) as! EarningsHistoryTaleViewCell
+            cell.updateUI(pastSessions[indexPath.item])
+            return cell
         }
-        
-        return cell
+
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard indexPath.section == 0 else {
+            return
+        }
+        
         if let card = cards[safe: indexPath.row], card != defaultCard {
             defaultCardAlert(card: card)
         }
@@ -255,9 +300,15 @@ extension CardManagerViewController: UITableViewDelegate, UITableViewDataSource 
         return true
     }
     
-    func tableView(_: UITableView, viewForHeaderInSection _: Int) -> UIView? {
+    func tableView(_: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = AddCardHeaderView.view
         view.delegate = self
+        
+        if section == 1 {
+            view.addNewButton.isHidden = false
+            view.headerLabel.text = "Payment history"
+        }
+        
         return view
     }
     
