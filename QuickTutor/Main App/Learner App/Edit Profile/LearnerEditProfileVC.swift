@@ -498,7 +498,13 @@ class LearnerEditProfileVC: UIViewController {
             if let error = error {
                 AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
             } else {
-                CurrentUser.shared.learner.name = self.firstName + " " + self.lastName
+                if CurrentUser.shared.learner.isTutor {
+                    CurrentUser.shared.tutor.name = self.firstName + " " + self.lastName
+                    CurrentUser.shared.learner.name = self.firstName + " " + self.lastName
+                } else {
+                    CurrentUser.shared.learner.name = self.firstName + " " + self.lastName
+                }
+                
                 self.displaySavedAlertController()
             }
         }
