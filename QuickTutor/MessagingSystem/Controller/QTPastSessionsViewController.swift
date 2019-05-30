@@ -18,9 +18,9 @@ class QTPastSessionsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var animationView: LOTAnimationView!
     
-    var pastSessions = [Session]()
+    var sessionUserInfos = [SessionUserInfo]()
     var sessionDates = [String]()
-    var sessionGroup = [String: [Session]]()
+    var sessionGroup = [String: [SessionUserInfo]]()
     
     var timer: Timer?
     
@@ -54,7 +54,7 @@ class QTPastSessionsViewController: UIViewController {
     
     // MARK: - Functions
     func fetchSessions() {
-        pastSessions.removeAll()
+        sessionUserInfos.removeAll()
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
         
@@ -80,11 +80,40 @@ class QTPastSessionsViewController: UIViewController {
                         }
                         
                         if session.startTime < Date().timeIntervalSince1970 || session.status == "completed" {
-                            if !self.pastSessions.contains(where: { $0.id == session.id }) {
-                                self.pastSessions.insert(session, at: 0)
+                            if !self.sessionUserInfos.contains(where: { $0.id == session.id }) {
+                                if AccountService.shared.currentUserType == .learner {
+                                    self.getTutor(tutorId: session.partnerId(), completion: { user in
+                                        let sessionUserInfo = SessionUserInfo(session)
+                                        if let userName = user?.formattedName.capitalized {
+                                            sessionUserInfo.userName = userName
+                                        }
+                                        
+                                        if let profilePicUrl = user?.profilePicUrl {
+                                            sessionUserInfo.profilePicUrl = profilePicUrl
+                                        }
+                                        self.sessionUserInfos.insert(sessionUserInfo, at: 0)
+                                        group.leave()
+                                        return
+                                    })
+                                } else {
+                                    self.getLearner(learnerId: session.partnerId(), completion: { user in
+                                        let sessionUserInfo = SessionUserInfo(session)
+                                        if let userName = user?.formattedName.capitalized {
+                                            sessionUserInfo.userName = userName
+                                        }
+                                        
+                                        if let profilePicUrl = user?.profilePicUrl {
+                                            sessionUserInfo.profilePicUrl = profilePicUrl
+                                        }
+                                        self.sessionUserInfos.insert(sessionUserInfo, at: 0)
+                                        group.leave()
+                                        return
+                                    })
+                                }
+                            } else {
+                                group.leave()
+                                return
                             }
-                            group.leave()
-                            return
                         }
                     })
                 }
@@ -93,6 +122,19 @@ class QTPastSessionsViewController: UIViewController {
                     self.attemptReloadOfTable()
                     self.animationView.isHidden = true
                 })
+        }
+    }
+    
+    
+    func getTutor(tutorId: String, completion: @escaping ((ZFTutor?) -> Void)) {
+        UserFetchService.shared.getTutorWithId(tutorId) { tutor in
+            return completion(tutor)
+        }
+    }
+    
+    func getLearner(learnerId: String, completion: @escaping ((ZFTutor?) -> Void)) {
+        UserFetchService.shared.getStudentWithId(learnerId) { tutor in
+            completion(tutor)
         }
     }
     
@@ -126,11 +168,11 @@ class QTPastSessionsViewController: UIViewController {
     fileprivate func attemptReloadOfTable() {
         
         // Sort sessions based on startTime.
-        pastSessions.sort(by: {$0.startTime < $1.startTime})
+        sessionUserInfos.sort(by: {$0.startTime < $1.startTime})
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd MMMM"
         
-        pastSessions.forEach { (session) in
+        sessionUserInfos.forEach { (session) in
             let date = Date(timeIntervalSince1970: session.date)
             let dateString = dateFormatter.string(from: date)
             if !self.sessionDates.contains(dateString) {
@@ -153,7 +195,7 @@ extension QTPastSessionsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if AccountService.shared.currentUserType == .learner {
-            FirebaseData.manager.fetchTutor(pastSessions[indexPath.row].partnerId(), isQuery: false, { tutor in
+            FirebaseData.manager.fetchTutor(sessionUserInfos[indexPath.row].partnerId(), isQuery: false, { tutor in
                 guard let tutor = tutor else { return }
                 let controller = QTProfileViewController.controller
                 controller.user = tutor
@@ -161,7 +203,7 @@ extension QTPastSessionsViewController: UITableViewDelegate {
                 self.navigationController?.pushViewController(controller, animated: true)
             })
         } else {
-            FirebaseData.manager.fetchLearner(pastSessions[indexPath.row].partnerId()) { learner in
+            FirebaseData.manager.fetchLearner(sessionUserInfos[indexPath.row].partnerId()) { learner in
                 guard let learner = learner else { return }
                 let controller = QTProfileViewController.controller
                 let tutor = AWTutor(dictionary: [:])
@@ -191,7 +233,7 @@ extension QTPastSessionsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: QTPastSessionTableViewCell.reuseIdentifier, for: indexPath) as! QTPastSessionTableViewCell
         if let sessions = sessionGroup[sessionDates[indexPath.section]] {
-            cell.setData(session: sessions[indexPath.row])
+            cell.setData(sessions[indexPath.row])
         }
         cell.selectionStyle = .none
         return cell

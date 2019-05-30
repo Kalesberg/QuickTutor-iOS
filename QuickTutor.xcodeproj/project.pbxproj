@@ -53,6 +53,8 @@
 		564C429122A0259300FC8AE1 /* QTPastSessionSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564C428F22A0259300FC8AE1 /* QTPastSessionSectionHeaderView.swift */; };
 		564C429322A0293B00FC8AE1 /* QTPastSessionSectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 564C429222A0293B00FC8AE1 /* QTPastSessionSectionHeaderView.xib */; };
 		564C429422A0293B00FC8AE1 /* QTPastSessionSectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 564C429222A0293B00FC8AE1 /* QTPastSessionSectionHeaderView.xib */; };
+		564C429622A03F6400FC8AE1 /* SessionUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564C429522A03F6400FC8AE1 /* SessionUserInfo.swift */; };
+		564C429722A03F6400FC8AE1 /* SessionUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564C429522A03F6400FC8AE1 /* SessionUserInfo.swift */; };
 		564DD5BE2285C53F00912E36 /* QTRequestQuickCallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564DD5BC2285C53F00912E36 /* QTRequestQuickCallViewController.swift */; };
 		564DD5BF2285C53F00912E36 /* QTRequestQuickCallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564DD5BC2285C53F00912E36 /* QTRequestQuickCallViewController.swift */; };
 		564DD5C02285C53F00912E36 /* QTRequestQuickCallViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 564DD5BD2285C53F00912E36 /* QTRequestQuickCallViewController.xib */; };
@@ -1256,6 +1258,7 @@
 		564B6C21222D8891004A9EB7 /* QTLocationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTLocationTableViewCell.xib; sourceTree = "<group>"; };
 		564C428F22A0259300FC8AE1 /* QTPastSessionSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTPastSessionSectionHeaderView.swift; sourceTree = "<group>"; };
 		564C429222A0293B00FC8AE1 /* QTPastSessionSectionHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTPastSessionSectionHeaderView.xib; sourceTree = "<group>"; };
+		564C429522A03F6400FC8AE1 /* SessionUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionUserInfo.swift; sourceTree = "<group>"; };
 		564DD5BC2285C53F00912E36 /* QTRequestQuickCallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTRequestQuickCallViewController.swift; sourceTree = "<group>"; };
 		564DD5BD2285C53F00912E36 /* QTRequestQuickCallViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTRequestQuickCallViewController.xib; sourceTree = "<group>"; };
 		5669A5CB229D8EE5007B3202 /* QTTutorPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorPolicyViewController.swift; sourceTree = "<group>"; };
@@ -3355,6 +3358,7 @@
 				CF8F238B215C5B2C00B4239D /* ConversationMetaData.swift */,
 				CF507FAA218138A5007FE441 /* MessageBreakTimestamp.swift */,
 				C46A2F10224CD309005058B1 /* UserStatus.swift */,
+				564C429522A03F6400FC8AE1 /* SessionUserInfo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -4570,6 +4574,7 @@
 				569F17DE223554FD00820A20 /* ReviewProfileBox.swift in Sources */,
 				569F17DF223554FD00820A20 /* SessionRequestTypeView.swift in Sources */,
 				569F17E0223554FD00820A20 /* RegistrationAccessoryView.swift in Sources */,
+				564C429722A03F6400FC8AE1 /* SessionUserInfo.swift in Sources */,
 				CF17F227226BC14F00ABD07D /* FiltersVCView.swift in Sources */,
 				569F17E1223554FD00820A20 /* CreatePasswordVC.swift in Sources */,
 				569F17E2223554FD00820A20 /* MessagetTimebreakCell.swift in Sources */,
@@ -5055,6 +5060,7 @@
 				CFB9B80221C590220022333F /* RegistrationAccessoryView.swift in Sources */,
 				CF17F220226BC02A00ABD07D /* RangeSliderTrackLayer.swift in Sources */,
 				844A6A8C1FCE5B91003992C3 /* CreatePasswordVC.swift in Sources */,
+				564C429622A03F6400FC8AE1 /* SessionUserInfo.swift in Sources */,
 				CF507FA92181386D007FE441 /* MessagetTimebreakCell.swift in Sources */,
 				CFB9B81E21C887D40022333F /* ProgressView.swift in Sources */,
 				84C9C01120A23773000DE1C9 /* BalanceTransaction.swift in Sources */,
