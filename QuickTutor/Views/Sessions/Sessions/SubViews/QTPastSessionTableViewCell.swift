@@ -11,7 +11,6 @@ import UIKit
 class QTPastSessionTableViewCell: UITableViewCell {
 
     // MARK: - Properites
-    @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var avatarImageView: QTCustomImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var subjectLabel: UILabel!
@@ -34,7 +33,6 @@ class QTPastSessionTableViewCell: UITableViewCell {
         usernameLabel.text = ""
         subjectLabel.text = ""
         durationLabel.text = ""
-        dateLabel.text = ""
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -48,7 +46,6 @@ class QTPastSessionTableViewCell: UITableViewCell {
         self.session = session
         
         updateSubject()
-        updateSessionDate()
         updateTimeAndCost()
         AccountService.shared.currentUserType == .learner ? getTutor() : getLearner()
     }
@@ -84,13 +81,6 @@ class QTPastSessionTableViewCell: UITableViewCell {
     
     func updateSubject() {
         subjectLabel.text = session.subject
-    }
-    
-    func updateSessionDate() {
-        let date = Date(timeIntervalSince1970: session.date)
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd MMMM"
-        dateLabel.text = dateFormatter.string(from: date)
     }
     
     func updateTimeAndCost() {
