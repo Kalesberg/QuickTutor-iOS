@@ -23,12 +23,12 @@
         <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="cardCell" id="KGk-i7-Jjw" customClass="PaymentCardTableViewCell" customModule="QuickTutor" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="63.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uPU-Q7-4tF" customClass="BorderedPaymentCardView" customModule="QuickTutor" customModuleProvider="target">
-                        <rect key="frame" x="20" y="10" width="280" height="44"/>
+                        <rect key="frame" x="20" y="10.5" width="280" height="44"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="b0M-zl-j6j">
                                 <rect key="frame" x="15" y="7" width="48" height="30"/>
@@ -96,6 +96,7 @@
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="uPU-Q7-4tF" secondAttribute="trailing" constant="20" id="1Pn-IQ-bm4"/>
                     <constraint firstItem="uPU-Q7-4tF" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="21H-ks-J3Z"/>
+                    <constraint firstItem="uPU-Q7-4tF" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="eCN-Po-4rf"/>
                     <constraint firstItem="uPU-Q7-4tF" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="zeN-xw-7px"/>
                 </constraints>
                 <userDefinedRuntimeAttributes>

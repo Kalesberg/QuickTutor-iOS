@@ -22,6 +22,7 @@ class AWLearner: User {
     var languages: [String]?
     var lReviews: [Review]!
     var lRating: Double!
+    var isApplePayDefault: Bool?
     var savedTutorIds = [String]()
     
     var images = ["image1": "", "image2": "", "image3": "", "image4": "", "image5": "", "image6": "", "image7": "", "image8": ""]
@@ -56,7 +57,7 @@ class AWLearner: User {
         lNumSessions = dictionary["nos"] as? Int ?? 0
         lRating = dictionary["r"] as? Double ?? 0.0
         lHours = dictionary["hr"] as? Int ?? 0
-        
+        isApplePayDefault = dictionary["isApplePayDefault"] as? Bool ?? true
     }
     
     required init(from decoder: Decoder) throws {

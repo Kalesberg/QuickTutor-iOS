@@ -55,6 +55,9 @@ class CardManagerViewController: UIViewController {
         loadStripe()
         fetchTransactions()
         
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 44
+        
         tableView.register(UINib(nibName: "PaymentCardTableViewCell", bundle: nil), forCellReuseIdentifier: "cardCell")
         tableView.register(EarningsHistoryTaleViewCell.self, forCellReuseIdentifier: "earningsCell")
         
@@ -106,7 +109,7 @@ class CardManagerViewController: UIViewController {
     @objc
     private func onClickItemAddNewPayment() {
 //        showCardActionSheet()
-        showStripeAddCard()
+        showAddCardViewController()
     }
     
     func setParagraphStyles() {
@@ -173,19 +176,19 @@ class CardManagerViewController: UIViewController {
             guard let sessionsDict = snapshot.value as? [String: Any] else { return }
             sessionsDict.forEach({ (key, value) in
                 group.enter()
-                DataService.shared.getSessionById(key, completion: { (session) in
+                DataService.shared.getSessionById(key) { (session) in
                     guard session.status == "completed" else {
                         group.leave()
                         return
                     }
                     self.pastSessions.append(session)
                     group.leave()
-                })
+                }
             })
             
-            group.notify(queue: .main, execute: {
-                self.tableView.reloadSections(IndexSet(arrayLiteral: 1), with: .automatic)
-            })
+            group.notify(queue: .main) {
+                self.tableView.reloadSections(IndexSet(integer: 2), with: .none)
+            }
         }
         
     }
@@ -264,7 +267,7 @@ extension CardManagerViewController: AddCardViewControllerDelegate {
         self.isShowingAddCardView = false
         self.dismiss(animated: true, completion: nil)
         showLoadingAnimation()
-        Stripe.attachSource(cusID: CurrentUser.shared.learner.customer, with: token) { (error) in
+        StripeService.attachSource(cusID: CurrentUser.shared.learner.customer, with: token) { (error) in
             self.hideLoadingAnimation()
             if let error = error {
                 AlertController.genericErrorAlert(self, title: "Error Processing Card", message: error)
@@ -292,43 +295,37 @@ extension CardManagerViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cardCell", for: indexPath) as! PaymentCardTableViewCell
-        
-        if 0 == indexPath.section {
-            if let card = cards[safe: indexPath.row] {
-                cell.setLastFour(text: card.last4)
-                cell.brandImage?.image = STPImageLibrary.brandImage(for: card.brand)
-                let cardChoice: CardChoice = card == defaultCard ? .defaultCard : .optionalCard
-                cell.setCardButtonType(type: cardChoice)
-                cell.row = indexPath.row
-                cell.defaultPaymentButtonDelegate = self
-                cell.delegate = self
-            }
-        } else if 1 == indexPath.section {
-            cell.lastFourLabel.text = nil
-            cell.brandImage.image = STPApplePayPaymentOption().image
-            let cardChoice: CardChoice = .optionalCard
-            cell.setCardButtonType(type: cardChoice)
-            cell.row = indexPath.row
-            cell.defaultPaymentButtonDelegate = self
-            cell.delegate = self
-            
-            return cell
-        } else {
+        if 2 == indexPath.section {
             let cell = tableView.dequeueReusableCell(withIdentifier: "earningsCell", for: indexPath) as! EarningsHistoryTaleViewCell
             cell.updateUI(pastSessions[indexPath.item])
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cardCell", for: indexPath) as! PaymentCardTableViewCell
+            if 0 == indexPath.section {
+                if let card = cards[safe: indexPath.row] {
+                    cell.setLastFour(text: card.last4)
+                    cell.brandImage?.image = STPImageLibrary.brandImage(for: card.brand)
+                    let cardChoice: CardChoice = card == defaultCard ? .defaultCard : .optionalCard
+                    cell.setCardButtonType(type: cardChoice)
+                    cell.row = indexPath.row
+                    cell.delegate = self
+                }
+            } else {
+                cell.lastFourLabel.text = nil
+                cell.brandImage.image = STPApplePayPaymentOption().image
+                let cardChoice: CardChoice = .optionalCard
+                cell.setCardButtonType(type: cardChoice)
+                cell.row = indexPath.row
+                cell.delegate = self
+            }
             return cell
         }
     }
 }
 
 extension CardManagerViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt _: IndexPath) -> CGFloat {
-        return tableView.estimatedRowHeight
-    }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard indexPath.section == 0 else {
+        if 2 == indexPath.section {
             return
         }
         
@@ -371,53 +368,11 @@ extension CardManagerViewController: UITableViewDelegate {
         }
     }
     
-    func showStripeAddCard() {
-        isShowingAddCardView = true
-        
-        let theme = STPTheme()
-        theme.primaryBackgroundColor = Colors.registrationDark
-        theme.font = Fonts.createSize(16)
-        theme.emphasisFont = Fonts.createBoldSize(18)
-        theme.accentColor = Colors.purple
-        theme.errorColor = Colors.qtRed
-        theme.primaryForegroundColor = .white
-        theme.secondaryForegroundColor = Colors.grayText
-        theme.secondaryBackgroundColor = Colors.darkBackground
-        
-        let theme2 = STPTheme()
-        theme2.primaryBackgroundColor = Colors.darkBackground
-        theme2.emphasisFont = Fonts.createBoldSize(18)
-        theme2.accentColor = .white
-        theme2.primaryForegroundColor = .white
-        theme2.secondaryForegroundColor = Colors.grayText
-        theme2.secondaryBackgroundColor = Colors.purple
-        
-        let config = STPPaymentConfiguration()
-        config.requiredBillingAddressFields = .none
-        #if DEVELOPMENT
-        config.publishableKey = Constants.STRIPE_PUBLISH_KEY
-        #else
-        config.publishableKey = Constants.STRIPE_PUBLISH_KEY
-        #endif
-        config.appleMerchantIdentifier = Constants.APPLE_PAY_MERCHANT_ID
-        addCardVC = STPAddCardViewController(configuration: config, theme: theme)
-        addCardVC?.delegate = self
-        
-        let navigationController = UINavigationController(rootViewController: addCardVC!)
-        navigationController.navigationBar.stp_theme = theme2
-        
-        present(navigationController, animated: true, completion: nil)
-    }
-}
-
-extension CardManagerViewController: PaymentCardTableViewCellDelegate {
-    func didTapDefaultButton(row: NSInteger?) {
-        guard let row = row else {
-            return
-        }
-        if let card = cards[safe: row], card != defaultCard {
-            defaultCardAlert(card: card)
-        }
+    func showAddCardViewController() {
+        let addCardViewController = AddCardViewController()
+        addCardViewController.delegate = self
+        let customNav = CustomNavVC(rootViewController: addCardViewController)
+        navigationController?.present(customNav, animated: true)
     }
 }
 
