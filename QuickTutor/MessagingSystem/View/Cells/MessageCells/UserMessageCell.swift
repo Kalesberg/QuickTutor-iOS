@@ -57,6 +57,7 @@ class UserMessageCell: BaseMessageCell {
         view.backgroundColor = Colors.darkBackground
         view.layer.borderColor = Colors.gray.cgColor
         view.layer.borderWidth = 1
+        view.applyDefaultShadow()
         return view
     }()
 
@@ -128,6 +129,7 @@ class UserMessageCell: BaseMessageCell {
         if #available(iOS 11.0, *) {
             bubbleView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner, .layerMinXMaxYCorner]
         }
+        bubbleView.backgroundColor = Colors.gray
         bubbleViewRightAnchor?.isActive = true
         bubbleViewLeftAnchor?.isActive = false
         profileImageView.isHidden = true
@@ -151,7 +153,7 @@ class UserMessageCell: BaseMessageCell {
         setupBubbleView()
         setupTextView()
         setupTimeLabel()
-        setupGestureRecognizers()
+        sharedInit()
     }
 
     private func setupTextView() {
@@ -165,14 +167,33 @@ class UserMessageCell: BaseMessageCell {
         timeLabel.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 5, width: 60, height: 0)
     }
     
-    func setupGestureRecognizers() {
-//        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(copyText))
-//        addGestureRecognizer(longPress)
+    override var canBecomeFirstResponder: Bool {
+        return true
     }
     
-    @objc func copyText() {
-//        if let text = textView.text {
-//            UIPasteboard.general.string = text
-//        }
+    override func copy(_ sender: Any?) {
+        let board = UIPasteboard.general
+        board.string = textView.text
+        let menu = UIMenuController.shared
+        menu.setMenuVisible(false, animated: true)
+        resignFirstResponder()
+    }
+    
+    func sharedInit() {
+        isUserInteractionEnabled = true
+        addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(showMenu(sender:))))
+    }
+    
+    @objc func showMenu(sender: AnyObject?) {
+        becomeFirstResponder()
+        let menu = UIMenuController.shared
+        if !menu.isMenuVisible {
+            menu.setTargetRect(bubbleView.frame, in: self)
+            menu.setMenuVisible(true, animated: true)
+        }
+    }
+    
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        return action == #selector(copy(_:))
     }
 }

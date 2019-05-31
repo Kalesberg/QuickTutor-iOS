@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Lato-Black.ttf">
+            <string>Lato-Black</string>
+        </array>
+        <array key="Lato-Regular.ttf">
+            <string>Lato-Regular</string>
+        </array>
+        <array key="Lato-Semibold.ttf">
+            <string>Lato-Semibold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="jOf-wD-QuD" customClass="ExpirationDateModal" customModule="QuickTutor" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PCh-l0-q1E" customClass="RoundedView" customModule="QuickTutor" customModuleProvider="target">
+                    <rect key="frame" x="10" y="329" width="394" height="238"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Expiration date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EEn-gf-x2u">
+                            <rect key="frame" x="149.5" y="92" width="95" height="17"/>
+                            <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="14"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You should be able to find this date on the front of your card, under the card number." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rUN-eV-mPh">
+                            <rect key="frame" x="20" y="129" width="354" height="29"/>
+                            <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="12"/>
+                            <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TQx-OZ-rbt" userLabel="Line">
+                            <rect key="frame" x="20" y="178" width="354" height="1"/>
+                            <color key="backgroundColor" red="0.17254901959999999" green="0.17254901959999999" blue="0.2274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="Jz0-p6-Lfn"/>
+                            </constraints>
+                        </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pGg-NA-MV8">
+                            <rect key="frame" x="0.0" y="179" width="394" height="54"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="54" id="EQ4-jR-rsv"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="14"/>
+                            <state key="normal" title="Ok, I got it!">
+                                <color key="titleColor" red="0.3921568627" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="tappedDone:" destination="jOf-wD-QuD" eventType="touchUpInside" id="WA6-QN-RsI"/>
+                            </connections>
+                        </button>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cardFront" translatesAutoresizingMaskIntoConstraints="NO" id="RF4-by-sBS">
+                            <rect key="frame" x="153.5" y="20" width="87" height="52"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="52" id="988-Po-rHj"/>
+                                <constraint firstAttribute="width" constant="87" id="TAR-rk-FI0"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstItem="TQx-OZ-rbt" firstAttribute="top" secondItem="rUN-eV-mPh" secondAttribute="bottom" constant="20" id="Be0-wS-QBB"/>
+                        <constraint firstItem="RF4-by-sBS" firstAttribute="centerX" secondItem="PCh-l0-q1E" secondAttribute="centerX" id="LHR-9r-eWg"/>
+                        <constraint firstAttribute="trailing" secondItem="rUN-eV-mPh" secondAttribute="trailing" constant="20" id="Mmt-Kj-1Vl"/>
+                        <constraint firstAttribute="trailing" secondItem="TQx-OZ-rbt" secondAttribute="trailing" constant="20" id="SML-NF-sdx"/>
+                        <constraint firstItem="rUN-eV-mPh" firstAttribute="top" secondItem="EEn-gf-x2u" secondAttribute="bottom" constant="20" id="Smc-iy-4q7"/>
+                        <constraint firstItem="rUN-eV-mPh" firstAttribute="leading" secondItem="PCh-l0-q1E" secondAttribute="leading" constant="20" id="SsU-cQ-BgF"/>
+                        <constraint firstItem="pGg-NA-MV8" firstAttribute="top" secondItem="TQx-OZ-rbt" secondAttribute="bottom" id="Xx1-dW-Kgz"/>
+                        <constraint firstItem="TQx-OZ-rbt" firstAttribute="leading" secondItem="PCh-l0-q1E" secondAttribute="leading" constant="20" id="bnk-W1-iFi"/>
+                        <constraint firstItem="pjR-Jt-TyW" firstAttribute="bottom" secondItem="pGg-NA-MV8" secondAttribute="bottom" constant="5" id="ceo-aF-9aj"/>
+                        <constraint firstItem="pGg-NA-MV8" firstAttribute="leading" secondItem="PCh-l0-q1E" secondAttribute="leading" id="d85-3H-VSr"/>
+                        <constraint firstItem="EEn-gf-x2u" firstAttribute="centerX" secondItem="PCh-l0-q1E" secondAttribute="centerX" id="fgE-Kk-aNO"/>
+                        <constraint firstItem="RF4-by-sBS" firstAttribute="top" secondItem="pjR-Jt-TyW" secondAttribute="top" constant="20" id="iaT-5Y-wSe"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="168" id="ihz-7Q-v0e"/>
+                        <constraint firstItem="EEn-gf-x2u" firstAttribute="top" secondItem="RF4-by-sBS" secondAttribute="bottom" constant="20" id="klB-h1-rtZ"/>
+                        <constraint firstAttribute="trailing" secondItem="pGg-NA-MV8" secondAttribute="trailing" id="uUS-av-O4Y"/>
+                    </constraints>
+                    <viewLayoutGuide key="safeArea" id="pjR-Jt-TyW"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="5"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="PCh-l0-q1E" firstAttribute="centerX" secondItem="jOf-wD-QuD" secondAttribute="centerX" id="4Jr-dJ-TUj"/>
+                <constraint firstItem="PCh-l0-q1E" firstAttribute="leading" secondItem="jOf-wD-QuD" secondAttribute="leading" constant="10" id="JOk-2m-VQg"/>
+                <constraint firstItem="PCh-l0-q1E" firstAttribute="centerY" secondItem="jOf-wD-QuD" secondAttribute="centerY" id="TuR-1J-tk0"/>
+                <constraint firstAttribute="trailing" secondItem="PCh-l0-q1E" secondAttribute="trailing" constant="10" id="ylA-UT-ZUS"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="Enm-rr-SQs"/>
+            <connections>
+                <outlet property="expirationDateLabel" destination="rUN-eV-mPh" id="8jD-RT-6Cm"/>
+            </connections>
+            <point key="canvasLocation" x="234.78260869565219" y="-53.571428571428569"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="cardFront" width="87" height="52"/>
+    </resources>
+</document>

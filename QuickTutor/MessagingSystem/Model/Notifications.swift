@@ -42,6 +42,11 @@ struct NotificationNames {
     struct SavedTutors {
         static let didUpdate = Notification.Name("com.qt.savedTutorsDidUpdate")
     }
+    
+    struct Documents {
+        static let didStartUpload = Notification.Name(rawValue: "com.qt.documentUploadStarted")
+        static let didFinishUpload = Notification.Name(rawValue: "com.qt.documentUploadFinished")
+    }
 }
 
 struct PushNotification {

@@ -49,6 +49,14 @@ class ConnectionRequestCell: UserMessageCell {
         loadFromRequest()
 
     }
+    
+    override func setupBubbleViewAsSentMessage() {
+        super.setupBubbleViewAsSentMessage()
+        bubbleView.backgroundColor = .clear
+        bubbleView.layer.shadowOpacity = 0
+        mockBubbleViewBackground.applyDefaultShadow()
+        buttonView.applyDefaultShadow()
+    }
 
     func setupMockBubbleViewBackground() {
         addSubview(mockBubbleViewBackground)
@@ -57,6 +65,9 @@ class ConnectionRequestCell: UserMessageCell {
         mockBubbleViewHeightAnchor?.isActive = true
         layoutIfNeeded()
         bubbleView.layer.borderWidth = 0
+        bubbleView.layer.shadowOpacity = 0
+        mockBubbleViewBackground.applyDefaultShadow()
+        buttonView.applyDefaultShadow()
     }
     
     func updateMockBubbleViewHeight(_ height: CGFloat) {

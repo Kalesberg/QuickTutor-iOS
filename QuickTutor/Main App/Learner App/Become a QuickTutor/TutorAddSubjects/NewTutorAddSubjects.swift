@@ -24,6 +24,8 @@ class TutorAddSubjectsVC: UIViewController {
         return view
     }()
     
+    var searchTimer: Timer?
+    
     override func loadView() {
         view = contentView
     }
@@ -55,6 +57,22 @@ class TutorAddSubjectsVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleTextChange), name: UITextField.textDidChangeNotification, object: nil)
     }
     
+    private func filterSubjects(_ text: String) {
+        searchTimer?.invalidate()
+        self.child.unknownSubject = nil
+        searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false
+            , block: { (_) in
+                DispatchQueue.global().async {
+                    self.child.filteredSubjects = self.child.subjects.filter({ $0.range(of: text, options: .caseInsensitive) != nil }).sorted(by: { $0.count < $1.count })
+                    if self.child.filteredSubjects.count == 0 {
+                        self.child.unknownSubject = text
+                    }
+                    DispatchQueue.main.sync {
+                        self.child.contentView.collectionView.reloadData()
+                    }
+                }
+        })
+    }
     
     @objc private func handleTextChange() {
         let sender = contentView.searchBarContainer.searchBar
@@ -70,9 +88,7 @@ class TutorAddSubjectsVC: UIViewController {
         }
         
         contentView.searchBarContainer.filtersButton.isHidden = true
-        child.unknownSubject = text
-        child.filteredSubjects = child.subjects.filter({ $0.range(of: text, options: .caseInsensitive) != nil }).sorted(by: { $0.count < $1.count })
-        child.contentView.collectionView.reloadData()
+        filterSubjects(text)
     }
     
     

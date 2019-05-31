@@ -12,7 +12,7 @@ import Lottie
 import Firebase
 import SocketIO
 
-class QTVideoSessionViewController: UIViewController {
+class QTVideoSessionViewController: QTSessionBaseViewController {
 
     // MARK: - Properties
     @IBOutlet weak var cameraPreview: TVIVideoView!
@@ -118,12 +118,6 @@ class QTVideoSessionViewController: UIViewController {
         PostSessionManager.shared.removeObservers()
         BackgroundSoundManager.shared.sessionInProgress = true
         expireSession()
-        
-        // Updated the startedAt of a session because the session is able to start early than expected.
-        Database.database().reference()
-            .child("sessions")
-            .child(sessionId)
-            .updateChildValues(["startedAt": Date().timeIntervalSince1970])
         
         updateUI()
         setupTwilio()
@@ -368,6 +362,10 @@ class QTVideoSessionViewController: UIViewController {
         BackgroundSoundManager.shared.sessionInProgress = false
         dismissAllModals()
         PostSessionManager.shared.sessionDidEnd(sessionId: sessionId!, partnerId: partnerId!)
+        
+        // Update the session end time.
+        self.updateSessionEndTime(sessionId: self.sessionId)
+        
         if let session = sessionManager?.session, let runtime = sessionManager?.sessionRuntime {
             session.runTime = runtime
             showRatingViewControllerForSession(session, sessionId: sessionId)

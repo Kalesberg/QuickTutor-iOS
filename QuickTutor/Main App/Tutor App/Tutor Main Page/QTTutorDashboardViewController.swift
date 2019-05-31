@@ -100,9 +100,6 @@ class QTTutorDashboardViewController: UIViewController {
         
         headerView.avatarImageView.isUserInteractionEnabled = true
         headerView.avatarImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTapTutorProfileImageView)))
-        
-        getSessions()
-        getEarnings()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -119,6 +116,8 @@ class QTTutorDashboardViewController: UIViewController {
         
         tutor = CurrentUser.shared.tutor
         initUserBasicInformation()
+        getSessions()
+        getEarnings()
         
         navigationController?.setNavigationBarHidden(true, animated: false)
         
@@ -278,7 +277,7 @@ class QTTutorDashboardViewController: UIViewController {
             unit = NSDate().timeIntervalSince1970 - 31_556_926 // subctract 365.2422 days
         }
         
-        let fiteredSessions = sessions.filter({$0.endedAt > Double(unit)})
+        let fiteredSessions = sessions.filter({$0.startTime > Double(unit)})
         switch durationType {
         case .week:
             var sessionCount: Double = 00
@@ -289,8 +288,8 @@ class QTTutorDashboardViewController: UIViewController {
                 mergeUnit = unit + Double(dayIndex * 86_400)
                 nextMergeUnit = unit + Double((dayIndex + 1) * 86_400)
                 fiteredSessions
-                    .filter({$0.endedAt >= Double(mergeUnit) && $0.endedAt < Double(nextMergeUnit)})
-                    .forEach({sessionCount += 1; hours += fabs(Double($0.endedAt - $0.startedAt)) / 3_600 })
+                    .filter({$0.endTime >= Double(mergeUnit) && $0.endTime < Double(nextMergeUnit)})
+                    .forEach({sessionCount += 1; hours += fabs(Double($0.endTime - $0.startTime)) / 3_600 })
                 sessionsChartData.append(QTTutorDashboardChartData(valueY: sessionCount, date: mergeUnit))
                 hoursChartData.append(QTTutorDashboardChartData(valueY: hours, date: mergeUnit))
             }
@@ -303,8 +302,8 @@ class QTTutorDashboardViewController: UIViewController {
                 mergeUnit = unit + Double(dayIndex * 86_400)
                 nextMergeUnit = unit + Double((dayIndex + 1) * 86_400)
                 fiteredSessions
-                    .filter({$0.endedAt >= Double(mergeUnit) && $0.endedAt < Double(nextMergeUnit)})
-                    .forEach({sessionCount += 1; hours += fabs(Double($0.endedAt - $0.startedAt)) / 3_600 })
+                    .filter({$0.endTime >= Double(mergeUnit) && $0.endTime < Double(nextMergeUnit)})
+                    .forEach({sessionCount += 1; hours += fabs(Double($0.endTime - $0.startTime)) / 3_600 })
                 sessionsChartData.append(QTTutorDashboardChartData(valueY: sessionCount, date: mergeUnit))
                 hoursChartData.append(QTTutorDashboardChartData(valueY: hours, date: mergeUnit))
             }
@@ -317,8 +316,8 @@ class QTTutorDashboardViewController: UIViewController {
                 mergeUnit = unit + Double(weekIndex * 604_800)
                 nextMergeUnit = unit + Double((weekIndex + 1) * 604_800)
                 fiteredSessions
-                    .filter({$0.endedAt >= Double(mergeUnit) && $0.endedAt < Double(nextMergeUnit)})
-                    .forEach({sessionCount += 1; hours += fabs(Double($0.endedAt - $0.startedAt)) / 3_600 })
+                    .filter({$0.endTime >= Double(mergeUnit) && $0.endTime < Double(nextMergeUnit)})
+                    .forEach({sessionCount += 1; hours += fabs(Double($0.endTime - $0.startTime)) / 3_600 })
                 sessionsChartData.append(QTTutorDashboardChartData(valueY: sessionCount, date: mergeUnit))
                 hoursChartData.append(QTTutorDashboardChartData(valueY: hours, date: mergeUnit))
             }
@@ -331,8 +330,8 @@ class QTTutorDashboardViewController: UIViewController {
                 mergeUnit = unit + Double(monthIndex * 2_629_743)
                 nextMergeUnit = unit + Double((monthIndex + 1) * 2_629_743)
                 fiteredSessions
-                    .filter({$0.endedAt >= Double(mergeUnit) && $0.endedAt < Double(nextMergeUnit)})
-                    .forEach({sessionCount += 1; hours += fabs(Double($0.endedAt - $0.startedAt)) / 3_600 })
+                    .filter({$0.endTime >= Double(mergeUnit) && $0.endTime < Double(nextMergeUnit)})
+                    .forEach({sessionCount += 1; hours += fabs(Double($0.endTime - $0.startTime)) / 3_600 })
                 sessionsChartData.append(QTTutorDashboardChartData(valueY: sessionCount, date: mergeUnit))
                 hoursChartData.append(QTTutorDashboardChartData(valueY: hours, date: mergeUnit))
             }

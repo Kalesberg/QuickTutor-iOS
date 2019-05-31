@@ -12,7 +12,7 @@ import AVFoundation
 import Firebase
 import SocketIO
 
-class QTConfirmMeetUpViewController: UIViewController {
+class QTConfirmMeetUpViewController: QTSessionBaseViewController {
 
     // MARK: - Properties
     @IBOutlet weak var avatarImageView: UIImageView!
@@ -141,11 +141,18 @@ class QTConfirmMeetUpViewController: UIViewController {
         panGesture.minimumNumberOfTouches = 1
         slidingButton.addGestureRecognizer(panGesture)
         
+        // Need to activate after get session info.
+        slidingButton.isEnabled = false
+        slidingButton.alpha = 0.5
+        
         // Set the active status of user.
         self.statusImageView.backgroundColor = Colors.gray
         
         // Get the session information.
         DataService.shared.getSessionById(sessionId) { (session) in
+            // Activate slidingButton
+            self.slidingButton.isEnabled = true
+            self.slidingButton.alpha = 1.0
             self.session = session
 
             // Get the partner name.
@@ -176,9 +183,8 @@ class QTConfirmMeetUpViewController: UIViewController {
     
     func getDurationAndHourlyRate(session: Session?) -> String? {
         guard let session = session else { return nil}
-        let lengthInSeconds = session.endTime - session.startTime
-        let lengthInMinutes = Int(lengthInSeconds / 60)
-        return "\(Int(lengthInMinutes)) \(lengthInMinutes == 1 ? "Min" : "Mins"), $\(Int(session.price))"
+        let lengthInMinutes = Int(session.duration / 60)
+        return "\(Int(lengthInMinutes)) \(lengthInMinutes == 1 ? "Min" : "Mins"), $\(String(format: "%.2f", session.sessionPrice))"
     }
     
     func setupNavBar() {
@@ -207,11 +213,6 @@ class QTConfirmMeetUpViewController: UIViewController {
     }
     
     func confirmManualStart() {
-        #if targetEnvironment(simulator)
-        // for sim only
-        #else
-        guard checkPermissions() else { return }
-        #endif
         removeStartData()
         let data = ["roomKey": sessionId!, "sessionId": sessionId!, "sessionType": (session?.type)!]
         socket.emit(SocketEvents.manualStartAccetped, data)
@@ -236,46 +237,6 @@ class QTConfirmMeetUpViewController: UIViewController {
         
     }
     
-    func checkPermissions() -> Bool {
-        if checkCameraAccess() && checkMicrophoneAccess() {
-            return true
-        } else {
-            return false
-        }
-    }
-    
-    func checkCameraAccess() -> Bool {
-        if AVCaptureDevice.authorizationStatus(for: .video) == .authorized {
-            return true
-        } else {
-            let alert = UIAlertController(title: "Camera Required", message: "Camera access is required for video sessions.", preferredStyle: .alert)
-            
-            // Add "OK" Button to alert, pressing it will bring you to the settings app
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
-                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
-            }))
-            // Show the alert with animation
-            present(alert, animated: true)
-            return false
-        }
-    }
-    
-    func checkMicrophoneAccess() -> Bool {
-        if AVCaptureDevice.authorizationStatus(for: .audio) == .authorized {
-            return true
-        } else {
-            let alert = UIAlertController(title: "Microphone Required", message: "Microphone access is required for video sessions", preferredStyle: .alert)
-            
-            // Add "OK" Button to alert, pressing it will bring you to the settings app
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
-                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
-            }))
-            // Show the alert with animation
-            present(alert, animated: true)
-            return false
-        }
-    }
-    
     func removeStartData() {
         guard let uid = Auth.auth().currentUser?.uid, let sessionId = session?.id, let partnerId = partnerId else { return }
         Database.database().reference().child("sessionStarts").child(uid).child(sessionId).removeValue()
@@ -283,6 +244,14 @@ class QTConfirmMeetUpViewController: UIViewController {
     }
     
     func proceedToSession() {
+        // Get the duration of the session.
+        guard let session = self.session else {
+            return
+        }
+        let duration = session.endTime - session.startTime
+        // Update the session start time and end time.
+        self.updateSessionStartTime(sessionId: self.sessionId, duration: duration)
+        
         let vc = QTInPersonSessionViewController.controller
         vc.sessionId = sessionId
         navigationController?.pushViewController(vc, animated: true)

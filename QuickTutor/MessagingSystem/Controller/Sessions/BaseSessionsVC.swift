@@ -27,7 +27,7 @@ class BaseSessionsVC: UIViewController {
         return cv
     }()
     
-    var addPaymentModal = AddPaymentModal()
+    var addPaymentModal: AddPaymentModal?
     var cancelSessionModal: CancelSessionModal?
     var collectionViewBottomAnchor: NSLayoutConstraint?
     
@@ -108,9 +108,18 @@ class BaseSessionsVC: UIViewController {
                 }
                 
                 Database.database().reference().child("userSessions").child(uid).child(userTypeString).observe(.childAdded) { snapshot in
-                    self.dismissOverlay()
+                    
+                    if !snapshot.exists() {
+                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
+                            self.dismissOverlay()
+                        })
+                    }
                     
                     DataService.shared.getSessionById(snapshot.key, completion: { session in
+                        
+                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
+                            self.dismissOverlay()
+                        })
                         
                         if session.type.compare(QTSessionType.quickCalls.rawValue) == .orderedSame {
                             return

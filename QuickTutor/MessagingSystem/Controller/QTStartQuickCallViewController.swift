@@ -54,7 +54,7 @@ class QTQuickCallDialogAnimator: NSObject, UIViewControllerAnimatedTransitioning
     }
 }
 
-class QTStartQuickCallViewController: UIViewController, QTStartQuickCallModalNavigation {
+class QTStartQuickCallViewController: QTSessionBaseViewController, QTStartQuickCallModalNavigation {
     
     @IBOutlet weak var avatarImageView: QTCustomImageView!
     @IBOutlet weak var usernameLabel: UILabel!
@@ -141,9 +141,16 @@ class QTStartQuickCallViewController: UIViewController, QTStartQuickCallModalNav
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)        
         
+        // Activate pickUpButton after get session info.
+        pickUpButton.isEnabled = false
+        pickUpButton.alpha = 0.5
+        
         // Get the session information.
         DataService.shared.getSessionById(sessionId) { (session) in
             self.session = session
+            // Activate pickUpButton
+            self.pickUpButton.isEnabled = true
+            self.pickUpButton.alpha = 1.0
             
             // Get the partner name.
             self.partnerId = self.session?.partnerId()
@@ -186,6 +193,7 @@ class QTStartQuickCallViewController: UIViewController, QTStartQuickCallModalNav
     }
     
     @IBAction func onPickUpButtonClicked(_ sender: Any) {
+        guard let session = session else { return }
         removeStartData()
         let data = ["roomKey": self.sessionId!, "sessionId": self.sessionId!, "sessionType": (self.session?.type)!]
         socket.emit(SocketEvents.manualStartAccetped, data)
@@ -210,6 +218,14 @@ class QTStartQuickCallViewController: UIViewController, QTStartQuickCallModalNav
     func setupObservers() {
         socket.on(SocketEvents.manualStartAccetped) { _, _ in
             self.dismiss(animated: true, completion: {
+                // Get the duration of the session.
+                guard let session = self.session else {
+                    return
+                }
+                let duration = session.endTime - session.startTime
+                // Update the session start time and end time.
+                self.updateSessionStartTime(sessionId: self.sessionId, duration: duration)
+                
                 let vc = QTVideoSessionViewController.controller
                 vc.sessionId = self.sessionId
                 vc.sessionType = self.sessionType

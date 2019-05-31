@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import SocketIO
 
-class QTInPersonSessionViewController: UIViewController {
+class QTInPersonSessionViewController: QTSessionBaseViewController {
 
     // MARK: - Properties
     @IBOutlet weak var avatarImageView: UIImageView!
@@ -66,9 +66,6 @@ class QTInPersonSessionViewController: UIViewController {
         PostSessionManager.shared.removeObservers()
         BackgroundSoundManager.shared.sessionInProgress = true
         expireSession()
-        
-        // Updated the startedAt of a session because the session is able to start early than expected.
-        Database.database().reference().child("sessions").child(sessionId!).updateChildValues(["startedAt": Date().timeIntervalSince1970])
         
         guard let session = sessionManager?.session else { return }
         AnalyticsService.shared.logSessionStart(session)
@@ -243,6 +240,10 @@ class QTInPersonSessionViewController: UIViewController {
         BackgroundSoundManager.shared.sessionInProgress = false
         dismissAllModals()
         PostSessionManager.shared.sessionDidEnd(sessionId: sessionId!, partnerId: partnerId!)
+        
+        // Update the session end time.
+        self.updateSessionEndTime(sessionId: self.sessionId)
+        
         if let session = sessionManager?.session, let runtime = sessionManager?.sessionRuntime {
             session.runTime = runtime
             showRatingViewControllerForSession(session, sessionId: sessionId)
@@ -379,7 +380,7 @@ extension QTInPersonSessionViewController: SessionManagerDelegate {
 // MARK: - PauseSessionModalDelegate
 extension QTInPersonSessionViewController: PauseSessionModalDelegate {
     func pauseSessionModalShouldEndSession(_ pauseSessionModal: PauseSessionModal) {
-        self.onFinishButtonClicked(self.finishButton)
+        sessionManager?.endSocketSession()
     }
     
     func pauseSessionModalDidUnpause(_ pauseSessionModal: PauseSessionModal) {

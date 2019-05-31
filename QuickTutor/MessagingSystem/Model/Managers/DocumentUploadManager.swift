@@ -106,9 +106,7 @@ extension DocumentUploadManager: UIDocumentPickerDelegate {
     private func uploadFileFromUrl(_ url: URL) {
         let fileName = (url.path as NSString).lastPathComponent
         let extensionName = (url.path as NSString).pathExtension
-        print("Filename is: ", fileName)
-        print("Path extension is: ", extensionName)
-        
+        NotificationCenter.default.post(name: NotificationNames.Documents.didStartUpload, object: nil)
         
         do {
             let data = try Data(contentsOf: url, options: .alwaysMapped)

@@ -97,11 +97,19 @@ class SessionRequestCell: UserMessageCell {
         getSessionRequestWithId(message.sessionRequestId!)
         userMessage = message
     }
+    
+    override func setupBubbleViewAsSentMessage() {
+        super.setupBubbleViewAsSentMessage()
+        bubbleView.backgroundColor = .clear
+    }
 
     func getSessionRequestWithId(_ id: String) {
         Database.database().reference().child("sessions").child(id).observeSingleEvent(of: .value) { snapshot in
             guard let value = snapshot.value as? [String: Any] else { return }
             let sessionRequest = SessionRequest(data: value)
+            if sessionRequest.startTime < Date().timeIntervalSince1970 {
+                sessionRequest.status = "expired"
+            }
             sessionRequest.id = id
             self.sessionRequest = sessionRequest
             self.loadFromRequest()
@@ -126,7 +134,8 @@ class SessionRequestCell: UserMessageCell {
     func updateTextData() {
         guard let subject = sessionRequest?.subject, let price = sessionRequest?.price, let date = sessionRequest?.formattedDate(), let startTime = sessionRequest?.formattedStartTime(), let endTime = sessionRequest?.formattedEndTime(), let type = sessionRequest?.type else { return }
         subjectLabel.text = subject
-        let priceString = String(format: "%.2f", price)
+        let realPrice = .learner == AccountService.shared.currentUserType ? (price + 0.3) / 0.971 : price
+        let priceString = String(format: "%.2f", realPrice)
         priceLabel.text = "$\(priceString)"
         sessionTypeLabel.text = type == "online" ? "Online" : "In-Person"
         dateLabel.text = "\(date)"
@@ -307,6 +316,9 @@ class SessionRequestCell: UserMessageCell {
     func setupMockBubbleViewBackground() {
         addSubview(mockBubbleViewBackground)
         mockBubbleViewBackground.anchor(top: bubbleView.topAnchor, left: bubbleView.leftAnchor, bottom: nil, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 85)
+        bubbleView.layer.shadowOpacity = 0
+        mockBubbleViewBackground.applyDefaultShadow()
+        buttonView.applyDefaultShadow()
     }
 
     func setupSubjectLabel() {
@@ -432,7 +444,6 @@ class SessionRequestCellButtonView: UIView {
 
     let leftButton: DimmableButton = {
         let button = DimmableButton()
-        button.backgroundColor = Colors.purple
         button.layer.cornerRadius = 4
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = Fonts.createBoldSize(12)
@@ -545,7 +556,7 @@ class SessionRequestCellButtonView: UIView {
     func setupAsPending() {
         setupAsSingleButton()
         setButtonTitleColors(.white)
-        setLeftButtonToPrimaryUI()
+        setLeftButtonToSecondaryUI()
         reapplyDimming()
         setButtonTitles("Cancel request")
     }

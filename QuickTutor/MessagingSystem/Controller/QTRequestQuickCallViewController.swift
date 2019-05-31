@@ -85,6 +85,8 @@ class QTRequestQuickCallViewController: UIViewController {
             session["status"] = "accepted"
             session["senderId"] = uid
             session["receiverId"] = self.tutor.uid
+            session["paymentType"] = QTSessionPaymentType.hour.rawValue
+            session["duration"] = 60 * 60 // 1 hour
             guard let _ = session["subject"], let _ = session["date"], let _ = session["startTime"], let _ = session["endTime"], let _ = session["type"], let _ = session["price"] else {
                 return
             }

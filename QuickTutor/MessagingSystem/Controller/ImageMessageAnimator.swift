@@ -84,7 +84,7 @@ class ImageMessageAnimator: ImageMessageCellDelegate {
         UIViewPropertyAnimator(duration: 0.25, curve: .easeOut) {
             let height = (self.parentController.view.frame.width / startingFrame.width) * startingFrame.height
             let y = self.parentController.view.frame.height / 2 - height / 2
-            self.zoomView.frame = CGRect(x: 0, y: y, width: self.parentController.view.frame.width, height: height)
+            self.zoomView.frame = CGRect(x: 0, y: y + 50, width: self.parentController.view.frame.width, height: height)
             self.zoomBackground.alpha = 1
             self.parentController.inputAccessoryView?.alpha = 0
             self.delegate?.imageAnimatorDidZoomIn(self)

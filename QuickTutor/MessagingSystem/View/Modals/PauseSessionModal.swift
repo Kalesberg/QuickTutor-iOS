@@ -81,16 +81,16 @@ class PauseSessionModal: BaseCustomModal {
     }
 
     func setupVideoEndSessionButton() {
-        backgroundBlurView.addSubview(videoEndSessionButton)
-        videoEndSessionButton.anchor(top: nil, left: nil, bottom: backgroundBlurView.bottomAnchor, right: backgroundBlurView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 10, paddingRight: 15, width: 169.75, height: 61.25)
+        background.addSubview(videoEndSessionButton)
+        videoEndSessionButton.anchor(top: nil, left: nil, bottom: background.bottomAnchor, right: background.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 10, paddingRight: 15, width: 169.75, height: 61.25)
         videoEndSessionButton.addTarget(self, action: #selector(endSession), for: .touchUpInside)
     }
 
     func setupInPersonEndSessionButton() {
         guard let window = UIApplication.shared.keyWindow else { return }
-        backgroundBlurView.addSubview(inPersonEndSessionButton)
-        inPersonEndSessionButton.anchor(top: nil, left: nil, bottom: backgroundBlurView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 52.5, paddingRight: 0, width: 270, height: 50)
-        window.addConstraint(NSLayoutConstraint(item: inPersonEndSessionButton, attribute: .centerX, relatedBy: .equal, toItem: backgroundBlurView, attribute: .centerX, multiplier: 1, constant: 0))
+        background.addSubview(inPersonEndSessionButton)
+        inPersonEndSessionButton.anchor(top: nil, left: nil, bottom: background.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 52.5, paddingRight: 0, width: 270, height: 50)
+        window.addConstraint(NSLayoutConstraint(item: inPersonEndSessionButton, attribute: .centerX, relatedBy: .equal, toItem: background, attribute: .centerX, multiplier: 1, constant: 0))
         inPersonEndSessionButton.addTarget(self, action: #selector(endSession), for: .touchUpInside)
     }
     
@@ -101,6 +101,7 @@ class PauseSessionModal: BaseCustomModal {
     
     override func setupViews() {
         super.setupViews()
+        setHeightTo(300)
         background.backgroundColor = .clear
         setupUnpauseButton()
         backgroundBlurView.gestureRecognizers?.removeAll()

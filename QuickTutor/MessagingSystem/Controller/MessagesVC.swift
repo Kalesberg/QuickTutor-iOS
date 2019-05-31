@@ -127,7 +127,6 @@ class MessagesVC: UIViewController {
                     index += 1;
                     guard let meta = child.value as? [String: Any] else {
                         if index == snap.count - 1 {
-                            self.dismissOverlay()
                             self.emptyBackround.isHidden = false
                         }
                         return
@@ -142,11 +141,14 @@ class MessagesVC: UIViewController {
                 self.emptyBackround.isHidden = hasMessage
                 
                 Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).observe(.childAdded) { snapshot in
-                    self.dismissOverlay()
                     let userId = snapshot.key
                     Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(userId).observe(.value, with: { snapshot in
-                        guard let metaData = snapshot.value as? [String: Any] else { return }
+                        guard let metaData = snapshot.value as? [String: Any] else {
+                            self.dismissOverlay()
+                            return
+                        }
                         guard let messageId = metaData["lastMessageId"] as? String else {
+                            self.dismissOverlay()
                             return
                         }
                         self.collectionView.alwaysBounceVertical = true
@@ -161,7 +163,10 @@ class MessagesVC: UIViewController {
     
     func getMessageById(_ messageId: String) {
         Database.database().reference().child("messages").child(messageId).observeSingleEvent(of: .value) { snapshot in
-            guard let value = snapshot.value as? [String: Any] else { return }
+            guard let value = snapshot.value as? [String: Any] else {
+                self.dismissOverlay()
+                return
+            }
             let message = UserMessage(dictionary: value)
             message.uid = snapshot.key
             
@@ -174,6 +179,10 @@ class MessagesVC: UIViewController {
                 
                 self.conversationsDictionary[message.partnerId()] = message
                 self.attemptReloadOfTable()
+                
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
+                    self.dismissOverlay()
+                })
             })
         }
     }

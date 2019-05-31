@@ -22,7 +22,7 @@ enum QTSessionStartType: String {
     case manual
 }
 
-class QTStartSessionViewController: UIViewController {
+class QTStartSessionViewController: QTSessionBaseViewController {
 
     // MARK: - Properties
     @IBOutlet weak var avatarImageView: UIImageView!
@@ -67,12 +67,13 @@ class QTStartSessionViewController: UIViewController {
         
         setupSocket()
         setupObservers()
-        
+        if sessionType == QTSessionType.online {
         #if targetEnvironment(simulator)
         // for sim only
         #else
-        guard checkPermissions() else { return }
+            guard checkPermissions() else { return }
         #endif
+        }
         NotificationManager.shared.disableAllNotifications()
         
         if sessionType == .online {
@@ -107,6 +108,7 @@ class QTStartSessionViewController: UIViewController {
     }
     
     @IBAction func onAcceptButtonClicked(_ sender: Any) {
+        guard let _ = session else { return }
         currentUserHasPayment { (hasPayment) in
             guard hasPayment else { return }
             self.removeStartData()
@@ -120,6 +122,14 @@ class QTStartSessionViewController: UIViewController {
     func setupObservers() {
         socket.on(SocketEvents.manualStartAccetped) { _, _ in
             if self.sessionType == .online {
+                // Get the duration of the session.
+                guard let session = self.session else {
+                    return
+                }
+                let duration = session.endTime - session.startTime
+                // Update the session start time and end time.
+                self.updateSessionStartTime(sessionId: self.sessionId, duration: duration)
+                
                 let vc = QTVideoSessionViewController.controller
                 vc.sessionId = self.sessionId
                 vc.sessionType = self.sessionType
@@ -192,9 +202,17 @@ class QTStartSessionViewController: UIViewController {
         acceptButton.clipsToBounds = true
         acceptButton.setupTargets()
         
+        // Activate accept button after get session info.
+        acceptButton.isEnabled = false
+        acceptButton.alpha = 0.5
+        
         // Get the session information.
         DataService.shared.getSessionById(sessionId) { (session) in
             self.session = session
+            
+            // Activate accept button
+            self.acceptButton.isEnabled = true
+            self.acceptButton.alpha = 1.0
             
             // Get the partner name.
             self.partnerId = self.session?.partnerId()
@@ -220,9 +238,8 @@ class QTStartSessionViewController: UIViewController {
     
     func getDurationAndHourlyRate(session: Session?) -> String? {
         guard let session = session else { return nil}
-        let lengthInSeconds = session.endTime - session.startTime
-        let lengthInMinutes = Int(lengthInSeconds / 60)
-        return "\(Int(lengthInMinutes)) \(lengthInMinutes == 1 ? "Min" : "Mins"), $\(Int(session.price))"
+        let lengthInMinutes = Int(session.duration / 60)
+        return "\(Int(lengthInMinutes)) \(lengthInMinutes == 1 ? "Min" : "Mins"), $\(String(format: "%.2f", session.sessionPrice))"
     }
     
     func removeStartData() {

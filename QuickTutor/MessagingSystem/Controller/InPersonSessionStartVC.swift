@@ -105,11 +105,6 @@ class InpersonSessionStartVC: BaseSessionStartVC, MessageButtonDelegate {
     }
 
     override func confirmManualStart() {
-        #if targetEnvironment(simulator)
-            // for sim only
-        #else
-            guard checkPermissions() else { return }
-        #endif
         removeStartData()
         let data = ["roomKey": sessionId!, "sessionId": sessionId!, "sessionType": (session?.type)!]
         socket.emit(SocketEvents.manualStartAccetped, data)

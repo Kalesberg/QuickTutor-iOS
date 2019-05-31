@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol AddTimeModalDelegate {
+    func addTimeModalDidDecline(_ addTimeModal: AddTimeModal)
+    func addTimeModal(_ addTimeModal: AddTimeModal, didAdd minutes: Int)
+}
+
 class AddTimeModal: CustomTipModal {
     var delegate: AddTimeModalDelegate?
 

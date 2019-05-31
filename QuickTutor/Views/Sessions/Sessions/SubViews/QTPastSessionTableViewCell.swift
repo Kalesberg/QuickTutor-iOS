@@ -11,7 +11,6 @@ import UIKit
 class QTPastSessionTableViewCell: UITableViewCell {
 
     // MARK: - Properites
-    @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var avatarImageView: QTCustomImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var subjectLabel: UILabel!
@@ -25,7 +24,7 @@ class QTPastSessionTableViewCell: UITableViewCell {
         return UINib(nibName: reuseIdentifier, bundle: nil)
     }
     
-    var session: Session!
+    var sessionUserInfo: SessionUserInfo!
     
     // MARK: - Lifecycle
     override func awakeFromNib() {
@@ -34,7 +33,6 @@ class QTPastSessionTableViewCell: UITableViewCell {
         usernameLabel.text = ""
         subjectLabel.text = ""
         durationLabel.text = ""
-        dateLabel.text = ""
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -44,68 +42,41 @@ class QTPastSessionTableViewCell: UITableViewCell {
     }
     
     // MARK: - Functions
-    func setData(session: Session) {
-        self.session = session
-        
+    func setData(_ sessionUserInfo : SessionUserInfo) {
+        self.sessionUserInfo = sessionUserInfo
         updateSubject()
-        updateSessionDate()
         updateTimeAndCost()
-        AccountService.shared.currentUserType == .learner ? getTutor() : getLearner()
+        updateUserInfo()
     }
     
-    func getTutor() {
-        UserFetchService.shared.getTutorWithId(session.partnerId()) { tutor in
-            guard let username = tutor?.formattedName.capitalized, let profilePicUrl = tutor?.profilePicUrl else { return }
-            if let sessionType = QTSessionType(rawValue: self.session.type), sessionType == .quickCalls {
-                let attributedText = NSMutableAttributedString(string: username + "(Call)")
-                attributedText.addAttribute(.foregroundColor, value: Colors.purple, range: NSRange(location: attributedText.length - 6, length: 6))
-                self.usernameLabel.attributedText = attributedText
-            } else {
-                self.usernameLabel.attributedText = NSMutableAttributedString(string: username)
-            }
-            self.avatarImageView.sd_setImage(with: profilePicUrl, placeholderImage: UIImage(named: "ic_avatar_placeholder"))
+    func updateUserInfo() {
+        if let sessionType = QTSessionType(rawValue: self.sessionUserInfo.type), sessionType == .quickCalls {
+            let attributedText = NSMutableAttributedString(string: sessionUserInfo.userName + "(Call)")
+            attributedText.addAttribute(.foregroundColor, value: Colors.purple, range: NSRange(location: attributedText.length - 6, length: 6))
+            self.usernameLabel.attributedText = attributedText
+        } else {
+            self.usernameLabel.attributedText = NSMutableAttributedString(string: sessionUserInfo.userName)
         }
-    }
-    
-    func getLearner() {
-        UserFetchService.shared.getStudentWithId(session.partnerId()) { tutor in
-            guard let username = tutor?.formattedName.capitalized, let profilePicUrl = tutor?.profilePicUrl else { return }
-            if let sessionType = QTSessionType(rawValue: self.session.type), sessionType == .quickCalls {
-                let attributedText = NSMutableAttributedString(string: username + "(Call)")
-                attributedText.addAttribute(.foregroundColor, value: Colors.purple, range: NSRange(location: attributedText.length - 6, length: 6))
-                self.usernameLabel.attributedText = attributedText
-            } else {
-                self.usernameLabel.attributedText = NSMutableAttributedString(string: username)
-            }
-            
-            self.avatarImageView.sd_setImage(with: profilePicUrl, placeholderImage: UIImage(named: "ic_avatar_placeholder"))
-        }
+        self.avatarImageView.sd_setImage(with: sessionUserInfo.profilePicUrl, placeholderImage: UIImage(named: "ic_avatar_placeholder"))
     }
     
     func updateSubject() {
-        subjectLabel.text = session.subject
-    }
-    
-    func updateSessionDate() {
-        let date = Date(timeIntervalSince1970: session.date)
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd MMMM"
-        dateLabel.text = dateFormatter.string(from: date)
+        subjectLabel.text = sessionUserInfo.subject
     }
     
     func updateTimeAndCost() {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "h:mm a"
         
-        let startTime = Date(timeIntervalSince1970: session.startTime)
+        let startTime = Date(timeIntervalSince1970: sessionUserInfo.startTime)
         let startTimeString = dateFormatter.string(from: startTime)
         
-        let endTime = Date(timeIntervalSince1970: session.endTime)
+        let endTime = Date(timeIntervalSince1970: sessionUserInfo.endTime)
         let endTimeString = dateFormatter.string(from: endTime)
         
         let timeString = "\(startTimeString) - \(endTimeString)"
         
-        let formattedPrice = String(format: "%.2f", session.price)
+        let formattedPrice = String(format: "%.2f", sessionUserInfo.price)
         let priceString = "$\(formattedPrice)"
         
         durationLabel.text = "\(timeString) • \(priceString)"

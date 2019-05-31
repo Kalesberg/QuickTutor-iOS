@@ -10,6 +10,7 @@ import UIKit
 import Stripe
 import Lottie
 import SwipeCellKit
+import Firebase
 
 class CardManagerViewController: UIViewController {
     @IBOutlet weak var noPaymentLabel: UILabel!
@@ -25,11 +26,12 @@ class CardManagerViewController: UIViewController {
     @IBOutlet weak var viewCardActionSheet: UIView!
     @IBOutlet weak var constraintActionSheetBottom: NSLayoutConstraint!
     
-    var addCardVC: STPAddCardViewController?
+    var addCardViewController: AddCardViewController?
     var shouldHideNavBarWhenDismissed = false
     var isShowingAddCardView = false
     var popBackTo: UIViewController?
     private var cards = [STPCard]()
+    private var pastSessions = [Session]()
     private var defaultCard: STPCard?
     
     var customer: STPCustomer! {
@@ -51,8 +53,10 @@ class CardManagerViewController: UIViewController {
         setupLoadingIndicator()
         
         loadStripe()
+        fetchTransactions()
         
         tableView.register(UINib(nibName: "PaymentCardTableViewCell", bundle: nil), forCellReuseIdentifier: "cardCell")
+        tableView.register(EarningsHistoryTaleViewCell.self, forCellReuseIdentifier: "earningsCell")
         
         let image = UIImage(named: "informationIcon")?.withRenderingMode(.alwaysTemplate)
         feeInfoIcon?.setImage(image, for: .normal)
@@ -161,6 +165,31 @@ class CardManagerViewController: UIViewController {
         }
     }
     
+    func fetchTransactions() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let currentUserType = AccountService.shared.currentUserType.rawValue
+        Database.database().reference().child("userSessions").child(uid).child(currentUserType).observe(.value) { (snapshot) in
+            let group = DispatchGroup()
+            guard let sessionsDict = snapshot.value as? [String: Any] else { return }
+            sessionsDict.forEach({ (key, value) in
+                group.enter()
+                DataService.shared.getSessionById(key, completion: { (session) in
+                    guard session.status == "completed" else {
+                        group.leave()
+                        return
+                    }
+                    self.pastSessions.append(session)
+                    group.leave()
+                })
+            })
+            
+            group.notify(queue: .main, execute: {
+                self.tableView.reloadSections(IndexSet(arrayLiteral: 1), with: .automatic)
+            })
+        }
+        
+    }
+    
     private func setCustomer() {
         guard let cards = customer.sources as? [STPCard] else { return }
         self.cards = cards
@@ -192,7 +221,7 @@ class CardManagerViewController: UIViewController {
     }
     
     @IBAction func tappedAddCard(_ sender: Any) {
-        showStripeAddCard()
+        showAddCardViewController()
     }
     
     @IBAction func onClickBtnLinkApplePay(_ sender: Any) {
@@ -225,37 +254,40 @@ class CardManagerViewController: UIViewController {
     }
 }
 
-extension CardManagerViewController: STPAddCardViewControllerDelegate {
-    func addCardViewControllerDidCancel(_ addCardViewController: STPAddCardViewController) {
+extension CardManagerViewController: AddCardViewControllerDelegate {
+      func addCardViewControllerDidCancel() {
         isShowingAddCardView = false
         dismiss(animated: true, completion: nil)
     }
     
-    func addCardViewController(_ addCardViewController: STPAddCardViewController, didCreateToken token: STPToken, completion: @escaping STPErrorBlock) {
-        StripeService.attachSource(cusID: CurrentUser.shared.learner.customer, with: token) { (error) in
+    func addCardViewControllerDidCreateToken(token: STPToken) {
+        self.isShowingAddCardView = false
+        self.dismiss(animated: true, completion: nil)
+        showLoadingAnimation()
+        Stripe.attachSource(cusID: CurrentUser.shared.learner.customer, with: token) { (error) in
+            self.hideLoadingAnimation()
             if let error = error {
                 AlertController.genericErrorAlert(self, title: "Error Processing Card", message: error)
-                return completion(StripeError.updateCardError)
+                return
             }
-            self.addCardVC?.dismiss(animated: true, completion: nil)
             CurrentUser.shared.learner.hasPayment = true
             self.loadStripe()
-            self.navigationController?.popBackToMain()
-            self.isShowingAddCardView = false
         }
     }
 }
 
 extension CardManagerViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 3
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if 0 == section {
             return cards.count
-        } else {
+        } else if 1 == section {
             return Stripe.deviceSupportsApplePay() ? 1 : 0
+        } else {
+            return pastSessions.count
         }
     }
     
@@ -272,7 +304,7 @@ extension CardManagerViewController: UITableViewDataSource {
                 cell.defaultPaymentButtonDelegate = self
                 cell.delegate = self
             }
-        } else {
+        } else if 1 == indexPath.section {
             cell.lastFourLabel.text = nil
             cell.brandImage.image = STPApplePayPaymentOption().image
             let cardChoice: CardChoice = .optionalCard
@@ -280,9 +312,13 @@ extension CardManagerViewController: UITableViewDataSource {
             cell.row = indexPath.row
             cell.defaultPaymentButtonDelegate = self
             cell.delegate = self
+            
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "earningsCell", for: indexPath) as! EarningsHistoryTaleViewCell
+            cell.updateUI(pastSessions[indexPath.item])
+            return cell
         }
-        
-        return cell
     }
 }
 
@@ -292,12 +328,17 @@ extension CardManagerViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard indexPath.section == 0 else {
+            return
+        }
+        
         if let card = cards[safe: indexPath.row], card != defaultCard {
             defaultCardAlert(card: card)
         }
         tableView.deselectRow(at: indexPath, animated: false)
     }
     
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if 0 == section {
             if cards.isEmpty { return nil }
@@ -305,11 +346,17 @@ extension CardManagerViewController: UITableViewDelegate {
             let view = AddCardHeaderView.view
             view.headerLabel.text = "Cards"
             return view
-        } else {
+        } else if 1 == section {
             if !Stripe.deviceSupportsApplePay() { return nil }
             
             let view = AddCardHeaderView.view
             view.headerLabel.text = "Other options"
+            return view
+        } else {
+            if pastSessions.isEmpty { return nil }
+            
+            let view = AddCardHeaderView.view
+            view.headerLabel.text = "Payment history"
             return view
         }
     }
@@ -317,8 +364,10 @@ extension CardManagerViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if 0 == section {
             return cards.isEmpty ? 0 : 60
-        } else {
+        } else if 1 == section {
             return !Stripe.deviceSupportsApplePay() ? 0 : 60
+        } else {
+            return pastSessions.isEmpty ? 0 : 60
         }
     }
     
@@ -374,7 +423,7 @@ extension CardManagerViewController: PaymentCardTableViewCellDelegate {
 
 extension CardManagerViewController: SwipeTableViewCellDelegate {
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
-        if orientation == .left || 1 == indexPath.section { return nil }
+        if orientation == .left || 0 != indexPath.section { return nil }
 
         let deleteAction = SwipeAction(style: .default, title: nil) { action, indexPath in
             self.deleteCardAt(indexPath: indexPath)

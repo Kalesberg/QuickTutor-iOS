@@ -109,8 +109,8 @@ extension LearnerSessionsVC: SessionCellDelgate {
         guard CurrentUser.shared.learner.hasPayment else {
             completion(false)
             addPaymentModal = AddPaymentModal()
-            addPaymentModal.delegate = self
-            self.addPaymentModal.show()
+            addPaymentModal?.delegate = self
+            self.addPaymentModal?.show()
             return
         }
         

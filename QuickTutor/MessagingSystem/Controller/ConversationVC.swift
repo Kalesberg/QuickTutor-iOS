@@ -104,7 +104,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         messagesCollection.dataSource = self
         messagesCollection.delegate = self
         view.addSubview(messagesCollection)
-        messagesCollection.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: -60, width: 0, height: 0)
+        messagesCollection.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 7.5, paddingRight: -60, width: 0, height: 0)
     }
 
     private func setupEmptyBackground() {
@@ -266,6 +266,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupKeyboardObservers()
+        setupDocumentObserver()
         navigationController?.setNavigationBarHidden(false, animated: false)
         CardService.shared.checkForPaymentMethod()
     }
@@ -474,6 +475,15 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         messagesCollection.scrollToItem(at: indexPath, at: .top, animated: true)
     }
     
+    func setupDocumentObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleDocumentUploadStarted), name: NotificationNames.Documents.didStartUpload, object: nil)
+        
+    }
+    
+    @objc func handleDocumentUploadStarted() {
+        displayLoadingOverlay(verticalOffset: -50)
+    }
+    
     @objc func didDisconnect() {
         messagesCollection.reloadData()
         pop()
@@ -556,6 +566,7 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
             return cell
         case .text:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! UserMessageCell
+            cell.bubbleView.backgroundColor = .clear
             cell.updateUI(message: message)
             cell.bubbleWidthAnchor?.constant = cell.textView.text.estimateFrameForFontSize(14).width + 30
             cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
@@ -702,6 +713,9 @@ extension ConversationVC: ConversationManagerDelegate {
     }
 
     func conversationManager(_ conversationManager: ConversationManager, didReceive message: UserMessage) {
+        if let _ = message.documenUrl {
+            removeDocumentLoadingAnimationIfNeeded()
+        }
         moveMessageStatusLabel(message: message)
         setActionViewUsable(true)
         if message.connectionRequestId != nil && conversationManager.isConnected == false {
@@ -712,6 +726,10 @@ extension ConversationVC: ConversationManagerDelegate {
         exitConnectionRequestMode()
         guard viewIfLoaded?.window != nil else { return }
         conversationManager.readReceiptManager?.markConversationRead()
+    }
+    
+    func removeDocumentLoadingAnimationIfNeeded() {
+        dismissOverlay()
     }
 }
 

@@ -21,7 +21,7 @@ class QuickSearchSectionHeader: UICollectionReusableView {
     let titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = Fonts.createBoldSize(14)
+        label.font = Fonts.createBoldSize(20)
         label.text = "Academics"
         label.textAlignment = .left
         return label

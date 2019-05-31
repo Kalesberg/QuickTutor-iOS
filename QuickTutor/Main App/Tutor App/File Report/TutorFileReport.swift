@@ -93,9 +93,9 @@ extension TutorFileReport: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "sessionHistoryCell", for: indexPath) as! SessionHistoryCell
 
-        let startTime = getFormattedTime(unixTime: TimeInterval(datasource[indexPath.row].startedAt))
-        let endTime = getFormattedTime(unixTime: TimeInterval(datasource[indexPath.row].endedAt))
-        let date = getFormattedDate(unixTime: TimeInterval(datasource[indexPath.row].startedAt)).split(separator: "-")
+        let startTime = getFormattedTime(unixTime: TimeInterval(datasource[indexPath.row].startTime))
+        let endTime = getFormattedTime(unixTime: TimeInterval(datasource[indexPath.row].endTime))
+        let date = getFormattedDate(unixTime: TimeInterval(datasource[indexPath.row].startTime)).split(separator: "-")
         insertBorder(cell: cell)
 
         if datasource[indexPath.row].name == "" {

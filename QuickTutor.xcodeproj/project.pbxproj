@@ -49,6 +49,12 @@
 		564B6C1E222D83D5004A9EB7 /* QTLocationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 564B6C1C222D83D5004A9EB7 /* QTLocationsViewController.xib */; };
 		564B6C22222D8891004A9EB7 /* QTLocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564B6C20222D8891004A9EB7 /* QTLocationTableViewCell.swift */; };
 		564B6C23222D8891004A9EB7 /* QTLocationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 564B6C21222D8891004A9EB7 /* QTLocationTableViewCell.xib */; };
+		564C429022A0259300FC8AE1 /* QTPastSessionSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564C428F22A0259300FC8AE1 /* QTPastSessionSectionHeaderView.swift */; };
+		564C429122A0259300FC8AE1 /* QTPastSessionSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564C428F22A0259300FC8AE1 /* QTPastSessionSectionHeaderView.swift */; };
+		564C429322A0293B00FC8AE1 /* QTPastSessionSectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 564C429222A0293B00FC8AE1 /* QTPastSessionSectionHeaderView.xib */; };
+		564C429422A0293B00FC8AE1 /* QTPastSessionSectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 564C429222A0293B00FC8AE1 /* QTPastSessionSectionHeaderView.xib */; };
+		564C429622A03F6400FC8AE1 /* SessionUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564C429522A03F6400FC8AE1 /* SessionUserInfo.swift */; };
+		564C429722A03F6400FC8AE1 /* SessionUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564C429522A03F6400FC8AE1 /* SessionUserInfo.swift */; };
 		564DD5BE2285C53F00912E36 /* QTRequestQuickCallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564DD5BC2285C53F00912E36 /* QTRequestQuickCallViewController.swift */; };
 		564DD5BF2285C53F00912E36 /* QTRequestQuickCallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564DD5BC2285C53F00912E36 /* QTRequestQuickCallViewController.swift */; };
 		564DD5C02285C53F00912E36 /* QTRequestQuickCallViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 564DD5BD2285C53F00912E36 /* QTRequestQuickCallViewController.xib */; };
@@ -90,6 +96,8 @@
 		568E57182270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 568E57152270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.xib */; };
 		568E57192270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 568E57152270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.xib */; };
 		568E571A22713AD900E18BD4 /* TimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93205D292270B70200A11509 /* TimeHelper.swift */; };
+		56961DFB229F639500D32ACA /* QTSessionBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56961DFA229F639500D32ACA /* QTSessionBaseViewController.swift */; };
+		56961DFC229F639500D32ACA /* QTSessionBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56961DFA229F639500D32ACA /* QTSessionBaseViewController.swift */; };
 		5697DD15226F857000AC9775 /* QTInviteOthersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5697DD14226F857000AC9775 /* QTInviteOthersViewController.swift */; };
 		5697DD16226F857000AC9775 /* QTInviteOthersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5697DD14226F857000AC9775 /* QTInviteOthersViewController.swift */; };
 		5697DD22226F859300AC9775 /* QTInviteOthersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5697DD18226F859300AC9775 /* QTInviteOthersViewController.xib */; };
@@ -140,7 +148,6 @@
 		569F16E4223554FD00820A20 /* SessionReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844CB54D213ED7EB00656F06 /* SessionReview.swift */; };
 		569F16E5223554FD00820A20 /* LightboxImageStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD92A56222F24B200704531 /* LightboxImageStub.swift */; };
 		569F16E6223554FD00820A20 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF387EBC2088314B00087449 /* Notifications.swift */; };
-		569F16E7223554FD00820A20 /* VideoSessionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325EC208011750037F8AA /* VideoSessionVC.swift */; };
 		569F16E8223554FD00820A20 /* LearnerEditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B2F02720354E4700F921C9 /* LearnerEditProfileVC.swift */; };
 		569F16E9223554FD00820A20 /* SessionRequestDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B7D621C18B080022333F /* SessionRequestDateView.swift */; };
 		569F16EB223554FD00820A20 /* TutorBioVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B81921C842C80022333F /* TutorBioVCView.swift */; };
@@ -229,7 +236,6 @@
 		569F1751223554FD00820A20 /* LearnerMainPageCategorySectionContainerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D9B532069E57A00302773 /* LearnerMainPageCategorySectionContainerCell.swift */; };
 		569F1753223554FD00820A20 /* TutorAccountPayments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841DD5B920654FE900A70D65 /* TutorAccountPayments.swift */; };
 		569F1754223554FD00820A20 /* StarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1E43C420705F8D0033F845 /* StarView.swift */; };
-		569F1755223554FD00820A20 /* BaseSessionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8E88A120C619A90044344D /* BaseSessionVC.swift */; };
 		569F1756223554FD00820A20 /* ZFNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2E1A6020A0D20C00BCB53A /* ZFNavBar.swift */; };
 		569F1757223554FD00820A20 /* AddTimeModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1C6112209EA6F4009B7B0E /* AddTimeModal.swift */; };
 		569F1759223554FD00820A20 /* TutorSubjectSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A6E46F218F68C700D03681 /* TutorSubjectSearch.swift */; };
@@ -256,8 +262,6 @@
 		569F1770223554FD00820A20 /* BecomeTutorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848E04E9205C8CF10094A6E9 /* BecomeTutorData.swift */; };
 		569F1771223554FD00820A20 /* ProfileVCFooterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7D8AB921995FA300463B0E /* ProfileVCFooterCell.swift */; };
 		569F1772223554FD00820A20 /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DFD898204C5AE600BA8A3F /* UIViewControllerExtensions.swift */; };
-		569F1773223554FD00820A20 /* VideoSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBD8E420C8789D00182E1C /* VideoSessionView.swift */; };
-		569F1774223554FD00820A20 /* InPersonSessionStartVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF387EC02088EE1000087449 /* InPersonSessionStartVC.swift */; };
 		569F1775223554FD00820A20 /* SessionRequestVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B7CE21C18A420022333F /* SessionRequestVCView.swift */; };
 		569F1776223554FD00820A20 /* LearnerOther.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84052F13206BCCB8007B1248 /* LearnerOther.swift */; };
 		569F1777223554FD00820A20 /* TutorAddUsernameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845D403C2079A30F00EFFC6C /* TutorAddUsernameVC.swift */; };
@@ -303,7 +307,6 @@
 		569F17A5223554FD00820A20 /* SessionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E4C7EB204E9829009C2FC4 /* SessionsVC.swift */; };
 		569F17A6223554FD00820A20 /* PillCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B7EB21C23E850022333F /* PillCollectionViewCell.swift */; };
 		569F17A7223554FD00820A20 /* TutorUnprofessionalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848809F6205770D000F204A0 /* TutorUnprofessionalVC.swift */; };
-		569F17A8223554FD00820A20 /* InPersonSessionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF387EBA2088113C00087449 /* InPersonSessionVC.swift */; };
 		569F17A9223554FD00820A20 /* ExternalAccounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDE2B820AB2CAB003E66D5 /* ExternalAccounts.swift */; };
 		569F17AA223554FD00820A20 /* SessionRequestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B7CC21C18A240022333F /* SessionRequestError.swift */; };
 		569F17AB223554FD00820A20 /* RegistrationDigitTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C8F5E11FF83DC600737A59 /* RegistrationDigitTextField.swift */; };
@@ -361,10 +364,8 @@
 		569F17E7223554FD00820A20 /* LightboxImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD92A59222F24B200704531 /* LightboxImage.swift */; };
 		569F17E8223554FD00820A20 /* TutorCardCollectionViewBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CE13F7217CED7D005A1B2C /* TutorCardCollectionViewBackground.swift */; };
 		569F17E9223554FD00820A20 /* SystemMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F58B6205EE68800ACBD32 /* SystemMessage.swift */; };
-		569F17EA223554FD00820A20 /* VideoSessionStartVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF387EBE2088EDE200087449 /* VideoSessionStartVC.swift */; };
 		569F17EB223554FD00820A20 /* CustomDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F5898205EE68800ACBD32 /* CustomDatePicker.swift */; };
 		569F17EC223554FD00820A20 /* SubjectPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6F5899205EE68800ACBD32 /* SubjectPicker.swift */; };
-		569F17EE223554FD00820A20 /* BaseSessionStartVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325E8207FF2C80037F8AA /* BaseSessionStartVC.swift */; };
 		569F17EF223554FD00820A20 /* LearnerMainPageVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8F2389215C0F3A00B4239D /* LearnerMainPageVCView.swift */; };
 		569F17F1223554FD00820A20 /* TipAmountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1C610C209EA57B009B7B0E /* TipAmountCell.swift */; };
 		569F17F2223554FD00820A20 /* TutorAddBankVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB9B81721C6D2A00022333F /* TutorAddBankVCView.swift */; };
@@ -879,6 +880,18 @@
 		BE817220229C724A0089FA1E /* quickcalls_ringtone.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BE81721D229C724A0089FA1E /* quickcalls_ringtone.mp3 */; };
 		BE817221229C724A0089FA1E /* session_ringtone.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BE81721E229C724A0089FA1E /* session_ringtone.mp3 */; };
 		BE817222229C724A0089FA1E /* session_ringtone.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BE81721E229C724A0089FA1E /* session_ringtone.mp3 */; };
+		BE817235229E21980089FA1E /* AddCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE817233229E21980089FA1E /* AddCardViewController.swift */; };
+		BE817236229E21980089FA1E /* AddCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE817233229E21980089FA1E /* AddCardViewController.swift */; };
+		BE817237229E21980089FA1E /* AddCardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE817234229E21980089FA1E /* AddCardViewController.xib */; };
+		BE817238229E21980089FA1E /* AddCardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE817234229E21980089FA1E /* AddCardViewController.xib */; };
+		BEAB1012229E493B00CCCCD6 /* ExpirationDateModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEAB1011229E493B00CCCCD6 /* ExpirationDateModal.swift */; };
+		BEAB1013229E493B00CCCCD6 /* ExpirationDateModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEAB1011229E493B00CCCCD6 /* ExpirationDateModal.swift */; };
+		BEAB1015229E495700CCCCD6 /* ExpirationDateModal.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEAB1014229E495700CCCCD6 /* ExpirationDateModal.xib */; };
+		BEAB1016229E495700CCCCD6 /* ExpirationDateModal.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEAB1014229E495700CCCCD6 /* ExpirationDateModal.xib */; };
+		BEC6987A229E4C9A00F970EE /* CVVModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC69879229E4C9A00F970EE /* CVVModal.swift */; };
+		BEC6987B229E4C9A00F970EE /* CVVModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC69879229E4C9A00F970EE /* CVVModal.swift */; };
+		BEC6987D229E4CA400F970EE /* CVVModal.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEC6987C229E4CA400F970EE /* CVVModal.xib */; };
+		BEC6987E229E4CA400F970EE /* CVVModal.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEC6987C229E4CA400F970EE /* CVVModal.xib */; };
 		C41F17E1224D2D3A007758FC /* QTCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41F17E0224D2D3A007758FC /* QTCustomButton.swift */; };
 		C41F17E2224D30E0007758FC /* QTCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41F17E0224D2D3A007758FC /* QTCustomButton.swift */; };
 		C46A2F11224CD309005058B1 /* UserStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46A2F10224CD309005058B1 /* UserStatus.swift */; };
@@ -927,10 +940,7 @@
 		CF360D36208D392D0096617C /* EndSessionModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF360D35208D392D0096617C /* EndSessionModal.swift */; };
 		CF360D38208D401B0096617C /* CountdownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF360D37208D401B0096617C /* CountdownTimer.swift */; };
 		CF360D3A208D48DB0096617C /* PauseSessionModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF360D39208D48DB0096617C /* PauseSessionModal.swift */; };
-		CF387EBB2088113C00087449 /* InPersonSessionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF387EBA2088113C00087449 /* InPersonSessionVC.swift */; };
 		CF387EBD2088314B00087449 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF387EBC2088314B00087449 /* Notifications.swift */; };
-		CF387EBF2088EDE200087449 /* VideoSessionStartVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF387EBE2088EDE200087449 /* VideoSessionStartVC.swift */; };
-		CF387EC12088EE1000087449 /* InPersonSessionStartVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF387EC02088EE1000087449 /* InPersonSessionStartVC.swift */; };
 		CF387EC32088EE4A00087449 /* HandlesSessionStartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF387EC22088EE4A00087449 /* HandlesSessionStartData.swift */; };
 		CF3CE5F42141A5A300DE8FF0 /* loading12.json in Resources */ = {isa = PBXBuildFile; fileRef = CF3CE5F32141A5A200DE8FF0 /* loading12.json */; };
 		CF3FF6F020B0F60B00E2928C /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3FF6EE20B0F57600E2928C /* ConversationCell.swift */; };
@@ -966,10 +976,10 @@
 		CF6202762287F76000B925B9 /* DatabaseCleaner.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6202742287F76000B925B9 /* DatabaseCleaner.swift */; };
 		CF62027A22896CCE00B925B9 /* CardManagerViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF62027922896CCE00B925B9 /* CardManagerViewControllerTests.swift */; };
 		CF6325E7207FE15E0037F8AA /* ReportSuccessfulModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325E6207FE15E0037F8AA /* ReportSuccessfulModal.swift */; };
-		CF6325E9207FF2C80037F8AA /* BaseSessionStartVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325E8207FF2C80037F8AA /* BaseSessionStartVC.swift */; };
 		CF6325EB207FF4480037F8AA /* SessionProfileBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325EA207FF4480037F8AA /* SessionProfileBox.swift */; };
-		CF6325ED208011750037F8AA /* VideoSessionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325EC208011750037F8AA /* VideoSessionVC.swift */; };
 		CF6325EF20801D3C0037F8AA /* SessionsNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325EE20801D3C0037F8AA /* SessionsNavBar.swift */; };
+		CF6605DE22A096150020A2B7 /* EarningsHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6605DD22A096150020A2B7 /* EarningsHistoryTableViewCell.swift */; };
+		CF6605DF22A096290020A2B7 /* EarningsHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6605DD22A096150020A2B7 /* EarningsHistoryTableViewCell.swift */; };
 		CF671AC2225D8C8B00CF4F0A /* FeaturedSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF671AC1225D8C8B00CF4F0A /* FeaturedSectionController.swift */; };
 		CF671AC4225D8CB500CF4F0A /* LearnerMainPageFeaturedSectionContainerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF671AC3225D8CB500CF4F0A /* LearnerMainPageFeaturedSectionContainerCell.swift */; };
 		CF671AC6225D8CD700CF4F0A /* LearnerMainPageFeaturedSubjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF671AC5225D8CD700CF4F0A /* LearnerMainPageFeaturedSubjectCell.swift */; };
@@ -1048,7 +1058,6 @@
 		CF88A67D211D297900A10D17 /* AccessManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF88A67C211D297900A10D17 /* AccessManager.swift */; };
 		CF8BBCBC20A0251F0043D231 /* TwilioSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8BBCBB20A0251F0043D231 /* TwilioSettings.swift */; };
 		CF8E88A020C5A1FB0044344D /* SessionOnHoldModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8E889F20C5A1FA0044344D /* SessionOnHoldModal.swift */; };
-		CF8E88A220C619A90044344D /* BaseSessionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8E88A120C619A90044344D /* BaseSessionVC.swift */; };
 		CF8E88A620C72BFD0044344D /* AcceptAddTimeModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8E88A520C72BFD0044344D /* AcceptAddTimeModal.swift */; };
 		CF8F238A215C0F3A00B4239D /* LearnerMainPageVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8F2389215C0F3A00B4239D /* LearnerMainPageVCView.swift */; };
 		CF8F238C215C5B2C00B4239D /* ConversationMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8F238B215C5B2C00B4239D /* ConversationMetaData.swift */; };
@@ -1164,7 +1173,6 @@
 		CFD92A73222F507A00704531 /* TutorAddSubjectsVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD92A72222F507A00704531 /* TutorAddSubjectsVCView.swift */; };
 		CFD92A75222F50A900704531 /* NewTutorAddSubjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD92A74222F50A900704531 /* NewTutorAddSubjects.swift */; };
 		CFD92A772231BA9D00704531 /* TheChoiceVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD92A762231BA9D00704531 /* TheChoiceVCView.swift */; };
-		CFDBD8E520C8789D00182E1C /* VideoSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBD8E420C8789D00182E1C /* VideoSessionView.swift */; };
 		CFDBD8E720C87B9700182E1C /* TwilioSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBD8E620C87B9700182E1C /* TwilioSessionManager.swift */; };
 		CFDBD8F020C8921900182E1C /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBD8EF20C8921900182E1C /* SessionManager.swift */; };
 		CFE18F9F2118F6F2000816C4 /* EmptyConversationBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0711022117AEC00035A6FF /* EmptyConversationBackground.swift */; };
@@ -1262,6 +1270,9 @@
 		564B6C1C222D83D5004A9EB7 /* QTLocationsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTLocationsViewController.xib; sourceTree = "<group>"; };
 		564B6C20222D8891004A9EB7 /* QTLocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTLocationTableViewCell.swift; sourceTree = "<group>"; };
 		564B6C21222D8891004A9EB7 /* QTLocationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTLocationTableViewCell.xib; sourceTree = "<group>"; };
+		564C428F22A0259300FC8AE1 /* QTPastSessionSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTPastSessionSectionHeaderView.swift; sourceTree = "<group>"; };
+		564C429222A0293B00FC8AE1 /* QTPastSessionSectionHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTPastSessionSectionHeaderView.xib; sourceTree = "<group>"; };
+		564C429522A03F6400FC8AE1 /* SessionUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionUserInfo.swift; sourceTree = "<group>"; };
 		564DD5BC2285C53F00912E36 /* QTRequestQuickCallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTRequestQuickCallViewController.swift; sourceTree = "<group>"; };
 		564DD5BD2285C53F00912E36 /* QTRequestQuickCallViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTRequestQuickCallViewController.xib; sourceTree = "<group>"; };
 		5669A5CB229D8EE5007B3202 /* QTTutorPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorPolicyViewController.swift; sourceTree = "<group>"; };
@@ -1286,6 +1297,7 @@
 		568E570F2270CA7700E18BD4 /* QTCloseAccountTypeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTCloseAccountTypeViewController.xib; sourceTree = "<group>"; };
 		568E57142270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTCloseAccountSubmitViewController.swift; sourceTree = "<group>"; };
 		568E57152270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTCloseAccountSubmitViewController.xib; sourceTree = "<group>"; };
+		56961DFA229F639500D32ACA /* QTSessionBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTSessionBaseViewController.swift; sourceTree = "<group>"; };
 		5697DD14226F857000AC9775 /* QTInviteOthersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QTInviteOthersViewController.swift; sourceTree = "<group>"; };
 		5697DD18226F859300AC9775 /* QTInviteOthersViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QTInviteOthersViewController.xib; sourceTree = "<group>"; };
 		5697DD1A226F859300AC9775 /* QTInviteOthersConnectTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QTInviteOthersConnectTableViewCell.swift; sourceTree = "<group>"; };
@@ -1586,6 +1598,12 @@
 		BE3A0BE96E29B6E4E34ED372 /* Pods_QuickTutorApp_QuickTutor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QuickTutorApp_QuickTutor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE81721D229C724A0089FA1E /* quickcalls_ringtone.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = quickcalls_ringtone.mp3; sourceTree = "<group>"; };
 		BE81721E229C724A0089FA1E /* session_ringtone.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = session_ringtone.mp3; sourceTree = "<group>"; };
+		BE817233229E21980089FA1E /* AddCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardViewController.swift; sourceTree = "<group>"; };
+		BE817234229E21980089FA1E /* AddCardViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddCardViewController.xib; sourceTree = "<group>"; };
+		BEAB1011229E493B00CCCCD6 /* ExpirationDateModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationDateModal.swift; sourceTree = "<group>"; };
+		BEAB1014229E495700CCCCD6 /* ExpirationDateModal.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExpirationDateModal.xib; sourceTree = "<group>"; };
+		BEC69879229E4C9A00F970EE /* CVVModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CVVModal.swift; sourceTree = "<group>"; };
+		BEC6987C229E4CA400F970EE /* CVVModal.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CVVModal.xib; sourceTree = "<group>"; };
 		C41F17E0224D2D3A007758FC /* QTCustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTCustomButton.swift; sourceTree = "<group>"; };
 		C46A2F10224CD309005058B1 /* UserStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStatus.swift; sourceTree = "<group>"; };
 		C4AE0DF583905E04AFE9A3B4 /* Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutorApp-QuickTutorUITests/Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1627,10 +1645,7 @@
 		CF360D35208D392D0096617C /* EndSessionModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndSessionModal.swift; sourceTree = "<group>"; };
 		CF360D37208D401B0096617C /* CountdownTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownTimer.swift; sourceTree = "<group>"; };
 		CF360D39208D48DB0096617C /* PauseSessionModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseSessionModal.swift; sourceTree = "<group>"; };
-		CF387EBA2088113C00087449 /* InPersonSessionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InPersonSessionVC.swift; sourceTree = "<group>"; };
 		CF387EBC2088314B00087449 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
-		CF387EBE2088EDE200087449 /* VideoSessionStartVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSessionStartVC.swift; sourceTree = "<group>"; };
-		CF387EC02088EE1000087449 /* InPersonSessionStartVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InPersonSessionStartVC.swift; sourceTree = "<group>"; };
 		CF387EC22088EE4A00087449 /* HandlesSessionStartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandlesSessionStartData.swift; sourceTree = "<group>"; };
 		CF3CE5F32141A5A200DE8FF0 /* loading12.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading12.json; sourceTree = "<group>"; };
 		CF3FF6EE20B0F57600E2928C /* ConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
@@ -1663,10 +1678,9 @@
 		CF6202742287F76000B925B9 /* DatabaseCleaner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseCleaner.swift; sourceTree = "<group>"; };
 		CF62027922896CCE00B925B9 /* CardManagerViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardManagerViewControllerTests.swift; sourceTree = "<group>"; };
 		CF6325E6207FE15E0037F8AA /* ReportSuccessfulModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportSuccessfulModal.swift; sourceTree = "<group>"; };
-		CF6325E8207FF2C80037F8AA /* BaseSessionStartVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSessionStartVC.swift; sourceTree = "<group>"; };
 		CF6325EA207FF4480037F8AA /* SessionProfileBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionProfileBox.swift; sourceTree = "<group>"; };
-		CF6325EC208011750037F8AA /* VideoSessionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSessionVC.swift; sourceTree = "<group>"; };
 		CF6325EE20801D3C0037F8AA /* SessionsNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsNavBar.swift; sourceTree = "<group>"; };
+		CF6605DD22A096150020A2B7 /* EarningsHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarningsHistoryTableViewCell.swift; sourceTree = "<group>"; };
 		CF671AC1225D8C8B00CF4F0A /* FeaturedSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedSectionController.swift; sourceTree = "<group>"; };
 		CF671AC3225D8CB500CF4F0A /* LearnerMainPageFeaturedSectionContainerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerMainPageFeaturedSectionContainerCell.swift; sourceTree = "<group>"; };
 		CF671AC5225D8CD700CF4F0A /* LearnerMainPageFeaturedSubjectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerMainPageFeaturedSubjectCell.swift; sourceTree = "<group>"; };
@@ -1744,7 +1758,6 @@
 		CF88A67C211D297900A10D17 /* AccessManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessManager.swift; sourceTree = "<group>"; };
 		CF8BBCBB20A0251F0043D231 /* TwilioSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioSettings.swift; sourceTree = "<group>"; };
 		CF8E889F20C5A1FA0044344D /* SessionOnHoldModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionOnHoldModal.swift; sourceTree = "<group>"; };
-		CF8E88A120C619A90044344D /* BaseSessionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSessionVC.swift; sourceTree = "<group>"; };
 		CF8E88A520C72BFD0044344D /* AcceptAddTimeModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptAddTimeModal.swift; sourceTree = "<group>"; };
 		CF8F2389215C0F3A00B4239D /* LearnerMainPageVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerMainPageVCView.swift; sourceTree = "<group>"; };
 		CF8F238B215C5B2C00B4239D /* ConversationMetaData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationMetaData.swift; sourceTree = "<group>"; };
@@ -1847,7 +1860,6 @@
 		CFD92A72222F507A00704531 /* TutorAddSubjectsVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorAddSubjectsVCView.swift; sourceTree = "<group>"; };
 		CFD92A74222F50A900704531 /* NewTutorAddSubjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTutorAddSubjects.swift; sourceTree = "<group>"; };
 		CFD92A762231BA9D00704531 /* TheChoiceVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheChoiceVCView.swift; sourceTree = "<group>"; };
-		CFDBD8E420C8789D00182E1C /* VideoSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSessionView.swift; sourceTree = "<group>"; };
 		CFDBD8E620C87B9700182E1C /* TwilioSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioSessionManager.swift; sourceTree = "<group>"; };
 		CFDBD8EF20C8921900182E1C /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		CFE18FA02119645E000816C4 /* quickTutorNotification.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = quickTutorNotification.aiff; sourceTree = "<group>"; };
@@ -1943,6 +1955,8 @@
 			children = (
 				561003C12243163600A4688F /* QTPastSessionTableViewCell.swift */,
 				561003C22243163600A4688F /* QTPastSessionTableViewCell.xib */,
+				564C428F22A0259300FC8AE1 /* QTPastSessionSectionHeaderView.swift */,
+				564C429222A0293B00FC8AE1 /* QTPastSessionSectionHeaderView.xib */,
 			);
 			path = SubViews;
 			sourceTree = "<group>";
@@ -2349,6 +2363,8 @@
 				931C71E7227E4798003C86F8 /* AddCardHeaderView.xib */,
 				931C71EA227E4E1C003C86F8 /* PaymentCardTableViewCell.swift */,
 				931C71EB227E4E1C003C86F8 /* PaymentCardTableViewCell.xib */,
+				BE817233229E21980089FA1E /* AddCardViewController.swift */,
+				BE817234229E21980089FA1E /* AddCardViewController.xib */,
 			);
 			path = Payment;
 			sourceTree = "<group>";
@@ -2460,6 +2476,7 @@
 				CFB9B81721C6D2A00022333F /* TutorAddBankVCView.swift */,
 				841C5071216ED57C0035C6C9 /* EditBillingAddress */,
 				93F4F8D2227FD43900809432 /* BankAddCardHeaderView.swift */,
+				CF6605DD22A096150020A2B7 /* EarningsHistoryTableViewCell.swift */,
 			);
 			path = Payment;
 			sourceTree = "<group>";
@@ -3322,6 +3339,7 @@
 		CF6F58AA205EE68800ACBD32 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				56961DFA229F639500D32ACA /* QTSessionBaseViewController.swift */,
 				56A8D0B02240A4AA00866AD7 /* QTStartSessionViewController.swift */,
 				56A8D0B62240DA9900866AD7 /* QTVideoSessionViewController.swift */,
 				56A8D0C022421F6100866AD7 /* QTConfirmMeetUpViewController.swift */,
@@ -3330,16 +3348,10 @@
 				564DD5BC2285C53F00912E36 /* QTRequestQuickCallViewController.swift */,
 				56C889DD228E4C51008D155D /* QTStartQuickCallViewController.swift */,
 				CF7D8AAC2198ACAC00463B0E /* Sessions */,
-				CFDBD8E320C8788800182E1C /* VideoSessionVC */,
 				CF6F58AC205EE68800ACBD32 /* MessagesVC.swift */,
 				CF6F58AD205EE68800ACBD32 /* CustomNavVC.swift */,
 				CF6F58B0205EE68800ACBD32 /* NewMessageVC.swift */,
 				CF6F58B3205EE68800ACBD32 /* ConversationVC.swift */,
-				CF6325E8207FF2C80037F8AA /* BaseSessionStartVC.swift */,
-				CF387EBA2088113C00087449 /* InPersonSessionVC.swift */,
-				CF387EBE2088EDE200087449 /* VideoSessionStartVC.swift */,
-				CF387EC02088EE1000087449 /* InPersonSessionStartVC.swift */,
-				CF8E88A120C619A90044344D /* BaseSessionVC.swift */,
 				CFEF943820B3287100413727 /* ConnectionsVC.swift */,
 				CFEF943C20B355C200413727 /* ImageMessageAnimator.swift */,
 				CFEF943E20B3583800413727 /* ImageMessageSender.swift */,
@@ -3370,6 +3382,7 @@
 				CF8F238B215C5B2C00B4239D /* ConversationMetaData.swift */,
 				CF507FAA218138A5007FE441 /* MessageBreakTimestamp.swift */,
 				C46A2F10224CD309005058B1 /* UserStatus.swift */,
+				564C429522A03F6400FC8AE1 /* SessionUserInfo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -3474,6 +3487,10 @@
 				93C102842278F77D004B9F0D /* RegistrationSSNModal.xib */,
 				9359CED2227BEF83008E9FB1 /* ProcessingFeeModal.swift */,
 				9359CED5227BEF92008E9FB1 /* ProcessingFeeModal.xib */,
+				BEAB1011229E493B00CCCCD6 /* ExpirationDateModal.swift */,
+				BEAB1014229E495700CCCCD6 /* ExpirationDateModal.xib */,
+				BEC69879229E4C9A00F970EE /* CVVModal.swift */,
+				BEC6987C229E4CA400F970EE /* CVVModal.xib */,
 			);
 			path = Modals;
 			sourceTree = "<group>";
@@ -3561,15 +3578,6 @@
 				CFD92A5F222F24B200704531 /* PageView.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		CFDBD8E320C8788800182E1C /* VideoSessionVC */ = {
-			isa = PBXGroup;
-			children = (
-				CF6325EC208011750037F8AA /* VideoSessionVC.swift */,
-				CFDBD8E420C8789D00182E1C /* VideoSessionView.swift */,
-			);
-			path = VideoSessionVC;
 			sourceTree = "<group>";
 		};
 		CFDBD8EA20C88D0400182E1C /* Managers */ = {
@@ -3832,10 +3840,12 @@
 				569F18D1223554FD00820A20 /* languages.txt in Resources */,
 				561003BF2242D23600A4688F /* QTPastSessionsViewController.xib in Resources */,
 				569F19092235564000820A20 /* GoogleService-Info.plist in Resources */,
+				564C429422A0293B00FC8AE1 /* QTPastSessionSectionHeaderView.xib in Resources */,
 				569F18D2223554FD00820A20 /* Lato-Bold.ttf in Resources */,
 				BE817220229C724A0089FA1E /* quickcalls_ringtone.mp3 in Resources */,
 				561003B92242BCC100A4688F /* QTInPersonSessionViewController.xib in Resources */,
 				569F18D3223554FD00820A20 /* Lato-BoldItalic.ttf in Resources */,
+				BEC6987E229E4CA400F970EE /* CVVModal.xib in Resources */,
 				931C71EF227E4E1C003C86F8 /* PaymentCardTableViewCell.xib in Resources */,
 				569F18D4223554FD00820A20 /* tech.json in Resources */,
 				5697DD33226F859300AC9775 /* QTInviteOthersSectionHeaderView.xib in Resources */,
@@ -3845,8 +3855,10 @@
 				569F18D8223554FD00820A20 /* quickTutorNotification.aiff in Resources */,
 				56842BE5229C3EE600D1DA2C /* QTBecomeTutorViewController.xib in Resources */,
 				5697DD27226F859300AC9775 /* QTInviteOthersConnectTableViewCell.xib in Resources */,
+				BEAB1016229E495700CCCCD6 /* ExpirationDateModal.xib in Resources */,
 				5697DD2B226F859300AC9775 /* QTInviteOthersContactTableViewCell.xib in Resources */,
 				569F18D9223554FD00820A20 /* QTTutorDashboardMarkerView.xib in Resources */,
+				BE817238229E21980089FA1E /* AddCardViewController.xib in Resources */,
 				569F18DA223554FD00820A20 /* Lato-Medium.ttf in Resources */,
 				569F18DB223554FD00820A20 /* connecting.json in Resources */,
 				561003C62243163600A4688F /* QTPastSessionTableViewCell.xib in Resources */,
@@ -3935,10 +3947,12 @@
 				8423F73F214B60E900B3E4D0 /* languages.txt in Resources */,
 				561003BE2242D23600A4688F /* QTPastSessionsViewController.xib in Resources */,
 				56DC6D9C220BD7DF00935F47 /* Lato-Bold.ttf in Resources */,
+				564C429322A0293B00FC8AE1 /* QTPastSessionSectionHeaderView.xib in Resources */,
 				56DC6D9D220BD7DF00935F47 /* Lato-BoldItalic.ttf in Resources */,
 				BE81721F229C724A0089FA1E /* quickcalls_ringtone.mp3 in Resources */,
 				561003B72242A9AF00A4688F /* QTInPersonSessionViewController.xib in Resources */,
 				84257678207132DD00FD295B /* tech.json in Resources */,
+				BEC6987D229E4CA400F970EE /* CVVModal.xib in Resources */,
 				931C71EE227E4E1C003C86F8 /* PaymentCardTableViewCell.xib in Resources */,
 				CFB0283E210C241600B29972 /* GoogleService-Info.plist in Resources */,
 				5697DD32226F859300AC9775 /* QTInviteOthersSectionHeaderView.xib in Resources */,
@@ -3948,8 +3962,10 @@
 				CFE18FA12119645E000816C4 /* quickTutorNotification.aiff in Resources */,
 				56842BE4229C3EE600D1DA2C /* QTBecomeTutorViewController.xib in Resources */,
 				5697DD26226F859300AC9775 /* QTInviteOthersConnectTableViewCell.xib in Resources */,
+				BEAB1015229E495700CCCCD6 /* ExpirationDateModal.xib in Resources */,
 				5697DD2A226F859300AC9775 /* QTInviteOthersContactTableViewCell.xib in Resources */,
 				569ECDCB21FB1049005491CB /* QTTutorDashboardMarkerView.xib in Resources */,
+				BE817237229E21980089FA1E /* AddCardViewController.xib in Resources */,
 				56DC6DA4220BD7DF00935F47 /* Lato-Medium.ttf in Resources */,
 				CFB40E45216BFE2100828E72 /* connecting.json in Resources */,
 				561003C52243163600A4688F /* QTPastSessionTableViewCell.xib in Resources */,
@@ -4034,6 +4050,7 @@
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/Branch/Branch.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
+				"${BUILT_PRODUCTS_DIR}/CardScan/CardScan.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
 				"${BUILT_PRODUCTS_DIR}/CropViewController/CropViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
@@ -4067,6 +4084,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Branch.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CardScan.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CropViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
@@ -4240,6 +4258,7 @@
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/Branch/Branch.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
+				"${BUILT_PRODUCTS_DIR}/CardScan/CardScan.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
 				"${BUILT_PRODUCTS_DIR}/CropViewController/CropViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
@@ -4273,6 +4292,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Branch.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CardScan.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CropViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
@@ -4356,7 +4376,6 @@
 				569F16E4223554FD00820A20 /* SessionReview.swift in Sources */,
 				569F16E5223554FD00820A20 /* LightboxImageStub.swift in Sources */,
 				569F16E6223554FD00820A20 /* Notifications.swift in Sources */,
-				569F16E7223554FD00820A20 /* VideoSessionVC.swift in Sources */,
 				569F16E8223554FD00820A20 /* LearnerEditProfileVC.swift in Sources */,
 				569F16E9223554FD00820A20 /* SessionRequestDateView.swift in Sources */,
 				569F16EB223554FD00820A20 /* TutorBioVCView.swift in Sources */,
@@ -4364,6 +4383,7 @@
 				569F16ED223554FD00820A20 /* LearnerHelpVC.swift in Sources */,
 				569F16EF223554FD00820A20 /* TutorManagePolicies.swift in Sources */,
 				569F16F0223554FD00820A20 /* LearnerLate.swift in Sources */,
+				BEAB1013229E493B00CCCCD6 /* ExpirationDateModal.swift in Sources */,
 				569F16F1223554FD00820A20 /* BackgroundSoundManager.swift in Sources */,
 				568E571A22713AD900E18BD4 /* TimeHelper.swift in Sources */,
 				569F16F2223554FD00820A20 /* LoadingIndicator.swift in Sources */,
@@ -4461,13 +4481,13 @@
 				569F1753223554FD00820A20 /* TutorAccountPayments.swift in Sources */,
 				CFCE90AD226524D100CBB1AD /* LearnerMainPageTopTutorsSectionContainerCell.swift in Sources */,
 				569F1754223554FD00820A20 /* StarView.swift in Sources */,
-				569F1755223554FD00820A20 /* BaseSessionVC.swift in Sources */,
 				569F1756223554FD00820A20 /* ZFNavBar.swift in Sources */,
 				569F1757223554FD00820A20 /* AddTimeModal.swift in Sources */,
 				569F1759223554FD00820A20 /* TutorSubjectSearch.swift in Sources */,
 				569F175A223554FD00820A20 /* BaseSessionRequestViewSection.swift in Sources */,
 				569F175B223554FD00820A20 /* TutorCardReviewsView.swift in Sources */,
 				569F175C223554FD00820A20 /* MessagingSystemToggleCell.swift in Sources */,
+				BEC6987B229E4C9A00F970EE /* CVVModal.swift in Sources */,
 				569F175D223554FD00820A20 /* UIFontExtensions.swift in Sources */,
 				569F175E223554FD00820A20 /* EventManager.swift in Sources */,
 				569F175F223554FD00820A20 /* TutorSubcategory.swift in Sources */,
@@ -4488,8 +4508,6 @@
 				569F1770223554FD00820A20 /* BecomeTutorData.swift in Sources */,
 				569F1771223554FD00820A20 /* ProfileVCFooterCell.swift in Sources */,
 				569F1772223554FD00820A20 /* UIViewControllerExtensions.swift in Sources */,
-				569F1773223554FD00820A20 /* VideoSessionView.swift in Sources */,
-				569F1774223554FD00820A20 /* InPersonSessionStartVC.swift in Sources */,
 				569F1775223554FD00820A20 /* SessionRequestVCView.swift in Sources */,
 				569F1776223554FD00820A20 /* LearnerOther.swift in Sources */,
 				CFB767D122991BA6001206DA /* BankManagerCollectionViewCell.swift in Sources */,
@@ -4538,11 +4556,11 @@
 				CFCE90AF226524DC00CBB1AD /* LearnerMainPageSuggestionsSectionContainerCell.swift in Sources */,
 				569F17A3223554FD00820A20 /* CardFooterView.swift in Sources */,
 				569F17A4223554FD00820A20 /* TutorHandbook.swift in Sources */,
+				BE817236229E21980089FA1E /* AddCardViewController.swift in Sources */,
 				CFB767CE22991B7A001206DA /* EarningsHistoryCell.swift in Sources */,
 				569F17A5223554FD00820A20 /* SessionsVC.swift in Sources */,
 				569F17A6223554FD00820A20 /* PillCollectionViewCell.swift in Sources */,
 				569F17A7223554FD00820A20 /* TutorUnprofessionalVC.swift in Sources */,
-				569F17A8223554FD00820A20 /* InPersonSessionVC.swift in Sources */,
 				569F17A9223554FD00820A20 /* ExternalAccounts.swift in Sources */,
 				569F17AA223554FD00820A20 /* SessionRequestError.swift in Sources */,
 				569F17AB223554FD00820A20 /* RegistrationDigitTextField.swift in Sources */,
@@ -4603,6 +4621,7 @@
 				569F17DE223554FD00820A20 /* ReviewProfileBox.swift in Sources */,
 				569F17DF223554FD00820A20 /* SessionRequestTypeView.swift in Sources */,
 				569F17E0223554FD00820A20 /* RegistrationAccessoryView.swift in Sources */,
+				564C429722A03F6400FC8AE1 /* SessionUserInfo.swift in Sources */,
 				CF17F227226BC14F00ABD07D /* FiltersVCView.swift in Sources */,
 				569F17E1223554FD00820A20 /* CreatePasswordVC.swift in Sources */,
 				569F17E2223554FD00820A20 /* MessagetTimebreakCell.swift in Sources */,
@@ -4615,10 +4634,8 @@
 				569F17E7223554FD00820A20 /* LightboxImage.swift in Sources */,
 				569F17E8223554FD00820A20 /* TutorCardCollectionViewBackground.swift in Sources */,
 				569F17E9223554FD00820A20 /* SystemMessage.swift in Sources */,
-				569F17EA223554FD00820A20 /* VideoSessionStartVC.swift in Sources */,
 				569F17EB223554FD00820A20 /* CustomDatePicker.swift in Sources */,
 				569F17EC223554FD00820A20 /* SubjectPicker.swift in Sources */,
-				569F17EE223554FD00820A20 /* BaseSessionStartVC.swift in Sources */,
 				569F17EF223554FD00820A20 /* LearnerMainPageVCView.swift in Sources */,
 				569F17F1223554FD00820A20 /* TipAmountCell.swift in Sources */,
 				569F17F2223554FD00820A20 /* TutorAddBankVCView.swift in Sources */,
@@ -4660,6 +4677,7 @@
 				569F181A223554FD00820A20 /* EmailVCView.swift in Sources */,
 				569F181D223554FD00820A20 /* TutorCardConnectView.swift in Sources */,
 				569F181E223554FD00820A20 /* SubjectSearchTableViewHeader.swift in Sources */,
+				564C429122A0259300FC8AE1 /* QTPastSessionSectionHeaderView.swift in Sources */,
 				569F181F223554FD00820A20 /* KeyboardFrameObserversManager.swift in Sources */,
 				569F1821223554FD00820A20 /* DynamicLinkFactory.swift in Sources */,
 				561003B82242A9BB00A4688F /* QTInPersonSessionViewController.swift in Sources */,
@@ -4768,6 +4786,7 @@
 				569F1886223554FD00820A20 /* EditBillingAddressView.swift in Sources */,
 				569F1888223554FD00820A20 /* SessionRequestView.swift in Sources */,
 				569F1889223554FD00820A20 /* WalkthroughVC.swift in Sources */,
+				CF6605DF22A096290020A2B7 /* EarningsHistoryTableViewCell.swift in Sources */,
 				569F188A223554FD00820A20 /* AddTutorCell.swift in Sources */,
 				569F188B223554FD00820A20 /* ImageMessageSender.swift in Sources */,
 				569F188C223554FD00820A20 /* TextLabel.swift in Sources */,
@@ -4789,6 +4808,7 @@
 				569F189D223554FD00820A20 /* UserPolicyVC.swift in Sources */,
 				569F189E223554FD00820A20 /* MyProfileBodyView.swift in Sources */,
 				569F189F223554FD00820A20 /* MessagesVC.swift in Sources */,
+				56961DFC229F639500D32ACA /* QTSessionBaseViewController.swift in Sources */,
 				569F18A1223554FD00820A20 /* CustomTextFields.swift in Sources */,
 				569F18A2223554FD00820A20 /* QuickSearchCategoryCell.swift in Sources */,
 				569F18A3223554FD00820A20 /* ConnectAccount.swift in Sources */,
@@ -4844,7 +4864,6 @@
 				844CB54E213ED7EB00656F06 /* SessionReview.swift in Sources */,
 				CFD92A65222F24B200704531 /* LightboxImageStub.swift in Sources */,
 				CF387EBD2088314B00087449 /* Notifications.swift in Sources */,
-				CF6325ED208011750037F8AA /* VideoSessionVC.swift in Sources */,
 				CFF50178206990060085B0E9 /* LearnerEditProfileVC.swift in Sources */,
 				CFB9B7D721C18B080022333F /* SessionRequestDateView.swift in Sources */,
 				CFB9B81A21C842C80022333F /* TutorBioVCView.swift in Sources */,
@@ -4854,6 +4873,7 @@
 				567E1A102270C0350094E371 /* QTCloseAccountReasonTableViewCell.swift in Sources */,
 				84052F12206BCC9A007B1248 /* LearnerLate.swift in Sources */,
 				CFA00970213A000200F81EE4 /* BackgroundSoundManager.swift in Sources */,
+				BEAB1012229E493B00CCCCD6 /* ExpirationDateModal.swift in Sources */,
 				CFD92A6C222F24B200704531 /* LoadingIndicator.swift in Sources */,
 				CFB9B80E21C5D2430022333F /* BirthdayVCView.swift in Sources */,
 				8465E66620BAEA7600F7D72C /* LearnerModel.swift in Sources */,
@@ -4943,7 +4963,6 @@
 				CF671ACE225DA30F00CF4F0A /* LearnerMainPageTopTutorsSectionContainerCell.swift in Sources */,
 				841DD5BA20654FE900A70D65 /* TutorAccountPayments.swift in Sources */,
 				CF1E43C520705F8D0033F845 /* StarView.swift in Sources */,
-				CF8E88A220C619A90044344D /* BaseSessionVC.swift in Sources */,
 				CF2E1A6120A0D20C00BCB53A /* ZFNavBar.swift in Sources */,
 				CF1C6113209EA6F4009B7B0E /* AddTimeModal.swift in Sources */,
 				567E1A162270C46B0094E371 /* QTCloseAccountInfoViewController.swift in Sources */,
@@ -4958,6 +4977,7 @@
 				84A6E46E218F68B600D03681 /* TutorSubcategory.swift in Sources */,
 				CFD92A6B222F24B200704531 /* HeaderView.swift in Sources */,
 				CF5BFB052155B19100FB8DD6 /* InAppNotificationView.swift in Sources */,
+				BEC6987A229E4C9A00F970EE /* CVVModal.swift in Sources */,
 				CF6F58C4205EE68800ACBD32 /* QuickChatViewCell.swift in Sources */,
 				CF6F58D7205EE68800ACBD32 /* TeacherKeyboardAccessory.swift in Sources */,
 				CFD92A60222F24B200704531 /* LightboxController.swift in Sources */,
@@ -4974,8 +4994,6 @@
 				CF7D8ABA21995FA300463B0E /* ProfileVCFooterCell.swift in Sources */,
 				CF04A28B2279713F00967725 /* DocumentUploadManager.swift in Sources */,
 				84DFD899204C5AE600BA8A3F /* UIViewControllerExtensions.swift in Sources */,
-				CFDBD8E520C8789D00182E1C /* VideoSessionView.swift in Sources */,
-				CF387EC12088EE1000087449 /* InPersonSessionStartVC.swift in Sources */,
 				CFB9B7CF21C18A420022333F /* SessionRequestVCView.swift in Sources */,
 				84052F14206BCCB8007B1248 /* LearnerOther.swift in Sources */,
 				845D403D2079A30F00EFFC6C /* TutorAddUsernameVC.swift in Sources */,
@@ -5028,9 +5046,9 @@
 				847463282069482D00B70AD9 /* TutorHandbook.swift in Sources */,
 				84E4C7EC204E9829009C2FC4 /* SessionsVC.swift in Sources */,
 				CFB9B7EC21C23E850022333F /* PillCollectionViewCell.swift in Sources */,
+				BE817235229E21980089FA1E /* AddCardViewController.swift in Sources */,
 				CFB767CD22991B77001206DA /* EarningsHistoryCell.swift in Sources */,
 				848809F7205770D000F204A0 /* TutorUnprofessionalVC.swift in Sources */,
-				CF387EBB2088113C00087449 /* InPersonSessionVC.swift in Sources */,
 				84BDE2B920AB2CAB003E66D5 /* ExternalAccounts.swift in Sources */,
 				CFB9B7CD21C18A240022333F /* SessionRequestError.swift in Sources */,
 				84C8F5E21FF83DC600737A59 /* RegistrationDigitTextField.swift in Sources */,
@@ -5093,6 +5111,7 @@
 				CFB9B80221C590220022333F /* RegistrationAccessoryView.swift in Sources */,
 				CF17F220226BC02A00ABD07D /* RangeSliderTrackLayer.swift in Sources */,
 				844A6A8C1FCE5B91003992C3 /* CreatePasswordVC.swift in Sources */,
+				564C429622A03F6400FC8AE1 /* SessionUserInfo.swift in Sources */,
 				CF507FA92181386D007FE441 /* MessagetTimebreakCell.swift in Sources */,
 				CFB9B81E21C887D40022333F /* ProgressView.swift in Sources */,
 				84C9C01120A23773000DE1C9 /* BalanceTransaction.swift in Sources */,
@@ -5102,11 +5121,9 @@
 				CFD92A68222F24B200704531 /* LightboxImage.swift in Sources */,
 				84CE13F8217CED7D005A1B2C /* TutorCardCollectionViewBackground.swift in Sources */,
 				CF6F58E4205EE68800ACBD32 /* SystemMessage.swift in Sources */,
-				CF387EBF2088EDE200087449 /* VideoSessionStartVC.swift in Sources */,
 				CF9F94EB228A3BA0002041CF /* LearnerMainPageSearchBarContainer.swift in Sources */,
 				CF6F58CA205EE68800ACBD32 /* CustomDatePicker.swift in Sources */,
 				CF6F58CB205EE68800ACBD32 /* SubjectPicker.swift in Sources */,
-				CF6325E9207FF2C80037F8AA /* BaseSessionStartVC.swift in Sources */,
 				CFCE90A7226521BA00CBB1AD /* FiltersVC.swift in Sources */,
 				CF8F238A215C0F3A00B4239D /* LearnerMainPageVCView.swift in Sources */,
 				CF1C610D209EA57B009B7B0E /* TipAmountCell.swift in Sources */,
@@ -5150,6 +5167,7 @@
 				844FECF6210F97CD00C1797B /* SubjectSearchTableViewHeader.swift in Sources */,
 				CF24997B217E926500614AF0 /* KeyboardFrameObserversManager.swift in Sources */,
 				CF6F58F1205EE6B300ACBD32 /* DynamicLinkFactory.swift in Sources */,
+				564C429022A0259300FC8AE1 /* QTPastSessionSectionHeaderView.swift in Sources */,
 				561003B62242A9AF00A4688F /* QTInPersonSessionViewController.swift in Sources */,
 				CF6F58C0205EE68800ACBD32 /* UserMessageCell.swift in Sources */,
 				84F245181FDA1127006447A8 /* TutorBioVC.swift in Sources */,
@@ -5258,6 +5276,7 @@
 				CFEF943F20B3583800413727 /* ImageMessageSender.swift in Sources */,
 				84C8F5E41FF8997400737A59 /* TextLabel.swift in Sources */,
 				CFEDF90320D57FF100457E77 /* OnlineStatusService.swift in Sources */,
+				CF6605DE22A096150020A2B7 /* EarningsHistoryTableViewCell.swift in Sources */,
 				CF507FAB218138A5007FE441 /* MessageBreakTimestamp.swift in Sources */,
 				CF7D8AB421995F0A00463B0E /* ProfileVCCell.swift in Sources */,
 				CF833B75207C4B6E00323242 /* LearnerPendingSessionCell.swift in Sources */,
@@ -5279,6 +5298,7 @@
 				84D6A7E0215B268F000C0010 /* MyProfileBodyView.swift in Sources */,
 				CF6F58DB205EE68800ACBD32 /* MessagesVC.swift in Sources */,
 				568E57162270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.swift in Sources */,
+				56961DFB229F639500D32ACA /* QTSessionBaseViewController.swift in Sources */,
 				CF6F58D0205EE68800ACBD32 /* CustomTextFields.swift in Sources */,
 				CFB1475B21F3AA3E00C49BA5 /* QuickSearchCategoryCell.swift in Sources */,
 				84C9C00D20A2374C000DE1C9 /* ConnectAccount.swift in Sources */,

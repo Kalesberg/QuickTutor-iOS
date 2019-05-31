@@ -30,6 +30,7 @@ class SessionRequestVC: UIViewController {
     var duration: Int = 20
     var price: Double?
     var sessionType: String = "online"
+    var paymentType = QTSessionPaymentType.hour
     var requestError: SessionRequestError = .noTutor {
         didSet {
             contentView.sendView.accessoryView.titleLabel.text = requestError.rawValue
@@ -127,6 +128,8 @@ class SessionRequestVC: UIViewController {
         sessionData["status"] = "pending"
         sessionData["senderId"] = uid
         sessionData["receiverId"] = tutor.uid
+        sessionData["paymentType"] = paymentType.rawValue
+        sessionData["duration"] = duration * 60 // sec
         guard let _ = sessionData["subject"], let _ = sessionData["date"], let _ = sessionData["startTime"], let _ = sessionData["endTime"], let _ = sessionData["type"], let _ = sessionData["price"] else {
             return
         }
@@ -163,7 +166,8 @@ class SessionRequestVC: UIViewController {
             realPrice = calculatePrice(price, duration: duration)
         }
         self.price = realPrice
-        let fee = realPrice * 0.0029 + 0.3
+        let fee = (realPrice + 0.3) / 0.971 - realPrice
+        
         // fee
         let strFee = NSMutableAttributedString(attributedString: NSAttributedString(string: "+Processing Fee: ",
                                                                                     attributes: [.foregroundColor: UIColor.white.withAlphaComponent(0.5)]))
@@ -195,7 +199,6 @@ extension SessionRequestVC: SessionRequestTutorViewDelegate {
     
     func tutorView(_ tutorView: SessionRequestTutorView, didChoose tutor: AWTutor) {
         tutorView.tutorCell.isHidden = false
-        tutorView.tutorSelectView.isHidden = true
         self.tutor = tutor
         contentView.tutorView.tutorCell.updateUI(user: tutor)
     }
@@ -203,7 +206,6 @@ extension SessionRequestVC: SessionRequestTutorViewDelegate {
     func updateTutorViewAsChosen() {
         guard let tutor = tutor else { return }
         contentView.tutorView.tutorCell.isHidden = false
-        contentView.tutorView.tutorSelectView.isHidden = true
         contentView.tutorView.tutorCell.updateUI(user: tutor)
     }
     
@@ -227,6 +229,7 @@ extension SessionRequestVC: SessionRequestDurationViewDelegate {
 
 extension SessionRequestVC: SessionRequestPaymentViewDelegate {
     func sessionRequestPaymentView(_ paymentView: SessionRequestPaymentView, didEnter price: Double) {
+        paymentType = paymentView.paymentTypeView.primaryButton.isSelected ? .hour : .session
         checkForErrors()
         updatePriceLabelText(price)
     }
