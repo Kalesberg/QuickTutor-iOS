@@ -22,7 +22,7 @@ class CardManagerViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addPaymentView: UIScrollView!
     
-    var addCardVC: STPAddCardViewController?
+    var addCardViewController: AddCardViewController?
     var shouldHideNavBarWhenDismissed = false
     var isShowingAddCardView = false
     var popBackTo: UIViewController?
@@ -198,7 +198,7 @@ class CardManagerViewController: UIViewController {
     }
     
     @IBAction func tappedAddCard(_ sender: Any) {
-        showStripeAddCard()
+        showAddCardViewController()
     }
     
     @IBAction func tappedInfoButton(_ sender: Any) {
@@ -227,23 +227,24 @@ class CardManagerViewController: UIViewController {
     }
 }
 
-extension CardManagerViewController: STPAddCardViewControllerDelegate {
-    func addCardViewControllerDidCancel(_ addCardViewController: STPAddCardViewController) {
+extension CardManagerViewController: AddCardViewControllerDelegate {
+      func addCardViewControllerDidCancel() {
         isShowingAddCardView = false
         dismiss(animated: true, completion: nil)
     }
     
-    func addCardViewController(_ addCardViewController: STPAddCardViewController, didCreateToken token: STPToken, completion: @escaping STPErrorBlock) {
+    func addCardViewControllerDidCreateToken(token: STPToken) {
+        self.isShowingAddCardView = false
+        self.dismiss(animated: true, completion: nil)
+        showLoadingAnimation()
         Stripe.attachSource(cusID: CurrentUser.shared.learner.customer, with: token) { (error) in
+            self.hideLoadingAnimation()
             if let error = error {
                 AlertController.genericErrorAlert(self, title: "Error Processing Card", message: error)
-                return completion(StripeError.updateCardError)
+                return
             }
-            self.addCardVC?.dismiss(animated: true, completion: nil)
             CurrentUser.shared.learner.hasPayment = true
             self.loadStripe()
-            self.navigationController?.popBackToMain()
-            self.isShowingAddCardView = false
         }
     }
 }
@@ -316,47 +317,17 @@ extension CardManagerViewController: UITableViewDelegate, UITableViewDataSource 
         return 60
     }
     
-    func showStripeAddCard() {
-        isShowingAddCardView = true
-        
-        let theme = STPTheme()
-        theme.primaryBackgroundColor = Colors.registrationDark
-        theme.font = Fonts.createSize(16)
-        theme.emphasisFont = Fonts.createBoldSize(18)
-        theme.accentColor = Colors.purple
-        theme.errorColor = Colors.qtRed
-        theme.primaryForegroundColor = .white
-        theme.secondaryForegroundColor = Colors.grayText
-        theme.secondaryBackgroundColor = Colors.darkBackground
-        
-        let theme2 = STPTheme()
-        theme2.primaryBackgroundColor = Colors.darkBackground
-        theme2.emphasisFont = Fonts.createBoldSize(18)
-        theme2.accentColor = .white
-        theme2.primaryForegroundColor = .white
-        theme2.secondaryForegroundColor = Colors.grayText
-        theme2.secondaryBackgroundColor = Colors.purple
-        
-        let config = STPPaymentConfiguration()
-        config.requiredBillingAddressFields = .none
-        #if DEVELOPMENT
-        config.publishableKey = "pk_test_TtFmn5n1KhfNPgXXoGfg3O97"
-        #else
-        config.publishableKey = "pk_live_D8MI9AN23eK4XLw1mCSUHi9V"
-        #endif
-        addCardVC = STPAddCardViewController(configuration: config, theme: theme)
-        addCardVC?.delegate = self
-        
-        let navigationController = UINavigationController(rootViewController: addCardVC!)
-        navigationController.navigationBar.stp_theme = theme2
-        
-        present(navigationController, animated: true, completion: nil)
+    func showAddCardViewController() {
+        let addCardViewController = AddCardViewController()
+        addCardViewController.delegate = self
+        let customNav = CustomNavVC(rootViewController: addCardViewController)
+        navigationController?.present(customNav, animated: true)
     }
 }
 
 extension CardManagerViewController: AddCardHeaderDelegate {
     func didTapAddButton() {
-        showStripeAddCard()
+        showAddCardViewController()
     }
 }
 
