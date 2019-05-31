@@ -217,7 +217,7 @@ class SSNRegistrationAccessoryView: RegistrationAccessoryView {
     
     override func setupMainView() {
         super.setupMainView()
-        backgroundColor = Colors.registrationDark
+        backgroundColor = Colors.newScreenBackground
     }
     
     override func setupNextButton() {

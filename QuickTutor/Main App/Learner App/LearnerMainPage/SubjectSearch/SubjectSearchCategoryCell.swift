@@ -43,7 +43,7 @@ class SubjectSearchCategoryCell: UITableViewCell {
 
         selectionStyle = .none
         backgroundColor = Colors.purple
-        container.backgroundColor = Colors.navBarColor
+        container.backgroundColor = Colors.newScreenBackground
         layer.cornerRadius = 4
 
         applyConstraints()

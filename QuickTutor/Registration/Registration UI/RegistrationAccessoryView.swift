@@ -27,7 +27,7 @@ class RegistrationAccessoryView: UIView {
     }
     
     func setupMainView() {
-        backgroundColor = Colors.accessoryBackground
+        backgroundColor = Colors.newScreenBackground
         addDropShadow()
     }
     

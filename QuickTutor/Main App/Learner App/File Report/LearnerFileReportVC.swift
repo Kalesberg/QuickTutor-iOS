@@ -737,7 +737,7 @@ class SessionHistoryCell: UITableViewCell {
         addSubview(nameLabel)
         addSubview(sessionInfoLabel)
 
-        backgroundColor = Colors.navBarColor
+        backgroundColor = Colors.newScreenBackground
 
         applyConstraints()
     }

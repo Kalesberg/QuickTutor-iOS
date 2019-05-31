@@ -27,9 +27,9 @@ class BaseRegistrationController: UIViewController {
     }
     
     func setupNavBar() {
-        navigationController?.view.backgroundColor = Colors.darkBackground
-        navigationController?.navigationBar.barTintColor = Colors.darkBackground
-        navigationController?.navigationBar.backgroundColor = Colors.darkBackground
+        navigationController?.view.backgroundColor = Colors.newNavigationBarBackground
+        navigationController?.navigationBar.barTintColor = Colors.newNavigationBarBackground
+        navigationController?.navigationBar.backgroundColor = Colors.newNavigationBarBackground
         navigationController?.navigationBar.isOpaque = false
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.setNavigationBarHidden(false, animated: false)

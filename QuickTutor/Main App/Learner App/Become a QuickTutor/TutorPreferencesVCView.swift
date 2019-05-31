@@ -71,7 +71,7 @@ class TutorPreferencesView: BaseRegistrationView {
         let layout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         cv.register(PillCollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
-        cv.backgroundColor = Colors.darkBackground
+        cv.backgroundColor = Colors.newScreenBackground
         return cv
     }()
     

@@ -17,7 +17,7 @@ class SavedTutorsVC: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        cv.backgroundColor = Colors.darkBackground
+        cv.backgroundColor = Colors.newScreenBackground
         cv.allowsMultipleSelection = false
         cv.alwaysBounceVertical = true
         cv.showsVerticalScrollIndicator = false
@@ -46,7 +46,7 @@ class SavedTutorsVC: UIViewController {
     }
     
     func setupMainView() {
-        view.backgroundColor = Colors.darkBackground
+        view.backgroundColor = Colors.newScreenBackground
     }
     
     func setupNavigationBar() {

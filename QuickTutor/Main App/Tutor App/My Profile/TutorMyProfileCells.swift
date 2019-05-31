@@ -221,7 +221,7 @@ class SubjectsTableViewCell : UITableViewCell {
         addSubview(label)
         addSubview(subjectCollectionView)
 
-        backgroundColor = Colors.navBarColor
+        backgroundColor = Colors.newScreenBackground
 		
         subjectCollectionView.delegate = self
         subjectCollectionView.dataSource = self
@@ -276,13 +276,13 @@ class RatingTableViewCell: UITableViewCell {
     let tableView: UITableView = {
         let tableView = UITableView()
 		
-		tableView.backgroundColor = Colors.navBarColor
+		tableView.backgroundColor = Colors.newScreenBackground
         tableView.estimatedRowHeight = 60
         tableView.isScrollEnabled = false
         tableView.allowsSelection = false
         tableView.estimatedSectionHeaderHeight = 30
 		tableView.delaysContentTouches = true
-		tableView.separatorColor = Colors.navBarColor
+		tableView.separatorColor = Colors.newScreenBackground
 		
         return tableView
     }()
@@ -304,7 +304,7 @@ class RatingTableViewCell: UITableViewCell {
         tableView.dataSource = self
         tableView.register(MyProfileReview.self, forCellReuseIdentifier: "reviewCell")
 		
-		backgroundColor = Colors.navBarColor
+		backgroundColor = Colors.newScreenBackground
         selectionStyle = .none
 
         applyConstraints()
@@ -354,7 +354,7 @@ class NoRatingsBackgroundView : UIView {
 	func configureView() {
 		addSubview(title)
 
-        backgroundColor = Colors.navBarColor
+        backgroundColor = Colors.newScreenBackground
 
         applyConstraints()
     }
@@ -477,7 +477,7 @@ class MyProfileReview: UIView {
 		addSubview(dateLabel)
 		addSubview(buttonMask)
 		
-		backgroundColor = Colors.navBarColor
+		backgroundColor = Colors.newScreenBackground
 		
 		applyConstraints()
 	}

@@ -47,7 +47,7 @@ class ConversationCell: SwipeCollectionViewCell {
     }
     
     func setupViews() {
-        contentView.backgroundColor = Colors.navBarColor
+        contentView.backgroundColor = Colors.newScreenBackground
         setupProfilePic()
         setupTimestampLabel()
         setupUsernameLabel()
@@ -153,9 +153,9 @@ class ConversationCell: SwipeCollectionViewCell {
     }
     
     func handleTouchDown() {
-        contentView.backgroundColor = Colors.navBarColor.darker(by: 30)
+        contentView.backgroundColor = Colors.newScreenBackground.darker(by: 30)
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
-            self.contentView.backgroundColor = Colors.navBarColor
+            self.contentView.backgroundColor = Colors.newScreenBackground
         }
     }
     

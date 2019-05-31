@@ -181,7 +181,7 @@ class SessionRequestView: UIView {
     }
 
     private func setupMainView() {
-        backgroundColor = Colors.navBarColor
+        backgroundColor = Colors.newScreenBackground
         layer.cornerRadius = 8
         clipsToBounds = true
         switchAccessoryViewTo(subjectPicker)

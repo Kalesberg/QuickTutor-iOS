@@ -20,9 +20,9 @@ class CustomNavVC: UINavigationController {
     }
 
     func setupViews() {
-        navigationBar.backgroundColor = Colors.navBarColor
+        navigationBar.backgroundColor = Colors.newNavigationBarBackground
         navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        navigationBar.barTintColor = Colors.navBarColor
+        navigationBar.barTintColor = Colors.newNavigationBarBackground
         navigationBar.tintColor = .white
         navigationBar.isTranslucent = false
         navigationBar.isOpaque = false

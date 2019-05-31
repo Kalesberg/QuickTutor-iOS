@@ -231,14 +231,14 @@
                                         </constraints>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="backgroundColor" red="0.082352941176470587" green="0.082352941176470587" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstItem="fqU-wd-aCB" firstAttribute="top" secondItem="eDD-lc-gWY" secondAttribute="top" constant="17" id="buz-J5-VYM"/>
                                     <constraint firstItem="fqU-wd-aCB" firstAttribute="centerX" secondItem="eDD-lc-gWY" secondAttribute="centerX" id="tAG-ne-hMt"/>
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="backgroundColor" red="0.082352941176470587" green="0.082352941176470587" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
                             <constraint firstItem="QAa-iI-4gK" firstAttribute="centerY" secondItem="bV3-Ww-JuO" secondAttribute="centerY" id="4iW-sd-KAk"/>
                             <constraint firstItem="eDD-lc-gWY" firstAttribute="leading" secondItem="Fmc-At-fKc" secondAttribute="leading" constant="10" id="6YR-XC-Kzw"/>
@@ -267,7 +267,7 @@
                         </userDefinedRuntimeAttributes>
                     </view>
                 </subviews>
-                <color key="backgroundColor" red="0.10588235294117647" green="0.10588235294117647" blue="0.14901960784313725" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                <color key="backgroundColor" red="0.082352941176470587" green="0.082352941176470587" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                 <constraints>
                     <constraint firstItem="Fmc-At-fKc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="4Vb-uq-7MD"/>
                     <constraint firstItem="Fmc-At-fKc" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="A6o-iW-Tjc"/>

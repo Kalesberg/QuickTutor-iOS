@@ -41,7 +41,7 @@ class CategorySearchVCView: UIView {
     func applyConstraints() {
 //        setupSearchBar()
         setupCollectionView()
-        backgroundColor = Colors.newBackground
+        backgroundColor = Colors.newScreenBackground
     }
     
     func setupSearchBar() {

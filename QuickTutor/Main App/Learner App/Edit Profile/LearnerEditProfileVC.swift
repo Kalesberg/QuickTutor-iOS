@@ -296,6 +296,7 @@ class LearnerEditProfileVC: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.isOpaque = false
+        navigationController?.navigationBar.backgroundColor = Colors.newNavigationBarBackground
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_back_arrow"), style: .plain, target: self, action: #selector(backAction))
     }
 

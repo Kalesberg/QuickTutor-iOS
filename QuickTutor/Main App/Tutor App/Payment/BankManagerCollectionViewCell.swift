@@ -61,7 +61,7 @@ class BankManagerCollectionViewCell: SwipeCollectionViewCell {
     }
     
     func setupMainView() {
-        contentView.backgroundColor = Colors.darkBackground
+        contentView.backgroundColor = Colors.newScreenBackground
         contentView.layer.borderColor = Colors.gray.cgColor
         contentView.layer.borderWidth = 1
         contentView.layer.cornerRadius = 4

@@ -39,7 +39,7 @@ class LearnerMainPageFeaturedSubjectCell: UICollectionViewCell {
         label.textColor = .white
         label.textAlignment = .left
         label.font = Fonts.createBoldSize(14)
-        label.backgroundColor = Colors.newBackground
+        label.backgroundColor = Colors.newScreenBackground
         
         return label
     }()

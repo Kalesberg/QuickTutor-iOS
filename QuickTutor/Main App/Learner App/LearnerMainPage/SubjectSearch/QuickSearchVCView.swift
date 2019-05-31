@@ -20,7 +20,7 @@ class QuickSearchVCView: UIView {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        cv.backgroundColor = Colors.newBackground
+        cv.backgroundColor = Colors.newScreenBackground
         cv.allowsMultipleSelection = false
         cv.alwaysBounceVertical = true
         cv.delaysContentTouches = false
@@ -37,7 +37,7 @@ class QuickSearchVCView: UIView {
     }
     
     func setupMainView() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
     }
     
     func setupSearchBarContainer() {

@@ -16,8 +16,8 @@ class LearnerReviewsView: UIView {
     let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.showsVerticalScrollIndicator = false
-        tableView.separatorColor = Colors.navBarColor
-        tableView.backgroundColor = Colors.navBarColor
+        tableView.separatorColor = Colors.newScreenBackground
+        tableView.backgroundColor = Colors.newScreenBackground
         tableView.showsVerticalScrollIndicator = false
         tableView.register(QTReviewTableViewCell.nib, forCellReuseIdentifier: QTReviewTableViewCell.reuseIdentifier)
         tableView.estimatedRowHeight = 100
@@ -27,7 +27,7 @@ class LearnerReviewsView: UIView {
     }()
 
     func setupViews() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
         setupTableView()
     }
     
@@ -95,8 +95,8 @@ extension LearnerReviewsVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: QTReviewTableViewCell.reuseIdentifier, for: indexPath) as! QTReviewTableViewCell
         cell.selectionStyle = .none
-        cell.backgroundColor = Colors.darkBackground
-        cell.contentView.backgroundColor = Colors.darkBackground
+        cell.backgroundColor = Colors.newScreenBackground
+        cell.contentView.backgroundColor = Colors.newScreenBackground
         cell.setData(review: datasource[indexPath.row])
         return cell
     }

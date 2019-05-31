@@ -90,7 +90,7 @@ class FiltersVCView: UIView {
     }()
     
     func setupViews() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
         setupHourlyRateSliderView()
         setupHourlyRateSeparator()
         setupDistanceSliderView()

@@ -58,7 +58,7 @@ class AddCardViewController: UIViewController {
     func setupNavigation() {
         navigationItem.title = "Add card"
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        navigationController?.navigationBar.barTintColor = Colors.navBarColor
+        navigationController?.navigationBar.barTintColor = Colors.newNavigationBarBackground
         
         let image = UIImage(named: "closeCircle")?.withRenderingMode(.alwaysTemplate)
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(dismissView))

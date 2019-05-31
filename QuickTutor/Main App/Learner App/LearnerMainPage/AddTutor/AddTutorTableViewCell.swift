@@ -106,7 +106,7 @@ class AddTutorTableViewCell: UITableViewCell {
         let cellBackground = UIView()
         cellBackground.backgroundColor = UIColor.black.withAlphaComponent(0.7)
         selectedBackgroundView = cellBackground
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
     }
 	
 	@objc func addTutorButtonPressed(_: Any) {

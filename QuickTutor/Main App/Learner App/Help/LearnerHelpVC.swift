@@ -27,9 +27,9 @@ class LearnerHelpView: UIView {
         tableView.isScrollEnabled = false
         tableView.separatorInset.left = 0
         tableView.separatorStyle = .none
-        tableView.backgroundColor = Colors.newBackground
-        backgroundColor = Colors.newBackground
-        header.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
+        tableView.backgroundColor = Colors.newScreenBackground
+        backgroundColor = Colors.newScreenBackground
+        header.backgroundColor = Colors.newScreenBackground
     }
 
     func applyConstraints() {
@@ -76,10 +76,10 @@ class HelpHeaderScroll: MainLayoutTitleBackButton {
 
     override func configureView() {
         addSubview(scrollView)
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
         scrollView.addSubview(header)
         super.configureView()
-        scrollView.backgroundColor = Colors.darkBackground
+        scrollView.backgroundColor = Colors.newScreenBackground
         header.label.font = Fonts.createSize(22)
     }
 
@@ -289,10 +289,10 @@ class CustomHelpTableViewCell: UITableViewCell {
 
     func configureTableViewCell() {
         let cellBackground = UIView()
-        cellBackground.backgroundColor = UIColor.black
+        cellBackground.backgroundColor = Colors.newScreenBackground
         selectedBackgroundView = cellBackground
 
-        backgroundColor = Colors.registrationDark
+        backgroundColor = Colors.newScreenBackground
 
         textLabel?.textColor = UIColor.white
         textLabel?.font = Fonts.createSize(17.0)

@@ -131,7 +131,7 @@ There are no subscription fees or upfront payments; and you will only be charged
                                     </userDefinedRuntimeAttributes>
                                 </button>
                             </subviews>
-                            <color key="backgroundColor" red="0.10588235294117647" green="0.10588235294117647" blue="0.14901960784313725" alpha="0.90000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="backgroundColor" red="0.082352941176470587" green="0.082352941176470587" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="trailing" secondItem="Ttc-Kg-5PM" secondAttribute="trailing" constant="20" id="072-YC-rS4"/>
                                 <constraint firstItem="Ttc-Kg-5PM" firstAttribute="leading" secondItem="d3j-oh-JXb" secondAttribute="leading" constant="20" id="4hS-Y6-vhT"/>
@@ -190,7 +190,7 @@ There are no subscription fees or upfront payments; and you will only be charged
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" red="0.10196078431372549" green="0.10196078431372549" blue="0.14117647058823529" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" red="0.082352941176470587" green="0.082352941176470587" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="UUu-JT-Gby" secondAttribute="bottom" constant="11" id="0eu-zI-GLM"/>
                         <constraint firstItem="fN6-Pk-twY" firstAttribute="leading" secondItem="UUu-JT-Gby" secondAttribute="trailing" constant="5" id="Fls-Sl-FUo"/>
@@ -203,14 +203,14 @@ There are no subscription fees or upfront payments; and you will only be charged
                 </view>
                 <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="64" estimatedRowHeight="64" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="YBs-fZ-n7Z">
                     <rect key="frame" x="0.0" y="88" width="414" height="774"/>
-                    <color key="backgroundColor" red="0.10588235294117647" green="0.10588235294117647" blue="0.14901960784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" red="0.082352941176470587" green="0.082352941176470587" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="fbf-QS-k2o"/>
                         <outlet property="delegate" destination="-1" id="rfW-vV-9sM"/>
                     </connections>
                 </tableView>
             </subviews>
-            <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" red="0.082352941176470587" green="0.082352941176470587" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="YBs-fZ-n7Z" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="5S7-aY-0Gi"/>
                 <constraint firstItem="g4D-lS-Pxc" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="5yG-ef-Veb"/>

@@ -34,7 +34,7 @@ class LearnerEditProfileVCView: UIView, Keyboardable {
     }
     
     func setupMainView() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
     }
     
     func setupTableView() {

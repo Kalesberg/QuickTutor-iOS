@@ -24,7 +24,7 @@ class MessageTextView: UITextView {
     }
     
     private func setupMainView() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
         textContainerInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 8)
     }
     

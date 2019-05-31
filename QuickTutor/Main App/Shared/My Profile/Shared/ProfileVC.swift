@@ -71,10 +71,10 @@ class ProfileVC: UIViewController {
     func setupMainView() {
         navigationController?.setNavigationBarHidden(true, animated: false)
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-        navigationController?.navigationBar.barTintColor = Colors.darkBackground
-        navigationController?.navigationBar.backgroundColor = Colors.darkBackground
-        navigationController?.view.backgroundColor = Colors.darkBackground
-        view.backgroundColor = Colors.newBackground
+        navigationController?.navigationBar.barTintColor = Colors.newNavigationBarBackground
+        navigationController?.navigationBar.backgroundColor = Colors.newNavigationBarBackground
+        navigationController?.view.backgroundColor = Colors.newNavigationBarBackground
+        view.backgroundColor = Colors.newScreenBackground
     }
     
     func setupCollectionView() {

@@ -32,7 +32,7 @@ class ConversationCollectionView: UICollectionView {
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
         alwaysBounceVertical = true
         keyboardDismissMode = .interactive
         contentInset = UIEdgeInsets(top: topInset, left: 0, bottom: 0, right: 0)

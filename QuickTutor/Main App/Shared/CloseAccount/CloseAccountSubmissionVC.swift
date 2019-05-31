@@ -112,7 +112,7 @@ class SubmissionTextView: EditBioTextView {
     override func configureView() {
         addSubview(textView)
 
-        backgroundColor = Colors.registrationDark
+        backgroundColor = Colors.newScreenBackground
         layer.borderWidth = 1.0
         layer.borderColor = UIColor.black.cgColor
         layer.cornerRadius = 10

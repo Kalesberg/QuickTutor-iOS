@@ -65,7 +65,7 @@ class CardManagerViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        navigationController?.navigationBar.barTintColor = Colors.newBackground
+        navigationController?.navigationBar.barTintColor = Colors.newNavigationBarBackground
         tableView.reloadData()
     }
     

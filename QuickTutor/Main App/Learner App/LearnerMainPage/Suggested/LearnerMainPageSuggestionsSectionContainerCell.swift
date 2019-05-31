@@ -28,7 +28,7 @@ class LearnerMainPageSuggestionSectionContainerCell: UICollectionViewCell {
     }
     
     func setupMainView() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
     }
     
     func setupTitleLabel() {

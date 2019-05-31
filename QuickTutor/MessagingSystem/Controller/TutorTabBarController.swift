@@ -11,11 +11,11 @@ import UIKit
 class BaseTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        tabBar.barTintColor = Colors.registrationDark
+        tabBar.barTintColor = Colors.newNavigationBarBackground
         tabBar.tintColor = .qtAccentColor
         tabBar.isOpaque = false
         tabBar.isTranslucent = false
-        tabBar.backgroundColor = Colors.registrationDark
+        tabBar.backgroundColor = Colors.newNavigationBarBackground
         selectedIndex = 0
         
         tabBar.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.2, offset: CGSize(width: 0, height: -10), radius: 10)
@@ -40,24 +40,24 @@ class TutorTabBarController: BaseTabBarController {
         let home = UINavigationController(rootViewController: QTTutorDashboardViewController.controller) // TutorMainPage()
         home.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "dashboardTabIcon"), selectedImage: UIImage(named: "dashboardTabIcon"))
         home.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
-        home.navigationBar.barTintColor = Colors.newBackground
-        home.navigationBar.backgroundColor = Colors.newBackground
+        home.navigationBar.barTintColor = Colors.newNavigationBarBackground
+        home.navigationBar.backgroundColor = Colors.newNavigationBarBackground
         let sessions = UINavigationController(rootViewController: TutorSessionsVC())
         sessions.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "sessionsTabBarIcon"), selectedImage: UIImage(named: "sessionsTabBarIcon"))
         sessions.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
         let messages = UINavigationController(rootViewController: MessagesVC())
         messages.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "chatTabBarIcon"), selectedImage: UIImage(named: "chatTabBarIcon"))
         messages.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
-        messages.navigationBar.barTintColor = Colors.newBackground
-        messages.navigationBar.backgroundColor = Colors.newBackground
+        messages.navigationBar.barTintColor = Colors.newNavigationBarBackground
+        messages.navigationBar.backgroundColor = Colors.newNavigationBarBackground
         let profile = UINavigationController(rootViewController: ProfileVC())
         profile.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "profileTabBarIcon"), selectedImage: UIImage(named: "profileTabBarIcon"))
         profile.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
         let controllers = [home, sessions, messages, profile]
         
         for vc in controllers {
-            vc.navigationBar.barTintColor = Colors.darkBackground
-            vc.navigationBar.backgroundColor = Colors.darkBackground
+            vc.navigationBar.barTintColor = Colors.newNavigationBarBackground
+            vc.navigationBar.backgroundColor = Colors.newNavigationBarBackground
             vc.navigationBar.tintColor = .white
             vc.navigationBar.isTranslucent = false
             vc.navigationBar.isOpaque = false

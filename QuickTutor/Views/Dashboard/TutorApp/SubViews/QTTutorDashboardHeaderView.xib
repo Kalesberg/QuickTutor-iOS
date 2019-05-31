@@ -208,7 +208,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
-                    <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <color key="backgroundColor" red="0.082352941176470587" green="0.082352941176470587" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
                         <constraint firstItem="zBu-rV-zUd" firstAttribute="top" secondItem="5UY-Rf-mWE" secondAttribute="top" constant="20" id="1k6-hw-18k"/>
                         <constraint firstItem="zBu-rV-zUd" firstAttribute="leading" secondItem="5UY-Rf-mWE" secondAttribute="leading" constant="20" id="LNM-CM-8ug"/>
@@ -217,7 +217,7 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" red="0.086274509799999996" green="0.086274509799999996" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color key="backgroundColor" red="0.082352941176470587" green="0.082352941176470587" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
             <constraints>
                 <constraint firstItem="5UY-Rf-mWE" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="ANh-2t-3xS"/>
                 <constraint firstItem="YQD-Fl-cvt" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="Caj-Z9-S4G"/>

@@ -59,7 +59,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
-                <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                <color key="backgroundColor" red="0.082352941176470587" green="0.082352941176470587" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
                     <constraint firstItem="1H4-b1-Ly0" firstAttribute="leading" secondItem="O4Y-FO-lKd" secondAttribute="trailing" constant="10" id="7Tg-Sk-uWH"/>
                     <constraint firstAttribute="trailingMargin" secondItem="frN-i9-3zT" secondAttribute="trailing" constant="20" id="Ln0-gP-S1V"/>
@@ -73,7 +73,7 @@
                     <constraint firstItem="1H4-b1-Ly0" firstAttribute="top" secondItem="yzR-Mu-BDg" secondAttribute="bottom" constant="5" id="zeq-rA-9hu"/>
                 </constraints>
             </tableViewCellContentView>
-            <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" red="0.082352941176470587" green="0.082352941176470587" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="avatarImageView" destination="O4Y-FO-lKd" id="II7-GW-o6l"/>
