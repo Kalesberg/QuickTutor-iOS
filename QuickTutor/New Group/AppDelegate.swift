@@ -15,6 +15,7 @@ import AVFoundation
 import Crashlytics
 import IQKeyboardManager
 import Branch
+import CardScan
 
 var navigationController = UINavigationController()
 
@@ -57,6 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
 #else
         STPPaymentConfiguration.shared().publishableKey = "pk_live_D8MI9AN23eK4XLw1mCSUHi9V"
 #endif
+        ScanViewController.configure()
         
         UITextField.appearance().keyboardAppearance = .dark
         let backImage = UIImage(named: "ic_back_arrow")

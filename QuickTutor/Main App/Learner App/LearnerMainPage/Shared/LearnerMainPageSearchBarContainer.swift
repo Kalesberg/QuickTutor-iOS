@@ -10,6 +10,12 @@ import UIKit
 
 class LearnerMainPageSearchBarContainer: UIView {
     
+    let containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = Colors.newBackground
+        return view
+    }()
+    
     let searchBar: PaddedTextField = {
         let field = PaddedTextField()
         field.padding.left = 40
@@ -42,20 +48,26 @@ class LearnerMainPageSearchBarContainer: UIView {
     var recentSearchesCVHeightAnchor: NSLayoutConstraint?
     
     func setupViews() {
+        setupContainerView()
         setupSearchBar()
         setupRecentSearchesCV()
     }
     
+    func setupContainerView() {
+        addSubview(containerView)
+        containerView.anchor(top: getTopAnchor(), left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 57)
+        containerView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.2, offset: CGSize(width: 0, height: 10), radius: 10)
+    }
+    
     func setupSearchBar() {
-        addSubview(searchBar)
-        searchBar.anchor(top: getTopAnchor(), left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 47)
+        containerView.addSubview(searchBar)
+        searchBar.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 47)
         searchBar.delegate = self
-        searchBar.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.2, offset: CGSize(width: 0, height: 0), radius: 5)
     }
     
     func setupRecentSearchesCV() {
         addSubview(recentSearchesCV)
-        recentSearchesCV.anchor(top: searchBar.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        recentSearchesCV.anchor(top: containerView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         recentSearchesCVHeightAnchor = recentSearchesCV.heightAnchor.constraint(equalToConstant: 30)
         recentSearchesCVHeightAnchor?.isActive = true
         layoutIfNeeded()

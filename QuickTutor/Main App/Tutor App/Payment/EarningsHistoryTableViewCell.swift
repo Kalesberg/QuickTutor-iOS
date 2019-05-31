@@ -1,14 +1,14 @@
 //
-//  EarningsHistoryCell.swift
+//  EarningsHistoryTableViewCell.swift
 //  QuickTutor
 //
-//  Created by Zach Fuller on 5/25/19.
+//  Created by Zach Fuller on 5/30/19.
 //  Copyright © 2019 QuickTutor. All rights reserved.
 //
 
 import UIKit
 
-class EarningsHistoryCell: UICollectionViewCell {
+class EarningsHistoryTaleViewCell: UITableViewCell {
     
     let profilePicImageView: UIImageView = {
         let view = UIImageView()
@@ -50,11 +50,12 @@ class EarningsHistoryCell: UICollectionViewCell {
     
     func setupMainView() {
         backgroundColor = Colors.darkBackground
+        selectionStyle = .none
     }
     
     func setupProfilePicImageView() {
         addSubview(profilePicImageView)
-        profilePicImageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 40, height: 0)
+        profilePicImageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 40, height: 0)
     }
     
     func setupUsernameLabel() {
@@ -69,11 +70,11 @@ class EarningsHistoryCell: UICollectionViewCell {
     
     func setupTimeLabel() {
         addSubview(timeLabel)
-        timeLabel.anchor(top: topAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 4, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 14)
+        timeLabel.anchor(top: topAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 4, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 100, height: 14)
     }
     
     func updateUI(_ session: Session) {
-        UserFetchService.shared.getStudentWithId(session.senderId) { (user) in
+        UserFetchService.shared.getTutorWithId(session.receiverId) { (user) in
             guard let user = user else { return }
             self.updateTimestampLabel(session: session)
             self.amountLabel.text = "$\(String(format: "%.2f", session.cost))"
@@ -87,8 +88,8 @@ class EarningsHistoryCell: UICollectionViewCell {
         timeLabel.text = timestampDate.formatRelativeString()
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
     }
     
@@ -96,3 +97,4 @@ class EarningsHistoryCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 }
+

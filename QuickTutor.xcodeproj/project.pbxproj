@@ -880,6 +880,18 @@
 		BE817220229C724A0089FA1E /* quickcalls_ringtone.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BE81721D229C724A0089FA1E /* quickcalls_ringtone.mp3 */; };
 		BE817221229C724A0089FA1E /* session_ringtone.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BE81721E229C724A0089FA1E /* session_ringtone.mp3 */; };
 		BE817222229C724A0089FA1E /* session_ringtone.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BE81721E229C724A0089FA1E /* session_ringtone.mp3 */; };
+		BE817235229E21980089FA1E /* AddCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE817233229E21980089FA1E /* AddCardViewController.swift */; };
+		BE817236229E21980089FA1E /* AddCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE817233229E21980089FA1E /* AddCardViewController.swift */; };
+		BE817237229E21980089FA1E /* AddCardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE817234229E21980089FA1E /* AddCardViewController.xib */; };
+		BE817238229E21980089FA1E /* AddCardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE817234229E21980089FA1E /* AddCardViewController.xib */; };
+		BEAB1012229E493B00CCCCD6 /* ExpirationDateModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEAB1011229E493B00CCCCD6 /* ExpirationDateModal.swift */; };
+		BEAB1013229E493B00CCCCD6 /* ExpirationDateModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEAB1011229E493B00CCCCD6 /* ExpirationDateModal.swift */; };
+		BEAB1015229E495700CCCCD6 /* ExpirationDateModal.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEAB1014229E495700CCCCD6 /* ExpirationDateModal.xib */; };
+		BEAB1016229E495700CCCCD6 /* ExpirationDateModal.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEAB1014229E495700CCCCD6 /* ExpirationDateModal.xib */; };
+		BEC6987A229E4C9A00F970EE /* CVVModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC69879229E4C9A00F970EE /* CVVModal.swift */; };
+		BEC6987B229E4C9A00F970EE /* CVVModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC69879229E4C9A00F970EE /* CVVModal.swift */; };
+		BEC6987D229E4CA400F970EE /* CVVModal.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEC6987C229E4CA400F970EE /* CVVModal.xib */; };
+		BEC6987E229E4CA400F970EE /* CVVModal.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEC6987C229E4CA400F970EE /* CVVModal.xib */; };
 		C41F17E1224D2D3A007758FC /* QTCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41F17E0224D2D3A007758FC /* QTCustomButton.swift */; };
 		C41F17E2224D30E0007758FC /* QTCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41F17E0224D2D3A007758FC /* QTCustomButton.swift */; };
 		C46A2F11224CD309005058B1 /* UserStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46A2F10224CD309005058B1 /* UserStatus.swift */; };
@@ -966,6 +978,8 @@
 		CF6325E7207FE15E0037F8AA /* ReportSuccessfulModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325E6207FE15E0037F8AA /* ReportSuccessfulModal.swift */; };
 		CF6325EB207FF4480037F8AA /* SessionProfileBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325EA207FF4480037F8AA /* SessionProfileBox.swift */; };
 		CF6325EF20801D3C0037F8AA /* SessionsNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6325EE20801D3C0037F8AA /* SessionsNavBar.swift */; };
+		CF6605DE22A096150020A2B7 /* EarningsHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6605DD22A096150020A2B7 /* EarningsHistoryTableViewCell.swift */; };
+		CF6605DF22A096290020A2B7 /* EarningsHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6605DD22A096150020A2B7 /* EarningsHistoryTableViewCell.swift */; };
 		CF671AC2225D8C8B00CF4F0A /* FeaturedSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF671AC1225D8C8B00CF4F0A /* FeaturedSectionController.swift */; };
 		CF671AC4225D8CB500CF4F0A /* LearnerMainPageFeaturedSectionContainerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF671AC3225D8CB500CF4F0A /* LearnerMainPageFeaturedSectionContainerCell.swift */; };
 		CF671AC6225D8CD700CF4F0A /* LearnerMainPageFeaturedSubjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF671AC5225D8CD700CF4F0A /* LearnerMainPageFeaturedSubjectCell.swift */; };
@@ -1584,6 +1598,12 @@
 		BE3A0BE96E29B6E4E34ED372 /* Pods_QuickTutorApp_QuickTutor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QuickTutorApp_QuickTutor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE81721D229C724A0089FA1E /* quickcalls_ringtone.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = quickcalls_ringtone.mp3; sourceTree = "<group>"; };
 		BE81721E229C724A0089FA1E /* session_ringtone.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = session_ringtone.mp3; sourceTree = "<group>"; };
+		BE817233229E21980089FA1E /* AddCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardViewController.swift; sourceTree = "<group>"; };
+		BE817234229E21980089FA1E /* AddCardViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddCardViewController.xib; sourceTree = "<group>"; };
+		BEAB1011229E493B00CCCCD6 /* ExpirationDateModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationDateModal.swift; sourceTree = "<group>"; };
+		BEAB1014229E495700CCCCD6 /* ExpirationDateModal.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExpirationDateModal.xib; sourceTree = "<group>"; };
+		BEC69879229E4C9A00F970EE /* CVVModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CVVModal.swift; sourceTree = "<group>"; };
+		BEC6987C229E4CA400F970EE /* CVVModal.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CVVModal.xib; sourceTree = "<group>"; };
 		C41F17E0224D2D3A007758FC /* QTCustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTCustomButton.swift; sourceTree = "<group>"; };
 		C46A2F10224CD309005058B1 /* UserStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStatus.swift; sourceTree = "<group>"; };
 		C4AE0DF583905E04AFE9A3B4 /* Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutorApp-QuickTutorUITests/Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1660,6 +1680,7 @@
 		CF6325E6207FE15E0037F8AA /* ReportSuccessfulModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportSuccessfulModal.swift; sourceTree = "<group>"; };
 		CF6325EA207FF4480037F8AA /* SessionProfileBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionProfileBox.swift; sourceTree = "<group>"; };
 		CF6325EE20801D3C0037F8AA /* SessionsNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsNavBar.swift; sourceTree = "<group>"; };
+		CF6605DD22A096150020A2B7 /* EarningsHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarningsHistoryTableViewCell.swift; sourceTree = "<group>"; };
 		CF671AC1225D8C8B00CF4F0A /* FeaturedSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedSectionController.swift; sourceTree = "<group>"; };
 		CF671AC3225D8CB500CF4F0A /* LearnerMainPageFeaturedSectionContainerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerMainPageFeaturedSectionContainerCell.swift; sourceTree = "<group>"; };
 		CF671AC5225D8CD700CF4F0A /* LearnerMainPageFeaturedSubjectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerMainPageFeaturedSubjectCell.swift; sourceTree = "<group>"; };
@@ -2342,6 +2363,8 @@
 				931C71E7227E4798003C86F8 /* AddCardHeaderView.xib */,
 				931C71EA227E4E1C003C86F8 /* PaymentCardTableViewCell.swift */,
 				931C71EB227E4E1C003C86F8 /* PaymentCardTableViewCell.xib */,
+				BE817233229E21980089FA1E /* AddCardViewController.swift */,
+				BE817234229E21980089FA1E /* AddCardViewController.xib */,
 			);
 			path = Payment;
 			sourceTree = "<group>";
@@ -2453,6 +2476,7 @@
 				CFB9B81721C6D2A00022333F /* TutorAddBankVCView.swift */,
 				841C5071216ED57C0035C6C9 /* EditBillingAddress */,
 				93F4F8D2227FD43900809432 /* BankAddCardHeaderView.swift */,
+				CF6605DD22A096150020A2B7 /* EarningsHistoryTableViewCell.swift */,
 			);
 			path = Payment;
 			sourceTree = "<group>";
@@ -3463,6 +3487,10 @@
 				93C102842278F77D004B9F0D /* RegistrationSSNModal.xib */,
 				9359CED2227BEF83008E9FB1 /* ProcessingFeeModal.swift */,
 				9359CED5227BEF92008E9FB1 /* ProcessingFeeModal.xib */,
+				BEAB1011229E493B00CCCCD6 /* ExpirationDateModal.swift */,
+				BEAB1014229E495700CCCCD6 /* ExpirationDateModal.xib */,
+				BEC69879229E4C9A00F970EE /* CVVModal.swift */,
+				BEC6987C229E4CA400F970EE /* CVVModal.xib */,
 			);
 			path = Modals;
 			sourceTree = "<group>";
@@ -3811,6 +3839,7 @@
 				BE817220229C724A0089FA1E /* quickcalls_ringtone.mp3 in Resources */,
 				561003B92242BCC100A4688F /* QTInPersonSessionViewController.xib in Resources */,
 				569F18D3223554FD00820A20 /* Lato-BoldItalic.ttf in Resources */,
+				BEC6987E229E4CA400F970EE /* CVVModal.xib in Resources */,
 				931C71EF227E4E1C003C86F8 /* PaymentCardTableViewCell.xib in Resources */,
 				569F18D4223554FD00820A20 /* tech.json in Resources */,
 				5697DD33226F859300AC9775 /* QTInviteOthersSectionHeaderView.xib in Resources */,
@@ -3820,8 +3849,10 @@
 				569F18D8223554FD00820A20 /* quickTutorNotification.aiff in Resources */,
 				56842BE5229C3EE600D1DA2C /* QTBecomeTutorViewController.xib in Resources */,
 				5697DD27226F859300AC9775 /* QTInviteOthersConnectTableViewCell.xib in Resources */,
+				BEAB1016229E495700CCCCD6 /* ExpirationDateModal.xib in Resources */,
 				5697DD2B226F859300AC9775 /* QTInviteOthersContactTableViewCell.xib in Resources */,
 				569F18D9223554FD00820A20 /* QTTutorDashboardMarkerView.xib in Resources */,
+				BE817238229E21980089FA1E /* AddCardViewController.xib in Resources */,
 				569F18DA223554FD00820A20 /* Lato-Medium.ttf in Resources */,
 				569F18DB223554FD00820A20 /* connecting.json in Resources */,
 				561003C62243163600A4688F /* QTPastSessionTableViewCell.xib in Resources */,
@@ -3915,6 +3946,7 @@
 				BE81721F229C724A0089FA1E /* quickcalls_ringtone.mp3 in Resources */,
 				561003B72242A9AF00A4688F /* QTInPersonSessionViewController.xib in Resources */,
 				84257678207132DD00FD295B /* tech.json in Resources */,
+				BEC6987D229E4CA400F970EE /* CVVModal.xib in Resources */,
 				931C71EE227E4E1C003C86F8 /* PaymentCardTableViewCell.xib in Resources */,
 				CFB0283E210C241600B29972 /* GoogleService-Info.plist in Resources */,
 				5697DD32226F859300AC9775 /* QTInviteOthersSectionHeaderView.xib in Resources */,
@@ -3924,8 +3956,10 @@
 				CFE18FA12119645E000816C4 /* quickTutorNotification.aiff in Resources */,
 				56842BE4229C3EE600D1DA2C /* QTBecomeTutorViewController.xib in Resources */,
 				5697DD26226F859300AC9775 /* QTInviteOthersConnectTableViewCell.xib in Resources */,
+				BEAB1015229E495700CCCCD6 /* ExpirationDateModal.xib in Resources */,
 				5697DD2A226F859300AC9775 /* QTInviteOthersContactTableViewCell.xib in Resources */,
 				569ECDCB21FB1049005491CB /* QTTutorDashboardMarkerView.xib in Resources */,
+				BE817237229E21980089FA1E /* AddCardViewController.xib in Resources */,
 				56DC6DA4220BD7DF00935F47 /* Lato-Medium.ttf in Resources */,
 				CFB40E45216BFE2100828E72 /* connecting.json in Resources */,
 				561003C52243163600A4688F /* QTPastSessionTableViewCell.xib in Resources */,
@@ -4010,6 +4044,7 @@
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/Branch/Branch.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
+				"${BUILT_PRODUCTS_DIR}/CardScan/CardScan.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
 				"${BUILT_PRODUCTS_DIR}/CropViewController/CropViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
@@ -4043,6 +4078,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Branch.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CardScan.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CropViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
@@ -4216,6 +4252,7 @@
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/Branch/Branch.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
+				"${BUILT_PRODUCTS_DIR}/CardScan/CardScan.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
 				"${BUILT_PRODUCTS_DIR}/CropViewController/CropViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
@@ -4249,6 +4286,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Branch.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CardScan.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CropViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
@@ -4339,6 +4377,7 @@
 				569F16ED223554FD00820A20 /* LearnerHelpVC.swift in Sources */,
 				569F16EF223554FD00820A20 /* TutorManagePolicies.swift in Sources */,
 				569F16F0223554FD00820A20 /* LearnerLate.swift in Sources */,
+				BEAB1013229E493B00CCCCD6 /* ExpirationDateModal.swift in Sources */,
 				569F16F1223554FD00820A20 /* BackgroundSoundManager.swift in Sources */,
 				568E571A22713AD900E18BD4 /* TimeHelper.swift in Sources */,
 				569F16F2223554FD00820A20 /* LoadingIndicator.swift in Sources */,
@@ -4442,6 +4481,7 @@
 				569F175A223554FD00820A20 /* BaseSessionRequestViewSection.swift in Sources */,
 				569F175B223554FD00820A20 /* TutorCardReviewsView.swift in Sources */,
 				569F175C223554FD00820A20 /* MessagingSystemToggleCell.swift in Sources */,
+				BEC6987B229E4C9A00F970EE /* CVVModal.swift in Sources */,
 				569F175D223554FD00820A20 /* UIFontExtensions.swift in Sources */,
 				569F175E223554FD00820A20 /* EventManager.swift in Sources */,
 				569F175F223554FD00820A20 /* TutorSubcategory.swift in Sources */,
@@ -4510,6 +4550,7 @@
 				CFCE90AF226524DC00CBB1AD /* LearnerMainPageSuggestionsSectionContainerCell.swift in Sources */,
 				569F17A3223554FD00820A20 /* CardFooterView.swift in Sources */,
 				569F17A4223554FD00820A20 /* TutorHandbook.swift in Sources */,
+				BE817236229E21980089FA1E /* AddCardViewController.swift in Sources */,
 				CFB767CE22991B7A001206DA /* EarningsHistoryCell.swift in Sources */,
 				569F17A5223554FD00820A20 /* SessionsVC.swift in Sources */,
 				569F17A6223554FD00820A20 /* PillCollectionViewCell.swift in Sources */,
@@ -4739,6 +4780,7 @@
 				569F1886223554FD00820A20 /* EditBillingAddressView.swift in Sources */,
 				569F1888223554FD00820A20 /* SessionRequestView.swift in Sources */,
 				569F1889223554FD00820A20 /* WalkthroughVC.swift in Sources */,
+				CF6605DF22A096290020A2B7 /* EarningsHistoryTableViewCell.swift in Sources */,
 				569F188A223554FD00820A20 /* AddTutorCell.swift in Sources */,
 				569F188B223554FD00820A20 /* ImageMessageSender.swift in Sources */,
 				569F188C223554FD00820A20 /* TextLabel.swift in Sources */,
@@ -4825,6 +4867,7 @@
 				567E1A102270C0350094E371 /* QTCloseAccountReasonTableViewCell.swift in Sources */,
 				84052F12206BCC9A007B1248 /* LearnerLate.swift in Sources */,
 				CFA00970213A000200F81EE4 /* BackgroundSoundManager.swift in Sources */,
+				BEAB1012229E493B00CCCCD6 /* ExpirationDateModal.swift in Sources */,
 				CFD92A6C222F24B200704531 /* LoadingIndicator.swift in Sources */,
 				CFB9B80E21C5D2430022333F /* BirthdayVCView.swift in Sources */,
 				8465E66620BAEA7600F7D72C /* LearnerModel.swift in Sources */,
@@ -4928,6 +4971,7 @@
 				84A6E46E218F68B600D03681 /* TutorSubcategory.swift in Sources */,
 				CFD92A6B222F24B200704531 /* HeaderView.swift in Sources */,
 				CF5BFB052155B19100FB8DD6 /* InAppNotificationView.swift in Sources */,
+				BEC6987A229E4C9A00F970EE /* CVVModal.swift in Sources */,
 				CF6F58C4205EE68800ACBD32 /* QuickChatViewCell.swift in Sources */,
 				CF6F58D7205EE68800ACBD32 /* TeacherKeyboardAccessory.swift in Sources */,
 				CFD92A60222F24B200704531 /* LightboxController.swift in Sources */,
@@ -4996,6 +5040,7 @@
 				847463282069482D00B70AD9 /* TutorHandbook.swift in Sources */,
 				84E4C7EC204E9829009C2FC4 /* SessionsVC.swift in Sources */,
 				CFB9B7EC21C23E850022333F /* PillCollectionViewCell.swift in Sources */,
+				BE817235229E21980089FA1E /* AddCardViewController.swift in Sources */,
 				CFB767CD22991B77001206DA /* EarningsHistoryCell.swift in Sources */,
 				848809F7205770D000F204A0 /* TutorUnprofessionalVC.swift in Sources */,
 				84BDE2B920AB2CAB003E66D5 /* ExternalAccounts.swift in Sources */,
@@ -5225,6 +5270,7 @@
 				CFEF943F20B3583800413727 /* ImageMessageSender.swift in Sources */,
 				84C8F5E41FF8997400737A59 /* TextLabel.swift in Sources */,
 				CFEDF90320D57FF100457E77 /* OnlineStatusService.swift in Sources */,
+				CF6605DE22A096150020A2B7 /* EarningsHistoryTableViewCell.swift in Sources */,
 				CF507FAB218138A5007FE441 /* MessageBreakTimestamp.swift in Sources */,
 				CF7D8AB421995F0A00463B0E /* ProfileVCCell.swift in Sources */,
 				CF833B75207C4B6E00323242 /* LearnerPendingSessionCell.swift in Sources */,

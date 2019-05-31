@@ -109,11 +109,15 @@ extension QuickSearchVC: UITextFieldDelegate {
     
     private func filterSubjects(_ text: String) {
         searchTimer?.invalidate()
-        
+        self.child.unknownSubject = nil
         searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false
             , block: { (_) in
                 DispatchQueue.global().async {
                     self.child.filteredSubjects = self.child.subjects.filter({ $0.0.range(of: text, options: .caseInsensitive) != nil }).sorted(by: { $0.0.count < $1.0.count })
+                    if self.child.filteredSubjects.count == 0 {
+                        self.child.unknownSubject = text
+                    }
+                    
                     DispatchQueue.main.sync {
                         self.child.contentView.collectionView.reloadData()
                     }
@@ -134,7 +138,6 @@ extension QuickSearchVC: UITextFieldDelegate {
         }
         
         contentView.searchBarContainer.filtersButton.isHidden = true
-        child.unknownSubject = text
         filterSubjects(text)
     }
     
