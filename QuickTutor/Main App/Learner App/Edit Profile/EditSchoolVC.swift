@@ -118,12 +118,12 @@ class EditSchoolVC: UIViewController {
     
     func setupSearchController() {
         if #available(iOS 11.0, *) {
-            searchController.searchResultsUpdater = self
-            searchController.searchBar.tintColor = .white
-            searchController.obscuresBackgroundDuringPresentation = false
-            searchController.searchBar.placeholder = "Search schools"
-            definesPresentationContext = true
             navigationItem.searchController = searchController
+            searchController.definesPresentationContext = true
+            searchController.dimsBackgroundDuringPresentation = false
+            searchController.searchBar.tintColor = .white
+            searchController.searchBar.placeholder = "Search schools"
+            searchController.searchResultsUpdater = self
         }
     }
     
