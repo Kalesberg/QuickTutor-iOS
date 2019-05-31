@@ -34,7 +34,7 @@ class QuickSearchSectionHeader: UICollectionReusableView {
     }
     
     func setupMainView() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
     }
     
     func setupIcon() {

@@ -247,7 +247,7 @@
                                                         </connections>
                                                     </button>
                                                 </subviews>
-                                                <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <color key="backgroundColor" red="0.082352941176470587" green="0.082352941176470587" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <constraints>
                                                     <constraint firstItem="gwu-gC-MMs" firstAttribute="centerX" secondItem="c2W-i3-YRN" secondAttribute="centerX" id="427-qy-rOm"/>
                                                     <constraint firstItem="gwu-gC-MMs" firstAttribute="centerY" secondItem="c2W-i3-YRN" secondAttribute="centerY" id="Bp1-Qv-m36"/>
@@ -260,7 +260,7 @@
                                                 <subviews>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="$0" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Pbc-Ie-cU1">
                                                         <rect key="frame" x="8" y="0.0" width="50" height="50"/>
-                                                        <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        <color key="backgroundColor" red="0.082352941176470587" green="0.082352941176470587" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="Da5-7O-voH"/>
                                                         </constraints>
@@ -269,7 +269,7 @@
                                                         <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                     </textField>
                                                 </subviews>
-                                                <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <color key="backgroundColor" red="0.082352941176470587" green="0.082352941176470587" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <constraints>
                                                     <constraint firstItem="Pbc-Ie-cU1" firstAttribute="centerX" secondItem="RoU-wy-QN6" secondAttribute="centerX" id="0bo-6k-Gyz"/>
                                                     <constraint firstItem="Pbc-Ie-cU1" firstAttribute="centerY" secondItem="RoU-wy-QN6" secondAttribute="centerY" id="E7w-8I-LBN"/>
@@ -292,7 +292,7 @@
                                                         </connections>
                                                     </button>
                                                 </subviews>
-                                                <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <color key="backgroundColor" red="0.082352941176470587" green="0.082352941176470587" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <constraints>
                                                     <constraint firstItem="1xs-gy-p2G" firstAttribute="top" secondItem="mBa-CM-Wxb" secondAttribute="top" constant="5" id="2HO-87-v9x"/>
                                                     <constraint firstItem="1xs-gy-p2G" firstAttribute="centerY" secondItem="mBa-CM-Wxb" secondAttribute="centerY" id="YuY-Xx-m6a"/>
@@ -324,7 +324,7 @@
                                         </constraints>
                                     </stackView>
                                 </subviews>
-                                <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="backgroundColor" red="0.082352941176470587" green="0.082352941176470587" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstItem="ZMk-Cq-jku" firstAttribute="top" secondItem="bOt-r9-1Ia" secondAttribute="bottom" constant="30" id="9yS-YM-jdY"/>
                                     <constraint firstItem="bdO-bH-bXi" firstAttribute="centerX" secondItem="3ye-dM-RkG" secondAttribute="centerX" id="KDP-ov-6Ik"/>

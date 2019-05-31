@@ -48,7 +48,7 @@ class LearnerMainPageVCView: UIView {
     }
     
     func setupMainView() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
     }
     
     func setupSearchBarContainer() {

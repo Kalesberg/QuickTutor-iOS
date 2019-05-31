@@ -12,7 +12,7 @@ class ProfileCVCell: UICollectionViewCell {
     
     override var isSelected: Bool {
         didSet {
-            backgroundColor = isSelected ? Colors.darkBackground.darker(by: 30) : Colors.darkBackground
+            backgroundColor = isSelected ? Colors.newScreenBackground.darker(by: 30) : Colors.newScreenBackground
         }
     }
     
@@ -36,7 +36,7 @@ class ProfileCVCell: UICollectionViewCell {
     }
     
     func setupMainView() {
-        backgroundColor = Colors.newBackground
+        backgroundColor = Colors.newScreenBackground
     }
     
     func setupTitleLabel() {

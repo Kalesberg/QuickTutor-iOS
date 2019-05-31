@@ -28,7 +28,7 @@ class SessionRequestTutorView: BaseSessionRequestViewSection, MockCollectionView
     
     let tutorCell: SessionRequestTutorCell = {
         let cell = SessionRequestTutorCell()
-        cell.backgroundColor = Colors.darkBackground
+        cell.backgroundColor = Colors.newScreenBackground
         cell.isHidden = true
         return cell
     }()

@@ -17,7 +17,7 @@ class MessagesVC: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        cv.backgroundColor = Colors.darkBackground
+        cv.backgroundColor = Colors.newScreenBackground
         cv.allowsMultipleSelection = false
         cv.register(ConversationCell.self, forCellWithReuseIdentifier: "cellId")
         return cv
@@ -43,14 +43,14 @@ class MessagesVC: UIViewController {
     }
     
     private func setupMainView() {
-        view.backgroundColor = Colors.darkBackground
+        view.backgroundColor = Colors.newScreenBackground
         edgesForExtendedLayout = []
         navigationItem.title = "Messages"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "connectionsIcon"), style: .plain, target: self, action: #selector(showContacts))
-        navigationController?.navigationBar.barTintColor = Colors.newBackground
+        navigationController?.navigationBar.barTintColor = Colors.newNavigationBarBackground
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
-            navigationController?.view.backgroundColor = Colors.darkBackground
+            navigationController?.view.backgroundColor = Colors.newNavigationBarBackground
         }
     }
     
@@ -339,8 +339,8 @@ extension MessagesVC: SwipeCollectionViewCellDelegate {
         deleteAction.image = UIImage(named: "deleteCellIcon")
         deleteAction.highlightedImage = UIImage(named: "deleteCellIcon")?.alpha(0.2)
         deleteAction.font = Fonts.createSize(12)
-        deleteAction.backgroundColor = Colors.darkBackground
-        deleteAction.highlightedBackgroundColor = Colors.darkBackground
+        deleteAction.backgroundColor = Colors.newScreenBackground
+        deleteAction.highlightedBackgroundColor = Colors.newScreenBackground
         
         let requestSessionAction = SwipeAction(style: .default, title: nil) { action, indexPath in
             self.requestSession(index: indexPath.item)
@@ -349,8 +349,8 @@ extension MessagesVC: SwipeCollectionViewCellDelegate {
         requestSessionAction.image = UIImage(named: "sessionIcon")
         requestSessionAction.highlightedImage = UIImage(named: "sessionIcon")?.alpha(0.2)
         requestSessionAction.font = Fonts.createSize(12)
-        requestSessionAction.backgroundColor = Colors.darkBackground
-        requestSessionAction.highlightedBackgroundColor = Colors.darkBackground
+        requestSessionAction.backgroundColor = Colors.newScreenBackground
+        requestSessionAction.highlightedBackgroundColor = Colors.newScreenBackground
         
         return AccountService.shared.currentUserType == .learner ? [deleteAction, requestSessionAction] : [deleteAction]
     }

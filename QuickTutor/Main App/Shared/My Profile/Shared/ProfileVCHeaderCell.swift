@@ -110,7 +110,7 @@ class ProfileVCHeaderCell: UICollectionReusableView {
     }
     
     func setupMainView() {
-        backgroundColor = Colors.newBackground
+        backgroundColor = Colors.newScreenBackground
     }
     
     func setupProfileImageView() {

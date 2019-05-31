@@ -41,7 +41,7 @@ class EmptyMessagesBackground: UIView {
     }
     
     func setupMainBackground() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
     }
     
     private func setupIcon() {

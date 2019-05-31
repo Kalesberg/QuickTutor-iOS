@@ -12,7 +12,7 @@ class LearnerMainPageSearchBarContainer: UIView {
     
     let containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.newBackground
+        view.backgroundColor = Colors.newNavigationBarBackground
         return view
     }()
     
@@ -35,7 +35,7 @@ class LearnerMainPageSearchBarContainer: UIView {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        cv.backgroundColor = Colors.newBackground
+        cv.backgroundColor = Colors.newScreenBackground
         cv.allowsMultipleSelection = false
         cv.alwaysBounceHorizontal = true
         cv.delaysContentTouches = false

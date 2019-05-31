@@ -37,7 +37,7 @@ class LearnerMainPageTopTutorsSectionContainerCell: UICollectionViewCell {
     }
     
     func setupMainView() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
     }
     
     func setupTitleLabel() {

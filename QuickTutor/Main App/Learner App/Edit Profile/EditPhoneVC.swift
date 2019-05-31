@@ -24,7 +24,7 @@ class EditPhoneView: UIView, Keyboardable {
         subtitle.label.text = "Phone number"
         subtitle.label.font = Fonts.createBoldSize(18)
         subtitle.label.numberOfLines = 2
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
     }
 
     func applyConstraints() {

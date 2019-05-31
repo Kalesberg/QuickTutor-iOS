@@ -19,7 +19,7 @@ class EditSchoolView: UIView {
         tableView.separatorColor = .black
         tableView.showsVerticalScrollIndicator = false
         tableView.tableFooterView = UIView()
-        tableView.backgroundColor = Colors.darkBackground
+        tableView.backgroundColor = Colors.newScreenBackground
         return tableView
     }()
 
@@ -39,7 +39,7 @@ class EditSchoolView: UIView {
     }
     
     func setupMainView() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
     }
     
     func setupSearchField() {
@@ -194,7 +194,7 @@ extension EditSchoolVC: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "idCell", for: indexPath)
         let data = isFiltering() ? filteredSchools[indexPath.row] : schoolArray[indexPath.row]
 
-        cell.backgroundColor = Colors.darkBackground
+        cell.backgroundColor = Colors.newScreenBackground
         cell.textLabel?.textColor = UIColor.white
         cell.textLabel?.font = Fonts.createSize(16)
         cell.textLabel?.adjustsFontSizeToFitWidth = true

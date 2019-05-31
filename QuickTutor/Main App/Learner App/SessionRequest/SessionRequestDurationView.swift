@@ -34,7 +34,7 @@ class SessionRequestDurationView: BaseSessionRequestViewSection {
         let layout = DurationCollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        cv.backgroundColor = Colors.darkBackground
+        cv.backgroundColor = Colors.newScreenBackground
         cv.allowsMultipleSelection = false
         cv.showsHorizontalScrollIndicator = false
         cv.decelerationRate = UIScrollView.DecelerationRate.fast

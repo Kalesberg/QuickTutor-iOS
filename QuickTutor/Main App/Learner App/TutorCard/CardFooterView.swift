@@ -31,7 +31,7 @@ class CardFooterView: UIView {
     }
     
     func setupMainView() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
     }
     
     private func setupLeftAccessoryView() {

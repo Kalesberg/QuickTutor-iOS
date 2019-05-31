@@ -15,7 +15,7 @@ class EditLanguageView: UIView {
         table.estimatedRowHeight = 60
         table.separatorStyle = .none
         table.showsVerticalScrollIndicator = false
-        table.backgroundColor = Colors.darkBackground
+        table.backgroundColor = Colors.newScreenBackground
         table.allowsMultipleSelection = true
         return table
     }()
@@ -26,7 +26,7 @@ class EditLanguageView: UIView {
     }
     
     func setupMainView() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
     }
     
     func setupTableView() {
@@ -256,10 +256,10 @@ class CustomLanguageCell: UITableViewCell {
     
     func setupBackground() {
         let cellBackground = UIView()
-        cellBackground.backgroundColor = Colors.darkBackground.darker(by: 15)
+        cellBackground.backgroundColor = Colors.newScreenBackground.darker(by: 15)
         selectedBackgroundView = cellBackground
         
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
     }
     
     func setupTextLabel() {

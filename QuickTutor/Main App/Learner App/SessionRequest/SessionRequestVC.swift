@@ -96,7 +96,7 @@ class SessionRequestVC: UIViewController {
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = false
         }
-        navigationController?.view.backgroundColor = Colors.darkBackground
+        navigationController?.view.backgroundColor = Colors.newNavigationBarBackground
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

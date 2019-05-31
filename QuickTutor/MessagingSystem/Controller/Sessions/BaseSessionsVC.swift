@@ -21,7 +21,7 @@ class BaseSessionsVC: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        cv.backgroundColor = Colors.darkBackground
+        cv.backgroundColor = Colors.newScreenBackground
         cv.allowsMultipleSelection = false
         cv.alwaysBounceVertical = true
         return cv
@@ -58,10 +58,10 @@ class BaseSessionsVC: UIViewController {
     }
     
     private func setupMainView() {
-        view.backgroundColor = Colors.darkBackground
+        view.backgroundColor = Colors.newScreenBackground
         navigationItem.title = "Sessions"
-        navigationController?.navigationBar.barTintColor = Colors.newBackground
-        navigationController?.view.backgroundColor = Colors.darkBackground
+        navigationController?.navigationBar.barTintColor = Colors.newNavigationBarBackground
+        navigationController?.view.backgroundColor = Colors.newNavigationBarBackground
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true            
         }

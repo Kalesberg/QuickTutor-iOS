@@ -17,8 +17,8 @@ class TutorReviewsVCView: UIView {
     let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.showsVerticalScrollIndicator = false
-        tableView.separatorColor = Colors.navBarColor
-        tableView.backgroundColor = Colors.navBarColor
+        tableView.separatorColor = Colors.newScreenBackground
+        tableView.backgroundColor = Colors.newScreenBackground
         tableView.showsVerticalScrollIndicator = false
         tableView.register(QTReviewTableViewCell.nib, forCellReuseIdentifier: QTReviewTableViewCell.reuseIdentifier)
         tableView.estimatedRowHeight = 100
@@ -29,7 +29,7 @@ class TutorReviewsVCView: UIView {
     }()
     
     func setupViews() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
         setupTableView()
     }
     

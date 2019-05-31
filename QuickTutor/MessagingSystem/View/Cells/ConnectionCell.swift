@@ -45,7 +45,7 @@ class ConnectionCell: UICollectionViewCell {
 
     override var isHighlighted: Bool {
         didSet {
-            backgroundColor = isHighlighted ? Colors.darkBackground.darker(by: 30) : Colors.darkBackground
+            backgroundColor = isHighlighted ? Colors.newScreenBackground.darker(by: 30) : Colors.newScreenBackground
         }
     }
 
@@ -231,9 +231,9 @@ class ConnectionCell: UICollectionViewCell {
     }
     
     func handleTouchDown() {
-        contentView.backgroundColor = Colors.darkBackground.darker(by: 30)
+        contentView.backgroundColor = Colors.newScreenBackground.darker(by: 30)
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
-            self.contentView.backgroundColor = Colors.darkBackground
+            self.contentView.backgroundColor = Colors.newScreenBackground
         }
     }
     

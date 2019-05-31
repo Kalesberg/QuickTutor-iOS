@@ -83,7 +83,7 @@ class SessionRequestPaymentInputView: UIView {
     }
     
     func setupMainView() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
         layer.cornerRadius = 4
         layer.borderColor = Colors.gray.cgColor
         layer.borderWidth = 1

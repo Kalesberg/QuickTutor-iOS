@@ -49,7 +49,7 @@ class MyProfileBioView : UIView {
 		addSubview(bioLabel)
 		addSubview(divider)
 		
-		backgroundColor = Colors.navBarColor
+		backgroundColor = Colors.newScreenBackground
 		applyConstraints()
 	}
 	

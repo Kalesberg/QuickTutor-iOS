@@ -23,17 +23,17 @@ class LearnerTabBarController: BaseTabBarController {
         let messages = UINavigationController(rootViewController: MessagesVC())
         messages.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "chatTabBarIcon"), selectedImage: UIImage(named: "chatTabBarIcon"))
         messages.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
-        messages.navigationBar.barTintColor = Colors.newBackground
-        messages.navigationBar.backgroundColor = Colors.newBackground
+        messages.navigationBar.barTintColor = Colors.newNavigationBarBackground
+        messages.navigationBar.backgroundColor = Colors.newNavigationBarBackground
         let profile = UINavigationController(rootViewController: ProfileVC())
         profile.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "profileTabBarIcon"), selectedImage: UIImage(named: "profileTabBarIcon"))
         profile.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
         let controllers = [home, saved, sessions, messages, profile]
 
         for vc in controllers {
-            vc.navigationBar.barTintColor = Colors.darkBackground
+            vc.navigationBar.barTintColor = Colors.newNavigationBarBackground
             vc.navigationBar.tintColor = .white
-            vc.view.backgroundColor = Colors.darkBackground
+            vc.view.backgroundColor = Colors.newScreenBackground
             vc.navigationBar.isTranslucent = false
             vc.navigationBar.isOpaque = false
             vc.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white, NSAttributedString.Key.font: Fonts.createBoldSize(18)]

@@ -20,7 +20,7 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.register(ConnectionCell.self, forCellWithReuseIdentifier: "cellId")
-        cv.backgroundColor = Colors.darkBackground
+        cv.backgroundColor = Colors.newScreenBackground
         cv.alwaysBounceVertical = true
         return cv
     }()

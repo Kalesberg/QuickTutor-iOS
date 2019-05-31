@@ -23,7 +23,7 @@ class SubjectsCollectionView: UICollectionView {
         allowsMultipleSelection = false
         isScrollEnabled = false
         isUserInteractionEnabled = false
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
         register(PillCollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
     }
     

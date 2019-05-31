@@ -20,7 +20,7 @@ class CustomNavBar: UINavigationBar {
     }
     
     func setupViews() {
-        backgroundColor = Colors.navBarColor
+        backgroundColor = Colors.newNavigationBarBackground
         heightAnchor.constraint(equalToConstant: 300).isActive = true
     }    
 }

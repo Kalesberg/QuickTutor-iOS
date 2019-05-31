@@ -208,8 +208,8 @@ class MainLayoutHeaderScroll: UIView {
     func configureView() {
         addSubview(scrollView)
         scrollView.addSubview(header)
-        backgroundColor = Colors.darkBackground
-        scrollView.backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
+        scrollView.backgroundColor = Colors.newScreenBackground
         header.label.font = Fonts.createSize(22)
     }
 

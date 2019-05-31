@@ -86,7 +86,7 @@ class EditProfileImagesCell: UITableViewCell {
         layout.scrollDirection = .horizontal
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.register(EditProfileImageCell.self, forCellWithReuseIdentifier: EditProfileImageCell.reuseIdentifier)
-        cv.backgroundColor = Colors.darkBackground
+        cv.backgroundColor = Colors.newScreenBackground
         cv.showsHorizontalScrollIndicator = false
         cv.alwaysBounceVertical = false
         cv.isScrollEnabled = true
@@ -660,7 +660,7 @@ class EditProfileCell: UITableViewCell {
     }()
     
     func setupViews() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
         setupTextField()
     }
     
@@ -734,7 +734,7 @@ class EditProfileBioCell: UITableViewCell {
     weak var delegate: EditProfileBioCellDelegate?
     
     func setupViews() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
         setupPlaceholder()
         setupTextView()
         setupErrorLabel()

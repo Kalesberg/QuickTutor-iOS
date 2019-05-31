@@ -53,7 +53,7 @@ class ChangeEmailView: UIView, Keyboardable {
     }
     
     func setupMainView() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
     }
     
     func setupTextField() {

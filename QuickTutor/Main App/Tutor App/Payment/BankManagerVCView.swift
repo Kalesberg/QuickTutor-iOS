@@ -14,7 +14,7 @@ class BankManagerVCView: UIView {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        cv.backgroundColor = Colors.darkBackground
+        cv.backgroundColor = Colors.newScreenBackground
         cv.alwaysBounceVertical = true
         cv.register(BankManagerCollectionViewCell.self, forCellWithReuseIdentifier: "bankCell")
         cv.register(EarningsHistoryCell.self, forCellWithReuseIdentifier: "earningsCell")
@@ -28,7 +28,7 @@ class BankManagerVCView: UIView {
     }
     
     func setupMainView() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
     }
     
     func setupCollectionView() {

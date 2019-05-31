@@ -75,6 +75,11 @@ struct Colors {
     static let grayText80 = UIColor.white.withAlphaComponent(0.5)
     static let facebookColor = UIColor(hex: "0065E1")
     static let brightRed = UIColor(hex: "FF3C38")
+    
+    static let newNavigationBarBackground = UIColor(hex: "15151E")
+    static let newScreenBackground = UIColor(hex: "15151E")
+    static let newTabbarBackgroundColor = UIColor(hex: "1B1B26").withAlphaComponent(0.9)
+    
 }
 
 struct Fonts {
