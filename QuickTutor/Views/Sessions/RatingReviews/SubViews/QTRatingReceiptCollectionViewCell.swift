@@ -44,7 +44,6 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         
         receiptView.layer.cornerRadius = 5
-        receiptView.clipsToBounds = true
         addDropShadow()
     }
     
@@ -133,6 +132,6 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
     }
     
     func addDropShadow() {
-        receiptView?.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.6, offset: CGSize(width: 0, height: 0), radius: 3)
+        receiptView?.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.6, offset: CGSize(width: 0, height: 0), radius: 6)
     }
 }
