@@ -55,6 +55,7 @@ class Session: Codable {
         cost = session.cost
         runTime = session.runTime
         paymentType = session.paymentType
+        duration = session.duration
         id = session.id
     }
     
