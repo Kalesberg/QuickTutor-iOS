@@ -758,7 +758,11 @@ class PostSessionHelper {
     
     private func calculateCostOfSession(price: Double, runtime: Int, duration: Int) -> Double {
         let minimumSessionPrice = 5.0
-        let cost = price / Double(duration) * Double(runtime)
+        var cost: Double = 0
+        if duration != 0 && runtime != 0 {
+            cost = price / Double(duration) * Double(runtime)
+        }
+        
         return cost < minimumSessionPrice ? minimumSessionPrice : round(cost * 1000) / 1000
     }
 }
