@@ -156,7 +156,7 @@ class QTTutorDashboardViewController: UIViewController {
     
     func getEarnings() {
         // Get earnings from stripe
-        Stripe.retrieveBalanceTransactionList(acctId: CurrentUser.shared.tutor.acctId) { _, transactions in
+        StripeService.retrieveBalanceTransactionList(acctId: CurrentUser.shared.tutor.acctId) { _, transactions in
             guard let transactions = transactions else { return }
             self.transactions = transactions.data.filter({ (transactions) -> Bool in
                 if transactions.amount != nil && transactions.amount! > 0 {

@@ -55,22 +55,37 @@ class EarningsHistoryTaleViewCell: UITableViewCell {
     
     func setupProfilePicImageView() {
         addSubview(profilePicImageView)
-        profilePicImageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 40, height: 0)
+        profilePicImageView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(8)
+            make.centerY.equalToSuperview()
+            make.width.equalTo(40)
+            make.height.equalTo(40)
+            make.left.equalTo(20)
+        }
     }
     
     func setupUsernameLabel() {
         addSubview(usernameLabel)
-        usernameLabel.anchor(top: topAnchor, left: profilePicImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 4, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 150, height: 15)
+        usernameLabel.snp.makeConstraints { make in
+            make.top.equalTo(profilePicImageView.snp.top).offset(4)
+            make.left.equalTo(profilePicImageView.snp.right).offset(10)
+        }
     }
     
     func setupAmountLabel() {
         addSubview(amountLabel)
-        amountLabel.anchor(top: usernameLabel.bottomAnchor, left: profilePicImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 250, height: 14)
+        amountLabel.snp.makeConstraints { make in
+            make.left.equalTo(usernameLabel.snp.left)
+            make.top.equalTo(usernameLabel.snp.bottom).offset(5)
+        }
     }
     
     func setupTimeLabel() {
         addSubview(timeLabel)
-        timeLabel.anchor(top: topAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 4, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 100, height: 14)
+        timeLabel.snp.makeConstraints { make in
+            make.right.equalToSuperview().offset(-20)
+            make.top.equalTo(usernameLabel.snp.top)
+        }
     }
     
     func updateUI(_ session: Session) {

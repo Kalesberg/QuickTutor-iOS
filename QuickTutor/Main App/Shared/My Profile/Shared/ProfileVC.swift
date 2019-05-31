@@ -13,8 +13,6 @@ import MessageUI
 
 class ProfileVC: UIViewController {
     
-//    let headerView: ProfileVCHeaderCell?
-    
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -33,7 +31,7 @@ class ProfileVC: UIViewController {
     let cellImages = [UIImage(named: "cardIconProfile"), UIImage(named: "settingsIcon"), UIImage(named: "fileIcon"), UIImage(named: "questionMarkIcon"), UIImage(named: "feedbackIcon"), UIImage(named: "sessionsTabBarIcon")]
     
     struct Dimension {
-        let header: CGFloat = 216
+        let header: CGFloat = 220
         let cell: CGFloat = 57
         let footer: CGFloat = 70
         let separator: CGFloat = 1
@@ -249,8 +247,7 @@ extension ProfileVC: ProfileModeToggleViewDelegate {
         RootControllerManager.shared.configureRootViewController(controller: LearnerMainPageVC())
     }
     
-    func switchToTutor() {
-        
+    func switchToTutor() {        
         if CurrentUser.shared.learner.isTutor {
             displayLoadingOverlay()
             prepareForSwitchToTutor { success in
@@ -276,7 +273,7 @@ extension ProfileVC: ProfileModeToggleViewDelegate {
                 return completion(false)
             }
             CurrentUser.shared.tutor = tutor
-            Stripe.retrieveConnectAccount(acctId: tutor.acctId, { error, account in
+            StripeService.retrieveConnectAccount(acctId: tutor.acctId, { error, account in
                 if let error = error {
                     AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
                     return completion(false)

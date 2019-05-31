@@ -11,6 +11,10 @@
 		<string>applinks:quicktutor-alternate.app.link</string>
 		<string>applinks:quicktutordev.page.link</string>
 	</array>
+	<key>com.apple.developer.in-app-payments</key>
+	<array>
+		<string>merchant.com.quicktutor</string>
+	</array>
 	<key>com.apple.developer.ubiquity-kvstore-identifier</key>
 	<string>$(TeamIdentifierPrefix)$(CFBundleIdentifier)</string>
 	<key>com.apple.security.application-groups</key>

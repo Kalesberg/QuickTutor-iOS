@@ -8,15 +8,9 @@
 
 import UIKit
 
-protocol AddCardHeaderDelegate {
-    func didTapAddButton()
-}
-
 class AddCardHeaderView: UIView {
  
     @IBOutlet weak var headerLabel: UILabel!
-    @IBOutlet weak var addNewButton: UIButton!
-    var delegate: AddCardHeaderDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -30,8 +24,5 @@ class AddCardHeaderView: UIView {
         return Bundle.main.loadNibNamed(String(describing: AddCardHeaderView.self),
                                         owner: nil,
                                         options: [:])?.first as! AddCardHeaderView
-    }
-    @IBAction func tappedAddNewButton(_ sender: Any) {
-        delegate?.didTapAddButton()
     }
 }

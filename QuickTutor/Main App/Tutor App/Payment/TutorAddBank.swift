@@ -173,7 +173,7 @@ class TutorAddBank: BaseRegistrationController {
     }
     
     func createStripeAccount() {
-        Stripe.createBankAccountToken(accountHoldersName: fullName, routingNumber: routingNumber, accountNumber: accountNumber) { token, _ in
+        StripeService.createBankAccountToken(accountHoldersName: fullName, routingNumber: routingNumber, accountNumber: accountNumber) { token, _ in
             if let token = token {
                 TutorRegistration.bankToken = token
                 self.navigationController?.pushViewController(TutorSSNViewController(), animated: true)

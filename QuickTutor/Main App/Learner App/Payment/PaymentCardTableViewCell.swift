@@ -38,7 +38,6 @@ class PaymentCardTableViewCell: SwipeTableViewCell {
     @IBOutlet weak var lastFourLabel: UILabel!
     @IBOutlet weak var defaultButton: UIButton!
     var row: NSInteger?
-    var defaultPaymentButtonDelegate: PaymentCardTableViewCellDelegate?
     var cardChoice: CardChoice?
     
     override func awakeFromNib() {
@@ -61,7 +60,6 @@ class PaymentCardTableViewCell: SwipeTableViewCell {
     
     @IBAction func defaultButtonTapped(_ sender: UIButton) {
         resetBackgroundColor(sender)
-        defaultPaymentButtonDelegate?.didTapDefaultButton(row: row)
     }
     
     @IBAction func touchDownOnButton(_ sender: UIButton) {

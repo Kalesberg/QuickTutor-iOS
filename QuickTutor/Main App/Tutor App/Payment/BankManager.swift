@@ -77,7 +77,7 @@ class BankManagerVC: UIViewController {
             return
         }
         
-        Stripe.retrieveBankList(acctId: accountId) { error, list in
+        StripeService.retrieveBankList(acctId: accountId) { error, list in
             if let error = error {
                 AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
             } else if let list = list {
@@ -136,7 +136,7 @@ class BankManagerVC: UIViewController {
     private func defaultBankAlert(bankId: String) {
         let alertController = UIAlertController(title: "Default Payout Method?", message: "Do you want this card to be your default payout method?", preferredStyle: .actionSheet)
         let setDefault = UIAlertAction(title: "Set as Default", style: .default) { _ in
-            Stripe.updateDefaultBank(account: CurrentUser.shared.tutor.acctId, bankId: bankId, completion: { error, account in
+            StripeService.updateDefaultBank(account: CurrentUser.shared.tutor.acctId, bankId: bankId, completion: { error, account in
                 if let error = error {
                     AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
                 } else if let account = account {
@@ -252,7 +252,7 @@ extension BankManagerVC: SwipeCollectionViewCellDelegate {
     }
     
     func removeBankAt(_ indexPath: IndexPath) {
-        Stripe.removeBank(account: CurrentUser.shared.tutor.acctId, bankId: banks[indexPath.row].id) { error, bankList in
+        StripeService.removeBank(account: CurrentUser.shared.tutor.acctId, bankId: banks[indexPath.row].id) { error, bankList in
             if let error = error {
                 AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
             } else if let bankList = bankList {
