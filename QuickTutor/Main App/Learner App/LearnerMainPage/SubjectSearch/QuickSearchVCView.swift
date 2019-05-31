@@ -20,7 +20,7 @@ class QuickSearchVCView: UIView {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        cv.backgroundColor = Colors.darkBackground
+        cv.backgroundColor = Colors.newBackground
         cv.allowsMultipleSelection = false
         cv.alwaysBounceVertical = true
         cv.delaysContentTouches = false
