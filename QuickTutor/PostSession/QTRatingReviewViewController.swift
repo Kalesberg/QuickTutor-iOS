@@ -10,9 +10,10 @@ import UIKit
 import IQKeyboardManager
 import Firebase
 import Alamofire
+import Stripe
 
 class QTRatingReviewViewController: UIViewController {
-
+    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var nextButton: UIButton!
@@ -54,6 +55,13 @@ class QTRatingReviewViewController: UIViewController {
     var currentStep = 0
     var hasPaid: Bool = false
     var hasCompleted: Bool = false
+    
+    // stripe payment variables
+    private var amount: Int!
+    private var fee: Int!
+    private var hasStripePaymentSuccess = false
+    private var paymentError: Error? = StripeError.cancelApplePay
+    private var paymentCompletion: ((Error?) -> Void)?
     
     static var controller: QTRatingReviewViewController {
         return QTRatingReviewViewController(nibName: String(describing: QTRatingReviewViewController.self), bundle: nil)
@@ -105,7 +113,7 @@ class QTRatingReviewViewController: UIViewController {
         }
         SessionService.shared.session = nil
     }
-
+    
     @IBAction func onClickNextButton(_ sender: Any) {
         errorLabel.isHidden = true
         switch currentStep {
@@ -259,33 +267,51 @@ class QTRatingReviewViewController: UIViewController {
     }
     
     private func createCharge(tutorId: String, learnerId: String, cost: Int, tip: Int, completion: @escaping (Error?) -> Void) {
-        let costWithTip = cost + tip
-        let fee = calculateFee(costWithTip)
-        self.displayLoadingOverlay()
-        checkSessionUsers(tutorId: tutorId, learnerId: learnerId) { learnerInfluencerId, tutorInfluencerId, error in
+        amount = cost + tip
+        fee = calculateFee(amount)
+        paymentCompletion = completion
+        
+        displayLoadingOverlay()
+        if CurrentUser.shared.learner.isApplePayDefault {
+            // Apple Pay
+            let paymentRequest = Stripe.paymentRequest(withMerchantIdentifier: Constants.APPLE_PAY_MERCHANT_ID, country: "US", currency: "USD")
+            paymentRequest.paymentSummaryItems = [
+                PKPaymentSummaryItem.init(label: self.session?.subject ?? "", amount: NSDecimalNumber(value: amount / 100))
+            ]
+            
+            guard let paymentAuthorizationViewController = PKPaymentAuthorizationViewController(paymentRequest: paymentRequest) else { return }
+            paymentAuthorizationViewController.delegate = self
+            self.present(paymentAuthorizationViewController, animated: true)
+        } else {
             StripeService.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { (customer, error) in
                 if let customer = customer {
                     guard let card = customer.defaultSource?.stripeID else {
                         self.dismissOverlay()
-                        return completion(StripeError.createChargeError)
+                        completion(StripeError.createChargeError)
+                        return
                     }
+                    
                     StripeService.destinationCharge(acctId: self.tutor.acctId,
-                                             customerId: learnerId,
-                                             customerStripeId: customer.stripeID,
-                                             sourceId: card,
-                                             amount: costWithTip,
-                                             fee: fee,
-                                             description: self.session?.subject ?? "", { error in
-                        if let error = error {
-                            completion(error)
-                        } else if nil != learnerInfluencerId
-                            || nil != tutorInfluencerId {
-                            self.createQLPayment(tutorId: tutorId, learnerId: learnerId, fee: fee, learnerInfluencerId: learnerInfluencerId, tutorInfluencerId: tutorInfluencerId, completion: completion)
-                        } else {
-                            completion(nil)
-                        }
-                        self.dismissOverlay()
-                    })
+                                                    customerId: learnerId,
+                                                    customerStripeId: customer.stripeID,
+                                                    sourceId: card,
+                                                    amount: self.amount,
+                                                    fee: self.fee,
+                                                    description: self.session?.subject ?? "") { error in
+                                                        if let error = error {
+                                                            self.dismissOverlay()
+                                                            completion(error)
+                                                        } else {
+                                                            self.checkSessionUsers(tutorId: tutorId, learnerId: learnerId) { learnerInfluencerId, tutorInfluencerId, error in
+                                                                self.dismissOverlay()
+                                                                if nil != learnerInfluencerId
+                                                                    || nil != tutorInfluencerId {
+                                                                    self.createQLPayment(tutorId: tutorId, learnerId: learnerId, fee: self.fee, learnerInfluencerId: learnerInfluencerId, tutorInfluencerId: tutorInfluencerId, completion: completion)
+                                                                }
+                                                                completion(nil)
+                                                            }
+                                                        }
+                    }
                 } else {
                     self.dismissOverlay()
                     completion(error)
@@ -339,8 +365,60 @@ class QTRatingReviewViewController: UIViewController {
     }
 }
 
-extension QTRatingReviewViewController: UICollectionViewDelegate {
+extension QTRatingReviewViewController: PKPaymentAuthorizationViewControllerDelegate {
+    func paymentAuthorizationViewControllerDidFinish(_ controller: PKPaymentAuthorizationViewController) {
+        dismiss(animated: true) {
+            self.dismissOverlay()
+            
+            if let paymentError = self.paymentError,
+                paymentError.localizedDescription == StripeError.cancelApplePay.localizedDescription {
+                self.nextButton.isEnabled = true
+                return
+            }
+            self.paymentCompletion?(self.paymentError)
+        }
+    }
     
+    func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, completion: @escaping (PKPaymentAuthorizationStatus) -> Void) {
+        STPAPIClient.shared().createToken(with: payment) { token, error in
+            if let error = error {
+                self.paymentError = error
+                completion(.failure)
+            } else {
+                guard let tokenId = token?.stripeID else {
+                    self.paymentError = nil
+                    completion(.failure)
+                    return
+                }
+                
+                StripeService.makeApplePay(acctId: self.tutor.acctId,
+                                           customerId: CurrentUser.shared.learner.uid,
+                                           receiptEmail: CurrentUser.shared.learner.email,
+                                           tokenId: tokenId,
+                                           amount: self.amount,
+                                           fee: self.fee,
+                                           description: self.session?.subject ?? "") { error in
+                                            if let error = error {
+                                                self.paymentError = error
+                                                completion(.failure)
+                                            } else {
+                                                self.checkSessionUsers(tutorId: self.tutor.uid, learnerId: CurrentUser.shared.learner.uid) { learnerInfluencerId, tutorInfluencerId, error in
+                                                    if nil != learnerInfluencerId
+                                                        || nil != tutorInfluencerId {
+                                                        self.createQLPayment(tutorId: self.tutor.uid, learnerId: CurrentUser.shared.learner.uid, fee: self.fee, learnerInfluencerId: learnerInfluencerId, tutorInfluencerId: tutorInfluencerId) { error in
+                                                            self.paymentError = error
+                                                            completion(.success)
+                                                        }
+                                                    } else {
+                                                        self.paymentError = error
+                                                        completion(.success)
+                                                    }
+                                                }
+                                            }
+                }
+            }
+        }
+    }
 }
 
 extension QTRatingReviewViewController: UICollectionViewDelegateFlowLayout {
@@ -428,5 +506,5 @@ extension QTRatingReviewViewController: UICollectionViewDataSource {
         
         return UICollectionViewCell()
     }
-
+    
 }

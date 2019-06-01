@@ -21,10 +21,12 @@ class CardManagerViewController: UIViewController {
     @IBOutlet weak var feeInfoView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addPaymentView: UIScrollView!
+    @IBOutlet weak var btnAddApplePay: RoundedButton!
     
     // Card ActionSheet
     @IBOutlet weak var viewCardActionSheet: UIView!
     @IBOutlet weak var constraintActionSheetBottom: NSLayoutConstraint!
+    @IBOutlet weak var btnLinkApplePay: RoundedButton!
     
     var addCardViewController: AddCardViewController?
     var shouldHideNavBarWhenDismissed = false
@@ -72,6 +74,10 @@ class CardManagerViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        if !Stripe.deviceSupportsApplePay() {
+            updateApplePayDefaultStatus(false)
+        }
         hideTabBar(hidden: true)
     }
     
@@ -98,7 +104,7 @@ class CardManagerViewController: UIViewController {
         feeInfoView.isHidden = hide
         tableView.isHidden = !hide
         
-        if hide {   // had cards
+        if hide {   // have cards or apple pay
             let addPaymentItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(onClickItemAddNewPayment))
             navigationItem.rightBarButtonItem = addPaymentItem
         } else {
@@ -108,8 +114,7 @@ class CardManagerViewController: UIViewController {
     
     @objc
     private func onClickItemAddNewPayment() {
-//        showCardActionSheet()
-        showAddCardViewController()
+        showCardActionSheet()
     }
     
     func setParagraphStyles() {
@@ -204,15 +209,19 @@ class CardManagerViewController: UIViewController {
     private func defaultCardAlert(card: STPCard) {
         let alertController = UIAlertController(title: "Default Payment Method?", message: "Do you want this card to be your default Payment method?", preferredStyle: .actionSheet)
         let setDefault = UIAlertAction(title: "Set as Default", style: .default) { _ in
-            self.showLoadingAnimation()
-            StripeService.updateDefaultSource(customer: self.customer, new: card, completion: { customer, error in
-                if let error = error {
-                    AlertController.genericErrorAlert(self, title: "Error Updating Card", message: error.localizedDescription)
-                } else if let customer = customer {
-                    self.customer = customer
-                }
-                self.hideLoadingAnimation()
-            })
+            if card == self.defaultCard {
+                self.tableView.reloadData()
+            } else {
+                self.showLoadingAnimation()
+                StripeService.updateDefaultSource(customer: self.customer, new: card, completion: { customer, error in
+                    if let error = error {
+                        AlertController.genericErrorAlert(self, title: "Error Updating Card", message: error.localizedDescription)
+                    } else if let customer = customer {
+                        self.customer = customer
+                    }
+                    self.hideLoadingAnimation()
+                })
+            }
         }
         
         let cancel = UIAlertAction(title: "Cancel", style: .cancel) { _ in
@@ -228,7 +237,7 @@ class CardManagerViewController: UIViewController {
     }
     
     @IBAction func onClickBtnLinkApplePay(_ sender: Any) {
-        
+        PKPassLibrary().openPaymentSetup()
     }
     
     @IBAction func tappedInfoButton(_ sender: Any) {
@@ -248,11 +257,24 @@ class CardManagerViewController: UIViewController {
                 self.cards.remove(at: indexPath.row)
                 self.tableView.deleteRows(at: [indexPath], with: .automatic)
                 self.customer = customer
-                CurrentUser.shared.learner.hasPayment = !self.cards.isEmpty
+                CurrentUser.shared.learner.hasPayment = !self.cards.isEmpty || Stripe.deviceSupportsApplePay()
+                
+                if self.cards.isEmpty,
+                    Stripe.deviceSupportsApplePay() {
+                    self.updateApplePayDefaultStatus(true)
+                }
             }
             self.tableView.isUserInteractionEnabled = true
             self.toggleAddPaymentView(hasPayment: !self.cards.isEmpty || Stripe.deviceSupportsApplePay())
             self.hideLoadingAnimation()
+        }
+    }
+    
+    private func updateApplePayDefaultStatus(_ isDefault: Bool) {
+        FirebaseData.manager.updateValue(node: "student-info", value: ["isApplePayDefault": isDefault]) { error in
+            if let error = error {
+                AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+            }
         }
     }
 }
@@ -305,7 +327,7 @@ extension CardManagerViewController: UITableViewDataSource {
                 if let card = cards[safe: indexPath.row] {
                     cell.setLastFour(text: card.last4)
                     cell.brandImage?.image = STPImageLibrary.brandImage(for: card.brand)
-                    let cardChoice: CardChoice = card == defaultCard ? .defaultCard : .optionalCard
+                    let cardChoice: CardChoice = (!CurrentUser.shared.learner.isApplePayDefault && card == defaultCard) ? .defaultCard : .optionalCard
                     cell.setCardButtonType(type: cardChoice)
                     cell.row = indexPath.row
                     cell.delegate = self
@@ -313,7 +335,7 @@ extension CardManagerViewController: UITableViewDataSource {
             } else {
                 cell.lastFourLabel.text = nil
                 cell.brandImage.image = STPApplePayPaymentOption().image
-                let cardChoice: CardChoice = .optionalCard
+                let cardChoice: CardChoice = CurrentUser.shared.learner.isApplePayDefault ? .defaultCard : .optionalCard
                 cell.setCardButtonType(type: cardChoice)
                 cell.row = indexPath.row
                 cell.delegate = self
@@ -325,14 +347,34 @@ extension CardManagerViewController: UITableViewDataSource {
 
 extension CardManagerViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if 2 == indexPath.section {
-            return
-        }
-        
-        if let card = cards[safe: indexPath.row], card != defaultCard {
-            defaultCardAlert(card: card)
-        }
         tableView.deselectRow(at: indexPath, animated: false)
+        
+        if 2 == indexPath.section { return }
+        
+        if 0 == indexPath.section {
+            guard let card = cards[safe: indexPath.row] else { return }
+            
+            if CurrentUser.shared.learner.isApplePayDefault {
+                CurrentUser.shared.learner.isApplePayDefault = false
+                self.updateApplePayDefaultStatus(false)
+                
+                defaultCardAlert(card: card)
+            } else if card != defaultCard {
+                defaultCardAlert(card: card)
+            }
+        } else {
+            let alertController = UIAlertController(title: "Default Payment Method?", message: "Are you sure you would like to set  Pay as default?", preferredStyle: .actionSheet)
+            let setDefault = UIAlertAction(title: "Set as Default", style: .default) { _ in
+                CurrentUser.shared.learner.isApplePayDefault = true
+                self.updateApplePayDefaultStatus(true)
+                self.tableView.reloadData()
+            }
+            
+            let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            alertController.addAction(setDefault)
+            alertController.addAction(cancel)
+            present(alertController, animated: true, completion: nil)
+        }
     }
     
 
@@ -419,6 +461,8 @@ extension CardManagerViewController {
     }
     
     private func showCardActionSheet(completion: (() -> Void)? = nil) {
+        btnLinkApplePay.isHidden = Stripe.deviceSupportsApplePay()
+        
         viewCardActionSheet.isHidden = false
         UIView.animate(withDuration: 0.3, animations: {
             self.constraintActionSheetBottom.constant = 0

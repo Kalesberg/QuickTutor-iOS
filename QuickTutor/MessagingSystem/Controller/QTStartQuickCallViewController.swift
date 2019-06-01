@@ -194,8 +194,9 @@ class QTStartQuickCallViewController: QTSessionBaseViewController, QTStartQuickC
     
     @IBAction func onPickUpButtonClicked(_ sender: Any) {
         guard let session = session else { return }
+        
         removeStartData()
-        let data = ["roomKey": self.sessionId!, "sessionId": self.sessionId!, "sessionType": (self.session?.type)!]
+        let data = ["roomKey": self.sessionId!, "sessionId": self.sessionId!, "sessionType": session.type]
         socket.emit(SocketEvents.manualStartAccetped, data)
     }
     
