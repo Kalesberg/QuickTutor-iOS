@@ -408,7 +408,7 @@ class SessionReview : BaseViewController {
 
     private func createCharge(tutorId: String, learnerId: String, cost: Int, completion: @escaping (Error?) -> Void) {
 		let fee = Int(Double(cost) * 0.1) + 200
-		self.displayLoadingOverlay()
+		displayLoadingOverlay()
         
         checkSessionUsers(tutorId: tutorId, learnerId: learnerId) { learnerInfluencerId, tutorInfluencerId, error in
             StripeService.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { (customer, error) in
@@ -423,7 +423,7 @@ class SessionReview : BaseViewController {
                                              sourceId: card,
                                              amount: cost,
                                              fee: fee,
-                                             description: self.session?.subject ?? "", { error in
+                                             description: self.session?.subject ?? "") { error in
                         if let error = error {
                             completion(error)
                         } else if nil != learnerInfluencerId
@@ -433,7 +433,7 @@ class SessionReview : BaseViewController {
                             completion(nil)
                         }
                         self.dismissOverlay()
-                    })
+                    }
                 } else {                    
                     self.dismissOverlay()
                     completion(error)

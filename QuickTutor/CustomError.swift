@@ -8,8 +8,8 @@
 
 import Foundation
 
-public enum StripeError : Error {
-	case removeBankAccountError, bankListError, balanceTransactionError, updateBankError, retrieveConnectAccountError, createChargeError, updateCardError
+public enum StripeError: Error {
+	case removeBankAccountError, bankListError, balanceTransactionError, updateBankError, retrieveConnectAccountError, createChargeError, updateCardError, cancelApplePay
 }
 extension StripeError : LocalizedError {
 	public var errorDescription : String? {
@@ -27,7 +27,9 @@ extension StripeError : LocalizedError {
 		case .createChargeError:
 			return NSLocalizedString("Unable to create a charge at this time.", comment: "Stripe Error")
 		case .updateCardError:
-			return NSLocalizedString("This does not appear to be a valid credit card.", comment: "Stripe Error")
+			return NSLocalizedString("This does not appear to be a valid credit card.", comment: "Stripe Error")            
+        case .cancelApplePay:
+            return NSLocalizedString("User cancelled to pay with Apple Pay.", comment: "Apple Pay")
 		}
 	}
 }

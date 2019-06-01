@@ -122,7 +122,7 @@ class StripeService {
         }
 	}
 	
-    class func destinationCharge(acctId: String, customerId: String, customerStripeId: String, sourceId: String, amount: Int, fee: Int, description: String, _ completion: @escaping (Error?) -> ()) {
+    class func destinationCharge(acctId: String, customerId: String, customerStripeId: String, sourceId: String, amount: Int, fee: Int, description: String, completion: @escaping (Error?) -> ()) {
         let requestString = "\(Constants.API_BASE_URL)/stripes/charges"
         let params: [String: Any] = [
             "acct": acctId,
@@ -144,7 +144,30 @@ class StripeService {
                 }
         }
 	}
-	
+    
+    class func makeApplePay(acctId: String, customerId: String, receiptEmail: String, tokenId: String, amount: Int, fee: Int, description: String, completion: @escaping (Error?) -> ()) {
+        let requestString = "\(Constants.API_BASE_URL)/stripes/applepay"
+        let params: [String: Any] = [
+            "acct": acctId,
+            "receiptEmail": receiptEmail,
+            "source": tokenId,
+            "fee": fee,
+            "amount": amount,
+            "description": description,
+            "customerId": customerId]
+        
+        Alamofire.request(requestString, method: .post, parameters: params)
+            .validate()
+            .responseJSON() { response in
+                switch response.result {
+                case .success:
+                    completion(nil)
+                case .failure(let error):
+                    completion(error)
+                }
+        }
+    }
+    
 	class func retrieveBankList(acctId: String, _ completion: @escaping AWExternalAccountErrorBlock) {
         let requestString = "\(Constants.API_BASE_URL)/stripes/accounts/\(acctId)/banks"
         
