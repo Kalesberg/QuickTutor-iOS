@@ -292,6 +292,7 @@ class TutorAddSubjectsResultsVC: UIViewController {
         setupObserers()
         loadSubjects()
         setupDelegates()
+        hideTabBar(hidden: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
