@@ -41,7 +41,6 @@ class CategorySearchVCView: UIView {
     func applyConstraints() {
 //        setupSearchBar()
         setupCollectionView()
-        backgroundColor = Colors.newScreenBackground
     }
     
     func setupSearchBar() {
@@ -63,6 +62,7 @@ class CategorySearchVCView: UIView {
         super.init(frame: frame)
         
         isSkeletonable = true
+        backgroundColor = Colors.newScreenBackground
         applyConstraints()
     }
     

@@ -252,7 +252,7 @@ extension QuickSearchVC: CustomSearchBarDelegate {
     }
     
     func customSearchBarDidTapCancelEditButton(_ searchBar: PaddedTextField) {
-        
+        removeChild(popViewController: true)
     }
     
     func removeChild(popViewController: Bool) {
