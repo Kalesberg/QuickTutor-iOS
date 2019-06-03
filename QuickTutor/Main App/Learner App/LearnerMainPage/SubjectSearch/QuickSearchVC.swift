@@ -62,13 +62,12 @@ class QuickSearchVC: UIViewController {
             allSubjects.shuffle()
         }
         contentView.searchBarContainer.searchBar.delegate = self
-//        navigationController?.setNavigationBarHidden(true, animated: true)
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
+        hideTabBar(hidden: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -132,6 +131,7 @@ extension QuickSearchVC: UITextFieldDelegate {
         child.inSearchMode = true
         
         guard let text = sender.text, !text.isEmpty else {
+            contentView.searchBarContainer.showSearchClearButton(false)
             contentView.searchBarContainer.filtersButton.isHidden = false
             removeChild(popViewController: false)
             return
@@ -249,6 +249,10 @@ extension QuickSearchVC: CustomSearchBarDelegate {
         vc.hidesBottomBarWhenPushed = true
         vc.searchFilter = searchFilter
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func customSearchBarDidTapCancelEditButton(_ searchBar: PaddedTextField) {
+        
     }
     
     func removeChild(popViewController: Bool) {

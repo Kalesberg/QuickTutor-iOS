@@ -58,11 +58,9 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
         setupSelectedSubjectsCV()
         setupAccessoryView()
         setupAccessoryTextLabel()
-        let backIcon = UIImageView(image: UIImage(named:"newBackButton"))
-        searchBarContainer.searchBar.leftView = backIcon
         searchBarContainer.cancelEditingButton.setTitle("Done", for: .normal)
         setupObservers()
-        searchBarContainer.mockLeftViewButton.isHidden = false
+        searchBarContainer.mockLeftViewButton.isHidden = true
         searchBarContainer.filtersButton.isHidden = true
         if TutorRegistrationService.shared.subjects.count > 0 {
             showSelectedSubjectsCVIfNeeded(animated: false)

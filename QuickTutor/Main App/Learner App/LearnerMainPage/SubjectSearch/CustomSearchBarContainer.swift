@@ -14,6 +14,7 @@ protocol CustomSearchBarDelegate: class {
     func customSearchBarDidTapLeftView(_ searchBar: PaddedTextField)
     func customSearchBarDidTapMockLeftView(_ searchBar: PaddedTextField)
     func customSearchBarDidTapFiltersButton(_ searchBar: PaddedTextField)
+    func customSearchBarDidTapCancelEditButton(_ searchBar: PaddedTextField)
 }
 
 extension CustomSearchBarDelegate {
@@ -104,7 +105,7 @@ class CustomSearchBarContainer: UIView {
     func setupCancelEditingButton() {
         insertSubview(cancelEditingButton, belowSubview: searchBar)
         cancelEditingButton.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 70, height: 0)
-        cancelEditingButton.addTarget(self, action: #selector(shouldEndEditing), for: .touchUpInside)
+        cancelEditingButton.addTarget(self, action: #selector(cancelEditing), for: .touchUpInside)
     }
     
     func setupMockLeftViewButton() {
@@ -144,8 +145,8 @@ class CustomSearchBarContainer: UIView {
         delegate?.customSearchBar(searchBar, shouldEndEditing: true)
     }
     
-    func showSearchClearButton() {
-        searchClearButton.isHidden = false
+    func showSearchClearButton(_ show: Bool = true) {
+        searchClearButton.isHidden = !show
     }
     
     func shouldBeginEditing() {
@@ -164,12 +165,19 @@ class CustomSearchBarContainer: UIView {
         isEditing = false
         searchBarRightAnchor?.constant = 0
         searchBar.text = nil
+        delegate?.customSearchBar(searchBar, shouldEndEditing: true)
+    }
+    
+    @objc func cancelEditing() {
+        isEditing = false
+        searchBarRightAnchor?.constant = 0
+        searchBar.text = nil
         UIView.animate(withDuration: 0.2, animations: {
             self.layoutIfNeeded()
         }) { (_) in
             self.cancelEditingButton.isHidden = true
         }
-        delegate?.customSearchBar(searchBar, shouldEndEditing: true)
+        delegate?.customSearchBarDidTapCancelEditButton(searchBar)
     }
     
     override init(frame: CGRect) {

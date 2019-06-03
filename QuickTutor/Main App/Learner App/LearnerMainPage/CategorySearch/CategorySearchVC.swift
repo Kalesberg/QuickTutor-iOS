@@ -87,6 +87,25 @@ class CategorySearchVC: UIViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        hideTabBar(hidden: true)
+        guard let filter = self.searchFilter, self.datasource.count > 0 else { return }
+        self.applySearchFilterToDataSource(filter)
+        collectionView.reloadData()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        locationManager.stopUpdatingLocation()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        collectionView.reloadData()
+    }
+    
     func setUpFiltersButton(){
         menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 18, height: 18)
         menuBtn.setImage(UIImage(named:"filterIcon"), for: .normal)
@@ -106,24 +125,6 @@ class CategorySearchVC: UIViewController {
         } else {
             menuBtn.setImage(UIImage(named:"filterIcon"), for: .normal)
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: true)
-        guard let filter = self.searchFilter, self.datasource.count > 0 else { return }
-        self.applySearchFilterToDataSource(filter)
-        collectionView.reloadData()
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        locationManager.stopUpdatingLocation()
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        collectionView.reloadData()
     }
     
     func setupLocationManager() {

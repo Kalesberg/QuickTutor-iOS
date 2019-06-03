@@ -41,8 +41,10 @@ class TutorAddSubjectsVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
-        
         hideTabBar(hidden: true)
+        
+        // Set focus to search bar
+        contentView.searchBarContainer.searchBar.becomeFirstResponder()
     }
     
     private func configureDelegates() {
@@ -81,8 +83,10 @@ class TutorAddSubjectsVC: UIViewController {
         child.inSearchMode = true
         
         guard let text = sender.text, !text.isEmpty else {
-            contentView.searchBarContainer.filtersButton.isHidden = false
-            contentView.searchBarContainer.searchClearButton.isHidden = true
+            if AccountService.shared.currentUserType == .learner {
+                contentView.searchBarContainer.filtersButton.isHidden = false
+            }
+            contentView.searchBarContainer.showSearchClearButton(false)
             removeChild(resignFirstResponder: false)
             return
         }
@@ -149,6 +153,10 @@ extension TutorAddSubjectsVC: CustomSearchBarDelegate {
         removeChild(resignFirstResponder: true)
     }
     
+    func customSearchBarDidTapCancelEditButton(_ searchBar: PaddedTextField) {
+        removeChild(popViewController: true)
+    }
+    
     func customSearchBarDidTapMockLeftView(_ searchBar: PaddedTextField) {
         navigationController?.popViewController(animated: true)
     }
@@ -159,6 +167,14 @@ extension TutorAddSubjectsVC: CustomSearchBarDelegate {
         child.removeFromParent()
         guard resignFirstResponder else { return }
         contentView.searchBarContainer.searchBar.resignFirstResponder()
+    }
+    
+    func removeChild(popViewController: Bool) {
+        child.willMove(toParent: nil)
+        child.view.removeFromSuperview()
+        child.removeFromParent()
+        guard popViewController else { return }
+        navigationController?.popViewController(animated: true)
     }
 }
 
