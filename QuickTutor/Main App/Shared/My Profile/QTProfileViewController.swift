@@ -121,10 +121,6 @@ class QTProfileViewController: UIViewController {
         
         hideTabBar(hidden: false)
         
-        if !isPresentedFromSessionScreen {
-            navigationController?.setNavigationBarHidden(true, animated: true)
-        }
-        
         if let connectionRef = connectionRef, let connectionHandle = connectionHandle {
             connectionRef.removeObserver(withHandle: connectionHandle)
         }
