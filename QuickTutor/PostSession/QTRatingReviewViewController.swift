@@ -59,7 +59,6 @@ class QTRatingReviewViewController: UIViewController {
     // stripe payment variables
     private var amount: Int!
     private var fee: Int!
-    private var hasStripePaymentSuccess = false
     private var paymentError: Error? = StripeError.cancelApplePay
     private var paymentCompletion: ((Error?) -> Void)?
     
@@ -267,8 +266,9 @@ class QTRatingReviewViewController: UIViewController {
     }
     
     private func createCharge(tutorId: String, learnerId: String, cost: Int, tip: Int, completion: @escaping (Error?) -> Void) {
-        amount = cost + tip
-        fee = calculateFee(amount)
+        let totalPrice = cost + tip
+        amount = Int(Double(totalPrice + 30) / 0.971 + 0.5)
+        fee = calculateFee(totalPrice)
         paymentCompletion = completion
         
         displayLoadingOverlay()

@@ -76,7 +76,7 @@ class QTPastSessionTableViewCell: UITableViewCell {
         
         let timeString = "\(startTimeString) - \(endTimeString)"
         
-        let formattedPrice = String(format: "%.2f", sessionUserInfo.price)
+        let formattedPrice = String(format: "%.2f", sessionUserInfo.sessionPrice)
         let priceString = "$\(formattedPrice)"
         
         durationLabel.text = "\(timeString) • \(priceString)"
