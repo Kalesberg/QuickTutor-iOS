@@ -315,13 +315,13 @@ extension MessagesVC: UIGestureRecognizerDelegate {
 
 extension MessagesVC {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! ConversationCell
+        guard let cell = collectionView.cellForItem(at: indexPath) as? ConversationCell else { return }
+        
         cell.handleTouchDown()
         let vc = ConversationVC()
         vc.receiverId = messages[indexPath.item].partnerId()
-        let tappedCell = collectionView.cellForItem(at: indexPath) as! ConversationCell
-        vc.chatPartner = tappedCell.chatPartner
-        if let data = metaDataDictionary[tappedCell.chatPartner.uid] {
+        vc.chatPartner = cell.chatPartner
+        if let data = metaDataDictionary[cell.chatPartner.uid] {
             vc.metaData = data
         }
         navigationController?.pushViewController(vc, animated: true)

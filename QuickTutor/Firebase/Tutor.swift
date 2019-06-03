@@ -62,7 +62,8 @@ class Tutor {
     public func initTutor(completion: @escaping (Error?) -> Void) {
         
         guard let data = CurrentUser.shared.learner,
-            !data.uid.isEmpty else { return }
+            let tutorId = data.uid,
+            !tutorId.isEmpty else { return }
         
         let subjectNode = buildSubjectNode()
         var subjectDictionary = [String: Any]()
@@ -71,7 +72,7 @@ class Tutor {
         }
         var post : [String : Any] =
             [
-                "/tutor-info/\(data.uid!)" :
+                "/tutor-info/\(tutorId)" :
                     [
                         "nm"  : data.name,
                         "img" : data.images,
@@ -97,6 +98,7 @@ class Tutor {
         post.merge(subjectNode) { (first, last) -> Any in
             return last
         }
+        
         ref.root.updateChildValues(post) { (error, databaseRef) in
             if let error = error {
                 completion(error)

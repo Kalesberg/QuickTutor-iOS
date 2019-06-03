@@ -18,12 +18,16 @@ class User: Decodable {
     var rating: Double?
 
     var formattedName: String {
-        guard let name = username, !name.isEmpty else {
+        guard let name = username?.trimmingCharacters(in: .whitespaces), !name.isEmpty else {
             return ""
         }
         let splitName = name.split(separator: " ")
-        let formatted = "\(splitName[0]) \(String(splitName[1]).prefix(1))."
-        return formatted
+        if 1 < splitName.count {
+            let formatted = "\(splitName[0]) \(String(splitName[1]).prefix(1))."
+            return formatted
+        } else {
+            return name
+        }
     }
 
     func updateOnlineStatus(_ seconds: Double) {

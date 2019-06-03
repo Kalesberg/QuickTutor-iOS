@@ -91,7 +91,8 @@ class MessageService {
     }
     
     private func sendMessage(_ message: UserMessage, toUserId receiverId: String, completion: @escaping() -> Void) {
-        guard let uid = AccountService.shared.currentUser.uid else { return }
+        guard let currentUser = AccountService.shared.currentUser,
+            let uid = currentUser.uid else { return }
         Database.database().reference().child("messages").childByAutoId().updateChildValues(message.data) { _, ref in
             let senderRef = Database.database().reference().child("conversations").child(uid).child(self.userTypeString).child(receiverId)
             let receiverRef = Database.database().reference().child("conversations").child(receiverId).child(self.otherUserTypeString).child(uid)
