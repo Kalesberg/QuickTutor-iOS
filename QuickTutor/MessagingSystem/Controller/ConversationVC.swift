@@ -18,6 +18,10 @@ import AVKit
 import MobileCoreServices
 import QuickLook
 
+enum QTConnectionStatus: String {
+    case pending, declined, accepted, expired
+}
+
 class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     var messagingManagerDelegate: ConversationManagerDelegate?
     var conversationManager = ConversationManager()
@@ -39,6 +43,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     var canSendMessages = true
     var headerHeight = 30
     var subject: String?
+    var connectionStatus: QTConnectionStatus? = .declined
 
     // MARK: Layout Views -
     let messagesCollection: ConversationCollectionView = {
@@ -180,6 +185,10 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         if let keyboardAccessory = inputAccessoryView as? StudentKeyboardAccessory {
             keyboardAccessory.actionButton.isEnabled = result
         }
+    }
+    
+    func showAccessoryView(_ show: Bool) {
+        inputAccessoryView?.isHidden = !show
     }
 
     @objc func paginateMessages() {
@@ -440,6 +449,26 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         cell?.markAsRead()
     }
     
+    func getConnectionPendingStatus(_ connectionRequestId: String?, completion: @escaping ((Bool) -> (Void))) {
+        guard let id = connectionRequestId else {
+            completion(false)
+            return
+        }
+        Database.database().reference().child("connectionRequests").child(id).observeSingleEvent(of: .value) { snapshot in
+            guard let value = snapshot.value as? [String: Any] else {
+                completion(false)
+                return
+            }
+            guard let status = value["status"] as? String else {
+                completion(false)
+                return
+            }
+            
+            self.connectionStatus = QTConnectionStatus(rawValue: status)
+            completion(status.compare("pending") == ComparisonResult.orderedSame)
+        }
+    }
+    
     func setupKeyboardObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(becomeFirstResponder), name: NSNotification.Name(rawValue: "actionSheetDismissed"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didDisconnect), name: Notifications.didDisconnect.name, object: nil)
@@ -688,8 +717,33 @@ extension ConversationVC: ConversationManagerDelegate {
         if connected {
             updateAsConnected()
         } else {
-            guard conversationManager.messages.count > 0 else { return }
-            updateAsPendingConnection()
+            
+            // hide accessory view if a user is tutor.
+            if AccountService.shared.currentUserType == .tutor {
+                showAccessoryView(false)
+                return
+            }
+            
+            // if there is no any message, set connection request mode.
+            guard conversationManager.messages.count > 0 else {
+                conversationManager.isFinishedPaginating = true
+                enterConnectionRequestMode()
+                return
+            }
+            
+            // Check the connection request has been declined or pending.
+            let connectionRequests = conversationManager.messages.filter({$0.type == .connectionRequest})
+            
+            if let message = connectionRequests.first as? UserMessage, let requestId = message.connectionRequestId {
+                conversationManager.isFinishedPaginating = true
+                getConnectionPendingStatus(requestId) { (pending) -> (Void) in
+                    if pending {
+                        self.updateAsPendingConnection()
+                    } else {
+                        self.enterConnectionRequestMode()
+                    }
+                }
+            }
         }
     }
     
@@ -783,16 +837,21 @@ extension ConversationVC: KeyboardAccessoryViewDelegate {
             return
         }
 
-        guard connectionRequestAccepted || conversationManager.messages.count == 0, let text = message.text else { return }
-
-        guard connectionRequestAccepted else {
-            MessageService.shared.sendConnectionRequestToId(text: text, receiverId)
-            exitConnectionRequestMode()
-            return
-        }
-
-        MessageService.shared.sendTextMessage(text: text, receiverId: receiverId) {
-            self.emptyCellBackground.removeFromSuperview()
+        if let connectionStatus = self.connectionStatus {
+            switch connectionStatus {
+            case .accepted:
+                guard let text = message.text else { return }
+                MessageService.shared.sendTextMessage(text: text, receiverId: receiverId) {
+                    self.emptyCellBackground.removeFromSuperview()
+                }
+                return
+            case .pending:
+                break
+            default:
+                guard let text = message.text else { return }
+                MessageService.shared.sendConnectionRequestToId(text: text, receiverId)
+                exitConnectionRequestMode()
+            }
         }
     }
     
