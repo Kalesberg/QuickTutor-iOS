@@ -32,6 +32,7 @@ class LearnerMainPageVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        hideTabBar(hidden: false)
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
     

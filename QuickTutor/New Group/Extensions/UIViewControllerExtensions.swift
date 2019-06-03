@@ -212,6 +212,10 @@ extension UIViewController {
             tabBarController?.tabBar.isHidden = false
         }
     }
+    
+    func hideNavigationBarBackButton(_ hide: Bool, animated: Bool = false) {
+        self.navigationItem.setHidesBackButton(hide, animated: animated)
+    }
 }
 
 extension UINavigationController {	
