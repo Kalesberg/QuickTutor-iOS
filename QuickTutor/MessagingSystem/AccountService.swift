@@ -106,7 +106,7 @@ class CardService {
                 guard let customer = customer, let cards = customer.sources as? [STPCard] else {
                     return
                 }
-                learner.hasPayment = !cards.isEmpty
+                learner.hasPayment = !cards.isEmpty || Stripe.deviceSupportsApplePay()
             }
         }
     }
