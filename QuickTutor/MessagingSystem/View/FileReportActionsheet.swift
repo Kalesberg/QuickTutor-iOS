@@ -69,6 +69,7 @@ class FileReportActionsheet: UIView {
     let dismissButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "closeCircle"), for: .normal)
+        button.imageEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         return button
     }()
 
@@ -116,7 +117,7 @@ class FileReportActionsheet: UIView {
     
     func setupDismissButton() {
         actionSheetBackground.addSubview(dismissButton)
-        dismissButton.anchor(top: actionSheetBackground.topAnchor, left: nil, bottom: nil, right: actionSheetBackground.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 20, height: 20)
+        dismissButton.anchor(top: actionSheetBackground.topAnchor, left: nil, bottom: nil, right: actionSheetBackground.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 40, height: 40)
         dismissButton.addTarget(self, action: #selector(dismiss), for: .touchUpInside)
     }
 
