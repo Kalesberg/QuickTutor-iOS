@@ -43,15 +43,19 @@ class EditPhoneView: UIView, Keyboardable {
         }
 
         enterButton.snp.makeConstraints { make in
-            make.bottom
-                .equalTo(keyboardView.snp.top)
-                .offset(CGFloat(parentViewController?.tabBarController?.tabBar.frame.size.height ?? 0))
+            make.bottom.equalToSuperview()
             make.width.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.08)
             make.centerX.equalToSuperview()
         }
     }
 
+    func updateEnterButtonBottomConstraint(inset: Float) {
+        enterButton.snp.updateConstraints { make in
+            make.bottom.equalToSuperview().inset(inset)
+        }
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
 
@@ -197,14 +201,14 @@ class EditPhoneVC: BaseViewController {
         contentView.parentViewController = self
         contentView.applyConstraints()
         contentView.phoneTextField.textField.delegate = self
-        navigationItem.title = "Change Number"
+        navigationItem.title = "Change number"
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: false)
-        
+        setupKeyboardObservers()
         hideTabBar(hidden: true)
     }
     
@@ -212,7 +216,34 @@ class EditPhoneVC: BaseViewController {
         super.viewDidAppear(animated)
         contentView.phoneTextField.textField.becomeFirstResponder()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc func adjustForKeyboard(notification: Notification) {
+        guard let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
+            return
+        }
+        
+        if notification.name == UIResponder.keyboardWillHideNotification {
+            contentView.updateEnterButtonBottomConstraint(inset: 0)
+        } else {
+            let keyboardScreenEndFrame = keyboardFrame.cgRectValue
+            let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+            let keyboardHeight = keyboardViewEndFrame.height
+            let bottom = keyboardHeight > 0 ? keyboardHeight : 0
+            contentView.updateEnterButtonBottomConstraint(inset: Float(bottom))
+        }
+    }
 
+    func setupKeyboardObservers() {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+    }
+    
     private func displaySavedAlertController() {
         let alertController = UIAlertController(title: "Saved!", message: "Your changes have been saved", preferredStyle: .alert)
 

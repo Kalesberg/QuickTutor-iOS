@@ -30,7 +30,7 @@ class EditBirthdateVC: BaseViewController {
 		dateformatter.dateFormat = "MMMM d'\(date.daySuffix())' yyyy"
 		contentView.birthdayLabel.textField.text = CurrentUser.shared.learner.birthday.toBirthdatePrettyFormat()
 		contentView.datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
-        navigationItem.title = "Edit Birthday"
+        navigationItem.title = "Edit birthday"
         navigationController?.setNavigationBarHidden(false, animated: false)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"newCheck"), style: .plain, target: self, action: #selector(saveChanges))
         

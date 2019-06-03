@@ -25,7 +25,7 @@ class ChangeEmailView: UIView, Keyboardable {
     
     let subtitle: UILabel = {
         let label = UILabel()
-        label.text = "Enter new Email address"
+        label.text = "Enter new email address"
         label.font = Fonts.createBoldSize(18)
         label.numberOfLines = 2
         label.textColor = .white
@@ -34,7 +34,7 @@ class ChangeEmailView: UIView, Keyboardable {
     
     let verifyEmailButton: DimmableButton = {
         let button = DimmableButton()
-        button.setTitle("Save Email", for: .normal)
+        button.setTitle("Save email", for: .normal)
         button.titleLabel?.font = Fonts.createBoldSize(16)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = Colors.purple
@@ -130,7 +130,7 @@ class ChangeEmailVC: UIViewController {
     }
     
     func setupNavBar() {
-        navigationItem.title = "Change Email"
+        navigationItem.title = "Change email"
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
@@ -158,15 +158,11 @@ class ChangeEmailVC: UIViewController {
         if notification.name == UIResponder.keyboardWillHideNotification {
             contentView.updateVerificationButtonBottomConstraint(inset: 0)
         } else {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            var keyboardHeight = keyboardRectangle.height
-            if #available(iOS 11.0, *) {
-                keyboardHeight -= UIApplication.shared.delegate?.window??.safeAreaInsets.bottom ?? 0
-            }
-            
+            let keyboardScreenEndFrame = keyboardFrame.cgRectValue
+            let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+            let keyboardHeight = keyboardViewEndFrame.height
             let bottom = keyboardHeight > 0 ? keyboardHeight : 0
-            let quickTypeBarHeight: CGFloat = 50.0
-            contentView.updateVerificationButtonBottomConstraint(inset: Float(bottom - quickTypeBarHeight))
+            contentView.updateVerificationButtonBottomConstraint(inset: Float(bottom))
         }
     }
 
