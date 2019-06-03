@@ -84,6 +84,7 @@ class EditProfileImagesCell: UITableViewCell {
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.register(EditProfileImageCell.self, forCellWithReuseIdentifier: EditProfileImageCell.reuseIdentifier)
         cv.backgroundColor = Colors.newScreenBackground
@@ -310,7 +311,9 @@ class EditProfileHeaderTableViewCell: BaseTableViewCell {
 
     override func applyConstraints() {
         label.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.left.equalToSuperview().offset(20)
+            make.centerY.equalToSuperview()
+            make.right.lessThanOrEqualToSuperview().offset(-20)
         }
     }
 }
@@ -666,7 +669,7 @@ class EditProfileCell: UITableViewCell {
     
     func setupTextField() {
         addSubview(textField)
-        textField.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        textField.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -742,12 +745,12 @@ class EditProfileBioCell: UITableViewCell {
     
     func setupPlaceholder() {
         addSubview(placeholder)
-        placeholder.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 0, height: 30)
+        placeholder.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 30)
     }
     
     func setupTextView() {
         addSubview(textView)
-        textView.anchor(top: placeholder.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 96)
+        textView.anchor(top: placeholder.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 96)
         textView.delegate = self
     }
     
@@ -756,7 +759,7 @@ class EditProfileBioCell: UITableViewCell {
         accessoryView.backgroundColor = UIColor.clear
         textView.inputAccessoryView = accessoryView
         addSubview(errorLabel)
-        errorLabel.anchor(top: textView.bottomAnchor, left: textView.leftAnchor, bottom: nil, right: textView.rightAnchor, paddingTop: 2, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 15)
+        errorLabel.anchor(top: textView.bottomAnchor, left: textView.leftAnchor, bottom: nil, right: textView.rightAnchor, paddingTop: 2, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: 0, height: 15)
     }
     
     
