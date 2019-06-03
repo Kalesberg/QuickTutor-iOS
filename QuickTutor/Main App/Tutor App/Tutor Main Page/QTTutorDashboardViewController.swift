@@ -74,6 +74,7 @@ class QTTutorDashboardViewController: UIViewController {
     
     let headerView: QTTutorDashboardHeaderView = QTTutorDashboardHeaderView.view
     let storageRef: StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
+    var durationView: QTTutorDashboardDurationView?
     
     static var controller: QTTutorDashboardViewController {
         return QTTutorDashboardViewController(nibName: String(describing: QTTutorDashboardViewController.self), bundle: nil)
@@ -97,6 +98,8 @@ class QTTutorDashboardViewController: UIViewController {
         tableView.estimatedRowHeight = QTDashboardDimension.rowHeight
         tableView.sectionHeaderHeight = QTDashboardDimension.sectionHeaderViewHeight
         tableView.separatorStyle = .none
+        tableView.showsHorizontalScrollIndicator = false
+        tableView.showsVerticalScrollIndicator = false
         
         headerView.avatarImageView.isUserInteractionEnabled = true
         headerView.avatarImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTapTutorProfileImageView)))
@@ -367,15 +370,15 @@ extension QTTutorDashboardViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let durationView: QTTutorDashboardDurationView = QTTutorDashboardDurationView.view
+        durationView = QTTutorDashboardDurationView.view
         
-        durationView.durationDidSelect = { type in
+        durationView?.durationDidSelect = { type in
             self.durationType = type
             self.filterEarnsings(type)
             self.filterSessionsAndHours(type)
             tableView.reloadData()
         }
-        durationView.setData(durationType: durationType)
+        durationView?.setData(durationType: durationType)
         return durationView
     }
 }
@@ -415,6 +418,27 @@ extension QTTutorDashboardViewController: UITableViewDataSource {
         }
         
         return UITableViewCell()
+    }
+}
+
+// MARK: -
+extension QTTutorDashboardViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView == tableView {
+            // If the duration section view is at the top of screen, will show the drop shadow
+            if scrollView.contentOffset.y >= headerView.frame.height {
+                self.durationView?.layer.applyShadow(color: UIColor.black.cgColor,
+                                                     opacity: 0.2,
+                                                     offset: CGSize(width: 0, height: 10),
+                                                     radius: 10)
+                return
+            }
+            
+            // If the content offset of tableview is about zero, will hide the drop shadow
+            if scrollView.contentOffset.y <= headerView.frame.height / 2 {
+                self.durationView?.layer.shadowOpacity = 0.0
+            }
+        }
     }
 }
 
