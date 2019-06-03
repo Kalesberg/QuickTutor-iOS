@@ -247,8 +247,7 @@ extension QTSettingsNavigation {
         let okButton = UIAlertAction(title: "Log Out", style: .destructive) { _ in
             do {
                 try Auth.auth().signOut()
-                navigationController.pushViewController(SignInVC(), animated: false)
-                navigationController.viewControllers.removeFirst(navigationController.viewControllers.endIndex - 1)
+                RootControllerManager.shared.configureRootViewController(controller: SignInVC())
             } catch {
                 print("Error signing out")
             }

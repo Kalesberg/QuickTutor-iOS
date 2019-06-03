@@ -180,7 +180,7 @@ class QTCloseAccountSubmitViewController: UIViewController {
                             self.getUserCredentialsAlert()
                         }
                     } else {
-                        self.navigationController?.pushViewController(SignInVC(), animated: false)
+                        RootControllerManager.shared.configureRootViewController(controller: SignInVC())
                     }
                 }
             }
