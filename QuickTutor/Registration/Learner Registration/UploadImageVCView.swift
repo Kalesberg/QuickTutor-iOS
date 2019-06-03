@@ -24,29 +24,6 @@ class UploadImageVCView: BaseRegistrationView {
         return iv
     }()
     
-    let takePhotoButton: DimmableButton = {
-        let button = DimmableButton()
-        button.titleLabel?.font = Fonts.createBoldSize(14)
-        button.setTitle("  Take a photo", for: .normal)
-        button.setImage(UIImage(named: "camera"), for: .normal)
-        return button
-    }()
-    
-    let line: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 0.5
-        return view
-    }()
-    
-    let choosePhotoButton: DimmableButton = {
-        let button = DimmableButton()
-        button.titleLabel?.font = Fonts.createBoldSize(14)
-        button.setTitle("  Camera roll", for: .normal)
-        button.setImage(UIImage(named: "cameraRollIcon"), for: .normal)
-        return button
-    }()
-    
     let infoLabel: UILabel = {
         let label = UILabel()
         label.text = "· Upload a photo of yourself.\n· You will be able to add more photos later."
@@ -61,9 +38,6 @@ class UploadImageVCView: BaseRegistrationView {
     override func setupViews() {
         super.setupViews()
         setupImageViewButton()
-        setupTakePhotoButton()
-        setupLine()
-        setupChoosePhotoButton()
         setupInfoLabel()
     }
     
@@ -82,37 +56,17 @@ class UploadImageVCView: BaseRegistrationView {
         }
     }
     
-    func setupTakePhotoButton() {
-        addSubview(takePhotoButton)
-        takePhotoButton.anchor(top: imageView.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 40, paddingLeft: 75, paddingBottom: 0, paddingRight: 0, width: 95, height: 20)
-    }
-    
-    func setupLine() {
-        addSubview(line)
-        line.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 1, height: 8)
-        addConstraint(NSLayoutConstraint(item: line, attribute: .centerY, relatedBy: .equal, toItem: takePhotoButton, attribute: .centerY, multiplier: 1, constant: 0))
-        addConstraint(NSLayoutConstraint(item: line, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
-    }
-    
-    func setupChoosePhotoButton() {
-        addSubview(choosePhotoButton)
-        choosePhotoButton.anchor(top: imageView.bottomAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 40, paddingLeft: 0, paddingBottom: 0, paddingRight: 75, width: 95, height: 20)
-    }
-    
     func setupInfoLabel() {
         addSubview(infoLabel)
         infoLabel.snp.makeConstraints { make in
-            make.top.equalTo(line.snp.bottom).offset(75)
-            make.left.equalTo(titleLabel)
-            make.right.equalTo(titleLabel)
-            make.height.equalTo(44)
+            make.left.equalToSuperview().offset(30)
+            make.right.lessThanOrEqualToSuperview().offset(-30)
+            make.bottomMargin.equalToSuperview().offset(-100)
         }
     }
     
     override func updateTitleLabel() {
         titleLabel.text = "Alright, time to add a photo!"
-        titleLabelHeightAnchor?.constant = 30
-        layoutIfNeeded()
     }
     
 }

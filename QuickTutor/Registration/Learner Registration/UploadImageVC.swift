@@ -40,12 +40,27 @@ class UploadImageVC: BaseRegistrationController {
     }
     
     func setupTargets() {
-        contentView.choosePhotoButton.addTarget(self, action: #selector(choosePhoto), for: .touchUpInside)
-        contentView.takePhotoButton.addTarget(self, action: #selector(takePhoto), for: .touchUpInside)
+        contentView.imageView.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(onTapUserAvatar))
+        contentView.imageView.addGestureRecognizer(tap)
+        
         accessoryView.nextButton.addTarget(self, action: #selector(saveImageAndContinue), for: .touchUpInside)
     }
     
-    @objc func choosePhoto() {
+    @objc
+    private func onTapUserAvatar() {
+        let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        sheet.addAction(UIAlertAction(title: "Camera roll", style: .default) { _ in
+            self.takePhoto()
+        })
+        sheet.addAction(UIAlertAction(title: "Take a photo", style: .default) { _ in
+            self.choosePhoto()
+        })
+        sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(sheet, animated: true, completion: nil)
+    }
+    
+    private func choosePhoto() {
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             profilePicker.sourceType = .photoLibrary
             profilePicker.allowsEditing = false
@@ -55,7 +70,7 @@ class UploadImageVC: BaseRegistrationController {
         }
     }
     
-    @objc func takePhoto() {
+    private func takePhoto() {
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             profilePicker.sourceType = UIImagePickerController.SourceType.camera
             profilePicker.cameraCaptureMode =  UIImagePickerController.CameraCaptureMode.photo

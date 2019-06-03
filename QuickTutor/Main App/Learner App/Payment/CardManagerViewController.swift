@@ -257,7 +257,7 @@ class CardManagerViewController: UIViewController {
                 self.cards.remove(at: indexPath.row)
                 self.tableView.deleteRows(at: [indexPath], with: .automatic)
                 self.customer = customer
-                CurrentUser.shared.learner.hasPayment = !self.cards.isEmpty || Stripe.deviceSupportsApplePay()
+                CurrentUser.shared.learner.hasPayment = !self.cards.isEmpty
                 
                 if self.cards.isEmpty,
                     Stripe.deviceSupportsApplePay() {

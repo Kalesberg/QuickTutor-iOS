@@ -276,7 +276,7 @@ class QTRatingReviewViewController: UIViewController {
             // Apple Pay
             let paymentRequest = Stripe.paymentRequest(withMerchantIdentifier: Constants.APPLE_PAY_MERCHANT_ID, country: "US", currency: "USD")
             paymentRequest.paymentSummaryItems = [
-                PKPaymentSummaryItem.init(label: self.session?.subject ?? "", amount: NSDecimalNumber(value: amount / 100))
+                PKPaymentSummaryItem.init(label: self.session?.subject ?? "", amount: NSDecimalNumber(value: Double(amount) / 100.0))
             ]
             
             guard let paymentAuthorizationViewController = PKPaymentAuthorizationViewController(paymentRequest: paymentRequest) else { return }

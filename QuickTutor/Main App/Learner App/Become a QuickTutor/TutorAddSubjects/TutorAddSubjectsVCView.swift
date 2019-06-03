@@ -142,12 +142,10 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
     
     func showRemovePromptFor(subject: String) {
         let ac = UIAlertController(title: "Remove subject?", message: nil, preferredStyle: .actionSheet)
-        ac.addAction(UIAlertAction(title: "Remove", style: .destructive, handler: { (action) in
+        ac.addAction(UIAlertAction(title: "Remove", style: .destructive) { (action) in
             TutorRegistrationService.shared.removeSubject(subject)
-        }))
-        ac.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action) in
-            ac.dismiss(animated: true, completion: nil)
-        }))
+        })
+        ac.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
         parentContainerViewController?.present(ac, animated: true, completion: nil)
     }
 }

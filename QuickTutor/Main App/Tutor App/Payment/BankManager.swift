@@ -145,9 +145,7 @@ class BankManagerVC: UIViewController {
             })
         }
         
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel) { _ in
-            alertController.dismiss(animated: true, completion: nil)
-        }
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(setDefault)
         alertController.addAction(cancel)
 

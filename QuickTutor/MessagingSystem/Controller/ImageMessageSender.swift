@@ -32,16 +32,15 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
     
     private func showActionSheet() {
         let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        ac.addAction(UIAlertAction(title: "Take Photo/Video", style: .default, handler: { _ in
+        ac.addAction(UIAlertAction(title: "Take Photo/Video", style: .default) { _ in
             self.imagePicker.sourceType = .camera
             self.parentViewController.present(self.imagePicker, animated: true, completion: nil)
-        }))
-        ac.addAction(UIAlertAction(title: "Choose Media", style: .default, handler: { _ in
+        })
+        ac.addAction(UIAlertAction(title: "Choose Media", style: .default) { _ in
             self.imagePicker.sourceType = .photoLibrary
             self.parentViewController.present(self.imagePicker, animated: true, completion: nil)
-        }))
-        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
-        }))
+        })
+        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         parentViewController.present(ac, animated: true, completion: nil)
     }
 
