@@ -12,7 +12,7 @@ class PageView: UIScrollView {
 
   lazy var imageView: UIImageView = {
     let imageView = UIImageView()
-    imageView.contentMode = .scaleAspectFit
+    imageView.contentMode = .scaleAspectFill
     imageView.clipsToBounds = true
     imageView.isUserInteractionEnabled = true
 
@@ -57,7 +57,7 @@ class PageView: UIScrollView {
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-
+    
   // MARK: - Configuration
 
   func configure() {
@@ -208,10 +208,12 @@ extension PageView: LayoutConfigurable {
   @objc func configureLayout() {
     contentFrame = frame
     contentSize = frame.size
-    imageView.frame = frame
+    imageView.frame = CGRect(origin: .zero, size: CGSize(width: frame.size.width, height: frame.size.width))
+    imageView.layer.cornerRadius = imageView.frame.width / 2
     zoomScale = minimumZoomScale
 
-    configureImageView()
+//    configureImageView()
+    centerImageView()
   }
 }
 
