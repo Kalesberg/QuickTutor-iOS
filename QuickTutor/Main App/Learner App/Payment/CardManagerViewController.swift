@@ -333,7 +333,7 @@ extension CardManagerViewController: UITableViewDataSource {
                     cell.delegate = self
                 }
             } else {
-                cell.lastFourLabel.text = nil
+                cell.lastFourLabel.text = "Apple Pay"
                 cell.brandImage.image = STPApplePayPaymentOption().image
                 let cardChoice: CardChoice = CurrentUser.shared.learner.isApplePayDefault ? .defaultCard : .optionalCard
                 cell.setCardButtonType(type: cardChoice)
