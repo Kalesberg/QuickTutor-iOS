@@ -107,7 +107,8 @@ class SessionRequestCell: UserMessageCell {
         Database.database().reference().child("sessions").child(id).observeSingleEvent(of: .value) { snapshot in
             guard let value = snapshot.value as? [String: Any] else { return }
             let sessionRequest = SessionRequest(data: value)
-            if sessionRequest.startTime < Date().timeIntervalSince1970 {
+            if "pending" == sessionRequest.status,
+                sessionRequest.startTime < Date().timeIntervalSince1970 {
                 sessionRequest.status = "expired"
             }
             sessionRequest.id = id

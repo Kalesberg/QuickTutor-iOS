@@ -46,7 +46,6 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
     var isTutorProfile = false
     
     struct Dimension {
-        static let superViewTop = 94
         static let stackViewTopConstraint = 57
         static let feedbackTextViewHeight = 100
         static let feedbackTextViewBottomDelta = 5
@@ -79,7 +78,8 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        profileView.superview?.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 4)        
+        profileView.superview?.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 4)
+        feedbackTextView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 4)
         
         feedbackTextView.layer.cornerRadius = 3
         feedbackTextView.layer.borderColor = Colors.gray.cgColor

@@ -66,10 +66,10 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
             
             tutoringCostLabel.text = bill.currencyFormat(precision: 2, divider: 1)
             
-            let cost = (bill + 0.3) / 0.971
+            let cost = (bill + tip + 0.3) / 0.971
             processingFeeLabel.text = Double(cost * 0.029 + 0.3).currencyFormat(precision: 2, divider: 1)
-            billLabel.text = cost.currencyFormat(precision: 2, divider: 1)
-            totalLabel.text = (cost + tip).currencyFormat(precision: 2, divider: 1)
+            billLabel.text = (cost - tip).currencyFormat(precision: 2, divider: 1)
+            totalLabel.text = cost.currencyFormat(precision: 2, divider: 1)
         } else if let learner = user as? AWLearner {
             let nameSplit = learner.name.split(separator: " ")
             setAvatarImageWith(uid: learner.uid)

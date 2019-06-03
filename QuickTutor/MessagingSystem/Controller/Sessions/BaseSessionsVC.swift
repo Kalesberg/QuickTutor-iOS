@@ -113,9 +113,9 @@ class BaseSessionsVC: UIViewController {
                 Database.database().reference().child("userSessions").child(uid).child(userTypeString).observe(.childAdded) { snapshot in
                     
                     if !snapshot.exists() {
-                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                             self.dismissOverlay()
-                        })
+                        }
                     }
                     
                     DataService.shared.getSessionById(snapshot.key, completion: { session in

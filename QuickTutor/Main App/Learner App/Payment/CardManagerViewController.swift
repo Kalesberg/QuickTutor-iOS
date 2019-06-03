@@ -426,8 +426,8 @@ extension CardManagerViewController: SwipeTableViewCellDelegate {
             self.deleteCardAt(indexPath: indexPath)
         }
 
-        deleteAction.image = UIImage(named: "deleteCellIcon")
-        deleteAction.highlightedImage = UIImage(named: "deleteCellIcon")?.alpha(0.2)
+        deleteAction.image = UIImage(named: "ic_payment_del")
+        deleteAction.highlightedImage = UIImage(named: "ic_payment_del")?.alpha(0.2)
         deleteAction.font = Fonts.createSize(16)
         deleteAction.backgroundColor = Colors.newScreenBackground
         deleteAction.highlightedBackgroundColor = Colors.newScreenBackground
