@@ -59,6 +59,7 @@ class ConnectionCell: UICollectionViewCell {
         iv.imageView.layer.cornerRadius = 25
         iv.imageView.clipsToBounds = true
         iv.isSkeletonable = true
+        iv.imageView.isSkeletonable = true
         
         return iv
     }()
