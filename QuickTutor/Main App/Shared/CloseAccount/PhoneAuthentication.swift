@@ -205,45 +205,40 @@ class PhoneAuthenticationAlertView: InteractableView {
         alertView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().multipliedBy(0.8)
-            make.height.equalToSuperview().multipliedBy(0.33)
             make.width.equalToSuperview().multipliedBy(0.85)
         }
         title.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.width.equalToSuperview()
-            make.height.equalTo(40)
-            make.top.equalToSuperview()
+            make.left.equalToSuperview().offset(16)
+            make.top.equalToSuperview().offset(16)
         }
         message.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.9)
-            make.height.equalTo(60)
-            make.top.equalTo(title.snp.bottom)
+            make.left.equalToSuperview().offset(16)
+            make.top.equalTo(title.snp.bottom).offset(16)
         }
 
         cancelAction.snp.makeConstraints { make in
             make.bottom.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.5)
-            make.height.equalToSuperview().multipliedBy(0.25)
+            make.height.equalTo(44)
             make.left.equalToSuperview()
         }
         verifyAction.snp.makeConstraints { make in
-            make.bottom.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.5)
-            make.height.equalToSuperview().multipliedBy(0.25)
+            make.size.equalTo(cancelAction.snp.size)
+            make.centerY.equalTo(cancelAction.snp.centerY)
+            make.left.equalTo(cancelAction.snp.right)
             make.right.equalToSuperview()
         }
         errorLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(cancelAction.snp.top)
-            make.width.equalToSuperview().multipliedBy(0.9)
-            make.height.equalTo(30)
+            make.bottom.equalTo(cancelAction.snp.top).offset(-4)
+            make.left.equalToSuperview().offset(16)
             make.centerX.equalToSuperview()
         }
         verificationTextField.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.9)
-            make.top.equalTo(message.snp.bottom)
-            make.bottom.equalTo(errorLabel.snp.top)
+            make.left.equalToSuperview().offset(16)
+            make.top.equalTo(message.snp.bottom).offset(8)
+            make.bottom.equalTo(errorLabel.snp.top).offset(-8)
         }
     }
 
@@ -335,9 +330,4 @@ extension UIViewController {
             }
         }
     }
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromNSAttributedStringKeyDictionary(_ input: [NSAttributedString.Key: Any]) -> [String: Any] {
-    return Dictionary(uniqueKeysWithValues: input.map { key, value in (key.rawValue, value) })
 }
