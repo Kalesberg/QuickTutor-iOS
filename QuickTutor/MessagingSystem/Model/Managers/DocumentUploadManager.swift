@@ -31,7 +31,7 @@ class DocumentUploadManager: NSObject, QLPreviewControllerDataSource {
                 // Display file
                 DispatchQueue.main.async {
                     let previewController = QLPreviewController()
-                    previewController.navigationController?.view.backgroundColor = Colors.darkBackground
+                    previewController.navigationController?.view.backgroundColor = Colors.newScreenBackground
                     previewController.dataSource = self
                     viewController.present(previewController, animated: true, completion: nil)
                 }
@@ -94,7 +94,7 @@ class DocumentUploadManager: NSObject, QLPreviewControllerDataSource {
 extension DocumentUploadManager: UIDocumentPickerDelegate {
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         let url = urls[0]
-        url.startAccessingSecurityScopedResource()
+        let _ = url.startAccessingSecurityScopedResource()
         uploadFileFromUrl(url)
         url.stopAccessingSecurityScopedResource()
     }
@@ -105,7 +105,6 @@ extension DocumentUploadManager: UIDocumentPickerDelegate {
     
     private func uploadFileFromUrl(_ url: URL) {
         let fileName = (url.path as NSString).lastPathComponent
-        let extensionName = (url.path as NSString).pathExtension
         NotificationCenter.default.post(name: NotificationNames.Documents.didStartUpload, object: nil)
         
         do {

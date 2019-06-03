@@ -31,7 +31,7 @@ class KeyboardActionView: UIView {
         if #available(iOS 11.0, *) {
             layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         }
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
         clipsToBounds = true
     }
     

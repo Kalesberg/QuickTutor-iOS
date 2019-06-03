@@ -54,7 +54,7 @@ class WalkthroughVCView: UIView {
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        cv.backgroundColor = Colors.darkBackground
+        cv.backgroundColor = Colors.newScreenBackground
         cv.showsHorizontalScrollIndicator = false
         cv.isPagingEnabled = true
         cv.register(WalkthroughCell.self, forCellWithReuseIdentifier: "cellId")
@@ -88,7 +88,7 @@ class WalkthroughVCView: UIView {
     }
     
     func setupMainView() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
     }
     
     func setupCollectionView() {

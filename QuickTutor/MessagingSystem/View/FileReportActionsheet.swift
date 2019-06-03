@@ -53,7 +53,7 @@ class FileReportActionsheet: UIView {
 
     let actionSheetBackground: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.darkBackground
+        view.backgroundColor = Colors.newScreenBackground
         return view
     }()
     

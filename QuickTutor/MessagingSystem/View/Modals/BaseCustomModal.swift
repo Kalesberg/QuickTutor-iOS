@@ -20,7 +20,7 @@ class BaseCustomModal: UIView {
 
     let background: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.darkBackground
+        view.backgroundColor = Colors.newScreenBackground
         view.alpha = 0
         view.layer.cornerRadius = 4
         return view

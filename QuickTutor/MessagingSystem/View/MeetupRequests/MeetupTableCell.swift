@@ -32,7 +32,7 @@ class SessionTableCell: UITableViewCell {
     }
 
     private func setupMainView() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
         selectionStyle = .none
     }
     

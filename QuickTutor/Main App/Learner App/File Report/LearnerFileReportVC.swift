@@ -299,7 +299,7 @@ class FileReportSubmissionLayout: MainLayoutHeader, Keyboardable {
         textView.textView.text = ""
         textView.textView.autocorrectionType = .yes
         textView.textView.returnKeyType = .default
-        textView.backgroundColor = Colors.registrationDark
+        textView.backgroundColor = Colors.newScreenBackground
         textView.layer.borderWidth = 1.0
         textView.layer.cornerRadius = 10
         textView.textView.tintColor = Colors.purple

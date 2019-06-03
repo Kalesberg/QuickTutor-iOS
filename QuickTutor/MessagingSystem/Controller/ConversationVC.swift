@@ -86,7 +86,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
 
     private func setupMainView() {
-        view.backgroundColor = Colors.darkBackground
+        view.backgroundColor = Colors.newScreenBackground
         edgesForExtendedLayout = []
         studentKeyboardAccessory.delegate = self
         teacherKeyboardAccessory.delegate = self

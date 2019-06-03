@@ -21,7 +21,7 @@ class TutorSearchService {
         }
         ref.observeSingleEvent(of: .value) { snapshot in
             guard let tutorIds = snapshot.value as? [String: Any] else { return }
-            tutorIds.forEach({ uid, _ in
+            tutorIds.keys.sorted(by: { $0 < $1 }).forEach { uid in
                 myGroup.enter()
                 FirebaseData.manager.fetchTutor(uid, isQuery: false, { tutor in
                     guard let tutor = tutor else {
@@ -37,7 +37,7 @@ class TutorSearchService {
                     }
                     myGroup.leave()
                 })
-            })
+            }
             myGroup.notify(queue: .main) {
                 if let _ = lastKnownKey {
                     tutors.removeFirst()
@@ -55,11 +55,11 @@ class TutorSearchService {
         if let key = lastKnownKey {
             ref = ref.queryStarting(atValue: key)
         }
-        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+        ref.observeSingleEvent(of: .value) { (snapshot) in
             print(snapshot.key)
             guard let tutorIds = snapshot.value as? [String: Any] else { return }
             let myGroup = DispatchGroup()
-            tutorIds.forEach({ uid, _ in
+            tutorIds.keys.sorted(by: { $0 < $1 }).forEach { uid in
                 myGroup.enter()
                 FirebaseData.manager.fetchTutor(uid, isQuery: false, { tutor in
                     guard let tutor = tutor else {
@@ -74,14 +74,14 @@ class TutorSearchService {
                     }
                     myGroup.leave()
                 })
-            })
-            myGroup.notify(queue: .main, execute: {
+            }
+            myGroup.notify(queue: .main) {
                 if let _ = lastKnownKey {
                     tutors.removeFirst()
                 }
                 completion(tutors, tutorIds.count < 60)
-            })
-        })
+            }
+        }
     }
     
     func getTutorsBySubject(_ subject: String, lastKnownKey: String?, completion: @escaping ([AWTutor]?, Bool) -> Void) {
@@ -94,7 +94,7 @@ class TutorSearchService {
         }
         ref.observeSingleEvent(of: .value) { snapshot in
             guard let tutorIds = snapshot.value as? [String: Any] else { return }
-            tutorIds.forEach({ uid, _ in
+            tutorIds.keys.sorted(by: { $0 < $1 }).forEach { uid in
                 myGroup.enter()
                 FirebaseData.manager.fetchTutor(uid, isQuery: false, { tutor in
                     guard let tutor = tutor else {
@@ -107,13 +107,13 @@ class TutorSearchService {
                     }
                     myGroup.leave()
                 })
-            })
-            myGroup.notify(queue: .main, execute: {
+            }
+            myGroup.notify(queue: .main) {
                 if let _ = lastKnownKey {
                     tutors.removeFirst()
                 }
                 completion(tutors, tutorIds.count < 60)
-            })
+            }
         }
     }
     

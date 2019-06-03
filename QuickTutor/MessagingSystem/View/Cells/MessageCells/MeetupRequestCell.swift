@@ -309,7 +309,7 @@ class SessionRequestCell: UserMessageCell {
         bubbleView.clipsToBounds = true
         bubbleView.layer.cornerRadius = 8
         bubbleView.layer.masksToBounds = true
-        bubbleView.backgroundColor = Colors.navBarColor
+        bubbleView.backgroundColor = Colors.newNavigationBarBackground
         bubbleView.layer.borderWidth = 0
     }
     
@@ -452,7 +452,7 @@ class SessionRequestCellButtonView: UIView {
 
     let rightButton: DimmableButton = {
         let button = DimmableButton()
-        button.backgroundColor = Colors.navBarColor
+        button.backgroundColor = Colors.newNavigationBarBackground
         button.layer.cornerRadius = 4
         button.titleLabel?.font = Fonts.createBoldSize(12)
         return button
@@ -592,7 +592,7 @@ class SessionRequestCellButtonView: UIView {
     }
     
     func setLeftButtonToSecondaryUI() {
-        leftButton.backgroundColor = Colors.darkBackground
+        leftButton.backgroundColor = Colors.newScreenBackground
         leftButton.layer.borderWidth = 1
         leftButton.layer.borderColor = Colors.gray.cgColor
     }

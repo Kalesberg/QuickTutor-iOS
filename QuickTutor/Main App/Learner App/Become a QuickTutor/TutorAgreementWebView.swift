@@ -13,9 +13,9 @@ class MainLayoutWebView: UIView {
     let webView = UIWebView()
 
     func configureView() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
         addSubview(webView)
-        webView.backgroundColor = Colors.darkBackground
+        webView.backgroundColor = Colors.newScreenBackground
         webView.scrollView.isScrollEnabled = true
         webView.isUserInteractionEnabled = true
         webView.scalesPageToFit = true

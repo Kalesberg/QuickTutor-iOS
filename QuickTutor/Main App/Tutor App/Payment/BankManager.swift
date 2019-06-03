@@ -239,8 +239,8 @@ extension BankManagerVC: SwipeCollectionViewCellDelegate {
         deleteAction.image = UIImage(named: "deleteCellIcon")
         deleteAction.highlightedImage = UIImage(named: "deleteCellIcon")?.alpha(0.2)
         deleteAction.font = Fonts.createSize(16)
-        deleteAction.backgroundColor = Colors.darkBackground
-        deleteAction.highlightedBackgroundColor = Colors.darkBackground
+        deleteAction.backgroundColor = Colors.newScreenBackground
+        deleteAction.highlightedBackgroundColor = Colors.newScreenBackground
         
         return [deleteAction]
     }

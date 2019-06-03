@@ -33,7 +33,7 @@ class MessageGapTimestampCell: SystemMessageCell {
         textField.textAlignment = .center
         textField.textColor = .white
         textField.font = Fonts.createBlackSize(12)
-        textField.backgroundColor = Colors.darkBackground
+        textField.backgroundColor = Colors.newScreenBackground
         addSubview(textField)
         textField.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 15)
         textFieldWithAnchor = textField.widthAnchor.constraint(equalToConstant: 100)

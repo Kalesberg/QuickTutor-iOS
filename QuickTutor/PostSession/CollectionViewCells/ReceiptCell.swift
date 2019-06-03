@@ -138,7 +138,7 @@ class ReceiptCell : UICollectionViewCell {
 	
 	let sessionSummaryContainer : UIView = {
 		let view = UIView()
-		view.backgroundColor = Colors.navBarColor
+		view.backgroundColor = Colors.newNavigationBarBackground
 		return view
 	}()
 	

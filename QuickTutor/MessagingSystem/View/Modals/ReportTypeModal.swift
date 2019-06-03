@@ -20,7 +20,7 @@ class ReportTypeModal: BaseCustomModal {
         tv.register(SessionTableCell.self, forCellReuseIdentifier: "cellId")
         tv.isScrollEnabled = false
         tv.separatorStyle = .none
-        tv.backgroundColor = Colors.darkBackground
+        tv.backgroundColor = Colors.newScreenBackground
         return tv
     }()
 
@@ -54,7 +54,7 @@ extension ReportTypeModal: UITableViewDelegate, UITableViewDataSource {
         cell.tag = indexPath.row
         cell.delegate = self
         if indexPath.row == 4 {
-            cell.button.backgroundColor = Colors.darkBackground
+            cell.button.backgroundColor = Colors.newScreenBackground
         }
         return cell
     }

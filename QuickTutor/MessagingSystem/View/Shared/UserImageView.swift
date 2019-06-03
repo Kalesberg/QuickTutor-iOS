@@ -19,7 +19,7 @@ class UserImageView: UIView {
     
     let containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.newBackground
+        view.backgroundColor = Colors.newScreenBackground
         view.layer.masksToBounds = true
         view.layer.cornerRadius = 10
         

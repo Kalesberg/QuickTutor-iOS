@@ -16,7 +16,7 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
 
     let backgroundView: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.navBarColor
+        view.backgroundColor = Colors.newNavigationBarBackground
         return view
     }()
 
@@ -58,7 +58,7 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
         label.font = Fonts.createBoldSize(14)
         label.numberOfLines = 0
         label.adjustsFontSizeToFitWidth = true
-        label.backgroundColor = Colors.navBarColor
+        label.backgroundColor = Colors.newNavigationBarBackground
         label.isHidden = true
         return label
     }()
@@ -88,7 +88,7 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
         let button = UIButton()
         button.setImage(UIImage(named: "expandActionViewIcon")?.withRenderingMode(.alwaysTemplate), for: .normal)
         button.tintColor = Colors.purple
-        button.backgroundColor = Colors.darkBackground
+        button.backgroundColor = Colors.newScreenBackground
         button.alpha = 0
         return button
     }()

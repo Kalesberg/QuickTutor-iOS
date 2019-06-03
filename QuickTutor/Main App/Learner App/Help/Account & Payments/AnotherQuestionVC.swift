@@ -37,7 +37,7 @@ class AnotherQuestionView: MainLayoutHeader, Keyboardable {
         textField.isEnabled = true
         textField.textColor = .white
 
-        line.backgroundColor = Colors.registrationDark
+        line.backgroundColor = Colors.newScreenBackground
     }
 
     override func applyConstraints() {

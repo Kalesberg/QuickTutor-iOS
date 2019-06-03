@@ -84,8 +84,8 @@ class QTTutorDashboardViewController: UIViewController {
         super.viewDidLoad()
         
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-        navigationController?.navigationBar.barTintColor = Colors.darkBackground
-        navigationController?.navigationBar.backgroundColor = Colors.darkBackground
+        navigationController?.navigationBar.barTintColor = Colors.newScreenBackground
+        navigationController?.navigationBar.backgroundColor = Colors.newScreenBackground
         navigationController?.setNavigationBarHidden(true, animated: false)
         
         // Register a resuable cell and set dimensions for table view.

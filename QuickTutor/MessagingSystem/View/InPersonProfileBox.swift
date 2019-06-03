@@ -11,7 +11,7 @@ import UIKit
 class InPersonProfileBox: SessionProfileBox {
     let infoBox: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.navBarColor
+        view.backgroundColor = Colors.newNavigationBarBackground
         view.layer.cornerRadius = 4
         return view
     }()

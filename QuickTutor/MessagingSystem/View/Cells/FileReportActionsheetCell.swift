@@ -41,7 +41,7 @@ class FileReportActionsheetCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
     }
     
     @objc func handleSelect() {

@@ -41,7 +41,7 @@ class PauseSessionModal: BaseCustomModal {
         button.layer.borderColor = Colors.green.cgColor
         button.layer.cornerRadius = 4
         button.titleLabel?.font = Fonts.createSize(20)
-        button.backgroundColor = Colors.navBarColor
+        button.backgroundColor = Colors.newNavigationBarBackground
         button.isHidden = true
         return button
     }()
@@ -54,7 +54,7 @@ class PauseSessionModal: BaseCustomModal {
         button.layer.borderColor = UIColor(red: 178.0 / 255.0, green: 27.0 / 255.0, blue: 74.0 / 255.0, alpha: 1.0).cgColor
         button.titleLabel?.font = Fonts.createSize(18)
         button.layer.cornerRadius = 4
-        button.backgroundColor = Colors.navBarColor
+        button.backgroundColor = Colors.newNavigationBarBackground
         return button
     }()
 

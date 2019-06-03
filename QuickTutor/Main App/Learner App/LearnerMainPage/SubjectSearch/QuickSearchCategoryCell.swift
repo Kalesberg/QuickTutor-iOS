@@ -26,7 +26,7 @@ class QuickSearchCategoryCell: UICollectionViewCell {
         layout.minimumLineSpacing = 10
         layout.minimumInteritemSpacing = 10
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        cv.backgroundColor = Colors.darkBackground
+        cv.backgroundColor = Colors.newScreenBackground
         cv.allowsMultipleSelection = false
         cv.alwaysBounceHorizontal = true
         cv.showsHorizontalScrollIndicator = false
@@ -42,7 +42,7 @@ class QuickSearchCategoryCell: UICollectionViewCell {
     }
     
     func setupMainView() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
     }
     
     func setupCollectionView() {
@@ -84,7 +84,7 @@ extension QuickSearchCategoryCell: UICollectionViewDataSource, UICollectionViewD
 //        guard indexPath.item < 2 else {
 //            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! QuickSearchSubcategoryCell
 //            cell.titleLabel.text = "More"
-//            cell.backgroundColor = Colors.darkBackground
+//            cell.backgroundColor = Colors.newScreenBackground
 //            cell.layer.borderColor = Colors.gray.cgColor
 //            cell.layer.borderWidth = 1
 //            return cell

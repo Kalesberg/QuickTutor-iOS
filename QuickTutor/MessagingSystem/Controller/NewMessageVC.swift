@@ -29,7 +29,7 @@ class NewMessageVC: UIViewController {
         layout.scrollDirection = .vertical
         layout.headerReferenceSize = CGSize(width: UIScreen.main.bounds.width, height: 60)
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        cv.backgroundColor = Colors.darkBackground
+        cv.backgroundColor = Colors.newScreenBackground
         cv.register(ContactCell.self, forCellWithReuseIdentifier: "cellId")
         cv.register(ConnectionRequestCell.self, forCellWithReuseIdentifier: "connectionRequest")
         cv.register(NewMessageHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerId")
@@ -52,7 +52,7 @@ class NewMessageVC: UIViewController {
     }
 
     func setupMainView() {
-        view.backgroundColor = Colors.darkBackground
+        view.backgroundColor = Colors.newScreenBackground
     }
 
     func setupCollectionView() {

@@ -41,7 +41,7 @@ class NewMessageHeader: UICollectionReusableView {
     func setupViews() {
         setupHeaderLabel()
         setupLine()
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
     }
 
     func setupHeaderLabel() {

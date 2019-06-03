@@ -49,7 +49,7 @@ class EarningsHistoryTaleViewCell: UITableViewCell {
     }
     
     func setupMainView() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
         selectionStyle = .none
     }
     

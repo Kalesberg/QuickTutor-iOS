@@ -192,7 +192,7 @@ class SSNRegistrationAccessoryView: RegistrationAccessoryView {
     
     let infoTextButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = Colors.darkBackground
+        button.backgroundColor = Colors.newScreenBackground
         button.titleLabel?.font = Fonts.createSemiBoldSize(16)
         button.setTitle("Info", for: .normal)
         button.setTitleColor(Colors.purple, for: .normal)

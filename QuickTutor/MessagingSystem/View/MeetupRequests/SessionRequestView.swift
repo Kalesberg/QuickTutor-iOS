@@ -46,13 +46,13 @@ class SessionRequestView: UIView {
 
     let titleViewSeparator: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.darkBackground
+        view.backgroundColor = Colors.newScreenBackground
         return view
     }()
 
     let inputTable: UITableView = {
         let table = UITableView()
-        table.backgroundColor = Colors.darkBackground
+        table.backgroundColor = Colors.newScreenBackground
         table.separatorColor = Colors.sentMessage
         table.allowsMultipleSelection = false
         table.isScrollEnabled = false
@@ -145,7 +145,7 @@ class SessionRequestView: UIView {
         label.numberOfLines = 0
         label.font = Fonts.createItalicSize(12)
         //        label.adjustsFontSizeToFitWidth = true
-        label.backgroundColor = Colors.navBarColor
+        label.backgroundColor = Colors.newNavigationBarBackground
         label.isHidden = true
         return label
     }()

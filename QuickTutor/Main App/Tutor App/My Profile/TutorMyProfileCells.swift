@@ -397,7 +397,7 @@ extension RatingTableViewCell: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_: UITableView, willDisplay cell: UITableViewCell, forRowAt _: IndexPath) {
-        cell.backgroundColor = Colors.navBarColor
+        cell.backgroundColor = Colors.newNavigationBarBackground
     }
 
     func tableView(_: UITableView, viewForHeaderInSection _: Int) -> UIView? {

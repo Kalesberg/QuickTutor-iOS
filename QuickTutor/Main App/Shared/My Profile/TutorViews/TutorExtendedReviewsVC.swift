@@ -98,8 +98,8 @@ extension TutorReviewsVC: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: QTReviewTableViewCell.reuseIdentifier, for: indexPath) as! QTReviewTableViewCell
         cell.selectionStyle = .none
-        cell.backgroundColor = Colors.darkBackground
-        cell.contentView.backgroundColor = Colors.darkBackground
+        cell.backgroundColor = Colors.newScreenBackground
+        cell.contentView.backgroundColor = Colors.newScreenBackground
         cell.setData(review: datasource[indexPath.row])
         return cell
     }

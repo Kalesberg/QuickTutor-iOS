@@ -30,7 +30,7 @@ class TutorCardView: UIView, TutorDataSource {
         sv.canCancelContentTouches = true
         sv.isDirectionalLockEnabled = true
         sv.isExclusiveTouch = false
-        sv.backgroundColor = Colors.darkBackground
+        sv.backgroundColor = Colors.newScreenBackground
         sv.layer.cornerRadius = 10
         return sv
     }()

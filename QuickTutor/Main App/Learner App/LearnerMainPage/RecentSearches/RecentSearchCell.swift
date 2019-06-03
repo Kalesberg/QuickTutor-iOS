@@ -11,7 +11,7 @@ import UIKit
 class RecentSearchCell: QuickSearchSubcategoryCell {
     override func setupViews() {
         super.setupViews()
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
         titleLabel.textColor = UIColor.white.withAlphaComponent(0.5)
         layer.borderColor = UIColor.white.withAlphaComponent(0.5).cgColor
         layer.borderWidth = 1

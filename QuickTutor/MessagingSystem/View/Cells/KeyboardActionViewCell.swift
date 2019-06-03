@@ -30,7 +30,7 @@ class KeyboardActionViewCell: UICollectionViewCell {
     }
     
     func setupViews() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
         setupTitleLabel()
         setupButton()
     }

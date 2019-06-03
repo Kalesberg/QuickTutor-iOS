@@ -15,7 +15,7 @@ class SessionOnHoldModal: PauseSessionModal {
         let label = UILabel()
         label.textColor = .white
         label.font = Fonts.createBoldSize(18)
-        label.backgroundColor = Colors.navBarColor
+        label.backgroundColor = Colors.newNavigationBarBackground
         label.layer.cornerRadius = 4
         label.clipsToBounds = true
         label.textAlignment = .center

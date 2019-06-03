@@ -25,7 +25,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     let bgView: UIView = {
         let view = UIView()
         view.clipsToBounds = true
-        view.backgroundColor = Colors.newBackground
+        view.backgroundColor = Colors.newScreenBackground
         return view
     }()
 

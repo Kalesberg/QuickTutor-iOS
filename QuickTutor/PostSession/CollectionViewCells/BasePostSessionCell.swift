@@ -40,7 +40,7 @@ class BasePostSessionCell : UICollectionViewCell {
 		headerView.addSubview(title)
 
 		backgroundHeaderView.backgroundColor = Colors.purple
-		headerView.backgroundColor = Colors.navBarColor
+		headerView.backgroundColor = Colors.newNavigationBarBackground
 		
 		applyConstraints()
 	}

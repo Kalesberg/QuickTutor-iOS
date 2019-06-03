@@ -16,17 +16,18 @@ struct CategorySelected {
 
 class CategorySearchVC: UIViewController {
     
-    enum SearchMode {
-        case category, subcategory, subject
-    }
-
     let itemsPerBatch: UInt = 10
     var datasource: [AWTutor] = []
+    var filteredDatasource: [AWTutor] = []
     var didLoadMore: Bool = false
     var loadedAllTutors = false
     var category: String!
     var subcategory: String!
     var subject: String!
+    var lastKey: String?
+    
+    private var _observing = false
+    
     var searchFilter: SearchFilter? {
         didSet {
             updateFiltersIcon()
@@ -60,7 +61,7 @@ class CategorySearchVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = Colors.newBackground
+        view.backgroundColor = Colors.newScreenBackground
         setupObservers()
         setupLocationManager()
         
@@ -149,6 +150,7 @@ class CategorySearchVC: UIViewController {
     
     func queryNeededTutors(lastKnownKey: String?) {
         guard !loadedAllTutors else { return }
+        
         if category != nil {
             queryTutorsByCategory(lastKnownKey: lastKnownKey)
         } else if subcategory != nil {
@@ -159,12 +161,18 @@ class CategorySearchVC: UIViewController {
     }
     
     private func queryTutorsByCategory(lastKnownKey: String?) {
+        _observing = true
         TutorSearchService.shared.getTutorsByCategory(category, lastKnownKey: lastKnownKey) { (tutors, loadedAllTutors) in
+            self._observing = false
+            
             guard let tutors = tutors else { return }
             self.view.hideSkeleton()
             
+            self.lastKey = tutors.last?.uid
             self.loadedAllTutors = loadedAllTutors
-            self.datasource.append(contentsOf: tutors.sorted(by: {$0.tNumSessions > $1.tNumSessions}))
+            self.datasource.append(contentsOf: tutors)
+            self.datasource = self.datasource.sorted(by: { $0.tNumSessions > $1.tNumSessions || ($0.reviews?.count ?? 0) > ($1.reviews?.count ?? 0) || ($0.rating ?? 0) > ($1.rating ?? 0) })
+            self.filteredDatasource = self.datasource
             self.collectionView.reloadData()
             guard let filter = self.searchFilter, self.datasource.count > 0 else { return }
             self.applySearchFilterToDataSource(filter)
@@ -172,12 +180,18 @@ class CategorySearchVC: UIViewController {
     }
     
     private func queryTutorsBySubcategory(lastKnownKey: String?) {
+        _observing = true        
         TutorSearchService.shared.getTutorsBySubcategory(subcategory, lastKnownKey: lastKnownKey) { (tutors, loadedAllTutors) in
+            self._observing = false
+            
             guard let tutors = tutors else { return }
             self.view.hideSkeleton()
             
+            self.lastKey = tutors.last?.uid
             self.loadedAllTutors = loadedAllTutors
-            self.datasource.append(contentsOf: tutors.sorted(by: {$0.tNumSessions > $1.tNumSessions}))
+            self.datasource.append(contentsOf: tutors)
+            self.datasource = self.datasource.sorted(by: { $0.tNumSessions > $1.tNumSessions || ($0.reviews?.count ?? 0) > ($1.reviews?.count ?? 0) || ($0.rating ?? 0) > ($1.rating ?? 0) })
+            self.filteredDatasource = self.datasource
             self.collectionView.reloadData()
             guard let filter = self.searchFilter, self.datasource.count > 0 else { return }
             self.applySearchFilterToDataSource(filter)
@@ -185,12 +199,17 @@ class CategorySearchVC: UIViewController {
     }
     
     private func queryTutorsBySubject(lastKnownKey: String?) {
+        _observing = true
         TutorSearchService.shared.getTutorsBySubject(subject, lastKnownKey: lastKnownKey) { (tutors, loadedAllTutors) in
+            self._observing = false
+            
             guard let tutors = tutors else { return }
             self.view.hideSkeleton()
             
+            self.lastKey = tutors.last?.uid
             self.loadedAllTutors = loadedAllTutors
             self.datasource.append(contentsOf: tutors.sorted(by: {$0.tNumSessions > $1.tNumSessions}))
+            self.filteredDatasource = self.datasource
             self.collectionView.reloadData()
             guard let filter = self.searchFilter, self.datasource.count > 0 else { return }
             self.applySearchFilterToDataSource(filter)
@@ -198,8 +217,7 @@ class CategorySearchVC: UIViewController {
     }
     
     private func applySearchFilterToDataSource(_ filter: SearchFilter) {
-        datasource = datasource.filter({ (tutor) -> Bool in
-            
+        filteredDatasource = datasource.filter({ (tutor) -> Bool in
             var shouldBeIncluded = true
             if let minHourlyRate = filter.minHourlyRate {
                 shouldBeIncluded = tutor.price >= minHourlyRate
@@ -248,12 +266,12 @@ extension CategorySearchVC: SkeletonCollectionViewDataSource {
     }
     
     func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
-        return datasource.count
+        return filteredDatasource.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TutorCollectionViewCell.reuseIdentifier, for: indexPath) as! TutorCollectionViewCell
-        cell.updateUI(datasource[indexPath.item])
+        cell.updateUI(filteredDatasource[indexPath.item])
         cell.profileImageViewHeightAnchor?.constant = 160
         cell.layoutIfNeeded()
         return cell
@@ -291,9 +309,9 @@ extension CategorySearchVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
         cell.growSemiShrink {
-            guard self.datasource.count > indexPath.item else { return }
+            guard self.filteredDatasource.count > indexPath.item else { return }
             
-            let featuredTutor = self.datasource[indexPath.item]
+            let featuredTutor = self.filteredDatasource[indexPath.item]
             let uid = featuredTutor.uid
             FirebaseData.manager.fetchTutor(uid!, isQuery: false, { (tutor) in
                 guard let tutor = tutor else { return }
@@ -322,10 +340,9 @@ extension CategorySearchVC: UIScrollViewDelegate {
             let currentOffset = scrollView.contentOffset.y
             let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
             
-            if maximumOffset - currentOffset <= 100.0 {
-                guard let uid = datasource.last?.uid else { return }
-                print("ZACH: uid is", uid)
-                queryNeededTutors(lastKnownKey: uid)
+            if !_observing,
+                maximumOffset - currentOffset <= 100.0 {
+                queryNeededTutors(lastKnownKey: lastKey)
             }
             
         }

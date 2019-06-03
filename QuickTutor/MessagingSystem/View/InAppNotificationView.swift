@@ -155,7 +155,7 @@ class InAppNotificationView: UIView {
     }
     
     func setupMainView() {
-        backgroundColor = Colors.newBackground
+        backgroundColor = Colors.newScreenBackground
         layer.cornerRadius = 5
         addShadow()
     }

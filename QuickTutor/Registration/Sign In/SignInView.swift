@@ -55,7 +55,7 @@ class SignInVCView: UIView {
         let textView = UITextView()
         textView.textColor = .white
         textView.isEditable = false
-        textView.backgroundColor = Colors.darkBackground
+        textView.backgroundColor = Colors.newScreenBackground
         textView.isUserInteractionEnabled = true
         textView.font = Fonts.createSize(12)
         textView.isScrollEnabled = false
@@ -89,7 +89,7 @@ class SignInVCView: UIView {
     }
     
     func setupMainView() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
     }
     
     func setupLogoImageView() {

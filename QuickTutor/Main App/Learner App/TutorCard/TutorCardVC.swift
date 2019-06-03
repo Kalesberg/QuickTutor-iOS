@@ -39,7 +39,7 @@ class TutorCardVC: UIViewController {
     func setupNavBar() {
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationController?.navigationBar.isHidden = false
-        navigationController?.view.backgroundColor = Colors.darkBackground
+        navigationController?.view.backgroundColor = Colors.newScreenBackground
         navigationItem.title = tutor?.username
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = false

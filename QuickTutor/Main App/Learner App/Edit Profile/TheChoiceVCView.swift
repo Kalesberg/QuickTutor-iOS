@@ -89,7 +89,7 @@ class TheChoiceVCView: UIView {
     }
     
     func setupMainView(){
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
     }
     
     func setupButtonContainer() {

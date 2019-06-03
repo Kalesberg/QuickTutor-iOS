@@ -437,7 +437,7 @@ class QuickSearchResultsVCView: UIView {
     }
     
     func setupMainView() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
     }
     
     func setupCollectionView() {
@@ -461,7 +461,7 @@ class TutorAddSubjectsResultsVCView: UIView {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        cv.backgroundColor = Colors.darkBackground
+        cv.backgroundColor = Colors.newScreenBackground
         cv.allowsMultipleSelection = false
         cv.alwaysBounceVertical = true
         cv.keyboardDismissMode = .interactive
@@ -475,7 +475,7 @@ class TutorAddSubjectsResultsVCView: UIView {
     }
     
     func setupMainView() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
     }
     
     func setupCollectionView() {

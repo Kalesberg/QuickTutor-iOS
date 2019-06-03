@@ -12,7 +12,7 @@ import UIKit
 class SessionProfileBox: UIView {
     let boundingBox: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.navBarColor
+        view.backgroundColor = Colors.newNavigationBarBackground
         view.layer.cornerRadius = 4
         return view
     }()

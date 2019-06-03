@@ -13,7 +13,7 @@ class TutorManagePoliciesVCView: UIView {
         let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = false
         scrollView.isScrollEnabled = true
-        scrollView.backgroundColor = Colors.darkBackground
+        scrollView.backgroundColor = Colors.newScreenBackground
         return scrollView
     }()
     
@@ -78,7 +78,7 @@ class TutorManagePoliciesVCView: UIView {
     }
     
     func setupMainView() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
     }
     
     func setupScrollView() {

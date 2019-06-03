@@ -34,7 +34,7 @@ class BasePastSessionCell: BaseSessionCell {
     }
 
     override func setupMainView() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
     }
 
     private func setupDarkenView() {

@@ -200,7 +200,7 @@ extension EditSchoolVC: UITableViewDelegate, UITableViewDataSource {
         cell.textLabel?.adjustsFontSizeToFitWidth = true
 
         let cellBackground = UIView()
-        cellBackground.backgroundColor = Colors.darkBackground.darker(by: 15)
+        cellBackground.backgroundColor = Colors.newScreenBackground.darker(by: 15)
         cell.selectedBackgroundView = cellBackground
 
         cell.textLabel?.text = data

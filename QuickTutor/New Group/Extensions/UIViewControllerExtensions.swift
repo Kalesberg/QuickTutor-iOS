@@ -36,7 +36,7 @@ extension UIViewController {
         let bigSquare : UIView = {
             let view = UIView()
             
-            view.backgroundColor = Colors.darkBackground
+            view.backgroundColor = Colors.newScreenBackground
             view.layer.cornerRadius = 8
             view.layer.borderWidth = 2
             

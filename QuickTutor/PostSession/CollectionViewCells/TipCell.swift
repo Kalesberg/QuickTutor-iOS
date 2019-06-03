@@ -13,7 +13,7 @@ class TipCell : BasePostSessionCell, CustomTipPresenter {
 	
 	let tipContainer : UIView = {
 		let view = UIView()
-		view.backgroundColor = Colors.navBarColor
+		view.backgroundColor = Colors.newNavigationBarBackground
 		return view
 	}()
 	

@@ -94,7 +94,7 @@ class EditProfileImagesCell: UITableViewCell {
     }()
     
     func setupViews() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
         setupCollectionView()
     }
     
@@ -349,7 +349,7 @@ class EditProfileSliderTableViewCell: BaseTableViewCell {
     let slider: BaseSlider = {
         let slider = BaseSlider()
 
-        slider.maximumTrackTintColor = Colors.registrationDark
+        slider.maximumTrackTintColor = Colors.newScreenBackground
         slider.minimumTrackTintColor = Colors.purple
         slider.isContinuous = true
 
@@ -422,7 +422,7 @@ class EditProfileHourlyRateTableViewCell: BaseTableViewCell {
 
     let textFieldContainer: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.registrationDark
+        view.backgroundColor = Colors.newScreenBackground
         view.layer.cornerRadius = 6
 
         return view

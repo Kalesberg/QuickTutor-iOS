@@ -52,7 +52,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
     let infoContainerView: UIView = {
         let view = UIView()
         view.clipsToBounds = true
-        view.backgroundColor = Colors.newBackground
+        view.backgroundColor = Colors.newScreenBackground
         view.layer.cornerRadius = 4
         view.isSkeletonable = true
         

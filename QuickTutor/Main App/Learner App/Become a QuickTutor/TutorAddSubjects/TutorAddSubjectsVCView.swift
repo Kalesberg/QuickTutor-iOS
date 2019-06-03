@@ -16,7 +16,7 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        cv.backgroundColor = Colors.darkBackground
+        cv.backgroundColor = Colors.newScreenBackground
         cv.allowsMultipleSelection = false
         cv.alwaysBounceHorizontal = true
         cv.delaysContentTouches = false

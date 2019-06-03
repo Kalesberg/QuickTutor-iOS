@@ -77,7 +77,7 @@ class SessionRequestVCView: UIView, TutorDataSource {
     }
     
     func setupMainView() {
-        backgroundColor = Colors.darkBackground
+        backgroundColor = Colors.newScreenBackground
     }
     
     func setupScrollView() {

@@ -58,7 +58,7 @@ class ProfileItem: UIView {
 		titleLabel.text = self.title
 		imageView.image = self.icon
 		translatesAutoresizingMaskIntoConstraints = false
-		backgroundColor = Colors.navBarColor
+		backgroundColor = Colors.newNavigationBarBackground
 		imageViewContainer.backgroundColor = self.color
 
 		applyConstraints()

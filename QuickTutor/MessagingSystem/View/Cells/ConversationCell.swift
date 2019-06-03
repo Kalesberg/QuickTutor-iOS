@@ -15,7 +15,7 @@ class ConversationCell: SwipeCollectionViewCell {
     
     let profileImageView: UserImageView = {
         let iv = UserImageView(frame: CGRect.zero)
-        iv.onlineStatusIndicator.backgroundColor = Colors.darkBackground
+        iv.onlineStatusIndicator.backgroundColor = Colors.newScreenBackground
         return iv
     }()
     

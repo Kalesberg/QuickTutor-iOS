@@ -49,7 +49,7 @@ class ReviewCell : BasePostSessionCell {
 	let textViewContainer : UIView = {
 		let view = UIView()
 		
-		view.backgroundColor = Colors.navBarColor
+		view.backgroundColor = Colors.newNavigationBarBackground
 		
 		return view
 	}()

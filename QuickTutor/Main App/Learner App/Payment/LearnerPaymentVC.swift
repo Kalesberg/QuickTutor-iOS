@@ -258,7 +258,7 @@ fileprivate class FrontOfCard: InteractableView, Interactable {
 
         cardNumberContainer.layer.cornerRadius = 4
         cardNumberContainer.backgroundColor = .clear
-        cardNumberContainer.layer.borderColor = Colors.registrationDark.cgColor
+        cardNumberContainer.layer.borderColor = Colors.newScreenBackground.cgColor
         cardNumberContainer.layer.borderWidth = 1
 
         cardholderNameLabel.label.textColor = UIColor(red: 149 / 255, green: 133 / 255, blue: 232 / 255, alpha: 1.0)
