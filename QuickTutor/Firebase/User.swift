@@ -584,7 +584,11 @@ class FirebaseData {
 					return completion(nil)
 				}
 				tutor.images = images
-                tutor.profilePicUrl = URL(string: images["image1"] ?? "")!
+                if tutor.images.keys.contains("image1") {
+                    tutor.profilePicUrl = URL(string: images["image1"] ?? "")!
+                } else {
+                    tutor.profilePicUrl = Constants.AVATAR_PLACEHOLDER_URL
+                }
                 group.enter()
 				self.fetchTutorLocation(uid: uid, { (location) in
 					if let location = location {

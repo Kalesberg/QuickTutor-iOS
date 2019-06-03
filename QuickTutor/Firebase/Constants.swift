@@ -27,6 +27,8 @@ public struct Constants {
     
     static var showSwipeTutorial : Bool = false
     static var showMainPageTutorial : Bool = false
+    
+    static let AVATAR_PLACEHOLDER_URL = URL(string: "https://firebasestorage.googleapis.com/v0/b/quicktutor-3c23b.appspot.com/o/avatar-placeholder.png?alt=media&token=bcc61052-0340-4d2d-a659-fbe54ecd70c1")
 }
 
 struct Colors {

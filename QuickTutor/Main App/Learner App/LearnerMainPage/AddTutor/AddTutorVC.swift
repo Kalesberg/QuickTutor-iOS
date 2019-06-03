@@ -25,7 +25,8 @@ struct UsernameQuery {
         // ewy
         guard let value = snapshot.value as? [String: Any] else { name = ""; username = ""; imageUrl = ""; return }
 
-        if let images = value["img"] as? [String: String] {
+        if let images = value["img"] as? [String: String],
+            images.keys.contains("image1") {
             imageUrl = images["image1"] ?? ""
         } else {
             imageUrl = ""

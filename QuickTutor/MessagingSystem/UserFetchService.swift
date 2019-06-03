@@ -94,7 +94,7 @@ class UserFetchService {
                     return
                 }
                 let finalDict = self.mergeUserDictionaries(value, value2)
-
+                
                 guard let tutor = self.createUserFromDictionary(finalDict, withUid: uid) else {
                     completion(nil)
                     return
@@ -113,8 +113,11 @@ class UserFetchService {
     private func createUserFromDictionary(_ dictionary: [String: Any], withUid uid: String) -> ZFTutor? {
         let tutor = ZFTutor(dictionary: dictionary)
         tutor.uid = uid
-        guard let img = dictionary["img"] as? [String: Any], let profilePicUrl = img["image1"] as? String else {
-            return nil
+        guard let img = dictionary["img"] as? [String: Any],
+            img.keys.contains("image1"),
+            let profilePicUrl = img["image1"] as? String else {
+                tutor.profilePicUrl = Constants.AVATAR_PLACEHOLDER_URL
+                return nil
         }
         tutor.profilePicUrl = URL(string: profilePicUrl)
         tutor.username = dictionary["nm"] as? String
