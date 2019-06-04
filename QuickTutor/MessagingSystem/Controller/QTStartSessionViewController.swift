@@ -71,7 +71,7 @@ class QTStartSessionViewController: QTSessionBaseViewController {
         #if targetEnvironment(simulator)
         // for sim only
         #else
-            guard checkPermissions() else { return }
+            checkPermissions()
         #endif
         }
         NotificationManager.shared.disableAllNotifications()
@@ -266,51 +266,47 @@ class QTStartSessionViewController: QTSessionBaseViewController {
         completion(true)
     }
     
-    func checkPermissions() -> Bool {
-        if checkCameraAccess() && checkMicrophoneAccess() {
-            return true
-        } else {
-            return false
+    func checkPermissions() {
+        checkCameraAccess()
+        checkMicrophoneAccess()
+    }
+    
+    func checkCameraAccess() {
+        if AVCaptureDevice.authorizationStatus(for: .video) == .authorized { return }
+        
+        AVCaptureDevice.requestAccess(for: .video) { isGranted in
+            if !isGranted {
+                guard let sessionType = self.sessionType else { return }
+                
+                let message = sessionType == .online ? "sessions" : "call"
+                let alert = UIAlertController(title: "Camera Required", message: "Camera access is required for video \(message).", preferredStyle: .alert)
+                
+                // Add "OK" Button to alert, pressing it will bring you to the settings app
+                alert.addAction(UIAlertAction(title: "Allow Access", style: .default) { _ in
+                    UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                })
+                // Show the alert with animation
+                self.present(alert, animated: true)
+            }
         }
     }
     
-    func checkCameraAccess() -> Bool {
-        if AVCaptureDevice.authorizationStatus(for: .video) == .authorized {
-            return true
-        } else {
-            guard let sessionType = sessionType else {
-                return false
-            }
-            let message = sessionType == .online ? "sessions" : "call"
-            let alert = UIAlertController(title: "Camera Required", message: "Camera access is required for video \(message).", preferredStyle: .alert)
+    func checkMicrophoneAccess() {
+        if AVCaptureDevice.authorizationStatus(for: .audio) == .authorized { return }
+        
+        AVCaptureDevice.requestAccess(for: .audio) { isGranted in
+            if isGranted { return }
             
-            // Add "OK" Button to alert, pressing it will bring you to the settings app
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
-                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
-            }))
-            // Show the alert with animation
-            present(alert, animated: true)
-            return false
-        }
-    }
-    
-    func checkMicrophoneAccess() -> Bool {
-        if AVCaptureDevice.authorizationStatus(for: .audio) == .authorized {
-            return true
-        } else {
-            guard let sessionType = sessionType else {
-                return false
-            }
+            guard let sessionType = self.sessionType else { return }
             let message = sessionType == .online ? "sessions" : "call"
             let alert = UIAlertController(title: "Microphone Required", message: "Microphone access is required for video \(message)", preferredStyle: .alert)
             
             // Add "OK" Button to alert, pressing it will bring you to the settings app
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+            alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
                 UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
-            }))
+            })
             // Show the alert with animation
-            present(alert, animated: true)
-            return false
+            self.present(alert, animated: true)
         }
     }
     
