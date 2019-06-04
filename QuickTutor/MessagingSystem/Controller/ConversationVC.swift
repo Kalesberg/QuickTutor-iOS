@@ -190,16 +190,16 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     func showAccessoryView(_ show: Bool = true) {
-        inputAccessoryView?.isHidden = !show
+        self.inputAccessoryView?.isHidden = !show
+        self.hideTabBar(hidden: !show)
         if show {
-            edgesForExtendedLayout = .top
-            extendedLayoutIncludesOpaqueBars = false
+            self.edgesForExtendedLayout = .top
+            self.extendedLayoutIncludesOpaqueBars = false
         } else {
-            edgesForExtendedLayout = .bottom
-            extendedLayoutIncludesOpaqueBars = true
+            self.edgesForExtendedLayout = .bottom
+            self.extendedLayoutIncludesOpaqueBars = true
         }
-        
-        messagesCollection.layoutIfNeeded()
+        self.view.layoutIfNeeded()
     }
 
     @objc func paginateMessages() {
@@ -234,7 +234,6 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         if #available(iOS 11.0, *) {
             navigationItem.largeTitleDisplayMode = .never
         }
-        hideTabBar(hidden: true)
     }
     
     func setupDocumentUploadManager() {
@@ -847,6 +846,8 @@ extension ConversationVC: KeyboardAccessoryViewDelegate {
 
     func sendMessage(message: UserMessage) {
         message.user = AccountService.shared.currentUser
+        AccountService.shared.currentUserType == .tutor ? teacherKeyboardAccessory.dismissKeyboard() : studentKeyboardAccessory.dismissKeyboard()
+        
         guard canSendMessages else { return }
         conversationRead = false
         if let url = message.imageUrl {

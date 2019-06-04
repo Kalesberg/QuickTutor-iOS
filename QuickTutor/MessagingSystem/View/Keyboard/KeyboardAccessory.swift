@@ -209,6 +209,10 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
         textViewCover.isHidden = false
     }
     
+    public func dismissKeyboard() {
+        messageTextview.resignFirstResponder()
+    }
+    
     private func setupObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleTextChange(_:)), name: UITextView.textDidChangeNotification, object: nil)
     }
