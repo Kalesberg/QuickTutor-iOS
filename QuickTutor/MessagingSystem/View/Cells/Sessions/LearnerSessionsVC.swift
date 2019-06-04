@@ -23,6 +23,7 @@ class LearnerSessionsVC: BaseSessionsVC {
     override func setupViews() {
         super.setupViews()
         setupRequestSessionButton()
+        setupRefreshControl()
     }
     
     func setupRequestSessionButton() {

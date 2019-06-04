@@ -30,6 +30,8 @@ class BaseSessionsVC: UIViewController {
     var addPaymentModal: AddPaymentModal?
     var cancelSessionModal: CancelSessionModal?
     var collectionViewBottomAnchor: NSLayoutConstraint?
+    var userSessionsRef: DatabaseReference?
+    var userSessionsHandle: DatabaseHandle?
     
     override func viewDidLoad() {
         setupViews()
@@ -58,6 +60,7 @@ class BaseSessionsVC: UIViewController {
         setupCollectionView()
         fetchSessions()
         listenForSessionUpdates()
+        setupRefreshControl()
     }
     
     private func setupMainView() {
@@ -74,7 +77,7 @@ class BaseSessionsVC: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         view.addSubview(collectionView)
-        collectionView.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         collectionViewBottomAnchor = collectionView.bottomAnchor.constraint(equalTo: view.getBottomAnchor(), constant: 0)
         collectionViewBottomAnchor?.isActive = true
         collectionView.register(BasePendingSessionCell.self, forCellWithReuseIdentifier: "pendingSessionCell")
@@ -85,7 +88,19 @@ class BaseSessionsVC: UIViewController {
     }
     
     func setupRefreshControl() {
-        collectionView.refreshControl = refreshControl
+        if #available(iOS 11.0, *) {
+            // Extend the view to the top of screen.
+            self.edgesForExtendedLayout = UIRectEdge.top
+            self.extendedLayoutIncludesOpaqueBars = true
+            self.navigationController?.navigationBar.isTranslucent = false
+        }
+        
+        refreshControl.tintColor = Colors.purple
+        if #available(iOS 10.0, *) {
+            collectionView.refreshControl = refreshControl
+        } else {
+            collectionView.addSubview(refreshControl)
+        }
         refreshControl.addTarget(self, action: #selector(refreshSessions), for: .valueChanged)
     }
     
@@ -94,6 +109,7 @@ class BaseSessionsVC: UIViewController {
         upcomingSessions.removeAll()
         pastSessions.removeAll()
         displayLoadingOverlay()
+        collectionView.reloadData()
         
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
@@ -110,7 +126,12 @@ class BaseSessionsVC: UIViewController {
                     return
                 }
                 
-                Database.database().reference().child("userSessions").child(uid).child(userTypeString).observe(.childAdded) { snapshot in
+                if let ref = self.userSessionsRef, let handle = self.userSessionsHandle {
+                    ref.removeObserver(withHandle: handle)
+                }
+                
+                self.userSessionsRef = Database.database().reference().child("userSessions").child(uid).child(userTypeString)
+                self.userSessionsHandle = self.userSessionsRef?.observe(.childAdded) { snapshot in
                     
                     if !snapshot.exists() {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -246,10 +267,23 @@ class BaseSessionsVC: UIViewController {
     }
     
     @objc func refreshSessions() {
+        // Start the animation of refresh control
+        refreshControl.layoutIfNeeded()
         refreshControl.beginRefreshing()
+        
         fetchSessions()
+        
+        // End the animation of refersh control
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
             self.refreshControl.endRefreshing()
+            
+            // Update the content offset of collection view for refersh control
+            var top: CGFloat = 0
+            if #available(iOS 11.0, *) {
+                top = self.collectionView.adjustedContentInset.top
+            }
+            let y = self.refreshControl.frame.minY + top
+            self.collectionView.setContentOffset(CGPoint(x: 0, y: -y), animated:true)
         })
     }
     

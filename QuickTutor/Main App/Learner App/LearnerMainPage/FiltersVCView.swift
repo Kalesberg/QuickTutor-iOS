@@ -214,7 +214,7 @@ extension FiltersVCView: UICollectionViewDelegate, UICollectionViewDataSource, U
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var width: CGFloat = 95
         let titlesArray = collectionView == ratingCollectionView ? ratingCellTitles : sessionTypeCellTitles
-        width = titlesArray[indexPath.item].estimateFrameForFontSize(14).width
+        width = titlesArray[indexPath.item].estimateFrameForFontSize(14, extendedWidth: true).width
         width += 40
         return CGSize(width: width, height: 40)
     }

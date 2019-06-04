@@ -13,6 +13,8 @@ class SavedTutorsVC: UIViewController {
     
     var datasource = [AWTutor]()
     
+    let refreshControl = UIRefreshControl()
+    
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -35,6 +37,7 @@ class SavedTutorsVC: UIViewController {
         setupNavigationBar()
         setupCollectionView()
         setupEmptyBackground()
+        setupRefreshControl()
         setupObservers()
         loadSavedTutors()
     }
@@ -58,7 +61,7 @@ class SavedTutorsVC: UIViewController {
     
     func setupCollectionView() {
         view.addSubview(collectionView)
-        collectionView.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
+        collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
         collectionView.delegate = self
         collectionView.dataSource = self
     }
@@ -73,14 +76,60 @@ class SavedTutorsVC: UIViewController {
         emptyBackground.anchor(top: collectionView.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 250)
     }
     
+    func setupRefreshControl() {
+        if #available(iOS 11.0, *) {
+            // Extend the view to the top of screen.
+            self.edgesForExtendedLayout = UIRectEdge.top
+            self.extendedLayoutIncludesOpaqueBars = true
+            self.navigationController?.navigationBar.isTranslucent = false
+        }
+        
+        refreshControl.tintColor = Colors.purple
+        if #available(iOS 10.0, *) {
+            collectionView.refreshControl = refreshControl
+        } else {
+            collectionView.addSubview(refreshControl)
+        }
+        refreshControl.addTarget(self, action: #selector(refreshTutors), for: .valueChanged)
+    }
+    
+    @objc
+    func refreshTutors() {
+        // Start the animation of refresh control
+        self.refreshControl.layoutIfNeeded()
+        self.refreshControl.beginRefreshing()
+        
+        loadSavedTutors()
+        
+        // End the animation of refersh control
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
+            self.refreshControl.endRefreshing()
+            
+            // Update the content offset of collection view for refersh control
+            var top: CGFloat = 0
+            if #available(iOS 11.0, *) {
+                top = self.collectionView.adjustedContentInset.top
+            }
+            let y = self.refreshControl.frame.minY + top
+            self.collectionView.setContentOffset(CGPoint(x: 0, y: -y), animated:true)
+        })
+    }
+    
     @objc func loadSavedTutors() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        displayLoadingOverlay()
+        
+        datasource.removeAll()
+        collectionView.reloadData()
+        
         let myGroup = DispatchGroup()
         var tutors = [AWTutor]()
         Database.database().reference().child("saved-tutors").child(uid).observeSingleEvent(of: .value) { (snapshot) in
             guard let tutorIds = snapshot.value as? [String: Any] else {
                 self.datasource = tutors
                 self.collectionView.reloadData()
+                self.dismissOverlay()
                 return
             }
             tutorIds.forEach({ uid, _ in
@@ -99,6 +148,7 @@ class SavedTutorsVC: UIViewController {
             myGroup.notify(queue: .main) {
                 self.datasource = tutors
                 self.collectionView.reloadData()
+                self.dismissOverlay()
             }
         }
     }

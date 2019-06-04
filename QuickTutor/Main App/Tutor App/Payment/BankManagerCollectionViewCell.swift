@@ -97,7 +97,7 @@ class BankManagerCollectionViewCell: SwipeCollectionViewCell {
         accountLast4.text = "•••• \(bank.last4)"
         defaultBank.isHidden = !bank.default_for_currency
         bankIcon.tintColor = bank.default_for_currency ? Colors.purple : UIColor.white
-        let anchorWidth = bank.bank_name?.estimateFrameForFontSize(14).width ?? 40
+        let anchorWidth = bank.bank_name?.estimateFrameForFontSize(14, extendedWidth: true).width ?? 40
         bankNameLabelWidthAnchor?.constant = anchorWidth + 5
         layoutIfNeeded()
     }

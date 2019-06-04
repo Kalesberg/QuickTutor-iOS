@@ -30,7 +30,6 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     var metaData: ConversationMetaData?
     var addPaymentModal: AddPaymentModal?
     
-
     var receiverId: String!
     var chatPartner: User! {
         didSet {

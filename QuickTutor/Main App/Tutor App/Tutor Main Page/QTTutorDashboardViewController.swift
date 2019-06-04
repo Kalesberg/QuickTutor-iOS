@@ -32,6 +32,8 @@ class QTTutorDashboardViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var tutorSettingsButton: UIButton!
     
+    var refreshControl = UIRefreshControl()
+    
     var durationType: QTTutorDashboardDurationType = QTTutorDashboardDurationType.month
     var tutor: AWTutor?
     var transactions = [BalanceTransaction.Data]() {
@@ -103,6 +105,15 @@ class QTTutorDashboardViewController: UIViewController {
         
         headerView.avatarImageView.isUserInteractionEnabled = true
         headerView.avatarImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTapTutorProfileImageView)))
+        
+        if #available(iOS 11.0, *) {
+            tableView.refreshControl = refreshControl
+        } else {
+            tableView.addSubview(refreshControl)
+        }
+        
+        refreshControl.tintColor = Colors.purple
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -117,10 +128,7 @@ class QTTutorDashboardViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        tutor = CurrentUser.shared.tutor
-        initUserBasicInformation()
-        getSessions()
-        getEarnings()
+        refreshData()
         
         navigationController?.setNavigationBarHidden(true, animated: false)
         
@@ -142,6 +150,13 @@ class QTTutorDashboardViewController: UIViewController {
         presentLightBox(images)
     }
     
+    @objc func refreshData() {
+        tutor = CurrentUser.shared.tutor
+        initUserBasicInformation()
+        getSessions()
+        getEarnings()
+    }
+    
     // MARK: - Functions
     func initUserBasicInformation() {
         guard let tutor = self.tutor else { return }
@@ -160,8 +175,12 @@ class QTTutorDashboardViewController: UIViewController {
     func getEarnings() {
         // Get earnings from stripe
         StripeService.retrieveBalanceTransactionList(acctId: CurrentUser.shared.tutor.acctId) { _, transactions in
-            guard let transactions = transactions else { return }
+            guard let transactions = transactions else {
+                self.refreshControl.endRefreshing()
+                return
+            }
             self.transactions = transactions.data.filter({ (transactions) -> Bool in
+                self.refreshControl.endRefreshing()
                 if transactions.amount != nil && transactions.amount! > 0 {
                     return true
                 }
@@ -171,8 +190,12 @@ class QTTutorDashboardViewController: UIViewController {
     }
     
     func getSessions() {
-        guard let tutor = self.tutor else { return }
+        guard let tutor = self.tutor else {
+            self.refreshControl.endRefreshing()
+            return
+        }
         FirebaseData.manager.fetchUserSessions(uid: tutor.uid, type: "tutor") { sessions in
+            self.refreshControl.endRefreshing()
             guard let sessions = sessions else {
                 self.filterSessionsAndHours(self.durationType)
                 return

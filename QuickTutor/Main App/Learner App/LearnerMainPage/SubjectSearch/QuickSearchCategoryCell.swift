@@ -96,7 +96,7 @@ extension QuickSearchCategoryCell: UICollectionViewDataSource, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let height: CGFloat = 35
-        let width = category?.subcategory.subcategories[indexPath.item].title.estimateFrameForFontSize(12).width ?? 0
+        let width = category?.subcategory.subcategories[indexPath.item].title.estimateFrameForFontSize(12, extendedWidth: true).width ?? 0
 //        if indexPath.item == 2 {
 //            width = 25
 //        }

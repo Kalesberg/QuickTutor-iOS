@@ -164,7 +164,7 @@ extension TutorAddSubjectsVCView: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var width: CGFloat = 60
-        width = TutorRegistrationService.shared.subjects[indexPath.item].estimateFrameForFontSize(12).width + 40
+        width = TutorRegistrationService.shared.subjects[indexPath.item].estimateFrameForFontSize(12, extendedWidth: true).width + 40
         return CGSize(width: width, height: 35)
     }
     

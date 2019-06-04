@@ -113,7 +113,7 @@ extension LearnerMainPageSearchBarContainer: UICollectionViewDataSource, UIColle
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = RecentSearchesManager.shared.searches[indexPath.item].estimateFrameForFontSize(12).width + 19
+        let width = RecentSearchesManager.shared.searches[indexPath.item].estimateFrameForFontSize(12, extendedWidth: true).width + 19
         return CGSize(width: width, height: 24)
     }
     

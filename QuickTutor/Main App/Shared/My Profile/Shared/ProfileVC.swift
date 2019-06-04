@@ -13,17 +13,19 @@ import MessageUI
 
 class ProfileVC: UIViewController {
     
+    let refreshControl = UIRefreshControl()
+    
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        cv.backgroundColor = Colors.gray
+        cv.backgroundColor = Colors.newScreenBackground
         cv.delaysContentTouches = false
         cv.allowsMultipleSelection = false
         cv.register(ProfileCVCell.self, forCellWithReuseIdentifier: "cellId")
         cv.register(ProfileVCFooterCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "footerCell")
         cv.register(ProfileVCHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerCell")
-        cv.isScrollEnabled = false
+        cv.isScrollEnabled = true
         return cv
     }()
     
@@ -41,6 +43,9 @@ class ProfileVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.backgroundColor = Colors.newScreenBackground
+        
         setupViews()
     }
     
@@ -64,6 +69,7 @@ class ProfileVC: UIViewController {
     func setupViews() {
         setupMainView()
         setupCollectionView()
+        setupRefreshControl()
     }
     
     func setupMainView() {
@@ -82,6 +88,33 @@ class ProfileVC: UIViewController {
         collectionView.dataSource = self
     }
     
+    func setupRefreshControl() {
+        refreshControl.tintColor = Colors.purple
+        if #available(iOS 10.0, *) {
+            collectionView.refreshControl = refreshControl
+        } else {
+            collectionView.addSubview(refreshControl)
+        }
+        refreshControl.addTarget(self, action: #selector(refreshProfile), for: .valueChanged)
+    }
+    
+    @objc
+    func refreshProfile() {
+        let userType = AccountService.shared.currentUserType
+        if userType == .tRegistration {
+            AccountService.shared.currentUserType = .learner
+        } else if (userType == .lRegistration ) {
+            AccountService.shared.currentUserType = .tutor
+        }
+        
+        // Update user info whenever visit the profile tap.
+        collectionView.reloadData()
+        
+        // End the animation of refersh control
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
+            self.refreshControl.endRefreshing()
+        })
+    }
 }
 
 extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {

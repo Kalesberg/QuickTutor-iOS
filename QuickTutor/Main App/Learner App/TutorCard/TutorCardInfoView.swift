@@ -131,7 +131,7 @@ extension TutorCardInfoView: UICollectionViewDelegate, UICollectionViewDataSourc
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var width: CGFloat = 60
         if let subjects = dataSource?.tutor?.subjects {
-            width = subjects[indexPath.item].estimateFrameForFontSize(14).width + 20
+            width = subjects[indexPath.item].estimateFrameForFontSize(14, extendedWidth: true).width + 20
         }
         return CGSize(width: width, height: 30)
     }

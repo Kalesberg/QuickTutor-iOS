@@ -35,11 +35,15 @@ class MessagesVC: UIViewController {
     
     private var userStatuses = [UserStatus]()
     
+    // Save the old database reference in order to avoid duplicated calls.
+    var conversationMetaDataRef: DatabaseReference?
+    var conversationMetaDataHandle: DatabaseHandle?
+    
     func setupViews() {
         setupMainView()
         setupCollectionView()
         setupEmptyBackground()
-//        setupRefreshControl()
+        setupRefreshControl()
     }
     
     private func setupMainView() {
@@ -74,15 +78,45 @@ class MessagesVC: UIViewController {
     }
     
     func setupRefreshControl() {
-        collectionView.refreshControl = refreshControl
+        
+        if #available(iOS 11.0, *) {
+            // Extend the view to the top of screen.
+            self.edgesForExtendedLayout = UIRectEdge.top
+            self.extendedLayoutIncludesOpaqueBars = true
+            self.navigationController?.navigationBar.isTranslucent = false
+        }
+        
+        refreshControl.tintColor = Colors.purple
+        if #available(iOS 10.0, *) {
+            collectionView.refreshControl = refreshControl
+        } else {
+            collectionView.addSubview(refreshControl)
+        }
         refreshControl.addTarget(self, action: #selector(refreshMessages), for: .valueChanged)
     }
     
     @objc func refreshMessages() {
-        refreshControl.beginRefreshing()
+        conversationsDictionary.removeAll()
+        self.messages.removeAll()
+        self.collectionView.reloadData()
+        
+        // Start the animation of refresh control
+        self.refreshControl.layoutIfNeeded()
+        self.refreshControl.beginRefreshing()
+        
         fetchConversations()
+        
+        // End the animation of refersh control
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
             self.refreshControl.endRefreshing()
+            
+            // Update the content offset of collection view for refersh control
+            var top: CGFloat = 0
+            if #available(iOS 11.0, *) {
+                top = self.collectionView.adjustedContentInset.top
+            }
+            let y = self.refreshControl.frame.minY + top
+            self.collectionView.setContentOffset(CGPoint(x: 0, y: -y), animated:true)
         })
     }
     
@@ -140,7 +174,13 @@ class MessagesVC: UIViewController {
                 
                 self.emptyBackround.isHidden = hasMessage
                 
-                Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).observe(.childAdded) { snapshot in
+                // Remove old database reference and handle.
+                if let ref = self.conversationMetaDataRef, let handle = self.conversationMetaDataHandle {
+                    ref.removeObserver(withHandle: handle)
+                }
+                
+                self.conversationMetaDataRef = Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString)
+                self.conversationMetaDataHandle = self.conversationMetaDataRef?.observe(.childAdded) { snapshot in
                     let userId = snapshot.key
                     Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(userId).observe(.value, with: { snapshot in
                         guard let metaData = snapshot.value as? [String: Any] else {

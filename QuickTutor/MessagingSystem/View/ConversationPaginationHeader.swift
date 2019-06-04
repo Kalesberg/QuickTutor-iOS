@@ -12,7 +12,7 @@ class ConversationPaginationHeader: UICollectionReusableView {
     
     let activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .gray)
-        indicator.color = Colors.grayText
+        indicator.color = Colors.purple
         return indicator
     }()
     

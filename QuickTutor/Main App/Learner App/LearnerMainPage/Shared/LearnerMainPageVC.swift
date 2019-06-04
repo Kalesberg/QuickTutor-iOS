@@ -14,6 +14,8 @@ var categories: [Category] = Category.categories
 
 class LearnerMainPageVC: UIViewController {
     
+    let refreshControl = UIRefreshControl()
+    
     let contentView: LearnerMainPageVCView = {
         let view = LearnerMainPageVCView()
         return view
@@ -26,6 +28,7 @@ class LearnerMainPageVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
+        setupRefreshControl()
         setupObservers()
         contentView.handleSearchesLoaded()
     }
@@ -40,7 +43,28 @@ class LearnerMainPageVC: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleSearchTap))
         contentView.searchBarContainer.searchBar.addGestureRecognizer(tap)
     }
+    
+    func setupRefreshControl() {
+        refreshControl.tintColor = Colors.purple
+        if #available(iOS 10.0, *) {
+            contentView.collectionView.refreshControl = refreshControl
+        } else {
+            contentView.collectionView.addSubview(refreshControl)
+        }
+        refreshControl.addTarget(self, action: #selector(refershData), for: .valueChanged)
+    }
 
+    @objc func refershData() {
+        contentView.collectionView.reloadData()
+        // Start the animation of refresh control
+        self.refreshControl.beginRefreshing()
+        
+        // End the animation of refersh control
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
+            self.refreshControl.endRefreshing()
+        })
+    }
+    
     @objc func handleSearchTap() {
         DispatchQueue.main.async {
             self.navigationController?.pushViewController(QuickSearchVC(), animated: false)
