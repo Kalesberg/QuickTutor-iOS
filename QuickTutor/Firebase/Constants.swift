@@ -75,6 +75,7 @@ struct Colors {
     static let grayText80 = UIColor.white.withAlphaComponent(0.5)
     static let facebookColor = UIColor(hex: "0065E1")
     static let brightRed = UIColor(hex: "FF3C38")
+    static let purpleBackground = UIColor(hex: "181827")
     
     static let newNavigationBarBackground = UIColor(hex: "15151E")
     static let newScreenBackground = UIColor(hex: "15151E")

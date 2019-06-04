@@ -170,7 +170,10 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
 
     func enterConnectionRequestMode() {
         studentKeyboardAccessory.showQuickChatView()
-        setupEmptyBackground()
+        if AccountService.shared.currentUserType == .learner {
+            setupEmptyBackground()
+        }
+        
         setActionViewUsable(false)
         headerHeight = 0
         messagesCollection.collectionViewLayout.invalidateLayout()
@@ -187,8 +190,17 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         }
     }
     
-    func showAccessoryView(_ show: Bool) {
+    func showAccessoryView(_ show: Bool = true) {
         inputAccessoryView?.isHidden = !show
+        if show {
+            edgesForExtendedLayout = .top
+            extendedLayoutIncludesOpaqueBars = false
+        } else {
+            edgesForExtendedLayout = .bottom
+            extendedLayoutIncludesOpaqueBars = true
+        }
+        
+        messagesCollection.layoutIfNeeded()
     }
 
     @objc func paginateMessages() {
@@ -223,6 +235,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         if #available(iOS 11.0, *) {
             navigationItem.largeTitleDisplayMode = .never
         }
+        hideTabBar(hidden: true)
     }
     
     func setupDocumentUploadManager() {
@@ -464,7 +477,6 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
                 return
             }
             
-            self.connectionStatus = QTConnectionStatus(rawValue: status)
             completion(status.compare("pending") == ComparisonResult.orderedSame)
         }
     }
@@ -716,10 +728,16 @@ extension ConversationVC: ConversationManagerDelegate {
     func conversationManager(_ convesationManager: ConversationManager, didUpdateConnection connected: Bool) {
         if connected {
             updateAsConnected()
+            // show accessory view if a user is tutor.
+            if AccountService.shared.currentUserType == .tutor {
+                showAccessoryView()
+            }
+            connectionStatus = .accepted
         } else {
             
             // hide accessory view if a user is tutor.
             if AccountService.shared.currentUserType == .tutor {
+                conversationManager.isFinishedPaginating = true
                 showAccessoryView(false)
                 return
             }
@@ -734,12 +752,14 @@ extension ConversationVC: ConversationManagerDelegate {
             // Check the connection request has been declined or pending.
             let connectionRequests = conversationManager.messages.filter({$0.type == .connectionRequest})
             
-            if let message = connectionRequests.first as? UserMessage, let requestId = message.connectionRequestId {
+            if let message = connectionRequests.last as? UserMessage, let requestId = message.connectionRequestId {
                 conversationManager.isFinishedPaginating = true
                 getConnectionPendingStatus(requestId) { (pending) -> (Void) in
                     if pending {
+                        self.connectionStatus = .pending
                         self.updateAsPendingConnection()
                     } else {
+                        self.connectionStatus = .declined
                         self.enterConnectionRequestMode()
                     }
                 }
