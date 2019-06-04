@@ -146,6 +146,7 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
     
     func setupMainView() {
         backgroundColor = Colors.newScreenBackground
+        layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.2, offset: CGSize.zero, radius: 4)
     }
     
     func setupMonthLabel() {
