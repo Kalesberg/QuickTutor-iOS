@@ -846,7 +846,6 @@ extension ConversationVC: KeyboardAccessoryViewDelegate {
 
     func sendMessage(message: UserMessage) {
         message.user = AccountService.shared.currentUser
-        AccountService.shared.currentUserType == .tutor ? teacherKeyboardAccessory.dismissKeyboard() : studentKeyboardAccessory.dismissKeyboard()
         
         guard canSendMessages else { return }
         conversationRead = false
