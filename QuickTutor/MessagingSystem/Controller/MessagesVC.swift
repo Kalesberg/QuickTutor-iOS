@@ -257,6 +257,7 @@ class MessagesVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        hideTabBar(hidden: false)
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
     

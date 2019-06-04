@@ -28,6 +28,7 @@ class SessionRequestCell: UserMessageCell {
         view.layer.borderColor = Colors.gray.cgColor
         view.layer.borderWidth = 1
         view.layer.cornerRadius = 4
+        view.clipsToBounds = true
         return view
     }()
 
@@ -468,7 +469,7 @@ class SessionRequestCellButtonView: UIView {
     }
 
     func setupMainView() {
-        backgroundColor = Colors.darkGray
+        backgroundColor = Colors.newScreenBackground
     }
 
     func setupRightButton() {

@@ -12,7 +12,7 @@ class EmptyConversationBackground: UIView {
     
     let helpView: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.purple.withAlphaComponent(0.1)
+        view.backgroundColor = Colors.purpleBackground
         view.layer.borderColor = Colors.purple.cgColor
         view.layer.borderWidth = 1
         view.layer.cornerRadius = 10
