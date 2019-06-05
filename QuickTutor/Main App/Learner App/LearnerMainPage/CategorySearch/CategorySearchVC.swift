@@ -84,6 +84,8 @@ class CategorySearchVC: UIViewController {
             collectionView.prepareSkeleton { _ in
                 self.view.showAnimatedSkeleton(usingColor: Colors.gray)
             }
+        } else {
+            filteredDatasource = datasource
         }
     }
     

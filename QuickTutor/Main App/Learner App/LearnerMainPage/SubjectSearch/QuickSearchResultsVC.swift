@@ -98,7 +98,11 @@ extension QuickSearchResultsVC: UICollectionViewDataSource, UICollectionViewDele
         vc.subject = subject
         AnalyticsService.shared.logSubjectTapped(subject)
         RecentSearchesManager.shared.saveSearch(term: subject)
-        vc.navigationItem.title = subject
+        if "english as second language" == subject.lowercased() {
+            vc.navigationItem.title = "ESL"
+        } else {
+            vc.navigationItem.title = subject
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
     

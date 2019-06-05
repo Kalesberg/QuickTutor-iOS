@@ -180,7 +180,7 @@ extension QuickSearchVC: QuickSearchCategoryCellDelegate {
         AnalyticsService.shared.logSubcategoryTapped(subcategory)
         vc.subcategory = subcategory
         vc.searchFilter = searchFilter
-        vc.navigationItem.title = subcategory.capitalized
+        vc.navigationItem.title = subcategory
         navigationController?.pushViewController(vc, animated: true)
         
     }
