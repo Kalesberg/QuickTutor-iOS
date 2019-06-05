@@ -24,7 +24,7 @@ class SessionRequestTutorCell: ConnectionCell {
         messageButton.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 35, height: 35)
         addConstraint(NSLayoutConstraint(item: messageButton, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
         messageButton.addTarget(self, action: #selector(removeSelectedTutor), for: .touchUpInside)
-        messageButton.setImage(UIImage(named: "deleteCellIcon"), for: .normal)
+        messageButton.setImage(UIImage(named: "ic_payment_del"), for: .normal)
     }
     
     @objc func removeSelectedTutor() {
