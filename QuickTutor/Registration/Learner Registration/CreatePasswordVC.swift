@@ -71,6 +71,7 @@ class CreatePasswordVC: BaseRegistrationController {
 
 extension CreatePasswordVC: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        contentView.errorLabel.isHidden = true
         let maxlength = 32
         guard let text = textField.text else { return true }
         let length = (text.count + string.count) - range.length
