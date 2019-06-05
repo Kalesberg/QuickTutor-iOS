@@ -51,25 +51,25 @@ class QTProfileViewControllerTests: XCTestCase {
     func testFormatDistanceOfZero() {
         let actualLabelText = profileViewController.formatDistance(0)
         
-        XCTAssertEqual(actualLabelText, "0 miles from you", "Text matches when distance is zero")
+        XCTAssertEqual(actualLabelText, "0 miles away", "Text matches when distance is zero")
     }
     
     func testFormatDistanceOfOne() {
         let actualLabelText = profileViewController.formatDistance(1)
         
-        XCTAssertEqual(actualLabelText, "1 mile from you", "Text matches when distance is one")
+        XCTAssertEqual(actualLabelText, "1 mile away", "Text matches when distance is one")
     }
     
     func testFormatDistanceOf432() {
         let actualLabelText = profileViewController.formatDistance(432)
         
-        XCTAssertEqual(actualLabelText, "432 miles from you", "Text matches when distance is 432")
+        XCTAssertEqual(actualLabelText, "432 miles away", "Text matches when distance is 432")
     }
     
     func testFormatDistanceOf432WithDecimal() {
         let actualLabelText = profileViewController.formatDistance(432.67)
         
-        XCTAssertEqual(actualLabelText, "432.7 miles from you", "Text matches when distance is 432.67")
+        XCTAssertEqual(actualLabelText, "432.7 miles away", "Text matches when distance is 432.67")
     }
     
     func testFormatDistanceOf1791() {

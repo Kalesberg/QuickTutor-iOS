@@ -12,7 +12,7 @@ class CreatePasswordVCView: BaseRegistrationView {
     
     let createPasswordTextfield: RegistrationTextField = {
         let registrationTextField = RegistrationTextField()
-        registrationTextField.placeholder.text = "PASSWORD"
+        registrationTextField.placeholder.text = "Password"
         registrationTextField.textField.isSecureTextEntry = true
         registrationTextField.textField.autocorrectionType = .no
         registrationTextField.textField.returnKeyType = .next
@@ -23,7 +23,7 @@ class CreatePasswordVCView: BaseRegistrationView {
         let label = UILabel()
         label.font = Fonts.createSize(14)
         label.textColor = Colors.registrationGray
-        label.text = "Your password must be at least 8 characters long"
+        label.text = "Your password must be at least 8 characters long."
         label.numberOfLines = 0
         return label
     }()
@@ -63,7 +63,7 @@ class CreatePasswordVCView: BaseRegistrationView {
     }
     
     override func updateTitleLabel() {
-        titleLabel.text = "Let's create a password"
+        titleLabel.text = "Let's create a password!"
         errorLabel.text = "Password is less than 8 characters"
         titleLabelHeightAnchor?.constant = 30
         layoutIfNeeded()

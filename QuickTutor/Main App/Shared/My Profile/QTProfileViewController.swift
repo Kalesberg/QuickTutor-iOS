@@ -677,7 +677,7 @@ class QTProfileViewController: UIViewController {
             dist /= 1000
             thousand = "k"
         }
-        return String(format: "%.1f\(thousand) miles from you", locale: Locale.current, dist).replacingOccurrences(of: ".0", with: "")
+        return String(format: "%.1f\(thousand) miles away", locale: Locale.current, dist).replacingOccurrences(of: ".0", with: "")
     }
     
     func updateDistanceLabel() {

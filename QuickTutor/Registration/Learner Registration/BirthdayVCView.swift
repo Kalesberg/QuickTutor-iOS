@@ -34,7 +34,7 @@ class BirthdayVCView: BaseRegistrationView {
         let label = UILabel()
         label.font = Fonts.createBoldSize(14)
         label.textColor = .white
-        label.text = "Others will not be able to see your birthday"
+        label.text = "Others will not be able to see your birthday."
         label.numberOfLines = 2
         label.adjustsFontSizeToFitWidth = true
         return label
@@ -44,7 +44,7 @@ class BirthdayVCView: BaseRegistrationView {
         let label = UILabel()
         label.font = Fonts.createSize(14)
         label.textColor = Colors.registrationGray
-        label.text = "By entering my birthday, I agree that I'm at least 18 years old."
+        label.text = "By entering your birthday, you agree that you are at least 18 years old."
         label.numberOfLines = 2
         label.adjustsFontSizeToFitWidth = true
         return label
@@ -105,7 +105,7 @@ class BirthdayVCView: BaseRegistrationView {
         datePicker.maximumDate = Calendar.current.date(byAdding: .year, value: 1, to: date)
         datePicker.minimumDate = Calendar.current.date(byAdding: .year, value: -113, to: date)
         datePicker.setDate(date, animated: true)
-        dateformatter.dateFormat = "MMMM d'\(daySuffix(date: date))' yyyy"
+        dateformatter.dateFormat = "MMMM d'\(daySuffix(date: date))', yyyy"
         let today = dateformatter.string(from: date)
         birthdayLabel.textField.text = today
     }
@@ -127,7 +127,7 @@ class BirthdayVCView: BaseRegistrationView {
     
     @objc func datePickerValueChanged(_ sender: UIDatePicker) {
         // Show new date on label when its changed.
-        dateformatter.dateFormat = "MMMM d'\(daySuffix(date: datePicker.date))' yyyy"
+        dateformatter.dateFormat = "MMMM d'\(daySuffix(date: datePicker.date))', yyyy"
         let date = dateformatter.string(from: datePicker.date)
         UIView.animate(withDuration: 0.2, animations: {
             self.birthdayLabel.textField.transform.scaledBy(x: 0.95, y: 0.95)
@@ -142,6 +142,6 @@ class BirthdayVCView: BaseRegistrationView {
     }
     
     override func updateTitleLabel() {
-        titleLabel.text = "We need your birthday"
+        titleLabel.text = "What's your birthday?"
     }
 }
