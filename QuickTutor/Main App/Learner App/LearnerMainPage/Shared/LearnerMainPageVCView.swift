@@ -85,6 +85,7 @@ class LearnerMainPageVCView: UIView {
         searchBarContainer.recentSearchesCV.reloadData()
         if RecentSearchesManager.shared.hasNoRecentSearches {
             self.searchBarContainer.hideRecentSearchesCV()
+            self.collectionView.contentInset = .zero
             self.collectionView.setContentOffset(.zero, animated: true)
         } else {
             self.collectionView.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
