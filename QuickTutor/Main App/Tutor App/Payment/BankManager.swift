@@ -107,9 +107,9 @@ class BankManagerVC: UIViewController {
                 })
             })
             
-            group.notify(queue: .main, execute: {
-                self.contentView.collectionView.reloadSections(IndexSet(arrayLiteral: 1))
-            })
+            group.notify(queue: .main) {
+                self.contentView.collectionView.reloadSections(IndexSet(integer: 1))
+            }
         }
 
     }
@@ -194,7 +194,10 @@ extension BankManagerVC: UICollectionViewDelegate, UICollectionViewDataSource, U
                 return
             }
         } else {
-            defaultBankAlert(bankId: banks[indexPath.row].id)
+            let bank = banks[indexPath.item]
+            if !bank.default_for_currency {
+                defaultBankAlert(bankId: bank.id)
+            }
         }
         collectionView.deselectItem(at: indexPath, animated: true)
         
@@ -205,16 +208,22 @@ extension BankManagerVC: UICollectionViewDelegate, UICollectionViewDataSource, U
         view.delegate = self
         
         if indexPath.section == 0 {
-            return view
+            view.titleLabel.text = "Banks"
+            view.addBankButton.isHidden = false
         } else {
             view.titleLabel.text = "Earning history"
             view.addBankButton.isHidden = true
-            return view
         }
+        
+        return view
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 50)
+        if 0 == section {
+            return banks.isEmpty ? .zero : CGSize(width: collectionView.frame.width, height: 50)
+        } else {
+            return pastSessions.isEmpty ? .zero : CGSize(width: collectionView.frame.width, height: 50)
+        }
     }
 
 }

@@ -19,7 +19,6 @@ class BankAddCardHeaderView: BaseView {
         return label
     }()
 
-
     override func configureView() {
         addSubview(addCard)
         super.configureView()
@@ -69,12 +68,19 @@ class BankManagerHeaderView: UICollectionReusableView {
     
     func setupTitleLabel() {
         addSubview(titleLabel)
-        titleLabel.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 1, paddingBottom: 0, paddingRight: 0, width: 100, height: 0)
+        titleLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.left.equalToSuperview().offset(20)
+        }
     }
     
     func setupAddBankButton() {
         addSubview(addBankButton)
-        addBankButton.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 1, width: 65, height: 0)
+        addBankButton.snp.makeConstraints { make in
+            make.right.equalToSuperview().offset(-20)
+            make.centerY.equalToSuperview()
+            make.width.equalTo(65)
+        }
         addBankButton.addTarget(self, action: #selector(handleAddBank), for: .touchUpInside)
     }
     

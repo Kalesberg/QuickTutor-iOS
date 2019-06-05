@@ -53,27 +53,27 @@ class EarningsHistoryCell: UICollectionViewCell {
     }
     
     func setupProfilePicImageView() {
-        addSubview(profilePicImageView)
-        profilePicImageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 40, height: 0)
+        contentView.addSubview(profilePicImageView)
+        profilePicImageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 40, height: 0)
     }
     
     func setupUsernameLabel() {
-        addSubview(usernameLabel)
+        contentView.addSubview(usernameLabel)
         usernameLabel.anchor(top: topAnchor, left: profilePicImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 4, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 150, height: 15)
     }
     
     func setupAmountLabel() {
-        addSubview(amountLabel)
+        contentView.addSubview(amountLabel)
         amountLabel.anchor(top: usernameLabel.bottomAnchor, left: profilePicImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 250, height: 14)
     }
     
     func setupTimeLabel() {
-        addSubview(timeLabel)
-        timeLabel.anchor(top: topAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 4, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 14)
+        contentView.addSubview(timeLabel)
+        timeLabel.anchor(top: topAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 4, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 100, height: 14)
     }
     
     func updateUI(_ session: Session) {
-        UserFetchService.shared.getStudentWithId(session.senderId) { (user) in
+        UserFetchService.shared.getStudentWithId(session.receiverId) { (user) in
             guard let user = user else { return }
             self.updateTimestampLabel(session: session)
             self.amountLabel.text = "$\(String(format: "%.2f", session.cost))"

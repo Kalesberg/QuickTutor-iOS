@@ -11,6 +11,12 @@ import SwipeCellKit
 
 class BankManagerCollectionViewCell: SwipeCollectionViewCell {
     
+    let containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        return view
+    }()
+    
     let bankIcon: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
@@ -54,6 +60,7 @@ class BankManagerCollectionViewCell: SwipeCollectionViewCell {
     
     func setupViews() {
         setupMainView()
+        setupContainerView()
         setupBankIcon()
         setupBankNameLabel()
         setupBankAccountNumberLabel()
@@ -61,35 +68,44 @@ class BankManagerCollectionViewCell: SwipeCollectionViewCell {
     }
     
     func setupMainView() {
-        contentView.backgroundColor = Colors.newScreenBackground
-        contentView.layer.borderColor = Colors.gray.cgColor
-        contentView.layer.borderWidth = 1
-        contentView.layer.cornerRadius = 4
+        containerView.backgroundColor = Colors.newScreenBackground
+        containerView.layer.borderColor = Colors.gray.cgColor
+        containerView.layer.borderWidth = 1
+        containerView.layer.cornerRadius = 4
+    }
+    
+    private func setupContainerView() {
+        contentView.addSubview(containerView)
+        containerView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.left.equalToSuperview().offset(20)
+            make.top.equalToSuperview()
+        }
     }
     
     func setupBankIcon() {
-        contentView.addSubview(bankIcon)
-        bankIcon.anchor(top: nil, left: contentView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 20, height: 20)
-        addConstraint(NSLayoutConstraint(item: bankIcon, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1, constant: 0))
+        containerView.addSubview(bankIcon)
+        bankIcon.anchor(top: nil, left: containerView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 20, height: 20)
+        addConstraint(NSLayoutConstraint(item: bankIcon, attribute: .centerY, relatedBy: .equal, toItem: containerView, attribute: .centerY, multiplier: 1, constant: 0))
     }
     
     func setupBankNameLabel() {
-        contentView.addSubview(bankName)
-        bankName.anchor(top: contentView.topAnchor, left: bankIcon.rightAnchor, bottom: contentView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        containerView.addSubview(bankName)
+        bankName.anchor(top: containerView.topAnchor, left: bankIcon.rightAnchor, bottom: containerView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         bankNameLabelWidthAnchor = bankName.widthAnchor.constraint(equalToConstant: 80)
         bankNameLabelWidthAnchor?.isActive = true
         layoutIfNeeded()
     }
     
     func setupBankAccountNumberLabel() {
-        contentView.addSubview(accountLast4)
-        accountLast4.anchor(top: contentView.topAnchor, left: bankName.rightAnchor, bottom: contentView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 60, height: 0)
+        containerView.addSubview(accountLast4)
+        accountLast4.anchor(top: containerView.topAnchor, left: bankName.rightAnchor, bottom: containerView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 60, height: 0)
     }
     
     func setupDefaultBankLabel() {
-        contentView.addSubview(defaultBank)
-        defaultBank.anchor(top: nil, left: nil, bottom: nil, right: contentView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 15, width: 70, height: 30)
-        addConstraint(NSLayoutConstraint(item: defaultBank, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1, constant: 0))
+        containerView.addSubview(defaultBank)
+        defaultBank.anchor(top: nil, left: nil, bottom: nil, right: containerView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 15, width: 70, height: 30)
+        addConstraint(NSLayoutConstraint(item: defaultBank, attribute: .centerY, relatedBy: .equal, toItem: containerView, attribute: .centerY, multiplier: 1, constant: 0))
     }
     
     func updateUI(_ bank: ExternalAccountsData) {

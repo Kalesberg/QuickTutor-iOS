@@ -64,7 +64,6 @@ class BirthdayVCView: BaseRegistrationView {
         addSubview(birthdayVisibilityLabel)
         birthdayVisibilityLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.top).offset(65)
-            make.height.equalTo(35)
             make.left.equalTo(titleLabel)
             make.right.equalToSuperview()
         }
@@ -73,7 +72,7 @@ class BirthdayVCView: BaseRegistrationView {
     func setupBirthdayLabel() {
         addSubview(birthdayLabel)
         birthdayLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(30)
+            make.top.equalTo(birthdayVisibilityLabel.snp.bottom).offset(30)
             make.left.equalTo(titleLabel)
             make.right.equalTo(titleLabel)
             make.height.equalTo(100)
