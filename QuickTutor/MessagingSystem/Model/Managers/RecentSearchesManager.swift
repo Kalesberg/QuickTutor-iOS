@@ -10,8 +10,10 @@ import Foundation
 import Firebase
 
 class RecentSearchesManager {
-    
+
     static let shared = RecentSearchesManager()
+
+    private let MAX_LIMIT = 3
     
     var searches: [String] = [] {
         didSet {
@@ -30,15 +32,30 @@ class RecentSearchesManager {
                 self.searches = []
                 return
             }
-            self.searches = searches.keys.map({$0})
+            self.searches = searches.keys.map({$0}).suffix(self.MAX_LIMIT)
         }
     }
     
     func saveSearch(term searchTerm: String) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         guard !searches.contains(searchTerm) else { return }
-        Database.database().reference().child("searches").child(uid).child(searchTerm).setValue(1)
-        searches.append(searchTerm)
+        searches.insert(searchTerm, at: 0)
+        searches = searches.suffix(MAX_LIMIT)
+        
+        var updateValue: [String: Any] = [:]
+        searches.forEach { term in
+            updateValue[term] = true
+        }
+        Database.database().reference().child("searches").child(uid).updateChildValues(updateValue)
+    }
+    
+    func removeSearch(item at: Int) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        let term = searches[at]
+        Database.database().reference().child("searches").child(uid).child(term).removeValue()
+        searches.remove(at: at)
+        searches = searches.suffix(MAX_LIMIT)
     }
     
     private init() {

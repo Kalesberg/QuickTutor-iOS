@@ -94,7 +94,25 @@ class LearnerMainPageSearchBarContainer: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
+        addGestures()
         searchBar.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 4)
+    }
+    
+    private func addGestures() {
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(onLongPressCollectionView(_:)))
+        recentSearchesCV.addGestureRecognizer(longPress)
+    }
+    
+    @objc
+    private func onLongPressCollectionView(_ gesture: UILongPressGestureRecognizer) {
+        guard let view = gesture.view as? UICollectionView else { return }
+        
+        let point = gesture.location(in: view)
+        guard let indexPath = view.indexPathForItem(at: point) else { return }
+        if .began == gesture.state {
+            RecentSearchesManager.shared.removeSearch(item: indexPath.item)
+            view.reloadData()
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
