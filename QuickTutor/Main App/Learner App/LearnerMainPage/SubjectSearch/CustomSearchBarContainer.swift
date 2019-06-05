@@ -72,6 +72,7 @@ class CustomSearchBarContainer: UIView {
         button.setTitleColor(.white, for: .normal)
         button.setTitle("Cancel", for: .normal)
         button.titleLabel?.font = Fonts.createBoldSize(16)
+        button.titleLabel?.textAlignment = .center
         button.isHidden = true
         return button
     }()
