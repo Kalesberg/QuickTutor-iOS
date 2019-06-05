@@ -378,8 +378,8 @@ extension MessagesVC: SwipeCollectionViewCellDelegate {
             self.deleteMessages(index: indexPath.item)
         }
         
-        deleteAction.image = UIImage(named: "deleteCellIcon")
-        deleteAction.highlightedImage = UIImage(named: "deleteCellIcon")?.alpha(0.2)
+        deleteAction.image = UIImage(named: "ic_payment_del")
+        deleteAction.highlightedImage = UIImage(named: "ic_payment_del")?.alpha(0.2)
         deleteAction.font = Fonts.createSize(12)
         deleteAction.backgroundColor = Colors.newScreenBackground
         deleteAction.highlightedBackgroundColor = Colors.newScreenBackground

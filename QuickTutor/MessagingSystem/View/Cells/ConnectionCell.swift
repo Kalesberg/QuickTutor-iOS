@@ -84,6 +84,15 @@ class ConnectionCell: UICollectionViewCell {
         
         return label
     }()
+    
+    let stackView: UIStackView = {
+        let stackView = UIStackView(frame: .zero)
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.spacing = 20
+        return stackView
+    }()
 
     let messageButton: DimmableButton = {
         let button = DimmableButton()
@@ -112,8 +121,7 @@ class ConnectionCell: UICollectionViewCell {
         setupProfileImageView()
         setupNameLabel()
         setupFeaturedSubject()
-        setupMessageButton()
-        setupRequestSessionButton()
+        setupStackView()
         setupSeparatorLine()
     }
     
@@ -144,11 +152,20 @@ class ConnectionCell: UICollectionViewCell {
         }
     }
     
-    func setupMessageButton() {
-        contentView.addSubview(messageButton)
-        messageButton.snp.makeConstraints { make in
+    func setupStackView() {
+        contentView.addSubview(stackView)
+        stackView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.right.equalToSuperview().offset(-20)
+            make.right.equalToSuperview().offset(-10)
+        }
+        
+        setupRequestSessionButton()
+        setupMessageButton()
+    }
+        
+    func setupMessageButton() {
+        stackView.addArrangedSubview(messageButton)
+        messageButton.snp.makeConstraints { make in
             make.width.equalTo(35)
             make.height.equalTo(35)
         }
@@ -156,10 +173,8 @@ class ConnectionCell: UICollectionViewCell {
     }
     
     func setupRequestSessionButton() {
-        contentView.addSubview(requestSessionButton)
+        stackView.addArrangedSubview(requestSessionButton)
         requestSessionButton.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.right.equalToSuperview().offset(-20)
             make.width.equalTo(35)
             make.height.equalTo(35)
         }
