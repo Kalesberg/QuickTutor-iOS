@@ -16,13 +16,12 @@ class QTPastSessionsViewController: UIViewController {
 
     // MARK: - Properties
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var animationView: LOTAnimationView!
     
     var sessionUserInfos = [SessionUserInfo]()
     var sessionDates = [String]()
     var sessionGroup = [String: [SessionUserInfo]]()
-    
-    var timer: Timer?
     
     static var controller: QTPastSessionsViewController {
         return QTPastSessionsViewController(nibName: String(describing: QTPastSessionsViewController.self), bundle: nil)
@@ -38,13 +37,6 @@ class QTPastSessionsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupNavBar()
-    }
-    
-    // MARK: - Actions
-    @objc func handleReloadTable() {
-        DispatchQueue.main.async(execute: {
-            self.tableView.reloadData()
-        })
     }
     
     // MARK: - Functions
@@ -164,6 +156,10 @@ class QTPastSessionsViewController: UIViewController {
     }
     
     fileprivate func attemptReloadOfTable() {
+        if sessionUserInfos.isEmpty {
+            emptyView.isHidden = false
+            return
+        }
         
         // Sort sessions based on startTime.
         sessionUserInfos.sort(by: {$0.startTime < $1.startTime})
@@ -184,8 +180,10 @@ class QTPastSessionsViewController: UIViewController {
             self.sessionGroup[dateString]?.append(session)
         }
         
-        timer?.invalidate()
-        timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(handleReloadTable), userInfo: nil, repeats: false)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.emptyView.isHidden = true
+            self.tableView.reloadData()
+        }
     }
 }
 
