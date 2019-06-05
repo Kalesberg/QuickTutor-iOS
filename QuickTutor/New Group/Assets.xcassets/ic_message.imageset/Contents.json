@@ -6,11 +6,12 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "ic_message.pdf",
+      "filename" : "ic_message@2x.pdf",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
+      "filename" : "ic_message@3x.pdf",
       "scale" : "3x"
     }
   ],
