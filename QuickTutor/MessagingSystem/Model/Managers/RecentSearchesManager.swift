@@ -39,7 +39,7 @@ class RecentSearchesManager {
     func saveSearch(term searchTerm: String) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         guard !searches.contains(searchTerm) else { return }
-        searches.insert(searchTerm, at: 0)
+        searches.append(searchTerm)
         searches = searches.suffix(MAX_LIMIT)
         
         var updateValue: [String: Any] = [:]
