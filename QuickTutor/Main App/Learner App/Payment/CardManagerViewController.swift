@@ -161,7 +161,7 @@ class CardManagerViewController: UIViewController {
         if let learner = CurrentUser.shared.learner, !learner.customer.isEmpty {
             StripeService.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { customer, error in
                 if let error = error {
-                    AlertController.genericErrorAlert(self, title: "Error Retrieving Cards", message: error.localizedDescription)
+                    AlertController.genericAlertWithoutCancel(self, title: "Error Retrieving Cards", message: error.localizedDescription)
                 } else if let customer = customer {
                     self.customer = customer
                 }
@@ -215,7 +215,7 @@ class CardManagerViewController: UIViewController {
                 self.showLoadingAnimation()
                 StripeService.updateDefaultSource(customer: self.customer, new: card, completion: { customer, error in
                     if let error = error {
-                        AlertController.genericErrorAlert(self, title: "Error Updating Card", message: error.localizedDescription)
+                        AlertController.genericAlertWithoutCancel(self, title: "Error Updating Card", message: error.localizedDescription)
                     } else if let customer = customer {
                         self.customer = customer
                     }
@@ -252,7 +252,7 @@ class CardManagerViewController: UIViewController {
         showLoadingAnimation()
         StripeService.detachSource(customer: customer, deleting: card) { customer, error in
             if let error = error {
-                AlertController.genericErrorAlert(self, title: "Error Deleting Card", message: error.localizedDescription)
+                AlertController.genericAlertWithoutCancel(self, title: "Error Deleting Card", message: error.localizedDescription)
             } else if let customer = customer {
                 self.cards.remove(at: indexPath.row)
                 self.tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -292,7 +292,7 @@ extension CardManagerViewController: AddCardViewControllerDelegate {
         StripeService.attachSource(cusID: CurrentUser.shared.learner.customer, with: token) { (error) in
             self.hideLoadingAnimation()
             if let error = error {
-                AlertController.genericErrorAlert(self, title: "Error Processing Card", message: error)
+                AlertController.genericAlertWithoutCancel(self, title: "Error Processing Card", message: error)
                 return
             }
             CurrentUser.shared.learner.hasPayment = true

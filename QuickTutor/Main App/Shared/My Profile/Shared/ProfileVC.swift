@@ -33,10 +33,10 @@ class ProfileVC: UIViewController {
     let cellImages = [UIImage(named: "cardIconProfile"), UIImage(named: "settingsIcon"), UIImage(named: "fileIcon"), UIImage(named: "questionMarkIcon"), UIImage(named: "feedbackIcon"), UIImage(named: "sessionsTabBarIcon")]
     
     struct Dimension {
-        let header: CGFloat = 220
+        let header: CGFloat = 208
         let cell: CGFloat = 57
         let footer: CGFloat = 70
-        let separator: CGFloat = 1
+        let separator: CGFloat = 0
     }
     
     let dimension = Dimension()
@@ -166,7 +166,7 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         let height = (collectionView.frame.height - dimension.header) / 7
-        return CGSize(width: collectionView.frame.width, height: height - 6)
+        return CGSize(width: collectionView.frame.width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
