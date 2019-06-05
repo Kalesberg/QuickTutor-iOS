@@ -108,7 +108,6 @@ class BaseSessionsVC: UIViewController {
         pendingSessions.removeAll()
         upcomingSessions.removeAll()
         pastSessions.removeAll()
-        displayLoadingOverlay()
         collectionView.reloadData()
         
         guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -122,7 +121,6 @@ class BaseSessionsVC: UIViewController {
             .child(userTypeString)
             .queryLimited(toLast: 10).observeSingleEvent(of: .value) { snapshot in
                 guard let snap = snapshot.children.allObjects as? [DataSnapshot], snap.count > 0 else {
-                    self.dismissOverlay()
                     return
                 }
                 
@@ -135,14 +133,14 @@ class BaseSessionsVC: UIViewController {
                     
                     if !snapshot.exists() {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            self.dismissOverlay()
+                            // TODO: end of loading
                         }
                     }
                     
                     DataService.shared.getSessionById(snapshot.key, completion: { session in
                         
                         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
-                            self.dismissOverlay()
+                            // TODO: end of loading
                         })
                         
                         if session.type.compare(QTSessionType.quickCalls.rawValue) == .orderedSame {

@@ -73,7 +73,7 @@ class SavedTutorsVC: UIViewController {
     private func setupEmptyBackground() {
         emptyBackground.isHidden = true
         view.addSubview(emptyBackground)
-        emptyBackground.anchor(top: collectionView.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 250)
+        emptyBackground.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 250)
     }
     
     func setupRefreshControl() {
@@ -118,8 +118,6 @@ class SavedTutorsVC: UIViewController {
     @objc func loadSavedTutors() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
-        displayLoadingOverlay()
-        
         datasource.removeAll()
         collectionView.reloadData()
         
@@ -129,7 +127,7 @@ class SavedTutorsVC: UIViewController {
             guard let tutorIds = snapshot.value as? [String: Any] else {
                 self.datasource = tutors
                 self.collectionView.reloadData()
-                self.dismissOverlay()
+                // TODO: end of loading
                 return
             }
             tutorIds.forEach({ uid, _ in
@@ -148,7 +146,7 @@ class SavedTutorsVC: UIViewController {
             myGroup.notify(queue: .main) {
                 self.datasource = tutors
                 self.collectionView.reloadData()
-                self.dismissOverlay()
+                // TODO: end of loading
             }
         }
     }

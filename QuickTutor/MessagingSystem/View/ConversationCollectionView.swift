@@ -52,8 +52,11 @@ class ConversationCollectionView: UICollectionView {
     }
     
     func updateBottomValues(_ bottom: CGFloat) {
+        // Save keyboard height.
         keyboardBottomAdjustment = bottom
-        updateContentInsetBottom(bottom)
+        
+        // Update the content inset bottom of message collectoin view.
+        updateContentInsetBottom(bottom + (isTypingIndicatorVisible ? 48 : 0))
     }
     
     func updateContentInsetBottom(_ bottom: CGFloat) {
@@ -76,15 +79,25 @@ class ConversationCollectionView: UICollectionView {
     }
     
     func layoutTypingLabelIfNeeded() {
+        print("layoutTypingLabelIfNeeded" + (isTypingIndicatorVisible ? ": true" : ": false"))
         
         // The definitive bottom of the collection view
         let bottom = contentOffset.y + bounds.size.height
         
         // Check the content size is greater than the bounds or use the bounds as the position for the y
-        let y = contentSize.height > bounds.height ? contentSize.height : bounds.height - 80
-        typingTopAnchor?.constant = y
+        var y: CGFloat = 0
         let seenIndictorPadding: CGFloat = 5
-        let bottomInset = (self.typingHeightAnchor?.constant ?? 0) + (keyboardBottomAdjustment ?? 0) + seenIndictorPadding
+        var bottomInset: CGFloat = 0
+        let typingIndicatorHeight: CGFloat = 48
+        if isTypingIndicatorVisible {
+            y = (contentSize.height > bounds.height + typingIndicatorHeight + seenIndictorPadding) ? contentSize.height : bounds.height
+            bottomInset = (self.typingHeightAnchor?.constant ?? 0) + (keyboardBottomAdjustment ?? 0) + seenIndictorPadding
+            print("show: \(contentSize.height)")
+        } else {
+            y = (contentSize.height > bounds.height) ? contentSize.height : bounds.height
+            bottomInset = keyboardBottomAdjustment ?? 0
+        }
+        typingTopAnchor?.constant = y
         self.layoutIfNeeded()
         updateContentInsetBottom(bottomInset)
         
@@ -98,12 +111,11 @@ class ConversationCollectionView: UICollectionView {
         if (isTypingIndicatorVisible) {
             return
         }
-        
         isTypingIndicatorVisible = true
         if let profilePicUrl = chatPartner?.profilePicUrl {
             typingIndicatorView.profileImageView.sd_setImage(with: profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
         }
-        typingHeightAnchor?.constant = 36.8
+        typingHeightAnchor?.constant = 48
         layoutTypingLabelIfNeeded()
     }
     

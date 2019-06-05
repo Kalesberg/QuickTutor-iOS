@@ -73,7 +73,7 @@ class MessagesVC: UIViewController {
     func setupEmptyBackground() {
         emptyBackround.isHidden = true
         view.addSubview(emptyBackround)
-        emptyBackround.anchor(top: collectionView.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 250)
+        emptyBackround.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 250)
         emptyBackround.setupForCurrentUserType()
     }
     
@@ -140,7 +140,6 @@ class MessagesVC: UIViewController {
     @objc func fetchConversations() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
-        displayLoadingOverlay()
         
         Database
             .database()
@@ -150,7 +149,7 @@ class MessagesVC: UIViewController {
             .child(userTypeString)
             .queryLimited(toLast: 100).observeSingleEvent(of: .value) { (snapshot) in
                 guard let snap = snapshot.children.allObjects as? [DataSnapshot], snap.count > 0 else {
-                    self.dismissOverlay()
+                    // TODO: end of loading
                     self.emptyBackround.isHidden = false
                     return
                 }
@@ -184,11 +183,11 @@ class MessagesVC: UIViewController {
                     let userId = snapshot.key
                     Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(userId).observe(.value, with: { snapshot in
                         guard let metaData = snapshot.value as? [String: Any] else {
-                            self.dismissOverlay()
+                            // TODO: end of loading
                             return
                         }
                         guard let messageId = metaData["lastMessageId"] as? String else {
-                            self.dismissOverlay()
+                            // TODO: end of loading
                             return
                         }
                         self.collectionView.alwaysBounceVertical = true
