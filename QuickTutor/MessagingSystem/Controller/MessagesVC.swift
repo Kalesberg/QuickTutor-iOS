@@ -209,20 +209,22 @@ class MessagesVC: UIViewController {
             let message = UserMessage(dictionary: value)
             message.uid = snapshot.key
             
-            UserFetchService.shared.getUserOfOppositeTypeWithId(message.partnerId(), completion: { (user) in
+            UserFetchService.shared.getUserOfOppositeTypeWithId(message.partnerId()) { user in
+                guard let user = user else { return }
+                
                 message.user = user
                 
                 if !self.userStatuses.isEmpty {
-                    message.user?.isOnline = self.userStatuses.first(where: { $0.userId == user?.uid })?.status == .online
+                    message.user?.isOnline = self.userStatuses.first(where: { $0.userId == user.uid })?.status == .online
                 }
                 
                 self.conversationsDictionary[message.partnerId()] = message
                 self.attemptReloadOfTable()
                 
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
                     self.dismissOverlay()
-                })
-            })
+                }
+            }
         }
     }
     
