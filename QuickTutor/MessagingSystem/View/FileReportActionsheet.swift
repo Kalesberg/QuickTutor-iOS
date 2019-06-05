@@ -104,7 +104,7 @@ class FileReportActionsheet: UIView {
     }
 
     func setupActionsheetBackground() {
-        guard let window = UIApplication.shared.windows.last else { return }
+        guard let window = UIApplication.shared.keyWindow else { return }
         window.addSubview(actionSheetBackground)
         actionSheetBackground.frame = CGRect(x: 0, y: window.frame.height - bottomLayoutMargin, width: window.frame.width, height: panelHeight)
         window.bringSubviewToFront(actionSheetBackground)
@@ -130,9 +130,9 @@ class FileReportActionsheet: UIView {
 
     func show() {
         UIViewPropertyAnimator(duration: 0.25, curve: .easeOut) {
-            self.layoutIfNeeded()
             self.actionSheetBackground.transform = CGAffineTransform(translationX: 0, y: -self.panelHeight)
             self.backgroundBlur.alpha = 1
+            self.layoutIfNeeded()
         }.startAnimation()
     }
 
