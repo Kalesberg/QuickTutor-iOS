@@ -27,7 +27,7 @@ class EmptyConversationBackground: UIView {
     
     let helpConfirmButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Ok, got it", for: .normal)
+        button.setTitle("Ok, got it!", for: .normal)
         button.setTitleColor(Colors.purple, for: .normal)
         button.titleLabel?.font = Fonts.createBoldSize(14)
         button.titleLabel?.textAlignment = .right
