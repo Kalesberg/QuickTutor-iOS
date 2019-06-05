@@ -50,60 +50,60 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_handshake" translatesAutoresizingMaskIntoConstraints="NO" id="7dS-YS-WRN">
-                                    <rect key="frame" x="30" y="75" width="19" height="19"/>
+                                    <rect key="frame" x="30" y="75" width="19" height="13"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="19" id="4v7-6r-S2a"/>
-                                        <constraint firstAttribute="height" constant="19" id="FYf-iF-JrL"/>
+                                        <constraint firstAttribute="height" constant="13" id="FYf-iF-JrL"/>
                                     </constraints>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your relationship with QuickTutor" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ymO-6b-cBg">
-                                    <rect key="frame" x="59" y="75" width="325" height="19.5"/>
+                                    <rect key="frame" x="59" y="72" width="325" height="19.5"/>
                                     <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="16"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uXI-Jl-UVC">
-                                    <rect key="frame" x="30" y="109.5" width="354" height="67.5"/>
+                                    <rect key="frame" x="30" y="106.5" width="354" height="67.5"/>
                                     <string key="text">On QuickTutor, you’re an independent tutor in full control of your business. You have the freedom to choose which opportunities you’d like to pursue, when you’d like to tutor, and how much you charge.</string>
                                     <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
                                     <color key="textColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_message_check" translatesAutoresizingMaskIntoConstraints="NO" id="BGV-Cj-DVg">
-                                    <rect key="frame" x="30" y="197" width="19" height="19"/>
+                                    <rect key="frame" x="30" y="194" width="19" height="19"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="19" id="cew-Vh-FSV"/>
                                         <constraint firstAttribute="height" constant="19" id="t3H-CC-9EB"/>
                                     </constraints>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Communication through the app" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DIz-jW-Mfn">
-                                    <rect key="frame" x="59" y="197" width="325" height="19.5"/>
+                                    <rect key="frame" x="59" y="194" width="325" height="19.5"/>
                                     <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="16"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bYW-rw-kpZ">
-                                    <rect key="frame" x="30" y="231.5" width="354" height="84"/>
+                                    <rect key="frame" x="30" y="228.5" width="354" height="84"/>
                                     <string key="text">The QT messenger allows you to communicate with your clients and schedule tutoring sessions without having to give away any personal or private information like your phone number or email. Keep your conversations in the messaging system to protect you and your privacy.</string>
                                     <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
                                     <color key="textColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_hamburger" translatesAutoresizingMaskIntoConstraints="NO" id="uDy-Oe-k2H">
-                                    <rect key="frame" x="30" y="335.5" width="19" height="19"/>
+                                    <rect key="frame" x="30" y="332.5" width="17" height="19"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="19" id="S2s-uN-4Nj"/>
-                                        <constraint firstAttribute="width" constant="19" id="xWI-Al-ZVg"/>
+                                        <constraint firstAttribute="width" constant="17" id="xWI-Al-ZVg"/>
                                     </constraints>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The ultimate biz management tool." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r77-YZ-swf">
-                                    <rect key="frame" x="59" y="335.5" width="325" height="19.5"/>
+                                    <rect key="frame" x="57" y="332.5" width="327" height="19.5"/>
                                     <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="16"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rJb-nc-aUK">
-                                    <rect key="frame" x="30" y="370" width="354" height="101"/>
+                                    <rect key="frame" x="30" y="367" width="354" height="101"/>
                                     <string key="text">With QuickTutor, you’ll be able to schedule and facilitate both in-person and online tutoring sessions through the app and receive instant payments for your tutoring services. Be sure to only tutor through the application to avoid not receiving a rating, not being paid on time, or not being paid, at all.</string>
                                     <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
                                     <color key="textColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -243,9 +243,9 @@
         </view>
     </objects>
     <resources>
-        <image name="ic_hamburger" width="22" height="22"/>
-        <image name="ic_handshake" width="22" height="16"/>
-        <image name="ic_message_check" width="22" height="22"/>
+        <image name="ic_hamburger" width="42" height="42"/>
+        <image name="ic_handshake" width="42" height="26"/>
+        <image name="ic_message_check" width="42" height="42"/>
         <image name="registration-checkbox-selected" width="23.5" height="23.5"/>
         <image name="registration-checkbox-unselected" width="23.5" height="23"/>
         <image name="rightArrow" width="14" height="24"/>
