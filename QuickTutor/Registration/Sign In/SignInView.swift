@@ -65,7 +65,7 @@ class SignInVCView: UIView {
             .underline("Privacy Policy",12, .white, id: "privacy-policy").regular(", ", 12, .white)
             .underline("Payments Terms of Service",12, .white, id: "payment-terms-of-service").regular(", ", 12, .white)
             .regular(" and ",12, .white).regular(" ", 12, .white)
-            .underline("Nondiscrimination Policy ", 12, .white, id: "nondiscrimintation-policy").regular(" ", 12, .white)
+            .underline("Non-Discrimination Policy ", 12, .white, id: "nondiscrimintation-policy").regular(" ", 12, .white)
         return textView
     }()
     
@@ -94,7 +94,13 @@ class SignInVCView: UIView {
     
     func setupLogoImageView() {
         addSubview(logoImageView)
-        logoImageView.anchor(top: getTopAnchor(), left: leftAnchor, bottom: nil, right: nil, paddingTop: 80, paddingLeft: 30, paddingBottom: 0, paddingRight: 0, width: 55, height: 55)
+        logoImageView.anchor(top: nil, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 30, paddingBottom: 0, paddingRight: 0, width: 55, height: 55)
+        let topMaxAnchor = logoImageView.topAnchor.constraint(equalTo: getTopAnchor(), constant: 80)
+        topMaxAnchor.priority = UILayoutPriority.defaultLow
+        topMaxAnchor.isActive = true
+        let topMinAnchor = logoImageView.topAnchor.constraint(greaterThanOrEqualTo: getTopAnchor(), constant: 20)
+        topMinAnchor.priority = UILayoutPriority.defaultHigh
+        topMinAnchor.isActive = true
     }
     
     func setupWelcomeLabel() {
