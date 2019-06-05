@@ -40,11 +40,6 @@ class QTPastSessionsViewController: UIViewController {
         setupNavBar()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: false)
-    }
-    
     // MARK: - Actions
     @objc func handleReloadTable() {
         DispatchQueue.main.async(execute: {
@@ -162,7 +157,7 @@ class QTPastSessionsViewController: UIViewController {
     
     func setupNavBar() {
         navigationItem.title = "Past transactions"
-        navigationController?.setNavigationBarHidden(false, animated: false)
+        navigationController?.setNavigationBarHidden(false, animated: true)
         if #available(iOS 11.0, *) {
             navigationItem.largeTitleDisplayMode = .never
         }
