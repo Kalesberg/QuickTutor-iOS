@@ -185,7 +185,7 @@ class WalkthroughCell: UICollectionViewCell {
     
     let fullImageView: UIImageView = {
         let iv = UIImageView()
-        iv.contentMode = .scaleAspectFit
+        iv.contentMode = .scaleAspectFill
         return iv
     }()
     
