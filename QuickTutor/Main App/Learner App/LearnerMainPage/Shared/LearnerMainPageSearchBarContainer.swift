@@ -12,7 +12,7 @@ class LearnerMainPageSearchBarContainer: UIView {
     
     let containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.newNavigationBarBackground
+        view.backgroundColor = Colors.newScreenBackground
         return view
     }()
     
@@ -67,7 +67,7 @@ class LearnerMainPageSearchBarContainer: UIView {
     
     func setupRecentSearchesCV() {
         addSubview(recentSearchesCV)
-        recentSearchesCV.anchor(top: containerView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        recentSearchesCV.anchor(top: containerView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 4, paddingRight: 0, width: 0, height: 0)
         recentSearchesCVHeightAnchor = recentSearchesCV.heightAnchor.constraint(equalToConstant: 30)
         recentSearchesCVHeightAnchor?.isActive = true
         layoutIfNeeded()
@@ -94,6 +94,7 @@ class LearnerMainPageSearchBarContainer: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
+        searchBar.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 4)
     }
     
     required init?(coder aDecoder: NSCoder) {

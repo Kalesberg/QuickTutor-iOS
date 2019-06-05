@@ -36,7 +36,7 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var tipCheckStackView: UIStackView!
     
     var isPayWithoutTip = false
-    var tip: Double = 0
+    var tip: Double = 5
     var costOfSession: Double = 0.0
     var didSelectTip: ((Double) ->())?
     

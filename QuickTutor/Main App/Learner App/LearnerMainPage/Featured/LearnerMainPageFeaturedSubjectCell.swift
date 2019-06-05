@@ -30,7 +30,7 @@ class LearnerMainPageFeaturedSubjectCell: UICollectionViewCell {
         view.layer.cornerRadius = 4
         view.backgroundColor = UIColor.black.withAlphaComponent(0.2)
         view.clipsToBounds = true
-                
+        
         return view
     }()
     
@@ -40,6 +40,7 @@ class LearnerMainPageFeaturedSubjectCell: UICollectionViewCell {
         label.textAlignment = .left
         label.font = Fonts.createBoldSize(14)
         label.backgroundColor = Colors.newScreenBackground
+        label.isHidden = true
         
         return label
     }()
@@ -106,6 +107,7 @@ class LearnerMainPageFeaturedSubjectCell: UICollectionViewCell {
         titleLabel.backgroundColor = .clear
         titleLabel.text = featuredSubject.title
         
+        titleLabel.isHidden = false
         tryItButton.isHidden = false
         backgroundImageView.sd_setImage(with: featuredSubject.backgroundImageUrl, completed: nil)
     }
