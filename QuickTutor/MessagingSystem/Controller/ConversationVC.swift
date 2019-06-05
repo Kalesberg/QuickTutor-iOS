@@ -360,7 +360,6 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             addDeliveredLabel()
         }) { (completed) in
             UIView.setAnimationsEnabled(true)
-//            self.messagesCollection.layoutTypingLabelIfNeeded()
         }
     }
     
@@ -396,8 +395,6 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             messagesCollection.insertItems(at: [insertionIndexPath])
         }) { (completed) in
             UIView.setAnimationsEnabled(true)
-            
-            self.messagesCollection.layoutTypingLabelIfNeeded()
         }
     }
     
@@ -502,12 +499,11 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         } else {
             var keyboardHeight = keyboardViewEndFrame.height
             if #available(iOS 11.0, *) {
-                keyboardHeight -= UIApplication.shared.delegate?.window??.safeAreaInsets.bottom ?? 0
+                keyboardHeight -= UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
             }
-            
-            let typingIndicatorHeight: CGFloat = 48
-            keyboardHeight -= typingIndicatorHeight
-            let bottom = keyboardHeight > 0 ? keyboardHeight : 0
+            let typingIndicatorHeight: CGFloat = 48 // The height of word suggestion section on the keyboard
+            var bottom = keyboardHeight - typingIndicatorHeight
+            bottom = max(bottom, 0)
             messagesCollection.updateBottomValues(bottom)
         }
         let indexPath = IndexPath(item: conversationManager.messages.count - 1, section: 0)
@@ -558,6 +554,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
 
 }
 
+// MARK: - UICollectionViewDelegateFlowLayout, UICollectionDelegate, UICollectionDataSource
 extension ConversationVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return conversationManager.messages.count
@@ -692,6 +689,7 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
     
 }
 
+// MARK: - ConversationManagerDelegate
 extension ConversationVC: ConversationManagerDelegate {
     func conversationManager(_ conversationManager: ConversationManager, didLoad messages: [BaseMessage]) {
         print("ConversationVC has: \(self.conversationManager.messages.count) messages.")
@@ -805,8 +803,7 @@ extension ConversationVC: ConversationManagerDelegate {
     }
 }
 
-// MARK: Plus button actions -
-
+// MARK: - KeyboardAccessoryViewDelegate
 extension ConversationVC: KeyboardAccessoryViewDelegate {
     func handleSendingImage() {
         studentKeyboardAccessory.hideActionView()
