@@ -78,7 +78,12 @@ class QTPastSessionsViewController: UIViewController {
                                         if let profilePicUrl = user?.profilePicUrl {
                                             sessionUserInfo.profilePicUrl = profilePicUrl
                                         }
-                                        self.sessionUserInfos.insert(sessionUserInfo, at: 0)
+                                        
+                                        // Some of cases, user name and profile picture url is nil, so app would crash.
+                                        // To prevent this, insert session user info only when there are user name and profile picture.
+                                        if sessionUserInfo.userName != nil, sessionUserInfo.profilePicUrl != nil {
+                                            self.sessionUserInfos.insert(sessionUserInfo, at: 0)
+                                        }
                                         group.leave()
                                         return
                                     })
@@ -92,7 +97,12 @@ class QTPastSessionsViewController: UIViewController {
                                         if let profilePicUrl = user?.profilePicUrl {
                                             sessionUserInfo.profilePicUrl = profilePicUrl
                                         }
-                                        self.sessionUserInfos.insert(sessionUserInfo, at: 0)
+                                        
+                                        // Some of cases, user name and profile picture url is nil, so app would crash.
+                                        // To prevent this, insert session user info only when there are user name and profile picture.
+                                        if sessionUserInfo.userName != nil, sessionUserInfo.profilePicUrl != nil {
+                                            self.sessionUserInfos.insert(sessionUserInfo, at: 0)
+                                        }
                                         group.leave()
                                         return
                                     })
