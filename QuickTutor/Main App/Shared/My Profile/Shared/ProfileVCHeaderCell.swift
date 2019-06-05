@@ -116,7 +116,7 @@ class ProfileVCHeaderCell: UICollectionReusableView {
     func setupProfileImageView() {
         addSubview(profileImageView)
         profileImageView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(20)
+            make.top.equalToSuperview().offset(8)
             make.left.equalToSuperview().offset(20)
             make.width.equalTo(90)
             make.height.equalTo(90)

@@ -13,7 +13,7 @@ class StripeService {
 	private init() {
 		print("Stripe initialized.")
 	}
-	
+    
 	typealias AWConnectedAccountErrorBlock = (Error?, ConnectAccount?) -> Void
 	typealias AWErrorValueCompletionblock = (Error?, String?) -> Void
 	typealias AWExternalAccountErrorBlock = (Error?, ExternalAccounts?) -> Void

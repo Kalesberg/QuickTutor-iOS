@@ -139,7 +139,10 @@ class QTRatingReviewViewController: UIViewController {
                 AnalyticsService.shared.logSessionPayment(cost: costOfSession, tip: tip)
                 createCharge(tutorId: tutor.uid, learnerId: CurrentUser.shared.learner.uid, cost: costInDollars(costOfSession), tip: Int(tip * 100)) { error in
                     if let error = error {
-                        AlertController.genericErrorAlertWithoutCancel(self, title: "Payment Error", message: error.localizedDescription)
+                        print(error.localizedDescription)
+                        AlertController.genericErrorAlertWithoutCancel(self,
+                                                                       title: "Payment Error",
+                                                                       message: "Your payment method was declined. Please contact your financial instituation or select a new method.")
                         self.hasPaid = false
                     } else {
                         self.hasPaid = true

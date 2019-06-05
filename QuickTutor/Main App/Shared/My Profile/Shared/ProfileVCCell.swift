@@ -29,25 +29,49 @@ class ProfileCVCell: UICollectionViewCell {
         return iv
     }()
     
+    let separator: UIView = {
+        let view = UIView()
+        view.backgroundColor = Colors.gray
+        return view
+    }()
+    
     func setupViews() {
         setupMainView()
         setupTitleLabel()
         setupIcon()
+        setupSeparator()
     }
     
-    func setupMainView() {
+    private func setupMainView() {
         backgroundColor = Colors.newScreenBackground
     }
     
-    func setupTitleLabel() {
+    private func setupTitleLabel() {
         contentView.addSubview(titleLabel)
-        titleLabel.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: contentView.bottomAnchor, right: contentView.rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 60, width: 0, height: 0)
+        titleLabel.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(20)
+            make.centerY.equalToSuperview()
+        }
     }
     
-    func setupIcon() {
+    private func setupIcon() {
         contentView.addSubview(icon)
-        icon.anchor(top: nil, left: nil, bottom: nil, right: contentView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 20, height: 20)
-        addConstraint(NSLayoutConstraint(item: icon, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1, constant: 0))
+        icon.snp.makeConstraints { make in
+            make.right.equalToSuperview().offset(-20)
+            make.width.equalTo(20)
+            make.height.equalTo(20)
+            make.centerY.equalToSuperview()
+        }
+    }
+    
+    private func setupSeparator() {
+        contentView.addSubview(separator)
+        separator.snp.makeConstraints { make in
+            make.height.equalTo(1)
+            make.leading.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview()
+        }
     }
     
     override init(frame: CGRect) {
