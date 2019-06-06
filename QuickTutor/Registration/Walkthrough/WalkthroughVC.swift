@@ -17,6 +17,7 @@ class WalkthroughVC: UIViewController {
     
     override func loadView() {
         view = contentView
+        automaticallyAdjustsScrollViewInsets = false
     }
     
 }

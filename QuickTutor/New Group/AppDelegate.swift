@@ -96,7 +96,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         return true
     }
     
-    func showOnboardingIfNeeded() {
+    func showOnboardingIfNeeded() {        
         if Auth.auth().currentUser != nil {
             return
         }
