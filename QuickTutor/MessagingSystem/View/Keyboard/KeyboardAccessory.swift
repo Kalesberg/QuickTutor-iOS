@@ -144,7 +144,7 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
     
     func setupExpandLeftViewButton() {
         leftAccessoryView.addSubview(expandLeftViewButton)
-        expandLeftViewButton.anchor(top: leftAccessoryView.topAnchor, left: nil, bottom: leftAccessoryView.bottomAnchor, right: leftAccessoryView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 30, height: 0)
+        expandLeftViewButton.anchor(top: leftAccessoryView.topAnchor, left: nil, bottom: leftAccessoryView.bottomAnchor, right: leftAccessoryView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 40, height: 40)
         expandLeftViewButton.addTarget(self, action: #selector(showLeftView), for: .touchUpInside)
     }
 

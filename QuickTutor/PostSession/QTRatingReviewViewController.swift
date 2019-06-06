@@ -30,7 +30,7 @@ class QTRatingReviewViewController: UIViewController {
     
     struct PostSessionReviewData {
         static var rating : Int!
-        static var tipAmount : Double = 0
+        static var tipAmount : Double = 5
         static var review : String? = nil
     }
     
