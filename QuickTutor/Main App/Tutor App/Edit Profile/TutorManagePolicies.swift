@@ -11,6 +11,14 @@ import Foundation
 import UIKit
 
 class EditProfilePolicyView: InteractableView {
+    
+    enum ProfilePolicyType: Int {
+        case latePolicy
+        case lateFee
+        case cancelNotice
+        case cancelFee
+    }
+    
     let infoLabel: LeftTextLabel = {
         let label = LeftTextLabel()
         label.label.font = Fonts.createBoldSize(15)
@@ -175,22 +183,35 @@ class TutorManagePolicies: UIViewController {
         guard let tutor = CurrentUser.shared.tutor, let tutorPolicy = tutor.policy else {
             return
         }
+        
+        toggleTextFieldState(textField: contentView.lateFee.textField, enabled: false)
+        toggleTextFieldState(textField: contentView.cancelFee.textField, enabled: false)
 
         let policy = tutorPolicy.split(separator: "_")
 
         if policy[0] != "0" {
             contentView.latePolicy.textField.text = "\(policy[0]) Minutes"
+            toggleTextFieldState(textField: contentView.lateFee.textField, enabled: true)
         }
         if policy[1] != "0" {
             contentView.lateFee.textField.text = "$\(policy[1]).00"
         }
         if policy[2] != "0" {
             contentView.cancelNotice.textField.text = "\(policy[2]) Hours"
+            toggleTextFieldState(textField: contentView.cancelFee.textField, enabled: true)
         }
         if policy[3] != "0" {
             contentView.cancelFee.textField.text = "$\(policy[3]).00"
         }
         return
+    }
+    
+    private func toggleTextFieldState(textField: UITextField, enabled: Bool) {
+        textField.isEnabled = enabled
+        if !enabled {
+            textField.text = ""
+        }
+        textField.alpha = enabled ? 1.0 : 0.5
     }
 
     @objc func savePolicies() {
@@ -296,7 +317,18 @@ extension TutorManagePolicies: UIPickerViewDelegate, UIPickerViewDataSource {
     }
 
     func pickerView(_: UIPickerView, didSelectRow row: Int, inComponent _: Int) {
-        selectedTextField.text = datasource[row]
+        let text = datasource[row]
+        selectedTextField.text = text
+        
+        let isTextFieldEnabled = text != "None"
+        switch selectedTextField.tag {
+        case EditProfilePolicyView.ProfilePolicyType.latePolicy.rawValue:
+            toggleTextFieldState(textField: contentView.lateFee.textField, enabled: isTextFieldEnabled)
+        case EditProfilePolicyView.ProfilePolicyType.cancelNotice.rawValue:
+            toggleTextFieldState(textField: contentView.cancelFee.textField, enabled: isTextFieldEnabled)
+        default:
+            break
+        }
     }
 }
 
