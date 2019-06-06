@@ -25,6 +25,7 @@ class QTVideoSessionViewController: QTSessionBaseViewController {
     @IBOutlet weak var bottomSheetViewBottom: NSLayoutConstraint!
     @IBOutlet weak var avatarImageView: QTCustomImageView!
     @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var subjectLabel: UILabel!
     @IBOutlet weak var durationLabel: UILabel!
     @IBOutlet weak var menuButton: UIButton!
     @IBOutlet weak var closeButton: UIButton!
@@ -125,6 +126,11 @@ class QTVideoSessionViewController: QTSessionBaseViewController {
         
         DataService.shared.getSessionById(sessionId) { session in
             AnalyticsService.shared.logSessionStart(session)
+            
+            // Set subject
+            self.subjectLabel.text = session.subject
+            
+            // Update partner information.
             self.updatePartnerInformation(session: session)
         }
         
@@ -399,7 +405,9 @@ class QTVideoSessionViewController: QTSessionBaseViewController {
                 self.pauseButton.setTitle("Resume", for: .normal)
             } else {
                 self.pauseLabel.text = "\(username) paused"
-                self.pauseButtonView.isHidden = true
+                self.pauseButtonView.isUserInteractionEnabled = false
+                self.pauseButtonView.alpha = 0.3
+                self.pauseButton.isUserInteractionEnabled = false
             }
         }
     }
@@ -445,7 +453,9 @@ class QTVideoSessionViewController: QTSessionBaseViewController {
         self.pauseBlurView.isHidden = true
         
         // Reset the pause button
-        self.pauseButtonView.isHidden = false
+        self.pauseButtonView.isUserInteractionEnabled = true
+        self.pauseButtonView.alpha = 1.0
+        self.pauseButton.isUserInteractionEnabled = true
         self.pauseImageView.image = UIImage(named: "ic_pause")
         self.pauseButton.setTitle("Pause", for: .normal)
     }
