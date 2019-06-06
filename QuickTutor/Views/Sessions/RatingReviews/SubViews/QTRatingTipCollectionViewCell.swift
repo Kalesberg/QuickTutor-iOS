@@ -207,38 +207,36 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
     }
     
     public func setProfileInfo(user: Any, subject: String?, costOfSession: Double) {
-        
         scrollView.contentSize.width = UIScreen.main.bounds.width
         scrollView.backgroundColor = UIColor.red
         
+        guard let tutor = user as? AWTutor else { return }
         
-        if let tutor = user as? AWTutor {
-            let nameSplit = tutor.name.split(separator: " ")
-            nameLabel.text = String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1) + ".")
-            avatarImageView.sd_setImage(with: storageRef.child("student-info").child(tutor.uid).child("student-profile-pic1"))
-            if let rating = tutor.tRating {
-                setProfileRating(Int(rating))
-            }
-            
-            if let reviews = tutor.reviews {
-                reviewNumberLabel.text = "\(reviews.count)"
-                reviewNumberLabel.isHidden = false
-            } else {
-                reviewNumberLabel.isHidden = true
-            }
-            if let subject = subject {
-                subjectLabel.text = subject
-            }
-            if let hourlyRate = tutor.price {
-                hourlyRateLabel.text = "$\(hourlyRate)/hr"
-                hourlyRateLabel.isHidden = false
-            } else {
-                hourlyRateLabel.isHidden = true
-            }
-            
-            self.costOfSession = costOfSession
-            priceLabel.text = costOfSession.currencyFormat(precision: 2, divider: 1)
+        let nameSplit = tutor.name.split(separator: " ")
+        nameLabel.text = String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1) + ".")
+        avatarImageView.sd_setImage(with: storageRef.child("student-info").child(tutor.uid).child("student-profile-pic1"))
+        if let rating = tutor.tRating {
+            setProfileRating(Int(rating))
         }
+        
+        if let reviews = tutor.reviews {
+            reviewNumberLabel.text = "\(reviews.count)"
+            reviewNumberLabel.isHidden = false
+        } else {
+            reviewNumberLabel.isHidden = true
+        }
+        if let subject = subject {
+            subjectLabel.text = subject
+        }
+        if let hourlyRate = tutor.price {
+            hourlyRateLabel.text = "$\(hourlyRate)/hr"
+            hourlyRateLabel.isHidden = false
+        } else {
+            hourlyRateLabel.isHidden = true
+        }
+        
+        self.costOfSession = costOfSession
+        priceLabel.text = (costOfSession + tip).currencyFormat(precision: 2, divider: 1)
     }
     
     private func setProfileRating(_ rating: Int) {
@@ -259,9 +257,7 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
             let cost = costOfSession + tip
             priceLabel.text = cost.currencyFormat(precision: 2, divider: 1)
             
-            if let didSelectTip = didSelectTip {
-                didSelectTip(tip)
-            }
+            didSelectTip?(tip)
         }
     }
 }
