@@ -126,6 +126,8 @@ class BaseSessionsVC: UIViewController {
                 
                 if let ref = self.userSessionsRef, let handle = self.userSessionsHandle {
                     ref.removeObserver(withHandle: handle)
+                    self.userSessionsRef = nil
+                    self.userSessionsHandle = nil
                 }
                 
                 self.userSessionsRef = Database.database().reference().child("userSessions").child(uid).child(userTypeString)

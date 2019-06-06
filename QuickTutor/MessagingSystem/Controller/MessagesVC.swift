@@ -176,6 +176,8 @@ class MessagesVC: UIViewController {
                 // Remove old database reference and handle.
                 if let ref = self.conversationMetaDataRef, let handle = self.conversationMetaDataHandle {
                     ref.removeObserver(withHandle: handle)
+                    self.conversationMetaDataRef = nil
+                    self.conversationMetaDataHandle = nil
                 }
                 
                 self.conversationMetaDataRef = Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString)

@@ -88,6 +88,10 @@ class QTProfileViewController: UIViewController {
     var connectionRef: DatabaseReference?
     var connectionHandle: DatabaseHandle?
     
+    // For quick call observer
+    var tutorInfoRef: DatabaseReference?
+    var tutorInfoHandle: DatabaseHandle?
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -121,14 +125,30 @@ class QTProfileViewController: UIViewController {
         
         hideTabBar(hidden: false)
         
-        if let connectionRef = connectionRef, let connectionHandle = connectionHandle {
-            connectionRef.removeObserver(withHandle: connectionHandle)
-        }
+        removeDatabaseObservers()
     }
     
     func setupObservers() {
+        // Remove old notification observers
+        NotificationCenter.default.removeObserver(self)
+        
+        // Add new notification observers
         NotificationCenter.default.addObserver(self, selector: #selector(reloadSubjects(_:)), name: Notifications.tutorDidAddSubject.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reloadSubjects(_:)), name: Notifications.tutorDidRemoveSubject.name, object: nil)
+    }
+    
+    func removeDatabaseObservers() {
+        if let connectionRef = connectionRef, let connectionHandle = connectionHandle {
+            connectionRef.removeObserver(withHandle: connectionHandle)
+            self.connectionRef = nil
+            self.connectionHandle = nil
+        }
+        
+        if let tutorInfoRef = tutorInfoRef, let tutorInfoHandle = tutorInfoHandle {
+            tutorInfoRef.removeObserver(withHandle: tutorInfoHandle)
+            self.tutorInfoRef = nil
+            self.tutorInfoHandle = nil
+        }
     }
     
     func setupLocationManager() {
@@ -580,6 +600,9 @@ class QTProfileViewController: UIViewController {
         
         switch profileViewType {
         case .tutor:
+            // Add an observer to listen quick call status of a tutor
+            setupTutorInfoObserver(tutorId: opponentId)
+            
             connectView.isHidden = false
             guard let price = user.price else { return }
             rateLabel.text = "$\(price) per hour"
@@ -812,6 +835,24 @@ class QTProfileViewController: UIViewController {
                 })
                 
             })
+    }
+    
+    func setupTutorInfoObserver(tutorId: String) {
+        tutorInfoRef = Database.database().reference().child("tutor-info").child(tutorId)
+        tutorInfoHandle = tutorInfoRef?.observe(.childChanged, with: { (snapshot) in
+            if snapshot.exists() == false {
+                return
+            }
+            
+            guard snapshot.key.compare("quick_calls") == ComparisonResult.orderedSame, let value = snapshot.value else {
+                return
+            }
+            
+            if let quickCallPrice = value as? Int {
+                // Update the quick calls price.
+                self.user.quickCallPrice = quickCallPrice
+            }
+        })
     }
 }
 
