@@ -32,7 +32,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
         let iv = UIImageView()
         iv.clipsToBounds = true
         iv.contentMode = .scaleAspectFill
-        iv.isSkeletonable = true
+        iv.isHidden = true
         
         return iv
     }()
@@ -214,6 +214,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
         priceLabel.isHidden = false
         priceLabel.text = "$\(tutor.price ?? 5)/hr"
         
+        profileImageView.isHidden = false
         profileImageView.sd_setImage(with: URL(string: tutor.profilePicUrl.absoluteString)!, completed: nil)
         
         saveButton.isHidden = false
