@@ -33,12 +33,32 @@ class SavedTutorsVC: UIViewController {
         return EmptySavedTutorsBackground()
     }()
     
+    let containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        view.layer.cornerRadius = 5
+        view.clipsToBounds = true
+        view.isHidden = true
+        
+        return view
+    }()
+    
+    let btnFindTutor: DimmableButton = {
+        let button = DimmableButton()
+        button.backgroundColor = Colors.purple
+        button.setTitle("Find tutor", for: .normal)
+        button.titleLabel?.font = Fonts.createSemiBoldSize(14)
+        
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupMainView()
         setupNavigationBar()
         setupCollectionView()
         setupEmptyBackground()
+        setupFindTutorView()
         setupRefreshControl()
         setupObservers()
         loadSavedTutors()
@@ -77,6 +97,26 @@ class SavedTutorsVC: UIViewController {
         collectionView.addSubview(emptyBackground)
         emptyBackground.anchor(top: collectionView.getTopAnchor(), left: collectionView.leftAnchor, bottom: nil, right: collectionView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         emptyBackground.widthAnchor.constraint(equalTo: collectionView.widthAnchor, multiplier: 1.0).isActive = true
+    }
+    
+    private func setupFindTutorView() {
+        view.addSubview(containerView)
+        containerView.snp.makeConstraints { make in
+            make.bottom.equalTo(view.snp.bottomMargin).offset(5)
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview()
+            make.height.equalTo(61)
+        }
+        
+        containerView.addSubview(btnFindTutor)
+        btnFindTutor.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-5)
+        }
+        
+        btnFindTutor.addTarget(self, action: #selector(onClickBtnFindTutor), for: .touchUpInside)
     }
     
     func setupRefreshControl() {
@@ -127,12 +167,7 @@ class SavedTutorsVC: UIViewController {
         let myGroup = DispatchGroup()
         var tutors = [AWTutor]()
         Database.database().reference().child("saved-tutors").child(uid).observeSingleEvent(of: .value) { (snapshot) in
-            guard let tutorIds = snapshot.value as? [String: Any] else {
-                self.datasource = tutors
-                self.collectionView.reloadData()
-                // TODO: end of loading
-                return
-            }
+            guard let tutorIds = snapshot.value as? [String: Any] else { return }
             tutorIds.forEach({ uid, _ in
                 myGroup.enter()
                 FirebaseData.manager.fetchTutor(uid, isQuery: false, { tutor in
@@ -154,6 +189,11 @@ class SavedTutorsVC: UIViewController {
         }
     }
     
+    @objc
+    private func onClickBtnFindTutor() {
+        navigationController?.pushViewController(QuickSearchVC(), animated: false)
+    }
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
@@ -161,7 +201,8 @@ class SavedTutorsVC: UIViewController {
 
 extension SavedTutorsVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
-        self.emptyBackground.isHidden = datasource.count > 0
+        self.emptyBackground.isHidden = !datasource.isEmpty
+        self.containerView.isHidden = !datasource.isEmpty
         
         return datasource.count
     }

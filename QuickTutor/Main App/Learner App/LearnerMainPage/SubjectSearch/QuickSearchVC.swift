@@ -55,7 +55,6 @@ class QuickSearchVC: UIViewController {
         hideKeyboardWhenTappedAround()
         configureDelegates()
         setupObservers()
-//        contentView.searchBar.becomeFirstResponder()
 
         if let subjects = SubjectStore.loadTotalSubjectList() {
             allSubjects = subjects
@@ -73,6 +72,11 @@ class QuickSearchVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         contentView.searchBarContainer.searchBar.becomeFirstResponder()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        hideTabBar(hidden: false)
     }
 
     private func configureDelegates() {
