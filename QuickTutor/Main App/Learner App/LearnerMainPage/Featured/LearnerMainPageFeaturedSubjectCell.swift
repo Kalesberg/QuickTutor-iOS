@@ -10,6 +10,8 @@ import UIKit
 
 class LearnerMainPageFeaturedSubjectCell: UICollectionViewCell {
     
+    var didClickBtnTryIt: (() -> Void)?
+    
     static var reuseIdentifier: String {
         return String(describing: LearnerMainPageFeaturedSubjectCell.self)
     }
@@ -45,14 +47,14 @@ class LearnerMainPageFeaturedSubjectCell: UICollectionViewCell {
         return label
     }()
     
-    let tryItButton: UIButton = {
-        let button = UIButton()
+    let tryItButton: DimmableButton = {
+        let button = DimmableButton()
         button.backgroundColor = Colors.purple
         button.setTitle("Try it", for: .normal)
         button.layer.cornerRadius = 4
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = Fonts.createBoldSize(12)
-        button.isUserInteractionEnabled = false
+        button.isUserInteractionEnabled = true
         button.isHidden = true
         
         return button
@@ -101,6 +103,12 @@ class LearnerMainPageFeaturedSubjectCell: UICollectionViewCell {
             make.width.equalTo(60)
             make.height.equalTo(30)
         }
+        
+        tryItButton.addTarget(self, action: #selector(onClickBtnTryIt), for: .touchUpInside)
+    }
+    
+    @objc private func onClickBtnTryIt() {
+        didClickBtnTryIt?()
     }
     
     func updateUI(_ featuredSubject: MainPageFeaturedItem) {

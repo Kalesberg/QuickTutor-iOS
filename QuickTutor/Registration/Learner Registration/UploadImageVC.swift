@@ -64,7 +64,7 @@ class UploadImageVC: BaseRegistrationController {
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             profilePicker.sourceType = .photoLibrary
             profilePicker.allowsEditing = false
-            self.present(profilePicker, animated: true, completion: nil)
+            present(profilePicker, animated: true, completion: nil)
         } else {
             AlertController.genericErrorAlert(self, title: "Oops", message: "Photo Library is not available")
         }
@@ -72,10 +72,10 @@ class UploadImageVC: BaseRegistrationController {
     
     private func takePhoto() {
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            profilePicker.sourceType = UIImagePickerController.SourceType.camera
-            profilePicker.cameraCaptureMode =  UIImagePickerController.CameraCaptureMode.photo
+            profilePicker.sourceType = .camera
+            profilePicker.cameraCaptureMode = .photo
             profilePicker.modalPresentationStyle = .custom
-            self.present(profilePicker,animated: true, completion: nil)
+            present(profilePicker, animated: true, completion: nil)
         } else {
             AlertController.genericErrorAlert(self, title: "Oops", message: "Camera is not available at this time.")
         }

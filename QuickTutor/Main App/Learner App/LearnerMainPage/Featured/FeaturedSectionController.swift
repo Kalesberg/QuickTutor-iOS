@@ -72,6 +72,9 @@ extension FeaturedSectionController: SkeletonCollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LearnerMainPageFeaturedSubjectCell.reuseIdentifier, for: indexPath) as! LearnerMainPageFeaturedSubjectCell
         cell.updateUI(featuredItems[indexPath.item])
+        cell.didClickBtnTryIt = {
+            self.collectionView(collectionView, didSelectItemAt: indexPath)
+        }
         return cell
     }
     
