@@ -9,104 +9,42 @@ import FirebaseAuth
 import Foundation
 import UIKit
 
-class EditSchoolView: UIView {
-    
-    let tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 44
-        tableView.separatorStyle = .singleLine
-        tableView.separatorColor = .black
-        tableView.showsVerticalScrollIndicator = false
-        tableView.tableFooterView = UIView()
-        tableView.backgroundColor = Colors.newScreenBackground
-        return tableView
-    }()
-
-    let searchTextField: SearchTextField = {
-        let textField = SearchTextField()
-        textField.placeholder.text = "Search Schools"
-        textField.textField.font = Fonts.createSize(16)
-        textField.textField.tintColor = (AccountService.shared.currentUserType == .learner) ? Colors.purple : Colors.purple
-        textField.textField.autocapitalizationType = .words
-        return textField
-    }()
-    
-    func setupViews() {
-        setupMainView()
-        setupSearchField()
-        setupTableView()
-    }
-    
-    func setupMainView() {
-        backgroundColor = Colors.newScreenBackground
-    }
-    
-    func setupSearchField() {
-        addSubview(searchTextField)
-        searchTextField.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(15)
-            make.width.equalToSuperview().multipliedBy(0.9)
-            make.height.equalTo(80)
-            make.centerX.equalToSuperview()
-        }
-    }
-    
-    func setupTableView() {
-        addSubview(tableView)
-        tableView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.width.equalToSuperview()
-            if #available(iOS 11.0, *) {
-                make.bottom.equalTo(safeAreaLayoutGuide)
-            } else {
-                make.bottom.equalToSuperview()
-            }
-            make.centerX.equalToSuperview()
-        }
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupViews()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
 class EditSchoolVC: UIViewController {
     
-    let contentView: EditSchoolView = {
-        let view = EditSchoolView()
-        return view
-    }()
+    @IBOutlet weak var searchView: UIView!
+    @IBOutlet weak var searchTextField: UITextField!
+    @IBOutlet weak var closeButton: UIButton!
+    @IBOutlet weak var tableView: UITableView!
+    
+    var school: String?
+    
+    var searchSource: [String]?
+    
+    static var controller: EditSchoolVC {
+        return EditSchoolVC(nibName: String(describing: EditSchoolVC.self), bundle: nil)
+    }
 
     var schoolArray: [String] = [] {
         didSet {
-            contentView.tableView.reloadData()
+            tableView.reloadData()
         }
     }
 
     var filteredSchools: [String] = [] {
         didSet {
-            contentView.tableView.reloadData()
+            tableView.reloadData()
         }
     }
 
     var automaticScroll: Bool = false
-    var searchController = UISearchController(searchResultsController: nil)
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupSearchController()
-        hideKeyboardWhenTappedAround()
-        configureDelegates()
+        setupNavBar()
         loadListOfSchools()
-        navigationItem.title = "Edit School"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"newCheck"), style: .plain, target: self, action: #selector(displaySavedAlertController))
-        navigationController?.setNavigationBarHidden(false, animated: true)
+        
+        setupViews()
+        hideKeyboardWhenTappedAround()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -116,25 +54,39 @@ class EditSchoolVC: UIViewController {
         hideTabBar(hidden: true)
     }
     
-    func setupSearchController() {
-        if #available(iOS 11.0, *) {
-            navigationItem.searchController = searchController
-            searchController.definesPresentationContext = true
-            searchController.dimsBackgroundDuringPresentation = false
-            searchController.searchBar.tintColor = .white
-            searchController.searchBar.placeholder = "Search schools"
-            searchController.searchResultsUpdater = self
-        }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        searchTextField.becomeFirstResponder()
     }
     
-    override func loadView() {
-        view = contentView
+    func setupNavBar() {
+        navigationItem.title = "Edit School"
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
-
-    private func configureDelegates() {
-        contentView.tableView.delegate = self
-        contentView.tableView.dataSource = self
-        contentView.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "idCell")
+    
+    func setupViews() {
+        searchView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.1, offset: CGSize(width: 0, height: 1), radius: 5.0)
+        setupSearchField()
+        setupTableView()
+        closeButton.isHidden = school?.isEmpty ?? true
+    }
+    
+    func setupSearchField() {
+        searchTextField.addTarget(self, action: #selector(handleSearchTextFieldChange(_:)), for: .editingChanged)
+        searchTextField.attributedPlaceholder = NSAttributedString(string: "Search for a school", attributes: [.foregroundColor : Colors.grayText80])
+        searchTextField.text = school
+    }
+    
+    func setupTableView() {
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "idCell")
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 54
+        tableView.separatorColor = UIColor.clear
+    }
+    
+    @IBAction func onCloseButtonClicked(_ sender: Any) {
+        searchTextField.text = ""
+        closeButton.isHidden = true
     }
 
     @objc func displaySavedAlertController() {
@@ -149,11 +101,24 @@ class EditSchoolVC: UIViewController {
             }
         }
     }
+    
+    @objc
+    func handleSearchTextFieldChange(_ textField: UITextField) {
+        guard let searchText = textField.text, !searchText.isEmpty else {
+            closeButton.isHidden = true
+            tableView.reloadData()
+            return
+        }
+        
+        filterContentForSearchText(searchText)
+        
+        closeButton.isHidden = false
+    }
 
     private func scrollToTop() {
-        contentView.tableView.reloadData()
+        tableView.reloadData()
         let indexPath = IndexPath(row: 0, section: 0)
-        contentView.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+        tableView.scrollToRow(at: indexPath, at: .top, animated: true)
         automaticScroll = false
     }
 
@@ -163,6 +128,8 @@ class EditSchoolVC: UIViewController {
             do {
                 let school = try String(contentsOfFile: path, encoding: String.Encoding.utf8)
                 schoolArray = school.components(separatedBy: "\n") as [String]
+                schoolArray.removeLast() // There's a new line at the EOF which is causing an empty row.
+                schoolArray.sort()
                 schoolArray.insert("No School", at: 0)
             } catch {
                 schoolArray = []
@@ -171,11 +138,11 @@ class EditSchoolVC: UIViewController {
     }
     
     private func isFiltering() -> Bool {
-        return searchController.isActive && !isSearchBarEmpty()
+        return !isSearchTextFieldEmpty()
     }
     
-    private func isSearchBarEmpty() -> Bool {
-        return searchController.searchBar.text?.isEmpty ?? true
+    private func isSearchTextFieldEmpty() -> Bool {
+        return searchTextField.text?.isEmpty ?? true
     }
     
     private func filterContentForSearchText(_ searchText: String, scope: String = "All") {
@@ -186,6 +153,10 @@ class EditSchoolVC: UIViewController {
 }
 
 extension EditSchoolVC: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return tableView.estimatedRowHeight
+    }
+    
     func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         return isFiltering() ? filteredSchools.count : schoolArray.count
     }
@@ -194,14 +165,16 @@ extension EditSchoolVC: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "idCell", for: indexPath)
         let data = isFiltering() ? filteredSchools[indexPath.row] : schoolArray[indexPath.row]
 
-        cell.backgroundColor = Colors.newScreenBackground
+        cell.backgroundColor = Colors.darkGray
         cell.textLabel?.textColor = UIColor.white
         cell.textLabel?.font = Fonts.createSize(16)
         cell.textLabel?.adjustsFontSizeToFitWidth = true
+        cell.textLabel?.numberOfLines = 0
 
         let cellBackground = UIView()
-        cellBackground.backgroundColor = Colors.newScreenBackground.darker(by: 15)
+        cellBackground.backgroundColor = Colors.darkGray.darker(by: 5)
         cell.selectedBackgroundView = cellBackground
+
 
         cell.textLabel?.text = data
         return cell
@@ -274,12 +247,5 @@ extension EditSchoolVC: UIScrollViewDelegate {
         if !automaticScroll {
             view.endEditing(true)
         }
-    }
-}
-
-extension EditSchoolVC: UISearchResultsUpdating {
-    
-    func updateSearchResults(for searchController: UISearchController) {
-        filterContentForSearchText(searchController.searchBar.text ?? "")
     }
 }

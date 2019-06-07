@@ -876,6 +876,8 @@
 		93F61E4A2277DA1E00298B77 /* TutorSSNViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93F61E472277DA1E00298B77 /* TutorSSNViewController.xib */; };
 		93F61E4B2277DA1E00298B77 /* TutorSSNViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93F61E472277DA1E00298B77 /* TutorSSNViewController.xib */; };
 		94BF1263BC9410C22FBDB70E /* Pods_QuickTutorApp_QuickTutor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE3A0BE96E29B6E4E34ED372 /* Pods_QuickTutorApp_QuickTutor.framework */; };
+		BE17EA1F22A9D9B50044E934 /* EditSchoolVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE17EA1E22A9D9B50044E934 /* EditSchoolVC.xib */; };
+		BE17EA2022A9D9B50044E934 /* EditSchoolVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE17EA1E22A9D9B50044E934 /* EditSchoolVC.xib */; };
 		BE81721F229C724A0089FA1E /* quickcalls_ringtone.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BE81721D229C724A0089FA1E /* quickcalls_ringtone.mp3 */; };
 		BE817220229C724A0089FA1E /* quickcalls_ringtone.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BE81721D229C724A0089FA1E /* quickcalls_ringtone.mp3 */; };
 		BE817221229C724A0089FA1E /* session_ringtone.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BE81721E229C724A0089FA1E /* session_ringtone.mp3 */; };
@@ -1595,6 +1597,7 @@
 		A43925E0A8D492CE5261DB4F /* Pods_QuickTutorTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QuickTutorTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A996DC02704EE74211A539D2 /* libPods-QuickTutorApp-QuickTutorUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-QuickTutorApp-QuickTutorUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9E02814594A24BE61860D83 /* Pods-QuickTutorApp-QuickTutorDev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorApp-QuickTutorDev.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev.debug.xcconfig"; sourceTree = "<group>"; };
+		BE17EA1E22A9D9B50044E934 /* EditSchoolVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditSchoolVC.xib; sourceTree = "<group>"; };
 		BE3A0BE96E29B6E4E34ED372 /* Pods_QuickTutorApp_QuickTutor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QuickTutorApp_QuickTutor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE81721D229C724A0089FA1E /* quickcalls_ringtone.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = quickcalls_ringtone.mp3; sourceTree = "<group>"; };
 		BE81721E229C724A0089FA1E /* session_ringtone.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = session_ringtone.mp3; sourceTree = "<group>"; };
@@ -2587,6 +2590,7 @@
 				843A1D182047C5BF00299D27 /* EditSchoolVC.swift */,
 				8423F73E214B60E900B3E4D0 /* languages.txt */,
 				84681F9F204B63DC00F45DFC /* schools.txt */,
+				BE17EA1E22A9D9B50044E934 /* EditSchoolVC.xib */,
 			);
 			path = "Edit Profile";
 			sourceTree = "<group>";
@@ -3867,6 +3871,7 @@
 				569F18DE223554FD00820A20 /* lifestyle.json in Resources */,
 				564DD5C12285C53F00912E36 /* QTRequestQuickCallViewController.xib in Resources */,
 				569F18DF223554FD00820A20 /* qtNotificationPop.aiff in Resources */,
+				BE17EA2022A9D9B50044E934 /* EditSchoolVC.xib in Resources */,
 				569F18E0223554FD00820A20 /* QTRatingReceiptCollectionViewCell.xib in Resources */,
 				569F18E1223554FD00820A20 /* QTRatingTipCollectionViewCell.xib in Resources */,
 				569F18E2223554FD00820A20 /* Lato-Regular.ttf in Resources */,
@@ -3974,6 +3979,7 @@
 				8425766C20712D9E00FD295B /* lifestyle.json in Resources */,
 				564DD5C02285C53F00912E36 /* QTRequestQuickCallViewController.xib in Resources */,
 				CFE18FA321196790000816C4 /* qtNotificationPop.aiff in Resources */,
+				BE17EA1F22A9D9B50044E934 /* EditSchoolVC.xib in Resources */,
 				568B82E3222540DF004DF011 /* QTRatingReceiptCollectionViewCell.xib in Resources */,
 				568B82DF222540CD004DF011 /* QTRatingTipCollectionViewCell.xib in Resources */,
 				56DC6DA5220BD7DF00935F47 /* Lato-Regular.ttf in Resources */,
