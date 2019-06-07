@@ -85,7 +85,6 @@ class StarView: UIView {
     }
     
     func setRating(_ rating: Int) {
-        print("Rating is", rating)
         stars.forEach({ $0.image = UIImage(named: "ic_star_sm_empty") })
         for x in 0..<rating {
             stars[x].image = UIImage(named: "ic_star_sm_filled")
