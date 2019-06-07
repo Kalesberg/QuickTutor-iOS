@@ -23,6 +23,8 @@ class SavedTutorsVC: UIViewController {
         cv.allowsMultipleSelection = false
         cv.alwaysBounceVertical = true
         cv.showsVerticalScrollIndicator = false
+        cv.alwaysBounceHorizontal = false
+        cv.showsHorizontalScrollIndicator = false
         cv.register(TutorCollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
         return cv
     }()
@@ -72,8 +74,9 @@ class SavedTutorsVC: UIViewController {
     
     private func setupEmptyBackground() {
         emptyBackground.isHidden = true
-        view.addSubview(emptyBackground)
-        emptyBackground.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 250)
+        collectionView.addSubview(emptyBackground)
+        emptyBackground.anchor(top: collectionView.getTopAnchor(), left: collectionView.leftAnchor, bottom: nil, right: collectionView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        emptyBackground.widthAnchor.constraint(equalTo: collectionView.widthAnchor, multiplier: 1.0).isActive = true
     }
     
     func setupRefreshControl() {
