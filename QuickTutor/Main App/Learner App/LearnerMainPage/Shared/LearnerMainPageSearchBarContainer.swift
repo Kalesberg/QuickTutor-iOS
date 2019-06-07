@@ -10,6 +10,8 @@ import UIKit
 
 class LearnerMainPageSearchBarContainer: UIView {
     
+    var parentVC: UIViewController?
+    
     let containerView: UIView = {
         let view = UIView()
         view.backgroundColor = Colors.newScreenBackground
@@ -56,7 +58,6 @@ class LearnerMainPageSearchBarContainer: UIView {
     func setupContainerView() {
         addSubview(containerView)
         containerView.anchor(top: getTopAnchor(), left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 57)
-        containerView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.2, offset: CGSize(width: 0, height: 10), radius: 10)
     }
     
     func setupSearchBar() {
@@ -78,17 +79,21 @@ class LearnerMainPageSearchBarContainer: UIView {
     func hideRecentSearchesCV() {
         if 0 == recentSearchesCV.alpha { return }
         
-        UIView.animate(withDuration: 0.25) {
+        UIView.animate(withDuration: 0.25, animations: {
             self.recentSearchesCV.alpha = 0
-        }
+        }, completion: { _ in
+            self.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.2, offset: CGSize(width: 0, height: 3), radius: 4)
+        })
     }
     
     func showRecentSearchesCV() {
         if 1 == recentSearchesCV.alpha { return }
         
-        UIView.animate(withDuration: 0.25) {
+        UIView.animate(withDuration: 0.25, animations: {
             self.recentSearchesCV.alpha = 1
-        }
+        }, completion: { _ in
+            self.layer.applyShadow(color: UIColor.clear.cgColor, opacity: 1, offset: CGSize(width: 0, height: 3), radius: 4)
+        })
     }
     
     override init(frame: CGRect) {
@@ -110,8 +115,13 @@ class LearnerMainPageSearchBarContainer: UIView {
         let point = gesture.location(in: view)
         guard let indexPath = view.indexPathForItem(at: point) else { return }
         if .began == gesture.state {
-            RecentSearchesManager.shared.removeSearch(item: indexPath.item)
-            view.reloadData()
+            let sheet = UIAlertController(title: "Remove recent search?", message: nil, preferredStyle: .actionSheet)
+            sheet.addAction(UIAlertAction(title: "Remove", style: .destructive) { _ in
+                RecentSearchesManager.shared.removeSearch(item: indexPath.item)
+                view.reloadData()
+            })
+            sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            parentVC?.present(sheet, animated: true, completion: nil)
         }
     }
     

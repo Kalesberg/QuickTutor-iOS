@@ -42,6 +42,7 @@ class LearnerMainPageVC: UIViewController {
     private func configureView() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleSearchTap))
         contentView.searchBarContainer.searchBar.addGestureRecognizer(tap)
+        contentView.searchBarContainer.parentVC = self
     }
     
     func setupRefreshControl() {

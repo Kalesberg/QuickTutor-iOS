@@ -30,6 +30,7 @@ class LearnerMainPageVCView: UIView {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         collectionView.showsVerticalScrollIndicator = false
+        collectionView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         collectionView.register(LearnerMainPageFeaturedSectionContainerCell.self, forCellWithReuseIdentifier: "featuredCell")
         collectionView.register(LearnerMainPageTopTutorsSectionContainerCell.self, forCellWithReuseIdentifier: "topTutors")
         collectionView.register(LearnerMainPageCategorySectionContainerCell.self, forCellWithReuseIdentifier: "categoryCell")
@@ -84,12 +85,13 @@ class LearnerMainPageVCView: UIView {
     @objc func handleSearchesLoaded() {
         searchBarContainer.recentSearchesCV.reloadData()
         if RecentSearchesManager.shared.hasNoRecentSearches {
-            self.searchBarContainer.hideRecentSearchesCV()
-            self.collectionView.contentInset = .zero
-            self.collectionView.setContentOffset(.zero, animated: true)
+            searchBarContainer.hideRecentSearchesCV()
+            collectionView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
+            collectionView.setContentOffset(.zero, animated: true)
         } else {
-            self.collectionView.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
-            self.collectionView.setContentOffset(CGPoint(x: 0, y: -50), animated: true)
+            searchBarContainer.showRecentSearchesCV()
+            collectionView.contentInset = UIEdgeInsets(top: 60, left: 0, bottom: 0, right: 0)
+            collectionView.setContentOffset(CGPoint(x: 0, y: -50), animated: true)
         }
     }
     

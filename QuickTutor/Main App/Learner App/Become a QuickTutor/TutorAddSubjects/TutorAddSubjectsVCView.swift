@@ -145,7 +145,7 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
         ac.addAction(UIAlertAction(title: "Remove", style: .destructive) { (action) in
             TutorRegistrationService.shared.removeSubject(subject)
         })
-        ac.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         parentContainerViewController?.present(ac, animated: true, completion: nil)
     }
 }
