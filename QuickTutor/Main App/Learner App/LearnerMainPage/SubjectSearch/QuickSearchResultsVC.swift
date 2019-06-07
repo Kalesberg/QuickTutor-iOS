@@ -296,14 +296,19 @@ class TutorAddSubjectsResultsVC: UIViewController {
         setupObserers()
         loadSubjects()
         setupDelegates()
-        hideTabBar(hidden: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        hideTabBar(hidden: true)
         guard !isBeingControlled else { return }
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "newCheck"), style: .plain, target: self, action: #selector(onBack))
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        hideTabBar(hidden: false)
     }
     
     @objc func onBack() {

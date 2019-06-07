@@ -141,6 +141,7 @@ class ChangeEmailVC: UIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        hideTabBar(hidden: false)
         contentView.textField.resignFirstResponder()
     }
     

@@ -83,6 +83,11 @@ class EditLanguageVC: UIViewController {
         
         hideTabBar(hidden: true)
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        hideTabBar(hidden: false)
+    }
 
     private func configureDelegates() {
         contentView.tableView.delegate = self

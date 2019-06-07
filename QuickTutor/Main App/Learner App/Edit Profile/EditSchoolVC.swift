@@ -54,6 +54,11 @@ class EditSchoolVC: UIViewController {
         hideTabBar(hidden: true)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        hideTabBar(hidden: false)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         searchTextField.becomeFirstResponder()

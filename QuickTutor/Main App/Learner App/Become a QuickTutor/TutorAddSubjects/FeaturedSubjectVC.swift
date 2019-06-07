@@ -38,6 +38,11 @@ class FeaturedSubjectVC: BaseRegistrationController {
         hideTabBar(hidden: true)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        hideTabBar(hidden: false)
+    }
+    
     override func setupNavBar() {
         super.setupNavBar()
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"newCheck"), style: .plain, target: self, action: #selector(saveChanges))

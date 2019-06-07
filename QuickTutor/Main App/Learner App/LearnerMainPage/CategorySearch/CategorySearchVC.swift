@@ -100,6 +100,7 @@ class CategorySearchVC: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        hideTabBar(hidden: false)
         locationManager.stopUpdatingLocation()
     }
     

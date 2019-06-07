@@ -47,6 +47,7 @@ class TutorPreferencesVC: BaseRegistrationController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        hideTabBar(hidden: false)
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
 

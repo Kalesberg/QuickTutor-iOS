@@ -135,6 +135,11 @@ class QTTutorDashboardViewController: UIViewController {
         // Show the tab bar.
         hideTabBar(hidden: false)
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        hideTabBar(hidden: false)
+    }
 
     // MARK: - Actions
     @IBAction func onClickTutorSettingsButton(_ sender: Any) {

@@ -43,6 +43,11 @@ class EditBirthdateVC: BaseViewController {
         hideTabBar(hidden: true)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        hideTabBar(hidden: false)
+    }
+    
 	private func showErrorMessage() {
 		contentView.errorLabel.isHidden = false
 		contentView.errorLabel.shake()

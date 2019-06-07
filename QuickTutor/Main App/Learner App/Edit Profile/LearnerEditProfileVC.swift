@@ -314,6 +314,7 @@ class LearnerEditProfileVC: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         saveTempBio()
+        hideTabBar(hidden: false)
         delegate?.didUpdateLearnerProfile(learner: CurrentUser.shared.learner)
     }
     
@@ -480,11 +481,13 @@ class LearnerEditProfileVC: UIViewController {
             return
         }
 
+        guard let learnerId = CurrentUser.shared.learner.uid else { return }
+        
         let newNodes: [String: Any]
         if CurrentUser.shared.learner.isTutor {
             newNodes = [
-                "/tutor-info/\(CurrentUser.shared.learner.uid!)/nm": firstName + " " + lastName,
-                "/student-info/\(CurrentUser.shared.learner.uid!)/nm": firstName + " " + lastName,
+                "/tutor-info/\(learnerId)/nm": firstName + " " + lastName,
+                "/student-info/\(learnerId)/nm": firstName + " " + lastName,
             ]
         } else {
             newNodes = ["/student-info/\(CurrentUser.shared.learner.uid!)/nm": firstName + " " + lastName]

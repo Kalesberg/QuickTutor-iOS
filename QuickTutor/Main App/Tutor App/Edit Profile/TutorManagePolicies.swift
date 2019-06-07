@@ -158,6 +158,11 @@ class TutorManagePolicies: UIViewController {
         hideTabBar(hidden: true)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        hideTabBar(hidden: false)
+    }
+    
     func setupNavigationBar() {
         navigationItem.title = "Manage Policies"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"newCheck"), style: .plain, target: self, action: #selector(savePolicies))
