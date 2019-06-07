@@ -143,7 +143,7 @@ class CustomSearchBarContainer: UIView {
     @objc func handleSearchClearButtonTapped() {
         searchClearButton.isHidden = true
         searchBar.text = ""
-        delegate?.customSearchBar(searchBar, shouldEndEditing: true)
+        searchBar.becomeFirstResponder()
     }
     
     func showSearchClearButton(_ show: Bool = true) {
