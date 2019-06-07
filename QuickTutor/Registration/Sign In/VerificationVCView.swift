@@ -23,9 +23,7 @@ class VerificationVCView: BaseRegistrationView {
     
     let resendVCButton: UIButton = {
         let button = UIButton()
-        button.setTitleColor(Colors.registrationGray, for: .normal)
-        button.setTitleColor(.white, for: .highlighted)
-        button.setTitleColor(.white, for: .selected)
+        button.setTitleColor(Colors.purple, for: .normal)
         button.contentHorizontalAlignment = .left
         button.titleLabel?.font = Fonts.createSize(14)
         button.setTitle("Resend verification code »", for: .normal)

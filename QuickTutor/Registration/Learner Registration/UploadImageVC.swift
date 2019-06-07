@@ -13,7 +13,6 @@ import CropViewController
 class UploadImageVC: BaseRegistrationController {
     
     let profilePicker = UIImagePickerController()
-    var imagePicked: Bool = false
     var chosenImage: UIImage?
     
     let contentView: UploadImageVCView = {
@@ -37,6 +36,9 @@ class UploadImageVC: BaseRegistrationController {
     func setupAccessoryView() {
         contentView.addSubview(accessoryView)
         accessoryView.anchor(top: nil, left: contentView.leftAnchor, bottom: contentView.getBottomAnchor(), right: contentView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 80)
+        accessoryView.nextButton.setTitle("SAVE", for: .normal)
+        accessoryView.nextButton.isEnabled = false
+        accessoryView.nextButton.backgroundColor = Colors.gray
     }
     
     func setupTargets() {
@@ -82,27 +84,22 @@ class UploadImageVC: BaseRegistrationController {
     }
     
     @objc func saveImageAndContinue() {
-        if imagePicked {
-            guard let image = chosenImage else { return }
-            guard let data = FirebaseData.manager.getCompressedImageDataFor(image) else {
-                AlertController.genericErrorAlert(self, title: "Error", message: "Please choose a new photo")
-                return
-            }
-            Registration.imageData = data
-            navigationController?.pushViewController(UserPolicyVC(), animated: true)
-        } else {
-            AlertController.genericErrorAlert(self, title: "Please Select A Photo", message: "")
+        guard let image = chosenImage else { return }
+        guard let data = FirebaseData.manager.getCompressedImageDataFor(image) else {
+            AlertController.genericErrorAlert(self, title: "Error", message: "Please choose a new photo")
+            return
         }
+        Registration.imageData = data
+        navigationController?.pushViewController(UserPolicyVC(), animated: true)
     }
     
 }
 
 extension UploadImageVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         guard let image = info[.originalImage] as? UIImage else { return }
         
-        profilePicker.dismiss(animated: false) {
+        picker.dismiss(animated: false) {
             let cropViewController = CropViewController(croppingStyle: .circular, image: image)
             cropViewController.delegate = self
             cropViewController.aspectRatioPreset = .presetSquare
@@ -111,21 +108,18 @@ extension UploadImageVC: UIImagePickerControllerDelegate, UINavigationController
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        imagePicked = false
-        let image = UIImage(named: "uploadImageDefaultImage")
-        contentView.imageView.image = image
-        DispatchQueue.main.async {
-            self.profilePicker.dismiss(animated: true, completion: nil)
-        }
+        picker.dismiss(animated: true, completion: nil)
     }
 }
 
 extension UploadImageVC: CropViewControllerDelegate {
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
-        imagePicked = true
         chosenImage = image
+        contentView.infoView.isHidden = true
         contentView.imageView.image = image
-        imagePicked = true
+        contentView.imageView.layer.borderWidth = 0 // remove border
+        accessoryView.nextButton.isEnabled = true
+        accessoryView.nextButton.backgroundColor = Colors.purple
         cropViewController.dismiss(animated: true, completion: nil)
     }
     

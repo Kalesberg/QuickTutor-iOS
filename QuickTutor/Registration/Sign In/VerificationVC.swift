@@ -69,20 +69,19 @@ class VerificationVC: BaseRegistrationController {
         seconds -= 1
         if seconds == -1 {
             contentView.resendVCButton.setTitle("Resend verification code »", for: .normal)
+            contentView.resendVCButton.setTitleColor(Colors.purple, for: .normal)
             contentView.resendVCButton.isUserInteractionEnabled = true
             timer.invalidate()
             seconds = 15
         } else {
-            if seconds >= 10 {
-                contentView.resendVCButton.setTitle("Resend code in: 0:\(seconds)", for: .normal)
-            } else {
-                contentView.resendVCButton.setTitle("Resend code in: 0:0\(seconds)", for: .normal)
-            }
+            contentView.resendVCButton.setTitle(String(format: "Resend code in: 0:%02d", seconds), for: .normal)
         }
     }
     
     @objc func resendVCButtonPressed(_ sender: Any) {
         contentView.resendVCButton.isUserInteractionEnabled = false
+        contentView.resendVCButton.setTitleColor(Colors.registrationGray, for: .normal)
+        
         resendVCAction()
     }
     
@@ -190,6 +189,7 @@ class VerificationVC: BaseRegistrationController {
             if let error = error {
                 AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
                 self.contentView.resendVCButton.isUserInteractionEnabled = true
+                self.contentView.resendVCButton.setTitleColor(Colors.purple, for: .normal)
                 return
             } else {
                 self.runTimer()

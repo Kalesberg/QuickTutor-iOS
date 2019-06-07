@@ -19,14 +19,38 @@ class UploadImageVCView: BaseRegistrationView {
         if #available(iOS 11.0, *) {
             iv.adjustsImageSizeForAccessibilityContentSizeCategory = true
         }
-        iv.image = UIImage(named: "uploadImageDefaultImage")
         iv.contentMode = .scaleAspectFill
+        iv.layer.masksToBounds = true
+        iv.layer.borderColor = Colors.purple.cgColor
+        iv.layer.borderWidth = 1
+        
         return iv
+    }()
+    
+    let infoView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        
+        return view
+    }()
+    
+    let imgInfoIcon: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "ic_avatar_user"))
+        return imageView
+    }()
+    
+    let lblInfoText: UILabel = {
+        let label = UILabel()
+        label.text = "Add a photo"
+        label.textColor = .white
+        label.font = Fonts.createBoldSize(14)
+        
+        return label
     }()
     
     let infoLabel: UILabel = {
         let label = UILabel()
-        label.text = "· Upload a photo of yourself.\n· You will be able to add more photos later."
+        label.text = "• Upload a photo of yourself.\n• You will be able to add more photos later."
         label.textColor = Colors.registrationGray
         label.numberOfLines = 0
         label.font = Fonts.createSize(16)
@@ -38,6 +62,7 @@ class UploadImageVCView: BaseRegistrationView {
     override func setupViews() {
         super.setupViews()
         setupImageViewButton()
+        setupInfoView()
         setupInfoLabel()
     }
     
@@ -53,6 +78,26 @@ class UploadImageVCView: BaseRegistrationView {
             make.height.equalTo(215)
             make.top.equalTo(titleLabel.snp.bottom).offset(80)
             make.centerX.equalToSuperview()
+        }
+    }
+    
+    private func setupInfoView() {
+        addSubview(infoView)
+        infoView.snp.makeConstraints { make in
+            make.center.equalTo(imageView)
+        }
+        
+        infoView.addSubview(imgInfoIcon)
+        imgInfoIcon.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.centerX.equalToSuperview()
+        }
+        
+        infoView.addSubview(lblInfoText)
+        lblInfoText.snp.makeConstraints { make in
+            make.top.equalTo(imgInfoIcon.snp.bottom).offset(15)
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview()
         }
     }
     
