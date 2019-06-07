@@ -247,7 +247,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             handleSessionRequest()
         }
         messagesCollection.scrollToBottom(animated: true)
-        tutorial.showIfNeeded()
+//        tutorial.showIfNeeded()
         conversationManager.readReceiptManager?.markConversationRead()
         NotificationManager.shared.disableConversationNotificationsFor(uid: chatPartner.uid)
         IQKeyboardManager.shared().isEnabled = false
