@@ -42,9 +42,6 @@ class TutorAddSubjectsVC: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
         hideTabBar(hidden: true)
-        
-        // Set focus to search bar
-        contentView.searchBarContainer.searchBar.becomeFirstResponder()
     }
     
     private func configureDelegates() {
@@ -154,7 +151,7 @@ extension TutorAddSubjectsVC: CustomSearchBarDelegate {
     }
     
     func customSearchBarDidTapCancelEditButton(_ searchBar: PaddedTextField) {
-        removeChild(popViewController: true)
+        removeChild(resignFirstResponder: true)
     }
     
     func customSearchBarDidTapMockLeftView(_ searchBar: PaddedTextField) {
