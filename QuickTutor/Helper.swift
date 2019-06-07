@@ -718,7 +718,7 @@ class CategoryFactory {
         guard let category = categoryIn else { return nil }
         let subcategoryIn = category.subcategories.first(where: {$0.name == subcategoryName})
         guard let subcategory = subcategoryIn else { return nil }
-        return subcategory.subjects
+        return subcategory.subjects.sorted(by: { $0 < $1 })
     }
     
     private func loadContentFrom(_ fileName: String) -> [String: [String]]? {

@@ -318,7 +318,7 @@ class TutorAddSubjectsResultsVC: UIViewController {
     func loadSubjects() {
         guard subjects.count == 0 else { return }
         if let subjects = SubjectStore.loadTotalSubjectList() {
-            self.subjects = subjects.map({ $0.0 })
+            self.subjects = subjects.map({ $0.0 }).sorted(by: { $0 < $1 })
             self.subjects.shuffle()
             contentView.collectionView.reloadData()
         }

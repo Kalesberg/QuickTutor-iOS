@@ -90,7 +90,8 @@ extension QuickSearchCategoryCell: UICollectionViewDataSource, UICollectionViewD
 //            return cell
 //        }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! QuickSearchSubcategoryCell
-        cell.titleLabel.text = category?.subcategory.subcategories[indexPath.item].title
+        let sortedSubCategories = category?.subcategory.subcategories.sorted(by: { $0.title < $1.title })
+        cell.titleLabel.text = sortedSubCategories?[indexPath.item].title
         return cell
     }
     
