@@ -11,6 +11,7 @@ import UIKit
 class AddCardHeaderView: UIView {
  
     @IBOutlet weak var headerLabel: UILabel!
+    @IBOutlet weak var addNewButton: UIButton!
     
     override init(frame: CGRect) {
         super.init(frame: frame)

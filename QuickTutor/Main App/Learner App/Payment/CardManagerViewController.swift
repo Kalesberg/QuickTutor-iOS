@@ -104,11 +104,11 @@ class CardManagerViewController: UIViewController {
         feeInfoView.isHidden = hide
         tableView.isHidden = !hide
         
-        if hide {   // have cards or apple pay
-            let addPaymentItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(onClickItemAddNewPayment))
-            navigationItem.rightBarButtonItem = addPaymentItem
+        let view = AddCardHeaderView.view
+        if hide {
+            view.addNewButton?.isHidden = false
         } else {
-            navigationItem.rightBarButtonItem = nil
+            view.addNewButton?.isHidden = true
         }
     }
     
@@ -380,29 +380,32 @@ extension CardManagerViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if 0 == section {
-            if cards.isEmpty { return nil }
+//            if cards.isEmpty { return nil }
             
             let view = AddCardHeaderView.view
-            view.headerLabel.text = "Cards"
+            view.headerLabel?.text = "Cards"
+            view.addNewButton?.addTarget(self, action: #selector(onClickItemAddNewPayment), for: .touchUpInside)
             return view
         } else if 1 == section {
             if !Stripe.deviceSupportsApplePay() { return nil }
             
             let view = AddCardHeaderView.view
-            view.headerLabel.text = "Other options"
+            view.headerLabel?.text = "Other options"
+            view.addNewButton?.isHidden = true
             return view
         } else {
             if pastSessions.isEmpty { return nil }
             
             let view = AddCardHeaderView.view
-            view.headerLabel.text = "Payment history"
+            view.headerLabel?.text = "Payment history"
+            view.addNewButton?.isHidden = true
             return view
         }
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if 0 == section {
-            return cards.isEmpty ? 0 : 60
+            return 60
         } else if 1 == section {
             return !Stripe.deviceSupportsApplePay() ? 0 : 60
         } else {
