@@ -170,14 +170,14 @@ extension EditSchoolVC: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "idCell", for: indexPath)
         let data = isFiltering() ? filteredSchools[indexPath.row] : schoolArray[indexPath.row]
 
-        cell.backgroundColor = Colors.darkGray
+        cell.backgroundColor = Colors.newScreenBackground
         cell.textLabel?.textColor = UIColor.white
         cell.textLabel?.font = Fonts.createSize(16)
         cell.textLabel?.adjustsFontSizeToFitWidth = true
         cell.textLabel?.numberOfLines = 0
 
         let cellBackground = UIView()
-        cellBackground.backgroundColor = Colors.darkGray.darker(by: 5)
+        cellBackground.backgroundColor = Colors.newScreenBackground.darker(by: 5)
         cell.selectedBackgroundView = cellBackground
 
 

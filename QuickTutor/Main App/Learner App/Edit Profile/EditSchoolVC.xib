@@ -61,7 +61,7 @@
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <color key="backgroundColor" red="0.082352941176470587" green="0.082352941176470587" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
                         <constraint firstItem="gub-9B-p46" firstAttribute="centerY" secondItem="VhY-hM-Utf" secondAttribute="centerY" id="F2R-dN-bqQ"/>
                         <constraint firstItem="XjA-es-vmg" firstAttribute="leading" secondItem="VhY-hM-Utf" secondAttribute="leading" constant="20" id="G4H-UD-5AC"/>
@@ -80,7 +80,7 @@
                     </connections>
                 </tableView>
             </subviews>
-            <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color key="backgroundColor" red="0.082352941176470587" green="0.082352941176470587" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
             <constraints>
                 <constraint firstItem="VhY-hM-Utf" firstAttribute="centerX" secondItem="3DG-5J-Udj" secondAttribute="centerX" id="4Aa-9K-9Hn"/>
                 <constraint firstItem="Hd2-bq-Go1" firstAttribute="centerX" secondItem="3DG-5J-Udj" secondAttribute="centerX" id="9sR-ry-JcQ"/>
