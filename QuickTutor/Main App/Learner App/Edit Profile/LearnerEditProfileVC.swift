@@ -338,7 +338,7 @@ class LearnerEditProfileVC: UIViewController {
             return false
         }
         
-        if didTapSave && bio.count > 0 && bio.count < 20 {
+        if didTapSave && AccountService.shared.currentUserType == .tutor && bio.count > 0 && bio.count < 20 {
             cell.errorLabel.text = "Bio must be at least 20 characters"
             cell.errorLabel.isHidden = false
             return false

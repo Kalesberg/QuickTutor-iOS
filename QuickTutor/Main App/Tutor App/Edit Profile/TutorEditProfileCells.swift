@@ -759,7 +759,7 @@ class EditProfileBioCell: UITableViewCell {
         accessoryView.backgroundColor = UIColor.clear
         textView.inputAccessoryView = accessoryView
         addSubview(errorLabel)
-        errorLabel.anchor(top: textView.bottomAnchor, left: textView.leftAnchor, bottom: nil, right: textView.rightAnchor, paddingTop: 2, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: 0, height: 15)
+        errorLabel.anchor(top: textView.bottomAnchor, left: textView.leftAnchor, bottom: nil, right: textView.rightAnchor, paddingTop: 2, paddingLeft: 0, paddingBottom: 0, paddingRight: 30, width: 0, height: 15)
     }
     
     
