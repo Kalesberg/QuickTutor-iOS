@@ -52,8 +52,9 @@ struct Colors {
     static let border = UIColor(hex: "818186")
     static let gold = UIColor(hex: "FAAB1A")
     static let notificationRed = UIColor(hex: "FF0800")
-    static let learnerReceipt = UIColor(hex: " 807CFF")
-    static let tutorReceipt = UIColor(hex: " C2D9FF")
+    static let learnerReceipt = UIColor(hex: "807CFF")
+    static let tutorReceipt = UIColor(hex: "C2D9FF")
+    static let modalBackground = UIColor(hex: "1B1B25")
     
     //Request session
     static let selectedPurple = UIColor(hex: "#33325C")
