@@ -79,13 +79,8 @@ class QTTutorDashboardTableViewCell: UITableViewCell {
         lineChartView.rightAxis.enabled = false
         
         lineChartView.leftAxis.enabled = true
-        let limitLine = ChartLimitLine(limit: 0)
-        limitLine.lineWidth = 2
-        limitLine.lineDashLengths = [5, 5]
-        limitLine.lineColor = Colors.backgroundDark
         
         let leftAxis = lineChartView.leftAxis
-        leftAxis.addLimitLine(limitLine)
         leftAxis.drawAxisLineEnabled = false
         leftAxis.drawGridLinesEnabled = false
         leftAxis.drawLabelsEnabled = false
@@ -189,7 +184,6 @@ class QTTutorDashboardTableViewCell: UITableViewCell {
             
             let set = LineChartDataSet(values: values, label: nil)
             set.drawIconsEnabled = false
-            set.lineDashLengths = [1, 0]
             set.setColor(UIColor.qtAccentColor)
             set.lineWidth = 2.5
             set.circleRadius = 0
