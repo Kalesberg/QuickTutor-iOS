@@ -151,8 +151,8 @@ extension QuickSearchVC: UITextFieldDelegate {
         child.scrollViewDraggedClosure = {
             self.contentView.searchBarContainer.searchBar.endEditing(true)
         }
-        contentView.addSubview(child.view)
-        child.view.anchor(top: contentView.searchBarContainer.bottomAnchor, left: contentView.leftAnchor, bottom: contentView.getBottomAnchor(), right: contentView.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        contentView.insertSubview(child.view, at: 1)
+        child.view.anchor(top: contentView.searchBarContainer.bottomAnchor, left: contentView.leftAnchor, bottom: contentView.getBottomAnchor(), right: contentView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         child.didMove(toParent: self)
         contentView.searchBarContainer.showSearchClearButton()
     }

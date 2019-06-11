@@ -13,6 +13,7 @@ class QuickSearchVCView: UIView {
 
     let searchBarContainer: CustomSearchBarContainer = {
         let container = CustomSearchBarContainer()
+        container.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.2, offset: CGSize(width: 0, height: 3), radius: 4)
         return container
     }()
     
@@ -24,7 +25,7 @@ class QuickSearchVCView: UIView {
         cv.allowsMultipleSelection = false
         cv.alwaysBounceVertical = true
         cv.delaysContentTouches = false
-        cv.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
+        cv.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         cv.register(QuickSearchCategoryCell.self, forCellWithReuseIdentifier: "cellId")
         cv.register(QuickSearchSectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerId")
         return cv
@@ -41,13 +42,14 @@ class QuickSearchVCView: UIView {
     }
     
     func setupSearchBarContainer() {
+        insertSubview(searchBarContainer, at: 2)
         addSubview(searchBarContainer)
-        searchBarContainer.anchor(top: getTopAnchor(), left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 20, paddingRight: 0, width: 0, height: 47)
+        searchBarContainer.anchor(top: getTopAnchor(), left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 20, paddingRight: 0, width: 0, height: 57)
     }
     
     func setupCollectionView() {
-        addSubview(collectionView)
-        collectionView.anchor(top: searchBarContainer.bottomAnchor, left: leftAnchor, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        insertSubview(collectionView, at: 0)
+        collectionView.anchor(top: searchBarContainer.bottomAnchor, left: leftAnchor, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
     
     override init(frame: CGRect) {

@@ -23,6 +23,7 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
         cv.showsHorizontalScrollIndicator = false
         cv.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         cv.register(QuickSearchSubcategoryCell.self, forCellWithReuseIdentifier: "cellId")
+        cv.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.2, offset: CGSize(width: 0, height: 3), radius: 4)
         return cv
     }()
     
@@ -72,8 +73,8 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
     }
     
     func setupSelectedSubjectsCV() {
-        addSubview(selectedSubjectsCV)
-        selectedSubjectsCV.anchor(top: searchBarContainer.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        insertSubview(selectedSubjectsCV, at: 2)
+        selectedSubjectsCV.anchor(top: searchBarContainer.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         selectedSubjectsHeightAnchor = selectedSubjectsCV.heightAnchor.constraint(equalToConstant: 0)
         selectedSubjectsHeightAnchor?.isActive = true
         selectedSubjectsCV.delegate = self
@@ -91,9 +92,9 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
     }
     
     override func setupCollectionView() {
-        addSubview(collectionView)
+        insertSubview(collectionView, at: 0)
         collectionView.anchor(top: nil, left: leftAnchor, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        collectionViewTopAnchor = collectionView.topAnchor.constraint(equalTo: searchBarContainer.bottomAnchor, constant: 10)
+        collectionViewTopAnchor = collectionView.topAnchor.constraint(equalTo: searchBarContainer.bottomAnchor, constant: 0)
         collectionViewTopAnchor?.isActive = true
     }
     
@@ -119,7 +120,7 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
     func showSelectedSubjectsCVIfNeeded(animated: Bool) {
         guard selectedSubjectsHeightAnchor?.constant != 50 else { return }
         selectedSubjectsHeightAnchor?.constant = 50
-        collectionViewTopAnchor?.constant = 60
+        collectionViewTopAnchor?.constant = 50
         if animated {
             UIView.animate(withDuration: 0.25) {
                 self.layoutIfNeeded()

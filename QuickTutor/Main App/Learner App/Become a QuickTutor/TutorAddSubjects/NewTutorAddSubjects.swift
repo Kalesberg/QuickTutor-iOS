@@ -190,7 +190,7 @@ extension TutorAddSubjectsVC: UITextFieldDelegate {
         guard child.view?.superview == nil else { return }
         child.isBeingControlled = true
         addChild(child)
-        contentView.addSubview(child.view)
+        contentView.insertSubview(child.view, at: 1)
         child.view.anchor(top: contentView.selectedSubjectsCV.bottomAnchor, left: contentView.leftAnchor, bottom: contentView.getBottomAnchor(), right: contentView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         child.didMove(toParent: self)
     }

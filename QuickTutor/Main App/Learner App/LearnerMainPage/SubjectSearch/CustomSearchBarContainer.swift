@@ -27,6 +27,12 @@ class CustomSearchBarContainer: UIView {
     weak var delegate: CustomSearchBarDelegate?
     var isEditing = false
     
+    let containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = Colors.newScreenBackground
+        return view
+    }()
+    
     lazy var searchBar: PaddedTextField = {
         let field = PaddedTextField()
         field.padding.left = 40
@@ -80,6 +86,7 @@ class CustomSearchBarContainer: UIView {
     var searchBarRightAnchor: NSLayoutConstraint?
     
     func setupViews() {
+        setupContainerView()
         setupSearchBar()
         setupSearchClearButton()
         setupMockLeftViewButton()
@@ -88,29 +95,34 @@ class CustomSearchBarContainer: UIView {
         setupLeftView()
     }
     
+    func setupContainerView() {
+        addSubview(containerView)
+        containerView.anchor(top: getTopAnchor(), left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 57)
+    }
+    
     func setupSearchBar() {
-        addSubview(searchBar)
-        searchBar.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
+        containerView.addSubview(searchBar)
+        searchBar.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 10, paddingRight: 20, width: 0, height: 0)
         searchBarRightAnchor = searchBar.rightAnchor.constraint(equalTo: rightAnchor, constant: 0)
         searchBarRightAnchor?.isActive = true
         searchClearButton.isHidden = true
     }
     
     func setupSearchClearButton() {
-        addSubview(searchClearButton)
+        containerView.addSubview(searchClearButton)
         searchClearButton.anchor(top: nil, left: nil, bottom: nil, right: searchBar.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 40, height: 40)
-        addConstraint(NSLayoutConstraint(item: searchClearButton, attribute: .centerY, relatedBy: .equal, toItem: searchBar, attribute: .centerY, multiplier: 1, constant: 0))
+        containerView.addConstraint(NSLayoutConstraint(item: searchClearButton, attribute: .centerY, relatedBy: .equal, toItem: searchBar, attribute: .centerY, multiplier: 1, constant: 0))
         searchClearButton.addTarget(self, action: #selector(handleSearchClearButtonTapped), for: .touchUpInside)
     }
     
     func setupCancelEditingButton() {
-        insertSubview(cancelEditingButton, belowSubview: searchBar)
-        cancelEditingButton.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 70, height: 0)
+        containerView.insertSubview(cancelEditingButton, belowSubview: searchBar)
+        cancelEditingButton.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 10, paddingRight: 0, width: 70, height: 0)
         cancelEditingButton.addTarget(self, action: #selector(cancelEditing), for: .touchUpInside)
     }
     
     func setupMockLeftViewButton() {
-        addSubview(mockLeftViewButton)
+        containerView.addSubview(mockLeftViewButton)
         mockLeftViewButton.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 9, paddingLeft: 27, paddingBottom: 0, paddingRight: 0, width: 30, height: 30)
         mockLeftViewButton.addTarget(self, action: #selector(handleMockLeftViewTapped), for: .touchUpInside)
     }
@@ -122,9 +134,9 @@ class CustomSearchBarContainer: UIView {
     }
     
     func setupFiltersButton() {
-        addSubview(filtersButton)
+        containerView.addSubview(filtersButton)
         filtersButton.anchor(top: nil, left: nil, bottom: nil, right: searchBar.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 7, width: 15, height: 15)
-        addConstraint(NSLayoutConstraint(item: filtersButton, attribute: .centerY, relatedBy: .equal, toItem: searchBar, attribute: .centerY, multiplier: 1, constant: 0))
+        containerView.addConstraint(NSLayoutConstraint(item: filtersButton, attribute: .centerY, relatedBy: .equal, toItem: searchBar, attribute: .centerY, multiplier: 1, constant: 0))
         filtersButton.addTarget(self, action: #selector(handleFiltersButtonTapped), for: .touchUpInside)
     }
     
