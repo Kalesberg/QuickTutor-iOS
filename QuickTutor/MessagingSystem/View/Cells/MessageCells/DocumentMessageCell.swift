@@ -11,7 +11,8 @@ import UIKit
 class DocumentMessageCell: UserMessageCell {
     let fileIcon: UIImageView = {
         let iv = UIImageView()
-        iv.image = UIImage(named: "fileIcon")
+        iv.image = UIImage(named: "fileIcon")?.withRenderingMode(.alwaysTemplate)
+        iv.tintColor = Colors.purple
         iv.contentMode = .scaleAspectFit
         return iv
     }()
