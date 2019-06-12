@@ -524,12 +524,16 @@ class QTProfileViewController: UIViewController {
         readReviewsButton.clipsToBounds = true
         readReviewsButton.setupTargets()
         
+        let disabledColor = UIColor(red: 44/255.0, green: 44/255.0, blue: 44/255.0, alpha: 1)
+        
         if profileViewType == .tutor || profileViewType == .myTutor {
             reviewsTableView.isHidden = user.reviews?.isEmpty ?? true
             self.reviewsHeight = self.getHeightOfReviews(reviews: user.reviews ?? [Review]())
             let numberOfReviews = user.reviews?.count ?? 0
             if numberOfReviews == 0 {
                 readAllReviewLabel.text = "No Reviews Yet!"
+                readReviewsButton.isEnabled = false;
+                readReviewsButton.backgroundColor = disabledColor;
             } else {
                 readAllReviewLabel.text = "Read all \(numberOfReviews) \(numberOfReviews > 1 ? " reviews" : " review")"
             }
@@ -539,6 +543,8 @@ class QTProfileViewController: UIViewController {
             self.reviewsHeight = self.getHeightOfReviews(reviews: user.lReviews ?? [Review]())
             if numberOfReviews == 0 {
                 readAllReviewLabel.text = "No Reviews Yet!"
+                readReviewsButton.isEnabled = false;
+                readReviewsButton.backgroundColor = disabledColor;
             } else {
                 readAllReviewLabel.text = "Read all \(numberOfReviews) \(numberOfReviews > 1 ? " reviews" : " review")"
             }

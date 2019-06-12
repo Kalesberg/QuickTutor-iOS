@@ -827,7 +827,7 @@
                 <constraint firstItem="G4J-AK-EAf" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="yZs-qm-v1b"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <point key="canvasLocation" x="39.200000000000003" y="46.326836581709152"/>
+            <point key="canvasLocation" x="38" y="-16"/>
         </view>
     </objects>
     <resources>
