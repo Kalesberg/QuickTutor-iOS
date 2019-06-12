@@ -54,10 +54,16 @@ class CategorySearchVC: UIViewController {
         collectionView.alwaysBounceVertical = true
         collectionView.contentInset = UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
         collectionView.isSkeletonable = true
-        
         return collectionView
     }()
 
+    let emptyBackground: EmptySearchBackground = {
+        let view = EmptySearchBackground()
+        view.isHidden = true
+        return view
+    }()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -87,6 +93,14 @@ class CategorySearchVC: UIViewController {
         } else {
             filteredDatasource = datasource
         }
+
+        setupEmptyBackgroundView()
+    }
+    
+    func setupEmptyBackgroundView() {
+        view.addSubview(emptyBackground)
+        emptyBackground.anchor(top: collectionView.topAnchor, left: collectionView.leftAnchor, bottom: collectionView.bottomAnchor, right: collectionView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        view.bringSubviewToFront(emptyBackground)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -169,7 +183,11 @@ class CategorySearchVC: UIViewController {
         TutorSearchService.shared.getTutorsByCategory(category, lastKnownKey: lastKnownKey) { (tutors, loadedAllTutors) in
             self._observing = false
             
-            guard let tutors = tutors else { return }
+            guard let tutors = tutors else {
+                self.view.hideSkeleton()
+                self.emptyBackground.isHidden = false
+                return
+            }
             self.view.hideSkeleton()
             
             self.lastKey = tutors.last?.uid
@@ -188,7 +206,11 @@ class CategorySearchVC: UIViewController {
         TutorSearchService.shared.getTutorsBySubcategory(subcategory, lastKnownKey: lastKnownKey) { (tutors, loadedAllTutors) in
             self._observing = false
             
-            guard let tutors = tutors else { return }
+            guard let tutors = tutors else {
+                self.view.hideSkeleton()
+                self.emptyBackground.isHidden = false
+                return
+            }
             self.view.hideSkeleton()
             
             self.lastKey = tutors.last?.uid
@@ -207,7 +229,11 @@ class CategorySearchVC: UIViewController {
         TutorSearchService.shared.getTutorsBySubject(subject, lastKnownKey: lastKnownKey) { (tutors, loadedAllTutors) in
             self._observing = false
             
-            guard let tutors = tutors else { return }
+            guard let tutors = tutors else {
+                self.view.hideSkeleton()
+                self.emptyBackground.isHidden = false
+                return
+            }
             self.view.hideSkeleton()
             
             self.lastKey = tutors.last?.uid

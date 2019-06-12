@@ -1189,6 +1189,8 @@
 		CFEF943D20B355C200413727 /* ImageMessageAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEF943C20B355C200413727 /* ImageMessageAnimator.swift */; };
 		CFEF943F20B3583800413727 /* ImageMessageSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEF943E20B3583800413727 /* ImageMessageSender.swift */; };
 		CFEF944120B35BA500413727 /* ConversationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEF944020B35BA500413727 /* ConversationManager.swift */; };
+		CFF2498022B0998C00FAFA3D /* EmptySearchBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF2497F22B0998C00FAFA3D /* EmptySearchBackground.swift */; };
+		CFF2498122B09E5700FAFA3D /* EmptySearchBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF2497F22B0998C00FAFA3D /* EmptySearchBackground.swift */; };
 		CFF5017720698F620085B0E9 /* LearnerHelpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840E75C5201E8500006FC580 /* LearnerHelpVC.swift */; };
 		CFF50178206990060085B0E9 /* LearnerEditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B2F02720354E4700F921C9 /* LearnerEditProfileVC.swift */; };
 		CFF5017B206990B20085B0E9 /* LearnerExtendedReviewsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BA3212055088B000C7054 /* LearnerExtendedReviewsVC.swift */; };
@@ -1875,6 +1877,7 @@
 		CFEF943C20B355C200413727 /* ImageMessageAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMessageAnimator.swift; sourceTree = "<group>"; };
 		CFEF943E20B3583800413727 /* ImageMessageSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMessageSender.swift; sourceTree = "<group>"; };
 		CFEF944020B35BA500413727 /* ConversationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationManager.swift; sourceTree = "<group>"; };
+		CFF2497F22B0998C00FAFA3D /* EmptySearchBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySearchBackground.swift; sourceTree = "<group>"; };
 		D6A6877106528A5848CC38AA /* Pods-QuickTutorTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutorTests/Pods-QuickTutorTests.release.xcconfig"; sourceTree = "<group>"; };
 		D82B1038EF27055F3EC690F8 /* Pods-QuickTutorApp-QuickTutor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorApp-QuickTutor.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -2725,6 +2728,7 @@
 			children = (
 				CFD112C3215ACB45000F61F2 /* CategorySearchVCView.swift */,
 				84D8C93120670EC0003C3AEA /* CategorySearchVC.swift */,
+				CFF2497F22B0998C00FAFA3D /* EmptySearchBackground.swift */,
 			);
 			path = CategorySearch;
 			sourceTree = "<group>";
@@ -4387,6 +4391,7 @@
 				569F16EB223554FD00820A20 /* TutorBioVCView.swift in Sources */,
 				569F16EC223554FD00820A20 /* SubjectsCollectionView.swift in Sources */,
 				569F16ED223554FD00820A20 /* LearnerHelpVC.swift in Sources */,
+				CFF2498122B09E5700FAFA3D /* EmptySearchBackground.swift in Sources */,
 				569F16EF223554FD00820A20 /* TutorManagePolicies.swift in Sources */,
 				569F16F0223554FD00820A20 /* LearnerLate.swift in Sources */,
 				BEAB1013229E493B00CCCCD6 /* ExpirationDateModal.swift in Sources */,
@@ -4877,6 +4882,7 @@
 				CFF5017720698F620085B0E9 /* LearnerHelpVC.swift in Sources */,
 				84CFDDED2072836F001CA9BF /* TutorManagePolicies.swift in Sources */,
 				567E1A102270C0350094E371 /* QTCloseAccountReasonTableViewCell.swift in Sources */,
+				CFF2498022B0998C00FAFA3D /* EmptySearchBackground.swift in Sources */,
 				84052F12206BCC9A007B1248 /* LearnerLate.swift in Sources */,
 				CFA00970213A000200F81EE4 /* BackgroundSoundManager.swift in Sources */,
 				BEAB1012229E493B00CCCCD6 /* ExpirationDateModal.swift in Sources */,
