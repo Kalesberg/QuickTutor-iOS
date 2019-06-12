@@ -29,15 +29,15 @@ class WalkthroughVCView: UIView {
                   UIImage(named: "walkthroughInPersonOnline"),
                   UIImage(named: "walkthoughBecomeTutor"),
                   UIImage(named: "img_walkthrough_bg")]
-    let titles = ["SEARCH",
-                  "REACH OUT",
-                  "IN-PERSON AND ONLINE",
-                  "BECOME a QuickTutor",
+    let titles = ["Learn Anything.\nTeach Anyone.",
+                  "Reach Out",
+                  "Online And In-person",
+                  "Become a QuickTutor",
                   ""]
-    let subtitles = ["Find your tutor.\nThousands of experts await!",
+    let subtitles = ["",
                      "Connect with tutors, message them\nand request a session with just a few taps!",
                      "Meet up for in-person sessions or hop on a video\ncall. The app takes care of session timing, billing,\nand payments — automatically.",
-                     "Start turning your knowledge into\n dollars and get paid today.\nTeach up to thirty different subjects.",
+                     "Start turning your knowledge into\n dollars and get paid today.\nTeach up to twenty different subjects.",
                     ""]
     
     let nextButtonTitles = ["Next", "Next", "Next", "Ok, got it", "Get started"]
@@ -202,6 +202,7 @@ class WalkthroughCell: UICollectionViewCell {
         label.textColor = .white
         label.font = Fonts.createBlackSize(18)
         label.text = "SEARCH"
+        label.numberOfLines = 0
         return label
     }()
     
@@ -239,7 +240,7 @@ class WalkthroughCell: UICollectionViewCell {
     
     func setupTitleLabel() {
         addSubview(titleLabel)
-        titleLabel.anchor(top: nil, left: leftAnchor, bottom: infoLabel.topAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 10, paddingRight: 0, width: 0, height: 22)
+        titleLabel.anchor(top: nil, left: leftAnchor, bottom: infoLabel.topAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 10, paddingRight: 0, width: 0, height: 0)
     }
     
     override init(frame: CGRect) {
