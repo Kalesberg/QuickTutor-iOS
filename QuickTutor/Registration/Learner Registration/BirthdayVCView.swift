@@ -17,7 +17,6 @@ class BirthdayVCView: BaseRegistrationView {
     let datePicker: UIDatePicker = {
         let picker = UIDatePicker()
         picker.setValue(UIColor.white, forKeyPath: "textColor")
-        picker.backgroundColor = UIColor(red: 30 / 255, green: 30 / 255, blue: 38 / 255, alpha: 1.0)
         picker.tintColor = .white
         picker.datePickerMode = .date
         return picker
