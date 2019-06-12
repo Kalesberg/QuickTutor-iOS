@@ -101,7 +101,7 @@ class WalkthroughVCView: UIView {
     
     func setupLogoView() {
         addSubview(logoView)
-        logoView.anchor(top: getTopAnchor(), left: nil, bottom: nil, right: nil, paddingTop: 60, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 183, height: 35)
+        logoView.anchor(top: getTopAnchor(), left: nil, bottom: nil, right: nil, paddingTop: 60, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 183, height: 39)
         addConstraint(NSLayoutConstraint(item: logoView, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
     }
     
