@@ -53,10 +53,10 @@ class UploadImageVC: BaseRegistrationController {
     private func onTapUserAvatar() {
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         sheet.addAction(UIAlertAction(title: "Camera roll", style: .default) { _ in
-            self.takePhoto()
+            self.choosePhoto()
         })
         sheet.addAction(UIAlertAction(title: "Take a photo", style: .default) { _ in
-            self.choosePhoto()
+            self.takePhoto()
         })
         sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(sheet, animated: true, completion: nil)
