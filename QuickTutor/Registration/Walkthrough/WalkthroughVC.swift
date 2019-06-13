@@ -192,7 +192,7 @@ class WalkthroughCell: UICollectionViewCell {
     
     let imageView: UIImageView = {
         let iv = UIImageView()
-        iv.contentMode = .scaleAspectFit
+        iv.contentMode = .scaleAspectFill
         return iv
     }()
     
@@ -230,7 +230,7 @@ class WalkthroughCell: UICollectionViewCell {
     
     func setupImageView() {
         addSubview(imageView)
-        imageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 155, paddingLeft: 54, paddingBottom: 257, paddingRight: 54, width: 0, height: 0)
+        imageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 400, paddingLeft: 0, paddingBottom: 257, paddingRight: 0, width: 0, height: 0)
     }
     
     func setupInfoLabel() {

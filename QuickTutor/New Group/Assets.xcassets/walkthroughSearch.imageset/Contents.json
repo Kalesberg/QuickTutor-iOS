@@ -2,11 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "walkthroughSearch.png",
+      "filename" : "1st.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "1st@2x.png",
       "scale" : "2x"
     },
     {
