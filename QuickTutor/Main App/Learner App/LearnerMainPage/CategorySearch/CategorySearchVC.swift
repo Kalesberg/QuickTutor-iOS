@@ -125,7 +125,7 @@ class CategorySearchVC: UIViewController {
     
     func setUpFiltersButton(){
         menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 18, height: 18)
-        menuBtn.setImage(UIImage(named:"filterIcon"), for: .normal)
+        updateFiltersIcon()
         menuBtn.addTarget(self, action: #selector(showFilters), for: .touchUpInside)
         
         let menuBarItem = UIBarButtonItem(customView: menuBtn)

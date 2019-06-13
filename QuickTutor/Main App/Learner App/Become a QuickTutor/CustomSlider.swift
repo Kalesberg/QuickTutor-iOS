@@ -14,8 +14,8 @@ class CustomSlider: UISlider {
         thumbTintColor = Colors.purple
         minimumTrackTintColor = Colors.purple
         maximumTrackTintColor = Colors.gray
-        setThumbImage(UIImage(named: "Oval"), for: .normal)
-        setThumbImage(UIImage(named: "Oval"), for: .highlighted)
+        setThumbImage(UIImage(named: "large-oval"), for: .normal)
+        setThumbImage(UIImage(named: "large-oval"), for: .highlighted)
     }
     
     override func trackRect(forBounds bounds: CGRect) -> CGRect {
