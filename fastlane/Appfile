@@ -1,5 +1,5 @@
 app_identifier("com.quicktutor1.quicktutor") # The bundle identifier of your app
-apple_id("ios-dev@quicktutor.com") # Your Apple email address
+apple_id("iosdev@quicktutor.com") # Your Apple email address
 
 itc_team_id("118884640") # App Store Connect Team ID
 team_id("QYG3ENEK3P") # Developer Portal Team ID
