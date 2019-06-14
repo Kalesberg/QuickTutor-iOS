@@ -79,20 +79,28 @@ class LearnerMainPageSearchBarContainer: UIView {
     func hideRecentSearchesCV() {
         if 0 == recentSearchesCV.alpha { return }
         
-        UIView.animate(withDuration: 0.25, animations: {
+        self.recentSearchesCVHeightAnchor?.constant = 0
+        UIView.animate(withDuration: 0.15, animations: {
             self.recentSearchesCV.alpha = 0
-        }, completion: { _ in
-            self.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.2, offset: CGSize(width: 0, height: 3), radius: 4)
+            self.layoutIfNeeded()
         })
+    }
+    
+    func hideShadow() {
+        layer.applyShadow(color: UIColor.clear.cgColor, opacity: 1, offset: CGSize(width: 0, height: 3), radius: 4)
+    }
+    
+    func showShadow() {
+        layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.2, offset: CGSize(width: 0, height: 3), radius: 4)
     }
     
     func showRecentSearchesCV() {
         if 1 == recentSearchesCV.alpha { return }
         
-        UIView.animate(withDuration: 0.25, animations: {
+        self.recentSearchesCVHeightAnchor?.constant = 30
+        UIView.animate(withDuration: 0.15, animations: {
             self.recentSearchesCV.alpha = 1
-        }, completion: { _ in
-            self.layer.applyShadow(color: UIColor.clear.cgColor, opacity: 1, offset: CGSize(width: 0, height: 3), radius: 4)
+            self.layoutIfNeeded()
         })
     }
     
@@ -119,6 +127,9 @@ class LearnerMainPageSearchBarContainer: UIView {
             sheet.addAction(UIAlertAction(title: "Remove", style: .destructive) { _ in
                 RecentSearchesManager.shared.removeSearch(item: indexPath.item)
                 view.reloadData()
+                if RecentSearchesManager.shared.searches.isEmpty {
+                    self.hideShadow()
+                }
             })
             sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             parentVC?.present(sheet, animated: true, completion: nil)

@@ -46,6 +46,15 @@ class LearnerMainPageVCView: UIView {
         setupMainView()
         setupSearchBarContainer()
         setupCollectionView()
+        setupBackgroundView()
+    }
+    
+    func setupBackgroundView() {
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = Colors.newScreenBackground
+        
+        addSubview(backgroundView)
+        backgroundView.anchor(top: topAnchor, left: leftAnchor, bottom: searchBarContainer.topAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
     
     func setupMainView() {
@@ -62,19 +71,39 @@ class LearnerMainPageVCView: UIView {
     
     func setupCollectionView() {
         insertSubview(collectionView, at: 0)
-        collectionView.anchor(top: searchBarContainer.bottomAnchor, left: leftAnchor, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: -30, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        collectionView.anchor(top: getTopAnchor(), left: leftAnchor, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 120, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         collectionView.delegate = collectionViewHelper
         collectionView.dataSource = collectionViewHelper
+        collectionView.clipsToBounds = false
     }
     
     func setupScrollViewDidScrollAction() {
-        collectionViewHelper.handleScrollViewScroll = { offset in
+        collectionViewHelper.handleScrollViewScroll = { [weak self] offset in
+            guard let self = self else { return }
+            self.searchBarContainer.showShadow()
+            
             guard RecentSearchesManager.shared.hasNoRecentSearches
                 || (-offset < 0 && offset != -50) else {
-                self.searchBarContainer.showRecentSearchesCV()
-                return
+                    self.searchBarContainer.showRecentSearchesCV()
+                    self.searchBarContainerHeightAnchor?.constant = 87
+                    UIView.animate(withDuration: 0.15, animations: {
+                        self.layoutIfNeeded()
+                    })
+                    return
             }
             self.searchBarContainer.hideRecentSearchesCV()
+            
+            self.searchBarContainerHeightAnchor?.constant = 57
+            UIView.animate(withDuration: 0.15, animations: {
+                self.layoutIfNeeded()
+            })
+            return
+        }
+    }
+    
+    func setupScrollViewDidEndDeceleratingAction() {
+        collectionViewHelper.handleScrollViewDidEndDecelerating = {
+            self.searchBarContainer.hideShadow()
         }
     }
     
@@ -86,12 +115,8 @@ class LearnerMainPageVCView: UIView {
         searchBarContainer.recentSearchesCV.reloadData()
         if RecentSearchesManager.shared.hasNoRecentSearches {
             searchBarContainer.hideRecentSearchesCV()
-            collectionView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
-            collectionView.setContentOffset(.zero, animated: true)
         } else {
             searchBarContainer.showRecentSearchesCV()
-            collectionView.contentInset = UIEdgeInsets(top: 60, left: 0, bottom: 0, right: 0)
-            collectionView.setContentOffset(CGPoint(x: 0, y: -50), animated: true)
         }
     }
     
@@ -99,6 +124,7 @@ class LearnerMainPageVCView: UIView {
         super.init(frame: frame)
         setupViews()
         setupScrollViewDidScrollAction()
+        setupScrollViewDidEndDeceleratingAction()
         setupObservers()
     }
     
