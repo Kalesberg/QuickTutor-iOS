@@ -38,7 +38,6 @@ class SavedTutorsVC: UIViewController {
         view.backgroundColor = .clear
         view.layer.cornerRadius = 5
         view.clipsToBounds = true
-        view.isHidden = true
         
         return view
     }()
@@ -68,6 +67,7 @@ class SavedTutorsVC: UIViewController {
         super.viewWillAppear(animated)
 
         navigationController?.setNavigationBarHidden(false, animated: true)
+        loadSavedTutors()
     }
     
     func setupMainView() {
@@ -160,14 +160,15 @@ class SavedTutorsVC: UIViewController {
     
     @objc func loadSavedTutors() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        
-        datasource.removeAll()
-        collectionView.reloadData()
-        
+
         let myGroup = DispatchGroup()
         var tutors = [AWTutor]()
+        
         Database.database().reference().child("saved-tutors").child(uid).observeSingleEvent(of: .value) { (snapshot) in
-            guard let tutorIds = snapshot.value as? [String: Any] else { return }
+            guard let tutorIds = snapshot.value as? [String: Any] else {
+                self.datasource.removeAll()
+                self.collectionView.reloadData()
+                return }
             tutorIds.forEach({ uid, _ in
                 myGroup.enter()
                 FirebaseData.manager.fetchTutor(uid, isQuery: false, { tutor in
@@ -181,11 +182,15 @@ class SavedTutorsVC: UIViewController {
                     myGroup.leave()
                 })
             })
-            myGroup.notify(queue: .main) {
+            myGroup.notify(queue: .main, execute: {
+                tutors.sort(by: { (a1: AWTutor, a2: AWTutor) -> Bool in
+                    a1.username.lexicographicallyPrecedes(a2.username)
+                })
+                
+                self.datasource.removeAll()
                 self.datasource = tutors
                 self.collectionView.reloadData()
-                // TODO: end of loading
-            }
+            })
         }
     }
     
@@ -202,7 +207,7 @@ class SavedTutorsVC: UIViewController {
 extension SavedTutorsVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
         self.emptyBackground.isHidden = !datasource.isEmpty
-        self.containerView.isHidden = !datasource.isEmpty
+
         
         return datasource.count
     }
