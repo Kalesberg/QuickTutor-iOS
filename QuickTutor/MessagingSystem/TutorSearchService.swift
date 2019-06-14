@@ -20,12 +20,17 @@ class TutorSearchService {
             ref = ref.queryStarting(atValue: key)
         }
         ref.observeSingleEvent(of: .value) { snapshot in
-            guard let tutorIds = snapshot.value as? [String: Any] else { return }
+            guard let tutorIds = snapshot.value as? [String: Any] else {
+                completion(nil, false)
+                return
+            }
+            
             tutorIds.keys.sorted(by: { $0 < $1 }).forEach { uid in
                 myGroup.enter()
                 FirebaseData.manager.fetchTutor(uid, isQuery: false, { tutor in
                     guard let tutor = tutor else {
                         myGroup.leave()
+                        completion(nil, false)
                         return
                     }
                     if tutor.uid != Auth.auth().currentUser?.uid {
@@ -57,13 +62,17 @@ class TutorSearchService {
         }
         ref.observeSingleEvent(of: .value) { (snapshot) in
             print(snapshot.key)
-            guard let tutorIds = snapshot.value as? [String: Any] else { return }
+            guard let tutorIds = snapshot.value as? [String: Any] else {
+                completion(nil, false)
+                return
+            }
             let myGroup = DispatchGroup()
             tutorIds.keys.sorted(by: { $0 < $1 }).forEach { uid in
                 myGroup.enter()
                 FirebaseData.manager.fetchTutor(uid, isQuery: false, { tutor in
                     guard let tutor = tutor else {
                         myGroup.leave()
+                        completion(nil, false)
                         return
                     }
                     tutor.featuredSubject = tutor.subjects?.first(where: { (subject) -> Bool in
@@ -93,12 +102,17 @@ class TutorSearchService {
             ref = ref.queryStarting(atValue: key)
         }
         ref.observeSingleEvent(of: .value) { snapshot in
-            guard let tutorIds = snapshot.value as? [String: Any] else { return }
+            guard let tutorIds = snapshot.value as? [String: Any] else {
+                completion(nil, false)
+                return
+                
+            }
             tutorIds.keys.sorted(by: { $0 < $1 }).forEach { uid in
                 myGroup.enter()
                 FirebaseData.manager.fetchTutor(uid, isQuery: false, { tutor in
                     guard let tutor = tutor else {
                         myGroup.leave()
+                        completion(nil, false)
                         return
                     }
                     tutor.featuredSubject = subject

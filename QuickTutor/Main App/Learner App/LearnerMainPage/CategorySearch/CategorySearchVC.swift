@@ -107,7 +107,9 @@ class CategorySearchVC: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
         hideTabBar(hidden: true)
-        guard let filter = self.searchFilter, self.datasource.count > 0 else { return }
+        guard let filter = self.searchFilter, self.datasource.count > 0 else {
+            return
+        }
         self.applySearchFilterToDataSource(filter)
         collectionView.reloadData()
     }
@@ -168,7 +170,7 @@ class CategorySearchVC: UIViewController {
     
     func queryNeededTutors(lastKnownKey: String?) {
         guard !loadedAllTutors else { return }
-        
+        print(subject)
         if category != nil {
             queryTutorsByCategory(lastKnownKey: lastKnownKey)
         } else if subcategory != nil {
