@@ -33,6 +33,9 @@ class QTInviteOthersViewController: UIViewController {
     let appStoreUrl = "http://bit.ly/DownloadQuickTutor"
     
     let headerHeight: CGFloat = 361
+    let headerView = QTInviteOthersHeaderView.view
+    
+    var sectionHeaderView : QTInviteOthersSectionHeaderView?
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -60,6 +63,18 @@ class QTInviteOthersViewController: UIViewController {
         
         tableView.tableHeaderView?.frame.size.height = headerHeight
         tableView.layoutIfNeeded()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Show the tab bar.
+        hideTabBar(hidden: true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        hideTabBar(hidden: false)
     }
     
     // MARK: - Actions
@@ -96,7 +111,7 @@ class QTInviteOthersViewController: UIViewController {
         tableView.estimatedSectionHeaderHeight = 47
         
         // Set the header view to table view.
-        let headerView = QTInviteOthersHeaderView.view
+        
         headerView.didClickCopyLinkButton = {
             let pasteboard = UIPasteboard.general
             pasteboard.string = self.appStoreUrl
@@ -216,7 +231,8 @@ extension QTInviteOthersViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return QTInviteOthersSectionHeaderView.view
+        sectionHeaderView = QTInviteOthersSectionHeaderView.view
+        return sectionHeaderView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -255,4 +271,25 @@ extension QTInviteOthersViewController: UITableViewDataSource {
         return cell
     }
     
+}
+
+// MARK: -
+extension QTInviteOthersViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView == tableView {
+            // If the duration section view is at the top of screen, will show the drop shadow
+            if scrollView.contentOffset.y >= headerView.frame.height {
+                self.sectionHeaderView?.layer.applyShadow(color: UIColor.black.cgColor,
+                                                     opacity: 0.2,
+                                                     offset: CGSize(width: 0, height: 10),
+                                                     radius: 10)
+                return
+            }
+            
+            // If the content offset of tableview is about zero, will hide the drop shadow
+            if scrollView.contentOffset.y <= headerView.frame.height / 2 {
+                self.sectionHeaderView?.layer.shadowOpacity = 0.0
+            }
+        }
+    }
 }
