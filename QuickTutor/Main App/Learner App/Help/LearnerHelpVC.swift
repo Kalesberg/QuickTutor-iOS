@@ -15,12 +15,8 @@ class LearnerHelpView: UIView {
     var header = UIView()
 
     func configureView() {
-        addSubview(subtitle)
         addSubview(tableView)
         addSubview(header)
-
-        subtitle.label.text = "Choose an option"
-        subtitle.label.font = Fonts.createSize(22)
 
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 60
@@ -33,20 +29,8 @@ class LearnerHelpView: UIView {
     }
 
     func applyConstraints() {
-        subtitle.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.height.equalTo(70)
-            make.width.equalToSuperview().multipliedBy(0.9)
-            make.centerX.equalToSuperview()
-        }
-
-        subtitle.label.snp.remakeConstraints { make in
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().multipliedBy(1.2)
-        }
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(subtitle.snp.bottom).inset(-20)
+            make.top.equalToSuperview()
             make.width.equalToSuperview()
             make.height.equalToSuperview()
             make.centerX.equalToSuperview()
@@ -139,7 +123,7 @@ class SectionTitle: LeftTextLabel {
     override func configureView() {
         super.configureView()
 
-        label.font = Fonts.createBoldSize(17)
+        label.font = Fonts.createSize(20)
     }
 
     override func applyConstraints() {
@@ -165,7 +149,7 @@ class SectionSubTitle: LeftTextLabel {
     override func configureView() {
         super.configureView()
 
-        label.font = Fonts.createBoldSize(16)
+        label.font = Fonts.createSize(17)
     }
 
     override func applyConstraints() {
@@ -196,7 +180,7 @@ public class SectionBody: UILabel, BaseViewProtocol {
     }
 
     func configureView() {
-        font = Fonts.createSize(15)
+        font = Fonts.createSize(14)
         textColor = Colors.grayText
         numberOfLines = 0
         sizeToFit()
@@ -271,8 +255,8 @@ extension LearnerHelpVC: UITableViewDataSource, UITableViewDelegate {
     }
 
     func insertBorder(cell: UITableViewCell) {
-        let border = UIView(frame: CGRect(x: 0, y: cell.contentView.frame.size.height - 1.0, width: cell.contentView.frame.size.width, height: 1))
-        border.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
+        let border = UIView(frame: CGRect(x: 10, y: cell.contentView.frame.size.height - 1.0, width: self.view.frame.width - 20, height: 1))
+        border.backgroundColor = UIColor(red: 44/255, green: 44/255, blue: 58/255, alpha: 1)
         cell.contentView.addSubview(border)
     }
 }
@@ -295,7 +279,7 @@ class CustomHelpTableViewCell: UITableViewCell {
         backgroundColor = Colors.newScreenBackground
 
         textLabel?.textColor = UIColor.white
-        textLabel?.font = Fonts.createSize(17.0)
+        textLabel?.font = Fonts.createSemiBoldSize(14.0)
 
         accessoryType = .disclosureIndicator
     }
