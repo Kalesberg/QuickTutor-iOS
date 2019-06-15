@@ -141,7 +141,9 @@ class UserMessageCell: BaseMessageCell {
         if #available(iOS 11.0, *) {
             bubbleView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMinYCorner]
         }
-        bubbleView.backgroundColor = Colors.gray
+        if message?.type == .text {
+            bubbleView.backgroundColor = Colors.gray
+        }
         bubbleViewLeftAnchor?.constant = 52
         bubbleViewLeftAnchor?.isActive = true
         bubbleViewRightAnchor?.isActive = false

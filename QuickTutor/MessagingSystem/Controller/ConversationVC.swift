@@ -353,11 +353,19 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             return
         }
         
+        if message.type == .sessionRequest {
+            UIView.setAnimationsEnabled(false)
+        }
+        
         messagesCollection.performBatchUpdates({
             removeDeliveredLabel()
             insertNewMessage(message: message)
             addDeliveredLabel()
-        })
+        }) { (completed) in
+            if message.type == .sessionRequest {
+                UIView.setAnimationsEnabled(true)
+            }
+        }
     }
     
     func removeDeliveredLabel() {
