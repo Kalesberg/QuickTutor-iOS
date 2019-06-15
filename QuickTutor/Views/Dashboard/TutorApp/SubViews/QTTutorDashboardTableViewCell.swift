@@ -95,6 +95,7 @@ class QTTutorDashboardTableViewCell: UITableViewCell {
         lineChartView.noDataTextColor = UIColor.qtAccentColor
         lineChartView.noDataText = ""
         
+        noDataView.isHidden = true
         
         panGesture = UIPanGestureRecognizer(target: self, action: #selector(onLineChartViewPanGestureRecognized(_:)))
         if let panGesture = panGesture {
