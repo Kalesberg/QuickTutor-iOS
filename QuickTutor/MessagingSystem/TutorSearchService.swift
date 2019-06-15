@@ -30,7 +30,6 @@ class TutorSearchService {
                 FirebaseData.manager.fetchTutor(uid, isQuery: false, { tutor in
                     guard let tutor = tutor else {
                         myGroup.leave()
-                        completion(nil, false)
                         return
                     }
                     if tutor.uid != Auth.auth().currentUser?.uid {
@@ -72,7 +71,6 @@ class TutorSearchService {
                 FirebaseData.manager.fetchTutor(uid, isQuery: false, { tutor in
                     guard let tutor = tutor else {
                         myGroup.leave()
-                        completion(nil, false)
                         return
                     }
                     tutor.featuredSubject = tutor.subjects?.first(where: { (subject) -> Bool in
@@ -112,7 +110,6 @@ class TutorSearchService {
                 FirebaseData.manager.fetchTutor(uid, isQuery: false, { tutor in
                     guard let tutor = tutor else {
                         myGroup.leave()
-                        completion(nil, false)
                         return
                     }
                     tutor.featuredSubject = subject

@@ -184,13 +184,14 @@ class CategorySearchVC: UIViewController {
         _observing = true
         TutorSearchService.shared.getTutorsByCategory(category, lastKnownKey: lastKnownKey) { (tutors, loadedAllTutors) in
             self._observing = false
+            self.view.hideSkeleton()
             
             guard let tutors = tutors else {
-                self.view.hideSkeleton()
                 self.emptyBackground.isHidden = false
                 return
             }
-            self.view.hideSkeleton()
+            
+            self.emptyBackground.isHidden = true
             
             self.lastKey = tutors.last?.uid
             self.loadedAllTutors = loadedAllTutors
@@ -207,13 +208,14 @@ class CategorySearchVC: UIViewController {
         _observing = true        
         TutorSearchService.shared.getTutorsBySubcategory(subcategory, lastKnownKey: lastKnownKey) { (tutors, loadedAllTutors) in
             self._observing = false
+            self.view.hideSkeleton()
             
             guard let tutors = tutors else {
-                self.view.hideSkeleton()
                 self.emptyBackground.isHidden = false
                 return
             }
-            self.view.hideSkeleton()
+            
+            self.emptyBackground.isHidden = true
             
             self.lastKey = tutors.last?.uid
             self.loadedAllTutors = loadedAllTutors
@@ -230,14 +232,14 @@ class CategorySearchVC: UIViewController {
         _observing = true
         TutorSearchService.shared.getTutorsBySubject(subject, lastKnownKey: lastKnownKey) { (tutors, loadedAllTutors) in
             self._observing = false
+            self.view.hideSkeleton()
             
             guard let tutors = tutors else {
-                self.view.hideSkeleton()
                 self.emptyBackground.isHidden = false
                 return
             }
-            self.view.hideSkeleton()
             
+            self.emptyBackground.isHidden = true
             self.lastKey = tutors.last?.uid
             self.loadedAllTutors = loadedAllTutors
             self.datasource.append(contentsOf: tutors.sorted(by: {$0.tNumSessions > $1.tNumSessions}))
