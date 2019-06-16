@@ -321,7 +321,7 @@ class MessagesVC: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        collectionView.reloadData()
+        collectionView.reloadData() // Reload cells to remove UI state changes
     }
     
     override func viewDidDisappear(_ animated: Bool) {

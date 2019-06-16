@@ -13,37 +13,6 @@ enum MessageCellType {
     case system, text, image, sessionRequest, connectionRequest
 }
 
-class CopyableTextView: UITextView {
-    override var canBecomeFirstResponder: Bool {
-        return true
-    }
-    
-    override func copy(_ sender: Any?) {
-        let board = UIPasteboard.general
-        board.string = text
-        let menu = UIMenuController.shared
-        menu.setMenuVisible(false, animated: true)
-        resignFirstResponder()
-    }
-    
-    func sharedInit() {
-        isUserInteractionEnabled = true
-        addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(showMenu(sender:))))
-    }
-    
-    @objc func showMenu(sender: AnyObject?) {
-        let menu = UIMenuController.shared
-        if !menu.isMenuVisible {
-            menu.setTargetRect(bounds, in: self)
-            menu.setMenuVisible(true, animated: true)
-        }
-    }
-    
-    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-        return action == #selector(copy(_:))
-    }
-}
-
 class UserMessageCell: BaseMessageCell {
     var chatPartner: User?
     var userMessage: UserMessage?
@@ -188,6 +157,10 @@ class UserMessageCell: BaseMessageCell {
     }
     
     @objc func showMenu(sender: AnyObject?) {
+        guard let messageType = message?.type, messageType == .text else {
+            return
+        }
+        
         becomeFirstResponder()
         let menu = UIMenuController.shared
         if !menu.isMenuVisible {
