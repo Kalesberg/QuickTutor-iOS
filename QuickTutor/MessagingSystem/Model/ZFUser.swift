@@ -29,6 +29,13 @@ class User: Decodable {
             return name
         }
     }
+    
+    var firstName: String.SubSequence? {
+        guard let name = username?.trimmingCharacters(in: .whitespaces), !name.isEmpty else {
+            return nil
+        }
+        return name.split(separator: " ").first
+    }
 
     func updateOnlineStatus(_ seconds: Double) {
         let differenceInSeconds = Date().timeIntervalSince1970 - seconds

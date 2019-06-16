@@ -286,6 +286,21 @@ class MessagesVC: UIViewController {
         }
     }
     
+    private func showDeleteMessagesAlert(index: Int) {
+        var title = "Delete Messages"
+        if let name = messages[index].user?.firstName {
+            title.append(contentsOf: " with \(name)")
+        }
+        
+        let actionSheet = UIAlertController(title: "\(title)?", message: "The messages will be permanently deleted.", preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Delete Messages", style: .destructive) { _ in
+            self.deleteMessages(index: index)
+        })
+        
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(actionSheet, animated: true, completion: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -377,7 +392,7 @@ extension MessagesVC: SwipeCollectionViewCellDelegate {
         guard orientation == .right else { return nil }
         
         let deleteAction = SwipeAction(style: .default, title: nil) { action, indexPath in
-            self.deleteMessages(index: indexPath.item)
+            self.showDeleteMessagesAlert(index: indexPath.item)
         }
         
         deleteAction.image = UIImage(named: "ic_payment_del")
