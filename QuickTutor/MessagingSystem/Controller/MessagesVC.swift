@@ -319,6 +319,11 @@ class MessagesVC: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        collectionView.reloadData()
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         NotificationManager.shared.enableAllConversationNotifications()
@@ -413,8 +418,6 @@ extension MessagesVC: SwipeCollectionViewCellDelegate {
         
         return AccountService.shared.currentUserType == .learner ? [deleteAction, requestSessionAction] : [deleteAction]
     }
-    
-    
     
     func collectionView(_ collectionView: UICollectionView, editActionsOptionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
         var options = SwipeOptions()
