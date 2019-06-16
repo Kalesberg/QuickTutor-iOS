@@ -290,7 +290,7 @@ class FirebaseData {
 			for child in snap {
 				guard let value = child.value as? [String : Any] else { continue }
 				
-                if let message = value["m"] as? String, !message.isEmpty {
+                if (value["m"] as? String) != nil {
                     var review = Review(dictionary: value)
                     review.sessionId = child.key
                     reviews.insert(review, at: 0)
