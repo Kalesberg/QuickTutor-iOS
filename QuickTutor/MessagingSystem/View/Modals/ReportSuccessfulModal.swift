@@ -46,7 +46,7 @@ class ReportSuccessfulModal: BaseCustomModal {
     }
 
     func setupConfirmButton() {
-        guard let window = UIApplication.shared.keyWindow else { return }
+        guard let window = lastWindow else { return }
         background.addSubview(confirmButton)
         confirmButton.anchor(top: messageLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 122, height: 35)
         window.addConstraint(NSLayoutConstraint(item: confirmButton, attribute: .centerX, relatedBy: .equal, toItem: background, attribute: .centerX, multiplier: 1, constant: 0))

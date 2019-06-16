@@ -68,7 +68,7 @@ class PauseSessionModal: BaseCustomModal {
     }()
 
     func setupUnpauseButton() {
-        guard let window = UIApplication.shared.keyWindow else { return }
+        guard let window = lastWindow else { return }
         background.addSubview(unpauseButton)
         unpauseButton.anchor(top: titleLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 244, height: 45)
         window.addConstraint(NSLayoutConstraint(item: unpauseButton, attribute: .centerX, relatedBy: .equal, toItem: background, attribute: .centerX, multiplier: 1, constant: 0))
@@ -87,7 +87,7 @@ class PauseSessionModal: BaseCustomModal {
     }
 
     func setupInPersonEndSessionButton() {
-        guard let window = UIApplication.shared.keyWindow else { return }
+        guard let window = lastWindow else { return }
         background.addSubview(inPersonEndSessionButton)
         inPersonEndSessionButton.anchor(top: nil, left: nil, bottom: background.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 52.5, paddingRight: 0, width: 270, height: 50)
         window.addConstraint(NSLayoutConstraint(item: inPersonEndSessionButton, attribute: .centerX, relatedBy: .equal, toItem: background, attribute: .centerX, multiplier: 1, constant: 0))

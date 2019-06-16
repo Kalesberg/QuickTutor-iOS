@@ -112,7 +112,7 @@ class EndSessionModal: BaseCustomModal {
     }
 
     func setupEndSessionButton() {
-        guard let window = UIApplication.shared.keyWindow else { return }
+        guard let window = lastWindow else { return }
         background.addSubview(endSessionButton)
         endSessionButton.anchor(top: nil, left: nil, bottom: background.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 25, paddingRight: 0, width: 122, height: 30)
         window.addConstraint(NSLayoutConstraint(item: endSessionButton, attribute: .centerX, relatedBy: .equal, toItem: background, attribute: .centerX, multiplier: 1, constant: 75))
@@ -120,7 +120,7 @@ class EndSessionModal: BaseCustomModal {
     }
     
     func setupButtonDivider() {
-        guard let window = UIApplication.shared.keyWindow else { return }
+        guard let window = lastWindow else { return }
         background.addSubview(buttonDivider)
         buttonDivider.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 2, height: 12)
         window.addConstraint(NSLayoutConstraint(item: buttonDivider, attribute: .centerX, relatedBy: .equal, toItem: background, attribute: .centerX, multiplier: 1, constant: -1))
@@ -134,7 +134,7 @@ class EndSessionModal: BaseCustomModal {
     }
 
     func setupNevermindButton() {
-        guard let window = UIApplication.shared.keyWindow else { return }
+        guard let window = lastWindow else { return }
         background.addSubview(nevermindButton)
         nevermindButton.anchor(top: nil, left: nil, bottom: background.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 25, paddingRight: 0, width: 122, height: 30)
         window.addConstraint(NSLayoutConstraint(item: nevermindButton, attribute: .centerX, relatedBy: .equal, toItem: background, attribute: .centerX, multiplier: 1, constant: -75))

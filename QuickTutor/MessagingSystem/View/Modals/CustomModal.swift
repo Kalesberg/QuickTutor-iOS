@@ -82,7 +82,7 @@ class CustomModal: BaseCustomModal {
     }
 
     func setupNevermindButton() {
-        guard let window = UIApplication.shared.keyWindow else { return }
+        guard let window = lastWindow else { return }
         background.addSubview(nevermindButton)
         nevermindButton.anchor(top: noteLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 122, height: 30)
         window.addConstraint(NSLayoutConstraint(item: nevermindButton, attribute: .centerX, relatedBy: .equal, toItem: background, attribute: .centerX, multiplier: 1, constant: -75))
@@ -90,7 +90,7 @@ class CustomModal: BaseCustomModal {
     }
     
     func setupButtonDivider() {
-        guard let window = UIApplication.shared.keyWindow else { return }
+        guard let window = lastWindow else { return }
         background.addSubview(buttonDivider)
         buttonDivider.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 2, height: 12)
         window.addConstraint(NSLayoutConstraint(item: buttonDivider, attribute: .centerX, relatedBy: .equal, toItem: background, attribute: .centerX, multiplier: 1, constant: -1))
@@ -98,7 +98,7 @@ class CustomModal: BaseCustomModal {
     }
 
     func setupConfirmButton() {
-        guard let window = UIApplication.shared.keyWindow else { return }
+        guard let window = lastWindow else { return }
         background.addSubview(confirmButton)
         confirmButton.anchor(top: noteLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 122, height: 30)
         window.addConstraint(NSLayoutConstraint(item: confirmButton, attribute: .centerX, relatedBy: .equal, toItem: background, attribute: .centerX, multiplier: 1, constant: 75))
