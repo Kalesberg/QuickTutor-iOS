@@ -27,20 +27,17 @@ class WalkthroughVCView: UIView {
     let images = [UIImage(named: "walkthroughSearch"),
                   UIImage(named: "walkthroughReachOut"),
                   UIImage(named: "walkthroughInPersonOnline"),
-                  UIImage(named: "walkthoughBecomeTutor"),
-                  UIImage(named: "img_walkthrough_bg")]
+                  UIImage(named: "walkthoughBecomeTutor")]
     let titles = ["Learn Anything.\nTeach Anyone.",
                   "Reach Out",
                   "Online And In-person",
-                  "Become a QuickTutor",
-                  ""]
+                  "Become a QuickTutor"]
     let subtitles = ["",
                      "Connect with tutors, message them\nand request a session with just a few taps!",
                      "Meet up for in-person sessions or hop on a video\ncall. The app takes care of session timing, billing,\nand payments — automatically.",
-                     "Start turning your knowledge into\n dollars and get paid today.\nTeach up to twenty different subjects.",
-                    ""]
+                     "Start turning your knowledge into\n dollars and get paid today.\nTeach up to twenty different subjects."]
     
-    let nextButtonTitles = ["Next", "Next", "Next", "Ok, got it", "Get started"]
+    let nextButtonTitles = ["Next", "Next", "Next", "Ok, got it"]
     
     let logoView: UIImageView = {
         let iv = UIImageView()
@@ -118,15 +115,15 @@ class WalkthroughVCView: UIView {
     }
     
     @objc func handleButton(_ sender: UIButton) {
-        guard pageControl.currentPage != 4 else {
+        guard pageControl.currentPage != 3 else {
             UserDefaults.standard.setValue(true, forKey: "hasBeenOnboarded")
-            RootControllerManager.shared.configureRootViewController(controller: SignInVC())
+            RootControllerManager.shared.configureRootViewController(controller: GetStartedViewController())
             return
         }
         self.nextButton.setTitle(nextButtonTitles[pageControl.currentPage + 1].uppercased(), for: .normal)
         collectionView.scrollToItem(at: IndexPath(item: pageControl.currentPage + 1, section: 0), at: .centeredHorizontally, animated: true)
         pageControl.currentPage += 1
-        if pageControl.currentPage == 4 {
+        if pageControl.currentPage == 3 {
             pageControl.isHidden = true
             collectionView.isScrollEnabled = false
         }
@@ -144,20 +141,14 @@ class WalkthroughVCView: UIView {
 
 extension WalkthroughVCView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return 4
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! WalkthroughCell
-        if indexPath.row == 4 {
-            cell.imageView.isHidden = true
-            cell.fullImageView.isHidden = false
-            cell.fullImageView.image = images[indexPath.item]
-        } else {
-            cell.imageView.isHidden = false
-            cell.fullImageView.isHidden = true
-            cell.imageView.image = images[indexPath.item]
-        }
+        cell.imageView.isHidden = false
+        cell.fullImageView.isHidden = true
+        cell.imageView.image = images[indexPath.item]
         
         cell.titleLabel.text = titles[indexPath.item]
         cell.infoLabel.text = subtitles[indexPath.item]
@@ -174,7 +165,7 @@ extension WalkthroughVCView: UICollectionViewDelegate, UICollectionViewDataSourc
         let currentPage = Int(ceil(x/w))
         self.pageControl.currentPage = currentPage
         self.nextButton.setTitle(nextButtonTitles[currentPage].uppercased(), for: .normal)
-        if currentPage == 4 {
+        if currentPage == 3 {
             pageControl.isHidden = true
             collectionView.isScrollEnabled = false
         }

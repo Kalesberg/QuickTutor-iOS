@@ -159,7 +159,7 @@ class VerificationVC: BaseRegistrationController {
                                     Registration.setLearnerDefaults()
                                     RootControllerManager.shared.configureRootViewController(controller: LearnerMainPageVC())
                                 } else {
-                                    RootControllerManager.shared.configureRootViewController(controller: SignInVC())
+                                    RootControllerManager.shared.configureRootViewController(controller: GetStartedViewController())
                                 }
                             }
                         } else {
@@ -168,7 +168,7 @@ class VerificationVC: BaseRegistrationController {
                                     Registration.setTutorDefaults()
                                     self.navigationController?.pushViewController(QTTutorDashboardViewController.controller, animated: true)
                                 } else {
-                                    self.navigationController?.pushViewController(SignInVC(), animated: true)
+                                    self.navigationController?.pushViewController(GetStartedViewController(), animated: true)
                                 }
                             }
                         }

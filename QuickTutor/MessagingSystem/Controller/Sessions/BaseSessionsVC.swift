@@ -407,6 +407,7 @@ class BaseSessionsVC: UIViewController {
     }
     
     private func getStudent(uid: String) {
+        if uid.isEmpty {return;}
         UserFetchService.shared.getStudentWithId(uid) { student in
             let vc = ConversationVC()
             vc.receiverId = uid
@@ -418,14 +419,15 @@ class BaseSessionsVC: UIViewController {
     }
     
     private func getTutor(uid: String) {
-        UserFetchService.shared.getTutorWithId(uid) { tutor in
-            let vc = ConversationVC()
-            vc.receiverId = uid
-            vc.chatPartner = tutor!
-            vc.connectionRequestAccepted = true
-            self.navigationController?.setNavigationBarHidden(false, animated: false)
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
+        if uid.isEmpty {return;}
+            UserFetchService.shared.getTutorWithId(uid) { tutor in
+                let vc = ConversationVC()
+                vc.receiverId = uid
+                vc.chatPartner = tutor!
+                vc.connectionRequestAccepted = true
+                self.navigationController?.setNavigationBarHidden(false, animated: false)
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
     }
     
     @objc func requestSession(notification: Notification) {
