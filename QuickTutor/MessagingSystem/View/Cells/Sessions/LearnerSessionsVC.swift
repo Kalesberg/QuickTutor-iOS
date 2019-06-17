@@ -20,7 +20,26 @@ class LearnerSessionsVC: BaseSessionsVC {
         return button
     }()
     
+    let emptyStateImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "img_invite_logo"))
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
+    let emptyStateLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.white
+        label.font = Fonts.createBlackSize(24)
+        label.text = "Oops,\nno upcoming sessions."
+        label.numberOfLines = 0
+        return label
+    }()
+    
     override func setupViews() {
+        setupEmptyStateImageView()
+        setupEmptyStateLabel()
+        collectionView.isHidden = true
+        
         super.setupViews()
         setupRequestSessionButton()
         setupRefreshControl()
@@ -34,9 +53,37 @@ class LearnerSessionsVC: BaseSessionsVC {
         view.layoutIfNeeded()
     }
     
+    func setupEmptyStateImageView() {
+        view.addSubview(emptyStateImageView)
+        emptyStateImageView.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 140, height: 140)
+        
+        emptyStateImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        emptyStateImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        emptyStateImageView.isUserInteractionEnabled = false
+        emptyStateImageView.isHidden = true
+    }
+    
+    private func setupEmptyStateLabel() {
+        view.addSubview(emptyStateLabel)
+        emptyStateLabel.anchor(top: emptyStateImageView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 40, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        emptyStateLabel.isUserInteractionEnabled = false
+        emptyStateLabel.isHidden = true
+    }
+    
+    override func toggleEmptyState(on: Bool) {
+        super.toggleEmptyState(on: on)
+        collectionView.isHidden = on
+        requestSessionButton.setTitle(on ? "Start learning" : "Request session", for: .normal)
+        emptyStateImageView.isHidden = !on
+        emptyStateLabel.isHidden = !on
+    }
+    
     @objc func handleRequestSession() {
-        let vc = SessionRequestVC()
-        navigationController?.pushViewController(vc, animated: true)
+        if collectionView.isHidden {
+            navigationController?.pushViewController(QuickSearchVC(), animated: false)
+        } else {
+            navigationController?.pushViewController(SessionRequestVC(), animated: true)
+        }
     }
     
     override func setupCollectionView() {

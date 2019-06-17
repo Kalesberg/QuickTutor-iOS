@@ -15,29 +15,37 @@ class AnotherQuestionView: MainLayoutHeader, Keyboardable {
     var anotherQuestionBody = SectionBody()
 
     var container = UIView()
-    var textField = NoPasteTextField()
-    var line = UIView()
+    
     var submitButton = SubmitButton()
-
+    
+    var textView: MessageTextView = {
+        let field = MessageTextView()
+        field.layer.borderColor = UIColor(red: 44/255, green: 44/255, blue: 58/255, alpha: 1).cgColor
+        field.layer.borderWidth = 1
+        field.layer.cornerRadius = 4
+        field.placeholderLabel.text = "Start type..."
+        field.tintColor = Colors.purple
+        field.font = Fonts.createSize(14)
+        field.textColor = .white
+        field.keyboardAppearance = .dark
+        field.autocorrectionType = .no
+        return field
+    }()
+    
     override func configureView() {
         addKeyboardView()
         addSubview(anotherQuestionBody)
         addSubview(container)
-        container.addSubview(textField)
-        container.addSubview(line)
+        container.addSubview(textView)
+        
         container.addSubview(submitButton)
+        submitButton.layer.cornerRadius = 4
+        
         super.configureView()
 
         header.text = "I have another question"
 
         anotherQuestionBody.text = "If you’ve run into a problem we haven’t mentioned, please leave us a note of your issue and we’ll get back to you as soon as possible via email. "
-
-        textField.tintColor = Colors.purple
-        textField.font = Fonts.createSize(20)
-        textField.isEnabled = true
-        textField.textColor = .white
-
-        line.backgroundColor = Colors.newScreenBackground
     }
 
     override func applyConstraints() {
@@ -52,22 +60,16 @@ class AnotherQuestionView: MainLayoutHeader, Keyboardable {
             make.bottom.equalTo(keyboardView.snp.top)
         }
 
-        textField.snp.makeConstraints { make in
+        textView.snp.makeConstraints { make in
             make.width.equalToSuperview()
+            make.height.equalTo(70)
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().multipliedBy(0.5)
         }
 
-        line.snp.makeConstraints { make in
-            make.bottom.equalTo(textField).offset(5)
-            make.width.equalToSuperview()
-            make.height.equalTo(1)
-            make.centerX.equalToSuperview()
-        }
-
         submitButton.snp.makeConstraints { make in
-            make.height.equalTo(40)
-            make.width.equalTo(250)
+            make.height.equalTo(44)
+            make.width.equalTo(180)
             make.centerY.equalToSuperview().multipliedBy(1.5)
             make.centerX.equalToSuperview()
         }
@@ -83,7 +85,7 @@ class AnotherQuestionVC: BaseViewController {
         super.viewDidLoad()
         navigationItem.title = "Help"
 
-        contentView.textField.becomeFirstResponder()
+        contentView.textView.becomeFirstResponder()
     }
 
     override func loadView() {
@@ -97,14 +99,14 @@ class AnotherQuestionVC: BaseViewController {
 
     override func handleNavigation() {
         if touchStartView == contentView.submitButton {
-            if contentView.textField.text!.count > 5 {
+            if contentView.textView.text!.count > 5 {
                 postQuestion()
             }
         }
     }
 
     private func postQuestion() {
-        FirebaseData.manager.updateAdditionalQuestions(value: ["question": contentView.textField.text!], completion: { error in
+        FirebaseData.manager.updateAdditionalQuestions(value: ["question": contentView.textView.text!], completion: { error in
             if let error = error {
                 print("try again! ", error)
             } else {

@@ -40,7 +40,7 @@ class BaseSessionsVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if #available(iOS 11.0, *) {
-            navigationController?.navigationBar.prefersLargeTitles = true
+            navigationController?.navigationBar.prefersLargeTitles = false
         }
         CardService.shared.checkForPaymentMethod()
     }
@@ -121,6 +121,7 @@ class BaseSessionsVC: UIViewController {
             .child(userTypeString)
             .queryLimited(toLast: 10).observeSingleEvent(of: .value) { snapshot in
                 guard let snap = snapshot.children.allObjects as? [DataSnapshot], snap.count > 0 else {
+                    self.toggleEmptyState(on: true)
                     return
                 }
                 
@@ -193,6 +194,7 @@ class BaseSessionsVC: UIViewController {
         DispatchQueue.main.async(execute: {
             self.updateTabBarBadge()
             self.collectionView.reloadData()
+            self.toggleEmptyState(on: self.pendingSessions.count + self.upcomingSessions.count + self.pastSessions.count == 0)
         })
     }
     
@@ -293,6 +295,9 @@ class BaseSessionsVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(requestSession(notification:)), name: Notification.Name(rawValue: "requestSession"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showProfile(_:)), name: Notification.Name(rawValue: "com.qt.viewProfile"), object: nil)
         
+    }
+    
+    func toggleEmptyState(on: Bool) {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

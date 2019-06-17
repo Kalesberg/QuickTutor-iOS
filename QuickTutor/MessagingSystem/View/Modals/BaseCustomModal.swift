@@ -10,6 +10,10 @@ import UIKit
 
 class BaseCustomModal: UIView {
     var isShown = false
+    
+    let lastWindow: UIWindow? = {
+        return UIApplication.shared.windows.last
+    }()
 
     let backgroundBlurView: UIVisualEffectView = {
         let blur = UIBlurEffect(style: .dark)
@@ -40,6 +44,7 @@ class BaseCustomModal: UIView {
     var backgroundHeightAnchor: NSLayoutConstraint?
 
     func setupViews() {
+        layer.zPosition = CGFloat(Float.greatestFiniteMagnitude)
         setupBackgroundBlurView()
         setupBackground()
         setupTitleLabel()
@@ -52,7 +57,7 @@ class BaseCustomModal: UIView {
     }
 
     func setupBackground() {
-        guard let window = UIApplication.shared.keyWindow else { return }
+        guard let window = lastWindow else { return }
         window.addSubview(background)
         background.anchor(top: nil, left: window.leftAnchor, bottom: nil, right: window.rightAnchor, paddingTop: 0, paddingLeft: 16, paddingBottom: 0, paddingRight: 16, width: 0, height: 0)
         backgroundCenterYAnchor = background.centerYAnchor.constraint(equalTo: window.centerYAnchor, constant: 500)
@@ -61,11 +66,12 @@ class BaseCustomModal: UIView {
     }
 
     func setupBackgroundBlurView() {
-        guard let window = UIApplication.shared.keyWindow else { return }
+        guard let window = lastWindow else { return }
         window.addSubview(backgroundBlurView)
         backgroundBlurView.anchor(top: window.topAnchor, left: window.leftAnchor, bottom: window.bottomAnchor, right: window.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         let dismissTap = UITapGestureRecognizer(target: self, action: #selector(dismiss))
         backgroundBlurView.addGestureRecognizer(dismissTap)
+        window.bringSubviewToFront(backgroundBlurView)
     }
     
     func setupTitleLabel() {

@@ -107,7 +107,9 @@ class CategorySearchVC: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
         hideTabBar(hidden: true)
-        guard let filter = self.searchFilter, self.datasource.count > 0 else { return }
+        guard let filter = self.searchFilter, self.datasource.count > 0 else {
+            return
+        }
         self.applySearchFilterToDataSource(filter)
         collectionView.reloadData()
     }
@@ -168,7 +170,7 @@ class CategorySearchVC: UIViewController {
     
     func queryNeededTutors(lastKnownKey: String?) {
         guard !loadedAllTutors else { return }
-        
+        print(subject)
         if category != nil {
             queryTutorsByCategory(lastKnownKey: lastKnownKey)
         } else if subcategory != nil {
@@ -182,13 +184,14 @@ class CategorySearchVC: UIViewController {
         _observing = true
         TutorSearchService.shared.getTutorsByCategory(category, lastKnownKey: lastKnownKey) { (tutors, loadedAllTutors) in
             self._observing = false
+            self.view.hideSkeleton()
             
             guard let tutors = tutors else {
-                self.view.hideSkeleton()
                 self.emptyBackground.isHidden = false
                 return
             }
-            self.view.hideSkeleton()
+            
+            self.emptyBackground.isHidden = true
             
             self.lastKey = tutors.last?.uid
             self.loadedAllTutors = loadedAllTutors
@@ -205,13 +208,14 @@ class CategorySearchVC: UIViewController {
         _observing = true        
         TutorSearchService.shared.getTutorsBySubcategory(subcategory, lastKnownKey: lastKnownKey) { (tutors, loadedAllTutors) in
             self._observing = false
+            self.view.hideSkeleton()
             
             guard let tutors = tutors else {
-                self.view.hideSkeleton()
                 self.emptyBackground.isHidden = false
                 return
             }
-            self.view.hideSkeleton()
+            
+            self.emptyBackground.isHidden = true
             
             self.lastKey = tutors.last?.uid
             self.loadedAllTutors = loadedAllTutors
@@ -228,14 +232,14 @@ class CategorySearchVC: UIViewController {
         _observing = true
         TutorSearchService.shared.getTutorsBySubject(subject, lastKnownKey: lastKnownKey) { (tutors, loadedAllTutors) in
             self._observing = false
+            self.view.hideSkeleton()
             
             guard let tutors = tutors else {
-                self.view.hideSkeleton()
                 self.emptyBackground.isHidden = false
                 return
             }
-            self.view.hideSkeleton()
             
+            self.emptyBackground.isHidden = true
             self.lastKey = tutors.last?.uid
             self.loadedAllTutors = loadedAllTutors
             self.datasource.append(contentsOf: tutors.sorted(by: {$0.tNumSessions > $1.tNumSessions}))

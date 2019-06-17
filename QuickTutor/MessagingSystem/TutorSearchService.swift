@@ -20,7 +20,11 @@ class TutorSearchService {
             ref = ref.queryStarting(atValue: key)
         }
         ref.observeSingleEvent(of: .value) { snapshot in
-            guard let tutorIds = snapshot.value as? [String: Any] else { return }
+            guard let tutorIds = snapshot.value as? [String: Any] else {
+                completion(nil, false)
+                return
+            }
+            
             tutorIds.keys.sorted(by: { $0 < $1 }).forEach { uid in
                 myGroup.enter()
                 FirebaseData.manager.fetchTutor(uid, isQuery: false, { tutor in
@@ -57,7 +61,10 @@ class TutorSearchService {
         }
         ref.observeSingleEvent(of: .value) { (snapshot) in
             print(snapshot.key)
-            guard let tutorIds = snapshot.value as? [String: Any] else { return }
+            guard let tutorIds = snapshot.value as? [String: Any] else {
+                completion(nil, false)
+                return
+            }
             let myGroup = DispatchGroup()
             tutorIds.keys.sorted(by: { $0 < $1 }).forEach { uid in
                 myGroup.enter()
@@ -93,7 +100,11 @@ class TutorSearchService {
             ref = ref.queryStarting(atValue: key)
         }
         ref.observeSingleEvent(of: .value) { snapshot in
-            guard let tutorIds = snapshot.value as? [String: Any] else { return }
+            guard let tutorIds = snapshot.value as? [String: Any] else {
+                completion(nil, false)
+                return
+                
+            }
             tutorIds.keys.sorted(by: { $0 < $1 }).forEach { uid in
                 myGroup.enter()
                 FirebaseData.manager.fetchTutor(uid, isQuery: false, { tutor in

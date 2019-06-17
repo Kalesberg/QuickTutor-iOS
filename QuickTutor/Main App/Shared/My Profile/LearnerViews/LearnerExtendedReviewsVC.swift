@@ -16,13 +16,14 @@ class LearnerReviewsView: UIView {
     let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.showsVerticalScrollIndicator = false
-        tableView.separatorColor = Colors.newScreenBackground
+        tableView.separatorColor = Colors.gray
         tableView.backgroundColor = Colors.newScreenBackground
         tableView.showsVerticalScrollIndicator = false
         tableView.register(QTReviewTableViewCell.nib, forCellReuseIdentifier: QTReviewTableViewCell.reuseIdentifier)
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.separatorStyle = .none
+        tableView.separatorStyle = .singleLine
+        tableView.tableFooterView=UIView(frame: .zero)
         return tableView
     }()
 

@@ -26,7 +26,9 @@ class ConversationCollectionView: UICollectionView {
     override var contentSize: CGSize {
         didSet {
             typingTopAnchor?.constant += contentSize.height - oldValue.height
-            layoutIfNeeded()
+            UIView.animate(withDuration: 0.25) {
+                self.layoutIfNeeded()
+            }
         }
     }
     
@@ -79,8 +81,6 @@ class ConversationCollectionView: UICollectionView {
     }
     
     func layoutTypingLabelIfNeeded() {
-        print("layoutTypingLabelIfNeeded" + (isTypingIndicatorVisible ? ": true" : ": false"))
-        
         // The definitive bottom of the collection view
         let bottom = contentOffset.y + bounds.size.height
         
@@ -92,7 +92,6 @@ class ConversationCollectionView: UICollectionView {
         if isTypingIndicatorVisible {
             y = (contentSize.height > bounds.height + typingIndicatorHeight + seenIndictorPadding) ? contentSize.height : bounds.height
             bottomInset = (self.typingHeightAnchor?.constant ?? 0) + (keyboardBottomAdjustment ?? 0) + seenIndictorPadding
-            print("show: \(contentSize.height)")
         } else {
             y = (contentSize.height > bounds.height) ? contentSize.height : bounds.height
             bottomInset = keyboardBottomAdjustment ?? 0
@@ -129,4 +128,36 @@ class ConversationCollectionView: UICollectionView {
         fatalError("init(coder:) has not been implemented")
     }
     
+}
+
+class ConversationFlowLayout : UICollectionViewFlowLayout {
+    var insertingIndexPaths = [IndexPath]()
+    
+    override func prepare(forCollectionViewUpdates updateItems: [UICollectionViewUpdateItem]) {
+        super.prepare(forCollectionViewUpdates: updateItems)
+        
+        insertingIndexPaths.removeAll()
+        
+        for update in updateItems {
+            if let indexPath = update.indexPathAfterUpdate,
+                update.updateAction == .insert {
+                insertingIndexPaths.append(indexPath)
+            }
+        }
+    }
+    
+    override func finalizeCollectionViewUpdates() {
+        super.finalizeCollectionViewUpdates()
+        insertingIndexPaths.removeAll()
+    }
+    
+    override func initialLayoutAttributesForAppearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        let attributes = super.initialLayoutAttributesForAppearingItem(at: itemIndexPath)
+        
+        if insertingIndexPaths.contains(itemIndexPath) {
+            attributes?.transform = CGAffineTransform(translationX: 0, y: 100.0)
+        }
+        
+        return attributes
+    }
 }

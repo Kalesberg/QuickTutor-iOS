@@ -70,7 +70,10 @@ class EditSchoolVC: UIViewController {
     }
     
     func setupViews() {
-        searchView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.1, offset: CGSize(width: 0, height: 1), radius: 5.0)
+        searchView.layer.applyShadow(color: UIColor(red: 21/255, green: 21/255, blue: 30/255, alpha: 1.0).cgColor,
+                                      opacity: 1,
+                                      offset: CGSize(width: 0, height: 10),
+                                      radius: 10)
         setupSearchField()
         setupTableView()
         closeButton.isHidden = school?.isEmpty ?? true

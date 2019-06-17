@@ -59,15 +59,8 @@
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e8u-nI-AiX">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="77"/>
                                     <subviews>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="84m-6f-tWV" userLabel="separator">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="1"/>
-                                            <color key="backgroundColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.22745098039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="1" id="M72-c7-xPt"/>
-                                            </constraints>
-                                        </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X2n-LF-o7b">
-                                            <rect key="frame" x="20" y="21" width="83.5" height="17"/>
+                                            <rect key="frame" x="20" y="20" width="83.5" height="18"/>
                                             <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
@@ -91,13 +84,10 @@
                                     </subviews>
                                     <color key="backgroundColor" red="0.082352941176470587" green="0.082352941176470587" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
-                                        <constraint firstItem="84m-6f-tWV" firstAttribute="top" secondItem="e8u-nI-AiX" secondAttribute="top" id="0hF-Xj-5tD"/>
-                                        <constraint firstItem="84m-6f-tWV" firstAttribute="centerX" secondItem="e8u-nI-AiX" secondAttribute="centerX" id="5Fi-zd-3g9"/>
                                         <constraint firstItem="EYT-R0-j9b" firstAttribute="centerX" secondItem="e8u-nI-AiX" secondAttribute="centerX" id="Cn3-aL-kl3"/>
-                                        <constraint firstItem="X2n-LF-o7b" firstAttribute="top" secondItem="84m-6f-tWV" secondAttribute="bottom" constant="20" id="FSP-16-FHT"/>
+                                        <constraint firstItem="X2n-LF-o7b" firstAttribute="top" secondItem="e8u-nI-AiX" secondAttribute="top" constant="20" id="FSP-16-FHT"/>
                                         <constraint firstItem="4V2-Bs-AbN" firstAttribute="top" secondItem="X2n-LF-o7b" secondAttribute="bottom" constant="10" id="Gl5-Sc-axh"/>
                                         <constraint firstItem="X2n-LF-o7b" firstAttribute="leading" secondItem="e8u-nI-AiX" secondAttribute="leading" constant="20" id="HF4-3h-smD"/>
-                                        <constraint firstItem="84m-6f-tWV" firstAttribute="width" secondItem="e8u-nI-AiX" secondAttribute="width" id="PbA-eB-zeS"/>
                                         <constraint firstAttribute="bottom" secondItem="EYT-R0-j9b" secondAttribute="bottom" id="PfA-p2-hMl"/>
                                         <constraint firstAttribute="trailing" secondItem="4V2-Bs-AbN" secondAttribute="trailing" constant="20" id="RGI-YY-5cG"/>
                                         <constraint firstItem="EYT-R0-j9b" firstAttribute="top" secondItem="4V2-Bs-AbN" secondAttribute="bottom" id="Y9Y-Lr-TkS"/>

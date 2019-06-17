@@ -46,7 +46,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
 
     // MARK: Layout Views -
     let messagesCollection: ConversationCollectionView = {
-        let layout = UICollectionViewFlowLayout()
+        let layout = ConversationFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
@@ -352,14 +352,19 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             updateForReceivedMessage(message)
             return
         }
-        UIView.setAnimationsEnabled(false)
+        
+        if message.type == .sessionRequest {
+            UIView.setAnimationsEnabled(false)
+        }
         
         messagesCollection.performBatchUpdates({
             removeDeliveredLabel()
             insertNewMessage(message: message)
             addDeliveredLabel()
         }) { (completed) in
-            UIView.setAnimationsEnabled(true)
+            if message.type == .sessionRequest {
+                UIView.setAnimationsEnabled(true)
+            }
         }
     }
     

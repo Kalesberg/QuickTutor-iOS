@@ -27,10 +27,10 @@ class EmptySearchBackground: UIView {
     
     let subtitleLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createSize(14)
+        label.font = Fonts.createSize(15)
         label.textColor = .gray
-        label.numberOfLines = 0
-        label.text = "Try adjusting your filters,\nsearching for something similar!"
+        label.numberOfLines = 2
+        label.text = "Try adjusting your filters or \nsearching for something similar!"
         return label
     }()
     
@@ -42,7 +42,7 @@ class EmptySearchBackground: UIView {
     
     func setupIcon() {
         addSubview(icon)
-        icon.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 54, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 143, height: 142)
+        icon.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 72, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 143, height: 172)
     }
     
     func setupTitleLabel() {
@@ -52,7 +52,7 @@ class EmptySearchBackground: UIView {
     
     func setupSubtitleLabel() {
         addSubview(subtitleLabel)
-        subtitleLabel.anchor(top: titleLabel.bottomAnchor, left: titleLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 300, height: 42)
+        subtitleLabel.anchor(top: titleLabel.bottomAnchor, left: titleLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 300, height: 50)
     }
     
     override init(frame: CGRect) {

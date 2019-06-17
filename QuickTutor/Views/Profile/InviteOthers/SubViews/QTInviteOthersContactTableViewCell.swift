@@ -43,6 +43,11 @@ class QTInviteOthersContactTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    override func prepareForReuse() {
+        avatarImageView.image = UIImage(named: "ic_avatar_placeholder")
+        checkImageView.isHighlighted = false
+    }
+    
     // MARK: - Actions
     @objc
     func handleCheckViewTap() {

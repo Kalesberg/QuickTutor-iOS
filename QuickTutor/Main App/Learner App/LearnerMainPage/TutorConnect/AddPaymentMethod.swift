@@ -37,7 +37,7 @@ class AddPaymentModal: CustomModal {
         background.backgroundColor = Colors.modalBackground
         buttonDivider.removeFromSuperview()
         nevermindButton.removeFromSuperview()
-        noteLabel.text = "QuickTutor is a cashless payment experience. You must have a payment method on file to enter a session with a tutor. There are no subscription fees or upfront payments. You will only be charged after your session"
+        noteLabel.text = "QuickTutor is a cashless payment experience. You must have a payment method on file to enter a session with a tutor. There are no subscription fees or upfront payments. You will only be charged after your session."
         titleLabel.text = "Wait a minute"
     }
     
@@ -68,7 +68,7 @@ class AddPaymentModal: CustomModal {
     
     override func setupConfirmButton() {
         confirmButton.setTitle("Add Payment Method!", for: .normal)
-        guard let window = UIApplication.shared.keyWindow else { return }
+        guard let window = lastWindow else { return }
         background.addSubview(confirmButton)
         confirmButton.anchor(top: noteLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 180, height: 35)
         window.addConstraint(NSLayoutConstraint(item: confirmButton, attribute: .centerX, relatedBy: .equal, toItem: background, attribute: .centerX, multiplier: 1, constant: 0))

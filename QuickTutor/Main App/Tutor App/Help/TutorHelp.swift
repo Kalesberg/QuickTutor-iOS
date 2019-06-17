@@ -65,8 +65,8 @@ extension TutorHelp: UITableViewDataSource, UITableViewDelegate {
     }
 
     func insertBorder(cell: UITableViewCell) {
-        let border = UIView(frame: CGRect(x: 0, y: cell.contentView.frame.size.height - 1.0, width: cell.contentView.frame.size.width, height: 1))
-        border.backgroundColor = UIColor(red: 0.1180350855, green: 0.1170349047, blue: 0.1475356817, alpha: 1)
+        let border = UIView(frame: CGRect(x: 10, y: cell.contentView.frame.size.height - 1.0, width: self.view.frame.width - 20, height: 1))
+        border.backgroundColor = UIColor(red: 44/255, green: 44/255, blue: 58/255, alpha: 1)
         cell.contentView.addSubview(border)
     }
 }
