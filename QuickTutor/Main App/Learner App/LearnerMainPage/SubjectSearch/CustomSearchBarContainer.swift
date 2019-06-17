@@ -189,6 +189,7 @@ class CustomSearchBarContainer: UIView {
             self.layoutIfNeeded()
         }) { (_) in
             self.cancelEditingButton.isHidden = true
+            self.showSearchClearButton(false)
         }
         delegate?.customSearchBarDidTapCancelEditButton(searchBar)
     }

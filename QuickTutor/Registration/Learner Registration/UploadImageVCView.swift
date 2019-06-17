@@ -12,7 +12,7 @@ class UploadImageVCView: BaseRegistrationView {
     
     let imageView: UIImageView = {
         let iv = UIImageView()
-        iv.backgroundColor = Colors.gray
+        iv.backgroundColor = Colors.newScreenBackground
         iv.clipsToBounds = true
         iv.tag = 1
         iv.applyDefaultShadow()
@@ -23,7 +23,10 @@ class UploadImageVCView: BaseRegistrationView {
         iv.layer.masksToBounds = true
         iv.layer.borderColor = Colors.purple.cgColor
         iv.layer.borderWidth = 1
-        
+        iv.layer.applyShadow(color: Colors.newScreenBackground.cgColor,
+                                    opacity: 0.2,
+                                    offset: CGSize(width: 2, height: 2),
+                                    radius: 10)
         return iv
     }()
     
