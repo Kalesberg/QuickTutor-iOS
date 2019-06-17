@@ -80,7 +80,9 @@ class LearnerMainPageVCView: UIView {
     func setupScrollViewDidScrollAction() {
         collectionViewHelper.handleScrollViewScroll = { [weak self] offset in
             guard let self = self else { return }
-            self.searchBarContainer.showShadow()
+            if -offset < 0 && offset != -50 {
+                self.searchBarContainer.showShadow()
+            }
             
             guard RecentSearchesManager.shared.hasNoRecentSearches
                 || (-offset < 0 && offset != -50) else {
