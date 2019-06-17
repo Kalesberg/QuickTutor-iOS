@@ -160,6 +160,11 @@ class QTTutorDashboardViewController: UIViewController {
         initUserBasicInformation()
         getSessions()
         getEarnings()
+        
+        // End the animation of refersh control
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
+            self.refreshControl.endRefreshing()
+        })
     }
     
     // MARK: - Functions
@@ -181,11 +186,9 @@ class QTTutorDashboardViewController: UIViewController {
         // Get earnings from stripe
         StripeService.retrieveBalanceTransactionList(acctId: CurrentUser.shared.tutor.acctId) { _, transactions in
             guard let transactions = transactions else {
-                self.refreshControl.endRefreshing()
                 return
             }
             self.transactions = transactions.data.filter({ (transactions) -> Bool in
-                self.refreshControl.endRefreshing()
                 if transactions.amount != nil && transactions.amount! > 0 {
                     return true
                 }
@@ -196,11 +199,9 @@ class QTTutorDashboardViewController: UIViewController {
     
     func getSessions() {
         guard let tutor = self.tutor else {
-            self.refreshControl.endRefreshing()
             return
         }
         FirebaseData.manager.fetchUserSessions(uid: tutor.uid, type: "tutor") { sessions in
-            self.refreshControl.endRefreshing()
             guard let sessions = sessions else {
                 self.filterSessionsAndHours(self.durationType)
                 return
