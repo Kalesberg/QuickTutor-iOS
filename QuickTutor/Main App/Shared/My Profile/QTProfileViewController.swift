@@ -315,12 +315,14 @@ class QTProfileViewController: UIViewController {
         if profileViewType == .tutor || profileViewType == .myTutor {
             UserFetchService.shared.getUserWithId(user.uid, type: .tutor) { (tutor) in
                 self.avatarImageView.sd_setImage(with: tutor?.profilePicUrl)
+                self.user?.profilePicUrl = tutor?.profilePicUrl
             }
         } else {
             UserFetchService.shared.getUserWithId(user.uid, type: .learner) { (learner) in
                 self.avatarImageView.sd_setImage(with: learner?.profilePicUrl)
                 if let url = learner?.profilePicUrl {
                     self.user.images["image1"] = url.absoluteString
+                    self.user?.profilePicUrl = url
                 }
             }
         }
