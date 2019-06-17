@@ -165,6 +165,7 @@ class SignInVC: UIViewController {
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		navigationController?.setNavigationBarHidden(true, animated: false)
+		hideTabBar(hidden: true)
 	}
 	
 	@objc func keyboardWillShow(_ notification: Notification) {
