@@ -44,7 +44,7 @@ class QuickSearchVCView: UIView {
     func setupSearchBarContainer() {
         insertSubview(searchBarContainer, at: 2)
         addSubview(searchBarContainer)
-        searchBarContainer.anchor(top: getTopAnchor(), left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 20, paddingRight: 0, width: 0, height: 57)
+        searchBarContainer.anchor(top: getTopAnchor(), left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 8, paddingLeft: 0, paddingBottom: 20, paddingRight: 0, width: 0, height: 57)
     }
     
     func setupCollectionView() {
