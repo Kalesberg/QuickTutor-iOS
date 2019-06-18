@@ -188,7 +188,7 @@ class CloseAccountSubmissionVC: BaseViewController {
                                 self.getUserCredentialsAlert()
                             }
                         } else {
-                            self.navigationController?.pushViewController(SignInVC(), animated: false)
+                            self.navigationController?.pushViewController(GetStartedViewController(), animated: false)
                         }
                     }
                 }
@@ -224,7 +224,7 @@ class CloseAccountSubmissionVC: BaseViewController {
                             self.getUserCredentialsAlert()
                         }
                     } else {
-                        self.navigationController?.pushViewController(SignInVC(), animated: false)
+                        self.navigationController?.pushViewController(GetStartedViewController(), animated: false)
                     }
                 }
             }

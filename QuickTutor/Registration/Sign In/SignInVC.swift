@@ -132,8 +132,9 @@ class SignInVC: UIViewController {
 	
 	var verificationId: String!
 	
-	let contentView: SignInVCView = {
+	lazy var contentView: SignInVCView = {
 		let view = SignInVCView()
+		view.delegate = self
 		return view
 	}()
 	
@@ -402,3 +403,8 @@ extension String {
 	}
 }
 
+extension SignInVC: SignInVCViewDelegate {
+	func backButtonTapped() {
+		navigationController?.popToRootViewController(animated: true)
+	}
+}

@@ -24,7 +24,7 @@ class SignInManager {
         
         FirebaseData.manager.signInUserOfType(typeOfUser, uid: user.uid) { (successful) in
             guard successful else {
-                RootControllerManager.shared.configureRootViewController(controller: SignInVC())
+                RootControllerManager.shared.configureRootViewController(controller: GetStartedViewController())
                 return
             }
             AccountService.shared.updateFCMTokenIfNeeded()

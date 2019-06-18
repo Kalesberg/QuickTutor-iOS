@@ -44,7 +44,7 @@ class TheChoiceVC: UIViewController {
                     let endIndex = self.navigationController?.viewControllers.endIndex
                     self.navigationController?.viewControllers.removeFirst(endIndex! - 1)
                 } else {
-                    self.navigationController?.pushViewController(SignInVC(), animated: true)
+                    self.navigationController?.pushViewController(GetStartedViewController(), animated: true)
                 }
             }
         } else {
@@ -57,7 +57,7 @@ class TheChoiceVC: UIViewController {
                     self.navigationController?.pushViewController(vc, animated: true)
                 } else {
                     self.dismissOverlay()
-                    self.navigationController?.pushViewController(SignInVC(), animated: true)
+                    self.navigationController?.pushViewController(GetStartedViewController(), animated: true)
                 }
             }
         }

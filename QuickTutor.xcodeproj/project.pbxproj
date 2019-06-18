@@ -628,6 +628,7 @@
 		56DC6DA5220BD7DF00935F47 /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56DC6D97220BD7DF00935F47 /* Lato-Regular.ttf */; };
 		56DC6DA6220BD7DF00935F47 /* Lato-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56DC6D98220BD7DF00935F47 /* Lato-Semibold.ttf */; };
 		56DC6DA7220BD7DF00935F47 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 56DC6D99220BD7DF00935F47 /* OFL.txt */; };
+		62336B8022B759410060797D /* GetStartedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62336B7F22B759410060797D /* GetStartedViewController.swift */; };
 		6678231FF480F2441B6774FE /* Pods_QuickTutorApp_QuickTutorDev.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CF0EA42A8F41C9B5B75E778 /* Pods_QuickTutorApp_QuickTutorDev.framework */; };
 		84000D2E21246B5E0023355B /* ProfileImageViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84000D2D21246B5E0023355B /* ProfileImageViewer.swift */; };
 		8404F43B20EAE6EC00747C01 /* badwords.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8404F43A20EAE6EB00747C01 /* badwords.txt */; };
@@ -1350,6 +1351,7 @@
 		56DC6D97220BD7DF00935F47 /* Lato-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Regular.ttf"; sourceTree = "<group>"; };
 		56DC6D98220BD7DF00935F47 /* Lato-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Semibold.ttf"; sourceTree = "<group>"; };
 		56DC6D99220BD7DF00935F47 /* OFL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
+		62336B7F22B759410060797D /* GetStartedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStartedViewController.swift; sourceTree = "<group>"; };
 		84000D2D21246B5E0023355B /* ProfileImageViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageViewer.swift; sourceTree = "<group>"; };
 		8404F43A20EAE6EB00747C01 /* badwords.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = badwords.txt; sourceTree = "<group>"; };
 		8404F43C20EBB3AE00747C01 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
@@ -2957,6 +2959,7 @@
 				84C88E702168E2050023A338 /* SignInView.swift */,
 				847D77A81FBE6B69009F4D42 /* VerificationVC.swift */,
 				841F8490216A55CF00C9788B /* VerificationVCView.swift */,
+				62336B7F22B759410060797D /* GetStartedViewController.swift */,
 			);
 			path = "Sign In";
 			sourceTree = "<group>";
@@ -4979,6 +4982,7 @@
 				CF1C6113209EA6F4009B7B0E /* AddTimeModal.swift in Sources */,
 				567E1A162270C46B0094E371 /* QTCloseAccountInfoViewController.swift in Sources */,
 				84A6E470218F68C700D03681 /* TutorSubjectSearch.swift in Sources */,
+				62336B8022B759410060797D /* GetStartedViewController.swift in Sources */,
 				CFB9B7D121C18A690022333F /* BaseSessionRequestViewSection.swift in Sources */,
 				CF17F222226BC04200ABD07D /* RangeSlider.swift in Sources */,
 				CF17F22C226BC72000ABD07D /* TutorPreferenceData.swift in Sources */,

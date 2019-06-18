@@ -9,18 +9,17 @@
 import Foundation
 import FBSDKLoginKit
 
+protocol SignInVCViewDelegate: class {
+    func backButtonTapped()
+}
+
 class SignInVCView: UIView {
     
-    let logoImageView: UIImageView = {
-        let iv = UIImageView()
-        iv.contentMode = .scaleAspectFit
-        iv.image = UIImage(named: "launchScreenImage")
-        return iv
-    }()
+    weak var delegate: SignInVCViewDelegate?
     
-    let welcomeLabel: UILabel = {
+    let getStartedLabel: UILabel = {
         let label = UILabel()
-        label.text = "Welcome to QuickTutor!"
+        label.text = "Get Started"
         label.textColor = .white
         label.font = Fonts.createBlackSize(24)
         label.numberOfLines = 0
@@ -77,10 +76,19 @@ class SignInVCView: UIView {
         return label
     }()
     
+    let backButton: UIButton = {
+       let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        let backArrowImage = UIImage(named: "ic_back_arrow")
+        button.setImage(backArrowImage, for: .normal)
+        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
     func setupViews() {
         setupMainView()
-        setupLogoImageView()
-        setupWelcomeLabel()
+        setupBackButton()
+        setupGetStartedLabel()
         setupPhoneTextField()
         setupOrLabel()
         setupFacebookButton()
@@ -92,25 +100,22 @@ class SignInVCView: UIView {
         backgroundColor = Colors.newScreenBackground
     }
     
-    func setupLogoImageView() {
-        addSubview(logoImageView)
-        logoImageView.anchor(top: nil, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 30, paddingBottom: 0, paddingRight: 0, width: 55, height: 55)
-        let topMaxAnchor = logoImageView.topAnchor.constraint(equalTo: getTopAnchor(), constant: 80)
-        topMaxAnchor.priority = UILayoutPriority.defaultLow
-        topMaxAnchor.isActive = true
-        let topMinAnchor = logoImageView.topAnchor.constraint(greaterThanOrEqualTo: getTopAnchor(), constant: 20)
-        topMinAnchor.priority = UILayoutPriority.defaultHigh
-        topMinAnchor.isActive = true
+    func setupBackButton() {
+        addSubview(backButton)
+        NSLayoutConstraint.activate([
+            backButton.leftAnchor.constraint(equalTo: leftAnchor, constant: 30),
+            backButton.topAnchor.constraint(equalTo: topAnchor, constant: 60)
+            ])
     }
     
-    func setupWelcomeLabel() {
-        addSubview(welcomeLabel)
-        welcomeLabel.anchor(top: logoImageView.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 30, paddingBottom: 0, paddingRight: 0, width: 166, height: 72)
+    func setupGetStartedLabel() {
+        addSubview(getStartedLabel)
+        getStartedLabel.anchor(top: backButton.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 30, paddingBottom: 0, paddingRight: 0, width: 166, height: 72)
     }
     
     func setupPhoneTextField() {
         addSubview(phoneTextField)
-        phoneTextField.anchor(top: welcomeLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 80, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: 0, height: 105)
+        phoneTextField.anchor(top: getStartedLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 80, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: 0, height: 105)
     }
     
     func setupOrLabel() {
@@ -131,6 +136,10 @@ class SignInVCView: UIView {
     func setupInfoTextView() {
         addSubview(infoTextView)
         infoTextView.anchor(top: nil, left: leftAnchor, bottom: patentLabel.topAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 17, paddingBottom: 15, paddingRight: 16, width: 0, height: 80)
+    }
+    
+    @objc func backButtonTapped() {
+        delegate?.backButtonTapped()
     }
     
     override init(frame: CGRect) {
