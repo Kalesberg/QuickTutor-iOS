@@ -105,7 +105,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
             let vc = WalkthroughVC()
             RootControllerManager.shared.setupDefaultConfiguration(controller: vc)
         } else {
-            let vc = SignInVC()
+            let vc = GetStartedViewController()
             RootControllerManager.shared.setupDefaultConfiguration(controller: vc)
         }
     }
