@@ -877,6 +877,7 @@
 		93F61E4A2277DA1E00298B77 /* TutorSSNViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93F61E472277DA1E00298B77 /* TutorSSNViewController.xib */; };
 		93F61E4B2277DA1E00298B77 /* TutorSSNViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93F61E472277DA1E00298B77 /* TutorSSNViewController.xib */; };
 		94BF1263BC9410C22FBDB70E /* Pods_QuickTutorApp_QuickTutor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE3A0BE96E29B6E4E34ED372 /* Pods_QuickTutorApp_QuickTutor.framework */; };
+		9C90ED9722B9D25A00C3E616 /* GetStartedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62336B7F22B759410060797D /* GetStartedViewController.swift */; };
 		BE17EA1F22A9D9B50044E934 /* EditSchoolVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE17EA1E22A9D9B50044E934 /* EditSchoolVC.xib */; };
 		BE17EA2022A9D9B50044E934 /* EditSchoolVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE17EA1E22A9D9B50044E934 /* EditSchoolVC.xib */; };
 		BE81721F229C724A0089FA1E /* quickcalls_ringtone.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BE81721D229C724A0089FA1E /* quickcalls_ringtone.mp3 */; };
@@ -4491,6 +4492,7 @@
 				569F174F223554FD00820A20 /* SystemMessageCell.swift in Sources */,
 				569F1750223554FD00820A20 /* TutorHarassmentVC.swift in Sources */,
 				560237A2226764C6005653D5 /* FeaturedSectionController.swift in Sources */,
+				9C90ED9722B9D25A00C3E616 /* GetStartedViewController.swift in Sources */,
 				569F1751223554FD00820A20 /* LearnerMainPageCategorySectionContainerCell.swift in Sources */,
 				569F1753223554FD00820A20 /* TutorAccountPayments.swift in Sources */,
 				CFCE90AD226524D100CBB1AD /* LearnerMainPageTopTutorsSectionContainerCell.swift in Sources */,
