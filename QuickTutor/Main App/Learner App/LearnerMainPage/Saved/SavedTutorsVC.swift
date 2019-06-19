@@ -45,8 +45,8 @@ class SavedTutorsVC: UIViewController {
     let btnFindTutor: DimmableButton = {
         let button = DimmableButton()
         button.backgroundColor = Colors.purple
-        button.setTitle("Find tutor", for: .normal)
-        button.titleLabel?.font = Fonts.createSemiBoldSize(14)
+        button.setTitle("Find tutors", for: .normal)
+        button.titleLabel?.font = Fonts.createSemiBoldSize(16)
         
         return button
     }()
@@ -77,7 +77,7 @@ class SavedTutorsVC: UIViewController {
     func setupNavigationBar() {
         navigationItem.title = "Saved"
         if #available(iOS 11.0, *) {
-            navigationController?.navigationBar.prefersLargeTitles = false
+            navigationController?.navigationBar.prefersLargeTitles = true
         }
     }
     
