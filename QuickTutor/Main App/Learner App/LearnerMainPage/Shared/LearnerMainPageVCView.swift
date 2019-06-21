@@ -82,6 +82,8 @@ class LearnerMainPageVCView: UIView {
             guard let self = self else { return }
             if -offset < 0 && offset != -50 {
                 self.searchBarContainer.showShadow()
+            } else {
+                self.searchBarContainer.hideShadow()
             }
             
             guard RecentSearchesManager.shared.hasNoRecentSearches
@@ -103,12 +105,6 @@ class LearnerMainPageVCView: UIView {
         }
     }
     
-    func setupScrollViewDidEndDeceleratingAction() {
-        collectionViewHelper.handleScrollViewDidEndDecelerating = {
-            self.searchBarContainer.hideShadow()
-        }
-    }
-    
     private func setupObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleSearchesLoaded), name: NotificationNames.LearnerMainFeed.searchesLoaded, object: nil)
     }
@@ -126,7 +122,6 @@ class LearnerMainPageVCView: UIView {
         super.init(frame: frame)
         setupViews()
         setupScrollViewDidScrollAction()
-        setupScrollViewDidEndDeceleratingAction()
         setupObservers()
     }
     

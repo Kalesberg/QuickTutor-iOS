@@ -11,7 +11,6 @@ import UIKit
 class LearnerMainPageCollectionViewHelper: NSObject, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     var handleScrollViewScroll: ((CGFloat) -> ())?
-    var handleScrollViewDidEndDecelerating: (() -> ())?
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 1
@@ -72,9 +71,5 @@ class LearnerMainPageCollectionViewHelper: NSObject, UICollectionViewDelegate, U
         if let handleScrollViewScroll = handleScrollViewScroll {
             handleScrollViewScroll(scrollView.contentOffset.y)
         }
-    }
-    
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        handleScrollViewDidEndDecelerating?()
     }
 }

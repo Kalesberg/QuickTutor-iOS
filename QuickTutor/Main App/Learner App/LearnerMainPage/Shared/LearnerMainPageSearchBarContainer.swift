@@ -87,11 +87,11 @@ class LearnerMainPageSearchBarContainer: UIView {
     }
     
     func hideShadow() {
-        layer.applyShadow(color: UIColor.clear.cgColor, opacity: 1, offset: CGSize(width: 0, height: 3), radius: 4)
+        containerView.layer.applyShadow(color: UIColor.clear.cgColor, opacity: 1, offset: CGSize(width: 0, height: 3), radius: 4)
     }
     
     func showShadow() {
-        layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.2, offset: CGSize(width: 0, height: 3), radius: 4)
+        containerView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.2, offset: CGSize(width: 0, height: 3), radius: 4)
     }
     
     func showRecentSearchesCV() {
@@ -108,7 +108,6 @@ class LearnerMainPageSearchBarContainer: UIView {
         super.init(frame: frame)
         setupViews()
         addGestures()
-        searchBar.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 4)
     }
     
     private func addGestures() {
