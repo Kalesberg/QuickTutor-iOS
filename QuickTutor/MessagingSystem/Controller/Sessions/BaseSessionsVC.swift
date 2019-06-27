@@ -270,7 +270,7 @@ class BaseSessionsVC: UIViewController {
         if diffTimeInterval < 0 { return }
         
         let content = UNMutableNotificationContent()
-        content.title = "Quick Tutor"
+        content.title = "QuickTutor"
         content.body = "Your session begins in ten minutes, grab a cup of coffee and get ready ☕️"
         content.sound = .default
         
