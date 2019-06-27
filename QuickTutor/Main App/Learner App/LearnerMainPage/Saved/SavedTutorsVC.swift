@@ -51,10 +51,11 @@ class SavedTutorsVC: UIViewController {
         return button
     }()
     
+    var collectionViewBottomMargin: NSLayoutConstraint?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupMainView()
-        setupNavigationBar()
         setupCollectionView()
         setupEmptyBackground()
         setupFindTutorView()
@@ -65,7 +66,8 @@ class SavedTutorsVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
+        setupNavigationBar()
         navigationController?.setNavigationBarHidden(false, animated: true)
         loadSavedTutors()
     }
@@ -83,7 +85,7 @@ class SavedTutorsVC: UIViewController {
     
     func setupCollectionView() {
         view.addSubview(collectionView)
-        collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
+        collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 61, paddingRight: 20, width: 0, height: 0)
         collectionView.delegate = self
         collectionView.dataSource = self
     }
@@ -101,20 +103,13 @@ class SavedTutorsVC: UIViewController {
     
     private func setupFindTutorView() {
         view.addSubview(containerView)
-        containerView.snp.makeConstraints { make in
-            make.bottom.equalTo(view.snp.bottomMargin).offset(5)
-            make.centerX.equalToSuperview()
-            make.width.equalToSuperview()
-            make.height.equalTo(61)
-        }
+        containerView.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: -5, paddingRight: 0, width: 0, height: 61)
+        view.layoutIfNeeded()
+        containerView.clipsToBounds = true
         
         containerView.addSubview(btnFindTutor)
-        btnFindTutor.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.width.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-5)
-        }
+        btnFindTutor.anchor(top: nil, left: containerView.leftAnchor, bottom: containerView.bottomAnchor, right: containerView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 5, paddingRight: 0, width: 0, height: 61)
+        containerView.layoutIfNeeded()
         
         btnFindTutor.addTarget(self, action: #selector(onClickBtnFindTutor), for: .touchUpInside)
     }
@@ -153,8 +148,9 @@ class SavedTutorsVC: UIViewController {
             if #available(iOS 11.0, *) {
                 top = self.collectionView.adjustedContentInset.top
             }
-            let y = self.refreshControl.frame.minY + top
+            let y = CGFloat.maximum(self.refreshControl.frame.minY, 0) + top
             self.collectionView.setContentOffset(CGPoint(x: 0, y: -y), animated:true)
+            self.view.layoutIfNeeded()
         })
     }
     
