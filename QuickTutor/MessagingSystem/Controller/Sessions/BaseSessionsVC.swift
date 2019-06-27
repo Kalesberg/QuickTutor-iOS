@@ -298,7 +298,7 @@ class BaseSessionsVC: UIViewController {
             // Update the content offset of collection view for refersh control
             var top: CGFloat = 0
             if #available(iOS 11.0, *) {
-                top = self.collectionView.adjustedContentInset.top
+                top = self.collectionView.adjustedContentInset.top - (self.collectionViewBottomAnchor?.constant ?? 0)
             }
             let y = self.refreshControl.frame.minY + top
             self.collectionView.setContentOffset(CGPoint(x: 0, y: -y), animated:true)
