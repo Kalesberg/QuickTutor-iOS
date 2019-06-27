@@ -117,13 +117,10 @@ extension Int {
     }
     
     func timeIntervalToReviewDateFormat() -> String {
-        var localTimeZoneAbbreviation: String { return TimeZone.current.abbreviation() ?? "" }
-
         let date = Date(timeIntervalSince1970: TimeInterval(self))
         let dateFormatter = DateFormatter()
         
-        dateFormatter.timeZone = TimeZone(abbreviation: localTimeZoneAbbreviation)
-        dateFormatter.dateFormat = "MMM d"
+        dateFormatter.dateFormat = "MMM d, yyyy"
         return dateFormatter.string(from: date)
     }
 }
