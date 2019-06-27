@@ -15,6 +15,7 @@ import SocketIO
 class QTVideoSessionViewController: QTSessionBaseViewController {
 
     // MARK: - Properties
+    @IBOutlet weak var cameraPreviewContainerView: UIView!
     @IBOutlet weak var cameraPreview: TVIVideoView!
     @IBOutlet var cameraPreviewTop: NSLayoutConstraint!
     @IBOutlet var cameraPreviewTrailing: NSLayoutConstraint!
@@ -238,7 +239,7 @@ class QTVideoSessionViewController: QTSessionBaseViewController {
     }
     
     @objc
-    func handleDidTapPartnerView(_ gesture: UITapGestureRecognizer) {
+    func handleDidTapCameraPreviewContainerView(_ gesture: UITapGestureRecognizer) {
         if bottomMenuStatus == .hidden {
             bottomMenuStatus = .collapsed
         } else {
@@ -297,9 +298,9 @@ class QTVideoSessionViewController: QTSessionBaseViewController {
     }
     
     func setupActions() {
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(handleDidTapPartnerView(_:)))
-        partnerView.addGestureRecognizer(gesture)
-        partnerView.isUserInteractionEnabled = true
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(handleDidTapCameraPreviewContainerView(_:)))
+        cameraPreviewContainerView.addGestureRecognizer(gesture)
+        cameraPreviewContainerView.isUserInteractionEnabled = true
     }
     
     func updateUI() {
@@ -474,33 +475,36 @@ class QTVideoSessionViewController: QTSessionBaseViewController {
 // MARK: - VideoSessionPartnerFeedBehaviorDelegate
 extension QTVideoSessionViewController: VideoSessionPartnerFeedBehaviorDelegate {
     func partnerFeedDidFinishAnimating(_ partnerFeed: UIView, to cornerPosition: CardPosition) {
-        cameraPreviewTop?.isActive = false
-        cameraPreviewBottom?.isActive = false
-        cameraPreviewLeading?.isActive = false
-        cameraPreviewTrailing?.isActive = false
         switch cornerPosition {
         case .topLeft:
             cameraPreviewTop?.isActive = true
             cameraPreviewTop.constant = 20
             cameraPreviewLeading?.isActive = true
             cameraPreviewLeading.constant = 20
+            cameraPreviewBottom?.isActive = false
+            cameraPreviewTrailing?.isActive = false
         case .topRight:
             cameraPreviewTop?.isActive = true
             cameraPreviewTop.constant = 20
+            cameraPreviewLeading?.isActive = false
             cameraPreviewTrailing?.isActive = true
+            cameraPreviewBottom?.isActive = false
             cameraPreviewTrailing.constant = 20
         case .bottomRight:
+            cameraPreviewTop?.isActive = false
+            cameraPreviewLeading?.isActive = false
             cameraPreviewBottom?.isActive = true
             cameraPreviewBottom.constant = 20
             cameraPreviewTrailing?.isActive = true
             cameraPreviewTrailing.constant = 20
         case .bottomLeft:
-            cameraPreviewBottom?.isActive = true
-            cameraPreviewBottom.constant = 20
+            cameraPreviewTop?.isActive = false
             cameraPreviewLeading?.isActive = true
             cameraPreviewLeading.constant = 20
+            cameraPreviewBottom?.isActive = true
+            cameraPreviewBottom.constant = 20
+            cameraPreviewTrailing?.isActive = false
         }
-        
         self.view.layoutIfNeeded()
     }
 }

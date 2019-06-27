@@ -25,10 +25,11 @@
                 <outlet property="bottomSheetView" destination="w0y-pT-8Lp" id="GHb-hP-nl9"/>
                 <outlet property="bottomSheetViewBottom" destination="Qf6-Vj-PWQ" id="9Y7-Bp-IQE"/>
                 <outlet property="cameraPreview" destination="JjJ-Wa-KMJ" id="ee4-ca-w18"/>
-                <outlet property="cameraPreviewBottom" destination="Xdg-L1-aYw" id="mDa-8b-HU6"/>
-                <outlet property="cameraPreviewLeading" destination="xvN-dc-30W" id="CAd-iY-H6e"/>
-                <outlet property="cameraPreviewTop" destination="UXC-VP-ddt" id="s5y-3E-RS6"/>
-                <outlet property="cameraPreviewTrailing" destination="TKx-vf-V1A" id="yXF-uc-ho7"/>
+                <outlet property="cameraPreviewBottom" destination="88h-kd-ALm" id="rE0-hK-pAm"/>
+                <outlet property="cameraPreviewContainerView" destination="xrw-bX-9yk" id="fd1-Ot-98P"/>
+                <outlet property="cameraPreviewLeading" destination="Hef-X9-tjU" id="OB2-eI-jY6"/>
+                <outlet property="cameraPreviewTop" destination="C4s-13-xb0" id="oqs-Uq-eIh"/>
+                <outlet property="cameraPreviewTrailing" destination="Jmv-fd-lfa" id="av7-go-7Qo"/>
                 <outlet property="closeButton" destination="ttm-Ef-1n3" id="8p7-It-SH1"/>
                 <outlet property="durationLabel" destination="p30-KP-NXc" id="vcL-kr-EON"/>
                 <outlet property="flipCameraButton" destination="8rs-iX-Zje" id="gbW-uM-8vI"/>
@@ -57,18 +58,30 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <viewLayoutGuide key="safeArea" id="MAV-41-R7t"/>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JjJ-Wa-KMJ" userLabel="cameraPreview" customClass="TVIVideoView">
-                    <rect key="frame" x="255" y="40" width="100" height="140"/>
-                    <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xrw-bX-9yk">
+                    <rect key="frame" x="0.0" y="20" width="375" height="447"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JjJ-Wa-KMJ" userLabel="cameraPreview" customClass="TVIVideoView">
+                            <rect key="frame" x="255" y="20" width="100" height="140"/>
+                            <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="140" id="Zf4-Lu-uU6"/>
+                                <constraint firstAttribute="width" constant="100" id="jVC-eK-JGn"/>
+                            </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                    <real key="value" value="3"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="140" id="Zf4-Lu-uU6"/>
-                        <constraint firstAttribute="width" constant="100" id="jVC-eK-JGn"/>
+                        <constraint firstAttribute="bottom" secondItem="JjJ-Wa-KMJ" secondAttribute="bottom" priority="250" constant="20" id="88h-kd-ALm"/>
+                        <constraint firstItem="JjJ-Wa-KMJ" firstAttribute="top" secondItem="xrw-bX-9yk" secondAttribute="top" constant="20" id="C4s-13-xb0"/>
+                        <constraint firstItem="JjJ-Wa-KMJ" firstAttribute="leading" secondItem="xrw-bX-9yk" secondAttribute="leading" priority="250" constant="20" id="Hef-X9-tjU"/>
+                        <constraint firstAttribute="trailing" secondItem="JjJ-Wa-KMJ" secondAttribute="trailing" constant="20" id="Jmv-fd-lfa"/>
                     </constraints>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                            <real key="value" value="3"/>
-                        </userDefinedRuntimeAttribute>
-                    </userDefinedRuntimeAttributes>
                 </view>
                 <visualEffectView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ELr-eP-E9g">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -310,21 +323,22 @@
             <constraints>
                 <constraint firstItem="1n3-wr-pGx" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="40P-TS-oNT"/>
                 <constraint firstItem="w0y-pT-8Lp" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="4rd-46-2Eq"/>
+                <constraint firstItem="xrw-bX-9yk" firstAttribute="trailing" secondItem="i5M-Pr-FkT" secondAttribute="trailing" id="7aV-Pd-RrT"/>
                 <constraint firstItem="dTN-NN-2Qb" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="CtA-QX-nnX"/>
                 <constraint firstItem="ELr-eP-E9g" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="D9e-WF-g7n"/>
                 <constraint firstItem="dTN-NN-2Qb" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="Kxb-2r-60F"/>
                 <constraint firstItem="dTN-NN-2Qb" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" id="OqU-lU-UnO"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="w0y-pT-8Lp" secondAttribute="bottom" id="Qf6-Vj-PWQ"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="JjJ-Wa-KMJ" secondAttribute="trailing" constant="20" id="TKx-vf-V1A"/>
-                <constraint firstItem="JjJ-Wa-KMJ" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="UXC-VP-ddt"/>
+                <constraint firstItem="w0y-pT-8Lp" firstAttribute="top" secondItem="xrw-bX-9yk" secondAttribute="bottom" id="TfB-sb-3Ly"/>
                 <constraint firstItem="dTN-NN-2Qb" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Vp4-bF-0i3"/>
-                <constraint firstItem="w0y-pT-8Lp" firstAttribute="top" secondItem="JjJ-Wa-KMJ" secondAttribute="bottom" priority="250" constant="20" id="Xdg-L1-aYw"/>
                 <constraint firstItem="ELr-eP-E9g" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="d4S-kZ-pL6"/>
+                <constraint firstItem="xrw-bX-9yk" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="jEE-kx-ZPh"/>
                 <constraint firstItem="w0y-pT-8Lp" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="kDI-0a-k7X"/>
+                <constraint firstItem="xrw-bX-9yk" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="nfg-Q7-gET"/>
                 <constraint firstItem="1n3-wr-pGx" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="oDK-Zt-vea"/>
+                <constraint firstItem="xrw-bX-9yk" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="oT1-le-w3u"/>
                 <constraint firstItem="ELr-eP-E9g" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" id="pYd-nL-Wye"/>
                 <constraint firstItem="ELr-eP-E9g" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="xJv-Hx-9ad"/>
-                <constraint firstItem="JjJ-Wa-KMJ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" priority="250" constant="20" id="xvN-dc-30W"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="117.59999999999999" y="52.623688155922046"/>
