@@ -32,6 +32,7 @@ class BaseSessionsVC: UIViewController {
     var collectionViewBottomAnchor: NSLayoutConstraint?
     var userSessionsRef: DatabaseReference?
     var userSessionsHandle: DatabaseHandle?
+    var connectionIds = [String]()
     
     override func viewDidLoad() {
         setupViews()
@@ -59,7 +60,19 @@ class BaseSessionsVC: UIViewController {
         setupMainView()
         setupCollectionView()
         fetchSessions()
+        
+        // Update connectionIds
+        self.connectionIds.removeAll()
+        self.fetchConnections({ (ids) in
+            // Save connection ids.
+            if !ids.isEmpty {
+                self.connectionIds.append(contentsOf: ids)
+                self.toggleEmptyState(on: false)
+            }
+        })
+        
         listenForSessionUpdates()
+        listenForConnections()
         setupRefreshControl()
     }
     
@@ -121,7 +134,7 @@ class BaseSessionsVC: UIViewController {
             .child(userTypeString)
             .queryLimited(toLast: 10).observeSingleEvent(of: .value) { snapshot in
                 guard let snap = snapshot.children.allObjects as? [DataSnapshot], snap.count > 0 else {
-                    self.toggleEmptyState(on: true)
+                    self.toggleEmptyState(on: true && self.connectionIds.isEmpty)
                     return
                 }
                 
@@ -194,7 +207,10 @@ class BaseSessionsVC: UIViewController {
         DispatchQueue.main.async(execute: {
             self.updateTabBarBadge()
             self.collectionView.reloadData()
-            self.toggleEmptyState(on: self.pendingSessions.count + self.upcomingSessions.count + self.pastSessions.count == 0)
+            self.toggleEmptyState(on: self.pendingSessions.count
+                + self.upcomingSessions.count
+                + self.pastSessions.count == 0
+                && self.connectionIds.isEmpty)
         })
     }
     
@@ -494,5 +510,48 @@ extension BaseSessionsVC: UICollectionViewDelegate, UICollectionViewDataSource, 
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.width, height: 80)
+    }
+}
+
+// MARK: - Functions related with connection
+extension BaseSessionsVC {
+    func fetchConnections(_ completion: (([String]) -> ())?) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        Database.database().reference().child("connections").child(uid).child(userTypeString).observeSingleEvent(of: .value) { snapshot in
+            guard let connections = snapshot.value as? [String: Any] else {
+                if let completion = completion {
+                    completion([])
+                }
+                return
+            }
+            
+            if let completion = completion {
+                completion(connections.map({$0.key}))
+            }
+        }
+    }
+    
+    func listenForConnections() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        
+        // Listen chanages in connections
+        Database.database().reference()
+            .child("connections")
+            .child(uid)
+            .child(userTypeString)
+            .observe(.childChanged) { snapshot in
+            
+                // Update connectionIds
+                self.connectionIds.removeAll()
+                self.fetchConnections({ (ids) in
+                    // Save connection ids.
+                    if !ids.isEmpty {
+                        self.connectionIds.append(contentsOf: ids)
+                        self.toggleEmptyState(on: false)
+                    }
+                })
+        }
     }
 }
