@@ -19,10 +19,10 @@ PODS:
   - Charts (3.2.2):
     - Charts/Core (= 3.2.2)
   - Charts/Core (3.2.2)
-  - Crashlytics (3.13.1):
-    - Fabric (~> 1.10.1)
+  - Crashlytics (3.13.2):
+    - Fabric (~> 1.10.2)
   - CropViewController (2.5.0)
-  - Fabric (1.10.1)
+  - Fabric (1.10.2)
   - FacebookCore (0.4.0):
     - Bolts (~> 1.9)
     - FBSDKCoreKit (~> 4.36)
@@ -161,7 +161,7 @@ PODS:
   - GTMSessionFetcher/Core (1.2.2)
   - Imaginary (4.2.0):
     - Cache (~> 5.0)
-  - IQKeyboardManager (6.3.0)
+  - IQKeyboardManager (6.4.0)
   - leveldb-library (1.20)
   - lottie-ios (2.5.3)
   - nanopb (0.3.901):
@@ -171,16 +171,16 @@ PODS:
   - nanopb/encode (0.3.901)
   - PlaceholderTextView (0.3.0)
   - Protobuf (3.8.0)
-  - SDWebImage (4.4.6):
-    - SDWebImage/Core (= 4.4.6)
-  - SDWebImage/Core (4.4.6)
+  - SDWebImage (4.4.7):
+    - SDWebImage/Core (= 4.4.7)
+  - SDWebImage/Core (4.4.7)
   - SkeletonView (1.6)
   - SnapKit (4.0.1)
   - Socket.IO-Client-Swift (13.1.3):
     - Starscream (~> 3.0.2)
   - Starscream (3.0.6)
   - Stripe (15.0.1)
-  - SwiftKeychainWrapper (3.3.0)
+  - SwiftKeychainWrapper (3.4.0)
   - SwiftyJSON (4.2.0)
   - SwipeCellKit (2.6.0)
   - TwilioVideo (2.10.0)
@@ -284,9 +284,9 @@ SPEC CHECKSUMS:
   Cache: 807c5d86d01a177f06ede9865add3aea269bbfd4
   CardScan: badf82e2cfcfc7ee513836a60dbb71bdb2cf5196
   Charts: f69cf0518b6d1d62608ca504248f1bbe0b6ae77e
-  Crashlytics: 5aa8e90dcbf2f34898b4f5a0037787531246cca0
+  Crashlytics: 611738c7847f8291a1a51084e35987b86ba6b3ee
   CropViewController: 6c962d6fb264cc5cb325b622d5029d50c6c43e72
-  Fabric: f6f21452846788bb44595d73e9909d79d328e617
+  Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
   FacebookCore: 770e57cfe250a4de4458b682191c0ff062dee247
   FacebookLogin: eb0f2251aca835a94d70a5f7e580edc46d1e1603
   FBSDKCoreKit: a823ae35bdb60ebb8d7a7e51abe7c5d87d2bfced
@@ -313,19 +313,19 @@ SPEC CHECKSUMS:
   GoogleUtilities: 04fce34bcd5620c1ee76fb79172105c74a4df335
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
   Imaginary: dae33d06dbc2ada22f98afef5eb45cc061311a2c
-  IQKeyboardManager: 2ca9d64893247556f53523dcd8d78641f0ba7c23
+  IQKeyboardManager: fcef267266379c003181fc3592f6bdb8bf4db839
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   lottie-ios: a50d5c0160425cd4b01b852bb9578963e6d92d31
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   PlaceholderTextView: ffca9f176be00ab3090e2191e6908dabf3dbdada
   Protobuf: 3f617b9a6e73605565086864c9bc26b2bf2dd5a3
-  SDWebImage: 3f3f0c02f09798048c47a5ed0a13f17b063572d8
+  SDWebImage: c10d14a8883ebd89664f02a422006f66a85c0c5d
   SkeletonView: 6c2bf622c352c7e36b4f3c8d73afc46d6c9360d6
   SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
   Socket.IO-Client-Swift: d30d6fd08a38ad2a182b090936a043bf512ab2de
   Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
   Stripe: 2c4d0a88817361a102886315ff452d90f65e898b
-  SwiftKeychainWrapper: ef5ad793bc0e08e24a5913f28345b8f7bc8e4123
+  SwiftKeychainWrapper: 6fc49fbf7d4a6b0772917acb0e53a1639f6078d6
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
   SwipeCellKit: 935ca28c187ec6e1ffb2b578cf8ddca842bfdcbb
   TwilioVideo: e4bd16d69c395fa093636bc9c09a654570578a32
