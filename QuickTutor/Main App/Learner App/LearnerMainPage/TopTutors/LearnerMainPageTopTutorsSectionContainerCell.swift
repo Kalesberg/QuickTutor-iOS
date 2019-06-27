@@ -13,7 +13,7 @@ class LearnerMainPageTopTutorsSectionContainerCell: UICollectionViewCell {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Tutors on the rise"
+        label.text = "Rising Talent"
         label.textColor = .white
         label.textAlignment = .left
         label.font = Fonts.createBoldSize(20)
