@@ -111,6 +111,9 @@ class SessionRequestCell: UserMessageCell {
             if "pending" == sessionRequest.status,
                 sessionRequest.startTime < Date().timeIntervalSince1970 {
                 sessionRequest.status = "expired"
+            } else if "accepted" == sessionRequest.status,
+                sessionRequest.startTime + 3600 < Date().timeIntervalSince1970 {
+                sessionRequest.status = "expired"
             }
             sessionRequest.id = id
             self.sessionRequest = sessionRequest
