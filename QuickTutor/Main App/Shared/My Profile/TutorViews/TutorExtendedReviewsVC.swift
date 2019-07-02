@@ -19,13 +19,11 @@ class TutorReviewsVCView: UIView {
         tableView.showsVerticalScrollIndicator = false
         tableView.separatorColor = Colors.gray;
         tableView.backgroundColor = Colors.newScreenBackground
-        tableView.showsVerticalScrollIndicator = false
         tableView.register(QTReviewTableViewCell.nib, forCellReuseIdentifier: QTReviewTableViewCell.reuseIdentifier)
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .singleLine
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
-        tableView.tableFooterView=UIView(frame: .zero)
         return tableView
     }()
     
@@ -69,7 +67,6 @@ class TutorReviewsVC: UIViewController {
 		super.viewDidLoad()
 		contentView.tableView.delegate = self
 		contentView.tableView.dataSource = self
-//        navigationItem.title = "Reviews"
 	}
     
     override func viewWillAppear(_ animated: Bool) {
@@ -103,9 +100,5 @@ extension TutorReviewsVC: UITableViewDelegate, UITableViewDataSource {
         cell.contentView.backgroundColor = Colors.newScreenBackground
         cell.setData(review: datasource[indexPath.row])
         return cell
-    }
-	
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 0
     }
 }

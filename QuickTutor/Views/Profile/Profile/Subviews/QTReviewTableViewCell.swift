@@ -50,7 +50,13 @@ class QTReviewTableViewCell: UITableViewCell {
             .regular(review.formattedDate, 14, Colors.grayText80)
         reviewDateLabel.attributedText = formattedString
         reviewSubject.attributedText = NSMutableAttributedString().bold(review.subject, 14, Colors.purple);
-        if(review.message.isEmpty) { reviewBottomConstraint.constant = 0; reviewLabel.text = ""} else { reviewLabel.text = review.message }
+        if review.message.isEmpty {
+            reviewBottomConstraint.constant = 0
+            reviewLabel.text = nil
+        } else {
+            reviewBottomConstraint.constant = 18
+            reviewLabel.text = review.message.trimmingCharacters(in: .whitespacesAndNewlines)
+        }
         let rating = Int(review.rating)
         ratingView.setRatingTo(rating)
         

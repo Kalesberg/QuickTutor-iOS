@@ -669,23 +669,15 @@ class QTProfileViewController: UIViewController {
     }
     
     func getHeightOfReviews(reviews: [Review]) -> CGFloat {
-        var height: CGFloat = 0.0
-        var index = 0
+        let height: CGFloat = 78
+        guard let review = reviews.first else { return height }
         
-        let threeLinesHeight = "A".height(withConstrainedWidth: UIScreen.main.bounds.size.width - 40, font: Fonts.createSize(16)) * 3
-        
-        reviews.forEach { review in
-            if index == 1 { return }
+        if review.message.isEmpty {
+            return 60
+        } else {
             let reviewHeight = review.message.height(withConstrainedWidth: UIScreen.main.bounds.size.width - 40, font: Fonts.createSize(16))
-            if reviewHeight > threeLinesHeight {
-                height += threeLinesHeight + 78
-            } else {
-                height += reviewHeight + 78
-            }
-            index += 1
+            return reviewHeight + height
         }
-        
-        return height + 10
     }
     
     func findDistance(location: TutorLocation?) -> Double {
