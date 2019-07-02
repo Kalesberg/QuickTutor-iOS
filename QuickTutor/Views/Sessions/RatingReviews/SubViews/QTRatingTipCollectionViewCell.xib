@@ -192,8 +192,14 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" text="A little generosity can go a long way" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZqR-OD-nK5">
+                                        <rect key="frame" x="125.5" y="380" width="221" height="17"/>
+                                        <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="14"/>
+                                        <color key="textColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ygJ-Ay-QuX" customClass="QTCustomView" customModule="QuickTutor" customModuleProvider="target">
-                                        <rect key="frame" x="40" y="384" width="392" height="1"/>
+                                        <rect key="frame" x="40" y="413" width="392" height="1"/>
                                         <color key="backgroundColor" red="0.17254901959999999" green="0.17254901959999999" blue="0.2274509804" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="Hbj-gB-q2O"/>
@@ -205,13 +211,13 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" text="A little generosity can go a long way" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bdO-bH-bXi">
-                                        <rect key="frame" x="8" y="415" width="456" height="17"/>
+                                        <rect key="frame" x="8" y="434" width="456" height="17"/>
                                         <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="14"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="bOt-r9-1Ia">
-                                        <rect key="frame" x="163" y="452" width="146" height="50"/>
+                                        <rect key="frame" x="163" y="471" width="146" height="50"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c2W-i3-YRN">
                                                 <rect key="frame" x="0.0" y="0.0" width="40" height="50"/>
@@ -284,7 +290,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="ZMk-Cq-jku">
-                                        <rect key="frame" x="177" y="532" width="118.5" height="30"/>
+                                        <rect key="frame" x="177" y="551" width="118.5" height="30"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_circle" highlightedImage="ic_circle_check" translatesAutoresizingMaskIntoConstraints="NO" id="0mT-dN-oaG">
                                                 <rect key="frame" x="0.0" y="7" width="16" height="16"/>
@@ -307,9 +313,10 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.082352941176470587" green="0.082352941176470587" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
+                                    <constraint firstItem="ZqR-OD-nK5" firstAttribute="centerX" secondItem="MIg-o5-T0Z" secondAttribute="centerX" id="8IA-vH-3pB"/>
                                     <constraint firstItem="ZMk-Cq-jku" firstAttribute="top" secondItem="bOt-r9-1Ia" secondAttribute="bottom" constant="30" id="9yS-YM-jdY"/>
                                     <constraint firstItem="bdO-bH-bXi" firstAttribute="centerX" secondItem="3ye-dM-RkG" secondAttribute="centerX" id="KDP-ov-6Ik"/>
-                                    <constraint firstItem="ygJ-Ay-QuX" firstAttribute="top" secondItem="MIg-o5-T0Z" secondAttribute="bottom" constant="20" id="Lge-4e-ES0"/>
+                                    <constraint firstItem="ZqR-OD-nK5" firstAttribute="top" secondItem="MIg-o5-T0Z" secondAttribute="bottom" constant="16" id="Kka-2u-BCY"/>
                                     <constraint firstItem="MIg-o5-T0Z" firstAttribute="top" secondItem="ENp-tg-pIs" secondAttribute="bottom" constant="5" id="NPA-zT-mKW"/>
                                     <constraint firstItem="zKw-A7-3TK" firstAttribute="centerX" secondItem="3ye-dM-RkG" secondAttribute="centerX" id="NrH-wo-TeE"/>
                                     <constraint firstItem="ygJ-Ay-QuX" firstAttribute="leading" secondItem="3ye-dM-RkG" secondAttribute="leading" constant="40" id="NuD-B4-4GR"/>
@@ -318,11 +325,13 @@
                                     <constraint firstItem="bOt-r9-1Ia" firstAttribute="centerX" secondItem="3ye-dM-RkG" secondAttribute="centerX" id="RPB-DP-3sC"/>
                                     <constraint firstItem="bOt-r9-1Ia" firstAttribute="top" secondItem="bdO-bH-bXi" secondAttribute="bottom" constant="20" id="RUG-Jb-Na0"/>
                                     <constraint firstItem="ENp-tg-pIs" firstAttribute="centerX" secondItem="3ye-dM-RkG" secondAttribute="centerX" id="Rw7-K6-gUE"/>
+                                    <constraint firstItem="ygJ-Ay-QuX" firstAttribute="top" secondItem="ZqR-OD-nK5" secondAttribute="bottom" constant="16" id="UMX-b0-So7"/>
                                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="ZMk-Cq-jku" secondAttribute="bottom" constant="30" id="eRZ-se-nBM"/>
                                     <constraint firstItem="ENp-tg-pIs" firstAttribute="top" secondItem="zKw-A7-3TK" secondAttribute="bottom" constant="20" id="hgT-uv-eFI"/>
+                                    <constraint firstItem="ZqR-OD-nK5" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="3ye-dM-RkG" secondAttribute="leading" constant="8" id="l8d-qR-sqv"/>
                                     <constraint firstItem="ygJ-Ay-QuX" firstAttribute="centerX" secondItem="3ye-dM-RkG" secondAttribute="centerX" id="mY8-M4-zHb"/>
                                     <constraint firstItem="bdO-bH-bXi" firstAttribute="leading" secondItem="3ye-dM-RkG" secondAttribute="leading" constant="8" id="n8P-5X-JR2"/>
-                                    <constraint firstItem="bdO-bH-bXi" firstAttribute="top" secondItem="ygJ-Ay-QuX" secondAttribute="bottom" constant="30" id="qr7-DT-iTc"/>
+                                    <constraint firstItem="bdO-bH-bXi" firstAttribute="top" secondItem="ygJ-Ay-QuX" secondAttribute="bottom" constant="20" id="qr7-DT-iTc"/>
                                     <constraint firstItem="zKw-A7-3TK" firstAttribute="top" secondItem="3ye-dM-RkG" secondAttribute="top" constant="5" id="vbJ-Eg-t06"/>
                                 </constraints>
                             </view>
@@ -352,6 +361,7 @@
                 <outlet property="avatarImageView" destination="6vx-wz-oNt" id="fOd-5C-FWN"/>
                 <outlet property="avatarWidthConstraint" destination="sKn-R6-WI0" id="tz6-Ln-oOp"/>
                 <outlet property="hourlyRateLabel" destination="S31-jt-4Ub" id="yrd-DQ-1vC"/>
+                <outlet property="lblProcessingFee" destination="ZqR-OD-nK5" id="1Oj-tp-hca"/>
                 <outlet property="minusButton" destination="gwu-gC-MMs" id="lZy-rw-hnF"/>
                 <outlet property="nameLabel" destination="BGC-v9-p3L" id="bui-A1-iPC"/>
                 <outlet property="nameView" destination="gUq-Ml-8IP" id="62Z-ur-V7U"/>

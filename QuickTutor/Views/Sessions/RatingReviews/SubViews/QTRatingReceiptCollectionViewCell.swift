@@ -84,7 +84,7 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
             billLabel.text = bill.currencyFormat(precision: 2, divider: 1)
             
             totalTitleLabel.text = "Earned"
-            let earnings = (bill - (processingFee / 100) + tip)
+            let earnings = (bill - (processingFee / 100))
             totalLabel.text = earnings.currencyFormat(precision: 2, divider: 1)
             
             // hidden tutoring cost

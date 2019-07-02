@@ -405,6 +405,7 @@ extension MessagesVC: SwipeCollectionViewCellDelegate {
         deleteAction.font = Fonts.createSize(12)
         deleteAction.backgroundColor = Colors.newScreenBackground
         deleteAction.highlightedBackgroundColor = Colors.newScreenBackground
+        deleteAction.hidesWhenSelected = true
         
         let requestSessionAction = SwipeAction(style: .default, title: nil) { action, indexPath in
             self.requestSession(index: indexPath.item)
@@ -415,6 +416,7 @@ extension MessagesVC: SwipeCollectionViewCellDelegate {
         requestSessionAction.font = Fonts.createSize(12)
         requestSessionAction.backgroundColor = Colors.newScreenBackground
         requestSessionAction.highlightedBackgroundColor = Colors.newScreenBackground
+        requestSessionAction.hidesWhenSelected = true
         
         return AccountService.shared.currentUserType == .learner ? [deleteAction, requestSessionAction] : [deleteAction]
     }

@@ -92,7 +92,8 @@ class EarningsHistoryTaleViewCell: UITableViewCell {
         UserFetchService.shared.getTutorWithId(session.receiverId) { (user) in
             guard let user = user else { return }
             self.updateTimestampLabel(session: session)
-            self.amountLabel.text = "$\(String(format: "%.2f", session.cost))"
+            let cost = (session.cost + 0.3) / 0.971
+            self.amountLabel.text = "$\(String(format: "%.2f", cost))"
             self.usernameLabel.text = user.formattedName
             self.profilePicImageView.sd_setImage(with: user.profilePicUrl)
         }

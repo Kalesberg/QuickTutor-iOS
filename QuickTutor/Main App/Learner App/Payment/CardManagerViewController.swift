@@ -426,7 +426,14 @@ extension CardManagerViewController: SwipeTableViewCellDelegate {
         if orientation == .left || 0 != indexPath.section { return nil }
 
         let deleteAction = SwipeAction(style: .default, title: nil) { action, indexPath in
-            self.deleteCardAt(indexPath: indexPath)
+            let alert = UIAlertController(title: "Remove a card",
+                                          message: "Are you sure you want to remove this card?",
+                                          preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Yes", style: .destructive) { _ in
+                self.deleteCardAt(indexPath: indexPath)
+            })
+            alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         }
 
         deleteAction.image = UIImage(named: "ic_payment_del")
@@ -434,6 +441,7 @@ extension CardManagerViewController: SwipeTableViewCellDelegate {
         deleteAction.font = Fonts.createSize(16)
         deleteAction.backgroundColor = Colors.newScreenBackground
         deleteAction.highlightedBackgroundColor = Colors.newScreenBackground
+        deleteAction.hidesWhenSelected = true
         
         return [deleteAction]
     }

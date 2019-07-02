@@ -237,10 +237,17 @@ extension BankManagerVC: BankManagerHeaderViewDelegate {
 
 extension BankManagerVC: SwipeCollectionViewCellDelegate {
     func collectionView(_ collectionView: UICollectionView, editActionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
-        guard orientation == .right else { return nil }
+        if orientation == .left || 1 == banks.count { return nil }
         
         let deleteAction = SwipeAction(style: .default, title: nil) { action, indexPath in
-            self.removeBankAt(indexPath)
+            let alert = UIAlertController(title: "Remove a bank account",
+                                          message: "Are you sure you want to remove this bank account?",
+                                          preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Yes", style: .destructive) { _ in
+                self.removeBankAt(indexPath)
+            })
+            alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         }
         
         deleteAction.image = UIImage(named: "ic_payment_del")
@@ -248,6 +255,7 @@ extension BankManagerVC: SwipeCollectionViewCellDelegate {
         deleteAction.font = Fonts.createSize(16)
         deleteAction.backgroundColor = Colors.newScreenBackground
         deleteAction.highlightedBackgroundColor = Colors.newScreenBackground
+        deleteAction.hidesWhenSelected = true
         
         return [deleteAction]
     }

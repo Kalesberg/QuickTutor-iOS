@@ -29,6 +29,7 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var avatarHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var avatarWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var lblProcessingFee: UILabel!
     @IBOutlet weak var minusButton: UIButton!
     @IBOutlet weak var plusButton: UIButton!
     @IBOutlet weak var tipTextField: UITextField!
@@ -237,6 +238,7 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
         
         self.costOfSession = costOfSession
         priceLabel.text = (costOfSession + tip).currencyFormat(precision: 2, divider: 1)
+        updateTipAmount(text: tipTextField.text)
     }
     
     private func setProfileRating(_ rating: Int) {
@@ -256,6 +258,9 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
             }
             let cost = costOfSession + tip
             priceLabel.text = cost.currencyFormat(precision: 2, divider: 1)
+            
+            let fee = (cost + 0.3) / 0.971 - cost
+            lblProcessingFee.text = "Processing Fee: " + fee.currencyFormat(precision: 2, divider: 1)
             
             didSelectTip?(tip)
         }

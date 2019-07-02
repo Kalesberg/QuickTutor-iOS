@@ -261,7 +261,7 @@ class QTRatingReviewViewController: UIViewController {
     }
     
     func calculateFee(_ cost: Int) -> Int {
-        return Int(Double(cost) * 0.10) + 200
+        return Int(Double(cost) * 0.10 + 200)
     }
     
     func costInDollars(_ cost: Double) -> Int {
@@ -271,7 +271,11 @@ class QTRatingReviewViewController: UIViewController {
     private func createCharge(tutorId: String, learnerId: String, cost: Int, tip: Int, completion: @escaping (Error?) -> Void) {
         let totalPrice = cost + tip
         amount = Int(Double(totalPrice + 30) / 0.971 + 0.5)
-        fee = calculateFee(totalPrice)
+        
+        let stripeFee = amount - totalPrice
+        let applicationFee = calculateFee(totalPrice)
+        fee = stripeFee + applicationFee
+        
         paymentCompletion = completion
         
         displayLoadingOverlay()
@@ -394,13 +398,21 @@ extension QTRatingReviewViewController: PKPaymentAuthorizationViewControllerDele
                     return
                 }
                 
+                var description = ""
+                if let subject = self.session?.subject {
+                    if "quick-call" == self.session?.type {
+                        description = "QuickCall: \(subject)"
+                    } else {
+                        description = "Session: \(subject)"
+                    }
+                }
                 StripeService.makeApplePay(acctId: self.tutor.acctId,
                                            customerId: CurrentUser.shared.learner.uid,
                                            receiptEmail: CurrentUser.shared.learner.email,
                                            tokenId: tokenId,
                                            amount: self.amount,
                                            fee: self.fee,
-                                           description: self.session?.subject ?? "") { error in
+                                           description: description) { error in
                                             if let error = error {
                                                 self.paymentError = error
                                                 completion(.failure)
