@@ -42,5 +42,13 @@ class LearnerTabBarController: BaseTabBarController {
             }
         }
         viewControllers = controllers
+        viewControllers?.forEach {
+            if let navController = $0 as? UINavigationController {
+                let _ = navController.topViewController?.view
+            } else {
+                let _ = $0.view.description
+            }
+        }
     }
+    
 }
