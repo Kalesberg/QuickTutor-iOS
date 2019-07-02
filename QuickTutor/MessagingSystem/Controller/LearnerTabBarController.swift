@@ -7,27 +7,24 @@
 //
 
 import UIKit
+import ESTabBarController_swift
 
 class LearnerTabBarController: BaseTabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let home = UINavigationController(rootViewController: LearnerMainPageVC())
-        home.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "homeTabBarIcon"), selectedImage: UIImage(named: "homeTabBarIcon"))
-        home.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
+        home.tabBarItem = ESTabBarItem(QTTabBarItemContentView(), image: UIImage(named: "homeTabBarIcon"), selectedImage: UIImage(named: "homeTabBarIcon"))
         let saved = UINavigationController(rootViewController: SavedTutorsVC())
-        saved.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "savedTabBarIcon"), selectedImage: UIImage(named: "savedTabBarIcon"))
-        saved.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
+        saved.tabBarItem = ESTabBarItem(QTTabBarItemContentView(), image: UIImage(named: "savedTabBarIcon"), selectedImage: UIImage(named: "savedTabBarIcon"))
         let sessions = UINavigationController(rootViewController: LearnerSessionsVC())
-        sessions.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "sessionsTabBarIcon"), selectedImage: UIImage(named: "sessionsTabBarIcon"))
+        sessions.tabBarItem = ESTabBarItem(QTTabBarItemContentView(), image: UIImage(named: "sessionsTabBarIcon"), selectedImage: UIImage(named: "sessionsTabBarIcon"))
         sessions.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
         let messages = UINavigationController(rootViewController: MessagesVC())
-        messages.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "chatTabBarIcon"), selectedImage: UIImage(named: "chatTabBarIcon"))
-        messages.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
+        messages.tabBarItem = ESTabBarItem(QTTabBarItemContentView(), image: UIImage(named: "chatTabBarIcon"), selectedImage: UIImage(named: "chatTabBarIcon"))
         messages.navigationBar.barTintColor = Colors.newNavigationBarBackground
         messages.navigationBar.backgroundColor = Colors.newNavigationBarBackground
         let profile = UINavigationController(rootViewController: ProfileVC())
-        profile.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "profileTabBarIcon"), selectedImage: UIImage(named: "profileTabBarIcon"))
-        profile.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
+        profile.tabBarItem = ESTabBarItem(QTTabBarItemContentView(), image: UIImage(named: "profileTabBarIcon"), selectedImage: UIImage(named: "profileTabBarIcon"))
         let controllers = [home, saved, sessions, messages, profile]
 
         for vc in controllers {

@@ -53,6 +53,7 @@ abstract_target 'QuickTutorApp' do
         pod 'CardScan/Stripe'
         
         pod 'SkeletonView'
+        pod 'ESTabBarController-swift'
     end
     
     target 'QuickTutor' do

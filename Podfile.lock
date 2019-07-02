@@ -22,6 +22,7 @@ PODS:
   - Crashlytics (3.13.2):
     - Fabric (~> 1.10.2)
   - CropViewController (2.5.0)
+  - ESTabBarController-swift (2.7)
   - Fabric (1.10.2)
   - FacebookCore (0.4.0):
     - Bolts (~> 1.9)
@@ -174,7 +175,7 @@ PODS:
   - SDWebImage (4.4.7):
     - SDWebImage/Core (= 4.4.7)
   - SDWebImage/Core (4.4.7)
-  - SkeletonView (1.6)
+  - SkeletonView (1.7)
   - SnapKit (4.0.1)
   - Socket.IO-Client-Swift (13.1.3):
     - Starscream (~> 3.0.2)
@@ -194,6 +195,7 @@ DEPENDENCIES:
   - Charts (~> 3.2.1)
   - Crashlytics
   - CropViewController
+  - ESTabBarController-swift
   - Fabric
   - FacebookCore (~> 0.4.0)
   - FacebookLogin (~> 0.4.0)
@@ -232,6 +234,7 @@ SPEC REPOS:
     - Charts
     - Crashlytics
     - CropViewController
+    - ESTabBarController-swift
     - Fabric
     - FacebookCore
     - FacebookLogin
@@ -286,6 +289,7 @@ SPEC CHECKSUMS:
   Charts: f69cf0518b6d1d62608ca504248f1bbe0b6ae77e
   Crashlytics: 611738c7847f8291a1a51084e35987b86ba6b3ee
   CropViewController: 6c962d6fb264cc5cb325b622d5029d50c6c43e72
+  ESTabBarController-swift: 4fb52ad03d94d0717ef97bc9eb09a5abfdded0a2
   Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
   FacebookCore: 770e57cfe250a4de4458b682191c0ff062dee247
   FacebookLogin: eb0f2251aca835a94d70a5f7e580edc46d1e1603
@@ -320,7 +324,7 @@ SPEC CHECKSUMS:
   PlaceholderTextView: ffca9f176be00ab3090e2191e6908dabf3dbdada
   Protobuf: 3f617b9a6e73605565086864c9bc26b2bf2dd5a3
   SDWebImage: c10d14a8883ebd89664f02a422006f66a85c0c5d
-  SkeletonView: 6c2bf622c352c7e36b4f3c8d73afc46d6c9360d6
+  SkeletonView: 7d7378731b708f8a6e6b1ffefb68cc3903f10a03
   SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
   Socket.IO-Client-Swift: d30d6fd08a38ad2a182b090936a043bf512ab2de
   Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
@@ -330,6 +334,6 @@ SPEC CHECKSUMS:
   SwipeCellKit: 935ca28c187ec6e1ffb2b578cf8ddca842bfdcbb
   TwilioVideo: e4bd16d69c395fa093636bc9c09a654570578a32
 
-PODFILE CHECKSUM: c87c885938e150863cc2212d121b493eae91965c
+PODFILE CHECKSUM: 76f07641eae35ab6556a073543dedc0b668f4f50
 
 COCOAPODS: 1.7.2
