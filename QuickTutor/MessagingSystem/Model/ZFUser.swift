@@ -68,6 +68,7 @@ class ZFTutor: User {
     private(set) var totalSessions: Int?
     private(set) var stripeAccountId: String?
     private(set) var featuredSubject: String?
+    private(set) var images: [String: String]?
 
     override init(dictionary: [String: Any]) {
         super.init(dictionary: dictionary)
@@ -76,6 +77,7 @@ class ZFTutor: User {
         totalSessions = dictionary["nos"] as? Int
         stripeAccountId = dictionary["act"] as? String
         featuredSubject = dictionary["sbj"] as? String ?? ""
+        images = dictionary["img"] as? [String: String]
     }
     
     required init(from decoder: Decoder) throws {

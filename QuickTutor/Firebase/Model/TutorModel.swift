@@ -14,7 +14,6 @@ struct FeaturedDetails {
 }
 
 class AWTutor: AWLearner {
-    
     var tBio: String!
     var region: String!
     var policy: String?

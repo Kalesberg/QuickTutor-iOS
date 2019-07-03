@@ -16,7 +16,7 @@ class UserFetchService {
     
     typealias TutorCompletion = (ZFTutor?) -> Void
     
-    func getUserWithId(_ uid: String, type: UserType, completion: @escaping (User?) -> Void) {
+    func getUserWithId(_ uid: String, type: UserType, completion: @escaping (ZFTutor?) -> Void) {
         if type == .tutor {
             getTutorWithId(uid) { tutor in
                 completion(tutor)
@@ -28,7 +28,7 @@ class UserFetchService {
         }
     }
     
-    func getUserOfOppositeTypeWithId(_ uid: String, completion: @escaping (User?) -> Void) {
+    func getUserOfOppositeTypeWithId(_ uid: String, completion: @escaping (ZFTutor?) -> Void) {
         if AccountService.shared.currentUserType == .learner {
             getTutorWithId(uid) { tutor in
                 completion(tutor)

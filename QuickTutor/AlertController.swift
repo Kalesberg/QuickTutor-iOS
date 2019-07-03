@@ -12,18 +12,18 @@ class AlertController : NSObject {
 	class func cropImageAlert(_ viewController: UIViewController, imagePicker: UIImagePickerController, allowsEditing: Bool) {
 		let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 		let takePhoto = UIAlertAction(title: "Camera roll", style: .default) { _ in
-			if UIImagePickerController.isSourceTypeAvailable(.camera) {
-				imagePicker.sourceType = .camera
-				imagePicker.cameraCaptureMode = .photo
+			if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+                imagePicker.sourceType = .photoLibrary
+				imagePicker.allowsEditing = allowsEditing
 				viewController.present(imagePicker, animated: true, completion: nil)
 			} else {
 				AlertController.genericErrorAlert(viewController, title: "Oops", message: "Camera is not available at this time.")
 			}
 		}
         let chooseExisting = UIAlertAction(title: "Take a photo", style: .default) { _ in
-            if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-                imagePicker.sourceType = .photoLibrary
-                imagePicker.allowsEditing = allowsEditing
+            if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                imagePicker.sourceType = .camera
+                imagePicker.cameraCaptureMode = .photo
                 viewController.present(imagePicker, animated: true, completion: nil)
             } else {
                 AlertController.genericErrorAlert(viewController, title: "Oops", message: "Photo Library is not available")
