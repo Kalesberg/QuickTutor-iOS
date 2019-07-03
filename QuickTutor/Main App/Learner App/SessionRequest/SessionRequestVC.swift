@@ -108,7 +108,7 @@ class SessionRequestVC: UIViewController {
             requestError = .noTutor
         } else if subject == nil {
             requestError = .noSubject
-        } else if price == nil || price == 0{
+        } else if price == nil || price == 0 {
             requestError = .noPrice
         } else {
             requestError = .none
@@ -140,12 +140,13 @@ class SessionRequestVC: UIViewController {
     }
     
     func isValidPriceRange(price: Double) -> Bool {
-        guard price >= 5 else {
+        let realPrice = (price + 0.3) / 0.971
+        guard realPrice >= 5 else {
             showPriceAlert(message: "There is a $5 minimum to every session.")
             return false
         }
         
-        guard price <= 15000 else {
+        guard realPrice <= 15000 else {
             showPriceAlert(message: "There is a $15,000 maximum to every session.")
             return false
         }
