@@ -116,7 +116,7 @@ extension QuickSearchVC: UITextFieldDelegate {
         searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false
             , block: { (_) in
                 DispatchQueue.global().async {
-                    self.child.filteredSubjects = self.child.subjects.filter({ $0.0.range(of: text, options: .caseInsensitive) != nil }).sorted(by: { $0.0 < $1.0 })
+                    self.child.filteredSubjects = self.child.subjects.filter({ $0.0.starts(with: text)}).sorted(by: {$0.0 < $1.0})
                     if self.child.filteredSubjects.count == 0 {
                         self.child.unknownSubject = text
                     }
