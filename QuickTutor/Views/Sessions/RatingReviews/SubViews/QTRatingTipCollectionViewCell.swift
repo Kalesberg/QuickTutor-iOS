@@ -257,9 +257,10 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
                 tip = maxTip
             }
             let cost = costOfSession + tip
-            priceLabel.text = cost.currencyFormat(precision: 2, divider: 1)
+            let costWithFee = (cost + 0.3) / 0.971
+            priceLabel.text = costWithFee.currencyFormat(precision: 2, divider: 1)
             
-            let fee = (cost + 0.3) / 0.971 - cost
+            let fee = costWithFee - cost
             lblProcessingFee.text = "Processing Fee: " + fee.currencyFormat(precision: 2, divider: 1)
             
             didSelectTip?(tip)
