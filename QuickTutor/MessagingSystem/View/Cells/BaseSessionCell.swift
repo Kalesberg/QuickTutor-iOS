@@ -210,19 +210,19 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
     }
     
     func updateMonthLabel() {
-        let month = Calendar.current.component(.month, from: Date(timeIntervalSince1970: session.date)).advanced(by: -1)
+        let month = Calendar.current.component(.month, from: Date(timeIntervalSince1970: session.startTime)).advanced(by: -1)
         let dateFormatter = DateFormatter()
         let monthString = dateFormatter.shortMonthSymbols[month]
         monthLabel.text = monthString
     }
     
     func updateDayLabel() {
-        let day = Calendar.current.component(.day, from: Date(timeIntervalSince1970: session.date))
+        let day = Calendar.current.component(.day, from: Date(timeIntervalSince1970: session.startTime))
         dayLabel.text = "\(day)"
     }
     
     func updateWeekdayLabel() {
-        let weekday = Calendar.current.component(.weekday, from: Date(timeIntervalSince1970: session.date)).advanced(by: -1)
+        let weekday = Calendar.current.component(.weekday, from: Date(timeIntervalSince1970: session.startTime)).advanced(by: -1)
         let weekdayText = DateFormatter().shortWeekdaySymbols[weekday]
         self.weekdayLabel.text = "\(weekdayText)"
     }

@@ -84,7 +84,7 @@ class EarningsHistoryCell: UICollectionViewCell {
     }
     
     private func updateTimestampLabel(session: Session) {
-        let timestampDate = Date(timeIntervalSince1970: session.date)
+        let timestampDate = Date(timeIntervalSince1970: session.startTime)
         timeLabel.text = timestampDate.formatRelativeString()
     }
     

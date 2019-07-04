@@ -66,7 +66,8 @@ class QTPastSessionsViewController: UIViewController {
                             return
                         }
                         
-                        if session.startTime < Date().timeIntervalSince1970 || session.status == "completed" {
+                        if session.startTime < Date().timeIntervalSince1970 || session.status == "completed",
+                            0 < session.cost {
                             if !self.sessionUserInfos.contains(where: { $0.id == session.id }) {
                                 if AccountService.shared.currentUserType == .learner {
                                     self.getTutor(tutorId: session.partnerId(), completion: { user in
@@ -177,7 +178,7 @@ class QTPastSessionsViewController: UIViewController {
         dateFormatter.dateFormat = "dd MMMM"
         
         sessionUserInfos.forEach { (session) in
-            let date = Date(timeIntervalSince1970: session.date)
+            let date = Date(timeIntervalSince1970: session.startTime)
             let dateString = dateFormatter.string(from: date)
             if !self.sessionDates.contains(dateString) {
                 self.sessionDates.append(dateString)
