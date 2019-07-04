@@ -76,7 +76,12 @@ class QTPastSessionTableViewCell: UITableViewCell {
         
         let timeString = "\(startTimeString) - \(endTimeString)"
         
-        let cost = sessionUserInfo.cost * 0.9 - 2
+        var cost = sessionUserInfo.cost
+        if .learner == AccountService.shared.currentUserType {
+            cost = (cost + 0.3) / 0.971
+        } else {
+            cost = cost * 0.9 - 2
+        }
         let formattedPrice = String(format: "%.2f", cost)
         let priceString = "$\(formattedPrice)"
         

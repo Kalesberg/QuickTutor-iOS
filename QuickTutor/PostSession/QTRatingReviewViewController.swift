@@ -81,8 +81,6 @@ class QTRatingReviewViewController: UIViewController {
             }
         }
         
-        Database.database().reference().child("sessions").child(sessionId).child("cost").setValue(costOfSession)
-        
         displayLoadingOverlay()
         
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleViewTap)))
@@ -146,6 +144,7 @@ class QTRatingReviewViewController: UIViewController {
                         self.hasPaid = false
                     } else {
                         self.hasPaid = true
+                        Database.database().reference().child("sessions").child(self.sessionId).child("cost").setValue(self.costOfSession + tip)
                         PostSessionManager.shared.setUnfinishedFlag(sessionId: (self.session?.id)!, status: .paymentCharged)
                         self.finishAndUpload()
                         self.currentStep = self.currentStep + 1
@@ -314,8 +313,9 @@ class QTRatingReviewViewController: UIViewController {
                                                                 if nil != learnerInfluencerId
                                                                     || nil != tutorInfluencerId {
                                                                     self.createQLPayment(tutorId: tutorId, learnerId: learnerId, fee: self.fee, learnerInfluencerId: learnerInfluencerId, tutorInfluencerId: tutorInfluencerId, completion: completion)
+                                                                } else {
+                                                                    completion(nil)
                                                                 }
-                                                                completion(nil)
                                                             }
                                                         }
                     }
