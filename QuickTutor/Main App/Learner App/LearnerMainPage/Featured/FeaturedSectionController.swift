@@ -47,9 +47,8 @@ class FeaturedSectionController: UIViewController {
     }
     
     func loadFeaturedSubjects() {
-        DataService.shared.featchMainPageFeaturedSubject { (items) in
+        DataService.shared.featchMainPageFeaturedSubject { items in
             self.view.hideSkeleton()
-            guard let items = items else { return }
             self.featuredItems = items
             self.collectionView.reloadData()
         }

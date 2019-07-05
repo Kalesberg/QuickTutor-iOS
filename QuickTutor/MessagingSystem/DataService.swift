@@ -94,35 +94,32 @@ class DataService {
         }
     }
     
-    func featchMainPageFeaturedSubject(completion: @escaping([MainPageFeaturedItem]?) -> Void) {
-        let myGroup = DispatchGroup()
-        var subjects = [MainPageFeaturedItem]()
+    func featchMainPageFeaturedSubject(completion: @escaping([MainPageFeaturedItem]) -> Void) {
+        var subjects: [MainPageFeaturedItem] = []
         Database.database().reference().child("featuredSubjects").observeSingleEvent(of: .value) { (snapshot) in
-            guard let subjectsIn = snapshot.value as? [String: Any] else { return }
-            subjectsIn.forEach({ (_, childValueIn) in
-                myGroup.enter()
-                guard let childValue = childValueIn as? [String: Any],
-                    let backgroundImageUrl = childValue["imgUrl"] as? String,
-                    let title = childValue["title"] as? String,
-                    let url = URL(string: backgroundImageUrl)
-                    else {
-                        myGroup.leave()
+            guard let dicSubjects = snapshot.value as? [String: Any] else {
+                completion(subjects)
+                return
+            }
+            
+            dicSubjects.values.forEach { dicFeature in
+                guard let dicFeature = dicFeature as? [String: Any],
+                    let imgUrl = dicFeature["imgUrl"] as? String,
+                    let strTitle = dicFeature["title"] as? String,
+                    let url = URL(string: imgUrl) else {
+                        completion(subjects)
                         return
                 }
-                let subject = childValue["subject"] as? String
-                let subcategoryTitle = childValue["subcategory"] as? String
-                let categoryTitle = childValue["category"] as? String
-                let featuredSubject = MainPageFeaturedItem(subject: subject, backgroundImageUrl: url, title: title, subcategoryTitle: subcategoryTitle, categoryTitle: categoryTitle)
-                subjects.append(featuredSubject)
-                myGroup.leave()
                 
-            })
+                let subject = dicFeature["subject"] as? String
+                let subcategoryTitle = dicFeature["subcategory"] as? String
+                let categoryTitle = dicFeature["category"] as? String
+                let featuredSubject = MainPageFeaturedItem(subject: subject, backgroundImageUrl: url, title: strTitle, subcategoryTitle: subcategoryTitle, categoryTitle: categoryTitle)
+                subjects.append(featuredSubject)
+            }
             
-            myGroup.notify(queue: .main, execute: {
-                completion(subjects)
-            })
+            completion(subjects)
         }
-
     }
     
     func setFeaturedSubjectNow() {

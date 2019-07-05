@@ -286,9 +286,9 @@ extension ProfileVC: ProfileModeToggleViewDelegate {
             prepareForSwitchToTutor { success in
                 if success {
                     AccountService.shared.currentUserType = .tutor
-                    self.dismissOverlay()
                     RootControllerManager.shared.configureRootViewController(controller: QTTutorDashboardViewController.controller)
                 }
+                self.dismissOverlay()
             }
         } else {
             AccountService.shared.currentUserType = .tRegistration
@@ -313,6 +313,8 @@ extension ProfileVC: ProfileModeToggleViewDelegate {
                 } else if let account = account {
                     CurrentUser.shared.connectAccount = account
                     return completion(true)
+                } else {
+                    return completion(false)
                 }
             })
         }

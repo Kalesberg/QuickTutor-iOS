@@ -17,8 +17,8 @@ struct ConnectAccount: Decodable {
 	let default_currency : String
 	let details_submitted : Bool
 	
-	let verification : AccountVerification
+	let verification : AccountVerification?
 	let external_accounts : ExternalAccounts
-	let legal_entity : LegalEntity
+	let legal_entity : LegalEntity?
 
 }
