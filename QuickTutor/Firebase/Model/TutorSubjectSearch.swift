@@ -17,7 +17,7 @@ struct TutorSubjectSearch {
 	let numSessions: Int
 	
 	init(dictionary: [String: Any]) {
-		rating = dictionary["r"] as? Double ?? 5.0
+		rating = dictionary["r"] as? Double ?? 0.0
 		
 		subjects = dictionary["sbj"] as? String ?? ""
 		

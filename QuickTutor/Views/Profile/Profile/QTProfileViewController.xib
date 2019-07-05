@@ -744,14 +744,11 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yjq-S4-ZO1">
-                            <rect key="frame" x="20" y="49" width="57" height="10"/>
+                            <rect key="frame" x="20" y="49" width="56" height="12"/>
                             <subviews>
                                 <view contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="ddt-1C-PKl" customClass="CosmosView" customModule="Cosmos">
-                                    <rect key="frame" x="0.0" y="2" width="45" height="6"/>
+                                    <rect key="frame" x="0.0" y="2" width="44" height="8"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="45" id="5lT-7O-2FP"/>
-                                    </constraints>
                                     <userDefinedRuntimeAttributes>
                                         <userDefinedRuntimeAttribute type="number" keyPath="totalStars">
                                             <integer key="value" value="5"/>
@@ -759,8 +756,6 @@
                                         <userDefinedRuntimeAttribute type="number" keyPath="starSize">
                                             <real key="value" value="8"/>
                                         </userDefinedRuntimeAttribute>
-                                        <userDefinedRuntimeAttribute type="image" keyPath="filledImage" value="ic_star_filled"/>
-                                        <userDefinedRuntimeAttribute type="image" keyPath="emptyImage" value="ic_star_empty"/>
                                         <userDefinedRuntimeAttribute type="number" keyPath="starMargin">
                                             <real key="value" value="1"/>
                                         </userDefinedRuntimeAttribute>
@@ -768,10 +763,24 @@
                                             <integer key="value" value="2"/>
                                         </userDefinedRuntimeAttribute>
                                         <userDefinedRuntimeAttribute type="boolean" keyPath="updateOnTouch" value="NO"/>
+                                        <userDefinedRuntimeAttribute type="color" keyPath="filledColor">
+                                            <color key="value" red="0.39607843139999999" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="color" keyPath="emptyBorderColor">
+                                            <color key="value" red="0.39607843139999999" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="color" keyPath="filledBorderColor">
+                                            <color key="value" red="0.39607843139999999" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="rating">
+                                            <real key="value" value="4.7000000000000002"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="image" keyPath="filledImage" value="ic_star_filled"/>
+                                        <userDefinedRuntimeAttribute type="image" keyPath="emptyImage" value="ic_star_empty"/>
                                     </userDefinedRuntimeAttributes>
                                 </view>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GKh-AL-yOi">
-                                    <rect key="frame" x="50" y="-2" width="7" height="14"/>
+                                    <rect key="frame" x="49" y="-1" width="7" height="14"/>
                                     <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="12"/>
                                     <color key="textColor" red="0.3921568627" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
@@ -812,7 +821,7 @@
                     </subviews>
                     <color key="backgroundColor" red="0.082352941176470587" green="0.082352941176470587" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
-                        <constraint firstAttribute="bottom" secondItem="Yjq-S4-ZO1" secondAttribute="bottom" constant="25" id="2bt-gS-xWI"/>
+                        <constraint firstAttribute="bottom" secondItem="Yjq-S4-ZO1" secondAttribute="bottom" priority="250" constant="25" id="2bt-gS-xWI"/>
                         <constraint firstItem="H4F-E2-ZgU" firstAttribute="centerY" secondItem="bch-YN-hK6" secondAttribute="centerY" id="87d-BX-nQ4"/>
                         <constraint firstItem="H4F-E2-ZgU" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="32Q-Iw-Nbg" secondAttribute="trailing" constant="5" id="COT-Sx-Mea"/>
                         <constraint firstAttribute="height" constant="84" id="NDz-iX-AhU"/>
