@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Cosmos
 
 class BasePastSessionCell: BaseSessionCell {
     let darkenView: UIView = {
@@ -15,10 +16,19 @@ class BasePastSessionCell: BaseSessionCell {
         return view
     }()
 
-    let starView: StarView = {
-        let sv = StarView()
-        sv.translatesAutoresizingMaskIntoConstraints = false
-        return sv
+    let starView: CosmosView = {
+        let view = CosmosView()
+        view.isHidden = true
+        
+        view.settings.emptyImage = UIImage(named: "ic_star_empty")
+        view.settings.filledImage = UIImage(named: "ic_star_filled")
+        view.settings.totalStars = 5
+        view.settings.starMargin = 1
+        view.settings.fillMode = .precise
+        view.settings.updateOnTouch = false
+        view.settings.starSize = 8
+        
+        return view
     }()
 
     func updateUI(_ session: Session) {
@@ -44,8 +54,7 @@ class BasePastSessionCell: BaseSessionCell {
 
     private func setupStarView() {
         addSubview(starView)
-        starView.anchor(top: nil, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 8, paddingRight: 12, width: 40, height: 7)
-        starView.tintStars(color: Colors.purple)
+        starView.anchor(top: nil, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 8, paddingRight: 12, width: 40, height: 8)
     }
 
     override func cellActionView(_ actionView: SessionCellActionView, didSelectButtonAt position: Int) {

@@ -72,8 +72,7 @@ class TutorCardReviewsView: UIView {
         reviewView.nameLabel.text = lastReview.studentName
         reviewView.dateLabel.text = lastReview.formattedDate
         reviewView.reviewLabel.text = lastReview.message
-        let rating = Int(lastReview.rating)
-        reviewView.starView.setRating(rating)
+        reviewView.starView.rating = lastReview.rating
         UserFetchService.shared.getStudentWithId(lastReview.reviewerId) { (student) in
             guard let student = student else { return }
             self.reviewView.profileImageView.sd_setImage(with: student.profilePicUrl)

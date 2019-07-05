@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Cosmos
 
 class BaseAccessoryView: UIView {
     
@@ -35,8 +36,17 @@ class TutorCardAccessoryView: BaseAccessoryView {
         return label
     }()
     
-    let starView: StarView = {
-        let view = StarView()
+    let starView: CosmosView = {
+        let view = CosmosView()
+        
+        view.settings.emptyImage = UIImage(named: "ic_star_empty")
+        view.settings.filledImage = UIImage(named: "ic_star_filled")
+        view.settings.totalStars = 5
+        view.settings.starMargin = 1
+        view.settings.fillMode = .precise
+        view.settings.updateOnTouch = false
+        view.settings.starSize = 6
+        
         return view
     }()
     
@@ -63,7 +73,6 @@ class TutorCardAccessoryView: BaseAccessoryView {
     func setupStarView() {
         addSubview(starView)
         starView.anchor(top: priceLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 40, height: 8)
-        starView.tintStars(color: Colors.purple)
     }
     
     func setupStarCountLabel() {

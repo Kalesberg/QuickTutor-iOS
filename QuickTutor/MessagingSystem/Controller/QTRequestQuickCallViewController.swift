@@ -10,6 +10,7 @@ import UIKit
 import FirebaseDatabase
 import FirebaseAuth
 import FirebaseStorage
+import Cosmos
 
 class QTRequestQuickCallViewController: UIViewController {
 
@@ -21,7 +22,7 @@ class QTRequestQuickCallViewController: UIViewController {
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
-    @IBOutlet weak var ratingView: QTRatingView!
+    @IBOutlet weak var ratingView: CosmosView!
     @IBOutlet weak var totalReviewsLabel: UILabel!
     @IBOutlet weak var callButton: QTCustomButton!
     @IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
@@ -125,9 +126,6 @@ class QTRequestQuickCallViewController: UIViewController {
     }
     
     func initUserInfo() {
-        ratingView.setupViews()
-        ratingView.isUserInteractionEnabled = false
-        
         callButton.layer.cornerRadius = 3
         callButton.clipsToBounds = true
         callButton.setupTargets()
@@ -137,8 +135,7 @@ class QTRequestQuickCallViewController: UIViewController {
         guard let price = tutor.quickCallPrice else { return }
         quickCallPriceLabel.text = "This tutor’s QuickCall rate is $\(price)/hr."
         usernameLabel.text = tutor.formattedName
-        let rating = Int(tutor.tRating)
-        ratingView.setRatingTo(rating)
+        ratingView.rating = tutor.tRating
         totalReviewsLabel.text = "\(tutor.reviews?.count ?? 0)"
         
         UserFetchService.shared.getUserWithId(tutor.uid, type: .tutor) { (tutor) in

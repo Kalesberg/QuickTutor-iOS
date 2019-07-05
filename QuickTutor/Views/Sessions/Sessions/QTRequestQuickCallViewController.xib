@@ -187,7 +187,7 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DUq-sh-PiL">
                             <rect key="frame" x="70" y="47" width="60" height="12"/>
                             <subviews>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="32p-ci-8Og" customClass="QTRatingView" customModule="QuickTutor" customModuleProvider="target">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="32p-ci-8Og" customClass="CosmosView" customModule="Cosmos">
                                     <rect key="frame" x="0.0" y="2" width="48" height="8"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
@@ -195,8 +195,17 @@
                                         <constraint firstAttribute="height" constant="8" id="ugT-Up-Ifl"/>
                                     </constraints>
                                     <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="number" keyPath="spacing">
-                                            <real key="value" value="3"/>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="totalStars">
+                                            <integer key="value" value="5"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="starSize">
+                                            <real key="value" value="8"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="image" keyPath="filledImage" value="ic_star_filled"/>
+                                        <userDefinedRuntimeAttribute type="image" keyPath="emptyImage" value="ic_star_empty"/>
+                                        <userDefinedRuntimeAttribute type="boolean" keyPath="updateOnTouch" value="NO"/>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="fillMode">
+                                            <integer key="value" value="2"/>
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                 </view>
@@ -264,5 +273,7 @@
     </objects>
     <resources>
         <image name="ic_close" width="15" height="15"/>
+        <image name="ic_star_empty" width="24" height="24"/>
+        <image name="ic_star_filled" width="24" height="24"/>
     </resources>
 </document>

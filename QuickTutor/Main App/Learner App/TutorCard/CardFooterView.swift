@@ -49,8 +49,7 @@ class CardFooterView: UIView {
         guard let price = tutor.price else { return }
         guard let priceView = leftAccessoryView as? TutorCardAccessoryView else { return }
         priceView.priceLabel.text = "$\(price) per hour"
-        let rating = Int(tutor.tRating)
-        priceView.starView.setRating(rating)
+        priceView.starView.rating = tutor.tRating
         connectButton.setTitle(connected ? "REQUEST SESSION" : "CONNECT", for: .normal)
     }
     

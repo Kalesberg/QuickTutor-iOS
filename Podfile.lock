@@ -19,6 +19,7 @@ PODS:
   - Charts (3.2.2):
     - Charts/Core (= 3.2.2)
   - Charts/Core (3.2.2)
+  - Cosmos (19.0.3)
   - Crashlytics (3.13.2):
     - Fabric (~> 1.10.2)
   - CropViewController (2.5.0)
@@ -193,6 +194,7 @@ DEPENDENCIES:
   - CardScan
   - CardScan/Stripe
   - Charts (~> 3.2.1)
+  - Cosmos
   - Crashlytics
   - CropViewController
   - ESTabBarController-swift
@@ -232,6 +234,7 @@ SPEC REPOS:
     - Cache
     - CardScan
     - Charts
+    - Cosmos
     - Crashlytics
     - CropViewController
     - ESTabBarController-swift
@@ -287,6 +290,7 @@ SPEC CHECKSUMS:
   Cache: 807c5d86d01a177f06ede9865add3aea269bbfd4
   CardScan: badf82e2cfcfc7ee513836a60dbb71bdb2cf5196
   Charts: f69cf0518b6d1d62608ca504248f1bbe0b6ae77e
+  Cosmos: a6fb17284281fa12cf4c85c2efecd440a215ec44
   Crashlytics: 611738c7847f8291a1a51084e35987b86ba6b3ee
   CropViewController: 6c962d6fb264cc5cb325b622d5029d50c6c43e72
   ESTabBarController-swift: 4fb52ad03d94d0717ef97bc9eb09a5abfdded0a2
@@ -334,6 +338,6 @@ SPEC CHECKSUMS:
   SwipeCellKit: 935ca28c187ec6e1ffb2b578cf8ddca842bfdcbb
   TwilioVideo: e4bd16d69c395fa093636bc9c09a654570578a32
 
-PODFILE CHECKSUM: 76f07641eae35ab6556a073543dedc0b668f4f50
+PODFILE CHECKSUM: bd306a7fa443fab5fed2d699b11410ceed40b3ad
 
 COCOAPODS: 1.7.2

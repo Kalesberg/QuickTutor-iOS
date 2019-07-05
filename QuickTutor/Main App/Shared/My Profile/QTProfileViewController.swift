@@ -11,6 +11,7 @@ import FirebaseStorage
 import FirebaseAuth
 import FirebaseDatabase
 import CoreLocation
+import Cosmos
 
 enum QTProfileViewType {
     case tutor, learner, myTutor, myLearner
@@ -58,7 +59,7 @@ class QTProfileViewController: UIViewController {
     @IBOutlet weak var cancellationPolicyLabel: UILabel!
     @IBOutlet weak var cancellationFeeLabel: UILabel!
     @IBOutlet weak var connectView: UIView!
-    @IBOutlet weak var ratingView: QTRatingView!
+    @IBOutlet weak var ratingView: CosmosView!
     @IBOutlet weak var numberOfReviewsLabel: UILabel!
     @IBOutlet weak var connectButton: UIButton!
     @IBOutlet weak var rateLabel: UILabel!
@@ -592,9 +593,6 @@ class QTProfileViewController: UIViewController {
     }
     
     func initConnectView() {
-        ratingView.setupViews()
-        ratingView.isUserInteractionEnabled = false
-        
         connectButton.layer.cornerRadius = 3
         connectButton.clipsToBounds = true
         connectButton.setupTargets()
@@ -619,8 +617,7 @@ class QTProfileViewController: UIViewController {
             connectView.isHidden = false
             guard let price = user.price else { return }
             rateLabel.text = "$\(price) per hour"
-            let rating = Int(user.tRating)
-            ratingView.setRatingTo(rating)
+            ratingView.rating = user.tRating
             
             numberOfReviewsLabel.text = "\(user.reviews?.count ?? 0)"
             

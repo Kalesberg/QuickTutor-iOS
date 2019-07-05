@@ -11,6 +11,7 @@ import SnapKit
 import UIKit
 import Firebase
 import SkeletonView
+import Cosmos
 
 class TutorCollectionViewCell: UICollectionViewCell {
     
@@ -89,10 +90,19 @@ class TutorCollectionViewCell: UICollectionViewCell {
         
         return label
     }()
-    
-    let starView: StarView = {
-        let view = StarView()
+
+    let starView: CosmosView = {
+        let view = CosmosView()
         view.isHidden = true
+        
+        view.settings.emptyImage = UIImage(named: "ic_star_empty")
+        view.settings.filledImage = UIImage(named: "ic_star_filled")
+        view.settings.totalStars = 5
+        view.settings.starMargin = 1
+        view.settings.fillMode = .precise
+        view.settings.updateOnTouch = false
+        view.settings.starSize = 9
+        
         return view
     }()
     
@@ -191,8 +201,6 @@ class TutorCollectionViewCell: UICollectionViewCell {
         starView.snp.makeConstraints { make in
             make.top.equalTo(subjectLabel.snp.bottom).offset(6)
             make.left.equalTo(subjectLabel.snp.left)
-            make.width.equalTo(50)
-            make.height.equalTo(10)
         }
     }
     
@@ -201,8 +209,6 @@ class TutorCollectionViewCell: UICollectionViewCell {
         starLabel.snp.makeConstraints { make in
             make.left.equalTo(starView.snp.right).offset(5)
             make.centerY.equalTo(starView.snp.centerY)
-            make.width.equalTo(30)
-            make.height.equalTo(20)
         }
     }
     
@@ -225,9 +231,9 @@ class TutorCollectionViewCell: UICollectionViewCell {
         
         starView.isHidden = false
         if let rating = tutor.tRating {
-            starView.setRating(Int(rating))
+            starView.rating = rating
         } else {
-            starView.setRating(5)
+            starView.rating = 0
         }
         
         starLabel.isHidden = false

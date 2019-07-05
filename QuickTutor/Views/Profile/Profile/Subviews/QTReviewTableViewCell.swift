@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Cosmos
 
 class QTReviewTableViewCell: UITableViewCell {
 
@@ -14,7 +15,7 @@ class QTReviewTableViewCell: UITableViewCell {
     @IBOutlet weak var avatarImageView: QTCustomImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var reviewDateLabel: UILabel!
-    @IBOutlet weak var ratingView: QTRatingView!
+    @IBOutlet weak var ratingView: CosmosView!
     @IBOutlet weak var reviewLabel: UILabel!
     @IBOutlet weak var reviewSubject: UILabel!
     @IBOutlet weak var reviewBottomConstraint: NSLayoutConstraint!
@@ -26,14 +27,6 @@ class QTReviewTableViewCell: UITableViewCell {
     
     static var nib: UINib {
         return UINib(nibName: String(describing: QTReviewTableViewCell.self), bundle:nil)
-    }
-    
-    // MARK: - Lifecycle
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-        ratingView.setupViews()
-        ratingView.isUserInteractionEnabled = false
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -57,8 +50,7 @@ class QTReviewTableViewCell: UITableViewCell {
             reviewBottomConstraint.constant = 18
             reviewLabel.text = review.message.trimmingCharacters(in: .whitespacesAndNewlines)
         }
-        let rating = Int(review.rating)
-        ratingView.setRatingTo(rating)
+        ratingView.rating = review.rating
         
         UserFetchService.shared.getStudentWithId(review.reviewerId) { (student) in
             guard let student = student else {
