@@ -732,6 +732,8 @@ extension ConversationVC: ConversationManagerDelegate {
             // show accessory view if a user is tutor.
             if AccountService.shared.currentUserType == .tutor {
                 showAccessoryView()
+            } else {
+                CurrentUser.shared.learner.connectedTutorsCount += 1
             }
             connectionStatus = .accepted
         } else {

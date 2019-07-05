@@ -143,7 +143,6 @@ class ConnectionRequestCell: UserMessageCell {
         let userTypeString = AccountService.shared.currentUserType.rawValue
         let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
         Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(receiverId).child("connected").setValue(true)
-
         Database.database().reference().child("conversationMetaData").child(receiverId).child(otherUserTypeString).child(uid).child("connected").setValue(true)
         updateMetaDataForAccepted()
     }

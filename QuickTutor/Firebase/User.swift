@@ -505,7 +505,7 @@ class FirebaseData {
 				group.enter()
 				self.fetchLearnerConnections(uid: uid, { (connections) in
 					if let connections = connections {
-						learner.connectedTutors = connections
+						learner.connectedTutorsCount = connections.count
 					}
 					group.leave()
 				})
