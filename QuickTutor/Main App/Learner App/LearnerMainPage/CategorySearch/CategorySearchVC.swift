@@ -363,7 +363,7 @@ extension CategorySearchVC: UICollectionViewDelegate {
 
 extension CategorySearchVC: UISearchBarDelegate {
     internal func searchBarTextDidBeginEditing(_: UISearchBar) {
-        navigationController?.pushViewController(QuickSearchVC(), animated: true)
+        navigationController?.pushViewController(QTQuickSearchViewController.controller, animated: true) //QuickSearchVC()
     }
 }
 

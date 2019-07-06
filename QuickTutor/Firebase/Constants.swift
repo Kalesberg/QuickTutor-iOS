@@ -79,6 +79,8 @@ struct Colors {
     static let newNavigationBarBackground = UIColor(hex: "15151E")
     static let newScreenBackground = UIColor(hex: "15151E")
     static let newTabbarBackgroundColor = UIColor(hex: "1B1B26").withAlphaComponent(0.9)
+    static let newTextHighlightColor = UIColor(hex: "645FCC")
+    
     
 }
 
