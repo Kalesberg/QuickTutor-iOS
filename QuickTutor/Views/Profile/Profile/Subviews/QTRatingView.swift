@@ -97,11 +97,15 @@ import UIKit
     @objc func updateRating(sender: UIButton) {
         rating = sender.tag
         for x in sender.tag - 1 ... 4 {
-            buttons[x].isSelected = false
+            if x >= 0 {
+                buttons[x].isSelected = false
+            }
         }
         var x = 0
         while x < sender.tag {
-            buttons[x].isSelected = true
+            if x >= 0 {
+                buttons[x].isSelected = true
+            }
             x += 1
         }
     }

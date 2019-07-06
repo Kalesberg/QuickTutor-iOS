@@ -68,7 +68,7 @@ class LearnerMainPageVC: UIViewController {
     
     @objc func handleSearchTap() {
         DispatchQueue.main.async {
-            self.navigationController?.pushViewController(QuickSearchVC(), animated: false)
+            self.navigationController?.pushViewController(QTQuickSearchViewController.controller, animated: false) // QuickSearchVC()
         }
     }
     

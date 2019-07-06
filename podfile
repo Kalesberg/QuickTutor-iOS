@@ -18,6 +18,7 @@ abstract_target 'QuickTutorApp' do
         pod 'FirebaseUI/Storage'
         pod 'SDWebImage'
         pod 'SwiftyJSON', '~> 4.2.0'
+        pod 'ObjectMapper', '~> 3.4'
 
         # Pods for backend
         pod 'Alamofire', '~>4.5'
@@ -51,6 +52,7 @@ abstract_target 'QuickTutorApp' do
         pod 'CropViewController'
         pod 'CardScan'
         pod 'CardScan/Stripe'
+        pod 'TYPagerController'
         
         pod 'SkeletonView'
         pod 'ESTabBarController-swift'
