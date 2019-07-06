@@ -319,6 +319,7 @@ extension QTAllSearchViewController: UITableViewDataSource {
         cell.onDeleteHandler = { recentSearch in
             if let recentSearch = recentSearch {
                 QTUtils.shared.removeRecentSearch(search: recentSearch)
+                self.recentSearches = QTUtils.shared.getRecentSearches()
                 self.tableView.reloadData()
             }
         }

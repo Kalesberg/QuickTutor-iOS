@@ -47,6 +47,7 @@ class QTRecentSearchTableViewCell: UITableViewCell {
     
     // MARK: - Functions
     func setData(recentSearch: QTRecentSearchModel) {
+        self.recentSearch = recentSearch
         if recentSearch.type == QTRecentSearchType.people {
             nameLabel.text = QTUtils.shared.getFormatedName(name: recentSearch.name1)
             if let imageUrl = recentSearch.imageUrl {
@@ -54,6 +55,9 @@ class QTRecentSearchTableViewCell: UITableViewCell {
             } else {
                 iconImageView.image = UIImage(named: "viewProfileButton")
             }
+            
+            iconImageView.borderColor = .clear
+            iconImageView.borderWidth = 0
         } else {
             if let named2 = recentSearch.name2 {
                 nameLabel.text = named2
@@ -70,6 +74,8 @@ class QTRecentSearchTableViewCell: UITableViewCell {
                     iconImageView.image = UIImage(named: "uploadImageDefaultImage")
                 }
             }
+            iconImageView.borderColor = Colors.purple
+            iconImageView.borderWidth = 1
         }
     }
 }
