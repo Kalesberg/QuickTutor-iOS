@@ -15,6 +15,7 @@ protocol CustomSearchBarDelegate: class {
     func customSearchBarDidTapMockLeftView(_ searchBar: PaddedTextField)
     func customSearchBarDidTapFiltersButton(_ searchBar: PaddedTextField)
     func customSearchBarDidTapCancelEditButton(_ searchBar: PaddedTextField)
+    func customSearchBarDidTapClearButton(_ searchBar: PaddedTextField)
 }
 
 extension CustomSearchBarDelegate {
@@ -156,6 +157,7 @@ class CustomSearchBarContainer: UIView {
         searchClearButton.isHidden = true
         searchBar.text = ""
         searchBar.becomeFirstResponder()
+        delegate?.customSearchBarDidTapClearButton(searchBar)
     }
     
     func showSearchClearButton(_ show: Bool = true) {

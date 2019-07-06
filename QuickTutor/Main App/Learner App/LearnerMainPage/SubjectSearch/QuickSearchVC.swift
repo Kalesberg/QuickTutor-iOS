@@ -236,6 +236,10 @@ extension QuickSearchVC: UICollectionViewDelegate, UICollectionViewDataSource, U
 }
 
 extension QuickSearchVC: CustomSearchBarDelegate {
+    func customSearchBarDidTapClearButton(_ searchBar: PaddedTextField) {
+        
+    }
+    
     func customSearchBarDidTapLeftView(_ searchBar: PaddedTextField) {
         
     }

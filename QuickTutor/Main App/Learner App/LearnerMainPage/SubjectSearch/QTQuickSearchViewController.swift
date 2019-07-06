@@ -274,4 +274,8 @@ extension QTQuickSearchViewController: CustomSearchBarDelegate {
     func customSearchBarDidTapCancelEditButton(_ searchBar: PaddedTextField) {
         removeChild(popViewController: true)
     }
+    
+    func customSearchBarDidTapClearButton(_ searchBar: PaddedTextField) {
+        handleTextChange()
+    }
 }
