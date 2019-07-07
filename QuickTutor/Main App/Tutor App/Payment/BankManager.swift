@@ -79,7 +79,11 @@ class BankManagerVC: UIViewController {
         
         StripeService.retrieveBankList(acctId: accountId) { error, list in
             if let error = error {
-                AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+                if let message = error.message {
+                    AlertController.genericErrorAlert(self, title: "Error", message: message)
+                } else {
+                    AlertController.genericErrorAlert(self, title: "Error", message: error.error?.localizedDescription)
+                }
             } else if let list = list {
                 self.bankList = list.data
             }
@@ -138,7 +142,11 @@ class BankManagerVC: UIViewController {
         let setDefault = UIAlertAction(title: "Set as Default", style: .default) { _ in
             StripeService.updateDefaultBank(account: CurrentUser.shared.tutor.acctId, bankId: bankId, completion: { error, account in
                 if let error = error {
-                    AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+                    if let message = error.message {
+                        AlertController.genericErrorAlert(self, title: "Error", message: message)
+                    } else {
+                        AlertController.genericErrorAlert(self, title: "Error", message: error.error?.localizedDescription)
+                    }
                 } else if let account = account {
                     self.bankList = account.data
                 }
@@ -269,7 +277,11 @@ extension BankManagerVC: SwipeCollectionViewCellDelegate {
     func removeBankAt(_ indexPath: IndexPath) {
         StripeService.removeBank(account: CurrentUser.shared.tutor.acctId, bankId: banks[indexPath.row].id) { error, bankList in
             if let error = error {
-                AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+                if let message = error.message {
+                    AlertController.genericErrorAlert(self, title: "Error", message: message)
+                } else {
+                    AlertController.genericErrorAlert(self, title: "Error", message: error.error?.localizedDescription)
+                }
             } else if let bankList = bankList {
                 self.banks.remove(at: indexPath.row)
                 self.contentView.collectionView.deleteItems(at: [indexPath])

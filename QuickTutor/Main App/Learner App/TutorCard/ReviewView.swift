@@ -89,7 +89,7 @@ class ReviewView: UIView {
     
     func setupStarView() {
         addSubview(starView)
-        starView.anchor(top: nil, left: nil, bottom: profileImageView.bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 55, height: 8)
+        starView.anchor(top: nil, left: nil, bottom: profileImageView.bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 59, height: 11)
     }
     
     func setupReviewLabel() {

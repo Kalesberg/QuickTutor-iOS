@@ -340,7 +340,11 @@ class SessionReview : BaseViewController {
                 AnalyticsService.shared.logSessionPayment(cost: costOfSession, tip: Double(PostSessionReviewData.tipAmount))
                 createCharge(tutorId: tutor.uid, learnerId: CurrentUser.shared.learner.uid, cost: Int(costWithTip * 100)) { error in
 					if let error = error {
-						AlertController.genericErrorAlertWithoutCancel(self, title: "Payment Error", message: error.localizedDescription)
+                        if let message = error.message {
+                            AlertController.genericErrorAlertWithoutCancel(self, title: "Payment Error", message: message)
+                        } else {
+                            AlertController.genericErrorAlertWithoutCancel(self, title: "Payment Error", message: error.error?.localizedDescription)
+                        }
 						self.hasPaid = false
 					} else {
 						self.hasPaid = true
@@ -406,7 +410,7 @@ class SessionReview : BaseViewController {
 		}
 	}
 
-    private func createCharge(tutorId: String, learnerId: String, cost: Int, completion: @escaping (Error?) -> Void) {
+    private func createCharge(tutorId: String, learnerId: String, cost: Int, completion: @escaping (QTStripeError?) -> Void) {
 		let fee = Int(Double(cost) * 0.1) + 200
 		displayLoadingOverlay()
         
@@ -415,7 +419,7 @@ class SessionReview : BaseViewController {
                 if let customer = customer {
                     guard let card = customer.defaultSource?.stripeID else {
                         self.dismissOverlay()
-                        return completion(StripeError.createChargeError)
+                        return completion(QTStripeError(error: StripeError.createChargeError))
                     }
                     StripeService.destinationCharge(acctId: self.tutor.acctId,
                                              customerId: learnerId,
@@ -461,7 +465,7 @@ class SessionReview : BaseViewController {
             })
     }
     
-    private func createQLPayment(tutorId: String, learnerId: String, fee: Int, learnerInfluencerId: String?, tutorInfluencerId: String?, completion: @escaping(Error?) -> Void) {
+    private func createQLPayment(tutorId: String, learnerId: String, fee: Int, learnerInfluencerId: String?, tutorInfluencerId: String?, completion: @escaping(QTStripeError?) -> Void) {
         var params: [String: Any] = [
             "tutor_id": tutorId,
             "learner_id": learnerId,
@@ -481,7 +485,8 @@ class SessionReview : BaseViewController {
                 case .success:
                     completion(nil)
                 case .failure(let error):
-                    completion(error)
+                    let objStripeError = QTStripeError(error: error)
+                    completion(objStripeError)
                 }
             })
     }

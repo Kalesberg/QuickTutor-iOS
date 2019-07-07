@@ -201,6 +201,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
         starView.snp.makeConstraints { make in
             make.top.equalTo(subjectLabel.snp.bottom).offset(6)
             make.left.equalTo(subjectLabel.snp.left)
+            make.width.equalTo(59)
         }
     }
     

@@ -71,7 +71,11 @@ class QTTutorPolicyViewController: UIViewController {
             } else if let token = token {
                 StripeService.createConnectAccount(bankAccountToken: TutorRegistration.bankToken!, connectAccountToken: token, { error, value in
                     if let error = error {
-                        AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+                        if let message = error.message {
+                            AlertController.genericErrorAlert(self, title: "Error", message: message)
+                        } else {
+                            AlertController.genericErrorAlert(self, title: "Error", message: error.error?.localizedDescription)
+                        }
                         return completion(false)
                     }
                     guard let value = value, value.prefix(4) == "acct" else { return completion(false) }
@@ -90,7 +94,11 @@ class QTTutorPolicyViewController: UIViewController {
                 CurrentUser.shared.tutor = tutor
                 StripeService.retrieveConnectAccount(acctId: tutor.acctId, { error, account in
                     if let error = error {
-                        AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+                        if let message = error.message {
+                            AlertController.genericErrorAlert(self, title: "Error", message: message)
+                        } else {
+                            AlertController.genericErrorAlert(self, title: "Error", message: error.error?.localizedDescription)
+                        }
                         completion(false)
                     } else if let account = account {
                         CurrentUser.shared.connectAccount = account

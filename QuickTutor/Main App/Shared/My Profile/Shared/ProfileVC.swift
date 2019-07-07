@@ -308,7 +308,11 @@ extension ProfileVC: ProfileModeToggleViewDelegate {
             CurrentUser.shared.tutor = tutor
             StripeService.retrieveConnectAccount(acctId: tutor.acctId, { error, account in
                 if let error = error {
-                    AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+                    if let message = error.message {
+                        AlertController.genericErrorAlert(self, title: "Error", message: message)
+                    } else {
+                        AlertController.genericErrorAlert(self, title: "Error", message: error.error?.localizedDescription)
+                    }
                     return completion(false)
                 } else if let account = account {
                     CurrentUser.shared.connectAccount = account

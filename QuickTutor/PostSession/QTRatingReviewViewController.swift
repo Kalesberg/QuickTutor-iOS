@@ -59,8 +59,8 @@ class QTRatingReviewViewController: UIViewController {
     // stripe payment variables
     private var amount: Int!
     private var fee: Int!
-    private var paymentError: Error? = StripeError.cancelApplePay
-    private var paymentCompletion: ((Error?) -> Void)?
+    private var paymentError: QTStripeError? = QTStripeError(error: StripeError.cancelApplePay)
+    private var paymentCompletion: ((QTStripeError?) -> Void)?
     
     static var controller: QTRatingReviewViewController {
         return QTRatingReviewViewController(nibName: String(describing: QTRatingReviewViewController.self), bundle: nil)
@@ -137,10 +137,16 @@ class QTRatingReviewViewController: UIViewController {
                 AnalyticsService.shared.logSessionPayment(cost: costOfSession, tip: tip)
                 createCharge(tutorId: tutor.uid, learnerId: CurrentUser.shared.learner.uid, cost: costInDollars(costOfSession), tip: Int(tip * 100)) { error in
                     if let error = error {
-                        print(error.localizedDescription)
-                        AlertController.genericErrorAlertWithoutCancel(self,
-                                                                       title: "Payment Error",
-                                                                       message: "Your payment method was declined. Please contact your financial instituation or select a new method.")
+                        if let message = error.message {
+                            AlertController.genericErrorAlertWithoutCancel(self,
+                                                                           title: "Payment Error",
+                                                                           message: message)
+                        } else {
+                            AlertController.genericErrorAlertWithoutCancel(self,
+                                                                           title: "Payment Error",
+                                                                           message: "Your payment method was declined. Please contact your financial instituation or select a new method.")
+                        }
+                        
                         self.hasPaid = false
                     } else {
                         self.hasPaid = true
@@ -267,7 +273,7 @@ class QTRatingReviewViewController: UIViewController {
         return Int(cost * 100)
     }
     
-    private func createCharge(tutorId: String, learnerId: String, cost: Int, tip: Int, completion: @escaping (Error?) -> Void) {
+    private func createCharge(tutorId: String, learnerId: String, cost: Int, tip: Int, completion: @escaping (QTStripeError?) -> Void) {
         let totalPrice = cost + tip
         amount = Int(Double(totalPrice + 30) / 0.971 + 0.5)
         
@@ -293,7 +299,8 @@ class QTRatingReviewViewController: UIViewController {
                 if let customer = customer {
                     guard let card = customer.defaultSource?.stripeID else {
                         self.dismissOverlay()
-                        completion(StripeError.createChargeError)
+                        let objStripeError = QTStripeError(error: StripeError.createChargeError)
+                        completion(objStripeError)
                         return
                     }
                     
@@ -327,7 +334,7 @@ class QTRatingReviewViewController: UIViewController {
         }
     }
     
-    private func checkSessionUsers(tutorId: String, learnerId: String, completion: @escaping(_ learnerInfluencerId: String?, _ tutorInfluencerId: String?,  _ error: Error?) -> Void) {
+    private func checkSessionUsers(tutorId: String, learnerId: String, completion: @escaping(_ learnerInfluencerId: String?, _ tutorInfluencerId: String?,  _ error: QTStripeError?) -> Void) {
         let params = [
             "tutor_id": tutorId,
             "learner_id": learnerId
@@ -339,14 +346,14 @@ class QTRatingReviewViewController: UIViewController {
                 case .success(let value as [String: Any]):
                     completion(value["learner_influencer_id"] as? String, value["tutor_influencer_id"] as? String, nil)
                 case .failure(let error):
-                    completion(nil, nil, error)
+                    completion(nil, nil, QTStripeError(error: error))
                 default:
                     break
                 }
             })
     }
     
-    private func createQLPayment(tutorId: String, learnerId: String, fee: Int, learnerInfluencerId: String?, tutorInfluencerId: String?, completion: @escaping(Error?) -> Void) {
+    private func createQLPayment(tutorId: String, learnerId: String, fee: Int, learnerInfluencerId: String?, tutorInfluencerId: String?, completion: @escaping(QTStripeError?) -> Void) {
         var params: [String: Any] = [
             "tutor_id": tutorId,
             "learner_id": learnerId,
@@ -366,7 +373,7 @@ class QTRatingReviewViewController: UIViewController {
                 case .success:
                     completion(nil)
                 case .failure(let error):
-                    completion(error)
+                    completion(QTStripeError(error: error))
                 }
             })
     }
@@ -378,7 +385,7 @@ extension QTRatingReviewViewController: PKPaymentAuthorizationViewControllerDele
             self.dismissOverlay()
             
             if let paymentError = self.paymentError,
-                paymentError.localizedDescription == StripeError.cancelApplePay.localizedDescription {
+                paymentError.error?.localizedDescription == StripeError.cancelApplePay.localizedDescription {
                 self.nextButton.isEnabled = true
                 return
             }
@@ -389,7 +396,7 @@ extension QTRatingReviewViewController: PKPaymentAuthorizationViewControllerDele
     func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, completion: @escaping (PKPaymentAuthorizationStatus) -> Void) {
         STPAPIClient.shared().createToken(with: payment) { token, error in
             if let error = error {
-                self.paymentError = error
+                self.paymentError = QTStripeError(error: error)
                 completion(.failure)
             } else {
                 guard let tokenId = token?.stripeID else {

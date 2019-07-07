@@ -7,17 +7,37 @@
 
 import Stripe
 import Alamofire
+import ObjectMapper
+
+class QTStripeError: Mappable {
+    var error: Error!
+    var type: String?
+    var code: String?
+    var message: String?
+    var param: String?
+    
+    init(error: Error?) {
+        self.error = error
+    }
+    
+    required init?(map: Map) {
+        
+    }
+    
+    func mapping(map: Map) {
+        type            <- map["type"]
+        code            <- map["code"]
+        message         <- map["message"]
+        param           <- map["param"]
+    }
+}
 
 class StripeService {
-	
-	private init() {
-		print("Stripe initialized.")
-	}
-    
-	typealias AWConnectedAccountErrorBlock = (Error?, ConnectAccount?) -> Void
-	typealias AWErrorValueCompletionblock = (Error?, String?) -> Void
-	typealias AWExternalAccountErrorBlock = (Error?, ExternalAccounts?) -> Void
-	typealias AWBalanceTransactionErrorBlock = (Error?, BalanceTransaction?) -> Void
+	 
+	typealias AWConnectedAccountErrorBlock = (QTStripeError?, ConnectAccount?) -> Void
+	typealias AWErrorValueCompletionblock = (QTStripeError?, String?) -> Void
+	typealias AWExternalAccountErrorBlock = (QTStripeError?, ExternalAccounts?) -> Void
+	typealias AWBalanceTransactionErrorBlock = (QTStripeError?, BalanceTransaction?) -> Void
 	
 	class func createBankAccountToken(accountHoldersName: String, routingNumber: String, accountNumber: String, completion: @escaping STPTokenCompletionBlock) {
 		
@@ -97,7 +117,16 @@ class StripeService {
                         completion(nil, nil)
                     }
                 case .failure(let error):
-                    completion(error, nil)
+                    if let data = response.data,
+                        let dicData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
+                        let dicError = dicData,
+                        let objStripeError = Mapper<QTStripeError>().map(JSON: dicError) {
+                        objStripeError.error = error
+                        completion(objStripeError, nil)
+                    } else {
+                        let objStripeError = QTStripeError(error: error)
+                        completion(objStripeError, nil)
+                    }
                 default:
                     completion(nil, nil)
                 }
@@ -117,12 +146,21 @@ class StripeService {
                         completion(nil, nil)
                     }
                 case .failure(let error):
-                    completion(error, nil)
+                    if let data = response.data,
+                        let dicData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
+                        let dicError = dicData,
+                        let objStripeError = Mapper<QTStripeError>().map(JSON: dicError) {
+                        objStripeError.error = error
+                        completion(objStripeError, nil)
+                    } else {
+                        let objStripeError = QTStripeError(error: error)
+                        completion(objStripeError, nil)
+                    }
                 }
         }
 	}
 	
-    class func destinationCharge(acctId: String, customerId: String, customerStripeId: String, sourceId: String, amount: Int, fee: Int, description: String, completion: @escaping (Error?) -> ()) {
+    class func destinationCharge(acctId: String, customerId: String, customerStripeId: String, sourceId: String, amount: Int, fee: Int, description: String, completion: @escaping (QTStripeError?) -> ()) {
         let requestString = "\(Constants.API_BASE_URL)/stripes/charges"
         let params: [String: Any] = [
             "acct": acctId,
@@ -140,12 +178,21 @@ class StripeService {
                 case .success:
                     completion(nil)
                 case .failure(let error):
-                    completion(error)
+                    if let data = response.data,
+                        let dicData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
+                        let dicError = dicData,
+                        let objStripeError = Mapper<QTStripeError>().map(JSON: dicError) {
+                        objStripeError.error = error
+                        completion(objStripeError)
+                    } else {
+                        let objStripeError = QTStripeError(error: error)
+                        completion(objStripeError)
+                    }
                 }
         }
 	}
     
-    class func makeApplePay(acctId: String, customerId: String, receiptEmail: String, tokenId: String, amount: Int, fee: Int, description: String, completion: @escaping (Error?) -> ()) {
+    class func makeApplePay(acctId: String, customerId: String, receiptEmail: String, tokenId: String, amount: Int, fee: Int, description: String, completion: @escaping (QTStripeError?) -> ()) {
         let requestString = "\(Constants.API_BASE_URL)/stripes/applepay"
         let params: [String: Any] = [
             "acct": acctId,
@@ -163,7 +210,16 @@ class StripeService {
                 case .success:
                     completion(nil)
                 case .failure(let error):
-                    completion(error)
+                    if let data = response.data,
+                        let dicData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
+                        let dicError = dicData,
+                        let objStripeError = Mapper<QTStripeError>().map(JSON: dicError) {
+                        objStripeError.error = error
+                        completion(objStripeError)
+                    } else {
+                        let objStripeError = QTStripeError(error: error)
+                        completion(objStripeError)
+                    }
                 }
         }
     }
@@ -183,7 +239,16 @@ class StripeService {
                         completion(nil, nil)
                     }
                 case .failure(let error):
-                    completion(error, nil)
+                    if let data = response.data,
+                        let dicData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
+                        let dicError = dicData,
+                        let objStripeError = Mapper<QTStripeError>().map(JSON: dicError) {
+                        objStripeError.error = error
+                        completion(objStripeError, nil)
+                    } else {
+                        let objStripeError = QTStripeError(error: error)
+                        completion(objStripeError, nil)
+                    }
                 }
         }
 	}
@@ -203,12 +268,21 @@ class StripeService {
                         completion(nil, nil)
                     }
                 case .failure(let error):
-                    completion(error, nil)
+                    if let data = response.data,
+                        let dicData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
+                        let dicError = dicData,
+                        let objStripeError = Mapper<QTStripeError>().map(JSON: dicError) {
+                        objStripeError.error = error
+                        completion(objStripeError, nil)
+                    } else {
+                        let objStripeError = QTStripeError(error: error)
+                        completion(objStripeError, nil)
+                    }
                 }
         }
 	}
 	
-	class func retrieveCustomer(cusID: String, _ completion: @escaping STPCustomerCompletionBlock) {
+	class func retrieveCustomer(cusID: String, _ completion: @escaping ((STPCustomer?, QTStripeError?) -> Void)) {
         let requestString = "\(Constants.API_BASE_URL)/stripes/customers/\(cusID)"
         
         Alamofire.request(requestString, method: .get)
@@ -219,7 +293,8 @@ class StripeService {
                     if let data = response.data {
                         let deserializer = STPCustomerDeserializer(data: data, urlResponse: response.response, error: response.error)
                         if let error = deserializer.error {
-                            completion(nil, error)
+                            let objStripeError = QTStripeError(error: error)
+                            completion(nil, objStripeError)
                         } else if let objCustomer = deserializer.customer {
                             completion(objCustomer, nil)
                         } else {
@@ -229,7 +304,16 @@ class StripeService {
                         completion(nil, nil)
                     }
                 case .failure(let error):
-                    completion(nil, error)
+                    if let data = response.data,
+                        let dicData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
+                        let dicError = dicData,
+                        let objStripeError = Mapper<QTStripeError>().map(JSON: dicError) {
+                        objStripeError.error = error
+                        completion(nil, objStripeError)
+                    } else {
+                        let objStripeError = QTStripeError(error: error)
+                        completion(nil, objStripeError)
+                    }
             }
         }
 	}
@@ -251,7 +335,14 @@ class StripeService {
                         case .success:
                             completion(nil)
                         case .failure(let error):
-                            completion(error.localizedDescription)
+                            if let data = response.data,
+                                let dicData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
+                                let dicError = dicData,
+                                let objStripeError = Mapper<QTStripeError>().map(JSON: dicError) {
+                                completion(objStripeError.message)
+                            } else {
+                                completion(error.localizedDescription)
+                            }
                         }
                 }
 			}
@@ -270,7 +361,14 @@ class StripeService {
                 case .success:
                     completion(nil)
                 case .failure(let error):
-                    completion(error.localizedDescription)
+                    if let data = response.data,
+                        let dicData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
+                        let dicError = dicData,
+                        let objStripeError = Mapper<QTStripeError>().map(JSON: dicError) {
+                        completion(objStripeError.message)
+                    } else {
+                        completion(error.localizedDescription)
+                    }
                 }
         }
     }
@@ -292,7 +390,16 @@ class StripeService {
                         completion(nil, nil)
                     }
                 case .failure(let error):
-                    completion(error, nil)
+                    if let data = response.data,
+                        let dicData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
+                        let dicError = dicData,
+                        let objStripeError = Mapper<QTStripeError>().map(JSON: dicError) {
+                        objStripeError.error = error
+                        completion(objStripeError, nil)
+                    } else {
+                        let objStripeError = QTStripeError(error: error)
+                        completion(objStripeError, nil)
+                    }
                 }
         }
 	}
@@ -313,11 +420,20 @@ class StripeService {
                         completion(nil, nil)
                     }
                 case .failure(let error):
-                    completion(error, nil)
+                    if let data = response.data,
+                        let dicData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
+                        let dicError = dicData,
+                        let objStripeError = Mapper<QTStripeError>().map(JSON: dicError) {
+                        objStripeError.error = error
+                        completion(objStripeError, nil)
+                    } else {
+                        let objStripeError = QTStripeError(error: error)
+                        completion(objStripeError, nil)
+                    }
                 }
         }
 	}
-	class func detachSource(customer: STPCustomer, deleting card: STPCard, completion: @escaping STPCustomerCompletionBlock) {
+	class func detachSource(customer: STPCustomer, deleting card: STPCard, completion: @escaping ((STPCustomer?, QTStripeError?) -> Void)) {
         let requestString = "\(Constants.API_BASE_URL)/stripes/customers/\(customer.stripeID)/sources"
         let params = ["card": card.stripeID]
         
@@ -329,7 +445,8 @@ class StripeService {
                     if let data = response.data {
                         let deserializer : STPCustomerDeserializer = STPCustomerDeserializer(data: data, urlResponse: response.response, error: response.error)
                         if let error = deserializer.error {
-                            completion(nil, error)
+                            let objStripeError = QTStripeError(error: error)
+                            completion(nil, objStripeError)
                         } else if let objCustomer = deserializer.customer {
                             completion(objCustomer, nil)
                         } else {
@@ -339,12 +456,21 @@ class StripeService {
                         completion(nil, nil)
                     }
                 case .failure(let error):
-                    completion(nil, error)
+                    if let data = response.data,
+                        let dicData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
+                        let dicError = dicData,
+                        let objStripeError = Mapper<QTStripeError>().map(JSON: dicError) {
+                        objStripeError.error = error
+                        completion(nil, objStripeError)
+                    } else {
+                        let objStripeError = QTStripeError(error: error)
+                        completion(nil, objStripeError)
+                    }
                 }
         }
 	}
 	
-	class func updateDefaultSource(customer: STPCustomer, new defaultCard: STPCard, completion: @escaping STPCustomerCompletionBlock) {
+	class func updateDefaultSource(customer: STPCustomer, new defaultCard: STPCard, completion: @escaping ((STPCustomer?, QTStripeError?) -> Void)) {
         let requestString = "\(Constants.API_BASE_URL)/stripes/customers/\(customer.stripeID)/sources/default"
         let params = ["cardId": defaultCard.stripeID]
         
@@ -356,7 +482,8 @@ class StripeService {
                     if let data = response.data {
                         let deserializer : STPCustomerDeserializer = STPCustomerDeserializer(data: data, urlResponse: response.response, error: response.error)
                         if let error = deserializer.error {
-                            completion(nil, error)
+                            let objStripeError = QTStripeError(error: error)
+                            completion(nil, objStripeError)
                         } else if let objCustomer = deserializer.customer {
                             completion(objCustomer, nil)
                         } else {
@@ -366,13 +493,22 @@ class StripeService {
                         completion(nil, nil)
                     }
                 case .failure(let error):
-                    completion(nil, error)
+                    if let data = response.data,
+                        let dicData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
+                        let dicError = dicData,
+                        let objStripeError = Mapper<QTStripeError>().map(JSON: dicError) {
+                        objStripeError.error = error
+                        completion(nil, objStripeError)
+                    } else {
+                        let objStripeError = QTStripeError(error: error)
+                        completion(nil, objStripeError)
+                    }
                 }
         }
         
 	}
 	
-	class func removeCustomer(customerId: String, completion: @escaping (Error?) -> Void) {
+	class func removeCustomer(customerId: String, completion: @escaping (QTStripeError?) -> Void) {
         let requestString = "\(Constants.API_BASE_URL)/stripes/customers/\(customerId)"
         
         Alamofire.request(requestString, method: .get)
@@ -382,11 +518,20 @@ class StripeService {
                 case .success:
                     completion(nil)
                 case .failure(let error):
-                    completion(error)
+                    if let data = response.data,
+                        let dicData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
+                        let dicError = dicData,
+                        let objStripeError = Mapper<QTStripeError>().map(JSON: dicError) {
+                        objStripeError.error = error
+                        completion(objStripeError)
+                    } else {
+                        let objStripeError = QTStripeError(error: error)
+                        completion(objStripeError)
+                    }
                 }
         }
 	}
-	class func removeConnectAccount(accountId: String, completion: @escaping (Error?) -> Void) {
+	class func removeConnectAccount(accountId: String, completion: @escaping (QTStripeError?) -> Void) {
         let requestString = "\(Constants.API_BASE_URL)/stripe/accounts/\(accountId)"
         
         Alamofire.request(requestString, method: .delete)
@@ -396,13 +541,18 @@ class StripeService {
                 case .success:
                     completion(nil)
                 case .failure(let error):
-                    completion(error)
+                    if let data = response.data,
+                        let dicData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
+                        let dicError = dicData,
+                        let objStripeError = Mapper<QTStripeError>().map(JSON: dicError) {
+                        objStripeError.error = error
+                        completion(objStripeError)
+                    } else {
+                        let objStripeError = QTStripeError(error: error)
+                        completion(objStripeError)
+                    }
                 }
         }
-	}
-	
-	deinit {
-		print("StripeClass has De-initialized")
 	}
 }
 
