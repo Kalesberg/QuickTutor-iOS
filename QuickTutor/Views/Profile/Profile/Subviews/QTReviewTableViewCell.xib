@@ -55,7 +55,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t8E-k5-yPp" customClass="CosmosView" customModule="Cosmos">
-                        <rect key="frame" x="340" y="46.5" width="54" height="15"/>
+                        <rect key="frame" x="330" y="46.5" width="64" height="15"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="15" id="GI6-Jo-C1o"/>
@@ -66,7 +66,7 @@
                                 <integer key="value" value="5"/>
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="number" keyPath="starSize">
-                                <real key="value" value="10"/>
+                                <real key="value" value="12"/>
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="number" keyPath="starMargin">
                                 <real key="value" value="1"/>

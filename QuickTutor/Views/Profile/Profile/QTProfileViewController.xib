@@ -744,17 +744,17 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yjq-S4-ZO1">
-                            <rect key="frame" x="20" y="49" width="56" height="12"/>
+                            <rect key="frame" x="20" y="49" width="66" height="14"/>
                             <subviews>
                                 <view contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="ddt-1C-PKl" customClass="CosmosView" customModule="Cosmos">
-                                    <rect key="frame" x="0.0" y="2" width="44" height="8"/>
+                                    <rect key="frame" x="0.0" y="2" width="54" height="10"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <userDefinedRuntimeAttributes>
                                         <userDefinedRuntimeAttribute type="number" keyPath="totalStars">
                                             <integer key="value" value="5"/>
                                         </userDefinedRuntimeAttribute>
                                         <userDefinedRuntimeAttribute type="number" keyPath="starSize">
-                                            <real key="value" value="8"/>
+                                            <real key="value" value="10"/>
                                         </userDefinedRuntimeAttribute>
                                         <userDefinedRuntimeAttribute type="number" keyPath="starMargin">
                                             <real key="value" value="1"/>
@@ -773,14 +773,14 @@
                                             <color key="value" red="0.39607843139999999" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         </userDefinedRuntimeAttribute>
                                         <userDefinedRuntimeAttribute type="number" keyPath="rating">
-                                            <real key="value" value="4.7000000000000002"/>
+                                            <real key="value" value="4.7999999999999998"/>
                                         </userDefinedRuntimeAttribute>
                                         <userDefinedRuntimeAttribute type="image" keyPath="filledImage" value="ic_star_filled"/>
                                         <userDefinedRuntimeAttribute type="image" keyPath="emptyImage" value="ic_star_empty"/>
                                     </userDefinedRuntimeAttributes>
                                 </view>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GKh-AL-yOi">
-                                    <rect key="frame" x="49" y="-1" width="7" height="14"/>
+                                    <rect key="frame" x="59" y="0.0" width="7" height="14"/>
                                     <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="12"/>
                                     <color key="textColor" red="0.3921568627" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>

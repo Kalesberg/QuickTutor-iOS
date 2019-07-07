@@ -209,9 +209,9 @@ class ProfileVCHeaderCell: UICollectionReusableView {
         }
         
         if AccountService.shared.currentUserType == .learner {
-            ratingLabel.text = "\(CurrentUser.shared.learner.lRating ?? 5.0)"
+            ratingLabel.text = "\(CurrentUser.shared.learner.lRating ?? 0.0)"
         } else {
-            ratingLabel.text = "\(CurrentUser.shared.tutor.tRating ?? 5.0)"
+            ratingLabel.text = "\(CurrentUser.shared.tutor.tRating ?? 0.0)"
         }
     }
     

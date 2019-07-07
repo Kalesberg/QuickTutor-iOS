@@ -47,7 +47,7 @@ class ReviewView: UIView {
         view.settings.starMargin = 1
         view.settings.fillMode = .precise
         view.settings.updateOnTouch = false
-        view.settings.starSize = 8
+        view.settings.starSize = 11
         
         return view
     }()

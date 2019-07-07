@@ -101,7 +101,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
         view.settings.starMargin = 1
         view.settings.fillMode = .precise
         view.settings.updateOnTouch = false
-        view.settings.starSize = 9
+        view.settings.starSize = 11
         
         return view
     }()
