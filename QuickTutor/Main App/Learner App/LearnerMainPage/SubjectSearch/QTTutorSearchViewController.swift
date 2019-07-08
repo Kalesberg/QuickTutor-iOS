@@ -91,14 +91,40 @@ class QTTutorSearchViewController: UIViewController {
         searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false
             , block: { (_) in
                 
+                let group = DispatchGroup()
+                group.enter()
                 let ref: DatabaseReference! = Database.database().reference().child("tutor-info")
                 ref.queryOrdered(byChild: "usr").queryStarting(atValue: searchText.lowercased()).queryEnding(atValue: searchText.lowercased() + "\u{f8ff}").queryLimited(toFirst: 50).observeSingleEvent(of: .value) { snapshot in
-                    for snap in snapshot.children {
-                        guard let child = snap as? DataSnapshot, child.key != CurrentUser.shared.learner.uid else { continue }
-                        let usernameQuery = UsernameQuery(snapshot: child)
-                        self.filteredUsers.append(usernameQuery)
-                    }
                     
+                        for snap in snapshot.children {
+                            guard let child = snap as? DataSnapshot, child.key != CurrentUser.shared.learner.uid else { continue }
+                            let usernameQuery = UsernameQuery(snapshot: child)
+                            self.filteredUsers.append(usernameQuery)
+                        }
+                    
+                        group.leave()
+                }
+                
+                group.enter()
+                ref.queryOrdered(byChild: "nm")
+                    .queryStarting(atValue: searchText.lowercased())
+                    .queryEnding(atValue: searchText.lowercased() + "\u{f8ff}")
+                    .queryLimited(toFirst: 50)
+                    .observeSingleEvent(of: .value, with: { snapshot in
+                    
+                        for snap in snapshot.children {
+                            guard let child = snap as? DataSnapshot, child.key != CurrentUser.shared.learner.uid else { continue }
+                            let usernameQuery = UsernameQuery(snapshot: child)
+                            if self.filteredUsers.contains(where: {$0.username.compare(usernameQuery.username) == ComparisonResult.orderedSame}) {
+                                continue
+                            }
+                            self.filteredUsers.append(usernameQuery)
+                        }
+                        
+                        group.leave()
+                })
+                
+                group.notify(queue: DispatchQueue.main, execute: {
                     DispatchQueue.main.async {
                         if self.filteredUsers.count == 0 {
                             self.noResultView.isHidden = false
@@ -106,7 +132,7 @@ class QTTutorSearchViewController: UIViewController {
                         }
                         self.tableView.reloadData()
                     }
-                }
+                })
         })
     }
     

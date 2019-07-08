@@ -84,14 +84,15 @@ class CategorySearchVC: UIViewController {
         
         navigationController?.navigationBar.isHidden = false
         setUpFiltersButton()
-        queryNeededTutors(lastKnownKey: nil)
         
         if 0 == datasource.count {
             collectionView.prepareSkeleton { _ in
                 self.view.showAnimatedSkeleton(usingColor: Colors.gray)
+                self.queryNeededTutors(lastKnownKey: nil)
             }
         } else {
             filteredDatasource = datasource
+            queryNeededTutors(lastKnownKey: nil)
         }
 
         setupEmptyBackgroundView()
