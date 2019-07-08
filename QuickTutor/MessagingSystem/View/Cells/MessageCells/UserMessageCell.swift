@@ -24,8 +24,6 @@ class UserMessageCell: BaseMessageCell {
         view.layer.masksToBounds = false
         view.clipsToBounds = false
         view.backgroundColor = Colors.newScreenBackground
-        view.layer.borderColor = Colors.gray.cgColor
-        view.layer.borderWidth = 1
         view.applyDefaultShadow()
         return view
     }()
