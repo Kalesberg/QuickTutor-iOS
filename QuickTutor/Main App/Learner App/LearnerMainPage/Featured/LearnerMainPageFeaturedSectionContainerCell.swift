@@ -41,6 +41,10 @@ class LearnerMainPageFeaturedSectionContainerCell: UICollectionViewCell {
         featuredSectionController.view.anchor(top: titleLabel.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
     
+    func updateData() {
+        featuredSectionController.loadFeaturedSubjects()
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()

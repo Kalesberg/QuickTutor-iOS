@@ -24,6 +24,7 @@ class LearnerMainPageCollectionViewHelper: NSObject, UICollectionViewDelegate, U
         switch indexPath.section {
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! LearnerMainPageFeaturedSectionContainerCell
+            cell.updateData()
             return cell
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryCell", for: indexPath) as! LearnerMainPageCategorySectionContainerCell

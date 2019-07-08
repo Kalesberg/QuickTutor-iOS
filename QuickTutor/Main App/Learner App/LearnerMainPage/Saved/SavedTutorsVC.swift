@@ -26,21 +26,13 @@ class SavedTutorsVC: UIViewController {
         cv.alwaysBounceHorizontal = false
         cv.showsHorizontalScrollIndicator = false
         cv.register(TutorCollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
+        cv.register(EmptySavedTutorsBackgroundCollectionViewCell.self, forCellWithReuseIdentifier: "EmptySavedTutorsBackgroundCollectionViewCell")
         return cv
     }()
     
-    var emptyBackground: EmptySavedTutorsBackground = {
-        return EmptySavedTutorsBackground()
-    }()
-    
-    let containerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .clear
-        view.layer.cornerRadius = 5
-        view.clipsToBounds = true
-        
-        return view
-    }()
+//    var emptyBackground: EmptySavedTutorsBackground = {
+//        return EmptySavedTutorsBackground()
+//    }()
     
     let btnFindTutor: DimmableButton = {
         let button = DimmableButton()
@@ -85,7 +77,7 @@ class SavedTutorsVC: UIViewController {
     
     func setupCollectionView() {
         view.addSubview(collectionView)
-        collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 61, paddingRight: 20, width: 0, height: 0)
+        collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 8, paddingLeft: 20, paddingBottom: 61, paddingRight: 20, width: 0, height: 0)
         collectionView.delegate = self
         collectionView.dataSource = self
     }
@@ -95,21 +87,16 @@ class SavedTutorsVC: UIViewController {
     }
     
     private func setupEmptyBackground() {
-        emptyBackground.isHidden = true
-        collectionView.addSubview(emptyBackground)
-        emptyBackground.anchor(top: collectionView.getTopAnchor(), left: collectionView.leftAnchor, bottom: nil, right: collectionView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        emptyBackground.widthAnchor.constraint(equalTo: collectionView.widthAnchor, multiplier: 1.0).isActive = true
+//        emptyBackground.isHidden = true
+//        collectionView.addSubview(emptyBackground)
+//        emptyBackground.anchor(top: collectionView.getTopAnchor(), left: collectionView.leftAnchor, bottom: collectionView.bottomAnchor, right: collectionView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+//        emptyBackground.widthAnchor.constraint(equalTo: collectionView.widthAnchor, multiplier: 1.0).isActive = true
     }
     
     private func setupFindTutorView() {
-        view.addSubview(containerView)
-        containerView.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: -5, paddingRight: 0, width: 0, height: 61)
-        view.layoutIfNeeded()
-        containerView.clipsToBounds = true
-        
-        containerView.addSubview(btnFindTutor)
-        btnFindTutor.anchor(top: nil, left: containerView.leftAnchor, bottom: containerView.bottomAnchor, right: containerView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 5, paddingRight: 0, width: 0, height: 61)
-        containerView.layoutIfNeeded()
+        view.addSubview(btnFindTutor)
+        btnFindTutor.translatesAutoresizingMaskIntoConstraints = false
+        btnFindTutor.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 65)
         
         btnFindTutor.addTarget(self, action: #selector(onClickBtnFindTutor), for: .touchUpInside)
     }
@@ -150,7 +137,6 @@ class SavedTutorsVC: UIViewController {
             }
             let y = CGFloat.maximum(self.refreshControl.frame.minY, 0) + top
             self.collectionView.setContentOffset(CGPoint(x: 0, y: -y), animated:true)
-            self.view.layoutIfNeeded()
         })
     }
     
@@ -202,13 +188,18 @@ class SavedTutorsVC: UIViewController {
 
 extension SavedTutorsVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
-        self.emptyBackground.isHidden = !datasource.isEmpty
-
         
-        return datasource.count
+//        self.emptyBackground.isHidden = !datasource.isEmpty
+        
+        return datasource.isEmpty ? 1 : datasource.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if datasource.isEmpty {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: EmptySavedTutorsBackgroundCollectionViewCell.self), for: indexPath)
+            return cell
+        }
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! TutorCollectionViewCell
         cell.updateUI(datasource[indexPath.item])
         cell.profileImageViewHeightAnchor?.constant = 160
@@ -216,24 +207,37 @@ extension SavedTutorsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
         return cell
     }
     
-    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
+    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let screen = UIScreen.main.bounds
+        if datasource.isEmpty {
+            let emptyString = "Maybe you’re not planning on learning today, but you can always start prepping for tomorrow. Tap the heart on your favorite tutors to save them here."
+            let height = emptyString.height(withConstrainedWidth: screen.width - 120, font: Fonts.createSize(15))
+            return CGSize(width: screen.width - 60, height: height)
+        }
         return CGSize(width: (screen.width - 60) / 2, height: 225)
     }
     
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
-        cell.shrink()
+        if !datasource.isEmpty {
+            let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
+            cell.shrink()
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
-        UIView.animate(withDuration: 0.2) {
-            cell.transform = CGAffineTransform.identity
+        if !datasource.isEmpty {
+            let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
+            UIView.animate(withDuration: 0.2) {
+                cell.transform = CGAffineTransform.identity
+            }
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if datasource.isEmpty {
+            return
+        }
+        
         let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
         cell.growSemiShrink {
             let featuredTutor = self.datasource[indexPath.item]

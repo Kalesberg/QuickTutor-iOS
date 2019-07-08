@@ -32,10 +32,10 @@ class FeaturedSectionController: UIViewController {
         
         view.isSkeletonable = true
         setupCollectionView()
-        loadFeaturedSubjects()
         
         collectionView.prepareSkeleton { _ in
             self.view.showAnimatedSkeleton(usingColor: Colors.gray)
+            self.loadFeaturedSubjects()
         }
     }
     
