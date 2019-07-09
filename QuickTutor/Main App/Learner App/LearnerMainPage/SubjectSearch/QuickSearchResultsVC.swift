@@ -119,6 +119,12 @@ extension QuickSearchResultsVC: MFMailComposeViewControllerDelegate {
     }
 }
 
+extension QuickSearchResultsVC: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        NotificationCenter.default.post(name: NSNotification.Name(QTNotificationName.quickSearchDismissKeyboard), object: nil)
+    }
+}
+
 extension UICollectionView {
     
     func setEmptyMessage(_ unknownSubject: String, didSubmitButtonClicked: (() -> ())?) {

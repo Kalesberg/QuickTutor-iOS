@@ -77,5 +77,7 @@ class QTRecentSearchTableViewCell: UITableViewCell {
             iconImageView.borderColor = Colors.purple
             iconImageView.borderWidth = 1
         }
+        
+        deleteButton.imageView?.overlayTintColor(color: Colors.gray)
     }
 }

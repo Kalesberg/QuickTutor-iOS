@@ -27,6 +27,7 @@ class LearnerMainPageVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.delegate = self
         configureView()
         setupRefreshControl()
         setupObservers()
@@ -67,9 +68,7 @@ class LearnerMainPageVC: UIViewController {
     }
     
     @objc func handleSearchTap() {
-        DispatchQueue.main.async {
-            self.navigationController?.pushViewController(QTQuickSearchViewController.controller, animated: false) // QuickSearchVC()
-        }
+        navigationController?.pushViewController(QTQuickSearchViewController.controller, animated: false) // QuickSearchVC()
     }
     
     func setupObservers() {
@@ -166,5 +165,21 @@ class LearnerMainPageVC: UIViewController {
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+}
+
+// MARK: - UINavigationControllerDelegate
+extension LearnerMainPageVC: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController,
+                              animationControllerFor operation: UINavigationController.Operation,
+                              from fromVC: UIViewController,
+                              to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        if toVC.isKind(of: QTQuickSearchViewController.self) {
+            if operation == .push {
+                return QTFadePushAnimator()
+            }
+        }
+        
+        return nil
     }
 }

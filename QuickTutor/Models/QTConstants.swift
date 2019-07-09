@@ -22,4 +22,6 @@ struct QTNotificationName {
     static let quickSearchPeople = "quickSearchPeople"
     static let quickSearchBegin = "quickSearchBegin"
     static let quickSearchEnd = "quickSearchEnd"
+    static let quickSearchClearSearchKey = "quickSearchClearSearchKey"
+    static let quickSearchDismissKeyboard = "quickSearchDismissKeyboard"
 }

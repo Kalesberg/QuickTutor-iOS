@@ -104,6 +104,11 @@ class QTSubjectSearchViewController: UIViewController {
         removeChild(popViewController: true)
     }
     
+    @objc
+    func handleQuickSearchClearSearchKey(_ notification: Notification) {
+        searchSubjects(searchText: "")
+    }
+    
     // MARK: - Functions
     func setupViews() {
         setupMainView()
@@ -146,6 +151,11 @@ class QTSubjectSearchViewController: UIViewController {
                                                name: NSNotification.Name(QTNotificationName.quickSearchEnd),
                                                object: nil)
         
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handleQuickSearchClearSearchKey(_:)),
+                                               name: NSNotification.Name(QTNotificationName.quickSearchClearSearchKey),
+                                               object: nil)
+        
     }
     
     private func searchSubjects(searchText: String) {
@@ -175,15 +185,18 @@ class QTSubjectSearchViewController: UIViewController {
     }
 }
 
+// MARK: - UIScrollViewDelegate
 extension QTSubjectSearchViewController: UIScrollViewDelegate {
     func scrollViewWillBeginDecelerating(_: UIScrollView) {
         if !automaticScroll {
+            NotificationCenter.default.post(name: NSNotification.Name(QTNotificationName.quickSearchDismissKeyboard), object: nil)
             view.endEditing(true)
         }
     }
     
     func scrollViewWillBeginDragging(_: UIScrollView) {
         if !automaticScroll {
+            NotificationCenter.default.post(name: NSNotification.Name(QTNotificationName.quickSearchDismissKeyboard), object: nil)
             view.endEditing(true)
         }
     }
@@ -246,4 +259,3 @@ extension QTSubjectSearchViewController: UICollectionViewDelegate, UICollectionV
         return CGSize(width: collectionView.frame.width, height: 75)
     }
 }
-

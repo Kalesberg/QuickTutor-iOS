@@ -20,7 +20,7 @@ class QTQuickSearchViewController: UIViewController {
     
     let tabBar = TYTabPagerBar()
     let pagerController = TYPagerController()
-    lazy var tabBarTitles = ["All", "Subject", "People"]
+    lazy var tabBarTitles = ["All", "Subjects", "People"]
     let allSearchVC = QTAllSearchViewController.controller
     let subjectSearchVC = QTSubjectSearchViewController.controller
     let tutorSearchVC = QTTutorSearchViewController.controller
@@ -49,14 +49,14 @@ class QTQuickSearchViewController: UIViewController {
         hideKeyboardWhenTappedAround()
         configureViews()
         setupDelegates()
+        
+        setupPagerController()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
         hideTabBar(hidden: true)
-        
-        setupPagerController()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -95,12 +95,21 @@ class QTQuickSearchViewController: UIViewController {
         NotificationCenter.default.post(name: NSNotification.Name(QTNotificationName.quickSearchPeople), object: nil, userInfo: [QTNotificationName.quickSearchPeople : text])
     }
     
+    @objc
+    func handleQuickSearchDismissKeyboard() {
+        self.view.endEditing(true)
+    }
+    
+    
     // MARK: - Functions
     func configureViews() {
-        searchBarContainer.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.2, offset: CGSize(width: 0, height: 3), radius: 4)
+//        searchBarContainer.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.2, offset: CGSize(width: 0, height: 3), radius: 4)
+        searchBarContainer.searchBar.tintColor = Colors.purple
     }
     
     func setupPagerController() {
+        
+        self.navigationController?.delegate = self
         
         self.tabBar.delegate = self
         self.tabBar.dataSource = self
@@ -117,14 +126,14 @@ class QTQuickSearchViewController: UIViewController {
         if #available(iOS 11.0, *) {
             guide = self.view.safeAreaLayoutGuide
         }
-        tabBar.topAnchor.constraint(equalTo: searchBarContainer.bottomAnchor, constant: 15).isActive = true
-        tabBar.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 20).isActive = true
-        tabBar.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -20).isActive = true
-        tabBar.heightAnchor.constraint(equalToConstant: 32).isActive = true
+        tabBar.topAnchor.constraint(equalTo: searchBarContainer.bottomAnchor, constant: -8).isActive = true
+        tabBar.leadingAnchor.constraint(equalTo: guide.leadingAnchor).isActive = true
+        tabBar.trailingAnchor.constraint(equalTo: guide.trailingAnchor).isActive = true
+        tabBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
         
         tabBar.layout.sectionInset = UIEdgeInsets.zero
         tabBar.layout.barStyle = .progressView
-        tabBar.layout.cellWidth = (UIScreen.main.bounds.width - 40) / CGFloat(tabBarCount) 
+        tabBar.layout.cellWidth = UIScreen.main.bounds.width / CGFloat(tabBarCount) 
         tabBar.layout.cellSpacing = 0
         tabBar.layout.cellEdging = 0
         tabBar.layout.progressWidth = tabBar.layout.cellWidth
@@ -162,6 +171,7 @@ class QTQuickSearchViewController: UIViewController {
         searchBarContainer.delegate = self
         searchBarContainer.searchBar.delegate = self
         NotificationCenter.default.addObserver(self, selector: #selector(handleTextChange), name: UITextField.textDidChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleQuickSearchDismissKeyboard), name: NSNotification.Name(QTNotificationName.quickSearchDismissKeyboard), object: nil)
     }
     
     private func updateFiltersIcon() {
@@ -276,6 +286,71 @@ extension QTQuickSearchViewController: CustomSearchBarDelegate {
     }
     
     func customSearchBarDidTapClearButton(_ searchBar: PaddedTextField) {
-        handleTextChange()
+        NotificationCenter.default.post(name: NSNotification.Name(QTNotificationName.quickSearchClearSearchKey), object: nil)
+    }
+}
+
+extension QTQuickSearchViewController: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController,
+                              animationControllerFor operation: UINavigationController.Operation,
+                              from fromVC: UIViewController,
+                              to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        if fromVC.isKind(of: QTQuickSearchViewController.self) {
+            if operation == .pop {
+                return QTFadePopAnimator()
+            }
+        }
+        
+        return nil
+    }
+}
+
+open class QTFadePushAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+    
+    open func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+        return 0.5
+    }
+    
+    open func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        guard
+            let toViewController = transitionContext.viewController(forKey: .to)
+            else {
+                return
+        }
+        transitionContext.containerView.addSubview(toViewController.view)
+        toViewController.view.alpha = 0
+        
+        let duration = self.transitionDuration(using: transitionContext)
+        UIView.animate(withDuration: duration, animations: {
+            toViewController.view.alpha = 1
+        }, completion: { _ in
+            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+        })
+    }
+}
+
+open class QTFadePopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+    
+    open func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+        return 0.5
+    }
+    
+    open func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        guard
+            let fromViewController = transitionContext.viewController(forKey: .from),
+            let toViewController = transitionContext.viewController(forKey: .to)
+            else {
+                return
+        }
+        
+        transitionContext.containerView.insertSubview(toViewController.view, belowSubview: fromViewController.view)
+        
+        let duration = self.transitionDuration(using: transitionContext)
+        UIView.animate(withDuration: duration, animations: {
+            fromViewController.view.alpha = 0
+        }, completion: { _ in
+            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+        })
     }
 }

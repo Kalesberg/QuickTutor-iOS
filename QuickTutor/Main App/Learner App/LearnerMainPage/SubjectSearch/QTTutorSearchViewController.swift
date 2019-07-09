@@ -65,6 +65,11 @@ class QTTutorSearchViewController: UIViewController {
         }
     }
     
+    @objc
+    func handleQuickSearchClearSearchKey(_ notification: Notification) {
+        tutorSearch(searchText: "")
+    }
+    
     // MARK: - Functions
     func setupDelegates() {
         NotificationCenter.default.removeObserver(self)
@@ -72,10 +77,18 @@ class QTTutorSearchViewController: UIViewController {
                                                selector: #selector(handleSearch(_:)),
                                                name: NSNotification.Name(QTNotificationName.quickSearchPeople),
                                                object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handleQuickSearchClearSearchKey(_:)),
+                                               name: NSNotification.Name(QTNotificationName.quickSearchClearSearchKey),
+                                               object: nil)
     }
     
     func tutorSearch(searchText: String) {
         if searchText.isEmpty {
+            searchTimer?.invalidate()
+            self.noResultView.isHidden = true
+            self.indicatorView.stopAnimation()
             filteredUsers.removeAll()
             self.tableView.reloadData()
             return
@@ -191,5 +204,12 @@ extension QTTutorSearchViewController: UITableViewDataSource {
         cell.setData(user: user)
         cell.selectionStyle = .none
         return cell
+    }
+}
+
+// MARK: - UIScrollViewDelegate
+extension QTTutorSearchViewController: UIScrollViewDelegate {
+    func scrollViewWillBeginDragging(_: UIScrollView) {
+        NotificationCenter.default.post(name: NSNotification.Name(QTNotificationName.quickSearchDismissKeyboard), object: nil)
     }
 }

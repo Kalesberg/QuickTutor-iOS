@@ -89,6 +89,34 @@ class HLNoResultView: UIView {
         noResultLabel.text = "No results found"
     }
 }
+
+class HLRecentSectionHeaderView: UIView {
+    let recentLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Recent"
+        label.font = Fonts.createMediumSize(19)
+        label.textColor = .white
+        return label
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureViews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    func configureViews() {
+        self.addSubview(recentLabel)
+        recentLabel.translatesAutoresizingMaskIntoConstraints = false
+        recentLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 25).isActive = true
+        recentLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 16).isActive = true
+        recentLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+    }
+}
+
 class QTAllSearchViewController: UIViewController {
 
     // MARK: - Properties
@@ -106,6 +134,7 @@ class QTAllSearchViewController: UIViewController {
     
     lazy var indicatorView: HLActivityIndicatorView = HLActivityIndicatorView()
     lazy var noResultView: HLNoResultView = HLNoResultView()
+    lazy var recentSectionHeaderView = HLRecentSectionHeaderView()
     
     static var controller: QTAllSearchViewController {
         return QTAllSearchViewController(nibName: String(describing: QTAllSearchViewController.self), bundle: nil)
@@ -154,6 +183,11 @@ class QTAllSearchViewController: UIViewController {
         }
     }
     
+    @objc
+    func handleQuickSearchClearSearchKey(_ notification: Notification) {
+        searchAll(searchText: "")
+    }
+    
     // MARK: - Functions
     func setupDelegates() {
         NotificationCenter.default.removeObserver(self)
@@ -161,11 +195,19 @@ class QTAllSearchViewController: UIViewController {
                                                selector: #selector(handleSearch(_:)),
                                                name: NSNotification.Name(QTNotificationName.quickSearchAll),
                                                object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handleQuickSearchClearSearchKey(_:)),
+                                               name: NSNotification.Name(QTNotificationName.quickSearchClearSearchKey),
+                                               object: nil)
     }
     
     func searchAll(searchText: String) {
         if searchText.isEmpty {
+            searchTimer?.invalidate()
             isSearchMode = false
+            self.noResultView.isHidden = true
+            self.indicatorView.stopAnimation()
             filteredSubjects.removeAll()
             filteredUsers.removeAll()
             self.tableView.reloadData()
@@ -184,6 +226,8 @@ class QTAllSearchViewController: UIViewController {
         searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false
             , block: { (_) in
 
+                let group = DispatchGroup()
+                group.enter()
                 let ref: DatabaseReference! = Database.database().reference().child("tutor-info")
                 ref.queryOrdered(byChild: "usr").queryStarting(atValue: searchText.lowercased()).queryEnding(atValue: searchText.lowercased() + "\u{f8ff}").queryLimited(toFirst: 50).observeSingleEvent(of: .value) { snapshot in
                     for snap in snapshot.children {
@@ -192,18 +236,18 @@ class QTAllSearchViewController: UIViewController {
                         self.filteredUsers.append(usernameQuery)
                     }
 
-                    DispatchQueue.main.async {
-                        if self.filteredSubjects.count + self.filteredUsers.count == 0 {
-                            self.noResultView.isHidden = false
-                            self.indicatorView.stopAnimation()
-                        }
-                        self.tableView.reloadData()
-                    }
+                    group.leave()
                 }
+                
                 self.filteredSubjects = self.allSubjects.filter({ $0.0.lowercased().starts(with: searchText.lowercased())}).sorted(by: {$0.0 < $1.0})
-                DispatchQueue.main.async {
+                
+                group.notify(queue: DispatchQueue.main, execute: {
+                    if self.filteredSubjects.count + self.filteredUsers.count == 0 && self.isSearchMode {
+                        self.noResultView.isHidden = false
+                        self.indicatorView.stopAnimation()
+                    }
                     self.tableView.reloadData()
-                }
+                })
         })
     }
     
@@ -284,6 +328,21 @@ extension QTAllSearchViewController: UITableViewDelegate {
 
 // MARK: - UITableViewDataSource
 extension QTAllSearchViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if isSearchMode {
+            return nil
+        }
+        return recentSectionHeaderView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if isSearchMode {
+            return 0
+        }
+        
+        return 45
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isSearchMode {
             if filteredSubjects.count + filteredUsers.count > 0 {
@@ -326,5 +385,12 @@ extension QTAllSearchViewController: UITableViewDataSource {
         cell.setData(recentSearch: item)
         cell.selectionStyle = .none
         return cell
+    }
+}
+
+// MARK: - UIScrollViewDelegate
+extension QTAllSearchViewController: UIScrollViewDelegate {
+    func scrollViewWillBeginDragging(_: UIScrollView) {
+        NotificationCenter.default.post(name: NSNotification.Name(QTNotificationName.quickSearchDismissKeyboard), object: nil)
     }
 }
