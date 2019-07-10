@@ -71,7 +71,6 @@ class QTSubjectSearchViewController: UIViewController {
     // MARK: - Actions
     @objc
     func searchText(_ notification: Notification) {
-        
         child.inSearchMode = true
         
         if let searchText = notification.userInfo?[QTNotificationName.quickSearchSubjects] as? String {
@@ -83,20 +82,7 @@ class QTSubjectSearchViewController: UIViewController {
     
     @objc
     func handleQuickSearchBegin(_ notification: Notification) {
-        guard child.view?.superview == nil else { return }
-        addChild(child)
-        child.scrollViewDraggedClosure = {
-            //searchBarContainer.searchBar.endEditing(true)
-        }
-        self.view.insertSubview(child.view, at: 1)
         
-        var guide = self.view.layoutMarginsGuide
-        if #available(iOS 11.0, *) {
-            guide = self.view.safeAreaLayoutGuide
-        }
-        
-        child.view.anchor(top: guide.topAnchor, left: guide.leftAnchor, bottom: guide.bottomAnchor, right: guide.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        child.didMove(toParent: self)
     }
     
     @objc
@@ -129,6 +115,23 @@ class QTSubjectSearchViewController: UIViewController {
         collectionView.anchor(top: guide.topAnchor, left: guide.leftAnchor, bottom: guide.bottomAnchor, right: guide.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
 
+    func setupSearchResultScreen() {
+        guard child.view?.superview == nil else { return }
+        addChild(child)
+        child.scrollViewDraggedClosure = {
+            //searchBarContainer.searchBar.endEditing(true)
+        }
+        self.view.insertSubview(child.view, at: 1)
+        
+        var guide = self.view.layoutMarginsGuide
+        if #available(iOS 11.0, *) {
+            guide = self.view.safeAreaLayoutGuide
+        }
+        
+        child.view.anchor(top: guide.topAnchor, left: guide.leftAnchor, bottom: guide.bottomAnchor, right: guide.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        child.didMove(toParent: self)
+    }
+    
     private func configureDelegates() {
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -159,6 +162,12 @@ class QTSubjectSearchViewController: UIViewController {
     }
     
     private func searchSubjects(searchText: String) {
+        if searchText.isEmpty {
+            removeChild(popViewController: false)
+            return
+        }
+        setupSearchResultScreen()
+        
         searchTimer?.invalidate()
         self.child.unknownSubject = nil
         searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false

@@ -35,6 +35,7 @@ class QTQuickSearchViewController: UIViewController {
         didSet {
             allSearchVC.searchFilter = searchFilter
             subjectSearchVC.searchFilter = searchFilter
+            tutorSearchVC.searchFilter = searchFilter
             updateFiltersIcon()
         }
     }
@@ -100,16 +101,17 @@ class QTQuickSearchViewController: UIViewController {
         self.view.endEditing(true)
     }
     
+    @objc func updateFilters(_ notification: Notification) {
+        guard let userInfo = notification.userInfo, let filter = userInfo["filter"] as? SearchFilter else { return }
+        self.searchFilter = filter
+    }
     
     // MARK: - Functions
     func configureViews() {
-//        searchBarContainer.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.2, offset: CGSize(width: 0, height: 3), radius: 4)
         searchBarContainer.searchBar.tintColor = Colors.purple
     }
     
     func setupPagerController() {
-        
-        self.navigationController?.delegate = self
         
         self.tabBar.delegate = self
         self.tabBar.dataSource = self
@@ -172,6 +174,8 @@ class QTQuickSearchViewController: UIViewController {
         searchBarContainer.searchBar.delegate = self
         NotificationCenter.default.addObserver(self, selector: #selector(handleTextChange), name: UITextField.textDidChangeNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleQuickSearchDismissKeyboard), name: NSNotification.Name(QTNotificationName.quickSearchDismissKeyboard), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateFilters(_:)), name: NotificationNames.QuickSearch.updatedFilters, object: nil)
     }
     
     private func updateFiltersIcon() {
@@ -225,6 +229,10 @@ extension QTQuickSearchViewController: TYPagerControllerDelegate {
     func pagerController(_ pagerController: TYPagerController, transitionFrom fromIndex: Int, to toIndex: Int, progress: CGFloat) {
         self.tabBar.scrollToItem(from: fromIndex, to: toIndex, progress: progress)
     }
+    
+    func pagerController(_ pagerController: TYPagerController, viewWillAppear viewController: UIViewController, for index: Int) {
+        handleTextChange()
+    }
 }
 
 // MARK: - TYPagerControllerDataSource
@@ -271,7 +279,7 @@ extension QTQuickSearchViewController: CustomSearchBarDelegate {
     }
     
     func customSearchBar(_ searchBar: PaddedTextField, shouldEndEditing: Bool) {
-        removeChild(popViewController: true)
+        removeChild(popViewController: false)
     }
     
     func customSearchBarDidTapFiltersButton(_ searchBar: PaddedTextField) {
@@ -282,75 +290,11 @@ extension QTQuickSearchViewController: CustomSearchBarDelegate {
     }
     
     func customSearchBarDidTapCancelEditButton(_ searchBar: PaddedTextField) {
-        removeChild(popViewController: true)
+        self.navigationController?.popViewController(animated: false)
     }
     
     func customSearchBarDidTapClearButton(_ searchBar: PaddedTextField) {
+        searchBarContainer.filtersButton.isHidden = false
         NotificationCenter.default.post(name: NSNotification.Name(QTNotificationName.quickSearchClearSearchKey), object: nil)
-    }
-}
-
-extension QTQuickSearchViewController: UINavigationControllerDelegate {
-    func navigationController(_ navigationController: UINavigationController,
-                              animationControllerFor operation: UINavigationController.Operation,
-                              from fromVC: UIViewController,
-                              to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        
-        if fromVC.isKind(of: QTQuickSearchViewController.self) {
-            if operation == .pop {
-                return QTFadePopAnimator()
-            }
-        }
-        
-        return nil
-    }
-}
-
-open class QTFadePushAnimator: NSObject, UIViewControllerAnimatedTransitioning {
-    
-    open func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return 0.5
-    }
-    
-    open func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        guard
-            let toViewController = transitionContext.viewController(forKey: .to)
-            else {
-                return
-        }
-        transitionContext.containerView.addSubview(toViewController.view)
-        toViewController.view.alpha = 0
-        
-        let duration = self.transitionDuration(using: transitionContext)
-        UIView.animate(withDuration: duration, animations: {
-            toViewController.view.alpha = 1
-        }, completion: { _ in
-            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
-        })
-    }
-}
-
-open class QTFadePopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
-    
-    open func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return 0.5
-    }
-    
-    open func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        guard
-            let fromViewController = transitionContext.viewController(forKey: .from),
-            let toViewController = transitionContext.viewController(forKey: .to)
-            else {
-                return
-        }
-        
-        transitionContext.containerView.insertSubview(toViewController.view, belowSubview: fromViewController.view)
-        
-        let duration = self.transitionDuration(using: transitionContext)
-        UIView.animate(withDuration: duration, animations: {
-            fromViewController.view.alpha = 0
-        }, completion: { _ in
-            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
-        })
     }
 }

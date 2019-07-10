@@ -29,8 +29,10 @@
             <color key="backgroundColor" red="0.08235294118" green="0.08235294118" blue="0.1176470588" alpha="0.94999999999999996" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="CYv-is-55S" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="35X-Mj-nhK"/>
+                <constraint firstItem="CYv-is-55S" firstAttribute="height" secondItem="fnl-2z-Ty3" secondAttribute="height" id="7ZE-lI-qV5"/>
                 <constraint firstItem="CYv-is-55S" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="PIH-xf-YHw"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="CYv-is-55S" secondAttribute="trailing" id="SBk-Ou-Gwc"/>
+                <constraint firstItem="CYv-is-55S" firstAttribute="width" secondItem="fnl-2z-Ty3" secondAttribute="width" id="YVp-z6-89E"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="CYv-is-55S" secondAttribute="bottom" id="YnB-eD-ajt"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>

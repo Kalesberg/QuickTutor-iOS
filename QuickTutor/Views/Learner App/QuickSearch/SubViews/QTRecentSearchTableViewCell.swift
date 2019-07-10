@@ -13,6 +13,7 @@ class QTRecentSearchTableViewCell: UITableViewCell {
     // MARK: - Properties
     @IBOutlet weak var iconImageView: QTCustomImageView!
     @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var deleteButton: UIButton!
     
     static var reuseIdentifier: String {
@@ -25,11 +26,12 @@ class QTRecentSearchTableViewCell: UITableViewCell {
     
     var recentSearch: QTRecentSearchModel?
     var onDeleteHandler: ((QTRecentSearchModel?) -> Void)?
-    
+    var deleteIconImage: UIImage?
     // MARK: - Lifecycle
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        deleteIconImage = deleteButton.imageView?.image?.maskWithColor(color: Colors.gray)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -55,9 +57,10 @@ class QTRecentSearchTableViewCell: UITableViewCell {
             } else {
                 iconImageView.image = UIImage(named: "viewProfileButton")
             }
-            
+            usernameLabel.text = recentSearch.name2
             iconImageView.borderColor = .clear
             iconImageView.borderWidth = 0
+            usernameLabel.isHidden = false
         } else {
             if let named2 = recentSearch.name2 {
                 nameLabel.text = named2
@@ -76,8 +79,10 @@ class QTRecentSearchTableViewCell: UITableViewCell {
             }
             iconImageView.borderColor = Colors.purple
             iconImageView.borderWidth = 1
+            usernameLabel.isHidden = true
         }
         
-        deleteButton.imageView?.overlayTintColor(color: Colors.gray)
+        deleteButton.setImage(deleteIconImage, for: UIControl.State.normal)
+        deleteButton.setImage(deleteIconImage, for: UIControl.State.selected)
     }
 }

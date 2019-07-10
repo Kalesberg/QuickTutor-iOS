@@ -210,6 +210,7 @@ class QTAllSearchViewController: UIViewController {
             self.indicatorView.stopAnimation()
             filteredSubjects.removeAll()
             filteredUsers.removeAll()
+            recentSearches = QTUtils.shared.getRecentSearches()
             self.tableView.reloadData()
             return
         }
@@ -238,6 +239,25 @@ class QTAllSearchViewController: UIViewController {
 
                     group.leave()
                 }
+                
+                group.enter()
+                ref.queryOrdered(byChild: "nm")
+                    .queryStarting(atValue: searchText)
+                    .queryEnding(atValue: searchText + "\u{f8ff}")
+                    .queryLimited(toFirst: 50)
+                    .observeSingleEvent(of: .value, with: { snapshot in
+                        
+                        for snap in snapshot.children {
+                            guard let child = snap as? DataSnapshot, child.key != CurrentUser.shared.learner.uid else { continue }
+                            let usernameQuery = UsernameQuery(snapshot: child)
+                            if self.filteredUsers.contains(where: {$0.username.compare(usernameQuery.username) == ComparisonResult.orderedSame}) {
+                                continue
+                            }
+                            self.filteredUsers.append(usernameQuery)
+                        }
+                        
+                        group.leave()
+                    })
                 
                 self.filteredSubjects = self.allSubjects.filter({ $0.0.lowercased().starts(with: searchText.lowercased())}).sorted(by: {$0.0 < $1.0})
                 
@@ -365,6 +385,7 @@ extension QTAllSearchViewController: UITableViewDataSource {
                 item.name2 = subject
             } else {
                 let user = filteredUsers[indexPath.row - filteredSubjects.count]
+                item.uid = user.uid
                 item.type = .people
                 item.name1 = user.name
                 item.name2 = user.username

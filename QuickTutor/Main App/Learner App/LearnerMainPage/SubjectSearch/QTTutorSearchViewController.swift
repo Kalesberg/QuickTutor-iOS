@@ -16,7 +16,7 @@ class QTTutorSearchViewController: UIViewController {
     lazy var indicatorView: HLActivityIndicatorView = HLActivityIndicatorView()
     lazy var noResultView: HLNoResultView = HLNoResultView()
     
-    
+    var searchFilter: SearchFilter?
     var filteredUsers = [UsernameQuery]()
     var searchTimer: Timer?
     
@@ -108,20 +108,20 @@ class QTTutorSearchViewController: UIViewController {
                 group.enter()
                 let ref: DatabaseReference! = Database.database().reference().child("tutor-info")
                 ref.queryOrdered(byChild: "usr").queryStarting(atValue: searchText.lowercased()).queryEnding(atValue: searchText.lowercased() + "\u{f8ff}").queryLimited(toFirst: 50).observeSingleEvent(of: .value) { snapshot in
-                    
+
                         for snap in snapshot.children {
                             guard let child = snap as? DataSnapshot, child.key != CurrentUser.shared.learner.uid else { continue }
                             let usernameQuery = UsernameQuery(snapshot: child)
                             self.filteredUsers.append(usernameQuery)
                         }
-                    
+
                         group.leave()
                 }
                 
                 group.enter()
                 ref.queryOrdered(byChild: "nm")
-                    .queryStarting(atValue: searchText.lowercased())
-                    .queryEnding(atValue: searchText.lowercased() + "\u{f8ff}")
+                    .queryStarting(atValue: searchText)
+                    .queryEnding(atValue: searchText + "\u{f8ff}")
                     .queryLimited(toFirst: 50)
                     .observeSingleEvent(of: .value, with: { snapshot in
                     
@@ -176,6 +176,7 @@ extension QTTutorSearchViewController: UITableViewDelegate {
             let user = self.filteredUsers[indexPath.row]
             
             let item = QTRecentSearchModel()
+            item.uid = user.uid
             item.type = .people
             item.name1 = user.name
             item.name2 = user.username
