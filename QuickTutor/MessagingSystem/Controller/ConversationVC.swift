@@ -161,6 +161,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             actionSheet = FileReportActionsheet(bottomLayoutMargin: 0, name: String(firstName))
         }
         actionSheet?.isConnected = connectionRequestAccepted
+        actionSheet?.isTutorSheet = AccountService.shared.currentUserType == .tutor
         actionSheet?.parentViewController = self
         actionSheet?.partnerId = chatPartner.uid
         actionSheet?.subject = subject

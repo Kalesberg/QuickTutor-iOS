@@ -265,6 +265,7 @@ class QTProfileViewController: UIViewController {
         }
         actionSheet?.partnerId = user?.uid
         actionSheet?.isConnected = connectionStatus == .connected
+        actionSheet?.isTutorSheet = AccountService.shared.currentUserType == .tutor
         actionSheet?.parentViewController = self
         actionSheet?.subject = subject
         actionSheet?.show()

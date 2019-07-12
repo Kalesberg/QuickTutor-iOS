@@ -12,6 +12,9 @@ class FileReportActionsheet: UIView {
     
     var titles = ["Share profile", "Request Session", "Disconnect", "Report"]
     var images = [UIImage(named: "fileReportShareIcon"), UIImage(named: "sessionsTabBarIcon"), UIImage(named: "fileReportDisconnectIcon"), UIImage(named: "fileReportFlag")]
+    var tutorTitles = ["Disconnect", "Report"]
+    var tutorImages = [UIImage(named: "fileReportDisconnectIcon"), UIImage(named: "fileReportFlag")]
+    
     var parentViewController: UIViewController?
     var bottomLayoutMargin: CGFloat = 0
     var actionSheetBottomAnchor: NSLayoutConstraint?
@@ -24,23 +27,13 @@ class FileReportActionsheet: UIView {
     
     var isConnected = true {
         didSet {
-            if isConnected {
-                guard titles.count == 2 && images.count == 2 else { return }
-                titles.insert("Disconnect", at: 1)
-                titles.insert("Request Session", at: 2)
-                images.insert(UIImage(named: "fileReportDisconnectIcon"), at: 1)
-                images.insert(UIImage(named: "sessionsTabBarIcon"), at: 2)
-                panelHeight = 250
-                collectionView.reloadData()
-            } else {
-                guard titles.count == 4 && images.count == 4 else { return }
-                titles.remove(at: 1)
-                titles.remove(at: 1)
-                images.remove(at: 1)
-                images.remove(at: 1)
-                panelHeight = 150
-                collectionView.reloadData()
-            }
+            prepareActionSheetData()
+        }
+    }
+    
+    var isTutorSheet = false {
+        didSet {
+            prepareActionSheetData()
         }
     }
 
@@ -87,6 +80,48 @@ class FileReportActionsheet: UIView {
         return cv
     }()
 
+    func prepareActionSheetData() {
+        if isTutorSheet {
+            if isConnected {
+                guard tutorTitles.count == 1 && tutorImages.count == 1 else {
+                    panelHeight = 150
+                    return
+                }
+                tutorTitles.insert("Disconnect", at: 0)
+                tutorImages.insert(UIImage(named: "fileReportDisconnectIcon"), at: 0)
+                panelHeight = 150
+                collectionView.reloadData()
+            } else {
+                guard tutorTitles.count == 2 && tutorImages.count == 2 else {
+                    panelHeight = 100
+                    return
+                }
+                tutorTitles.remove(at: 0)
+                tutorImages.remove(at: 0)
+                collectionView.reloadData()
+            }
+        } else {
+            if isConnected {
+                guard titles.count == 2 && images.count == 2 else { return }
+                titles.insert("Disconnect", at: 1)
+                titles.insert("Request Session", at: 2)
+                images.insert(UIImage(named: "fileReportDisconnectIcon"), at: 1)
+                images.insert(UIImage(named: "sessionsTabBarIcon"), at: 2)
+                panelHeight = 250
+                collectionView.reloadData()
+            } else {
+                guard titles.count == 4 && images.count == 4 else { return }
+                titles.remove(at: 1)
+                titles.remove(at: 1)
+                images.remove(at: 1)
+                images.remove(at: 1)
+                panelHeight = 150
+                collectionView.reloadData()
+            }
+        }
+        
+    }
+    
     func setupViews() {
         setupBackgroundBlur()
         setupActionsheetBackground()
@@ -220,13 +255,19 @@ extension FileReportActionsheet: UICollectionViewDelegate {
 
 extension FileReportActionsheet: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return isConnected ? 4 : 2
+        return isTutorSheet ? (isConnected ? 2 : 1) : (isConnected ? 4 : 2)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! FileReportActionsheetCell
-        cell.button.setTitle(titles[indexPath.item], for: .normal)
-        cell.button.setImage(images[indexPath.item], for: .normal)
+        if isTutorSheet {
+            cell.button.setTitle(tutorTitles[indexPath.item], for: .normal)
+            cell.button.setImage(tutorImages[indexPath.item], for: .normal)
+        } else {
+            cell.button.setTitle(titles[indexPath.item], for: .normal)
+            cell.button.setImage(images[indexPath.item], for: .normal)
+        }
+        
         cell.button.imageView?.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
         cell.delegate = self
         cell.tag = indexPath.item
@@ -247,29 +288,49 @@ extension FileReportActionsheet: UICollectionViewDelegateFlowLayout {
 
 extension FileReportActionsheet: FileReportActionsheetCellDelegate {
     func fileReportActionSheetCellDidSelect(_ fileReportActionSheetCell: FileReportActionsheetCell) {
-        if isConnected {
-            switch fileReportActionSheetCell.tag {
-            case 0:
-                shareUsernameForUserId()
-            case 1:
-                requestSession()
-            case 2:
-                handleDisconnectButton()
-            case 3:
-                handleReportButton()
-            default:
-                break
+        
+        if isTutorSheet {
+            if isConnected {
+                switch fileReportActionSheetCell.tag {
+                case 0:
+                    handleDisconnectButton()
+                case 1:
+                    handleReportButton()
+                default:
+                    break
+                }
+            } else {
+                switch fileReportActionSheetCell.tag {
+                case 0:
+                    handleReportButton()
+                default:
+                    break
+                }
             }
         } else {
-            switch fileReportActionSheetCell.tag {
-            case 0:
-                shareUsernameForUserId()
-            case 1:
-                handleReportButton()
-            default:
-                break
+            if isConnected {
+                switch fileReportActionSheetCell.tag {
+                case 0:
+                    shareUsernameForUserId()
+                case 1:
+                    requestSession()
+                case 2:
+                    handleDisconnectButton()
+                case 3:
+                    handleReportButton()
+                default:
+                    break
+                }
+            } else {
+                switch fileReportActionSheetCell.tag {
+                case 0:
+                    shareUsernameForUserId()
+                case 1:
+                    handleReportButton()
+                default:
+                    break
+                }
             }
         }
-
     }
 }
