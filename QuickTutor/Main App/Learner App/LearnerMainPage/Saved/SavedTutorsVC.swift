@@ -178,7 +178,7 @@ class SavedTutorsVC: UIViewController {
     
     @objc
     private func onClickBtnFindTutor() {
-        navigationController?.pushViewController(QuickSearchVC(), animated: false)
+        navigationController?.pushViewController(QTQuickSearchViewController.controller, animated: false)
     }
     
     deinit {

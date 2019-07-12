@@ -136,7 +136,7 @@ class CustomSearchBarContainer: UIView {
     
     func setupFiltersButton() {
         containerView.addSubview(filtersButton)
-        filtersButton.anchor(top: nil, left: nil, bottom: nil, right: searchBar.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 7, width: 15, height: 15)
+        filtersButton.anchor(top: nil, left: nil, bottom: nil, right: searchBar.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 5, width: 18, height: 18)
         containerView.addConstraint(NSLayoutConstraint(item: filtersButton, attribute: .centerY, relatedBy: .equal, toItem: searchBar, attribute: .centerY, multiplier: 1, constant: 0))
         filtersButton.addTarget(self, action: #selector(handleFiltersButtonTapped), for: .touchUpInside)
     }
