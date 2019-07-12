@@ -272,6 +272,7 @@ class QTAllSearchViewController: UIViewController {
     }
     
     func goToTutorProfileScreen(tutorId: String) {
+        NotificationCenter.default.post(name: NSNotification.Name(QTNotificationName.quickSearchDismissKeyboard), object: nil)
         displayLoadingOverlay()
         FirebaseData.manager.fetchTutor(tutorId, isQuery: false, { (tutor) in
             self.dismissOverlay()
@@ -287,6 +288,7 @@ class QTAllSearchViewController: UIViewController {
     }
     
     func goToCategorySearchScreen(subject: String) {
+        NotificationCenter.default.post(name: NSNotification.Name(QTNotificationName.quickSearchDismissKeyboard), object: nil)
         let vc = CategorySearchVC()
         vc.subject = subject
         AnalyticsService.shared.logSubjectTapped(subject)

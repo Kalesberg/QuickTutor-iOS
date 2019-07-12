@@ -93,6 +93,7 @@ extension QuickSearchResultsVC: UICollectionViewDataSource, UICollectionViewDele
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        NotificationCenter.default.post(name: NSNotification.Name(QTNotificationName.quickSearchDismissKeyboard), object: nil)
         let vc = CategorySearchVC()
         let subject = currentSubjects[indexPath.item].0
         vc.subject = subject

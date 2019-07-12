@@ -150,6 +150,7 @@ class QTTutorSearchViewController: UIViewController {
     }
     
     func goToTutorProfileScreen(tutorId: String) {
+        NotificationCenter.default.post(name: NSNotification.Name(QTNotificationName.quickSearchDismissKeyboard), object: nil)
         displayLoadingOverlay()
         FirebaseData.manager.fetchTutor(tutorId, isQuery: false, { (tutor) in
             self.dismissOverlay()

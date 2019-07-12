@@ -214,6 +214,7 @@ extension QTSubjectSearchViewController: UIScrollViewDelegate {
 
 extension QTSubjectSearchViewController: QuickSearchCategoryCellDelegate {
     func quickSearchCategoryCell(_ cell: QuickSearchCategoryCell, didSelect subcategory: String, at indexPath: IndexPath) {
+        NotificationCenter.default.post(name: NSNotification.Name(QTNotificationName.quickSearchDismissKeyboard), object: nil)
         let vc = CategorySearchVC()
         AnalyticsService.shared.logSubcategoryTapped(subcategory)
         vc.subcategory = subcategory
