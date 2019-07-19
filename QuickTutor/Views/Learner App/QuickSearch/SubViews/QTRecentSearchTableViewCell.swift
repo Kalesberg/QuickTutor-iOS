@@ -60,17 +60,17 @@ class QTRecentSearchTableViewCell: UITableViewCell {
             usernameLabel.text = recentSearch.name2
             iconImageView.borderColor = .clear
             iconImageView.borderWidth = 0
-            usernameLabel.isHidden = false
+            nameLabel.isHidden = false
         } else {
             if let named2 = recentSearch.name2 {
-                nameLabel.text = named2
+                usernameLabel.text = named2
                 if let category = Category.category(for: recentSearch.name1) {
                     iconImageView.image = Category.imageFor(category: category)
                 } else {
                     iconImageView.image = UIImage(named: "uploadImageDefaultImage")
                 }
             } else {
-                nameLabel.text = recentSearch.name1
+                usernameLabel.text = recentSearch.name1
                 if let category = Category.category(for: recentSearch.name1) {
                     iconImageView.image = Category.imageFor(category: category)
                 } else {
@@ -79,7 +79,7 @@ class QTRecentSearchTableViewCell: UITableViewCell {
             }
             iconImageView.borderColor = Colors.purple
             iconImageView.borderWidth = 1
-            usernameLabel.isHidden = true
+            nameLabel.isHidden = true
         }
         
         deleteButton.setImage(deleteIconImage, for: UIControl.State.normal)
