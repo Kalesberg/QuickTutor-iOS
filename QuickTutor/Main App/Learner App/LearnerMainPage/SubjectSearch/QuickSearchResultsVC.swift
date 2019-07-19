@@ -15,6 +15,7 @@ class QuickSearchResultsVC: UIViewController {
     var unknownSubject: String?
     var filteredSubjects = [(String, String)]()
     var inSearchMode = false
+    var isNewQuickSearch = false
     
     var scrollViewDraggedClosure: (() -> ())?
     
@@ -35,8 +36,16 @@ class QuickSearchResultsVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureViews()
         loadSubjects()
         setupDelegates()
+    }
+    
+    func configureViews() {
+        if isNewQuickSearch {
+            contentView.collectionView.register(QuickSearchNewResultsCell.self,
+                                                forCellWithReuseIdentifier: QuickSearchNewResultsCell.reuseIdentifier)
+        }
     }
     
     func setupDelegates() {
@@ -80,15 +89,28 @@ extension QuickSearchResultsVC: UICollectionViewDataSource, UICollectionViewDele
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! QuickSearchResultsCell
-        cell.titleLabel.text = currentSubjects[indexPath.item].0
-        let categoryString = SubjectStore.findCategoryBy(subject: currentSubjects[indexPath.item].0) ?? ""
-        let category = Category.category(for: categoryString)!
-        cell.imageView.image = Category.imageFor(category: category)
-        return cell
+        
+        if isNewQuickSearch {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: QuickSearchNewResultsCell.reuseIdentifier, for: indexPath) as! QuickSearchNewResultsCell
+            cell.titleLabel.text = currentSubjects[indexPath.item].0
+            let categoryString = SubjectStore.findCategoryBy(subject: currentSubjects[indexPath.item].0) ?? ""
+            let category = Category.category(for: categoryString)!
+            cell.imageView.image = Category.imageFor(category: category)
+            return cell
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! QuickSearchResultsCell
+            cell.titleLabel.text = currentSubjects[indexPath.item].0
+            let categoryString = SubjectStore.findCategoryBy(subject: currentSubjects[indexPath.item].0) ?? ""
+            let category = Category.category(for: categoryString)!
+            cell.imageView.image = Category.imageFor(category: category)
+            return cell
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if isNewQuickSearch {
+            return CGSize(width: collectionView.frame.width, height: 66)
+        }
         return CGSize(width: collectionView.frame.width, height: 55)
     }
     
@@ -227,6 +249,56 @@ class QuickSearchNoResultsView: UIView {
         if let didSubmitButtonClicked = didSubmitButtonClicked {
             didSubmitButtonClicked()
         }
+    }
+}
+
+class QuickSearchNewResultsCell: UICollectionViewCell {
+    
+    let titleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.textAlignment = .left
+        label.font = Fonts.createSize(17)
+        label.text = "Mathmatics"
+        label.adjustsFontSizeToFitWidth = true
+        return label
+    }()
+    
+    let imageView: UIImageView = {
+        let iv = UIImageView()
+        iv.layer.cornerRadius = 25
+        iv.layer.borderColor = Colors.purple.cgColor
+        iv.layer.borderWidth = 1
+        iv.clipsToBounds = true
+        return iv
+    }()
+    
+    static var reuseIdentifier: String {
+        return String(describing: QuickSearchNewResultsCell.self)
+    }
+    
+    func setupViews() {
+        setupImageView()
+        setupTitleLabel()
+    }
+    
+    func setupImageView() {
+        addSubview(imageView)
+        imageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 8, paddingLeft: 20, paddingBottom: 8, paddingRight: 0, width: 50, height: 50)
+    }
+    
+    func setupTitleLabel() {
+        addSubview(titleLabel)
+        titleLabel.anchor(top: topAnchor, left: imageView.rightAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 

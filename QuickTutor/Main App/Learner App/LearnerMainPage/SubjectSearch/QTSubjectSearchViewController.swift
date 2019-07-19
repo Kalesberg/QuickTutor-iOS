@@ -72,6 +72,7 @@ class QTSubjectSearchViewController: UIViewController {
     @objc
     func searchText(_ notification: Notification) {
         child.inSearchMode = true
+        child.isNewQuickSearch = true
         
         if let searchText = notification.userInfo?[QTNotificationName.quickSearchSubjects] as? String {
             searchSubjects(searchText: searchText)
