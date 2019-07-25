@@ -221,7 +221,7 @@
                                         <userDefinedRuntimeAttribute type="image" keyPath="emptyImage" value="ic_star_empty"/>
                                     </userDefinedRuntimeAttributes>
                                 </view>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wbm-iE-daq">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wbm-iE-daq">
                                     <rect key="frame" x="59" y="-1.5" width="7" height="15"/>
                                     <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="12"/>
                                     <color key="textColor" red="0.3921568627" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -263,6 +263,7 @@
                         <constraint firstAttribute="height" constant="84" id="iby-iI-HoC"/>
                         <constraint firstItem="6xw-Ca-apI" firstAttribute="leading" secondItem="0pB-iw-qWk" secondAttribute="leading" constant="20" id="iqe-tj-wdA"/>
                         <constraint firstAttribute="trailing" secondItem="LnX-hy-RLM" secondAttribute="trailing" constant="20" id="jih-fv-sK3"/>
+                        <constraint firstItem="LnX-hy-RLM" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="DUq-sh-PiL" secondAttribute="trailing" constant="10" id="mL2-4y-Zdh"/>
                         <constraint firstItem="rZq-z2-LVq" firstAttribute="centerY" secondItem="h17-gy-Uk6" secondAttribute="centerY" id="pA1-za-fkI"/>
                         <constraint firstItem="6xw-Ca-apI" firstAttribute="centerX" secondItem="h17-gy-Uk6" secondAttribute="centerX" id="ylX-Mw-E99"/>
                         <constraint firstItem="LnX-hy-RLM" firstAttribute="centerY" secondItem="0pB-iw-qWk" secondAttribute="centerY" id="zVW-km-YgK"/>

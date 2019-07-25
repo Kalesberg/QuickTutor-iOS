@@ -744,10 +744,10 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yjq-S4-ZO1">
-                            <rect key="frame" x="20" y="49" width="66" height="10"/>
+                            <rect key="frame" x="20" y="49" width="66" height="14"/>
                             <subviews>
                                 <view contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="ddt-1C-PKl" customClass="CosmosView" customModule="Cosmos">
-                                    <rect key="frame" x="0.0" y="2" width="54" height="6"/>
+                                    <rect key="frame" x="0.0" y="2" width="54" height="10"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="54" id="ce2-bo-D6P"/>
@@ -783,7 +783,7 @@
                                     </userDefinedRuntimeAttributes>
                                 </view>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GKh-AL-yOi">
-                                    <rect key="frame" x="59" y="-2" width="7" height="14"/>
+                                    <rect key="frame" x="59" y="0.0" width="7" height="14"/>
                                     <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="12"/>
                                     <color key="textColor" red="0.3921568627" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
@@ -795,7 +795,6 @@
                                 <constraint firstItem="ddt-1C-PKl" firstAttribute="centerY" secondItem="Yjq-S4-ZO1" secondAttribute="centerY" id="5QU-hR-Jno"/>
                                 <constraint firstItem="GKh-AL-yOi" firstAttribute="centerY" secondItem="ddt-1C-PKl" secondAttribute="centerY" id="Ohl-V7-Ywz"/>
                                 <constraint firstItem="ddt-1C-PKl" firstAttribute="top" secondItem="Yjq-S4-ZO1" secondAttribute="top" constant="2" id="ehE-8I-Rha"/>
-                                <constraint firstAttribute="width" constant="66" id="ejo-BP-Scb"/>
                                 <constraint firstItem="ddt-1C-PKl" firstAttribute="leading" secondItem="Yjq-S4-ZO1" secondAttribute="leading" id="smp-IL-zuM"/>
                                 <constraint firstAttribute="trailing" secondItem="GKh-AL-yOi" secondAttribute="trailing" id="xWA-Ng-ZYO"/>
                             </constraints>
@@ -831,6 +830,7 @@
                         <constraint firstAttribute="height" constant="84" id="NDz-iX-AhU"/>
                         <constraint firstItem="Yjq-S4-ZO1" firstAttribute="leading" secondItem="DAs-F9-YuI" secondAttribute="leading" constant="20" id="OC2-Hr-nqa"/>
                         <constraint firstItem="32Q-Iw-Nbg" firstAttribute="top" secondItem="DAs-F9-YuI" secondAttribute="top" constant="22" id="OYI-5B-o71"/>
+                        <constraint firstItem="H4F-E2-ZgU" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Yjq-S4-ZO1" secondAttribute="trailing" constant="20" id="S4i-eY-2J6"/>
                         <constraint firstAttribute="trailing" secondItem="bch-YN-hK6" secondAttribute="trailing" constant="20" id="VyG-MF-fTq"/>
                         <constraint firstItem="bch-YN-hK6" firstAttribute="centerY" secondItem="DAs-F9-YuI" secondAttribute="centerY" id="Xzv-Po-P2e"/>
                         <constraint firstItem="bch-YN-hK6" firstAttribute="leading" secondItem="H4F-E2-ZgU" secondAttribute="trailing" constant="15" id="jx9-V2-Gdl"/>
