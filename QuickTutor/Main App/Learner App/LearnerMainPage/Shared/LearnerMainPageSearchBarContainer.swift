@@ -18,6 +18,12 @@ class LearnerMainPageSearchBarContainer: UIView {
         return view
     }()
     
+    let searchBarView: UIView = {
+        let view = UIView()
+        view.backgroundColor = Colors.newScreenBackground
+        return view
+    }()
+    
     let searchBar: PaddedTextField = {
         let field = PaddedTextField()
         field.padding.left = 40
@@ -51,6 +57,7 @@ class LearnerMainPageSearchBarContainer: UIView {
     
     func setupViews() {
         setupContainerView()
+        setupSearchBarView()
         setupSearchBar()
         setupRecentSearchesCV()
     }
@@ -60,10 +67,17 @@ class LearnerMainPageSearchBarContainer: UIView {
         containerView.anchor(top: getTopAnchor(), left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 57)
     }
     
+    func setupSearchBarView() {
+        addSubview(searchBarView)
+        searchBarView.isUserInteractionEnabled = true
+        searchBarView.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 47)
+    }
+    
     func setupSearchBar() {
-        containerView.addSubview(searchBar)
-        searchBar.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 47)
+        searchBarView.addSubview(searchBar)
+        searchBar.anchor(top: searchBarView.topAnchor, left: searchBarView.leftAnchor, bottom: searchBarView.bottomAnchor, right: searchBarView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         searchBar.delegate = self
+        searchBar.isEnabled = false
     }
     
     func setupRecentSearchesCV() {

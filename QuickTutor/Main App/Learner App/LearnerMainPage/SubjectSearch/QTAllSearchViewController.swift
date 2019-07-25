@@ -269,7 +269,11 @@ class QTAllSearchViewController: UIViewController {
                     if self.filteredSubjects.count + self.filteredUsers.count == 0 && self.isSearchMode {
                         self.noResultView.isHidden = false
                         self.indicatorView.stopAnimation()
+                        self.tableView.reloadData()
+                        return
                     }
+                    
+                    self.noResultView.isHidden = true
                     self.tableView.reloadData()
                 })
         })
