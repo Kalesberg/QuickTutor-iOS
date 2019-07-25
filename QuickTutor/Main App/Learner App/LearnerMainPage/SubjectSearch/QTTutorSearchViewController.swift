@@ -146,7 +146,11 @@ class QTTutorSearchViewController: UIViewController {
                         if self.filteredUsers.count == 0 {
                             self.noResultView.isHidden = false
                             self.indicatorView.stopAnimation()
+                            self.tableView.reloadData()
+                            return
                         }
+                        
+                        self.noResultView.isHidden = true
                         self.tableView.reloadData()
                     }
                 })
