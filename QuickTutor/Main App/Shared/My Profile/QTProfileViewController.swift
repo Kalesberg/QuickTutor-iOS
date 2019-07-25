@@ -678,7 +678,11 @@ class QTProfileViewController: UIViewController {
         if review.message.isEmpty {
             return 60
         } else {
-            let reviewHeight = review.message.height(withConstrainedWidth: UIScreen.main.bounds.size.width - 40, font: Fonts.createSize(16))
+            var reviewHeight = review.message.height(withConstrainedWidth: UIScreen.main.bounds.size.width - 40, font: Fonts.createSize(16))
+            let onelineHeight = "A".height(withConstrainedWidth: UIScreen.main.bounds.size.width - 40, font: Fonts.createSize(16))
+            
+            reviewHeight = reviewHeight > onelineHeight * 3 ? onelineHeight * 3 : reviewHeight
+            
             return reviewHeight + height
         }
     }
