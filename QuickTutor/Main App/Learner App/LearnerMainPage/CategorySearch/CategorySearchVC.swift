@@ -287,6 +287,7 @@ class CategorySearchVC: UIViewController {
             self.emptyBackground.isHidden = true
             self.lastKey = tutors.last?.uid
             self.loadedAllTutors = loadedAllTutors
+            self.datasource.append(contentsOf: tutors)
             self.datasource = self.datasource.sorted(by: { tutor1, tutor2 -> Bool in
                 let subjectReviews1 = tutor1.reviews?.filter({ $0.subject == self.subject }).count ?? 0
                 let subjectReviews2 = tutor2.reviews?.filter({ $0.subject == self.subject }).count ?? 0
