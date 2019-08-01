@@ -685,21 +685,23 @@ class FirebaseData {
 		self.ref.child("featured").child(category).child(uid).updateChildValues(value)
 	}
 	
-	func uploadImage(data: Data, number: String,_ completion: @escaping (Error?, String?) -> Void) {
+    func uploadImage(data: Data, number: String, _ completion: @escaping (Error?, String?) -> Void) {
         guard let userId = Auth.auth().currentUser?.uid else {
             completion(nil, nil)
             return
         }
-        self.storageRef.child("student-info").child(userId).child("student-profile-pic" + number).putData(data, metadata: nil) { (meta, error) in
+        let storagePath = AccountService.shared.currentUserType == .learner ? "student-info" : "tutor-info"
+        let filePath = AccountService.shared.currentUserType == .learner ? "student-profile-pic" : "tutor-profile-pic"
+        self.storageRef.child(storagePath).child(userId).child(filePath + number).putData(data, metadata: nil) { (meta, error) in
             if let error = error {
                 return completion(error, nil)
             }
-            self.storageRef.child("student-info").child(userId).child("student-profile-pic" + number).downloadURL(completion: { (url, error) in
+            self.storageRef.child(storagePath).child(userId).child(filePath + number).downloadURL(completion: { (url, error) in
                 if let error = error {
                     return completion(error, nil)
                 }
                 guard let imageUrl = url?.absoluteString else { return completion(nil, nil) }
-                Database.database().reference().child("student-info").child(userId).child("img").child("image" + number).setValue(imageUrl)
+                Database.database().reference().child(storagePath).child(userId).child("img").child("image" + number).setValue(imageUrl)
 				return completion(nil, imageUrl)
 			})
 		}

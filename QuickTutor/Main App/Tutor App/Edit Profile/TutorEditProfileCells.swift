@@ -105,7 +105,8 @@ class EditProfileImagesCell: UITableViewCell {
     }
     
     func loadImages() {
-        let databaseRef = Database.database().reference().child("student-info").child(CurrentUser.shared.learner.uid!).child("img")
+        let nodePath = AccountService.shared.currentUserType == .learner ? "student-info" : "tutor-info"
+        let databaseRef = Database.database().reference().child(nodePath).child(CurrentUser.shared.learner.uid!).child("img")
         databaseRef.observeSingleEvent(of: .value) { (snapshot) in
             
             // Get all images.

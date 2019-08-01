@@ -104,8 +104,12 @@ class TutorEditProfileVC: LearnerEditProfileVC {
                 cell.textField.textField.addTarget(self, action: #selector(firstNameValueChanged(_:)), for: .editingChanged)
                 
                 cell.textField.placeholder.text = "First Name"
-                guard let firstName = firstName else { return cell }
+                guard let firstName = firstName else {
+                    cell.textField.isUserInteractionEnabled = true
+                    return cell
+                }
                 cell.textField.textField.attributedText = NSAttributedString(string: "\(firstName)", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+                cell.textField.isUserInteractionEnabled = false
                 return cell
             case 1:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileCell", for: indexPath) as! EditProfileCell
@@ -113,8 +117,12 @@ class TutorEditProfileVC: LearnerEditProfileVC {
                 cell.textField.textField.addTarget(self, action: #selector(lastNameValueChanged(_:)), for: .editingChanged)
                 
                 cell.textField.placeholder.text = "Last Name"
-                guard let lastName = lastName else { return cell }
+                guard let lastName = lastName else {
+                    cell.textField.isUserInteractionEnabled = true
+                    return cell
+                }
                 cell.textField.textField.attributedText = NSAttributedString(string: "\(lastName)", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+                cell.textField.isUserInteractionEnabled = false
                 return cell
             case 2:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileBioCell", for: indexPath) as! EditProfileBioCell
@@ -409,7 +417,7 @@ class LearnerEditProfileVC: UIViewController {
     }
 
      func uploadImageUrl(imageUrl _: String, number _: String) {
-        if !learner.isTutor {
+        if AccountService.shared.currentUserType == .learner {
             FirebaseData.manager.updateValue(node: "student-info", value: ["img": CurrentUser.shared.learner.images]) { error in
                 if let error = error {
                     AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
@@ -417,15 +425,12 @@ class LearnerEditProfileVC: UIViewController {
             }
             learner.images = CurrentUser.shared.learner.images
         } else {
-            let newNodes = ["/student-info/\(CurrentUser.shared.learner.uid!)/img/": CurrentUser.shared.learner.images, "/tutor-info/\(CurrentUser.shared.learner.uid!)/img/": CurrentUser.shared.learner.images]
-
-            Tutor.shared.updateSharedValues(multiWriteNode: newNodes, { error in
+            FirebaseData.manager.updateValue(node: "tutor-info", value: ["img": CurrentUser.shared.learner.images]) { error in
                 if let error = error {
-                    print(error)
-                } else {
-                    self.learner.images = CurrentUser.shared.learner.images
+                    AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
                 }
-            })
+            }
+            learner.images = CurrentUser.shared.learner.images
         }
     }
     
@@ -484,9 +489,8 @@ class LearnerEditProfileVC: UIViewController {
         guard let learnerId = CurrentUser.shared.learner.uid else { return }
         
         let newNodes: [String: Any]
-        if CurrentUser.shared.learner.isTutor {
-            newNodes = [
-                "/tutor-info/\(learnerId)/nm": firstName + " " + lastName,
+        if AccountService.shared.currentUserType == .learner {
+            newNodes = ["/tutor-info/\(learnerId)/nm": firstName + " " + lastName,
                 "/student-info/\(learnerId)/nm": firstName + " " + lastName,
             ]
         } else {
@@ -596,10 +600,13 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileCell", for: indexPath) as! EditProfileCell
                 
                 cell.textField.textField.addTarget(self, action: #selector(firstNameValueChanged(_:)), for: .editingChanged)
-                
                 cell.textField.placeholder.text = "First Name"
-                guard let firstName = firstName else { return cell }
+                guard let firstName = firstName else {
+                    cell.textField.isUserInteractionEnabled = true
+                    return cell
+                }
                 cell.textField.textField.attributedText = NSAttributedString(string: "\(firstName)", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+                cell.textField.isUserInteractionEnabled = false
                 return cell
             case 1:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileCell", for: indexPath) as! EditProfileCell
@@ -607,8 +614,12 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
                 cell.textField.textField.addTarget(self, action: #selector(lastNameValueChanged(_:)), for: .editingChanged)
                 
                 cell.textField.placeholder.text = "Last Name"
-                guard let lastName = lastName else { return cell }
+                guard let lastName = lastName else {
+                    cell.textField.isUserInteractionEnabled = true
+                    return cell
+                }
                 cell.textField.textField.attributedText = NSAttributedString(string: "\(lastName)", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+                cell.textField.isUserInteractionEnabled = false
                 return cell
             case 2:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileBioCell", for: indexPath) as! EditProfileBioCell
