@@ -152,6 +152,8 @@ class MessagesVC: UIViewController {
                 guard let snap = snapshot.children.allObjects as? [DataSnapshot], snap.count > 0 else {
                     // TODO: end of loading
                     self.emptyBackround.isHidden = false
+                    self.collectionView.isUserInteractionEnabled = true
+                    self.collectionView.hideSkeleton()
                     return
                 }
                 
@@ -206,6 +208,7 @@ class MessagesVC: UIViewController {
     func getMessageById(_ messageId: String) {
         Database.database().reference().child("messages").child(messageId).observeSingleEvent(of: .value) { snapshot in
             guard let value = snapshot.value as? [String: Any] else {
+                self.collectionView.isUserInteractionEnabled = true
                 self.collectionView.hideSkeleton()
                 return
             }
@@ -225,6 +228,7 @@ class MessagesVC: UIViewController {
                 self.attemptReloadOfTable()
                 
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+                    self.collectionView.isUserInteractionEnabled = true
                     self.collectionView.hideSkeleton()
                 }
             }
@@ -307,6 +311,8 @@ class MessagesVC: UIViewController {
         setupViews()
         fetchConversations()
         getUserStatuses()
+        
+        collectionView.isUserInteractionEnabled = false
         collectionView.isSkeletonable = true
         collectionView.prepareSkeleton { _ in
             self.collectionView.showAnimatedSkeleton(usingColor: Colors.gray)
