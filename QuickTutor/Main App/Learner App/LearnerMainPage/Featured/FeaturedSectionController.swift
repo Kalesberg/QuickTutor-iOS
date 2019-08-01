@@ -27,11 +27,19 @@ class FeaturedSectionController: UIViewController {
         return collectionView
     }()
     
+    let pageCtrl: UIPageControl = {
+        let pageCtrl = UIPageControl()
+        pageCtrl.hidesForSinglePage = true
+        
+        return pageCtrl
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.isSkeletonable = true
         setupCollectionView()
+        setupPageControl()
         
         collectionView.prepareSkeleton { _ in
             self.view.showAnimatedSkeleton(usingColor: Colors.gray)
@@ -41,15 +49,38 @@ class FeaturedSectionController: UIViewController {
     
     func setupCollectionView() {
         view.addSubview(collectionView)
-        collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        collectionView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview()
+            if #available(iOS 11.0, *) {
+                make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            } else {
+                make.top.equalToSuperview()
+            }
+        }
         collectionView.delegate = self
         collectionView.dataSource = self
+    }
+    
+    func setupPageControl() {
+        view.addSubview(pageCtrl)
+        pageCtrl.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(collectionView.snp.bottom).offset(10)
+            make.height.equalTo(30)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            } else {
+                make.bottom.equalToSuperview()
+            }
+        }
     }
     
     func loadFeaturedSubjects() {
         DataService.shared.featchMainPageFeaturedSubject { items in
             self.view.hideSkeleton()
             self.featuredItems = items
+            self.pageCtrl.numberOfPages = items.count
             self.collectionView.reloadData()
         }
     }    
@@ -113,5 +144,9 @@ extension FeaturedSectionController: UICollectionViewDelegate {
         }
         vc.navigationItem.title = featuredItems[indexPath.item].subject
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        pageCtrl.currentPage = indexPath.item
     }
 }

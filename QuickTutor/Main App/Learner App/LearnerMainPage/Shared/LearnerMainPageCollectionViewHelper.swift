@@ -48,7 +48,7 @@ class LearnerMainPageCollectionViewHelper: NSObject, UICollectionViewDelegate, U
         var height: CGFloat = 0
         switch indexPath.section {
         case 0:
-            height = 250
+            height = 290
         case 1:
             height = 230
         case 2:
@@ -64,7 +64,15 @@ class LearnerMainPageCollectionViewHelper: NSObject, UICollectionViewDelegate, U
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        let topPadding: CGFloat = section == 0 ? 0 : 40
+        
+        var topPadding: CGFloat = 0
+        if 0 == section {
+            topPadding = 10
+        } else if 1 == section {
+            topPadding = 20
+        } else {
+            topPadding = 40
+        }
         return UIEdgeInsets(top: topPadding, left: 0, bottom: 0, right: 0)
     }
     
