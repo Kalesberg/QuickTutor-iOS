@@ -739,17 +739,19 @@ extension ConversationVC: ConversationManagerDelegate {
             connectionStatus = .accepted
         } else {
             
-            // hide accessory view if a user is tutor.
-            if AccountService.shared.currentUserType == .tutor {
-                conversationManager.isFinishedPaginating = true
-                showAccessoryView(false)
-                return
-            }
+//            // hide accessory view if a user is tutor.
+//            if AccountService.shared.currentUserType == .tutor {
+//                conversationManager.isFinishedPaginating = true
+//                showAccessoryView(false)
+//                return
+//            }
             
             // if there is no any message, set connection request mode.
-            guard conversationManager.messages.count > 0 else {
-                conversationManager.isFinishedPaginating = true
-                enterConnectionRequestMode()
+            if conversationManager.messages.count == 0 {
+                if .learner == AccountService.shared.currentUserType {
+                    conversationManager.isFinishedPaginating = true
+                    enterConnectionRequestMode()
+                }
                 return
             }
             

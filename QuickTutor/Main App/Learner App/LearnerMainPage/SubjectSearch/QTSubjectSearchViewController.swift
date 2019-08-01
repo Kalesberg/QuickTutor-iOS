@@ -62,7 +62,7 @@ class QTSubjectSearchViewController: UIViewController {
         configureDelegates()
         setupDelegates()
         
-        if let subjects = SubjectStore.loadTotalSubjectList() {
+        if let subjects = SubjectStore.shared.loadTotalSubjectList() {
             allSubjects = subjects
             allSubjects.shuffle()
         }

@@ -14,19 +14,11 @@ class UploadImageVCView: BaseRegistrationView {
         let iv = UIImageView()
         iv.backgroundColor = Colors.newScreenBackground
         iv.clipsToBounds = true
-        iv.tag = 1
         iv.applyDefaultShadow()
-        if #available(iOS 11.0, *) {
-            iv.adjustsImageSizeForAccessibilityContentSizeCategory = true
-        }
         iv.contentMode = .scaleAspectFill
         iv.layer.masksToBounds = true
         iv.layer.borderColor = Colors.purple.cgColor
         iv.layer.borderWidth = 1
-        iv.layer.applyShadow(color: Colors.newScreenBackground.cgColor,
-                                    opacity: 0.2,
-                                    offset: CGSize(width: 2, height: 2),
-                                    radius: 10)
         return iv
     }()
     

@@ -9,6 +9,7 @@
 import Firebase
 import SwipeCellKit
 import UIKit
+import SkeletonView
 
 class ConversationCell: SwipeCollectionViewCell {
     var chatPartner: User!
@@ -16,20 +17,25 @@ class ConversationCell: SwipeCollectionViewCell {
     let profileImageView: UserImageView = {
         let iv = UserImageView(frame: CGRect.zero)
         iv.onlineStatusIndicator.backgroundColor = Colors.newScreenBackground
+        iv.isSkeletonable = true
         return iv
     }()
     
     let usernameLabel: UILabel = {
         let label = UILabel()
+        label.text = "Collin V."
         label.font = Fonts.createBlackSize(16)
         label.textColor = .white
+        label.isSkeletonable = true
         return label
     }()
     
     let lastMessageLabel: UILabel = {
         let label = UILabel()
+        label.text = "Let's have a call in this app"
         label.font = Fonts.createBoldSize(12)
         label.textColor = UIColor.white.withAlphaComponent(0.5)
+        label.isSkeletonable = true
         return label
     }()
     
@@ -38,40 +44,60 @@ class ConversationCell: SwipeCollectionViewCell {
         label.font = Fonts.createSize(12)
         label.textColor = UIColor.white.withAlphaComponent(0.5)
         label.textAlignment = .right
+        label.isHidden = true
         return label
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        isSkeletonable = true
         setupViews()
     }
     
     func setupViews() {
         contentView.backgroundColor = Colors.newScreenBackground
         setupProfilePic()
-        setupTimestampLabel()
         setupUsernameLabel()
         setupLastMessageLabel()
+        setupTimestampLabel()
     }
     
     private func setupProfilePic() {
         contentView.addSubview(profileImageView)
-        profileImageView.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: contentView.bottomAnchor, right: nil, paddingTop: 10, paddingLeft: 10.5, paddingBottom: 10, paddingRight: 0, width: 60, height: 60)
+        profileImageView.snp.makeConstraints { make in
+            make.width.equalTo(60)
+            make.height.equalTo(60)
+            make.leading.equalToSuperview().offset(10)
+            make.centerY.equalToSuperview()
+            make.top.equalToSuperview().offset(10)
+        }
     }
     
     private func setupTimestampLabel() {
         contentView.addSubview(timestampLabel)
-        timestampLabel.anchor(top: contentView.topAnchor, left: nil, bottom: contentView.bottomAnchor, right: contentView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 7, width: 90, height: 12)
+        timestampLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(usernameLabel.snp.centerY)
+            make.trailing.equalToSuperview().offset(-10)
+            make.leading.greaterThanOrEqualTo(usernameLabel.snp.trailing)
+        }
     }
     
     private func setupUsernameLabel() {
         contentView.addSubview(usernameLabel)
-        usernameLabel.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: timestampLabel.leftAnchor, paddingTop: 13, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 18)
+        usernameLabel.snp.makeConstraints { make in
+            make.top.equalTo(profileImageView.snp.top).offset(12)
+            make.leading.equalTo(profileImageView.snp.trailing).offset(10)
+        }
     }
     
     private func setupLastMessageLabel() {
         contentView.addSubview(lastMessageLabel)
-        lastMessageLabel.anchor(top: usernameLabel.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: timestampLabel.leftAnchor, paddingTop: 5, paddingLeft: 10, paddingBottom: 10, paddingRight: 0, width: 0, height: 14)
+        lastMessageLabel.snp.makeConstraints { make in
+            make.top.equalTo(usernameLabel.snp.bottom).offset(5)
+            make.leading.equalTo(usernameLabel.snp.leading)
+            make.trailing.greaterThanOrEqualToSuperview().offset(-10)
+        }
     }
     
     func updateAsUnread() {
@@ -120,6 +146,7 @@ class ConversationCell: SwipeCollectionViewCell {
     }
     
     private func updateTimestampLabel(message: UserMessage) {
+        timestampLabel.isHidden = false
         let timestampDate = Date(timeIntervalSince1970: message.timeStamp.doubleValue)
         timestampLabel.text = timestampDate.formatRelativeString()
     }

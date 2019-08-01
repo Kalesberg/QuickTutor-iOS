@@ -146,7 +146,7 @@ class FirebaseData {
 		childNodes["/deleted/\(uid)"] = ["reason" : reason, "message": message, "type" : "tutor", "name": CurrentUser.shared.learner.name, "phone": CurrentUser.shared.learner.phone, "email" : CurrentUser.shared.learner.email, "birthday" : CurrentUser.shared.learner.birthday]
 		
 		for subcat in subcategory {
-			guard let category = SubjectStore.findCategoryBy(subcategory: subcat) else { continue }
+			guard let category = SubjectStore.shared.findCategoryBy(subcategory: subcat) else { continue }
 			childNodes["/subcategory/\(subcat)/\(uid)"] = NSNull()
 			childNodes["/featured/\(category)/\(uid)"] = NSNull()
 		}
@@ -177,7 +177,7 @@ class FirebaseData {
 		
 		for subcat in subcategory {
 			childNodes["/subcategory/\(subcat)/\(uid)"] = NSNull()
-			guard let category = SubjectStore.findCategoryBy(subcategory: subcat) else { continue }
+			guard let category = SubjectStore.shared.findCategoryBy(subcategory: subcat) else { continue }
 			childNodes["/featured/\(category)/\(uid)"] = NSNull()
 		}
 		

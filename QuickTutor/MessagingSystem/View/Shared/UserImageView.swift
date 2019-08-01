@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SkeletonView
 
 class UserImageView: UIView {
     let imageView: CustomImageView = {
@@ -14,6 +15,7 @@ class UserImageView: UIView {
         iv.clipsToBounds = true
         iv.layer.cornerRadius = 30
         iv.layer.masksToBounds = true
+        iv.isSkeletonable = true
         return iv
     }()
     
@@ -22,6 +24,7 @@ class UserImageView: UIView {
         view.backgroundColor = Colors.newScreenBackground
         view.layer.masksToBounds = true
         view.layer.cornerRadius = 10
+        view.isSkeletonable = true
         
         return view
     }()
@@ -31,6 +34,7 @@ class UserImageView: UIView {
         view.clipsToBounds = true
         view.layer.masksToBounds = true
         view.layer.cornerRadius = 8
+        view.isSkeletonable = true
         return view
     }()
     

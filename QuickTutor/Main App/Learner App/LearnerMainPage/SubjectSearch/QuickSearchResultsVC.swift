@@ -54,7 +54,7 @@ class QuickSearchResultsVC: UIViewController {
     }
     
     func loadSubjects() {
-        if let subjects = SubjectStore.loadTotalSubjectList() {
+        if let subjects = SubjectStore.shared.loadTotalSubjectList() {
             self.subjects = subjects
             self.subjects.shuffle()
             contentView.collectionView.reloadData()
@@ -93,14 +93,14 @@ extension QuickSearchResultsVC: UICollectionViewDataSource, UICollectionViewDele
         if isNewQuickSearch {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: QuickSearchNewResultsCell.reuseIdentifier, for: indexPath) as! QuickSearchNewResultsCell
             cell.titleLabel.text = currentSubjects[indexPath.item].0
-            let categoryString = SubjectStore.findCategoryBy(subject: currentSubjects[indexPath.item].0) ?? ""
+            let categoryString = SubjectStore.shared.findCategoryBy(subject: currentSubjects[indexPath.item].0) ?? ""
             let category = Category.category(for: categoryString)!
             cell.imageView.image = Category.imageFor(category: category)
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! QuickSearchResultsCell
             cell.titleLabel.text = currentSubjects[indexPath.item].0
-            let categoryString = SubjectStore.findCategoryBy(subject: currentSubjects[indexPath.item].0) ?? ""
+            let categoryString = SubjectStore.shared.findCategoryBy(subject: currentSubjects[indexPath.item].0) ?? ""
             let category = Category.category(for: categoryString)!
             cell.imageView.image = Category.imageFor(category: category)
             return cell
@@ -401,7 +401,7 @@ class TutorAddSubjectsResultsVC: UIViewController {
     
     func loadSubjects() {
         guard subjects.count == 0 else { return }
-        if let subjects = SubjectStore.loadTotalSubjectList() {
+        if let subjects = SubjectStore.shared.loadTotalSubjectList() {
             self.subjects = subjects.map({ $0.0 }).sorted(by: { $0 < $1 })
             self.subjects.shuffle()
             contentView.collectionView.reloadData()
@@ -456,7 +456,7 @@ extension TutorAddSubjectsResultsVC: UICollectionViewDataSource, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! TutorAddSubjectsResultsCell
         cell.titleLabel.text = currentSubjects[indexPath.item]
-        let categoryString = SubjectStore.findCategoryBy(subject: currentSubjects[indexPath.item]) ?? ""
+        let categoryString = SubjectStore.shared.findCategoryBy(subject: currentSubjects[indexPath.item]) ?? ""
         let category = Category.category(for: categoryString)!
         cell.imageView.image = Category.imageFor(category: category)
         cell.selectionView.isHidden = !TutorRegistrationService.shared.subjects.contains(currentSubjects[indexPath.item])

@@ -175,148 +175,55 @@ class FeaturedTutorView: UIView {
 	}
 }
 
-struct SubjectStore {
-    static func loadTotalSubjectList() -> [(String, String)]? {
-        var totalSubjects: [(String, String)] = []
-        for i in 0..<categories.count {
-            do {
-                guard let file = Bundle.main.url(forResource: categories[i].subcategory.fileToRead, withExtension: "json") else {
-                    continue }
-                let data = try Data(contentsOf: file)
-                let json = try JSONSerialization.jsonObject(with: data, options: [])
+class SubjectStore {
+    static let shared = SubjectStore()
+    
+    private var totalSubjects: [(String, String)]?
+    
+    func loadTotalSubjectList() -> [(String, String)]? {
+        if let totalSubjects = totalSubjects {
+            return totalSubjects
+        }
+        
+        totalSubjects = []
+        for i in 0 ..< categories.count {
+            guard let file = Bundle.main.url(forResource: categories[i].subcategory.fileToRead, withExtension: "json"),
+                let data = try? Data(contentsOf: file),
+                let json = try? JSONSerialization.jsonObject(with: data, options: []) else {
+                continue }
+            
+            for key in categories[i].subcategory.subcategories {
+                guard let object = json as? [String: [String]], let subjectArray = object[key.title] else { continue }
                 
-                for key in categories[i].subcategory.subcategories {
-                    guard let object = json as? [String: [String]], let subjectArray = object[key.title] else { continue }
-					
-                    for subject in subjectArray {
-                        totalSubjects.append((subject, key.title))
-                    }
+                for subject in subjectArray {
+                    totalSubjects?.append((subject, key.title))
                 }
-            } catch {
-                return nil
             }
         }
+        
         return totalSubjects
     }
     
-    /**
-     
- 
-     */
- 
- 
- 
-    static func readSubcategory(resource: String, subjectString: String) -> [(String, String)]? {
-        var subjects: [(String, String)] = []
-        
-        do {
-            guard let file = Bundle.main.url(forResource: resource.lowercased(), withExtension: "json") else { return nil }
-            
-            let data = try Data(contentsOf: file)
-            let json = try JSONSerialization.jsonObject(with: data, options: [])
-            guard let object = json as? [String: [String]], let subjectArray = object[subjectString] else { return nil }
-			
-            for subject in subjectArray {
-                subjects.append((subject, subjectString))
-            }
-        } catch {
-            return nil
-        }
-        return subjects
-    }
-    
-    static func loadCategory(resource: String) -> [(String, String)]? {
-        
-        var subjects: [(String, String)] = []
-        
-        do {
-            guard let file = Bundle.main.url(forResource: resource.lowercased(), withExtension: "json") else { return [] }
-            
-            let data = try Data(contentsOf: file)
-            let json = try JSONSerialization.jsonObject(with: data, options: [])
-			
-			for key in Category.category(for: resource)!.subcategory.subcategories {
-                guard let object = json as? [String: [String]], let subjectArray = object[key.title] else { continue }
-				
-                for subject in subjectArray {
-                    subjects.append((subject, resource))
-                }
-            }
-        } catch {
-            return []
-        }
-        return subjects
-    }
-    
-    static func findSubcategoryImage(subcategory: String) -> (String, UIImage) {
-        for i in 0..<categories.count {
-            for key in categories[i].subcategory.subcategories {
-                if key.title.lowercased() == subcategory {
-                    
-                    let subcategories = categories[i].subcategory.subcategories.map { $0.title.lowercased() }
-                    
-                    let indexOfImage = subcategories.firstIndex(of: key.title.lowercased())
-                    let image = categories[i].subcategory.subcategories[indexOfImage!].icon
-                    
-                    let indexOfSubcategory = subcategories.firstIndex(of: key.title.lowercased())
-                    let subcategory = categories[i].subcategory.subcategories[indexOfSubcategory!].title
-                    
-                    return (subcategory, image)
-                }
-            }
-        }
-        return ("No top subject.", #imageLiteral(resourceName: "defaultProfileImage"))
-    }
-    
-    static func findCategoryBy(subcategory: String) -> String? {
+    func findCategoryBy(subcategory: String) -> String? {
         for category in categories {
             let lowercased = category.subcategory.subcategories.map({ $0.title.lowercased() })
-            if lowercased.contains(subcategory) {
+            if lowercased.contains(subcategory.lowercased()) {
                 return category.subcategory.fileToRead
             }
         }
         return nil
     }
     
-    static func findCategoryBy(subject: String) -> String? {
-        for i in 0..<categories.count {
-            do {
-                guard let file = Bundle.main.url(forResource: categories[i].subcategory.fileToRead, withExtension: "json") else {
-                    continue }
-                let data = try Data(contentsOf: file)
-                let json = try JSONSerialization.jsonObject(with: data, options: [])
-                
-                for key in categories[i].subcategory.subcategories {
-                    guard let object = json as? [String: [String]], let subjectArray = object[key.title] else { continue }
-                    for value in subjectArray {
-                        if subject == value {
-                            return categories[i].subcategory.fileToRead
-                        }
-                    }
-                }
-            } catch {
-                return nil
-            }
-        }
-        return nil
+    func findSubCategory(subject: String) -> String? {
+        guard let totalSubjects = loadTotalSubjectList() else { return nil }
+        
+        return totalSubjects.first(where: { $0.0 == subject })?.1
     }
-    static func findSubCategory(resource: String, subject: String) -> String? {
-        do {
-            guard let file = Bundle.main.url(forResource: resource.lowercased(), withExtension: "json") else { return nil }
-            
-            let data = try Data(contentsOf: file)
-            let json = try JSONSerialization.jsonObject(with: data, options: [])
-            for key in Category.category(for: resource)!.subcategory.subcategories {
-                guard let object = json as? [String: [String]], let subjectArray = object[key.title] else { continue }
-				
-                if subjectArray.contains(subject) {
-                    return key.title
-                }
-            }
-        } catch {
-            return nil
-        }
-        return nil
+    
+    func findCategoryBy(subject: String) -> String? {
+        guard let subCategory = findSubCategory(subject: subject) else { return nil }
+        
+        return findCategoryBy(subcategory: subCategory)
     }
 
 }

@@ -115,6 +115,8 @@ class LearnerMainPageFeaturedSubjectCell: UICollectionViewCell {
         titleLabel.backgroundColor = .clear
         titleLabel.text = featuredSubject.title
         
+        tryItButton.setTitle(featuredSubject.subject, for: .normal)
+        
         titleLabel.isHidden = false
         tryItButton.isHidden = false
         backgroundImageView.sd_setImage(with: featuredSubject.backgroundImageUrl, completed: nil)
