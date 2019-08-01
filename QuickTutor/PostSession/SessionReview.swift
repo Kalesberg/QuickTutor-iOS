@@ -374,8 +374,7 @@ class SessionReview : BaseViewController {
 		if AccountService.shared.currentUserType == .learner {
 			let updatedRating = ((tutor.tRating * Double(tutor.tNumSessions)) + Double(PostSessionReviewData.rating)) / Double(tutor.tNumSessions + 1)
 			let updatedHours = tutor.secondsTaught + runTime
-			guard let category = SubjectStore.findCategoryBy(subject: subject) else { return }
-			guard let subcategory = SubjectStore.findSubCategory(resource: category, subject: subject) else { return }
+			guard let subcategory = SubjectStore.shared.findSubCategory(subject: subject) else { return }
 			let tutorInfo : [String : Any] = ["hr" : updatedHours, "nos" : tutor.tNumSessions + 1, "tr" : updatedRating.truncate(places: 1)]
 			let subcategoryInfo : [String : Any] = ["hr" : updatedHours, "nos" : tutor.tNumSessions + 1, "r" : updatedRating.truncate(places: 1)]
 			let featuredInfo : [String : Any] = ["rv" : tutor.tNumSessions + 1, "r" : updatedRating.truncate(places: 1)]

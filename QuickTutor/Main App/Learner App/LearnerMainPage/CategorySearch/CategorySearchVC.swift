@@ -207,21 +207,21 @@ class CategorySearchVC: UIViewController {
             self.datasource = self.datasource.sorted(by: { tutor1, tutor2 -> Bool in
                 var categoryReviews1 = 0
                 var categoryReviews2 = 0
-                
+
                 if let reviews1 = tutor1.reviews {
                     for objReview in reviews1 {
-                        guard let category = SubjectStore.findCategoryBy(subject: objReview.subject) else { continue }
+                        guard let category = SubjectStore.shared.findCategoryBy(subject: objReview.subject) else { continue }
                         if category == self.category { categoryReviews1 += 1 }
                     }
                 }
-                
+
                 if let reviews2 = tutor2.reviews {
                     for objReview in reviews2 {
-                        guard let category = SubjectStore.findCategoryBy(subject: objReview.subject) else { continue }
+                        guard let category = SubjectStore.shared.findCategoryBy(subject: objReview.subject) else { continue }
                         if category == self.category { categoryReviews2 += 1 }
                     }
                 }
-                
+
                 return categoryReviews1 > categoryReviews2
                     || (tutor1.reviews?.count ?? 0) > (tutor2.reviews?.count ?? 0)
                     || (tutor1.rating ?? 0) > (tutor2.rating ?? 0)
@@ -262,16 +262,14 @@ class CategorySearchVC: UIViewController {
                 
                 if let reviews1 = tutor1.reviews {
                     for objReview in reviews1 {
-                        guard let category = SubjectStore.findCategoryBy(subject: objReview.subject),
-                            let subCategory = SubjectStore.findSubCategory(resource: category, subject: objReview.subject) else { continue }
+                        guard let subCategory = SubjectStore.shared.findSubCategory(subject: objReview.subject) else { continue }
                         if subCategory == self.subcategory { subCategoryReviews1 += 1 }
                     }
                 }
                 
                 if let reviews2 = tutor2.reviews {
                     for objReview in reviews2 {
-                        guard let category = SubjectStore.findCategoryBy(subject: objReview.subject),
-                            let subCategory = SubjectStore.findSubCategory(resource: category, subject: objReview.subject) else { continue }
+                        guard let subCategory = SubjectStore.shared.findSubCategory(subject: objReview.subject) else { continue }
                         if subCategory == self.subcategory { subCategoryReviews2 += 1 }
                     }
                 }

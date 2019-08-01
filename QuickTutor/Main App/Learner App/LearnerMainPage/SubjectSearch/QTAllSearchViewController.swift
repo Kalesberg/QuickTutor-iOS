@@ -166,7 +166,7 @@ class QTAllSearchViewController: UIViewController {
         noResultView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor).isActive = true
         noResultView.isHidden = true
         
-        allSubjects = SubjectStore.loadTotalSubjectList() ?? []
+        allSubjects = SubjectStore.shared.loadTotalSubjectList() ?? []
         recentSearches = QTUtils.shared.getRecentSearches()
         
         tableView.delegate = self
@@ -320,7 +320,7 @@ extension QTAllSearchViewController: UITableViewDelegate {
                     
                     let item = QTRecentSearchModel()
                     item.type = .subject
-                    item.name1 = SubjectStore.findCategoryBy(subject: subject) ?? ""
+                    item.name1 = SubjectStore.shared.findCategoryBy(subject: subject) ?? ""
                     item.name2 = subject
                     QTUtils.shared.saveRecentSearch(search: item)
                     
@@ -391,7 +391,7 @@ extension QTAllSearchViewController: UITableViewDataSource {
             if filteredSubjects.count > indexPath.row {
                 let subject = filteredSubjects[indexPath.row].0
                 item.type = .subject
-                item.name1 = SubjectStore.findCategoryBy(subject: subject) ?? ""
+                item.name1 = SubjectStore.shared.findCategoryBy(subject: subject) ?? ""
                 item.name2 = subject
             } else {
                 let user = filteredUsers[indexPath.row - filteredSubjects.count]

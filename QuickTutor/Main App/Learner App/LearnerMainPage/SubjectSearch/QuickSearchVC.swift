@@ -56,7 +56,7 @@ class QuickSearchVC: UIViewController {
         configureDelegates()
         setupObservers()
 
-        if let subjects = SubjectStore.loadTotalSubjectList() {
+        if let subjects = SubjectStore.shared.loadTotalSubjectList() {
             allSubjects = subjects
             allSubjects.shuffle()
         }
