@@ -119,6 +119,7 @@ class LearnerMainPageVC: UIViewController {
         let next = CategorySearchVC()
         next.datasource = tutors
         next.navigationItem.title = "Rising Talent"
+        next.loadedAllTutors = true
         navigationController?.pushViewController(next, animated: true)
     }
     

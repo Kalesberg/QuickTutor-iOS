@@ -15,7 +15,7 @@ class TutorSearchService {
     func getTutorsByCategory(_ categoryName: String, lastKnownKey: String?, completion: @escaping ([AWTutor]?, Bool) -> Void) {
         var tutors = [AWTutor]()
         let myGroup = DispatchGroup()
-        var ref = Database.database().reference().child("categories").child(categoryName).queryOrderedByKey().queryLimited(toFirst: 60)
+        var ref = Database.database().reference().child("categories").child(categoryName).queryOrderedByKey().queryLimited(toFirst: 20)
         if let key = lastKnownKey {
             ref = ref.queryStarting(atValue: key)
         }
@@ -46,7 +46,7 @@ class TutorSearchService {
                 if let _ = lastKnownKey {
                     tutors.removeFirst()
                 }
-                completion(tutors, tutorIds.count < 60)
+                completion(tutors, tutorIds.count < 20)
             }
         }
     }
@@ -55,12 +55,13 @@ class TutorSearchService {
         var tutors = [AWTutor]()
         let desiredSubjects = CategoryFactory.shared.getSubjectsFor(subcategoryName: subcategoryName)
         
-        var ref = Database.database().reference().child("subcategories").child(subcategoryName.lowercased()).queryOrderedByKey().queryLimited(toFirst: 60)
+        var ref = Database.database().reference().child("subcategories").child(subcategoryName.lowercased()).queryOrderedByKey().queryLimited(toFirst: 20)
         if let key = lastKnownKey {
             ref = ref.queryStarting(atValue: key)
         }
         ref.observeSingleEvent(of: .value) { (snapshot) in
-            print(snapshot.key)
+            print("=== Get subcategories ids === ")
+            print(Date().description)
             guard let tutorIds = snapshot.value as? [String: Any] else {
                 completion(nil, false)
                 return
@@ -68,7 +69,14 @@ class TutorSearchService {
             let myGroup = DispatchGroup()
             tutorIds.keys.sorted(by: { $0 < $1 }).forEach { uid in
                 myGroup.enter()
+                
+                print("=== Fetch \(uid) tutor Start === ")
+                print(Date().description)
+                
                 FirebaseData.manager.fetchTutor(uid, isQuery: false, { tutor in
+                    print("=== Fetch \(tutor?.uid ?? "blank") tutor End === ")
+                    print(Date().description)
+                    
                     guard let tutor = tutor else {
                         myGroup.leave()
                         return
@@ -83,10 +91,13 @@ class TutorSearchService {
                 })
             }
             myGroup.notify(queue: .main) {
+                print("=== Fetch all tutor info === ")
+                print(Date().description)
+                
                 if let _ = lastKnownKey {
                     tutors.removeFirst()
                 }
-                completion(tutors, tutorIds.count < 60)
+                completion(tutors, tutorIds.count < 20)
             }
         }
     }
@@ -94,7 +105,7 @@ class TutorSearchService {
     func getTutorsBySubject(_ subject: String, lastKnownKey: String?, completion: @escaping ([AWTutor]?, Bool) -> Void) {
         var tutors = [AWTutor]()
         let myGroup = DispatchGroup()
-        var ref = Database.database().reference().child("subjects").child(subject).queryOrderedByKey().queryLimited(toFirst: 60)
+        var ref = Database.database().reference().child("subjects").child(subject).queryOrderedByKey().queryLimited(toFirst: 20)
         
         if let key = lastKnownKey {
             ref = ref.queryStarting(atValue: key)
@@ -123,7 +134,7 @@ class TutorSearchService {
                 if let _ = lastKnownKey {
                     tutors.removeFirst()
                 }
-                completion(tutors, tutorIds.count < 60)
+                completion(tutors, tutorIds.count < 20)
             }
         }
     }
