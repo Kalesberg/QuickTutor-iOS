@@ -9,6 +9,7 @@
 import Firebase
 import UIKit
 import SwipeCellKit
+import SkeletonView
 
 class MessagesVC: UIViewController {
     let refreshControl = UIRefreshControl()
@@ -205,7 +206,7 @@ class MessagesVC: UIViewController {
     func getMessageById(_ messageId: String) {
         Database.database().reference().child("messages").child(messageId).observeSingleEvent(of: .value) { snapshot in
             guard let value = snapshot.value as? [String: Any] else {
-                self.dismissOverlay()
+                self.collectionView.hideSkeleton()
                 return
             }
             let message = UserMessage(dictionary: value)
@@ -224,7 +225,7 @@ class MessagesVC: UIViewController {
                 self.attemptReloadOfTable()
                 
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
-                    self.dismissOverlay()
+                    self.collectionView.hideSkeleton()
                 }
             }
         }
@@ -306,6 +307,10 @@ class MessagesVC: UIViewController {
         setupViews()
         fetchConversations()
         getUserStatuses()
+        collectionView.isSkeletonable = true
+        collectionView.prepareSkeleton { _ in
+            self.collectionView.showAnimatedSkeleton(usingColor: Colors.gray)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -340,8 +345,11 @@ class MessagesVC: UIViewController {
     }
 }
 
-extension MessagesVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-
+extension MessagesVC: UICollectionViewDelegate, SkeletonCollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
+        return "cellId"
+    }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ConversationCell
         cell.updateUI(message: messages[indexPath.item])
