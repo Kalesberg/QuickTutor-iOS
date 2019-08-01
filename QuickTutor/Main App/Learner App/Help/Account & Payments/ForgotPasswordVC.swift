@@ -21,7 +21,7 @@ class ForgotPasswordView: MainLayoutHeader {
 
         header.text = "I forgot my password"
 
-        forgotPasswordBody.text = "If you have forgotten your password, tap on the purple text below that says “Forgot your password?”\n\nWe will email you a link to reset your password within a few minutes. This email will include a link to create a new password. If you do not utilize the link within 10 minutes, you have to start over to receive a new link.\n\nTo maintain security on your account, create a unique password and do not share it with others. QuickTutor will never ask for your password."
+        forgotPasswordBody.text = "If you have forgotten your password, tap on the violet text below that says \"I forgot my password.\"\n\nWe will email you a link to reset your password within a few minutes. This email will include a link to create a new password. If you do not utilize the link within 10 minutes, you have to start over to receive a new link.\n\nTo maintain security on your account, create a unique password and do not share it with others. QuickTutor will never ask for your password. "
     }
 
     override func applyConstraints() {
@@ -48,7 +48,7 @@ class ForgotPasswordButton: InteractableView, Interactable {
         addSubview(label)
         super.configureView()
 
-        label.text = "Forgot your password?"
+        label.text = "I forgot my password."
         label.font = Fonts.createBoldSize(18)
         label.textColor = UIColor(red: 130 / 255, green: 106 / 255, blue: 191 / 255, alpha: 1.0)
 

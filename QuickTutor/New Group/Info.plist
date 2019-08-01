@@ -90,11 +90,11 @@
 	<string>To chose a profile picture</string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>Lato-BoldItalic.ttf</string>
 		<string>Lato/Lato-LightItalic.ttf</string>
 		<string>Lato/Lato-Light.ttf</string>
 		<string>Lato/Lato-HairlineItalic.ttf</string>
 		<string>Lato/Lato-Hairline.ttf</string>
-		<string>Lato/Lato-BoldItalic.ttf</string>
 		<string>Lato/Lato-BlackItalic.ttf</string>
 		<string>Lato/Lato-Black.ttf</string>
 		<string>Lato/Lato-Bold.ttf</string>

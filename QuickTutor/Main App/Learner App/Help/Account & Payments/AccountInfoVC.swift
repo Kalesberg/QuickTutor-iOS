@@ -12,15 +12,18 @@ import UIKit
 class AccountInfoView: MainLayoutHeaderScroll {
     var infoChangeTitle = SectionTitle()
     var infoChangeBody = SectionBody()
+    var infoChangeFooter = SectionBody()
     var passwordTitle = SectionTitle()
     var passwordBody = SectionBody()
     var profilePictureTitle = SectionTitle()
+    var profilePictureSubTitle = SectionSubTitle()
     var profilePictureBody = SectionBody()
     var strings: [String] = []
 
     override func configureView() {
         scrollView.addSubview(infoChangeTitle)
         scrollView.addSubview(infoChangeBody)
+        scrollView.addSubview(infoChangeFooter)
         scrollView.addSubview(passwordTitle)
         scrollView.addSubview(passwordBody)
         scrollView.addSubview(profilePictureTitle)
@@ -29,10 +32,12 @@ class AccountInfoView: MainLayoutHeaderScroll {
 
         header.label.text = "Changing my account information"
 
-        strings = ["1.  Tap the three lines in the top left of the home page.\n", "2.  Tap the profile bar that displays your name and photo.\n", "3.  Tap \"Edit\" in the top right of the screen.\n", "4.  Select the the information you would like to change.\n", "5.  When you’ve changed your information, click save."]
-
+        infoChangeTitle.label.text = "Info changes"
+        
         var attributesDictionary: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: infoChangeBody.font]
-        var fullAttributedString = NSMutableAttributedString(string: "To update or change your name, biography, email, or languages you speak:\n\n", attributes: attributesDictionary)
+        var fullAttributedString = NSMutableAttributedString(string: "To update or change your name, biography, email or the languages you speak:\n\n", attributes: attributesDictionary)
+        
+        strings = ["1.  Tap the profile icon in the bottom right corner of your screen (on your tab bar).\n\n", "2.  Tap \"view profile\" which is located just above your switch mode button (learner mode button). \n\n", "3.  Tap the pencil icon in the top right corner of your screen.\n\n", "4.  Tap on any information you’d like to change and then tap the checkmark when you are finished making changes.\n"]
 
         for string: String in strings {
             let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: string)
@@ -44,19 +49,26 @@ class AccountInfoView: MainLayoutHeaderScroll {
         }
 
         infoChangeBody.attributedText = fullAttributedString
+        infoChangeFooter.text = "You can add up to eight photos, two languages and one university to your profile."
 
-        infoChangeTitle.label.text = "INFO CHANGE"
+        passwordTitle.label.text = "Password"
+        attributesDictionary = [NSAttributedString.Key.font: passwordBody.font]
+        fullAttributedString = NSMutableAttributedString(string: "If you forget your password, please visit the ", attributes: attributesDictionary)
+        fullAttributedString.append(NSAttributedString(string: "forgot your password", attributes: [.font : UIFont.qtBoldItalicFont(size: 14)]))
+        
+        fullAttributedString.append(NSAttributedString(string: " page from the Accounts & Payments help menu (previous screen) and follow the instructions detailed there.", attributes: attributesDictionary))
+        passwordBody.attributedText = fullAttributedString
 
-        passwordTitle.label.text = "PASSWORD"
-        passwordBody.text = "If you forget your password, please visit the Forgot your password page from the Accounts & Payments frame and follow the instructions."
-
-        strings = ["1.  Tap the three lines in the top left of the home page.\n",
-                   "2.  Then, tap \"Edit\" in the top right of the screen.\n",
-                   "3.  You can add, change, or remove photos by selecting the \"+\" or \"x\".\n"]
-
-        attributesDictionary = [NSAttributedString.Key.font: profilePictureBody.font]
+        profilePictureTitle.label.text = "Profile picture(s)"
+        
+        attributesDictionary = [NSAttributedString.Key.font: UIFont.qtBoldFont(size: 14)]
         fullAttributedString = NSMutableAttributedString(string: "To change or add a profile picture:\n\n", attributes: attributesDictionary)
 
+        strings = ["1.  Tap the profile icon in the bottom right corner of your screen (on your tab bar).\n\n",
+                   "2.  Tap \"view profile\" which is located just above \"learner mode\".\n\n",
+                   "3.  Tap on any photo(s) or circle icons with a plus symbol and then select \"take photo\",\"camera roll\" or \"remove\" to select a photo to upload or remove a photo.\n\n"]
+        
+        attributesDictionary = [NSAttributedString.Key.font: profilePictureBody.font]
         for string: String in strings {
             let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: string)
 
@@ -68,7 +80,7 @@ class AccountInfoView: MainLayoutHeaderScroll {
 
         profilePictureBody.attributedText = fullAttributedString
 
-        profilePictureTitle.label.text = "PROFILE PICTURE(S)"
+        
     }
 
     override func applyConstraints() {
@@ -77,8 +89,10 @@ class AccountInfoView: MainLayoutHeaderScroll {
         infoChangeTitle.constrainSelf(top: header.snp.bottom)
 
         infoChangeBody.constrainSelf(top: infoChangeTitle.snp.bottom)
+        
+        infoChangeFooter.constrainSelf(top: infoChangeBody.snp.bottom)
 
-        passwordTitle.constrainSelf(top: infoChangeBody.snp.bottom)
+        passwordTitle.constrainSelf(top: infoChangeFooter.snp.bottom)
 
         passwordBody.constrainSelf(top: passwordTitle.snp.bottom)
 
@@ -95,7 +109,7 @@ class AccountInfoVC: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Help"
+        navigationItem.title = "Info changes"
         contentView.layoutIfNeeded()
     }
     

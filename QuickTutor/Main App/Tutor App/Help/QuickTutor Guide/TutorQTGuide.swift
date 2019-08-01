@@ -14,10 +14,12 @@ class TutorQTGuide: BaseViewController {
         return view as! QTGuideView
     }
 
-    var options = ["Connections", "Sessions", "Service Fee"]
+    var options = ["Connecting", "Teaching", "Service Fee"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        title = "Guide"
         contentView.tableView.dataSource = self
         contentView.tableView.delegate = self
         contentView.tableView.register(CustomHelpTableViewCell.self, forCellReuseIdentifier: "accountPaymentsCell")

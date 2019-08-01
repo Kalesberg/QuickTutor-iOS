@@ -26,7 +26,7 @@ class TutorHelp: BaseViewController {
         view = LearnerHelpView()
     }
 
-    var options = ["Account & Payments", "QuickTutor Guide", "Tutor Handbook"]
+    var options = ["Accounts & payments", "Guide", "Handbook"]
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
