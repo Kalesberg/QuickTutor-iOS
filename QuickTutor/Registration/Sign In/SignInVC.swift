@@ -236,33 +236,28 @@ class SignInVC: UIViewController {
 	
 	func setupForRegistration(userData: [String: Any]?) {
 		guard let data = userData else { return }
-		guard let email = data["email"] as? String, let name = data["name"] as? String else { return }
+		guard let email = data["email"] as? String else { return }
 		Registration.email = email
 		AccountService.shared.currentUserType = .lRegistration
-		Registration.name = name
-		if let imageDictionary = data["picture"] as? [String: Any], let imageDataDictionary = imageDictionary["data"] as? [String: Any], let imageUrlPath = imageDataDictionary["url"] as? String {
-			let imageUrl = URL(string: imageUrlPath)!
-			loadImageData(url: imageUrl) { (data) in
-				Registration.imageData = data
-				let next = BirthdayVC()
-				next.isFacebookManaged = true
-				self.navigationController?.pushViewController(next, animated: true)
-			}
+		if let name = data["name"] as? String, !name.isEmpty {
+			Registration.name = name
+		} else if let firstName = data["firstname"] as? String,
+			let lastName = data["lastname"] as? String,
+			!firstName.isEmpty, !lastName.isEmpty {
+			Registration.name = "\(firstName) \(lastName)"
+		} else {
+			Registration.name = ""
 		}
-	}
-	
-	func loadImageData(url: URL, completion: @escaping(Data) -> Void) {
-		DispatchQueue.global().async {
-			if let data = try? Data(contentsOf: url) {
-				DispatchQueue.main.async {
-					completion(data)
-				}
-			}
+		if let userId = data["id"] as? String {
+			Registration.studentImageURL = "https://graph.facebook.com/\(userId)/picture?type=large"
+			let next = BirthdayVC()
+			next.isFacebookManaged = true
+			self.navigationController?.pushViewController(next, animated: true)
 		}
 	}
 
 	func getFacebookEmail(completion: @escaping ([String: Any]?) -> ()) {
-		let params = ["fields": "picture, name, email", "redirect": "false"]
+		let params = ["fields": "id, name, first_name, last_name, email", "redirect": "false"]
 		let graphRequest = GraphRequest(graphPath: "me", parameters: params)
 		graphRequest.start {
 			_, requestResult in
