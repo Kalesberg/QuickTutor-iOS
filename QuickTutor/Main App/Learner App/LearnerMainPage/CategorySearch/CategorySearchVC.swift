@@ -81,13 +81,18 @@ class CategorySearchVC: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(TutorCollectionViewCell.self, forCellWithReuseIdentifier: TutorCollectionViewCell.reuseIdentifier)
+        collectionView.register(TutorLoadMoreCollectionViewCell.self, forCellWithReuseIdentifier: TutorLoadMoreCollectionViewCell.reuseIdentifier)
         
         navigationController?.navigationBar.isHidden = false
         setUpFiltersButton()
         
+        print("=== Prepare Skeleton Start === ")
+        print(Date().description)
         if 0 == datasource.count {
             collectionView.prepareSkeleton { _ in
                 self.view.showAnimatedSkeleton(usingColor: Colors.gray)
+                print("=== Prepare Skeleton End === ")
+                print(Date().description)
                 self.queryNeededTutors(lastKnownKey: nil)
             }
         } else {
@@ -175,6 +180,8 @@ class CategorySearchVC: UIViewController {
         if category != nil {
             queryTutorsByCategory(lastKnownKey: lastKnownKey)
         } else if subcategory != nil {
+            print("=== Search start ====")
+            print(Date().description)
             queryTutorsBySubcategory(lastKnownKey: lastKnownKey)
         } else if subject != nil {
             queryTutorsBySubject(lastKnownKey: lastKnownKey)
@@ -220,9 +227,10 @@ class CategorySearchVC: UIViewController {
                     || (tutor1.rating ?? 0) > (tutor2.rating ?? 0)
             })
             self.filteredDatasource = self.datasource
+            if let filter = self.searchFilter, self.datasource.count > 0 {
+                self.applySearchFilterToDataSource(filter)
+            }
             self.collectionView.reloadData()
-            guard let filter = self.searchFilter, self.datasource.count > 0 else { return }
-            self.applySearchFilterToDataSource(filter)
         }
     }
     
@@ -231,6 +239,9 @@ class CategorySearchVC: UIViewController {
         TutorSearchService.shared.getTutorsBySubcategory(subcategory, lastKnownKey: lastKnownKey) { (tutors, loadedAllTutors) in
             self._observing = false
             self.view.hideSkeleton()
+            
+            print("=== Search End === ")
+            print(Date().description)
             
             guard let tutors = tutors else {
                 self.emptyBackground.isHidden = false
@@ -242,6 +253,9 @@ class CategorySearchVC: UIViewController {
             self.lastKey = tutors.last?.uid
             self.loadedAllTutors = loadedAllTutors
             self.datasource.append(contentsOf: tutors)
+            
+            print("=== Sort Start ===")
+            print(Date().description)
             self.datasource = self.datasource.sorted(by: { tutor1, tutor2 -> Bool in
                 var subCategoryReviews1 = 0
                 var subCategoryReviews2 = 0
@@ -267,9 +281,12 @@ class CategorySearchVC: UIViewController {
                     || (tutor1.rating ?? 0) > (tutor2.rating ?? 0)
             })
             self.filteredDatasource = self.datasource
+            if let filter = self.searchFilter, self.datasource.count > 0 {
+                self.applySearchFilterToDataSource(filter)
+            }
             self.collectionView.reloadData()
-            guard let filter = self.searchFilter, self.datasource.count > 0 else { return }
-            self.applySearchFilterToDataSource(filter)
+            print("=== Sort End ===")
+            print(Date().description)
         }
     }
     
@@ -287,6 +304,7 @@ class CategorySearchVC: UIViewController {
             self.emptyBackground.isHidden = true
             self.lastKey = tutors.last?.uid
             self.loadedAllTutors = loadedAllTutors
+            
             self.datasource.append(contentsOf: tutors)
             self.datasource = self.datasource.sorted(by: { tutor1, tutor2 -> Bool in
                 let subjectReviews1 = tutor1.reviews?.filter({ $0.subject == self.subject }).count ?? 0
@@ -297,9 +315,10 @@ class CategorySearchVC: UIViewController {
                     || (tutor1.rating ?? 0) > (tutor2.rating ?? 0)
             })
             self.filteredDatasource = self.datasource
+            if let filter = self.searchFilter, self.datasource.count > 0 {
+                self.applySearchFilterToDataSource(filter)
+            }
             self.collectionView.reloadData()
-            guard let filter = self.searchFilter, self.datasource.count > 0 else { return }
-            self.applySearchFilterToDataSource(filter)
         }
     }
     
@@ -353,20 +372,28 @@ extension CategorySearchVC: SkeletonCollectionViewDataSource {
     }
     
     func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
-        return filteredDatasource.count
+        return filteredDatasource.count + (self.loadedAllTutors ? 0 : 1)
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TutorCollectionViewCell.reuseIdentifier, for: indexPath) as! TutorCollectionViewCell
-        cell.updateUI(filteredDatasource[indexPath.item])
-        cell.profileImageViewHeightAnchor?.constant = 160
-        cell.layoutIfNeeded()
-        return cell
+        if filteredDatasource.count == indexPath.row {
+            if !_observing {
+                queryNeededTutors(lastKnownKey: lastKey)
+            }
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TutorLoadMoreCollectionViewCell.reuseIdentifier, for: indexPath)
+            return cell
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TutorCollectionViewCell.reuseIdentifier, for: indexPath) as! TutorCollectionViewCell
+            cell.updateUI(filteredDatasource[indexPath.item])
+            cell.profileImageViewHeightAnchor?.constant = 160
+            cell.layoutIfNeeded()
+            return cell
+        }
     }
 }
 
 extension CategorySearchVC: UICollectionViewDelegateFlowLayout {
-    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
+    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let screen = UIScreen.main.bounds
         return CGSize(width: (screen.width - 60) / 2, height: 225)
     }
@@ -382,19 +409,26 @@ extension CategorySearchVC: UICollectionViewDelegateFlowLayout {
 
 extension CategorySearchVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
+        guard let cell = collectionView.cellForItem(at: indexPath) as? TutorCollectionViewCell else {
+            return
+        }
+        
         cell.shrink()
     }
     
     func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
+        guard let cell = collectionView.cellForItem(at: indexPath) as? TutorCollectionViewCell else {
+            return
+        }
         UIView.animate(withDuration: 0.2) {
             cell.transform = CGAffineTransform.identity
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
+        guard let cell = collectionView.cellForItem(at: indexPath) as? TutorCollectionViewCell else {
+            return
+        }
         cell.growSemiShrink {
             guard self.filteredDatasource.count > indexPath.item else { return }
             
@@ -417,22 +451,6 @@ extension CategorySearchVC: UICollectionViewDelegate {
 extension CategorySearchVC: UISearchBarDelegate {
     internal func searchBarTextDidBeginEditing(_: UISearchBar) {
         navigationController?.pushViewController(QuickSearchVC(), animated: true)
-    }
-}
-
-extension CategorySearchVC: UIScrollViewDelegate {
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if (scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height)) {
-			
-            let currentOffset = scrollView.contentOffset.y
-            let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
-            
-            if !_observing,
-                maximumOffset - currentOffset <= 100.0 {
-                queryNeededTutors(lastKnownKey: lastKey)
-            }
-            
-        }
     }
 }
 

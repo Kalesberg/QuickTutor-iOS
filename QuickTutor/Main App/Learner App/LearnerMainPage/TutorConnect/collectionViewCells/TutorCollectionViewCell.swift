@@ -12,6 +12,7 @@ import UIKit
 import Firebase
 import SkeletonView
 import Cosmos
+import Lottie
 
 class TutorCollectionViewCell: UICollectionViewCell {
     
@@ -296,6 +297,44 @@ class TutorCollectionViewCell: UICollectionViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+class TutorLoadMoreCollectionViewCell: UICollectionViewCell {
+    let loadingView: LOTAnimationView = {
+        let lottieView = LOTAnimationView(name: "loading11")
+        lottieView.contentMode = .scaleAspectFit
+        lottieView.loopAnimation = true
+        return lottieView
+    }()
+    
+    static var reuseIdentifier: String {
+        return String(describing: TutorLoadMoreCollectionViewCell.self)
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        isSkeletonable = true
+        
+        setupViews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setupViews() {
+        contentView.addSubview(loadingView)
+        loadingView.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview()
+            make.height.equalTo(60)
+            make.width.equalToSuperview()
+        }
+        
+        contentView.backgroundColor = Colors.newScreenBackground
+        loadingView.play()
     }
 }
 
