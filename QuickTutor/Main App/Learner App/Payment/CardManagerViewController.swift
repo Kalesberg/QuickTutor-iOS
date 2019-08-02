@@ -78,6 +78,7 @@ class CardManagerViewController: UIViewController {
         if !Stripe.deviceSupportsApplePay() {
             updateApplePayDefaultStatus(false)
         }
+        
         hideTabBar(hidden: true)
     }
     
@@ -172,6 +173,9 @@ class CardManagerViewController: UIViewController {
                 self.hideLoadingAnimation()
                 if let cards = customer?.sources as? [STPCard] {
                     self.toggleAddPaymentView(hasPayment: !cards.isEmpty || Stripe.deviceSupportsApplePay())
+                    if cards.isEmpty, Stripe.deviceSupportsApplePay() {
+                        self.updateApplePayDefaultStatus(true)
+                    }
                 }
             }
         }

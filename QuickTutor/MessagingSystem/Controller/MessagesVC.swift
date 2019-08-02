@@ -214,8 +214,8 @@ class MessagesVC: UIViewController {
             }
             let message = UserMessage(dictionary: value)
             message.uid = snapshot.key
-            
-            UserFetchService.shared.getUserOfOppositeTypeWithId(message.partnerId()) { user in
+            guard let partnerId = message.partnerId() else { return }
+            UserFetchService.shared.getUserOfOppositeTypeWithId(partnerId) { user in
                 guard let user = user else { return }
                 
                 message.user = user
@@ -224,7 +224,7 @@ class MessagesVC: UIViewController {
                     message.user?.isOnline = self.userStatuses.first(where: { $0.userId == user.uid })?.status == .online
                 }
                 
-                self.conversationsDictionary[message.partnerId()] = message
+                self.conversationsDictionary[partnerId] = message
                 self.attemptReloadOfTable()
                 
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
@@ -393,11 +393,13 @@ extension MessagesVC: UIGestureRecognizerDelegate {
 
 extension MessagesVC {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? ConversationCell else { return }
+        guard let cell = collectionView.cellForItem(at: indexPath) as? ConversationCell,
+            indexPath.item <= messages.count,
+            let receiverId = messages[indexPath.item].partnerId() else { return }
         
         cell.handleTouchDown()
         let vc = ConversationVC()
-        vc.receiverId = messages[indexPath.item].partnerId()
+        vc.receiverId = receiverId
         vc.chatPartner = cell.chatPartner
         if let data = metaDataDictionary[cell.chatPartner.uid] {
             vc.metaData = data

@@ -286,8 +286,17 @@ class QTRatingReviewViewController: UIViewController {
         if CurrentUser.shared.learner.isApplePayDefault {
             // Apple Pay
             let paymentRequest = Stripe.paymentRequest(withMerchantIdentifier: Constants.APPLE_PAY_MERCHANT_ID, country: "US", currency: "USD")
+            var description = ""
+            if let subject = self.session?.subject {
+                if "quick-call" == self.session?.type {
+                    description = "QuickCall: \(subject)"
+                } else {
+                    description = "Session: \(subject)"
+                }
+            }
+            
             paymentRequest.paymentSummaryItems = [
-                PKPaymentSummaryItem.init(label: self.session?.subject ?? "", amount: NSDecimalNumber(value: Double(amount) / 100.0))
+                PKPaymentSummaryItem(label: description, amount: NSDecimalNumber(value: Double(amount) / 100.0))
             ]
             
             guard let paymentAuthorizationViewController = PKPaymentAuthorizationViewController(paymentRequest: paymentRequest) else { return }

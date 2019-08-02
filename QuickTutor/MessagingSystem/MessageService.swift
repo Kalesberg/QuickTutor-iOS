@@ -48,11 +48,12 @@ class MessageService {
         var messageDictionary: [String: Any] = ["text": text, "timestamp": timestamp, "senderId": uid, "receiverId": receiverId]
         messageDictionary["receiverAccountType"] = otherUserTypeString
         let message = UserMessage(dictionary: messageDictionary)
+        guard let partnerId = message.partnerId() else { return }
         Database.database().reference().child("messages").childByAutoId().updateChildValues(message.data) { _, ref in
             
             let messageId = ref.key!
             ref.updateChildValues(["uid": messageId])
-            self.updateConversationMetaData(message: message, partnerId: message.partnerId(), messageId: messageId)
+            self.updateConversationMetaData(message: message, partnerId: partnerId, messageId: messageId)
             let readReceiptManager = ReadReceiptManager(receiverId: receiverId)
             readReceiptManager.invalidateReadReceipt()
             completion(messageId)
@@ -92,7 +93,8 @@ class MessageService {
     
     private func sendMessage(_ message: UserMessage, toUserId receiverId: String, completion: @escaping() -> Void) {
         guard let currentUser = AccountService.shared.currentUser,
-            let uid = currentUser.uid else { return }
+            let uid = currentUser.uid,
+            let partnerId = message.partnerId() else { return }
         Database.database().reference().child("messages").childByAutoId().updateChildValues(message.data) { _, ref in
             let senderRef = Database.database().reference().child("conversations").child(uid).child(self.userTypeString).child(receiverId)
             let receiverRef = Database.database().reference().child("conversations").child(receiverId).child(self.otherUserTypeString).child(uid)
@@ -101,7 +103,7 @@ class MessageService {
             ref.updateChildValues(["uid": messageId])
             senderRef.updateChildValues([messageId: 1])
             receiverRef.updateChildValues([messageId: 1])
-            self.updateConversationMetaData(message: message, partnerId: message.partnerId(), messageId: messageId)
+            self.updateConversationMetaData(message: message, partnerId: partnerId, messageId: messageId)
             
             completion()
         }
@@ -140,6 +142,7 @@ class MessageService {
         Database.database().reference().child("sessions").childByAutoId().setValue(sessionRequest.dictionaryRepresentation) { _, ref1 in
             let messageData: [String: Any] = ["timestamp": timestamp, "senderId": uid, "receiverId": id, "sessionRequestId": ref1.key!, "receiverAccountType": self.otherUserTypeString]
             let message = UserMessage(dictionary: messageData)
+            guard let partnerId = message.partnerId() else { return }
             Database.database().reference().child("messages").childByAutoId().updateChildValues(message.data) { _, ref in
                 let senderRef = Database.database().reference().child("conversations").child(uid).child(self.userTypeString).child(id)
                 let receiverRef = Database.database().reference().child("conversations").child(id).child(self.otherUserTypeString).child(uid)
@@ -154,7 +157,7 @@ class MessageService {
                 
                 senderSessionRef.updateChildValues([ref1.key!: 1])
                 receiverSessionRef.updateChildValues([ref1.key!: 1])
-                self.updateConversationMetaData(message: message, partnerId: message.partnerId(), messageId: messageId)
+                self.updateConversationMetaData(message: message, partnerId: partnerId, messageId: messageId)
                 
             }
         }

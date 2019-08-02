@@ -117,7 +117,8 @@ class ConversationCell: SwipeCollectionViewCell {
     }
     
     func updateUI(message: UserMessage) {
-        guard let user = message.user else { return }
+        guard let user = message.user,
+            let partnerId = message.partnerId() else { return }
         chatPartner = user
         updateUsernameLabel()
         updateOnlineStatusIndicator()
@@ -125,7 +126,7 @@ class ConversationCell: SwipeCollectionViewCell {
         updateTimestampLabel(message: message)
         updateProfileImage()
         updateLastMessageLabel(message: message)
-        checkConversationReadStatus(partnerId: message.partnerId())
+        checkConversationReadStatus(partnerId: partnerId)
     }
     
     func clearData() {

@@ -56,8 +56,8 @@ class UserMessage: BaseMessage {
         }
     }
 
-    func partnerId() -> String {
-        guard let uid = Auth.auth().currentUser?.uid else { fatalError() }
+    func partnerId() -> String? {
+        guard let uid = Auth.auth().currentUser?.uid else { return nil }
         return senderId == uid ? receiverId : senderId
     }
     
