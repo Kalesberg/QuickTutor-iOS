@@ -12,10 +12,22 @@ import MessageUI
 class QuickSearchResultsVC: UIViewController {
     
     var subjects = [(String, String)]()
-    var unknownSubject: String?
+    var unknownSubject: String? {
+        didSet {
+            let collectionView = contentView.collectionView
+            if let unknownSubject = unknownSubject, !unknownSubject.isEmpty {
+                collectionView.setEmptyMessage(unknownSubject, didSubmitButtonClicked: {
+                    self.sendEmail(subject: unknownSubject)
+                })
+            } else {
+                collectionView.restoreEmptyState()
+            }
+        }
+    }
     var filteredSubjects = [(String, String)]()
     var inSearchMode = false
     var isNewQuickSearch = false
+    lazy var indicatorView: HLActivityIndicatorView = HLActivityIndicatorView()
     
     var scrollViewDraggedClosure: (() -> ())?
     
@@ -46,6 +58,12 @@ class QuickSearchResultsVC: UIViewController {
             contentView.collectionView.register(QuickSearchNewResultsCell.self,
                                                 forCellWithReuseIdentifier: QuickSearchNewResultsCell.reuseIdentifier)
         }
+        
+        contentView.addSubview(indicatorView)
+        indicatorView.translatesAutoresizingMaskIntoConstraints = false
+        indicatorView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        indicatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        indicatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
     }
     
     func setupDelegates() {
@@ -72,19 +90,12 @@ class QuickSearchResultsVC: UIViewController {
             // show failure alert
         }
     }
+    
+    
 }
 
 extension QuickSearchResultsVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if currentSubjects.count == 0 {
-            if let unknownSubject = unknownSubject, !unknownSubject.isEmpty {
-                collectionView.setEmptyMessage(unknownSubject, didSubmitButtonClicked: {
-                    self.sendEmail(subject: unknownSubject)
-                })
-            }
-        } else {
-            collectionView.restoreEmptyState()
-        }
         return currentSubjects.count
     }
     
