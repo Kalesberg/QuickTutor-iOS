@@ -172,7 +172,6 @@ class QTSubjectSearchViewController: UIViewController {
         self.child.unknownSubject = nil
         if self.child.filteredSubjects.isEmpty {
             DispatchQueue.main.async {
-                print("Search for \"\(searchText)\"")
                 self.child.indicatorView.startAnimation(updatedText: "Search for \"\(searchText)\"")
             }
         } else {
