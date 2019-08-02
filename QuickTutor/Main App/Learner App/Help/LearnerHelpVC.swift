@@ -135,9 +135,11 @@ class SectionTitle: LeftTextLabel {
         }
     }
 
-    func constrainSelf(top: ConstraintItem) {
+    func constrainSelf(top: ConstraintItem, _ noHeight: Bool = false) {
         snp.makeConstraints { make in
-            make.height.equalTo(50)
+            if !noHeight {
+                make.height.equalTo(50)
+            }
             make.width.equalToSuperview().multipliedBy(0.9)
             make.centerX.equalToSuperview()
             make.top.equalTo(top)
@@ -188,9 +190,9 @@ public class SectionBody: UILabel, BaseViewProtocol {
 
     func applyConstraints() {}
 
-    func constrainSelf(top: ConstraintItem) {
+    func constrainSelf(top: ConstraintItem, _ topMargin: Int = 0) {
         snp.makeConstraints { make in
-            make.top.equalTo(top)
+            make.top.equalTo(top).offset(topMargin)
             make.width.equalToSuperview().multipliedBy(0.9)
             make.centerX.equalToSuperview()
         }
@@ -202,7 +204,7 @@ class LearnerHelpVC: BaseViewController {
         return view as! LearnerHelpView
     }
 
-    var options = ["Account & Payments", "QuickTutor Guide", "Learner Handbook"]
+    var options = ["Account & payments", "Guide", "Handbook"]
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -31,4 +31,5 @@ extension UIColor {
     static var qtWoodsmokeColor = UIColor(hex: "16161e")
     static var qtSteelGrayColor = UIColor(hex: "1b1b26")
     static var qtAccentColor = UIColor(hex: "6462c9")
+    static var qtVioletColor = UIColor(hex: "6462C2")
 }

@@ -10,21 +10,34 @@ import Foundation
 import UIKit
 
 class PaymentDeclinedView: MainLayoutHeader {
-    var paymentDeclinedBody = SectionBody()
-    var paymentDeclinedBody2 = SectionBody()
+    var debitCardTitle = SectionTitle()
+    var debitCardBody = SectionBody()
+    var applePayTitle = SectionTitle()
+    var applePayBody = SectionBody()
+    
     var strings: [String] = []
 
     override func configureView() {
-        addSubview(paymentDeclinedBody)
-        addSubview(paymentDeclinedBody2)
+        addSubview(debitCardTitle)
+        addSubview(debitCardBody)
+        addSubview(applePayTitle)
+        addSubview(applePayBody)
+        
         super.configureView()
 
         header.text = "Why was my payment declined?"
-
-        strings = ["•  “Card Declined”.\n", "•  “Payment method invalid. Please review your settings.”\n", "•  “Transaction error.”"]
-
-        let attributesDictionary: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: paymentDeclinedBody.font]
-        let fullAttributedString = NSMutableAttributedString(string: "You’ll be unable to request a session with a tutor if your payment for a past session was declined by your debit or credit card.\n\nIf one of the following error messages was displayed when you attempted to request a session, your payment method may have declined the transaction.\n\n", attributes: attributesDictionary)
+        debitCardTitle.label.text = "Debit/Credit Card"
+        debitCardBody.text = "You will be unable to add a payment method on file or receive any in-app services (sessions, calls, in-app features, products if your debit/credit card is invalid."
+        
+        applePayTitle.label.text = "Apple Pay"
+        let attributesDictionary: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: applePayBody.font]
+        let fullAttributedString = NSMutableAttributedString(string: "You will be unable to facilitate transactions if your Apple Pay payment method is not verified with your bank. Please check your Wallet app or contact your financial institution regarding any issues with your Apple Pay payment method.\n\nIf one of the following error messages was displayed when you attempted to add a payment method or pay for a session, your payment method may have declined the verification or transaction.\n\n", attributes: attributesDictionary)
+        
+        strings = ["1.  Card declined.\n",
+            "2.  Payment method invalid. Please review your settings.\n",
+            "3.  Transaction error.\n",
+            "4.  Payment method invalid.\n",
+            "5.  Sorry, invalid card data. Please try again!\n\n"]
 
         for string: String in strings {
             let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: string)
@@ -34,17 +47,18 @@ class PaymentDeclinedView: MainLayoutHeader {
 
             fullAttributedString.append(attributedString)
         }
-
-        paymentDeclinedBody.attributedText = fullAttributedString
-
-        paymentDeclinedBody2.text = "\nMost of the time, adding a new payment method may resolve the issue. Just in case that doesn’t work, we have listed some additional possible scenarios that may be occurring so you can better resolve the issue."
+        
+        fullAttributedString.append(NSAttributedString(string: "Most of the time, adding a new payment method will resolve your issues.", attributes: attributesDictionary))
+        applePayBody.attributedText = fullAttributedString
     }
 
     override func applyConstraints() {
         super.applyConstraints()
 
-        paymentDeclinedBody.constrainSelf(top: header.snp.bottom)
-        paymentDeclinedBody2.constrainSelf(top: paymentDeclinedBody.snp.bottom)
+        debitCardTitle.constrainSelf(top: header.snp.bottom)
+        debitCardBody.constrainSelf(top: debitCardTitle.snp.bottom)
+        applePayTitle.constrainSelf(top: debitCardBody.snp.bottom)
+        applePayBody.constrainSelf(top: applePayTitle.snp.bottom)
     }
 }
 
@@ -55,7 +69,7 @@ class PaymentDeclinedVC: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Help"
+        navigationItem.title = "Payment declined"
     }
 
     override func loadView() {

@@ -63,6 +63,8 @@
 		5669A5CE229D8EE5007B3202 /* QTTutorPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5669A5CB229D8EE5007B3202 /* QTTutorPolicyViewController.swift */; };
 		5669A5CF229D8EE5007B3202 /* QTTutorPolicyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5669A5CC229D8EE5007B3202 /* QTTutorPolicyViewController.xib */; };
 		5669A5D0229D8EE5007B3202 /* QTTutorPolicyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5669A5CC229D8EE5007B3202 /* QTTutorPolicyViewController.xib */; };
+		567C56B022F3365F00B06D40 /* Lato-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 567C56AF22F3365F00B06D40 /* Lato-BoldItalic.ttf */; };
+		567C56B122F3365F00B06D40 /* Lato-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 567C56AF22F3365F00B06D40 /* Lato-BoldItalic.ttf */; };
 		567E1A082270BE310094E371 /* QTCloseAccountReasonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567E1A062270BE310094E371 /* QTCloseAccountReasonViewController.swift */; };
 		567E1A092270BE310094E371 /* QTCloseAccountReasonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567E1A062270BE310094E371 /* QTCloseAccountReasonViewController.swift */; };
 		567E1A0A2270BE310094E371 /* QTCloseAccountReasonViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 567E1A072270BE310094E371 /* QTCloseAccountReasonViewController.xib */; };
@@ -555,7 +557,6 @@
 		569F18D0223554FD00820A20 /* QTTutorDashboardTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 569ECDB321F9B682005491CB /* QTTutorDashboardTableViewCell.xib */; };
 		569F18D1223554FD00820A20 /* languages.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8423F73E214B60E900B3E4D0 /* languages.txt */; };
 		569F18D2223554FD00820A20 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56DC6D8E220BD7DF00935F47 /* Lato-Bold.ttf */; };
-		569F18D3223554FD00820A20 /* Lato-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56DC6D8F220BD7DF00935F47 /* Lato-BoldItalic.ttf */; };
 		569F18D4223554FD00820A20 /* tech.json in Resources */ = {isa = PBXBuildFile; fileRef = 84257677207132DD00FD295B /* tech.json */; };
 		569F18D6223554FD00820A20 /* schools.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84681F9F204B63DC00F45DFC /* schools.txt */; };
 		569F18D7223554FD00820A20 /* QTLocationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 564B6C1C222D83D5004A9EB7 /* QTLocationsViewController.xib */; };
@@ -649,7 +650,6 @@
 		56DC6D9A220BD7DF00935F47 /* Lato-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56DC6D8C220BD7DF00935F47 /* Lato-Black.ttf */; };
 		56DC6D9B220BD7DF00935F47 /* Lato-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56DC6D8D220BD7DF00935F47 /* Lato-BlackItalic.ttf */; };
 		56DC6D9C220BD7DF00935F47 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56DC6D8E220BD7DF00935F47 /* Lato-Bold.ttf */; };
-		56DC6D9D220BD7DF00935F47 /* Lato-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56DC6D8F220BD7DF00935F47 /* Lato-BoldItalic.ttf */; };
 		56DC6D9E220BD7DF00935F47 /* Lato-Hairline.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56DC6D90220BD7DF00935F47 /* Lato-Hairline.ttf */; };
 		56DC6D9F220BD7DF00935F47 /* Lato-HairlineItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56DC6D91220BD7DF00935F47 /* Lato-HairlineItalic.ttf */; };
 		56DC6DA0220BD7DF00935F47 /* Lato-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56DC6D92220BD7DF00935F47 /* Lato-Heavy.ttf */; };
@@ -1315,6 +1315,7 @@
 		564DD5BD2285C53F00912E36 /* QTRequestQuickCallViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTRequestQuickCallViewController.xib; sourceTree = "<group>"; };
 		5669A5CB229D8EE5007B3202 /* QTTutorPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorPolicyViewController.swift; sourceTree = "<group>"; };
 		5669A5CC229D8EE5007B3202 /* QTTutorPolicyViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTTutorPolicyViewController.xib; sourceTree = "<group>"; };
+		567C56AF22F3365F00B06D40 /* Lato-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-BoldItalic.ttf"; sourceTree = "<group>"; };
 		567E1A062270BE310094E371 /* QTCloseAccountReasonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTCloseAccountReasonViewController.swift; sourceTree = "<group>"; };
 		567E1A072270BE310094E371 /* QTCloseAccountReasonViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTCloseAccountReasonViewController.xib; sourceTree = "<group>"; };
 		567E1A0E2270C0350094E371 /* QTCloseAccountReasonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTCloseAccountReasonTableViewCell.swift; sourceTree = "<group>"; };
@@ -1389,7 +1390,6 @@
 		56DC6D8C220BD7DF00935F47 /* Lato-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Black.ttf"; sourceTree = "<group>"; };
 		56DC6D8D220BD7DF00935F47 /* Lato-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-BlackItalic.ttf"; sourceTree = "<group>"; };
 		56DC6D8E220BD7DF00935F47 /* Lato-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Bold.ttf"; sourceTree = "<group>"; };
-		56DC6D8F220BD7DF00935F47 /* Lato-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-BoldItalic.ttf"; sourceTree = "<group>"; };
 		56DC6D90220BD7DF00935F47 /* Lato-Hairline.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Hairline.ttf"; sourceTree = "<group>"; };
 		56DC6D91220BD7DF00935F47 /* Lato-HairlineItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-HairlineItalic.ttf"; sourceTree = "<group>"; };
 		56DC6D92220BD7DF00935F47 /* Lato-Heavy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Heavy.ttf"; sourceTree = "<group>"; };
@@ -2245,10 +2245,10 @@
 		56DC6D8B220BD7DF00935F47 /* Lato */ = {
 			isa = PBXGroup;
 			children = (
+				567C56AF22F3365F00B06D40 /* Lato-BoldItalic.ttf */,
 				56DC6D8C220BD7DF00935F47 /* Lato-Black.ttf */,
 				56DC6D8D220BD7DF00935F47 /* Lato-BlackItalic.ttf */,
 				56DC6D8E220BD7DF00935F47 /* Lato-Bold.ttf */,
-				56DC6D8F220BD7DF00935F47 /* Lato-BoldItalic.ttf */,
 				56DC6D90220BD7DF00935F47 /* Lato-Hairline.ttf */,
 				56DC6D91220BD7DF00935F47 /* Lato-HairlineItalic.ttf */,
 				56DC6D92220BD7DF00935F47 /* Lato-Heavy.ttf */,
@@ -3947,7 +3947,6 @@
 				569F18D2223554FD00820A20 /* Lato-Bold.ttf in Resources */,
 				BE817220229C724A0089FA1E /* quickcalls_ringtone.mp3 in Resources */,
 				561003B92242BCC100A4688F /* QTInPersonSessionViewController.xib in Resources */,
-				569F18D3223554FD00820A20 /* Lato-BoldItalic.ttf in Resources */,
 				BEC6987E229E4CA400F970EE /* CVVModal.xib in Resources */,
 				931C71EF227E4E1C003C86F8 /* PaymentCardTableViewCell.xib in Resources */,
 				569F18D4223554FD00820A20 /* tech.json in Resources */,
@@ -3981,6 +3980,7 @@
 				CFE43E17223AD56F00BF1F71 /* loadingNew.json in Resources */,
 				9359CED7227BEF92008E9FB1 /* ProcessingFeeModal.xib in Resources */,
 				569F18E5223554FD00820A20 /* QTRatingReviewCollectionViewCell.xib in Resources */,
+				567C56B122F3365F00B06D40 /* Lato-BoldItalic.ttf in Resources */,
 				56BE7E7722CFD88C0052BBE7 /* QTRecentSearchTableViewCell.xib in Resources */,
 				569F18E6223554FD00820A20 /* loading6.json in Resources */,
 				569F18E7223554FD00820A20 /* Lato-Semibold.ttf in Resources */,
@@ -4058,7 +4058,6 @@
 				561003BE2242D23600A4688F /* QTPastSessionsViewController.xib in Resources */,
 				56DC6D9C220BD7DF00935F47 /* Lato-Bold.ttf in Resources */,
 				564C429322A0293B00FC8AE1 /* QTPastSessionSectionHeaderView.xib in Resources */,
-				56DC6D9D220BD7DF00935F47 /* Lato-BoldItalic.ttf in Resources */,
 				BE81721F229C724A0089FA1E /* quickcalls_ringtone.mp3 in Resources */,
 				561003B72242A9AF00A4688F /* QTInPersonSessionViewController.xib in Resources */,
 				84257678207132DD00FD295B /* tech.json in Resources */,
@@ -4095,6 +4094,7 @@
 				CFE43E16223AD56F00BF1F71 /* loadingNew.json in Resources */,
 				9359CED6227BEF92008E9FB1 /* ProcessingFeeModal.xib in Resources */,
 				568B82DB222540AE004DF011 /* QTRatingReviewCollectionViewCell.xib in Resources */,
+				567C56B022F3365F00B06D40 /* Lato-BoldItalic.ttf in Resources */,
 				56BE7E7622CFD88C0052BBE7 /* QTRecentSearchTableViewCell.xib in Resources */,
 				840E4E04213761C10045CD35 /* loading6.json in Resources */,
 				56DC6DA6220BD7DF00935F47 /* Lato-Semibold.ttf in Resources */,

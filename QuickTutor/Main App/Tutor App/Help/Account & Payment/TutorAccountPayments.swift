@@ -14,10 +14,13 @@ class TutorAccountPayments: BaseViewController {
         return view as! AccountPaymentsView
     }
 
-    var options = ["Changing my account information", "Updating a payment method", "Payments and earnings", "I forgot my password", "I have another question"]
+    var options = ["Changing my account information", "Updating a payout method", "Payouts and earnings", "I forgot my password", "I have another question"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.title = "Accounts & payments"
+        
         contentView.tableView.dataSource = self
         contentView.tableView.delegate = self
         contentView.tableView.register(CustomHelpTableViewCell.self, forCellReuseIdentifier: "accountPaymentsCell")

@@ -83,7 +83,7 @@ class AnotherQuestionVC: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Help"
+        navigationItem.title = "I have another question"
 
         contentView.textView.becomeFirstResponder()
     }

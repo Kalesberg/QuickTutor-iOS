@@ -28,4 +28,8 @@ extension UIFont {
     class func qtRegularFont(size: CGFloat) -> UIFont {
         return UIFont(name: "Lato-Regular", size: size) ?? UIFont.systemFont(ofSize: size)
     }
+    
+    class func qtBoldItalicFont(size: CGFloat) -> UIFont {
+        return UIFont(name: "Lato-BoldItalic", size: size) ?? UIFont.boldSystemFont(ofSize: size)
+    }
 }
