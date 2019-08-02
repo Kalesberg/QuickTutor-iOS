@@ -27,6 +27,7 @@ class ConversationCell: SwipeCollectionViewCell {
         label.font = Fonts.createBlackSize(16)
         label.textColor = .white
         label.isSkeletonable = true
+        label.linesCornerRadius = 4
         return label
     }()
     
@@ -36,6 +37,7 @@ class ConversationCell: SwipeCollectionViewCell {
         label.font = Fonts.createBoldSize(12)
         label.textColor = UIColor.white.withAlphaComponent(0.5)
         label.isSkeletonable = true
+        label.linesCornerRadius = 4
         return label
     }()
     
