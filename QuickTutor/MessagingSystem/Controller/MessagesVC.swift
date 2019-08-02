@@ -332,8 +332,11 @@ class MessagesVC: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        collectionView.reloadData() // Reload cells to remove UI state changes
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.6) {
+            self.collectionView.reloadData() // Reload cells to remove UI state changes
+        }
     }
+    
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -394,7 +397,6 @@ extension MessagesVC: UIGestureRecognizerDelegate {
 extension MessagesVC {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? ConversationCell else { return }
-        
         cell.handleTouchDown()
         let vc = ConversationVC()
         vc.receiverId = messages[indexPath.item].partnerId()
