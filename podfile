@@ -21,10 +21,10 @@ abstract_target 'QuickTutorApp' do
         pod 'ObjectMapper', '~> 3.4'
 
         # Pods for backend
-        pod 'Alamofire', '~>4.5'
+        pod 'Alamofire', '~> 4.5'
         pod 'SwiftKeychainWrapper'
         pod 'GeoFire'
-        pod 'Stripe'
+        pod 'Stripe', '~> 15.0'
 
         # Pods for Facebook
         pod 'AccountKit'

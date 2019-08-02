@@ -12,8 +12,10 @@ import UIKit
 class UpdatePaymentView: MainLayoutHeaderScroll {
     var addPaymentTitle = SectionTitle()
     var addPaymentBody = SectionBody()
-    var scanCardTitle = SectionTitle()
-    var scanCardBody = SectionBody()
+    var removingPaymentTitle = SectionTitle()
+    var removingPaymentBody = SectionBody()
+    var changingDefaultTitle = SectionTitle()
+    var changingDefaultBody = SectionBody()
     var updateCardTitle = SectionTitle()
     var updateCardBody = SectionBody()
     var strings: [String] = []
@@ -21,23 +23,26 @@ class UpdatePaymentView: MainLayoutHeaderScroll {
     override func configureView() {
         scrollView.addSubview(addPaymentTitle)
         scrollView.addSubview(addPaymentBody)
-        scrollView.addSubview(scanCardBody)
-        scrollView.addSubview(scanCardTitle)
+        scrollView.addSubview(removingPaymentTitle)
+        scrollView.addSubview(removingPaymentBody)
+        scrollView.addSubview(changingDefaultTitle)
+        scrollView.addSubview(changingDefaultBody)
         scrollView.addSubview(updateCardTitle)
         scrollView.addSubview(updateCardBody)
         super.configureView()
 
-        header.label.text = "Updating a payment method"
+        header.label.text = "Payment methods"
 
-        addPaymentTitle.label.text = "ADD A PAYMENT METHOD"
-
-        strings = ["1.  Tap the three lines in the top left corner of the home page.\n",
-                   "2.  Select payment from the side bar menu.\n",
-                   "3.  Tap \"Add Payment Method\".\n",
-                   "4.  Add a payment method by manually entering your card information.\n"]
+        addPaymentTitle.label.text = "To add a payment method:"
 
         let attributesDictionary: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: addPaymentBody.font]
-        var fullAttributedString = NSMutableAttributedString(string: "Adding a payment method will allow you to connect, communicate and schedule sessions with tutors.\n\nYou can add payment methods such as debit or credit cards. When a session ends, your payment method is charged in accordance to the session price and length of the session.\n\n", attributes: attributesDictionary)
+        var fullAttributedString = NSMutableAttributedString(string: "Adding a payment method will allow you to pay for sessions and calls with tutors. You must have a payment method to enter a session or QuickCall with a tutor.\n\n", attributes: attributesDictionary)
+        
+        strings = ["1.  Tap the profile icon in the bottom right corner of your screen (on your tab bar).\n",
+                   "2.  Tap the “Payment” option from your option menu.\n",
+                   "3.  Tap the \"add new\" button.\n",
+                   "4.  Select a type of payment method (add debit or credit card).\n",
+                   "5.  Add your selected payment method by manually entering your card information or scanning your card.\n\n"]
 
         for string: String in strings {
             let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: string)
@@ -48,30 +53,21 @@ class UpdatePaymentView: MainLayoutHeaderScroll {
             fullAttributedString.append(attributedString)
         }
 
+        fullAttributedString.append(NSAttributedString(string: "When your session or call ends, your payment method is charged in accordance with the session/QuickCall price and total duration. Please review our Payments Terms of Service if you have any further questions regarding payments.", attributes: attributesDictionary))
+        
         addPaymentBody.attributedText = fullAttributedString
 
-        scanCardTitle.label.text = "SCAN A DEBIT OR CREDIT CARD"
+        removingPaymentTitle.label.text = "Removing a payment method:"
+        removingPaymentBody.text = "To remove a payment method, simply swipe on the payment method in your payment screen and tap the red trashcan icon."
 
-        strings = ["1.  To scan a card, tap the camera icon. Your phone may ask permission for QuickTutor to use your camera.\n", "2.  Center your camera on the phone’s screen so that the entire card is visible and all four corners flash green.\n", "3.  Enter the card’s expiration date, CVV number, and billing ZIP or postal code."]
+        changingDefaultTitle.label.text = "Changing your default payment method:"
+        changingDefaultBody.text = "To change your default payment method (only applies if you have more than one payment method on file) simply tap on the payment method and then select the “set as default” option on the bottom of your screen."
+        
+        updateCardTitle.label.text = "Updating card info"
 
-        fullAttributedString = NSMutableAttributedString(string: "", attributes: attributesDictionary)
-
-        for string: String in strings {
-            let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: string)
-
-            let paragraphStyle = createParagraphAttribute()
-            attributedString.addAttributes([NSAttributedString.Key.paragraphStyle: paragraphStyle], range: NSMakeRange(0, attributedString.length))
-
-            fullAttributedString.append(attributedString)
-        }
-
-        scanCardBody.attributedText = fullAttributedString
-
-        updateCardTitle.label.text = "UPDATING CARD INFO"
-
-        strings = ["1.  Tap the three lines in the top left corner of the home page.\n",
-                   "2.  Select payment from the side bar menu.\n",
-                   "3.  Make changes, then tap save when you’re done.\n"]
+        strings = ["1.  Tap the profile icon in the bottom right corner of your screen (on your tab bar).\n",
+                   "2.  Tap the \"Payment\" bar from your option menu.\n",
+                   "3.  Make changes.\n"]
 
         fullAttributedString = NSMutableAttributedString(string: "", attributes: attributesDictionary)
 
@@ -91,15 +87,15 @@ class UpdatePaymentView: MainLayoutHeaderScroll {
         super.applyConstraints()
 
         addPaymentTitle.constrainSelf(top: header.snp.bottom)
-
         addPaymentBody.constrainSelf(top: addPaymentTitle.snp.bottom)
 
-        // scanCardTitle.constrainSelf(top: addPaymentBody.snp.bottom)
+        removingPaymentTitle.constrainSelf(top: addPaymentBody.snp.bottom)
+        removingPaymentBody.constrainSelf(top: removingPaymentTitle.snp.bottom)
+        
+        changingDefaultTitle.constrainSelf(top: removingPaymentBody.snp.bottom)
+        changingDefaultBody.constrainSelf(top: changingDefaultTitle.snp.bottom)
 
-        // scanCardBody.constrainSelf(top: scanCardTitle.snp.bottom)
-
-        updateCardTitle.constrainSelf(top: addPaymentBody.snp.bottom)
-
+        updateCardTitle.constrainSelf(top: changingDefaultBody.snp.bottom)
         updateCardBody.constrainSelf(top: updateCardTitle.snp.bottom)
     }
 }
@@ -111,7 +107,7 @@ class UpdatePaymentVC: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Help"
+        navigationItem.title = "Payment methods"
         contentView.layoutIfNeeded()
     }
     

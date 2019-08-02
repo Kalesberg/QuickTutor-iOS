@@ -18,14 +18,14 @@ class QTGuideVC: BaseViewController {
         return view as! QTGuideView
     }
 
-    var options = ["Searching for a Tutor", "Connections", "Sessions"]
+    var options = ["Searching", "Connecting", "Learning"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
         contentView.tableView.dataSource = self
         contentView.tableView.delegate = self
         contentView.tableView.register(CustomHelpTableViewCell.self, forCellReuseIdentifier: "qtGuideCell")
-        navigationItem.title = "QuickTutor Guide"
+        navigationItem.title = "Guide"
     }
 
     override func loadView() {
