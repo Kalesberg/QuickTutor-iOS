@@ -26,21 +26,18 @@ class PaymentOptionsView: MainLayoutHeaderScroll {
         scrollView.addSubview(gratuityBody)
         super.configureView()
 
-        header.label.text = "Payouts & earnings"
+        header.label.text = "Payment options"
 
-        cardTitle.label.text = "Payouts (direct deposit)"
+        cardTitle.label.text = "Debit and Credit Card"
         let attributesDictionary: [NSAttributedString.Key: Any] = [.font: cardBody.font]
-        let fullAttributedString = NSMutableAttributedString(string: "QuickTutor instantly deposits your earnings to all major US banks through Stripe API. However, in some cases a payout may take two-to-three days depending on your bank or credit union’s policies and procedures.\n\nFeel free to contact us at ", attributes: attributesDictionary)
-        fullAttributedString.append(NSAttributedString(string: "support@quicktutor.com", attributes: [.font: UIFont.qtBoldFont(size: 14), .foregroundColor: UIColor(hex: "6362C1")]))
-        fullAttributedString.append(NSAttributedString(string: " if you have any questions regarding a payout method or feel you have not been compensated properly for your services and we will resolve your issue within 72 hours.", attributes: attributesDictionary))
-        
+        let fullAttributedString = NSMutableAttributedString(string: "QuickTutor operates with Stripe API, which handles billions of dollars every year for forward-thinking businesses around the world. Entering your debit and credit card information is always a safe and secure way to pay for anything on QuickTutor.", attributes: attributesDictionary)
         cardBody.attributedText = fullAttributedString
 
-        cashTitle.label.text = "Cash"
-        cashBody.text = "QuickTutor is designed for cashless exchanges. After every transaction, your earnings will be direct deposited to you, your receipt is then emailed to you, and your sessions tab is updated under the \"past\" section with all the details regarding the transaction."
+        cashTitle.label.text = "Apple Pay"
+        cashBody.text = "QuickTutor is also Apple Pay integrated, allowing you to use your Apple Wallet to pay for anything on QuickTutor."
 
-        gratuityTitle.label.text = "Gratuity"
-        gratuityBody.text = "You are allowed to ask for tips as a tutor. However, being tip is not required and any aggressive behavior regarding tipping will not be tolerated. Giving a tip is completely optional. Tips are added to the total of your earnings and are still subject to the QuickTutor service fee ($2.00 + 10% of the total)."
+        gratuityTitle.label.text = "Cash & Gratuity"
+        gratuityBody.text = "QuickTutor is a cashless experience. To avoid fraud and numerous potential discrepancies, do not pay tutors for their services outside of the app. However, feel free to tip your tutor with cash after in-person learning sessions."
     }
 
     override func applyConstraints() {
@@ -67,7 +64,7 @@ class PaymentOptionsVC: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Payouts and earnings"
+        navigationItem.title = "Payment options"
         contentView.layoutIfNeeded()
     }
     

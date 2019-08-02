@@ -23,6 +23,7 @@ class TutorSessionsView: MainLayoutHeaderScroll {
     var inSessionBody = SectionBody()
     var reportSessionTitle = SectionTitle()
     var reportSessionBody = SectionBody()
+    var reportSessionTermsBody = SectionBody()
     var postSessionTitle = SectionTitle()
     var postSessionBody = SectionBody()
     var quickCallsTitle = SectionTitle()
@@ -31,7 +32,9 @@ class TutorSessionsView: MainLayoutHeaderScroll {
     var quickCallRateBody = SectionBody()
     
     var strings: [String] = []
-
+    var communityGuidelinesRange: NSRange?
+    var termsOfUseRange: NSRange?
+    
     override func configureView() {
         scrollView.addSubview(acceptSessionTitle)
         scrollView.addSubview(twoWaysSubtitle)
@@ -46,6 +49,7 @@ class TutorSessionsView: MainLayoutHeaderScroll {
         scrollView.addSubview(inSessionBody)
         scrollView.addSubview(reportSessionTitle)
         scrollView.addSubview(reportSessionBody)
+        scrollView.addSubview(reportSessionTermsBody)
         scrollView.addSubview(postSessionTitle)
         scrollView.addSubview(postSessionBody)
         scrollView.addSubview(quickCallsTitle)
@@ -107,12 +111,23 @@ class TutorSessionsView: MainLayoutHeaderScroll {
             
             fullAttributedString.append(attributedString)
         }
-        fullAttributedString.append(NSAttributedString(string: "We will respond to your report within 72 hours.\n\nVisit our ", attributes: attributesDictionary))
-        fullAttributedString.append(NSAttributedString(string: "Community Guidelines", attributes: [.font: UIFont.qtBoldFont(size: 14), .foregroundColor: UIColor(hex: "6362C1")]))
-        fullAttributedString.append(NSAttributedString(string: " or ", attributes: attributesDictionary))
-        fullAttributedString.append(NSAttributedString(string: "Service Terms of Use", attributes: [.font: UIFont.qtBoldFont(size: 14), .foregroundColor: UIColor(hex: "6362C1")]))
-        fullAttributedString.append(NSAttributedString(string: " to learn more about our rules, regulations and reportable in-app offenses.", attributes: attributesDictionary))
+        fullAttributedString.append(NSAttributedString(string: "We will respond to your report within 72 hours.\n", attributes: attributesDictionary))
         reportSessionBody.attributedText = fullAttributedString
+        
+        attributesDictionary = [.font: reportSessionTermsBody.font]
+        fullAttributedString = NSMutableAttributedString(string: "Visit our ", attributes: attributesDictionary)
+        
+        let guidelinesString = NSAttributedString(string: "Community Guidelines", attributes: [.font: UIFont.qtBoldFont(size: 14), .foregroundColor: UIColor.qtVioletColor])
+        fullAttributedString.append(guidelinesString)
+        communityGuidelinesRange = (fullAttributedString.string as NSString).range(of: guidelinesString.string)
+        
+        fullAttributedString.append(NSAttributedString(string: " or ", attributes: attributesDictionary))
+        let termsOfUseString = NSAttributedString(string: "Service Terms of Use", attributes: [.font: UIFont.qtBoldFont(size: 14), .foregroundColor: UIColor.qtVioletColor])
+        fullAttributedString.append(termsOfUseString)
+        termsOfUseRange = (fullAttributedString.string as NSString).range(of: termsOfUseString.string)
+        
+        fullAttributedString.append(NSAttributedString(string: " to learn more about our rules, regulations and reportable in-app offenses.", attributes: attributesDictionary))
+        reportSessionTermsBody.attributedText = fullAttributedString
         
         postSessionTitle.label.text = "Post-session"
 
@@ -141,7 +156,8 @@ class TutorSessionsView: MainLayoutHeaderScroll {
         inSessionBody.constrainSelf(top: inSessionTitle.snp.bottom)
         reportSessionTitle.constrainSelf(top: inSessionBody.snp.bottom)
         reportSessionBody.constrainSelf(top: reportSessionTitle.snp.bottom)
-        postSessionTitle.constrainSelf(top: reportSessionBody.snp.bottom)
+        reportSessionTermsBody.constrainSelf(top: reportSessionBody.snp.bottom)
+        postSessionTitle.constrainSelf(top: reportSessionTermsBody.snp.bottom)
         postSessionBody.constrainSelf(top: postSessionTitle.snp.bottom)
         quickCallsTitle.constrainSelf(top: postSessionBody.snp.bottom)
         quickCallsBody.constrainSelf(top: quickCallsTitle.snp.bottom)
@@ -157,8 +173,11 @@ class TutorSessions: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Sessions"
+        navigationItem.title = "Teaching"
         contentView.layoutIfNeeded()
+        
+        contentView.reportSessionTermsBody.isUserInteractionEnabled = true
+        contentView.reportSessionTermsBody.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(_:))))
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -168,6 +187,20 @@ class TutorSessions: BaseViewController {
 
     override func loadView() {
         view = TutorSessionsView()
+    }
+    
+    @objc
+    func handleTapGesture(_ gesture: UITapGestureRecognizer) {
+        guard let communityGuidelinesRange = contentView.communityGuidelinesRange,
+            let termsOfUseRange = contentView.termsOfUseRange else { return }
+        
+        if gesture.didTapAttributedTextInLabel(label: contentView.reportSessionTermsBody, inRange: communityGuidelinesRange) {
+            showCommunityGuidelines()
+        }
+        
+        if gesture.didTapAttributedTextInLabel(label: contentView.reportSessionTermsBody, inRange: termsOfUseRange) {
+            showTermsOfUse()
+        }
     }
 
 }

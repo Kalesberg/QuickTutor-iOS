@@ -20,6 +20,8 @@ class AccountInfoView: MainLayoutHeaderScroll {
     var profilePictureBody = SectionBody()
     var strings: [String] = []
 
+    var forgotPasswordRange: NSRange?
+    
     override func configureView() {
         scrollView.addSubview(infoChangeTitle)
         scrollView.addSubview(infoChangeBody)
@@ -37,7 +39,7 @@ class AccountInfoView: MainLayoutHeaderScroll {
         var attributesDictionary: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: infoChangeBody.font]
         var fullAttributedString = NSMutableAttributedString(string: "To update or change your name, biography, email or the languages you speak:\n\n", attributes: attributesDictionary)
         
-        strings = ["1.  Tap the profile icon in the bottom right corner of your screen (on your tab bar).\n\n", "2.  Tap \"view profile\" which is located just above your switch mode button (learner mode button). \n\n", "3.  Tap the pencil icon in the top right corner of your screen.\n\n", "4.  Tap on any information you’d like to change and then tap the checkmark when you are finished making changes.\n"]
+        strings = ["1.  Tap the profile icon in the bottom right corner of your screen (on your tab bar).\n\n", "2.  Tap \"view profile\" which is located just above your switch mode button.\n\n", "3.  Tap the pencil icon in the top right corner of your screen.\n\n", "4.  Tap on any information you’d like to change and then tap the checkmark when you are finished making changes.\n"]
 
         for string: String in strings {
             let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: string)
@@ -54,19 +56,21 @@ class AccountInfoView: MainLayoutHeaderScroll {
         passwordTitle.label.text = "Password"
         attributesDictionary = [NSAttributedString.Key.font: passwordBody.font]
         fullAttributedString = NSMutableAttributedString(string: "If you forget your password, please visit the ", attributes: attributesDictionary)
-        fullAttributedString.append(NSAttributedString(string: "forgot your password", attributes: [.font : UIFont.qtBoldItalicFont(size: 14)]))
+        let forgotPasswordString = NSAttributedString(string: "forgot your password", attributes: [.font : UIFont.qtBoldItalicFont(size: 14), .foregroundColor: UIColor.qtVioletColor])
+        fullAttributedString.append(forgotPasswordString)
+        forgotPasswordRange = (fullAttributedString.string as NSString).range(of: forgotPasswordString.string)
         
         fullAttributedString.append(NSAttributedString(string: " page from the Accounts & Payments help menu (previous screen) and follow the instructions detailed there.", attributes: attributesDictionary))
         passwordBody.attributedText = fullAttributedString
-
+        
         profilePictureTitle.label.text = "Profile picture(s)"
         
         attributesDictionary = [NSAttributedString.Key.font: UIFont.qtBoldFont(size: 14)]
         fullAttributedString = NSMutableAttributedString(string: "To change or add a profile picture:\n\n", attributes: attributesDictionary)
 
         strings = ["1.  Tap the profile icon in the bottom right corner of your screen (on your tab bar).\n\n",
-                   "2.  Tap \"view profile\" which is located just above \"learner mode\".\n\n",
-                   "3.  Tap on any photo(s) or circle icons with a plus symbol and then select \"take photo\",\"camera roll\" or \"remove\" to select a photo to upload or remove a photo.\n\n"]
+                   "2.  Tap the \"view profile\" button.\n\n",
+                   "3.  Tap on any photo(s) or circle icons with a plus symbol and then select \"take photo\", \"camera roll\" or \"remove\" to select a photo to upload or remove a photo.\n\n"]
         
         attributesDictionary = [NSAttributedString.Key.font: profilePictureBody.font]
         for string: String in strings {
@@ -111,6 +115,8 @@ class AccountInfoVC: BaseViewController {
         super.viewDidLoad()
         navigationItem.title = "Info changes"
         contentView.layoutIfNeeded()
+        contentView.passwordBody.isUserInteractionEnabled = true
+        contentView.passwordBody.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(_:))))
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -122,4 +128,12 @@ class AccountInfoVC: BaseViewController {
         view = AccountInfoView()
     }
 
+    @objc
+    func handleTapGesture(_ gesture: UITapGestureRecognizer) {
+        guard let forgotPasswordRange = contentView.forgotPasswordRange else { return }
+        
+        if gesture.didTapAttributedTextInLabel(label: contentView.passwordBody, inRange: forgotPasswordRange) {
+            showForgotPasswordScreen()
+        }
+    }
 }

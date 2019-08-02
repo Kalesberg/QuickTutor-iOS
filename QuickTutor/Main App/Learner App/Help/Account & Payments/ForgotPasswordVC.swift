@@ -77,7 +77,7 @@ class ForgotPasswordVC: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Help"
+        navigationItem.title = "Forgot password"
     }
 
     override func loadView() {
