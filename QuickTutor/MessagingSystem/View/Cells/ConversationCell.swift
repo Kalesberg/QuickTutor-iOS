@@ -98,7 +98,7 @@ class ConversationCell: SwipeCollectionViewCell {
         lastMessageLabel.snp.makeConstraints { make in
             make.top.equalTo(usernameLabel.snp.bottom).offset(5)
             make.leading.equalTo(usernameLabel.snp.leading)
-            make.trailing.greaterThanOrEqualToSuperview().offset(-10)
+            make.trailing.lessThanOrEqualToSuperview().offset(-10)
         }
     }
     

@@ -165,6 +165,8 @@ class MessagesVC: UIViewController {
                         if index == snap.count - 1 {
                             self.emptyBackround.isHidden = false
                         }
+                        self.collectionView.isUserInteractionEnabled = true
+                        self.collectionView.hideSkeleton()
                         return
                     }
                     
@@ -187,13 +189,12 @@ class MessagesVC: UIViewController {
                 self.conversationMetaDataHandle = self.conversationMetaDataRef?.observe(.childAdded) { snapshot in
                     let userId = snapshot.key
                     Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(userId).observe(.value, with: { snapshot in
-                        guard let metaData = snapshot.value as? [String: Any] else {
+                        guard let metaData = snapshot.value as? [String: Any],
+                            let messageId = metaData["lastMessageId"] as? String else {
                             // TODO: end of loading
-                            return
-                        }
-                        guard let messageId = metaData["lastMessageId"] as? String else {
-                            // TODO: end of loading
-                            return
+                                self.collectionView.isUserInteractionEnabled = true
+                                self.collectionView.hideSkeleton()
+                                return
                         }
                         self.collectionView.alwaysBounceVertical = true
                         let conversationMetaData = ConversationMetaData(dictionary: metaData)

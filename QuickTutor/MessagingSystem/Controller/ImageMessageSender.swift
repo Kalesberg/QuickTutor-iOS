@@ -45,15 +45,16 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
     }
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard let image = info[.originalImage] as? UIImage else { return }
-        if let url = info[.mediaURL] as? URL {
+        if let image = info[.originalImage] as? UIImage {
+            picker.dismiss(animated: false) {
+                let cropViewController = CropViewController(image: image)
+                cropViewController.delegate = self
+                cropViewController.aspectRatioPreset = .presetSquare
+                self.parentViewController.present(cropViewController, animated: true, completion: nil)
+            }
+        } else if let url = info[.mediaURL] as? URL {
             uploadVideoToFirebase(url)
-        }
-        picker.dismiss(animated: false) {
-            let cropViewController = CropViewController(image: image)
-            cropViewController.delegate = self
-            cropViewController.aspectRatioPreset = .presetSquare
-            self.parentViewController.present(cropViewController, animated: true, completion: nil)
+            picker.dismiss(animated: true, completion: nil)
         }
     }
     
@@ -112,9 +113,10 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
     func getThumbnailForVideoUrl(_ url: URL) -> UIImage? {
         let asset = AVAsset(url: url)
         let imageGenerator = AVAssetImageGenerator(asset: asset)
+        imageGenerator.appliesPreferredTrackTransform = true
         
         do {
-            let thumbnail = try imageGenerator.copyCGImage(at: CMTime(value: 1, timescale: 60), actualTime: nil)
+            let thumbnail = try imageGenerator.copyCGImage(at: CMTimeMake(value: 0, timescale: 1), actualTime: nil)
             let imageWithCorrectOrientation = fixOrientation(img: UIImage(cgImage: thumbnail))
             return imageWithCorrectOrientation
         } catch {
@@ -124,7 +126,7 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
     }
     
     func fixOrientation(img: UIImage) -> UIImage {
-        if (img.imageOrientation == .up) {
+        if img.imageOrientation == .up {
             return img
         }
         
