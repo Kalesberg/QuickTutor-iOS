@@ -204,28 +204,13 @@ class CategorySearchVC: UIViewController {
             self.lastKey = tutors.last?.uid
             self.loadedAllTutors = loadedAllTutors
             self.datasource.append(contentsOf: tutors)
-            self.datasource = self.datasource.sorted(by: { tutor1, tutor2 -> Bool in
-                var categoryReviews1 = 0
-                var categoryReviews2 = 0
-
-                if let reviews1 = tutor1.reviews {
-                    for objReview in reviews1 {
-                        guard let category = SubjectStore.shared.findCategoryBy(subject: objReview.subject) else { continue }
-                        if category == self.category { categoryReviews1 += 1 }
-                    }
-                }
-
-                if let reviews2 = tutor2.reviews {
-                    for objReview in reviews2 {
-                        guard let category = SubjectStore.shared.findCategoryBy(subject: objReview.subject) else { continue }
-                        if category == self.category { categoryReviews2 += 1 }
-                    }
-                }
-
+            self.datasource = self.datasource.sorted() { tutor1, tutor2 -> Bool in
+                let categoryReviews1 = tutor1.categoryReviews(self.category).count
+                let categoryReviews2 = tutor2.categoryReviews(self.category).count
                 return categoryReviews1 > categoryReviews2
-                    || (tutor1.reviews?.count ?? 0) > (tutor2.reviews?.count ?? 0)
-                    || (tutor1.rating ?? 0) > (tutor2.rating ?? 0)
-            })
+                    || (categoryReviews1 == categoryReviews2 && (tutor1.reviews?.count ?? 0) > (tutor2.reviews?.count ?? 0))
+                    || (categoryReviews1 == categoryReviews2 && tutor1.reviews?.count == tutor2.reviews?.count && (tutor1.rating ?? 0) > (tutor2.rating ?? 0))
+            }
             self.filteredDatasource = self.datasource
             if let filter = self.searchFilter, self.datasource.count > 0 {
                 self.applySearchFilterToDataSource(filter)
@@ -240,9 +225,6 @@ class CategorySearchVC: UIViewController {
             self._observing = false
             self.view.hideSkeleton()
             
-            print("=== Search End === ")
-            print(Date().description)
-            
             guard let tutors = tutors else {
                 self.emptyBackground.isHidden = false
                 return
@@ -254,37 +236,19 @@ class CategorySearchVC: UIViewController {
             self.loadedAllTutors = loadedAllTutors
             self.datasource.append(contentsOf: tutors)
             
-            print("=== Sort Start ===")
-            print(Date().description)
-            self.datasource = self.datasource.sorted(by: { tutor1, tutor2 -> Bool in
-                var subCategoryReviews1 = 0
-                var subCategoryReviews2 = 0
-                
-                if let reviews1 = tutor1.reviews {
-                    for objReview in reviews1 {
-                        guard let subCategory = SubjectStore.shared.findSubCategory(subject: objReview.subject) else { continue }
-                        if subCategory == self.subcategory { subCategoryReviews1 += 1 }
-                    }
-                }
-                
-                if let reviews2 = tutor2.reviews {
-                    for objReview in reviews2 {
-                        guard let subCategory = SubjectStore.shared.findSubCategory(subject: objReview.subject) else { continue }
-                        if subCategory == self.subcategory { subCategoryReviews2 += 1 }
-                    }
-                }
-                
-                return subCategoryReviews1 > subCategoryReviews2
-                    || (tutor1.reviews?.count ?? 0) > (tutor2.reviews?.count ?? 0)
-                    || (tutor1.rating ?? 0) > (tutor2.rating ?? 0)
-            })
+            self.datasource = self.datasource.sorted() { tutor1, tutor2 -> Bool in
+                let subcategoryReviews1 = tutor1.reviews?.filter({ self.subcategory == SubjectStore.shared.findSubCategory(subject: $0.subject) }).count ?? 0
+                let subcategoryReviews2 = tutor2.reviews?.filter({ self.subcategory == SubjectStore.shared.findSubCategory(subject: $0.subject) }).count ?? 0
+                return subcategoryReviews1 > subcategoryReviews2
+                    || (subcategoryReviews1 == subcategoryReviews2 && (tutor1.reviews?.count ?? 0) > (tutor2.reviews?.count ?? 0))
+                    || (subcategoryReviews1 == subcategoryReviews2 && tutor1.reviews?.count == tutor2.reviews?.count && (tutor1.rating ?? 0) > (tutor2.rating ?? 0))
+            }
             self.filteredDatasource = self.datasource
             if let filter = self.searchFilter, self.datasource.count > 0 {
                 self.applySearchFilterToDataSource(filter)
             }
             self.collectionView.reloadData()
-            print("=== Sort End ===")
-            print(Date().description)
+            
         }
     }
     
@@ -304,14 +268,13 @@ class CategorySearchVC: UIViewController {
             self.loadedAllTutors = loadedAllTutors
             
             self.datasource.append(contentsOf: tutors)
-            self.datasource = self.datasource.sorted(by: { tutor1, tutor2 -> Bool in
+            self.datasource = self.datasource.sorted() { tutor1, tutor2 -> Bool in
                 let subjectReviews1 = tutor1.reviews?.filter({ $0.subject == self.subject }).count ?? 0
                 let subjectReviews2 = tutor2.reviews?.filter({ $0.subject == self.subject }).count ?? 0
-                
                 return subjectReviews1 > subjectReviews2
-                    || (tutor1.reviews?.count ?? 0) > (tutor2.reviews?.count ?? 0)
-                    || (tutor1.rating ?? 0) > (tutor2.rating ?? 0)
-            })
+                    || (subjectReviews1 == subjectReviews2 && (tutor1.reviews?.count ?? 0) > (tutor2.reviews?.count ?? 0))
+                    || (subjectReviews1 == subjectReviews2 && tutor1.reviews?.count == tutor1.reviews?.count && (tutor1.rating ?? 0) > (tutor2.rating ?? 0))
+            }
             self.filteredDatasource = self.datasource
             if let filter = self.searchFilter, self.datasource.count > 0 {
                 self.applySearchFilterToDataSource(filter)
