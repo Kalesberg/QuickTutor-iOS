@@ -168,6 +168,17 @@ class QTSubjectSearchViewController: UIViewController {
             return
         }
         setupSearchResultScreen()
+        // Whenver search again with different searchText, just remove no result screen and show loading animation.
+        self.child.unknownSubject = nil
+        if self.child.filteredSubjects.isEmpty {
+            DispatchQueue.main.async {
+                self.child.indicatorView.startAnimation(updatedText: "Search for \"\(searchText)\"")
+            }
+        } else {
+            DispatchQueue.main.async {
+                self.child.indicatorView.stopAnimation()
+            }
+        }
         
         searchTimer?.invalidate()
         self.child.unknownSubject = nil
@@ -175,8 +186,13 @@ class QTSubjectSearchViewController: UIViewController {
             , block: { (_) in
                 DispatchQueue.global().async {
                     self.child.filteredSubjects = self.child.subjects.filter({ $0.0.lowercased().starts(with: searchText.lowercased())}).sorted(by: {$0.0 < $1.0})
-                    if self.child.filteredSubjects.count == 0 {
-                        self.child.unknownSubject = searchText
+                    
+                    DispatchQueue.main.async {
+                        self.child.indicatorView.stopAnimation()
+                        // If there is no subjects to be matched, show no result view.
+                        if self.child.filteredSubjects.count == 0 {
+                            self.child.unknownSubject = searchText
+                        }
                     }
                     
                     DispatchQueue.main.sync {
@@ -187,6 +203,9 @@ class QTSubjectSearchViewController: UIViewController {
     }
     
     func removeChild(popViewController: Bool) {
+        child.indicatorView.stopAnimation()
+        child.filteredSubjects.removeAll()
+        child.contentView.collectionView.reloadData()
         child.willMove(toParent: nil)
         child.view.removeFromSuperview()
         child.removeFromParent()

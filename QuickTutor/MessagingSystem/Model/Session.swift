@@ -46,7 +46,7 @@ class Session: Codable {
         senderId = session.senderId
         receiverId = session.receiverId
         startTime = session.startTime
-        endTime = session.startTime
+        endTime = session.endTime
         date = session.date
         price = session.price
         type = session.type

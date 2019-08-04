@@ -70,6 +70,7 @@ class ConnectionCell: UICollectionViewCell {
         label.font = Fonts.createBlackSize(14)
         label.text = "JH Lee"
         label.isSkeletonable = true
+        label.linesCornerRadius = 4
         
         return label
     }()
@@ -81,6 +82,7 @@ class ConnectionCell: UICollectionViewCell {
         label.font = Fonts.createBoldSize(12)
         label.text = "Auburn, AL"
         label.isSkeletonable = true
+        label.linesCornerRadius = 4
         
         return label
     }()

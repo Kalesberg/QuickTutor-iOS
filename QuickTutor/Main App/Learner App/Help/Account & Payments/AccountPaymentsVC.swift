@@ -24,14 +24,14 @@ class AccountPaymentsVC: BaseViewController {
         return view as! AccountPaymentsView
     }
 
-    var options = ["Changing my account information", "Updating a payment method", "Payment options", "I forgot my password", "Why was my payment declined?", "I have another question"]
+    var options = ["Changing my account information", "Payment methods", "Payment options", "I forgot my password", "Why was my payment declined?", "I have another question"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
         contentView.tableView.dataSource = self
         contentView.tableView.delegate = self
         contentView.tableView.register(CustomHelpTableViewCell.self, forCellReuseIdentifier: "accountPaymentsCell")
-        navigationItem.title = "Help"
+        navigationItem.title = "Accounts & payments"
     }
 
     override func loadView() {

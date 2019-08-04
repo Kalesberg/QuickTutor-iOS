@@ -220,21 +220,21 @@ class QTConfirmMeetUpViewController: QTSessionBaseViewController {
     
     func setupObservers() {
         socket.on(SocketEvents.meetupConfirmed) { data, _ in
-            guard let uid = Auth.auth().currentUser?.uid else { return }
-            guard let value = data[0] as? [String: Any] else { return }
-            if let confirmedBy = value["confirmedBy"] as? String {
-                if confirmedBy == uid {
-                    self.confirmedByUser = true
-                } else {
-                    self.confirmedByParnter = true
-                }
-                
-                if self.confirmedByUser && self.confirmedByParnter {
-                    self.proceedToSession()
-                }
+            guard let uid = Auth.auth().currentUser?.uid,
+                let value = data.first as? [String: Any],
+                let confirmedBy = value["confirmedBy"] as? String else { return }
+            
+            if confirmedBy == uid {
+                self.confirmedByUser = true
+            } else {
+                self.confirmedByParnter = true
             }
-        }
-        
+            
+            if self.confirmedByUser,
+                self.confirmedByParnter {
+                self.proceedToSession()
+            }
+        }        
     }
     
     func removeStartData() {

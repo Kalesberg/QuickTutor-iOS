@@ -26,16 +26,18 @@ class PaymentOptionsView: MainLayoutHeaderScroll {
         scrollView.addSubview(gratuityBody)
         super.configureView()
 
-        header.label.text = "Payments and earnings"
+        header.label.text = "Payment options"
 
-        cardTitle.label.text = "DEBIT AND CREDIT CARD"
-        cardBody.text = "Learners adding their debit or credit card is the only way to pay for tutoring sessions for now.\n\nQuickTutor operates with Stripe API, which handles billions of dollars every year for forward-thinking businesses around the world. All you have to do is input your bank information once, and your earnings as a tutor are directly distributed to you after sessions."
+        cardTitle.label.text = "Debit and Credit Card"
+        let attributesDictionary: [NSAttributedString.Key: Any] = [.font: cardBody.font]
+        let fullAttributedString = NSMutableAttributedString(string: "QuickTutor operates with Stripe API, which handles billions of dollars every year for forward-thinking businesses around the world. Entering your debit and credit card information is always a safe and secure way to pay for anything on QuickTutor.", attributes: attributesDictionary)
+        cardBody.attributedText = fullAttributedString
 
-        cashTitle.label.text = "CASH"
-        cashBody.text = "QuickTutor is designed for a cashless exchange between two individuals. After each session, your earnings will be virtually deposited into your bank account. Your receipt will then emailed to you, and your sessions tab is updated under the “past” section with all the details regarding the session."
+        cashTitle.label.text = "Apple Pay"
+        cashBody.text = "QuickTutor is also Apple Pay integrated, allowing you to use your Apple Wallet to pay for anything on QuickTutor."
 
-        gratuityTitle.label.text = "GRATUITY"
-        gratuityBody.text = "You are allowed to ask for tips as a tutor. Learners tipping tutors is not required after a session. Tipping a tutor is entirely optional. Tips are added to the total of the session. Tips are subject to our 10% or 7.5% service fee (depending on your hours completed). \n\n"
+        gratuityTitle.label.text = "Cash & Gratuity"
+        gratuityBody.text = "QuickTutor is a cashless experience. To avoid fraud and numerous potential discrepancies, do not pay tutors for their services outside of the app. However, feel free to tip your tutor with cash after in-person learning sessions."
     }
 
     override func applyConstraints() {
@@ -62,7 +64,7 @@ class PaymentOptionsVC: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Help"
+        navigationItem.title = "Payment options"
         contentView.layoutIfNeeded()
     }
     

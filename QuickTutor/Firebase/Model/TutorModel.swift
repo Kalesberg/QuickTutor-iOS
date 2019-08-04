@@ -96,4 +96,9 @@ class AWTutor: AWLearner {
     required init(from decoder: Decoder) throws {
         fatalError("init(from:) has not been implemented")
     }
+    
+    func categoryReviews(_ category: String) -> [Review] {
+        guard let reviews = reviews else { return [] }
+        return reviews.filter({ category == SubjectStore.shared.findCategoryBy(subject: $0.subject) })
+    }
 }

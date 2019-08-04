@@ -27,6 +27,7 @@ class ConversationCell: SwipeCollectionViewCell {
         label.font = Fonts.createBlackSize(16)
         label.textColor = .white
         label.isSkeletonable = true
+        label.linesCornerRadius = 4
         return label
     }()
     
@@ -36,6 +37,7 @@ class ConversationCell: SwipeCollectionViewCell {
         label.font = Fonts.createBoldSize(12)
         label.textColor = UIColor.white.withAlphaComponent(0.5)
         label.isSkeletonable = true
+        label.linesCornerRadius = 4
         return label
     }()
     
@@ -96,7 +98,7 @@ class ConversationCell: SwipeCollectionViewCell {
         lastMessageLabel.snp.makeConstraints { make in
             make.top.equalTo(usernameLabel.snp.bottom).offset(5)
             make.leading.equalTo(usernameLabel.snp.leading)
-            make.trailing.greaterThanOrEqualToSuperview().offset(-10)
+            make.trailing.lessThanOrEqualToSuperview().offset(-10)
         }
     }
     
@@ -115,7 +117,8 @@ class ConversationCell: SwipeCollectionViewCell {
     }
     
     func updateUI(message: UserMessage) {
-        guard let user = message.user else { return }
+        guard let user = message.user,
+            let partnerId = message.partnerId() else { return }
         chatPartner = user
         updateUsernameLabel()
         updateOnlineStatusIndicator()
@@ -123,7 +126,7 @@ class ConversationCell: SwipeCollectionViewCell {
         updateTimestampLabel(message: message)
         updateProfileImage()
         updateLastMessageLabel(message: message)
-        checkConversationReadStatus(partnerId: message.partnerId())
+        checkConversationReadStatus(partnerId: partnerId)
     }
     
     func clearData() {

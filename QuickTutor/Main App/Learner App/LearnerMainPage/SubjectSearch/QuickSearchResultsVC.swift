@@ -12,10 +12,22 @@ import MessageUI
 class QuickSearchResultsVC: UIViewController {
     
     var subjects = [(String, String)]()
-    var unknownSubject: String?
+    var unknownSubject: String? {
+        didSet {
+            let collectionView = contentView.collectionView
+            if let unknownSubject = unknownSubject, !unknownSubject.isEmpty {
+                collectionView.setEmptyMessage(unknownSubject, didSubmitButtonClicked: {
+                    self.sendEmail(subject: unknownSubject)
+                })
+            } else {
+                collectionView.restoreEmptyState()
+            }
+        }
+    }
     var filteredSubjects = [(String, String)]()
     var inSearchMode = false
     var isNewQuickSearch = false
+    lazy var indicatorView: HLActivityIndicatorView = HLActivityIndicatorView()
     
     var scrollViewDraggedClosure: (() -> ())?
     
@@ -46,6 +58,12 @@ class QuickSearchResultsVC: UIViewController {
             contentView.collectionView.register(QuickSearchNewResultsCell.self,
                                                 forCellWithReuseIdentifier: QuickSearchNewResultsCell.reuseIdentifier)
         }
+        
+        contentView.addSubview(indicatorView)
+        indicatorView.translatesAutoresizingMaskIntoConstraints = false
+        indicatorView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        indicatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        indicatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
     }
     
     func setupDelegates() {
@@ -72,19 +90,12 @@ class QuickSearchResultsVC: UIViewController {
             // show failure alert
         }
     }
+    
+    
 }
 
 extension QuickSearchResultsVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if currentSubjects.count == 0 {
-            if let unknownSubject = unknownSubject, !unknownSubject.isEmpty {
-                collectionView.setEmptyMessage(unknownSubject, didSubmitButtonClicked: {
-                    self.sendEmail(subject: unknownSubject)
-                })
-            }
-        } else {
-            collectionView.restoreEmptyState()
-        }
         return currentSubjects.count
     }
     
@@ -109,7 +120,7 @@ extension QuickSearchResultsVC: UICollectionViewDataSource, UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if isNewQuickSearch {
-            return CGSize(width: collectionView.frame.width, height: 66)
+            return CGSize(width: collectionView.frame.width, height: 53)
         }
         return CGSize(width: collectionView.frame.width, height: 55)
     }
@@ -266,7 +277,7 @@ class QuickSearchNewResultsCell: UICollectionViewCell {
     
     let imageView: UIImageView = {
         let iv = UIImageView()
-        iv.layer.cornerRadius = 25
+        iv.layer.cornerRadius = 22.5
         iv.layer.borderColor = Colors.purple.cgColor
         iv.layer.borderWidth = 1
         iv.clipsToBounds = true
@@ -284,7 +295,7 @@ class QuickSearchNewResultsCell: UICollectionViewCell {
     
     func setupImageView() {
         addSubview(imageView)
-        imageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 8, paddingLeft: 20, paddingBottom: 8, paddingRight: 0, width: 50, height: 50)
+        imageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 4, paddingLeft: 20, paddingBottom: 4, paddingRight: 0, width: 45, height: 45)
     }
     
     func setupTitleLabel() {

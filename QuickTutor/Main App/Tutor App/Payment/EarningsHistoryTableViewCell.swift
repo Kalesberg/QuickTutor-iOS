@@ -13,28 +13,28 @@ class EarningsHistoryTaleViewCell: UITableViewCell {
     let profilePicImageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFill
-        view.layer.cornerRadius = 20
+        view.layer.cornerRadius = 23
         view.clipsToBounds = true
         return view
     }()
     
     let usernameLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createBlackSize(12)
+        label.font = Fonts.createBlackSize(14)
         label.textColor = .white
         return label
     }()
     
     let amountLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createBlackSize(10)
+        label.font = Fonts.createBlackSize(12)
         label.textColor = Colors.purple
         return label
     }()
     
     let timeLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createBoldSize(10)
+        label.font = Fonts.createBoldSize(12)
         label.textColor = UIColor.white.withAlphaComponent(0.8)
         label.textAlignment = .right
         return label
@@ -58,8 +58,8 @@ class EarningsHistoryTaleViewCell: UITableViewCell {
         profilePicImageView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(8)
             make.centerY.equalToSuperview()
-            make.width.equalTo(40)
-            make.height.equalTo(40)
+            make.width.equalTo(46)
+            make.height.equalTo(46)
             make.left.equalTo(20)
         }
     }

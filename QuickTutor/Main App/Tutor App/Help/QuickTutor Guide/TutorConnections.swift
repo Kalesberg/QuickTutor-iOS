@@ -11,28 +11,36 @@ import UIKit
 
 class TutorConnectionsView: MainLayoutHeaderScroll {
     var connectingBody = SectionBody()
+    var connectionRequestsTitle = SectionTitle()
+    var connectionRequestsBody = SectionBody()
     var onceConnectedTitle = SectionTitle()
     var onceConnectedBody = SectionBody()
 
     override func configureView() {
         scrollView.addSubview(connectingBody)
+        scrollView.addSubview(connectionRequestsTitle)
+        scrollView.addSubview(connectionRequestsBody)
         scrollView.addSubview(onceConnectedTitle)
         scrollView.addSubview(onceConnectedBody)
         super.configureView()
 
-        header.label.text = "Connecting"
+        header.label.text = "Getting started"
+        connectingBody.text = "After you become a QuickTutor, be sure to add as much information to your profile as possible in order to increase your chances of receiving connection requests.\n\nTo add information to your profile, you can tap on your \"tutor settings\" button from your dashboard (far left tab) or tap on your profile tab (far right button)."
 
-        connectingBody.text = "After tutor registration, you can connect with learners.\n\nLearners will send connection requests through the messenger, which will be delivered to you with manually typed messages or custom messages.\n\nConnection requests that have not yet been accepted will appear in your \"messages\" tab in the messenger. This is where you can see all your message threads with learners.  Once you accept a learner's connection request, you'll be able to communicate freely and schedule tutoring sessions."
-
+        connectionRequestsTitle.label.text = "Connection requests"
+        connectionRequestsBody.text = "Connection requests that have not yet been accepted should be at the top of your message threads in your messages tab.\n\nYou will not be able to message a user until you accept their connection request.\n\nTo accept a connection request, simply go to your messages with a user and tap the “accept” button below a connection request in the message thread."
+        
         onceConnectedTitle.label.text = "Once connected"
-        onceConnectedBody.text = "Once you are connected with a learner, you can go to your \"messages\" tab in the messenger. This is where you can see all your message threads with learners.\n\nTo message a learner, tap on their message thread in the \"messages\" tab and your messages with them will open. Remember, until you accept a connection request, you will not be able to message a learner freely, send images or schedule sessions."
+        onceConnectedBody.text = "Once connected with a user, you can now communicate, coordinate sessions, calls and any other transactions. If your client needs help sending a session request or calling you, tell them to refer to the QuickTutor help menus in their user profile tab."
     }
 
     override func applyConstraints() {
         super.applyConstraints()
 
         connectingBody.constrainSelf(top: header.snp.bottom)
-        onceConnectedTitle.constrainSelf(top: connectingBody.snp.bottom)
+        connectionRequestsTitle.constrainSelf(top: connectingBody.snp.bottom)
+        connectionRequestsBody.constrainSelf(top: connectionRequestsTitle.snp.bottom)
+        onceConnectedTitle.constrainSelf(top: connectionRequestsBody.snp.bottom)
         onceConnectedBody.constrainSelf(top: onceConnectedTitle.snp.bottom)
     }
 }
@@ -44,7 +52,7 @@ class TutorConnections: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Connections"
+        navigationItem.title = "Connecting"
         contentView.layoutIfNeeded()
         contentView.scrollView.setContentSize()
     }

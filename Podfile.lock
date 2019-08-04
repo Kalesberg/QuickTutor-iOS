@@ -1,5 +1,5 @@
 PODS:
-  - AccountKit (5.0.1)
+  - AccountKit (5.3.0)
   - Alamofire (4.8.2)
   - Bolts (1.9.0):
     - Bolts/AppLinks (= 1.9.0)
@@ -20,9 +20,9 @@ PODS:
     - Charts/Core (= 3.2.2)
   - Charts/Core (3.2.2)
   - Cosmos (19.0.3)
-  - Crashlytics (3.13.2):
+  - Crashlytics (3.13.4):
     - Fabric (~> 1.10.2)
-  - CropViewController (2.5.0)
+  - CropViewController (2.5.1)
   - ESTabBarController-swift (2.7)
   - Fabric (1.10.2)
   - FacebookCore (0.4.0):
@@ -173,7 +173,7 @@ PODS:
   - nanopb/encode (0.3.901)
   - ObjectMapper (3.5.1)
   - PlaceholderTextView (0.3.0)
-  - Protobuf (3.8.0)
+  - Protobuf (3.9.0)
   - SDWebImage (4.4.7):
     - SDWebImage/Core (= 4.4.7)
   - SDWebImage/Core (4.4.7)
@@ -222,7 +222,7 @@ DEPENDENCIES:
   - SkeletonView
   - SnapKit (~> 4.0.1)
   - Socket.IO-Client-Swift (~> 13.1.0)
-  - Stripe
+  - Stripe (~> 15.0)
   - SwiftKeychainWrapper
   - SwiftyJSON (~> 4.2.0)
   - SwipeCellKit
@@ -289,7 +289,7 @@ SPEC REPOS:
     - TYPagerController
 
 SPEC CHECKSUMS:
-  AccountKit: d05258857e74b04386c263a1365b27dbb5ff62b9
+  AccountKit: a196a15d284a5f21137f20bae9db84c90489a8e7
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Branch: 1ace77c04b6e3efbf982bf4364f0662bfac156a0
@@ -297,8 +297,8 @@ SPEC CHECKSUMS:
   CardScan: badf82e2cfcfc7ee513836a60dbb71bdb2cf5196
   Charts: f69cf0518b6d1d62608ca504248f1bbe0b6ae77e
   Cosmos: a6fb17284281fa12cf4c85c2efecd440a215ec44
-  Crashlytics: 611738c7847f8291a1a51084e35987b86ba6b3ee
-  CropViewController: 6c962d6fb264cc5cb325b622d5029d50c6c43e72
+  Crashlytics: 2dfd686bcb918dc10ee0e76f7f853fe42c7bd552
+  CropViewController: 10ba7af75e302f2db7eb913f8aa1156f95cfe88e
   ESTabBarController-swift: 4fb52ad03d94d0717ef97bc9eb09a5abfdded0a2
   Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
   FacebookCore: 770e57cfe250a4de4458b682191c0ff062dee247
@@ -333,7 +333,7 @@ SPEC CHECKSUMS:
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   ObjectMapper: 70187b8941977c62ccfb423caf6b50be405cabf0
   PlaceholderTextView: ffca9f176be00ab3090e2191e6908dabf3dbdada
-  Protobuf: 3f617b9a6e73605565086864c9bc26b2bf2dd5a3
+  Protobuf: 1097ca58584c8d9be81bfbf2c5ff5975648dd87a
   SDWebImage: c10d14a8883ebd89664f02a422006f66a85c0c5d
   SkeletonView: 7d7378731b708f8a6e6b1ffefb68cc3903f10a03
   SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
@@ -346,6 +346,6 @@ SPEC CHECKSUMS:
   TwilioVideo: e4bd16d69c395fa093636bc9c09a654570578a32
   TYPagerController: 262556ecef99986d26ed77fb1288a198ed42f4af
 
-PODFILE CHECKSUM: e12b0495c1c1a0c14e56a4879e68c046a626b41e
+PODFILE CHECKSUM: 9e5db4f0838e360dc35586a8749a5182bd8649e1
 
 COCOAPODS: 1.7.5

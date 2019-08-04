@@ -66,6 +66,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
         label.font = Fonts.createBoldSize(10)
         label.textColor = UIColor.white.withAlphaComponent(0.5)
         label.isSkeletonable = true
+        label.linesCornerRadius = 4
         
         return label
     }()
@@ -88,6 +89,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
         label.adjustsFontSizeToFitWidth = true
         label.font = Fonts.createBlackSize(12)
         label.isSkeletonable = true
+        label.linesCornerRadius = 4
         
         return label
     }()
