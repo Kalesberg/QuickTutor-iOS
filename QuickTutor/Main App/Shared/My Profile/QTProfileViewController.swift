@@ -259,9 +259,9 @@ class QTProfileViewController: UIViewController {
     @objc
     func handleMoreButtonClicked() {
         if #available(iOS 11.0, *) {
-            actionSheet = FileReportActionsheet(bottomLayoutMargin: view.safeAreaInsets.bottom, name: String(user?.name ?? "Zach"))
+            actionSheet = FileReportActionsheet(bottomLayoutMargin: view.safeAreaInsets.bottom, name: String(user?.firstName ?? "Zach"))
         } else {
-            actionSheet = FileReportActionsheet(bottomLayoutMargin: 0, name: String(user?.name ?? "Zach"))
+            actionSheet = FileReportActionsheet(bottomLayoutMargin: 0, name: String(user?.firstName ?? "Zach"))
         }
         actionSheet?.partnerId = user?.uid
         actionSheet?.isConnected = connectionStatus == .connected
