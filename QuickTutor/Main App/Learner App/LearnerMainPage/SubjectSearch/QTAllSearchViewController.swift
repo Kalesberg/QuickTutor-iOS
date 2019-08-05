@@ -8,7 +8,7 @@
 
 import UIKit
 import FirebaseDatabase
-
+import MessageUI
 
 
 class HLActivityIndicatorView: UIView {
@@ -124,16 +124,24 @@ class QTAllSearchViewController: UIViewController {
     var searchFilter: SearchFilter?
     
     var allSubjects = [(String, String)]()
-    
     var recentSearches: [QTRecentSearchModel] = []
     var filteredUsers = [UsernameQuery]()
     var filteredSubjects = [(String, String)]()
-    
     var isSearchMode: Bool = false
     var searchTimer: Timer?
+    var unknownSubject: String? {
+        didSet {
+            if let unknownSubject = unknownSubject, !unknownSubject.isEmpty {
+                self.tableView.setUnknownSubjectView(unknownSubject) {
+                    self.sendEmail(subject: unknownSubject)
+                }
+            } else {
+                self.tableView.removeUnknownSubjectView()
+            }
+        }
+    }
     
     lazy var indicatorView: HLActivityIndicatorView = HLActivityIndicatorView()
-    lazy var noResultView: HLNoResultView = HLNoResultView()
     lazy var recentSectionHeaderView = HLRecentSectionHeaderView()
     
     static var controller: QTAllSearchViewController {
@@ -157,14 +165,6 @@ class QTAllSearchViewController: UIViewController {
         indicatorView.topAnchor.constraint(equalTo: tableView.topAnchor).isActive = true
         indicatorView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor).isActive = true
         indicatorView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor).isActive = true
-        
-        // Add no result view
-        tableView.addSubview(noResultView)
-        noResultView.translatesAutoresizingMaskIntoConstraints = false
-        noResultView.topAnchor.constraint(equalTo: tableView.topAnchor).isActive = true
-        noResultView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor).isActive = true
-        noResultView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor).isActive = true
-        noResultView.isHidden = true
         
         allSubjects = SubjectStore.shared.loadTotalSubjectList() ?? []
         recentSearches = QTUtils.shared.getRecentSearches()
@@ -206,7 +206,7 @@ class QTAllSearchViewController: UIViewController {
         if searchText.isEmpty {
             searchTimer?.invalidate()
             isSearchMode = false
-            self.noResultView.isHidden = true
+            self.unknownSubject = nil
             self.indicatorView.stopAnimation()
             filteredSubjects.removeAll()
             filteredUsers.removeAll()
@@ -219,8 +219,8 @@ class QTAllSearchViewController: UIViewController {
         filteredSubjects.removeAll()
         filteredUsers.removeAll()
         self.tableView.reloadData()
+        self.unknownSubject = nil
         
-        self.noResultView.isHidden = true
         indicatorView.startAnimation(updatedText: "Search for \"\(searchText)\"")
         
         searchTimer?.invalidate()
@@ -267,13 +267,12 @@ class QTAllSearchViewController: UIViewController {
                 
                 group.notify(queue: DispatchQueue.main, execute: {
                     if self.filteredSubjects.count + self.filteredUsers.count == 0 && self.isSearchMode {
-                        self.noResultView.isHidden = false
+                        self.unknownSubject = searchText
                         self.indicatorView.stopAnimation()
                         self.tableView.reloadData()
                         return
                     }
                     
-                    self.noResultView.isHidden = true
                     self.tableView.reloadData()
                 })
         })
@@ -306,6 +305,18 @@ class QTAllSearchViewController: UIViewController {
             vc.navigationItem.title = subject
         }
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func sendEmail(subject: String) {
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setToRecipients(["subjects@quicktutor.com"])
+            mail.setMessageBody("<p>I’m submitting a subject: <b>\(subject)</b></p>", isHTML: true)
+            present(mail, animated: true)
+        } else {
+            // show failure alert
+        }
     }
 }
 
@@ -423,5 +434,26 @@ extension QTAllSearchViewController: UITableViewDataSource {
 extension QTAllSearchViewController: UIScrollViewDelegate {
     func scrollViewWillBeginDragging(_: UIScrollView) {
         NotificationCenter.default.post(name: NSNotification.Name(QTNotificationName.quickSearchDismissKeyboard), object: nil)
+    }
+}
+
+// MARK: - UnknownSubjectView
+extension UITableView {
+    func setUnknownSubjectView(_ subject: String, didSubmitButtonClicked: (() -> ())?) {
+        let noSearchResultsView = QuickSearchNoResultsView(frame: CGRect(x: 0, y: 0, width: self.bounds.size.width, height: self.bounds.size.height))
+        noSearchResultsView.didSubmitButtonClicked = didSubmitButtonClicked
+        noSearchResultsView.setupViews(subject: subject.trimmingCharacters(in: .whitespacesAndNewlines))
+        self.backgroundView = noSearchResultsView
+    }
+    
+    func removeUnknownSubjectView() {
+        self.backgroundView = nil
+    }
+}
+
+// MARK: - MFMailComposeViewControllerDelegate
+extension QTAllSearchViewController: MFMailComposeViewControllerDelegate {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true)
     }
 }
