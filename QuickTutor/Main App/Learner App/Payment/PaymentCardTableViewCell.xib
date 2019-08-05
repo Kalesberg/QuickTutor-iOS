@@ -42,11 +42,11 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6WA-87-TQl" customClass="RoundedButton" customModule="QuickTutor" customModuleProvider="target">
-                                <rect key="frame" x="205" y="10" width="60" height="24"/>
+                                <rect key="frame" x="195" y="7" width="70" height="30"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="uRs-UA-ADK"/>
-                                    <constraint firstAttribute="height" constant="24" id="wb3-Q8-pLU"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="uRs-UA-ADK"/>
+                                    <constraint firstAttribute="height" constant="30" id="wb3-Q8-pLU"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

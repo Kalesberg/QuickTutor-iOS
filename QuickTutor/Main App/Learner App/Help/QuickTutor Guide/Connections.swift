@@ -42,8 +42,8 @@ class ConnectionsView: MainLayoutHeaderScroll {
         connectingNameBody.text = "To instantly connect with people via username - you can go into your messages tab, tap on the contacts icon (top right corner) and then tap the add button in the top right corner of the screen. Once here, you can enter the username of any user and view their profiles or connect with them."
         
         onceConnectedTitle.label.text = "Once connected"
-        var attributesDictionary: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: onceConnectedBody.font]
-        var fullAttributedText = NSMutableAttributedString(string: "Once you’re connected with a tutor, you can send messages, documents, photos, and videos back and forth. In addition to this, your ", attributes: attributesDictionary)
+        let attributesDictionary: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: onceConnectedBody.font]
+        let fullAttributedText = NSMutableAttributedString(string: "Once you’re connected with a tutor, you can send messages, documents, photos, and videos back and forth. In addition to this, your ", attributes: attributesDictionary)
         fullAttributedText.append(NSAttributedString(string: "connect", attributes: [.font: UIFont.qtBoldItalicFont(size: 14)]))
         fullAttributedText.append(NSAttributedString(string: " button will turn into a ", attributes: attributesDictionary))
         fullAttributedText.append(NSAttributedString(string: "request session", attributes: [.font: UIFont.qtBoldItalicFont(size: 14)]))
