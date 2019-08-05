@@ -80,7 +80,7 @@ class LearnerSessionsVC: BaseSessionsVC {
     
     @objc func handleRequestSession() {
         if collectionView.isHidden {
-            navigationController?.pushViewController(QuickSearchVC(), animated: false)
+            navigationController?.pushViewController(QTQuickSearchViewController.controller, animated: false)
         } else {
             navigationController?.pushViewController(SessionRequestVC(), animated: true)
         }
