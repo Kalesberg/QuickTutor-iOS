@@ -27,6 +27,7 @@ class QuickSearchResultsVC: UIViewController {
     var filteredSubjects = [(String, String)]()
     var inSearchMode = false
     var isNewQuickSearch = false
+    var needDismissWhenPush = false
     lazy var indicatorView: HLActivityIndicatorView = HLActivityIndicatorView()
     
     var scrollViewDraggedClosure: (() -> ())?
@@ -137,6 +138,16 @@ extension QuickSearchResultsVC: UICollectionViewDataSource, UICollectionViewDele
         } else {
             vc.navigationItem.title = subject
         }
+        
+        if needDismissWhenPush {
+            var controllers = self.navigationController?.viewControllers
+            controllers?.removeLast()
+            controllers?.append(vc)
+            guard let viewControllers = controllers else { return }
+            self.navigationController?.setViewControllers(viewControllers, animated: true)
+            return
+        }
+        
         navigationController?.pushViewController(vc, animated: true)
     }
     

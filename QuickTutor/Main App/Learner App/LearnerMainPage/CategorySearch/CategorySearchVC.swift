@@ -14,6 +14,127 @@ struct CategorySelected {
     static var title: String!
 }
 
+class CustomStaticSearchBar: UIView {
+    
+    let containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        return view
+    }()
+    
+    lazy var searchBar: PaddedTextField = {
+        let field = PaddedTextField()
+        field.backgroundColor = Colors.newNavigationBarBackground
+        field.textColor = .white
+        field.leftView = nil
+        field.attributedPlaceholder = NSAttributedString(string: "Search", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white.withAlphaComponent(0.75)])
+        field.font = Fonts.createBoldSize(16)
+        field.layer.cornerRadius = 4
+        field.returnKeyType = .search
+        field.clearButtonMode = .never
+        field.tintColor = .white
+        field.autocorrectionType = .no
+        return field
+    }()
+    
+    let searchClearButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named:"ic_search_close"), for: .normal)
+        button.contentMode = .center
+        return button
+    }()
+    
+    func setupViews() {
+        setupContainerView()
+        setupSearchBar()
+        setupSearchClearButton()
+        
+        searchBar.isUserInteractionEnabled = false
+        searchClearButton.isUserInteractionEnabled = false
+    }
+    
+    func setupContainerView() {
+        addSubview(containerView)
+        containerView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 36, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+    }
+    
+    func setupSearchBar() {
+        containerView.addSubview(searchBar)
+        searchBar.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        searchBar.rightAnchor.constraint(equalTo: rightAnchor, constant: 0).isActive = true
+        searchClearButton.isHidden = true
+    }
+    
+    func setupSearchClearButton() {
+        containerView.addSubview(searchClearButton)
+        searchClearButton.anchor(top: nil, left: nil, bottom: nil, right: searchBar.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 40, height: 40)
+        containerView.addConstraint(NSLayoutConstraint(item: searchClearButton, attribute: .centerY, relatedBy: .equal, toItem: searchBar, attribute: .centerY, multiplier: 1, constant: 0))
+    }
+    
+    func showSearchClearButton(_ show: Bool = true) {
+        searchClearButton.isHidden = !show
+    }
+    
+    func setTitle(_ title: String) {
+        searchBar.text = title
+        showSearchClearButton()
+    }
+        
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        setupViews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+}
+
+class CustomSearchTitleView: UIView {
+    var searchBar: CustomStaticSearchBar = {
+        let view = CustomStaticSearchBar()
+        return view
+    }()
+    
+    func setupViews() {
+        setupSearchBar()
+    }
+    
+    func setupSearchBar() {
+        addSubview(searchBar)
+        searchBar.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
+    }
+    
+    func setTitle(_ title: String) {
+        searchBar.setTitle(title)
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        setupViews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    override var intrinsicContentSize: CGSize {
+        let width = UIScreen.main.bounds.width - 100
+        return CGSize(width: width, height: 44)
+    }
+}
+
 class CategorySearchVC: UIViewController {
     
     let itemsPerBatch: UInt = 10
@@ -63,6 +184,7 @@ class CategorySearchVC: UIViewController {
         return view
     }()
     
+    var titleView = CustomSearchTitleView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,19 +193,20 @@ class CategorySearchVC: UIViewController {
         setupObservers()
         setupLocationManager()
         
-        view.addSubview(collectionView)
-        collectionView.snp.makeConstraints { make in
-            make.top.equalTo(view.snp.topMargin)
-            make.bottom.equalTo(view.snp.bottomMargin)
-            make.left.equalTo(view.snp.leftMargin)
-            make.right.equalTo(view.snp.rightMargin)
+        if category != nil || subcategory != nil || subject != nil {
+            setupTitleView()
         }
+        
+        setupCollectionView()
+        setupEmptyBackgroundView()
+        
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(TutorCollectionViewCell.self, forCellWithReuseIdentifier: TutorCollectionViewCell.reuseIdentifier)
         collectionView.register(TutorLoadMoreCollectionViewCell.self, forCellWithReuseIdentifier: TutorLoadMoreCollectionViewCell.reuseIdentifier)
         
         navigationController?.navigationBar.isHidden = false
+        
         setUpFiltersButton()
         
         print("=== Prepare Skeleton Start === ")
@@ -99,14 +222,37 @@ class CategorySearchVC: UIViewController {
             filteredDatasource = datasource
             queryNeededTutors(lastKnownKey: nil)
         }
-
-        setupEmptyBackgroundView()
+        
+        if let category = category {
+            titleView.setTitle(category)
+        } else if let subcategory = subcategory {
+            titleView.setTitle(subcategory)
+        } else if let subject = subject {
+            titleView.setTitle(subject)
+        }
     }
     
     func setupEmptyBackgroundView() {
         view.addSubview(emptyBackground)
         emptyBackground.anchor(top: collectionView.topAnchor, left: collectionView.leftAnchor, bottom: collectionView.bottomAnchor, right: collectionView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         view.bringSubviewToFront(emptyBackground)
+    }
+    
+    func setupTitleView() {
+        self.navigationItem.titleView = titleView
+        
+        titleView.searchBar.containerView.isUserInteractionEnabled = true
+        titleView.searchBar.containerView.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(showQuickSearch)))
+    }
+    
+    func setupCollectionView() {
+        view.addSubview(collectionView)
+        collectionView.snp.makeConstraints { make in
+            make.top.equalTo(view.snp.topMargin)
+            make.bottom.equalTo(view.snp.bottomMargin)
+            make.left.equalTo(view.snp.leftMargin)
+            make.right.equalTo(view.snp.rightMargin)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -172,6 +318,13 @@ class CategorySearchVC: UIViewController {
         let vc = FiltersVC()
         vc.searchFilter = searchFilter
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc
+    func showQuickSearch() {
+        let vc = QuickSearchVC()
+        vc.needDismissWhenPush = true
+        self.navigationController?.pushViewController(vc, animated: false)
     }
     
     func queryNeededTutors(lastKnownKey: String?) {
