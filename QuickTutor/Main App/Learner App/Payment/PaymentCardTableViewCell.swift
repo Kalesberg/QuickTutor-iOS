@@ -29,7 +29,7 @@ enum CardChoice {
 }
 
 protocol PaymentCardTableViewCellDelegate {
-    func didTapDefaultButton(row: NSInteger?)
+    func didTapDefaultButton(_ cell: PaymentCardTableViewCell)
 }
 
 class PaymentCardTableViewCell: SwipeTableViewCell {
@@ -39,6 +39,7 @@ class PaymentCardTableViewCell: SwipeTableViewCell {
     @IBOutlet weak var defaultButton: UIButton!
     var row: NSInteger?
     var cardChoice: CardChoice?
+    var cellDelegate: PaymentCardTableViewCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -56,10 +57,16 @@ class PaymentCardTableViewCell: SwipeTableViewCell {
         cardChoice = type
         defaultButton?.backgroundColor = type.backgroundColor
         defaultButton?.setTitle(type.description, for: .normal)
+        
+        guard let containerView = defaultButton?.superview as? BorderedPaymentCardView else { return }
+        containerView.borderColor = cardChoice == .defaultCard ? Colors.purple : Colors.gray
     }
     
     @IBAction func defaultButtonTapped(_ sender: UIButton) {
         resetBackgroundColor(sender)
+        if cardChoice == .optionalCard {
+            cellDelegate?.didTapDefaultButton(self)
+        }
     }
     
     @IBAction func touchDownOnButton(_ sender: UIButton) {

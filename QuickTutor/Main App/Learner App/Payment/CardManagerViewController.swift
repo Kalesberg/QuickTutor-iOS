@@ -347,6 +347,7 @@ extension CardManagerViewController: UITableViewDataSource {
                     cell.setCardButtonType(type: cardChoice)
                     cell.row = indexPath.row
                     cell.delegate = self
+                    cell.cellDelegate = self
                 }
             } else {
                 cell.lastFourLabel.text = "Apple Pay"
@@ -355,6 +356,7 @@ extension CardManagerViewController: UITableViewDataSource {
                 cell.setCardButtonType(type: cardChoice)
                 cell.row = indexPath.row
                 cell.delegate = self
+                cell.cellDelegate = self
             }
             return cell
         }
@@ -466,6 +468,13 @@ extension CardManagerViewController: SwipeTableViewCellDelegate {
         var options = SwipeOptions()
         options.transitionStyle = .drag
         return options
+    }
+}
+
+extension CardManagerViewController: PaymentCardTableViewCellDelegate {
+    func didTapDefaultButton(_ cell: PaymentCardTableViewCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        tableView(tableView, didSelectRowAt: indexPath)
     }
 }
 
