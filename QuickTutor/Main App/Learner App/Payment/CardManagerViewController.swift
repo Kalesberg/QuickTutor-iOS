@@ -70,6 +70,9 @@ class CardManagerViewController: UIViewController {
         setParagraphStyles()
         addDropShadow()
         addDimming()
+        
+        // add gesture on card action view
+        viewCardActionSheet.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTapActionView (_:))))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -116,6 +119,11 @@ class CardManagerViewController: UIViewController {
     @objc
     private func onClickItemAddNewPayment() {
         showCardActionSheet()
+    }
+    
+    @objc
+    private func onTapActionView (_ sender: UITapGestureRecognizer) {
+        closeCardActionSheet()
     }
     
     func setParagraphStyles() {
