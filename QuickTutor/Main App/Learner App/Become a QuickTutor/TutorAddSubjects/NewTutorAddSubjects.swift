@@ -67,7 +67,7 @@ class TutorAddSubjectsVC: UIViewController {
         searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false
             , block: { (_) in
                 DispatchQueue.global().async {
-                    self.child.filteredSubjects = self.child.subjects.filter({ $0.starts(with: text)}).sorted(by: {$0 < $1})
+                    self.child.filteredSubjects = self.child.subjects.filter({ $0.lowercased().starts(with: text.lowercased())}).sorted(by: {$0 < $1})
                     if self.child.filteredSubjects.count == 0 {
                         self.child.unknownSubject = text
                     }
