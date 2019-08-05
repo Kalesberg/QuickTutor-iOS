@@ -15,11 +15,13 @@ class QTTutorSearchViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     lazy var indicatorView: HLActivityIndicatorView = HLActivityIndicatorView()
     lazy var noResultView: HLNoResultView = HLNoResultView()
+    lazy var recentSectionHeaderView = HLRecentSectionHeaderView()
     
     var searchFilter: SearchFilter?
     var filteredUsers = [UsernameQuery]()
     var searchTimer: Timer?
-    
+    var recentSearches: [QTRecentSearchModel] = []
+    var isSearchMode: Bool = false
     
     // MARK: - Lifecycle
     static var controller: QTTutorSearchViewController {
@@ -30,6 +32,7 @@ class QTTutorSearchViewController: UIViewController {
         super.viewDidLoad()
 
         tableView.register(QTTutorSearchTableViewCell.nib, forCellReuseIdentifier: QTTutorSearchTableViewCell.reuseIdentifier)
+        tableView.register(QTRecentSearchTableViewCell.nib, forCellReuseIdentifier: QTRecentSearchTableViewCell.reuseIdentifier)
         tableView.estimatedRowHeight = 65
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorColor = .clear
@@ -53,6 +56,8 @@ class QTTutorSearchViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
+        
+        recentSearches = QTUtils.shared.getRecentTutors()
         
         setupDelegates()
     }
@@ -89,11 +94,14 @@ class QTTutorSearchViewController: UIViewController {
             searchTimer?.invalidate()
             self.noResultView.isHidden = true
             self.indicatorView.stopAnimation()
+            self.isSearchMode = false
+            self.recentSearches = QTUtils.shared.getRecentTutors()
             filteredUsers.removeAll()
             self.tableView.reloadData()
             return
         }
         
+        isSearchMode = true
         filteredUsers.removeAll()
         self.tableView.reloadData()
         
@@ -143,7 +151,7 @@ class QTTutorSearchViewController: UIViewController {
                 
                 group.notify(queue: DispatchQueue.main, execute: {
                     DispatchQueue.main.async {
-                        if self.filteredUsers.count == 0 {
+                        if self.filteredUsers.count == 0 && self.isSearchMode {
                             self.noResultView.isHidden = false
                             self.indicatorView.stopAnimation()
                             self.tableView.reloadData()
@@ -199,21 +207,57 @@ extension QTTutorSearchViewController: UITableViewDelegate {
 
 // MARK: - UITableViewDataSource
 extension QTTutorSearchViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if filteredUsers.count > 0 {
-            indicatorView.stopAnimation()
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if isSearchMode || recentSearches.isEmpty {
+            return nil
         }
         
-        return filteredUsers.count
+        return recentSectionHeaderView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if isSearchMode || recentSearches.isEmpty {
+            return 0
+        }
+        
+        return 45
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isSearchMode {
+            if filteredUsers.count > 0 {
+                indicatorView.stopAnimation()
+            }
+            
+            return filteredUsers.count
+        }
+        
+        return recentSearches.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: QTTutorSearchTableViewCell.reuseIdentifier,
-                                                 for: indexPath) as! QTTutorSearchTableViewCell
-        let user = filteredUsers[indexPath.row]
-        cell.setData(user: user)
-        cell.selectionStyle = .none
-        return cell
+        if isSearchMode {
+            let cell = tableView.dequeueReusableCell(withIdentifier: QTTutorSearchTableViewCell.reuseIdentifier,
+                                                     for: indexPath) as! QTTutorSearchTableViewCell
+            let user = filteredUsers[indexPath.row]
+            cell.setData(user: user)
+            cell.selectionStyle = .none
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: QTRecentSearchTableViewCell.reuseIdentifier,
+                                                     for: indexPath) as! QTRecentSearchTableViewCell
+            cell.deleteButton.isHidden = false
+            cell.onDeleteHandler = { recentSearch in
+                if let recentSearch = recentSearch {
+                    QTUtils.shared.removeRecentSearch(search: recentSearch)
+                    self.recentSearches = QTUtils.shared.getRecentTutors()
+                    self.tableView.reloadData()
+                }
+            }
+            cell.setData(recentSearch: recentSearches[indexPath.row])
+            cell.selectionStyle = .none
+            return cell
+        }
     }
 }
 

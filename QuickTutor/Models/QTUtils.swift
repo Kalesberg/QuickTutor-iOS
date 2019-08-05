@@ -60,6 +60,12 @@ class QTUtils {
         return recentSearches ?? []
     }
     
+    func getRecentTutors() -> [QTRecentSearchModel] {
+        var recentTutors: [QTRecentSearchModel]? = getRecentSearches()
+        recentTutors = recentTutors?.filter({$0.type == QTRecentSearchType.people})
+        return recentTutors ?? []
+    }
+    
     func getFormatedName(name: String) -> String {
         let trimmed = name.trimmingCharacters(in: .whitespaces)
         if trimmed.isEmpty {

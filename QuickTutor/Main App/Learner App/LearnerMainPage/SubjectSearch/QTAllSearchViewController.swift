@@ -359,14 +359,14 @@ extension QTAllSearchViewController: UITableViewDelegate {
 // MARK: - UITableViewDataSource
 extension QTAllSearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if isSearchMode {
+        if isSearchMode || recentSearches.isEmpty {
             return nil
         }
         return recentSectionHeaderView
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if isSearchMode {
+        if isSearchMode || recentSearches.isEmpty {
             return 0
         }
         
