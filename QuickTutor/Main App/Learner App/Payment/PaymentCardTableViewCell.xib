@@ -21,28 +21,28 @@
         <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="cardCell" id="KGk-i7-Jjw" customClass="PaymentCardTableViewCell" customModule="QuickTutor" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uPU-Q7-4tF" customClass="BorderedPaymentCardView" customModule="QuickTutor" customModuleProvider="target">
-                        <rect key="frame" x="20" y="10" width="280" height="44"/>
+                        <rect key="frame" x="20" y="5" width="280" height="50"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="b0M-zl-j6j">
-                                <rect key="frame" x="15" y="7" width="48" height="30"/>
+                                <rect key="frame" x="15" y="10" width="48" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="b0M-zl-j6j" secondAttribute="height" multiplier="8:5" id="mtE-g6-C4Q"/>
                                     <constraint firstAttribute="width" constant="48" id="pGx-5I-Foj"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="•••• 1234" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MGS-ag-Pgt">
-                                <rect key="frame" x="73" y="13.5" width="68" height="17"/>
+                                <rect key="frame" x="73" y="16.5" width="68" height="17"/>
                                 <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6WA-87-TQl" customClass="RoundedButton" customModule="QuickTutor" customModuleProvider="target">
-                                <rect key="frame" x="195" y="7" width="70" height="30"/>
+                                <rect key="frame" x="195" y="10" width="70" height="30"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="uRs-UA-ADK"/>
@@ -71,7 +71,7 @@
                             <constraint firstItem="6WA-87-TQl" firstAttribute="centerY" secondItem="uPU-Q7-4tF" secondAttribute="centerY" id="FvM-oR-ow4"/>
                             <constraint firstAttribute="trailing" secondItem="6WA-87-TQl" secondAttribute="trailing" constant="15" id="JIo-If-mjF"/>
                             <constraint firstItem="b0M-zl-j6j" firstAttribute="centerY" secondItem="uPU-Q7-4tF" secondAttribute="centerY" id="Khn-MZ-JM3"/>
-                            <constraint firstAttribute="height" constant="44" id="LHj-wb-dEK"/>
+                            <constraint firstAttribute="height" constant="50" id="LHj-wb-dEK"/>
                             <constraint firstItem="6WA-87-TQl" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="MGS-ag-Pgt" secondAttribute="trailing" constant="10" id="Zc6-NI-uFw"/>
                             <constraint firstItem="MGS-ag-Pgt" firstAttribute="leading" secondItem="b0M-zl-j6j" secondAttribute="trailing" constant="10" id="k5V-Ds-Diu"/>
                             <constraint firstItem="b0M-zl-j6j" firstAttribute="leading" secondItem="uPU-Q7-4tF" secondAttribute="leading" constant="15" id="mcw-rx-pzm"/>
@@ -79,13 +79,13 @@
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                <real key="value" value="3"/>
+                                <real key="value" value="4"/>
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
                                 <color key="value" red="0.17254901960784313" green="0.17254901960784313" blue="0.22745098039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                <real key="value" value="2"/>
+                                <integer key="value" value="1"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
@@ -94,7 +94,7 @@
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="uPU-Q7-4tF" secondAttribute="trailing" constant="20" id="1Pn-IQ-bm4"/>
                     <constraint firstItem="uPU-Q7-4tF" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="21H-ks-J3Z"/>
-                    <constraint firstItem="uPU-Q7-4tF" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="eCN-Po-4rf"/>
+                    <constraint firstItem="uPU-Q7-4tF" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="eCN-Po-4rf"/>
                     <constraint firstItem="uPU-Q7-4tF" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="zeN-xw-7px"/>
                 </constraints>
                 <userDefinedRuntimeAttributes>

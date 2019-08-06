@@ -58,7 +58,7 @@ class CardManagerViewController: UIViewController {
         fetchTransactions()
         
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 44
+        tableView.estimatedRowHeight = 50
         
         tableView.register(UINib(nibName: "PaymentCardTableViewCell", bundle: nil), forCellReuseIdentifier: "cardCell")
         tableView.register(EarningsHistoryTaleViewCell.self, forCellReuseIdentifier: "earningsCell")
