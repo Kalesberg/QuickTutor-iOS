@@ -70,6 +70,9 @@ class CardManagerViewController: UIViewController {
         setParagraphStyles()
         addDropShadow()
         addDimming()
+        
+        // add gesture on card action view
+        viewCardActionSheet.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTapActionView (_:))))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -116,6 +119,11 @@ class CardManagerViewController: UIViewController {
     @objc
     private func onClickItemAddNewPayment() {
         showCardActionSheet()
+    }
+    
+    @objc
+    private func onTapActionView (_ sender: UITapGestureRecognizer) {
+        closeCardActionSheet()
     }
     
     func setParagraphStyles() {
@@ -347,6 +355,7 @@ extension CardManagerViewController: UITableViewDataSource {
                     cell.setCardButtonType(type: cardChoice)
                     cell.row = indexPath.row
                     cell.delegate = self
+                    cell.cellDelegate = self
                 }
             } else {
                 cell.lastFourLabel.text = "Apple Pay"
@@ -355,6 +364,7 @@ extension CardManagerViewController: UITableViewDataSource {
                 cell.setCardButtonType(type: cardChoice)
                 cell.row = indexPath.row
                 cell.delegate = self
+                cell.cellDelegate = self
             }
             return cell
         }
@@ -466,6 +476,13 @@ extension CardManagerViewController: SwipeTableViewCellDelegate {
         var options = SwipeOptions()
         options.transitionStyle = .drag
         return options
+    }
+}
+
+extension CardManagerViewController: PaymentCardTableViewCellDelegate {
+    func didTapDefaultButton(_ cell: PaymentCardTableViewCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        tableView(tableView, didSelectRowAt: indexPath)
     }
 }
 

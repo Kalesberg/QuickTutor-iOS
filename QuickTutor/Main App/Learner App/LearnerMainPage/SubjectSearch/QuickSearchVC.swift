@@ -34,6 +34,7 @@ class QuickSearchVC: UIViewController {
     }
 
     var searchTimer: Timer?
+    var needDismissWhenPush = false
 
     var tableViewIsActive: Bool = false {
         didSet {
@@ -148,6 +149,7 @@ extension QuickSearchVC: UITextFieldDelegate {
     func beginEditing() {
         guard child.view?.superview == nil else { return }
         addChild(child)
+        child.needDismissWhenPush = needDismissWhenPush
         child.scrollViewDraggedClosure = {
             self.contentView.searchBarContainer.searchBar.endEditing(true)
         }
@@ -185,8 +187,16 @@ extension QuickSearchVC: QuickSearchCategoryCellDelegate {
         vc.subcategory = subcategory
         vc.searchFilter = searchFilter
         vc.navigationItem.title = subcategory
-        navigationController?.pushViewController(vc, animated: true)
         
+        if needDismissWhenPush {
+            var controllers = self.navigationController?.viewControllers
+            controllers?.removeLast()
+            controllers?.append(vc)
+            guard let viewControllers = controllers else { return }
+            self.navigationController?.setViewControllers(viewControllers, animated: true)
+            return
+        }
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func quickSeachCateogryCell(_ cell: QuickSearchCategoryCell, needsHeight height: CGFloat) {
