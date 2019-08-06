@@ -57,6 +57,8 @@ abstract_target 'QuickTutorApp' do
         pod 'SkeletonView'
         pod 'ESTabBarController-swift'
         pod 'Cosmos'
+        
+        pod 'ActiveLabel'
     end
     
     target 'QuickTutor' do

@@ -51,5 +51,7 @@ class DocumentMessageCell: UserMessageCell {
         let fileNameUrl = (url as NSString).lastPathComponent
         let fileName = fileNameUrl.components(separatedBy: "?")[0].removingPercentEncoding
         fileNameLabel.text = fileName
+        
+        bubbleView.backgroundColor = Colors.newScreenBackground
     }
 }

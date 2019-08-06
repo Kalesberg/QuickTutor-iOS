@@ -47,7 +47,6 @@ class ConnectionRequestCell: UserMessageCell {
         guard let requestId = message.connectionRequestId else { return }
         connectionRequestId = requestId
         loadFromRequest()
-
     }
     
     override func setupBubbleViewAsSentMessage() {

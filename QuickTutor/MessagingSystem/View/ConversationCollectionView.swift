@@ -41,7 +41,8 @@ class ConversationCollectionView: UICollectionView {
         scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         showsVerticalScrollIndicator = false
         keyboardBottomAdjustment = 0
-        register(UserMessageCell.self, forCellWithReuseIdentifier: MessageType.text.rawValue)
+//        register(UserMessageCell.self, forCellWithReuseIdentifier: MessageType.text.rawValue)
+        register(UserTextMessageCell.self, forCellWithReuseIdentifier: MessageType.text.rawValue)
         register(SystemMessageCell.self, forCellWithReuseIdentifier: MessageType.systemMessage.rawValue)
         register(SessionRequestCell.self, forCellWithReuseIdentifier: MessageType.sessionRequest.rawValue)
         register(ImageMessageCell.self, forCellWithReuseIdentifier: MessageType.image.rawValue)

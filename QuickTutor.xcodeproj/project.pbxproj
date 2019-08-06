@@ -930,6 +930,8 @@
 		BEC6987E229E4CA400F970EE /* CVVModal.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEC6987C229E4CA400F970EE /* CVVModal.xib */; };
 		C41F17E1224D2D3A007758FC /* QTCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41F17E0224D2D3A007758FC /* QTCustomButton.swift */; };
 		C41F17E2224D30E0007758FC /* QTCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41F17E0224D2D3A007758FC /* QTCustomButton.swift */; };
+		C447C7C522F9176100818733 /* UserTextMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C447C7C422F9176100818733 /* UserTextMessageCell.swift */; };
+		C447C7C622F9176100818733 /* UserTextMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C447C7C422F9176100818733 /* UserTextMessageCell.swift */; };
 		C46A2F11224CD309005058B1 /* UserStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46A2F10224CD309005058B1 /* UserStatus.swift */; };
 		C46A2F12224CD309005058B1 /* UserStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46A2F10224CD309005058B1 /* UserStatus.swift */; };
 		CF046421206ED3D000BFE898 /* EmptySessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF046420206ED3D000BFE898 /* EmptySessionCell.swift */; };
@@ -1661,6 +1663,7 @@
 		BEC69879229E4C9A00F970EE /* CVVModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CVVModal.swift; sourceTree = "<group>"; };
 		BEC6987C229E4CA400F970EE /* CVVModal.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CVVModal.xib; sourceTree = "<group>"; };
 		C41F17E0224D2D3A007758FC /* QTCustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTCustomButton.swift; sourceTree = "<group>"; };
+		C447C7C422F9176100818733 /* UserTextMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTextMessageCell.swift; sourceTree = "<group>"; };
 		C46A2F10224CD309005058B1 /* UserStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStatus.swift; sourceTree = "<group>"; };
 		C4AE0DF583905E04AFE9A3B4 /* Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutorApp-QuickTutorUITests/Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		CF046420206ED3D000BFE898 /* EmptySessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySessionCell.swift; sourceTree = "<group>"; };
@@ -3386,6 +3389,7 @@
 				CF6F588B205EE68800ACBD32 /* ConnectionRequestCell.swift */,
 				CF6F588C205EE68800ACBD32 /* SystemMessageCell.swift */,
 				CF6F588D205EE68800ACBD32 /* UserMessageCell.swift */,
+				C447C7C422F9176100818733 /* UserTextMessageCell.swift */,
 				CF6F588E205EE68800ACBD32 /* ImageMessageCell.swift */,
 				CF6F588F205EE68800ACBD32 /* MeetupRequestCell.swift */,
 				CF740B442271AAE9004F498B /* DocumentMessageCell.swift */,
@@ -4160,6 +4164,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-QuickTutorApp-QuickTutorDev/Pods-QuickTutorApp-QuickTutorDev-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/ActiveLabel/ActiveLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/Branch/Branch.framework",
@@ -4198,6 +4203,7 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ActiveLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Branch.framework",
@@ -4580,6 +4586,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-QuickTutorApp-QuickTutor/Pods-QuickTutorApp-QuickTutor-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/ActiveLabel/ActiveLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/Branch/Branch.framework",
@@ -4618,6 +4625,7 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ActiveLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Branch.framework",
@@ -5021,6 +5029,7 @@
 				564C429122A0259300FC8AE1 /* QTPastSessionSectionHeaderView.swift in Sources */,
 				569F181F223554FD00820A20 /* KeyboardFrameObserversManager.swift in Sources */,
 				569F1821223554FD00820A20 /* DynamicLinkFactory.swift in Sources */,
+				C447C7C622F9176100818733 /* UserTextMessageCell.swift in Sources */,
 				561003B82242A9BB00A4688F /* QTInPersonSessionViewController.swift in Sources */,
 				569F1822223554FD00820A20 /* UserMessageCell.swift in Sources */,
 				569F1823223554FD00820A20 /* TutorBioVC.swift in Sources */,
@@ -5523,6 +5532,7 @@
 				564C429022A0259300FC8AE1 /* QTPastSessionSectionHeaderView.swift in Sources */,
 				561003B62242A9AF00A4688F /* QTInPersonSessionViewController.swift in Sources */,
 				CF6F58C0205EE68800ACBD32 /* UserMessageCell.swift in Sources */,
+				C447C7C522F9176100818733 /* UserTextMessageCell.swift in Sources */,
 				84F245181FDA1127006447A8 /* TutorBioVC.swift in Sources */,
 				CF9F94E9228A3B76002041CF /* RecentSearchesManager.swift in Sources */,
 				CFB1475F21F3B86F00C49BA5 /* QuickSearchResultsVC.swift in Sources */,
