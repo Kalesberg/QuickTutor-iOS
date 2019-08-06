@@ -494,8 +494,10 @@ extension TutorAddSubjectsResultsVC: UICollectionViewDataSource, UICollectionVie
         cell.selectionView.isHidden = !cell.selectionView.isHidden
         if cell.selectionView.isHidden {
             TutorRegistrationService.shared.removeSubject(currentSubjects[indexPath.item])
+            cell.titleLabel.textColor = .white
         } else {
             TutorRegistrationService.shared.addSubject(currentSubjects[indexPath.item])
+            cell.titleLabel.textColor = Colors.purple
         }
     }
 }
