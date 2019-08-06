@@ -212,6 +212,9 @@ class TutorEditProfileVC: LearnerEditProfileVC {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) as? EditProfileCell {
+            if indexPath.section == 1, indexPath.row < 2 { // remove first and last name flash
+                return
+            }
             cell.flashCellLine()
         }
         switch indexPath.section {
@@ -688,6 +691,9 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) as? EditProfileCell {
+            if indexPath.section == 1, indexPath.row < 2 { // remove first and last name flash
+                return
+            }
             cell.flashCellLine()
         }
         switch indexPath.section {
