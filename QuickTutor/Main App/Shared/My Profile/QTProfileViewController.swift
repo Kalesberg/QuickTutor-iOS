@@ -657,11 +657,11 @@ class QTProfileViewController: UIViewController {
     
     func createLightBoxImages() -> [LightboxImage] {
         var images = [LightboxImage]()
-        user?.images.forEach({ (arg) in
-            let (_, imageUrl) = arg
-            guard let url = URL(string: imageUrl) else { return }
+        let imageKeys = user?.images.keys.sorted(by: { $0 < $1 })
+        imageKeys?.forEach {
+            guard let imageUrl = user?.images[$0], let url = URL(string: imageUrl) else { return }
             images.append(LightboxImage(imageURL: url))
-        })
+        }
         return images
     }
     
