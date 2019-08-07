@@ -14,8 +14,14 @@ struct CategorySelected {
     static var title: String!
 }
 
-class CustomStaticSearchBar: UIView {
-    
+protocol QTSearchBarViewDelegate {
+    func didSearchBarBeginEditing(_ sender: PaddedTextField)
+    func didSearchBarTextChanged(_ text: String?)
+    func didSearchBarReturn(_ sender: PaddedTextField)
+}
+
+class QTSearchBarView: UIView {
+    // MARK: - Properties
     let containerView: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
@@ -31,6 +37,7 @@ class CustomStaticSearchBar: UIView {
         field.font = Fonts.createBoldSize(16)
         field.layer.cornerRadius = 4
         field.returnKeyType = .search
+        field.enablesReturnKeyAutomatically = true
         field.clearButtonMode = .never
         field.tintColor = .white
         field.autocorrectionType = .no
@@ -38,19 +45,36 @@ class CustomStaticSearchBar: UIView {
     }()
     
     let searchClearButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: 40, height: 40)))
         button.setImage(UIImage(named:"ic_search_close"), for: .normal)
         button.contentMode = .center
         return button
     }()
     
+    var delegate: QTSearchBarViewDelegate?
+    
+    // MARK: - Actions
+    @objc
+    func handleDidSearchTextChanged(_ sender: UITextField) {
+        if let text = sender.text, !text.isEmpty {
+            searchClearButton.isHidden = false
+        } else {
+            searchClearButton.isHidden = true
+        }
+        
+        delegate?.didSearchBarTextChanged(sender.text)
+    }
+    
+    @objc
+    func handleDidClearButtonClicked(_ sender: UIButton) {
+        searchBar.text = nil
+        handleDidSearchTextChanged(searchBar)
+    }
+    
+    // MARK: - Functions
     func setupViews() {
         setupContainerView()
         setupSearchBar()
-        setupSearchClearButton()
-        
-        searchBar.isUserInteractionEnabled = false
-        searchClearButton.isUserInteractionEnabled = false
     }
     
     func setupContainerView() {
@@ -62,13 +86,11 @@ class CustomStaticSearchBar: UIView {
         containerView.addSubview(searchBar)
         searchBar.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         searchBar.rightAnchor.constraint(equalTo: rightAnchor, constant: 0).isActive = true
-        searchClearButton.isHidden = true
-    }
-    
-    func setupSearchClearButton() {
-        containerView.addSubview(searchClearButton)
-        searchClearButton.anchor(top: nil, left: nil, bottom: nil, right: searchBar.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 40, height: 40)
-        containerView.addConstraint(NSLayoutConstraint(item: searchClearButton, attribute: .centerY, relatedBy: .equal, toItem: searchBar, attribute: .centerY, multiplier: 1, constant: 0))
+        searchBar.delegate = self
+        searchBar.addTarget(self, action: #selector(handleDidSearchTextChanged(_:)), for: .editingChanged)
+        searchBar.rightView = searchClearButton
+        searchBar.rightViewMode = .always
+        searchClearButton.addTarget(self, action: #selector(handleDidClearButtonClicked(_:)), for: .touchUpInside)
     }
     
     func showSearchClearButton(_ show: Bool = true) {
@@ -93,14 +115,30 @@ class CustomStaticSearchBar: UIView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    
 }
 
-class CustomSearchTitleView: UIView {
-    var searchBar: CustomStaticSearchBar = {
-        let view = CustomStaticSearchBar()
+extension QTSearchBarView: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        delegate?.didSearchBarBeginEditing(searchBar)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        delegate?.didSearchBarReturn(searchBar)
+        return true
+    }
+}
+
+class QTSearchTitleView: UIView {
+    var searchBar: QTSearchBarView = {
+        let view = QTSearchBarView()
         return view
     }()
+    
+    var delegate: QTSearchBarViewDelegate? {
+        didSet {
+            searchBar.delegate = delegate
+        }
+    }
     
     func setupViews() {
         setupSearchBar()
@@ -113,6 +151,10 @@ class CustomSearchTitleView: UIView {
     
     func setTitle(_ title: String) {
         searchBar.setTitle(title)
+    }
+    
+    func setupDelegate(_ delegate: Any) {
+        
     }
     
     override init(frame: CGRect) {
@@ -135,6 +177,58 @@ class CustomSearchTitleView: UIView {
     }
 }
 
+class QTSuggestionTableViewCell: UITableViewCell {
+    static var reuseIdentifier: String {
+        return String(describing: QTSuggestionTableViewCell.self)
+    }
+    
+    let searchIconImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "searchIconMain"))
+        return imageView
+    }()
+    
+    let nameLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.textAlignment = .left
+        label.font = Fonts.createSize(17)
+        label.text = "Mathmatics"
+        label.adjustsFontSizeToFitWidth = true
+        return label
+    }()
+    
+    func setupViews() {
+        backgroundColor = Colors.newScreenBackground
+        setupSearchIconImageView()
+        setupNameLabel()
+    }
+    
+    func setupSearchIconImageView() {
+        addSubview(searchIconImageView)
+        searchIconImageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 17, paddingLeft: 16, paddingBottom: 17, paddingRight: 0, width: 16, height: 16)
+    }
+    
+    func setupNameLabel() {
+        addSubview(nameLabel)
+        nameLabel.anchor(top: nil, left: searchIconImageView.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 16, paddingBottom: 0, paddingRight: 16, width: 0, height: 0)
+        nameLabel.centerYAnchor.constraint(equalTo: searchIconImageView.centerYAnchor).isActive = true
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+        setupViews()
+    }
+    
+    
+    override
+    init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        setupViews()
+    }
+}
+
 class CategorySearchVC: UIViewController {
     
     let itemsPerBatch: UInt = 10
@@ -146,6 +240,14 @@ class CategorySearchVC: UIViewController {
     var subcategory: String!
     var subject: String!
     var lastKey: String?
+    
+    var filteredSubjects = [(String, String)]()
+    var allSubjects = [(String, String)]()
+    var searchTimer: Timer?
+    var unknownSubject: String?
+    let suggestionCellHeight: CGFloat = 50
+    
+    private var tableViewHeight: NSLayoutConstraint?
     
     private var _observing = false
     
@@ -177,6 +279,18 @@ class CategorySearchVC: UIViewController {
         collectionView.isSkeletonable = true
         return collectionView
     }()
+    
+    let tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.backgroundColor = Colors.newScreenBackground
+        return tableView
+    }()
+    
+    let maskView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+        return view
+    }()
 
     let emptyBackground: EmptySearchBackground = {
         let view = EmptySearchBackground()
@@ -184,53 +298,7 @@ class CategorySearchVC: UIViewController {
         return view
     }()
     
-    var titleView = CustomSearchTitleView()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        view.backgroundColor = Colors.newScreenBackground
-        setupObservers()
-        setupLocationManager()
-        
-        if category != nil || subcategory != nil || subject != nil {
-            setupTitleView()
-        }
-        
-        setupCollectionView()
-        setupEmptyBackgroundView()
-        
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(TutorCollectionViewCell.self, forCellWithReuseIdentifier: TutorCollectionViewCell.reuseIdentifier)
-        collectionView.register(TutorLoadMoreCollectionViewCell.self, forCellWithReuseIdentifier: TutorLoadMoreCollectionViewCell.reuseIdentifier)
-        
-        navigationController?.navigationBar.isHidden = false
-        
-        setUpFiltersButton()
-        
-        print("=== Prepare Skeleton Start === ")
-        print(Date().description)
-        if 0 == datasource.count {
-            collectionView.prepareSkeleton { _ in
-                self.view.showAnimatedSkeleton(usingColor: Colors.gray)
-                print("=== Prepare Skeleton End === ")
-                print(Date().description)
-                self.queryNeededTutors(lastKnownKey: nil)
-            }
-        } else {
-            filteredDatasource = datasource
-            queryNeededTutors(lastKnownKey: nil)
-        }
-        
-        if let category = category {
-            titleView.setTitle(category)
-        } else if let subcategory = subcategory {
-            titleView.setTitle(subcategory)
-        } else if let subject = subject {
-            titleView.setTitle(subject)
-        }
-    }
+    var titleView = QTSearchTitleView()
     
     func setupEmptyBackgroundView() {
         view.addSubview(emptyBackground)
@@ -240,9 +308,8 @@ class CategorySearchVC: UIViewController {
     
     func setupTitleView() {
         self.navigationItem.titleView = titleView
-        
-        titleView.searchBar.containerView.isUserInteractionEnabled = true
-        titleView.searchBar.containerView.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(showQuickSearch)))
+        titleView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 100).isActive = true
+        titleView.delegate = self
     }
     
     func setupCollectionView() {
@@ -253,29 +320,46 @@ class CategorySearchVC: UIViewController {
             make.left.equalTo(view.snp.leftMargin)
             make.right.equalTo(view.snp.rightMargin)
         }
+        
+        collectionView.register(TutorCollectionViewCell.self, forCellWithReuseIdentifier: TutorCollectionViewCell.reuseIdentifier)
+        collectionView.register(TutorLoadMoreCollectionViewCell.self, forCellWithReuseIdentifier: TutorLoadMoreCollectionViewCell.reuseIdentifier)
+        collectionView.delegate = self
+        collectionView.dataSource = self
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: true)
-        hideTabBar(hidden: true)
-        guard let filter = self.searchFilter, self.datasource.count > 0 else {
-            return
-        }
-        self.applySearchFilterToDataSource(filter)
-        collectionView.reloadData()
+    func setupTableView() {
+        view.addSubview(tableView)
+        view.bringSubviewToFront(tableView)
+        tableView.anchor(top: view.topAnchor,
+                         left: view.leftAnchor,
+                         bottom: nil,
+                         right: view.rightAnchor,
+                         paddingTop: 0,
+                         paddingLeft: 0,
+                         paddingBottom: 0,
+                         paddingRight: 0,
+                         width: 0,
+                         height: 0)
+        tableViewHeight = tableView.heightAnchor.constraint(equalToConstant: 0)
+        tableViewHeight?.isActive = true
+        
+        tableView.register(QTSuggestionTableViewCell.self, forCellReuseIdentifier: QTSuggestionTableViewCell.reuseIdentifier)
+        tableView.estimatedRowHeight = 50
+        tableView.rowHeight = 50
+        
+        tableView.separatorStyle = .none
+        tableView.delegate = self
+        tableView.dataSource = self
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        hideTabBar(hidden: false)
-        locationManager.stopUpdatingLocation()
+    func setupMaskView() {
+        view.insertSubview(maskView, belowSubview: tableView)
+        maskView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        maskView.isUserInteractionEnabled = true
+        maskView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleDidMaskViewTapped(_:))))
+        maskView.isHidden = true
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        collectionView.reloadData()
-    }
     
     func setUpFiltersButton(){
         menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 18, height: 18)
@@ -289,7 +373,7 @@ class CategorySearchVC: UIViewController {
         currHeight?.isActive = true
         self.navigationItem.rightBarButtonItem = menuBarItem
     }
-
+    
     private func updateFiltersIcon() {
         if searchFilter != nil {
             menuBtn.setImage(UIImage(named:"filtersAppliedIcon"), for: .normal)
@@ -307,24 +391,6 @@ class CategorySearchVC: UIViewController {
     
     func setupObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(updateFilters(_:)), name: NotificationNames.QuickSearch.updatedFilters, object: nil)
-    }
-    
-    @objc func updateFilters(_ notification: Notification) {
-        guard let userInfo = notification.userInfo, let filter = userInfo["filter"] as? SearchFilter else { return }
-        self.searchFilter = filter
-    }
-    
-    @objc func showFilters() {
-        let vc = FiltersVC()
-        vc.searchFilter = searchFilter
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    @objc
-    func showQuickSearch() {
-        let vc = QuickSearchVC()
-        vc.needDismissWhenPush = true
-        self.navigationController?.pushViewController(vc, animated: false)
     }
     
     func queryNeededTutors(lastKnownKey: String?) {
@@ -373,7 +439,7 @@ class CategorySearchVC: UIViewController {
     }
     
     private func queryTutorsBySubcategory(lastKnownKey: String?) {
-        _observing = true        
+        _observing = true
         TutorSearchService.shared.getTutorsBySubcategory(subcategory, lastKnownKey: lastKnownKey) { (tutors, loadedAllTutors) in
             self._observing = false
             self.view.hideSkeleton()
@@ -469,9 +535,115 @@ class CategorySearchVC: UIViewController {
             return shouldBeIncluded
         })
     }
-
+    
+    // MARK: - Actions
+    @objc
+    func updateFilters(_ notification: Notification) {
+        guard let userInfo = notification.userInfo, let filter = userInfo["filter"] as? SearchFilter else { return }
+        self.searchFilter = filter
+    }
+    
+    @objc
+    func showFilters() {
+        let vc = FiltersVC()
+        vc.searchFilter = searchFilter
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc
+    func showQuickSearch() {
+        let vc = QuickSearchVC()
+        vc.needDismissWhenPush = true
+        self.navigationController?.pushViewController(vc, animated: false)
+    }
+    
+    @objc
+    func handleDidMaskViewTapped(_ gesture: UITapGestureRecognizer) {
+        self.maskView.isHidden = true
+        self.tableViewHeight?.constant = 0
+        
+        if let category = category {
+            self.titleView.setTitle(category)
+        } else if let subcategory = subcategory {
+            self.titleView.setTitle(subcategory)
+        } else if let subject = subject {
+            self.titleView.setTitle(subject)
+        }
+        self.titleView.endEditing(true)
+    }
+    
+    // MARK: - Lifecycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        navigationController?.navigationBar.isHidden = false
+        view.backgroundColor = Colors.newScreenBackground
+        
+        if let subjects = SubjectStore.shared.loadTotalSubjectList() {
+            allSubjects = subjects
+            allSubjects.shuffle()
+        }
+        
+        setupObservers()
+        setupLocationManager()
+        
+        if category != nil || subcategory != nil || subject != nil {
+            setupTitleView()
+        }
+        
+        setupCollectionView()
+        setupEmptyBackgroundView()
+        setUpFiltersButton()
+        setupMaskView()
+        setupTableView()
+        
+        print("=== Prepare Skeleton Start === ")
+        print(Date().description)
+        if 0 == datasource.count {
+            collectionView.prepareSkeleton { _ in
+                self.view.showAnimatedSkeleton(usingColor: Colors.gray)
+                print("=== Prepare Skeleton End === ")
+                print(Date().description)
+                self.queryNeededTutors(lastKnownKey: nil)
+            }
+        } else {
+            filteredDatasource = datasource
+            queryNeededTutors(lastKnownKey: nil)
+        }
+        
+        if let category = category {
+            titleView.setTitle(category)
+        } else if let subcategory = subcategory {
+            titleView.setTitle(subcategory)
+        } else if let subject = subject {
+            titleView.setTitle(subject)
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        hideTabBar(hidden: true)
+        guard let filter = self.searchFilter, self.datasource.count > 0 else {
+            return
+        }
+        self.applySearchFilterToDataSource(filter)
+        collectionView.reloadData()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        hideTabBar(hidden: false)
+        locationManager.stopUpdatingLocation()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        collectionView.reloadData()
+    }
 }
 
+// MARK: - SkeletonCollectionViewDataSource
 extension CategorySearchVC: SkeletonCollectionViewDataSource {
     func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 6
@@ -506,6 +678,7 @@ extension CategorySearchVC: SkeletonCollectionViewDataSource {
     }
 }
 
+// MARK: - UICollectionViewDelegateFlowLayout
 extension CategorySearchVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let screen = UIScreen.main.bounds
@@ -521,6 +694,7 @@ extension CategorySearchVC: UICollectionViewDelegateFlowLayout {
     }
 }
 
+// MARK: - UICollectionViewDelegate
 extension CategorySearchVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? TutorCollectionViewCell else {
@@ -568,6 +742,7 @@ extension CategorySearchVC: UISearchBarDelegate {
     }
 }
 
+// MARK: - CLLocationManagerDelegate
 extension CategorySearchVC: CLLocationManagerDelegate {
     
     func findDistance(location: TutorLocation?) -> Double {
@@ -588,5 +763,125 @@ extension CategorySearchVC: CLLocationManagerDelegate {
     
     func locationManager(_: CLLocationManager, didFailWithError error: Error) {
         print("Failed to find user's location: \(error.localizedDescription)")
+    }
+}
+
+// MARK: - UITableViewDelegate
+extension CategorySearchVC: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        cell?.shrink()
+    }
+    
+    func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        UIView.animate(withDuration: 0.2) {
+            cell?.transform = CGAffineTransform.identity
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        cell?.growSemiShrink {
+            self.handleDidMaskViewTapped(UITapGestureRecognizer())
+            
+            // Load subject search screen again.
+            let vc = CategorySearchVC()
+            vc.subject = self.filteredSubjects[indexPath.row].0
+            AnalyticsService.shared.logSubjectTapped(vc.subject)
+            vc.searchFilter = self.searchFilter
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+}
+
+// MARK: - UITableViewDataSource
+extension CategorySearchVC: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.filteredSubjects.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: QTSuggestionTableViewCell.reuseIdentifier, for: indexPath) as! QTSuggestionTableViewCell
+        cell.nameLabel.text = self.filteredSubjects[indexPath.row].0
+        cell.selectionStyle = .none
+        return cell
+    }
+}
+
+// MARK: - QTSearchBarViewDelegate
+extension CategorySearchVC: QTSearchBarViewDelegate {
+    func didSearchBarBeginEditing(_ sender: PaddedTextField) {
+        maskView.isHidden = false
+        didSearchBarTextChanged(sender.text)
+    }
+    
+    func didSearchBarTextChanged(_ text: String?) {
+        searchTimer?.invalidate()
+        self.unknownSubject = nil
+        searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false
+            , block: { (_) in
+                DispatchQueue.global().async {
+                    
+                    guard let text = text, !text.isEmpty else {
+                        DispatchQueue.main.sync {
+                            self.maskView.isHidden = false
+                            self.filteredSubjects.removeAll()
+                            self.tableViewHeight?.constant = 0
+                            self.tableView.reloadData()
+                        }
+                        return
+                    }
+                    
+                    self.filteredSubjects = self.allSubjects.filter({ $0.0.lowercased().starts(with: text.lowercased())}).sorted(by: {$0.0 < $1.0})
+                    if self.filteredSubjects.count == 0 {
+                        self.unknownSubject = text
+                    }
+                    
+                    DispatchQueue.main.sync {
+                        // Reset the height of tableView
+                        let contentSize = CGFloat(self.filteredSubjects.count) * self.suggestionCellHeight
+                        let viewSize = self.view.frame.size
+                        let maxSize = viewSize.height - CGFloat(DeviceInfo.keyboardHeight)
+                        
+                        if contentSize >= maxSize {
+                            self.tableViewHeight?.constant = maxSize
+                        } else {
+                            self.tableViewHeight?.constant = contentSize
+                        }
+                        
+                        self.tableView.reloadData()
+                    }
+                }
+        })
+    }
+    
+    func didSearchBarReturn(_ sender: PaddedTextField) {
+        guard let text = sender.text else {
+            self.handleDidMaskViewTapped(UITapGestureRecognizer())
+            return
+        }
+        
+        self.handleDidMaskViewTapped(UITapGestureRecognizer())
+        
+        var currentKeyword = ""
+        if let category = category {
+            currentKeyword = category
+        } else if let subcategory = subcategory {
+            currentKeyword = subcategory
+        } else if let subject = subject {
+            currentKeyword = subject
+        }
+        
+        if currentKeyword.compare(text) == .orderedSame {
+            return
+        }
+        
+        // Load subject search screen again.
+        let vc = CategorySearchVC()
+        vc.subject = text
+        AnalyticsService.shared.logSubjectTapped(text)
+        vc.searchFilter = searchFilter
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }

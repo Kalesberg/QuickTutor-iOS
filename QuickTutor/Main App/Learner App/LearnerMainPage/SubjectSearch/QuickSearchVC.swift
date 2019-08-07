@@ -24,7 +24,6 @@ class QuickSearchVC: UIViewController {
     let child = QuickSearchResultsVC()
 
     var filteredSubjects = [(String, String)]()
-
     var allSubjects = [(String, String)]()
     
     var searchFilter: SearchFilter? {
