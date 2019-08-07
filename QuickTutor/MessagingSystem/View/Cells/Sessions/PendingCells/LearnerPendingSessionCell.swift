@@ -22,11 +22,13 @@ class LearnerPendingSessionCell: BasePendingSessionCell, MessageButtonDelegate, 
     }
 
     override func handleButton2() {
-        showConversationWithUID(session.partnerId())
+        guard let partnerId = session.partnerId() else { return }
+        showConversationWithUID(partnerId)
     }
     
     override func handleButton3() {
         super.handleButton3()
-        viewProfileWithUID(session.partnerId())
+        guard let partnerId = session.partnerId() else { return }
+        viewProfileWithUID(partnerId)
     }
 }

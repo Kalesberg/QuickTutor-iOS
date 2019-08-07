@@ -487,16 +487,17 @@ extension BaseSessionsVC: CustomModalDelegate {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         Database.database().reference().child("sessions").child(id).updateChildValues(["status" : "cancelled", "cancelledById": uid])
         DataService.shared.getSessionById(id) { session in
-            let chatPartnerId = session.partnerId()
-            Database.database().reference().child("sessionCancels").child(chatPartnerId).child(uid).setValue(1)
+            if let chatPartnerId = session.partnerId() {
+                Database.database().reference().child("sessionCancels").child(chatPartnerId).child(uid).setValue(1)
             
-            // Cancells session
-            let userTypeString = AccountService.shared.currentUserType.rawValue
-            let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
-            Database.database().reference().child("userSessions").child(uid)
-                .child(userTypeString).child(session.id).setValue(-1)
-            Database.database().reference().child("userSessions").child(session.partnerId())
-                .child(otherUserTypeString).child(session.id).setValue(-1)
+                // Cancells session
+                let userTypeString = AccountService.shared.currentUserType.rawValue
+                let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
+                Database.database().reference().child("userSessions").child(uid)
+                    .child(userTypeString).child(session.id).setValue(-1)
+                Database.database().reference().child("userSessions").child(chatPartnerId)
+                    .child(otherUserTypeString).child(session.id).setValue(-1)
+            }
         }
         cancelSessionModal?.dismiss()
     }

@@ -22,15 +22,18 @@ extension HandlesSessionStartData {
         let sessionStartsRef = Database.database().reference().child("sessionStarts").child(uid)
         sessionStartsRef.observe(.childAdded, with: { snapshot in
             guard let value = snapshot.value as? [String: Any] else {
-                fatalError("Error with value")
+                print("Error with value")
+                return
             }
 
             guard let startType = value["startType"] as? String else {
-                fatalError("Error with start tyoe")
+                print("Error with start tyoe")
+                return
             }
 
             guard let sessionType = value["sessionType"] as? String else {
-                fatalError("Error with sessionType")
+                print("Error with sessionType")
+                return
             }
 
             let sessionId = snapshot.key

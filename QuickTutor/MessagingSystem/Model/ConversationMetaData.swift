@@ -27,13 +27,13 @@ struct ConversationMetaData {
     }
     
     func checkHasRead(dictionary: [String: Any]) -> Bool {
-        guard let uid = Auth.auth().currentUser?.uid else { fatalError() }
+        guard let uid = Auth.auth().currentUser?.uid else { return false }
         guard let readByIds = dictionary["readBy"] as? [String: Any] else { return true }
         return readByIds[uid] != nil
     }
     
-    func chatPartnerId() -> String {
-        guard let uid = Auth.auth().currentUser?.uid else { fatalError() }
+    func chatPartnerId() -> String? {
+        guard let uid = Auth.auth().currentUser?.uid else { return nil }
         return memberIds[0] == uid ? memberIds[1] : memberIds[0]
     }
 }

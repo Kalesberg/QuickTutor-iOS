@@ -151,7 +151,9 @@ class DataService {
             
             let value: [String : Any] = ["startedBy": uid, "startType": "manual", "sessionType": QTSessionType.quickCalls.rawValue]
             Database.database().reference().child("sessionStarts").child(uid).child(ref1.key!).setValue(value)
-            Database.database().reference().child("sessionStarts").child(sessionRequest.partnerId()).child(ref1.key!).setValue(value)
+            if let partnerId = sessionRequest.partnerId() {
+                Database.database().reference().child("sessionStarts").child(partnerId).child(ref1.key!).setValue(value)
+            }
             
             // remove local notification
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [ref1.key!])

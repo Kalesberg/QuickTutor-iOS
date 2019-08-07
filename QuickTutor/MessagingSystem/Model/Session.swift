@@ -65,8 +65,8 @@ class Session: Codable {
         return lengthInSeconds / 60
     }
 
-    func partnerId() -> String {
-        guard let uid = Auth.auth().currentUser?.uid else { fatalError() }
+    func partnerId() -> String? {
+        guard let uid = Auth.auth().currentUser?.uid else { return nil }
         return receiverId == uid ? senderId : receiverId
     }
 

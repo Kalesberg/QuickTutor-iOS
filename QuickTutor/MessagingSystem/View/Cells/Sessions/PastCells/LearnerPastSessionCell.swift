@@ -21,16 +21,19 @@ class LearnerPastSessionCell: BasePastSessionCell, MessageButtonDelegate, Reques
 
     override func handleButton1() {
         super.handleButton1()
-        requestSession(session.partnerId())
+        guard let partnerId = session.partnerId() else { return }
+        requestSession(partnerId)
     }
 
     override func handleButton2() {
         super.handleButton2()
-        showConversationWithUID(session.partnerId())
+        guard let partnerId = session.partnerId() else { return }
+        showConversationWithUID(partnerId)
     }
 
     override func handleButton3() {
         super.handleButton3()
-        viewProfileWithUID(session.partnerId())
+        guard let partnerId = session.partnerId() else { return }
+        viewProfileWithUID(partnerId)
     }
 }

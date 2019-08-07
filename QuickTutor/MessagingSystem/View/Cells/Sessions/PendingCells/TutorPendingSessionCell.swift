@@ -19,7 +19,8 @@ class TutorPendingSessionCell: BasePendingSessionCell, MessageButtonDelegate {
     }
     
     override func handleButton1() {
-        showConversationWithUID(session.partnerId())
+        guard let partnerId = session.partnerId() else { return }
+        showConversationWithUID(partnerId)
     }
     
     override func handleButton2() {
@@ -38,7 +39,9 @@ class TutorPendingSessionCell: BasePendingSessionCell, MessageButtonDelegate {
         let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
         Database.database().reference().child("userSessions").child(uid)
             .child(userTypeString).child(session.id).setValue(0)
-        Database.database().reference().child("userSessions").child(session.partnerId())
-            .child(otherUserTypeString).child(session.id).setValue(0)
+        if let partnerId = session.partnerId() {
+            Database.database().reference().child("userSessions").child(partnerId)
+                .child(otherUserTypeString).child(session.id).setValue(0)
+        }
     }
 }
