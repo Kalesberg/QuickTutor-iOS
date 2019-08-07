@@ -414,7 +414,13 @@ class CategorySearchVC: UIViewController {
             self.view.hideSkeleton()
             
             guard let tutors = tutors else {
-                self.emptyBackground.isHidden = false
+                if self.datasource.isEmpty {
+                    self.emptyBackground.isHidden = false
+                } else {
+                    self.emptyBackground.isHidden = true
+                }
+                self.loadedAllTutors = true
+                self.collectionView.reloadData()
                 return
             }
             
@@ -445,7 +451,13 @@ class CategorySearchVC: UIViewController {
             self.view.hideSkeleton()
             
             guard let tutors = tutors else {
-                self.emptyBackground.isHidden = false
+                if self.datasource.isEmpty {
+                    self.emptyBackground.isHidden = false
+                } else {
+                    self.emptyBackground.isHidden = true
+                }
+                self.loadedAllTutors = true
+                self.collectionView.reloadData()
                 return
             }
             
@@ -478,7 +490,13 @@ class CategorySearchVC: UIViewController {
             self.view.hideSkeleton()
             
             guard let tutors = tutors else {
-                self.emptyBackground.isHidden = false
+                if self.datasource.isEmpty {
+                    self.emptyBackground.isHidden = false
+                } else {
+                    self.emptyBackground.isHidden = true
+                }
+                self.loadedAllTutors = true
+                self.collectionView.reloadData()
                 return
             }
             
