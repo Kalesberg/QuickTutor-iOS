@@ -45,6 +45,11 @@ class LearnerSessionsVC: BaseSessionsVC {
         setupRefreshControl()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
     func setupRequestSessionButton() {
         view.addSubview(requestSessionButton)
         requestSessionButton.anchor(top: nil, left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 65)
