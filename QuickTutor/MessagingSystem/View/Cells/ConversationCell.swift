@@ -15,8 +15,8 @@ class ConversationCell: SwipeCollectionViewCell {
     var chatPartner: User!
     
     let profileImageView: UserImageView = {
-        let iv = UserImageView(frame: CGRect.zero)
-        iv.onlineStatusIndicator.backgroundColor = Colors.newScreenBackground
+        let iv = UserImageView(frame: .zero)
+        iv.onlineStatusIndicator.backgroundColor = Colors.gray
         iv.isSkeletonable = true
         return iv
     }()
@@ -46,7 +46,7 @@ class ConversationCell: SwipeCollectionViewCell {
         label.font = Fonts.createSize(12)
         label.textColor = UIColor.white.withAlphaComponent(0.5)
         label.textAlignment = .right
-        label.isHidden = true
+        label.isSkeletonable = true
         return label
     }()
     
@@ -119,6 +119,7 @@ class ConversationCell: SwipeCollectionViewCell {
     func updateUI(message: UserMessage) {
         guard let user = message.user,
             let partnerId = message.partnerId() else { return }
+        
         chatPartner = user
         updateUsernameLabel()
         updateOnlineStatusIndicator()
@@ -149,7 +150,6 @@ class ConversationCell: SwipeCollectionViewCell {
     }
     
     private func updateTimestampLabel(message: UserMessage) {
-        timestampLabel.isHidden = false
         let timestampDate = Date(timeIntervalSince1970: message.timeStamp.doubleValue)
         timestampLabel.text = timestampDate.formatRelativeString()
     }

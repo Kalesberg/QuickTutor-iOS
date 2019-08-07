@@ -119,26 +119,14 @@ class MessagesVC: UIViewController {
     
     @objc func refreshMessages() {
         conversationsDictionary.removeAll()
-        self.messages.removeAll()
-        self.collectionView.reloadData()
-        
-        // Start the animation of refresh control
-        self.refreshControl.layoutIfNeeded()
-        self.refreshControl.beginRefreshing()
-        
-        fetchConversations()
+        messages.removeAll()
+        filteredMessages.removeAll()
+        collectionView.reloadData()
         
         // End the animation of refersh control
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+            self.fetchConversations()
             self.refreshControl.endRefreshing()
-            
-            // Update the content offset of collection view for refersh control
-            var top: CGFloat = 0
-            if #available(iOS 11.0, *) {
-                top = self.collectionView.adjustedContentInset.top
-            }
-            let y = self.refreshControl.frame.minY + top
-            self.collectionView.setContentOffset(CGPoint(x: 0, y: -y), animated:true)
         })
     }
     
@@ -188,6 +176,10 @@ class MessagesVC: UIViewController {
     var metaDataDictionary = [String: ConversationMetaData]()
     @objc func fetchConversations() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        collectionView.isUserInteractionEnabled = false
+        collectionView.showAnimatedSkeleton(usingColor: Colors.gray)
+        
         let userTypeString = AccountService.shared.currentUserType.rawValue
         
         Database
@@ -265,7 +257,11 @@ class MessagesVC: UIViewController {
             message.uid = snapshot.key
             guard let partnerId = message.partnerId() else { return }
             UserFetchService.shared.getUserOfOppositeTypeWithId(partnerId) { user in
-                guard let user = user else { return }
+                guard let user = user else {
+                    self.collectionView.isUserInteractionEnabled = true
+                    self.collectionView.hideSkeleton()
+                    return
+                }
                 
                 message.user = user
                 
@@ -359,13 +355,11 @@ class MessagesVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        fetchConversations()
         getUserStatuses()
         
-        collectionView.isUserInteractionEnabled = false
         collectionView.isSkeletonable = true
         collectionView.prepareSkeleton { _ in
-            self.collectionView.showAnimatedSkeleton(usingColor: Colors.gray)
+            self.fetchConversations()
         }
     }
     
@@ -429,10 +423,6 @@ extension MessagesVC: UICollectionViewDelegate, SkeletonCollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? ConversationCell else { return }
         cell.contentView.backgroundColor = cell.contentView.backgroundColor?.lighter(by: 15)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -528,6 +518,8 @@ extension MessagesVC: SwipeCollectionViewCellDelegate {
         }
         
         conversationsDictionary.removeValue(forKey: id)
+        metaDataDictionary.removeValue(forKey: id)
+        updateTabBarBadge()
         
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.25) {
             self.collectionView.reloadData()
