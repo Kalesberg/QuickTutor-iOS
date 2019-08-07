@@ -13,7 +13,7 @@ import SkeletonView
 
 class MessagesVC: UIViewController {
     let refreshControl = UIRefreshControl()
-
+    
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -25,6 +25,7 @@ class MessagesVC: UIViewController {
     }()
     
     var messages = [UserMessage]()
+    var filteredMessages = [UserMessage]()
     var conversationsDictionary = [String: UserMessage]()
     var swipeRecognizer: UIPanDirectionGestureRecognizer!
     
@@ -45,13 +46,17 @@ class MessagesVC: UIViewController {
         setupCollectionView()
         setupEmptyBackground()
         setupRefreshControl()
+        setupSearchController()
     }
     
     private func setupMainView() {
         view.backgroundColor = Colors.newScreenBackground
         edgesForExtendedLayout = []
         navigationItem.title = "Messages"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "connectionsIcon"), style: .plain, target: self, action: #selector(showContacts))
+        let connectionButton = UIBarButtonItem(image: UIImage(named: "connectionsIcon"), style: .plain, target: self, action: #selector(showContacts))
+        let searchButton = UIBarButtonItem(image: UIImage(named: "searchIconMain"), style: .plain, target: self, action: #selector(onClickSearch))
+        navigationItem.rightBarButtonItems = [connectionButton, searchButton]
+        
         navigationController?.navigationBar.barTintColor = Colors.newNavigationBarBackground
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
@@ -62,6 +67,22 @@ class MessagesVC: UIViewController {
     @objc func showContacts() {
         let vc = ConnectionsVC()
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc
+    private func onClickSearch () {
+        DispatchQueue.main.async {
+            if #available(iOS 11.0, *) {
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.navigationItem.hidesSearchBarWhenScrolling = false
+                    self.view.setNeedsLayout()
+                }) { finished in
+                    if finished {
+                        self.navigationItem.hidesSearchBarWhenScrolling = true
+                    }
+                }
+            }
+        }
     }
     
     func setupCollectionView() {
@@ -121,6 +142,32 @@ class MessagesVC: UIViewController {
         })
     }
     
+    // MARK: - Search Controler Handlers
+    var searchController = UISearchController(searchResultsController: nil)
+    func setupSearchController() {
+        if #available(iOS 11.0, *) {
+            navigationItem.searchController = searchController
+            searchController.definesPresentationContext = true
+            searchController.dimsBackgroundDuringPresentation = false
+            searchController.searchBar.tintColor = .white
+            searchController.searchResultsUpdater = self
+        }
+    }
+    
+    func searchBarIsEmpty() -> Bool {
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    func inSearchMode() -> Bool {
+        return !searchBarIsEmpty()
+    }
+    
+    func filterMessageForSearchText(_ searchText: String, scope: String = "All") {
+        filteredMessages = messages.filter { $0.user?.formattedName.contains(searchText) == true || $0.text?.contains(searchText) == true }
+        collectionView.reloadData()
+    }
+    
+    
     func setupObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(didDisconnect), name: Notifications.didDisconnect.name, object: nil)
     }
@@ -136,6 +183,7 @@ class MessagesVC: UIViewController {
     @objc func didDisconnect() {
         collectionView.reloadData()
     }
+    
     
     var metaDataDictionary = [String: ConversationMetaData]()
     @objc func fetchConversations() {
@@ -191,7 +239,7 @@ class MessagesVC: UIViewController {
                     Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(userId).observe(.value, with: { snapshot in
                         guard let metaData = snapshot.value as? [String: Any],
                             let messageId = metaData["lastMessageId"] as? String else {
-                            // TODO: end of loading
+                                // TODO: end of loading
                                 self.collectionView.isUserInteractionEnabled = true
                                 self.collectionView.hideSkeleton()
                                 return
@@ -275,7 +323,7 @@ class MessagesVC: UIViewController {
         UserStatusService.shared.getUserStatuses { statuses in
             if !statuses.isEmpty {
                 self.userStatuses = statuses
-
+                
                 var reloadIndexPaths = [IndexPath]()
                 for index in 0..<self.messages.count {
                     let isOnline = self.userStatuses.first(where: { $0.userId == self.messages[index].user?.uid })?.status == .online
@@ -284,7 +332,7 @@ class MessagesVC: UIViewController {
                         reloadIndexPaths.append(IndexPath(item: index, section: 0))
                     }
                 }
-
+                
                 if !reloadIndexPaths.isEmpty {
                     self.collectionView.reloadItems(at: reloadIndexPaths)
                 }
@@ -294,7 +342,8 @@ class MessagesVC: UIViewController {
     
     private func showDeleteMessagesAlert(index: Int) {
         var title = "Delete Messages"
-        if let name = messages[index].user?.firstName {
+        let data = inSearchMode() ? filteredMessages : messages
+        if let name = data[index].user?.firstName {
             title.append(contentsOf: " with \(name)")
         }
         
@@ -362,13 +411,14 @@ extension MessagesVC: UICollectionViewDelegate, SkeletonCollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ConversationCell
-        cell.updateUI(message: messages[indexPath.item])
+        let message = inSearchMode() ? filteredMessages[indexPath.item] : messages[indexPath.item]
+        cell.updateUI(message: message)
         cell.delegate = self
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return messages.count
+        return inSearchMode() ? filteredMessages.count : messages.count
     }
     
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
@@ -397,10 +447,12 @@ extension MessagesVC: UIGestureRecognizerDelegate {
 
 extension MessagesVC {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let data = inSearchMode() ? filteredMessages : messages
+        
         guard let cell = collectionView.cellForItem(at: indexPath) as? ConversationCell,
-            indexPath.item <= messages.count,
-            let receiverId = messages[indexPath.item].partnerId() else { return }
-
+            indexPath.item <= data.count,
+            let receiverId = data[indexPath.item].partnerId() else { return }
+        
         cell.handleTouchDown()
         let vc = ConversationVC()
         vc.receiverId = receiverId
@@ -409,6 +461,10 @@ extension MessagesVC {
             vc.metaData = data
         }
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        searchController.resignFirstResponder()
     }
 }
 
@@ -459,8 +515,18 @@ extension MessagesVC: SwipeCollectionViewCellDelegate {
         conversationRef.removeValue()
         conversationRef.childByAutoId().removeValue()
         Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(id).removeValue()
-        messages.remove(at: indexPath.item)
-        self.emptyBackround.isHidden = self.messages.count != 0
+        
+        if inSearchMode() {
+            if let messageIndex = messages.firstIndex(where: { $0.uid == filteredMessages[indexPath.item].uid }) {
+                messages.remove(at: messageIndex)
+            }
+            filteredMessages.remove(at: indexPath.item)
+            
+        } else {
+            messages.remove(at: indexPath.item)
+            self.emptyBackround.isHidden = self.messages.count != 0
+        }
+        
         conversationsDictionary.removeValue(forKey: id)
         
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.25) {
@@ -478,5 +544,11 @@ extension MessagesVC: SwipeCollectionViewCellDelegate {
             vc.tutor = tutor
             self.navigationController?.pushViewController(vc, animated: true)
         }
+    }
+}
+
+extension MessagesVC: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        filterMessageForSearchText(searchController.searchBar.text!)
     }
 }
