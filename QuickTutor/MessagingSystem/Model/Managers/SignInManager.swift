@@ -31,10 +31,6 @@ class SignInManager {
             CardService.shared.checkForPaymentMethod()
             RootControllerManager.shared.configureRootViewController(controller: vc)
             
-            if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-                appDelegate.registerForPushNotifications(application: UIApplication.shared)
-            }
-            
             completion()
         }
     }

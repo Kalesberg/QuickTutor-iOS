@@ -27,6 +27,8 @@ class LearnerMainPageVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        registerPushNotification()
         configureView()
         setupRefreshControl()
         setupObservers()
@@ -37,6 +39,11 @@ class LearnerMainPageVC: UIViewController {
         super.viewWillAppear(animated)
         hideTabBar(hidden: false)
         navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
+    private func registerPushNotification() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        appDelegate.registerForPushNotifications(application: UIApplication.shared)
     }
     
     private func configureView() {
