@@ -680,7 +680,7 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
             guard let url = URL(string: fileDownloadUrl) else { return }
             documentUploadManager?.displayFileAtUrl(url, fromViewController: self)
         } else {
-            openLinkIfNeeded(message: userMessage)
+//            openLinkIfNeeded(message: userMessage)
         }
 
     }

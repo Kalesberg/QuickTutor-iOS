@@ -25,16 +25,15 @@ class UserTextMessageCell: BaseMessageCell {
         return view
     }()
     
-    var textLabel: ChatLabel = {
-        let label = ChatLabel ()
+    var textLabel: ActiveLabel = {
+        let label = ActiveLabel ()
         label.numberOfLines = 0
-        label.enabledTypes = [.url]
+//        label.enabledTypes = [.url]
         label.textColor = .white
         label.font = Fonts.createSize(14)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.backgroundColor = .clear
-//        label.inset = UIEdgeInsets(top: -3, left: 4, bottom: 0, right: -4)
-        label.handleURLTap { url in
+        /*label.handleURLTap { url in
             guard UIApplication.shared.canOpenURL(url) else { return }
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
@@ -44,7 +43,7 @@ class UserTextMessageCell: BaseMessageCell {
                 atts[NSAttributedString.Key.underlineStyle] = NSUnderlineStyle.single.rawValue
             }
             return atts
-        }
+        }*/
         return label
     }()
     
@@ -71,10 +70,9 @@ class UserTextMessageCell: BaseMessageCell {
     override func updateUI(message: UserMessage) {
         super.updateUI(message: message)
         userMessage = message
-        textLabel.text = message.text
+        configureTextLabel (message)
         guard let uid = Auth.auth().currentUser?.uid else { return }
         message.senderId == uid ? setupBubbleViewAsSentMessage() : setupBubbleViewAsReceivedMessage()
-        textLabel.URLColor = message.senderId == uid ? Colors.gray : Colors.purple
         updateTimeLabel(message: message)
     }
     
@@ -139,12 +137,68 @@ class UserTextMessageCell: BaseMessageCell {
     private func setupTextLabel() {
         bubbleView.addSubview(textLabel)
         bubbleView.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: nil, paddingTop: 9, paddingLeft: 9, paddingBottom: 9, paddingRight: 9, width: 0, height: 0)
-        textLabel.anchor(top: bubbleView.topAnchor, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 5, paddingLeft: 12, paddingBottom: 5, paddingRight: 9, width: 0, height: 0)
+        textLabel.anchor(top: bubbleView.topAnchor, left: bubbleView.leftAnchor, bottom: bubbleView.bottomAnchor, right: bubbleView.rightAnchor, paddingTop: 0, paddingLeft: 12, paddingBottom: 0, paddingRight: 9, width: 0, height: 0)
     }
     
     private func setupTimeLabel() {
         addSubview(timeLabel)
         timeLabel.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 5, width: 60, height: 0)
+    }
+    
+    private func configureTextLabel (_ message: UserMessage) {
+//        textLabel.URLColor = message.senderId == uid ? Colors.gray : Colors.purple
+        textLabel.text = message.text
+        var links = [String]()
+        var enableTypes = [ActiveType]()
+        
+        // get link strings
+        guard let input = message.text else { return }
+        let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+        let matches = detector.matches(in: input, options: [], range: NSRange(location: 0, length: input.utf16.count))
+        
+        // set link urls
+        for match in matches {
+            guard let range = Range(match.range, in: input) else { continue }
+            let url = input[range]
+            let urlType = ActiveType.custom(pattern: String(url))
+            
+            // link configuration
+            guard let uid = Auth.auth().currentUser?.uid else { return }
+            textLabel.customColor[urlType] = message.senderId == uid ? Colors.gray : Colors.purple
+            
+            // enable types
+            enableTypes.append(urlType)
+            links.append(String(url))
+        }
+        
+        textLabel.enabledTypes = enableTypes
+        
+        // link configuration
+        textLabel.customize { (label) in
+            label.configureLinkAttribute = { (type, attributes, isSelected) in
+                var atts = attributes
+                for urlType in self.textLabel.enabledTypes {
+                    if type == urlType {
+                        atts[NSAttributedString.Key.underlineStyle] = NSUnderlineStyle.single.rawValue
+                    }
+                }
+                return atts
+            }
+        }
+        
+        // link action
+        for index in 0..<enableTypes.count {
+            textLabel.handleCustomTap(for: enableTypes[index]) { (_) in
+                var urlString = links[index]
+                if !urlString.contains("http") {
+                    urlString = "http://" + urlString
+                }
+                
+                if let url = URL(string: urlString) {
+                    UIApplication.shared.open(url)
+                }
+            }
+        }
     }
     
     override var canBecomeFirstResponder: Bool {
@@ -179,18 +233,5 @@ class UserTextMessageCell: BaseMessageCell {
     
     override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
         return action == #selector(copy(_:))
-    }
-}
-
-
-class ChatLabel: ActiveLabel {
-    var inset: UIEdgeInsets = .zero {
-        didSet {
-            setNeedsDisplay()
-        }
-    }
-    
-    override func draw(_ rect: CGRect) {
-        super.drawText(in: rect.inset(by: inset))
     }
 }
