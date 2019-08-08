@@ -53,11 +53,13 @@ class HLActivityIndicatorView: UIView {
     func startAnimation(updatedText: String) {
         indicatorLabel.text = updatedText
         indicatorView.startAnimating()
+        self.isHidden = false
     }
     
     func stopAnimation() {
         indicatorLabel.text = ""
         indicatorView.stopAnimating()
+        self.isHidden = true
     }
     
 }
@@ -126,6 +128,7 @@ class QTAllSearchViewController: UIViewController {
     var allSubjects = [(String, String)]()
     var recentSearches: [QTRecentSearchModel] = []
     var filteredUsers = [UsernameQuery]()
+    var resultUsers = [UsernameQuery]()
     var filteredSubjects = [(String, String)]()
     var isSearchMode: Bool = false
     var searchTimer: Timer?
@@ -153,18 +156,18 @@ class QTAllSearchViewController: UIViewController {
         super.viewDidLoad()
 
         tableView.register(QTRecentSearchTableViewCell.nib, forCellReuseIdentifier: QTRecentSearchTableViewCell.reuseIdentifier)
-        tableView.estimatedRowHeight = 65
+        tableView.estimatedRowHeight = 66
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorColor = .clear
         tableView.backgroundColor = Colors.newNavigationBarBackground
         tableView.separatorStyle = .none
         
         // Add indicator view
-        tableView.addSubview(indicatorView)
+        self.view.addSubview(indicatorView)
         indicatorView.translatesAutoresizingMaskIntoConstraints = false
-        indicatorView.topAnchor.constraint(equalTo: tableView.topAnchor).isActive = true
-        indicatorView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor).isActive = true
-        indicatorView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor).isActive = true
+        indicatorView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        indicatorView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+        indicatorView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
         
         allSubjects = SubjectStore.shared.loadTotalSubjectList() ?? []
         recentSearches = QTUtils.shared.getRecentSearches()
@@ -226,7 +229,8 @@ class QTAllSearchViewController: UIViewController {
         searchTimer?.invalidate()
         searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false
             , block: { (_) in
-
+                
+                self.resultUsers.removeAll()
                 let group = DispatchGroup()
                 group.enter()
                 let ref: DatabaseReference! = Database.database().reference().child("tutor-info")
@@ -238,7 +242,7 @@ class QTAllSearchViewController: UIViewController {
                     for snap in snapshot.children {
                         guard let child = snap as? DataSnapshot, child.key != CurrentUser.shared.learner.uid else { continue }
                         let usernameQuery = UsernameQuery(snapshot: child)
-                        self.filteredUsers.append(usernameQuery)
+                        self.resultUsers.append(usernameQuery)
                     }
 
                     group.leave()
@@ -254,10 +258,10 @@ class QTAllSearchViewController: UIViewController {
                         for snap in snapshot.children {
                             guard let child = snap as? DataSnapshot, child.key != CurrentUser.shared.learner.uid else { continue }
                             let usernameQuery = UsernameQuery(snapshot: child)
-                            if self.filteredUsers.contains(where: {$0.username.compare(usernameQuery.username) == ComparisonResult.orderedSame}) {
+                            if self.resultUsers.contains(where: {$0.username.compare(usernameQuery.username) == ComparisonResult.orderedSame}) {
                                 continue
                             }
-                            self.filteredUsers.append(usernameQuery)
+                            self.resultUsers.append(usernameQuery)
                         }
                         
                         group.leave()
@@ -266,6 +270,7 @@ class QTAllSearchViewController: UIViewController {
                 self.filteredSubjects = self.allSubjects.filter({ $0.0.lowercased().starts(with: searchText.lowercased())}).sorted(by: {$0.0 < $1.0})
                 
                 group.notify(queue: DispatchQueue.main, execute: {
+                    self.filteredUsers = self.resultUsers
                     if self.filteredSubjects.count + self.filteredUsers.count == 0 && self.isSearchMode {
                         self.unknownSubject = searchText
                         self.indicatorView.stopAnimation()
@@ -378,7 +383,7 @@ extension QTAllSearchViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if isSearchMode || recentSearches.isEmpty {
-            return 0
+            return .leastNonzeroMagnitude
         }
         
         return 45

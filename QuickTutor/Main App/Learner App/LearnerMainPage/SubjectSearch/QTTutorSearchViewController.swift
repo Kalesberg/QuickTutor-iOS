@@ -19,6 +19,7 @@ class QTTutorSearchViewController: UIViewController {
     
     var searchFilter: SearchFilter?
     var filteredUsers = [UsernameQuery]()
+    var resultUsers = [UsernameQuery]()
     var searchTimer: Timer?
     var recentSearches: [QTRecentSearchModel] = []
     var isSearchMode: Bool = false
@@ -101,8 +102,8 @@ class QTTutorSearchViewController: UIViewController {
             return
         }
         
-        isSearchMode = true
-        filteredUsers.removeAll()
+        self.isSearchMode = true
+        self.filteredUsers.removeAll()
         self.tableView.reloadData()
         
         self.noResultView.isHidden = true
@@ -112,6 +113,7 @@ class QTTutorSearchViewController: UIViewController {
         searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false
             , block: { (_) in
                 
+                self.resultUsers.removeAll()
                 let group = DispatchGroup()
                 group.enter()
                 let ref: DatabaseReference! = Database.database().reference().child("tutor-info")
@@ -124,7 +126,7 @@ class QTTutorSearchViewController: UIViewController {
                         for snap in snapshot.children {
                             guard let child = snap as? DataSnapshot, child.key != CurrentUser.shared.learner.uid else { continue }
                             let usernameQuery = UsernameQuery(snapshot: child)
-                            self.filteredUsers.append(usernameQuery)
+                            self.resultUsers.append(usernameQuery)
                         }
 
                         group.leave()
@@ -140,10 +142,10 @@ class QTTutorSearchViewController: UIViewController {
                         for snap in snapshot.children {
                             guard let child = snap as? DataSnapshot, child.key != CurrentUser.shared.learner.uid else { continue }
                             let usernameQuery = UsernameQuery(snapshot: child)
-                            if self.filteredUsers.contains(where: {$0.username.compare(usernameQuery.username) == ComparisonResult.orderedSame}) {
+                            if self.resultUsers.contains(where: {$0.username.compare(usernameQuery.username) == .orderedSame}) {
                                 continue
                             }
-                            self.filteredUsers.append(usernameQuery)
+                            self.resultUsers.append(usernameQuery)
                         }
                         
                         group.leave()
@@ -151,6 +153,7 @@ class QTTutorSearchViewController: UIViewController {
                 
                 group.notify(queue: DispatchQueue.main, execute: {
                     DispatchQueue.main.async {
+                        self.filteredUsers = self.resultUsers
                         if self.filteredUsers.count == 0 && self.isSearchMode {
                             self.noResultView.isHidden = false
                             self.indicatorView.stopAnimation()
@@ -217,7 +220,7 @@ extension QTTutorSearchViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if isSearchMode || recentSearches.isEmpty {
-            return 0
+            return .leastNonzeroMagnitude
         }
         
         return 45

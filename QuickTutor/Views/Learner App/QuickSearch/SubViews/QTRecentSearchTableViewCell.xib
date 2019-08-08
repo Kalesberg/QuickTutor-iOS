@@ -23,7 +23,7 @@
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="QTRecentSearchTableViewCell" customModule="QuickTutor" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="320" height="66"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="65.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
@@ -72,7 +72,7 @@
                 <color key="backgroundColor" red="0.08235294118" green="0.08235294118" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
                     <constraint firstItem="YD8-WO-Ggk" firstAttribute="leading" secondItem="q0B-A6-CAx" secondAttribute="trailing" constant="15" id="4PK-AO-pkY"/>
-                    <constraint firstAttribute="bottom" secondItem="q0B-A6-CAx" secondAttribute="bottom" constant="8" id="9fr-GR-2QM"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="q0B-A6-CAx" secondAttribute="bottom" constant="8" id="9fr-GR-2QM"/>
                     <constraint firstItem="21y-ci-x0C" firstAttribute="centerY" secondItem="q0B-A6-CAx" secondAttribute="centerY" id="BVz-YQ-t9k"/>
                     <constraint firstItem="YD8-WO-Ggk" firstAttribute="centerY" secondItem="q0B-A6-CAx" secondAttribute="centerY" id="VQr-cQ-cLq"/>
                     <constraint firstItem="21y-ci-x0C" firstAttribute="leading" secondItem="YD8-WO-Ggk" secondAttribute="trailing" constant="8" id="nfV-uy-5dS"/>
