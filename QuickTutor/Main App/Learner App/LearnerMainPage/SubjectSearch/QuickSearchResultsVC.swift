@@ -383,6 +383,8 @@ class TutorAddSubjectsResultsVC: UIViewController {
         }
     }
     
+    private var selectedSubjectIndex = -1
+    
     let contentView: TutorAddSubjectsResultsVCView = {
         let view = TutorAddSubjectsResultsVCView()
         return view
@@ -432,6 +434,8 @@ class TutorAddSubjectsResultsVC: UIViewController {
     
     func setupObserers() {
         NotificationCenter.default.addObserver(self, selector: #selector(showAlert), name: NSNotification.Name(rawValue: "com.qt.tooManySubjects"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(addSubject(_:)), name: Notifications.tutorDidAddSubject.name, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(removeSubject(_:)), name: Notifications.tutorDidRemoveSubject.name, object: nil)
     }
     
     @objc func showAlert() {
@@ -442,6 +446,22 @@ class TutorAddSubjectsResultsVC: UIViewController {
         present(ac, animated: true, completion: nil)
     }
     
+    @objc
+    private func addSubject (_ notification: Notification) {
+        guard selectedSubjectIndex > -1,
+            let cell = contentView.collectionView.cellForItem(at: IndexPath(item: selectedSubjectIndex, section: 0)) as? TutorAddSubjectsResultsCell else { return }
+        cell.selectionView.isHidden = false
+        cell.titleLabel.textColor = Colors.purple
+    }
+    
+    @objc
+    private func removeSubject (_ notification: Notification) {
+        guard selectedSubjectIndex > -1,
+            let cell = contentView.collectionView.cellForItem(at: IndexPath(item: selectedSubjectIndex, section: 0)) as? TutorAddSubjectsResultsCell else { return }
+        cell.selectionView.isHidden = true
+        cell.titleLabel.textColor = .white
+    }
+
     func sendEmail(subject: String) {
         if MFMailComposeViewController.canSendMail() {
             let mail = MFMailComposeViewController()
@@ -482,6 +502,7 @@ extension TutorAddSubjectsResultsVC: UICollectionViewDataSource, UICollectionVie
         let category = Category.category(for: categoryString)!
         cell.imageView.image = Category.imageFor(category: category)
         cell.selectionView.isHidden = !TutorRegistrationService.shared.subjects.contains(currentSubjects[indexPath.item])
+        cell.titleLabel.textColor = TutorRegistrationService.shared.subjects.contains(currentSubjects[indexPath.item]) ? Colors.purple : .white
         return cell
     }
     
@@ -490,15 +511,21 @@ extension TutorAddSubjectsResultsVC: UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! TutorAddSubjectsResultsCell
-        cell.selectionView.isHidden = !cell.selectionView.isHidden
+        guard let cell = collectionView.cellForItem(at: indexPath) as? TutorAddSubjectsResultsCell else { return }
+        selectedSubjectIndex = indexPath.item
+        if cell.selectionView.isHidden {
+            TutorRegistrationService.shared.addSubject(currentSubjects[indexPath.item])
+        } else {
+            TutorRegistrationService.shared.removeSubject(currentSubjects[indexPath.item])
+        }
+        /*cell.selectionView.isHidden = !cell.selectionView.isHidden
         if cell.selectionView.isHidden {
             TutorRegistrationService.shared.removeSubject(currentSubjects[indexPath.item])
             cell.titleLabel.textColor = .white
         } else {
             TutorRegistrationService.shared.addSubject(currentSubjects[indexPath.item])
             cell.titleLabel.textColor = Colors.purple
-        }
+        }*/
     }
 }
 
