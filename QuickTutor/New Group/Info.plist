@@ -83,10 +83,7 @@
 	<key>NSContactsUsageDescription</key>
 	<string>To invite friends to join the platform</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>For displaying users accurately according to their in-app location setting. 
-
-
-</string>
+	<string>For displaying users accurately according to their in-app location setting.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>For video sessions</string>
 	<key>NSPhotoLibraryUsageDescription</key>

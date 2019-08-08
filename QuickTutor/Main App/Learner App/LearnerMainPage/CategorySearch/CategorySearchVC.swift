@@ -69,6 +69,7 @@ class QTSearchBarView: UIView {
     @objc
     func handleDidClearButtonClicked(_ sender: UIButton) {
         searchBar.text = nil
+        searchBar.becomeFirstResponder()
         handleDidSearchTextChanged(searchBar)
     }
     
