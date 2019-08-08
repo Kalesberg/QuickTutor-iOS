@@ -56,7 +56,8 @@ class MessagesVC: UIViewController {
         edgesForExtendedLayout = []
         navigationItem.title = "Messages"
         let connectionButton = UIBarButtonItem(image: UIImage(named: "connectionsIcon"), style: .plain, target: self, action: #selector(showContacts))
-        let searchButton = UIBarButtonItem(image: UIImage(named: "searchIconMain"), style: .plain, target: self, action: #selector(onClickSearch))
+        let searchButton = UIBarButtonItem(image: UIImage(named: "searchIcon"), style: .plain, target: self, action: #selector(onClickSearch))
+        searchButton.tintColor = .white
         navigationItem.rightBarButtonItems = [connectionButton, searchButton]
         
         navigationController?.navigationBar.barTintColor = Colors.newNavigationBarBackground
@@ -77,10 +78,13 @@ class MessagesVC: UIViewController {
             if #available(iOS 11.0, *) {
                 UIView.animate(withDuration: 0.3, animations: {
                     self.navigationItem.hidesSearchBarWhenScrolling = false
+                    self.navigationItem.largeTitleDisplayMode = .always
+                    self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
                     self.view.setNeedsLayout()
                 }) { finished in
                     if finished {
                         self.navigationItem.hidesSearchBarWhenScrolling = true
+                        self.navigationItem.largeTitleDisplayMode = .automatic
                     }
                 }
             }
@@ -147,7 +151,10 @@ class MessagesVC: UIViewController {
     }
     
     func filterMessageForSearchText(_ searchText: String, scope: String = "All") {
-        filteredMessages = messages.filter { $0.user?.formattedName.contains(searchText) == true || $0.text?.contains(searchText) == true }
+        filteredMessages = messages.filter {
+            $0.user?.formattedName.lowercased().contains(searchText.lowercased()) == true
+                || $0.text?.lowercased().contains(searchText.lowercased()) == true
+        }
         collectionView.reloadData()
     }
     
