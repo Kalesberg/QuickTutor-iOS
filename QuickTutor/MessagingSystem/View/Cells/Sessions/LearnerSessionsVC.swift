@@ -45,6 +45,11 @@ class LearnerSessionsVC: BaseSessionsVC {
         setupRefreshControl()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
     func setupRequestSessionButton() {
         view.addSubview(requestSessionButton)
         requestSessionButton.anchor(top: nil, left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 65)
@@ -141,10 +146,11 @@ extension LearnerSessionsVC: SessionCellDelgate {
     func sessionCell(_ sessionCell: BaseSessionCell, shouldStart session: Session) {
         currentUserHasPayment { (hasPayment) in
             guard hasPayment else { return }
-            guard let uid = Auth.auth().currentUser?.uid else { return }
+            guard let uid = Auth.auth().currentUser?.uid,
+                let partnerId = session.partnerId() else { return }
             let value = ["startedBy": uid, "startType": "manual", "sessionType": session.type]
             Database.database().reference().child("sessionStarts").child(uid).child(session.id).setValue(value)
-            Database.database().reference().child("sessionStarts").child(session.partnerId()).child(session.id).setValue(value)
+            Database.database().reference().child("sessionStarts").child(partnerId).child(session.id).setValue(value)
         }
     }
     

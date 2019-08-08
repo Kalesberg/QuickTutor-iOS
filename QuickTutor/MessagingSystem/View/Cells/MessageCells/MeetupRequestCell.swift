@@ -259,7 +259,11 @@ class SessionRequestCell: UserMessageCell {
     }
     
     @objc func startSession(_ sender: UIButton) {
-        guard let uid = Auth.auth().currentUser?.uid, let sessionRequest = sessionRequest, let id = sessionRequest.id, let delegate = self.delegate else { return }
+        guard let uid = Auth.auth().currentUser?.uid,
+            let sessionRequest = sessionRequest,
+            let id = sessionRequest.id,
+            let delegate = self.delegate,
+            let partnerId = sessionRequest.partnerId() else { return }
         
         guard delegate.sessionRequestCellShouldStartSession(cell: self) else {
             return
@@ -267,7 +271,8 @@ class SessionRequestCell: UserMessageCell {
         
         let value = ["startedBy": uid, "startType": "manual", "sessionType": sessionRequest.type]
         Database.database().reference().child("sessionStarts").child(uid).child(id).setValue(value)
-        Database.database().reference().child("sessionStarts").child(sessionRequest.partnerId()).child(id).setValue(value)
+        
+        Database.database().reference().child("sessionStarts").child(partnerId).child(id).setValue(value)
     }
 
     func updateAsCompleted() {
@@ -425,12 +430,15 @@ class SessionRequestCell: UserMessageCell {
     }
 
     func markSessionDataStale() {
-        guard let uid = Auth.auth().currentUser?.uid, let request = sessionRequest, let id = request.id else { return }
+        guard let uid = Auth.auth().currentUser?.uid,
+            let request = sessionRequest,
+            let id = request.id,
+            let partnerId = request.partnerId() else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
         let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
         Database.database().reference().child("userSessions").child(uid)
             .child(userTypeString).child(id).setValue(0)
-        Database.database().reference().child("userSessions").child(request.partnerId())
+        Database.database().reference().child("userSessions").child(partnerId)
             .child(otherUserTypeString).child(id).setValue(0)
     }
 

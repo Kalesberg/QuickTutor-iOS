@@ -17,10 +17,12 @@ class TutorPastSessionCell: BasePastSessionCell, MessageButtonDelegate, RequestS
     }
 
     override func handleButton1() {
-        showConversationWithUID(session.partnerId())
+        guard let partnerId = session.partnerId() else { return }
+        showConversationWithUID(partnerId)
     }
 
     override func handleButton2() {
-        viewProfileWithUID(session.partnerId())
+        guard let partnerId = session.partnerId() else { return }
+        viewProfileWithUID(partnerId)
     }
 }

@@ -49,8 +49,9 @@ class SessionManager {
     }
 
     func markSessionAsInProgress() {
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-            InProgressSessionManager.shared.markSessionAsInProgress(sessionId: self.session.id, partnerId: self.session.partnerId())
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            guard let partnerId = self.session.partnerId() else { return }
+            InProgressSessionManager.shared.markSessionAsInProgress(sessionId: self.session.id, partnerId: partnerId)
         }
     }
 
@@ -59,9 +60,10 @@ class SessionManager {
     }
 
     func removeStartData() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let uid = Auth.auth().currentUser?.uid,
+            let partnerId = session.partnerId() else { return }
         Database.database().reference().child("sessionStarts").child(uid).removeValue()
-        Database.database().reference().child("sessionStarts").child(session.partnerId()).removeValue()
+        Database.database().reference().child("sessionStarts").child(partnerId).removeValue()
     }
 
     @objc func pauseSession() {
@@ -158,8 +160,9 @@ class SessionManager {
         }
         
         socket.on(SocketEvents.endSession) { _, _ in
-            guard let session = self.session else { return }
-            InProgressSessionManager.shared.removeSessionFromInProgress(sessionId: self.sessionId, partnerId: session.partnerId())
+            guard let session = self.session,
+                let partnerId = session.partnerId() else { return }
+            InProgressSessionManager.shared.removeSessionFromInProgress(sessionId: self.sessionId, partnerId: partnerId)
             self.delegate?.sessionManager(self, didEnd: session)
         }
         

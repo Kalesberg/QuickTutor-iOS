@@ -97,8 +97,8 @@ class SessionRequest {
         return dateFormatter.string(from: dateFromTimeInterval)
     }
 
-    func partnerId() -> String {
-        guard let uid = Auth.auth().currentUser?.uid else { fatalError() }
+    func partnerId() -> String? {
+        guard let uid = Auth.auth().currentUser?.uid else { return nil }
         return receiverId == uid ? senderId : receiverId
     }
     

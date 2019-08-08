@@ -23,7 +23,8 @@ class BaseUpcomingSessionCell: BaseSessionCell, MessageButtonDelegate, CancelSes
     }
 
     override func handleButton1() {
-        showConversationWithUID(session.partnerId())
+        guard let partnerId = session.partnerId() else { return }
+        showConversationWithUID(partnerId)
     }
 
     override func handleButton2() {
@@ -37,9 +38,10 @@ class BaseUpcomingSessionCell: BaseSessionCell, MessageButtonDelegate, CancelSes
     }
 
     func startSession() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let uid = Auth.auth().currentUser?.uid,
+            let partnerId = session.partnerId() else { return }
         let value = ["startedBy": uid, "startType": "manual", "sessionType": session.type]
         Database.database().reference().child("sessionStarts").child(uid).child(session.id).setValue(value)
-        Database.database().reference().child("sessionStarts").child(session.partnerId()).child(session.id).setValue(value)
+        Database.database().reference().child("sessionStarts").child(partnerId).child(session.id).setValue(value)
     }
 }

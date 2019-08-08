@@ -29,6 +29,7 @@ class QTProfileViewController: UIViewController {
     @IBOutlet weak var messageButton: UIButton!
     @IBOutlet weak var ratingStarImageView: UIImageView!
     @IBOutlet weak var ratingLabel: UILabel!
+    @IBOutlet weak var lblSubjectTitle: UILabel!
     @IBOutlet weak var topSubjectLabel: UILabel!
     @IBOutlet weak var statisticStackView: UIStackView!
     @IBOutlet weak var numberOfLearnersLabel: UILabel!
@@ -290,7 +291,6 @@ class QTProfileViewController: UIViewController {
         subjectsCollectionView.isUserInteractionEnabled = false
         
         reviewsTableView.dataSource = self
-        reviewsTableView.delegate = self
         
         reviewsTableView.register(QTReviewTableViewCell.nib, forCellReuseIdentifier: QTReviewTableViewCell.reuseIdentifier)
         reviewsTableView.estimatedRowHeight = 100
@@ -323,6 +323,7 @@ class QTProfileViewController: UIViewController {
                 }
             }
         } else {
+            lblSubjectTitle.superview?.isHidden = true
             UserFetchService.shared.getUserWithId(user.uid, type: .learner) { (learner) in
                 self.avatarImageView.sd_setImage(with: learner?.profilePicUrl)
                 if let url = learner?.profilePicUrl {
@@ -657,11 +658,11 @@ class QTProfileViewController: UIViewController {
     
     func createLightBoxImages() -> [LightboxImage] {
         var images = [LightboxImage]()
-        user?.images.forEach({ (arg) in
-            let (_, imageUrl) = arg
-            guard let url = URL(string: imageUrl) else { return }
+        let imageKeys = user?.images.keys.sorted(by: { $0 < $1 })
+        imageKeys?.forEach {
+            guard let imageUrl = user?.images[$0], let url = URL(string: imageUrl) else { return }
             images.append(LightboxImage(imageURL: url))
-        })
+        }
         return images
     }
     
@@ -910,11 +911,6 @@ extension QTProfileViewController: UICollectionViewDataSource {
         updateSubjectsHeight()
         return cell
     }
-}
-
-// MARK: - UITableViewDelegate
-extension QTProfileViewController: UITableViewDelegate {
-    
 }
 
 // MARK: - UITableViewDataSource

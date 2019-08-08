@@ -68,9 +68,10 @@ class QTPastSessionsViewController: UIViewController {
                         
                         if session.startTime < Date().timeIntervalSince1970 || session.status == "completed",
                             0 < session.cost {
-                            if !self.sessionUserInfos.contains(where: { $0.id == session.id }) {
+                            if !self.sessionUserInfos.contains(where: { $0.id == session.id }),
+                                let partnerId = session.partnerId() {
                                 if AccountService.shared.currentUserType == .learner {
-                                    self.getTutor(tutorId: session.partnerId(), completion: { user in
+                                    self.getTutor(tutorId: partnerId, completion: { user in
                                         let sessionUserInfo = SessionUserInfo(session)
                                         if let userName = user?.formattedName.capitalized {
                                             sessionUserInfo.userName = userName
@@ -89,7 +90,7 @@ class QTPastSessionsViewController: UIViewController {
                                         return
                                     })
                                 } else {
-                                    self.getLearner(learnerId: session.partnerId(), completion: { user in
+                                    self.getLearner(learnerId: partnerId, completion: { user in
                                         let sessionUserInfo = SessionUserInfo(session)
                                         if let userName = user?.formattedName.capitalized {
                                             sessionUserInfo.userName = userName
@@ -200,9 +201,9 @@ class QTPastSessionsViewController: UIViewController {
 
 extension QTPastSessionsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        guard let partnerId = sessionUserInfos[indexPath.row].partnerId() else { return }
         if AccountService.shared.currentUserType == .learner {
-            FirebaseData.manager.fetchTutor(sessionUserInfos[indexPath.row].partnerId(), isQuery: false, { tutor in
+            FirebaseData.manager.fetchTutor(partnerId, isQuery: false, { tutor in
                 guard let tutor = tutor else { return }
                 let controller = QTProfileViewController.controller
                 controller.user = tutor
@@ -210,7 +211,7 @@ extension QTPastSessionsViewController: UITableViewDelegate {
                 self.navigationController?.pushViewController(controller, animated: true)
             })
         } else {
-            FirebaseData.manager.fetchLearner(sessionUserInfos[indexPath.row].partnerId()) { learner in
+            FirebaseData.manager.fetchLearner(partnerId) { learner in
                 guard let learner = learner else { return }
                 let controller = QTProfileViewController.controller
                 let tutor = AWTutor(dictionary: [:])
