@@ -9,6 +9,7 @@
 import UIKit
 import CoreLocation
 import SkeletonView
+import MessageUI
 
 struct CategorySelected {
     static var title: String!
@@ -98,7 +99,7 @@ class QTSearchBarView: UIView {
     }
     
     func setTitle(_ title: String) {
-        searchBar.text = title
+        searchBar.text = title.capitalized
         showSearchClearButton()
     }
         
@@ -246,6 +247,7 @@ class CategorySearchVC: UIViewController {
     var searchTimer: Timer?
     var unknownSubject: String?
     let suggestionCellHeight: CGFloat = 50
+    var hasNoSubject: Bool = false
     
     private var tableViewHeight: NSLayoutConstraint?
     
@@ -615,18 +617,29 @@ class CategorySearchVC: UIViewController {
         setupMaskView()
         setupTableView()
         
-        print("=== Prepare Skeleton Start === ")
-        print(Date().description)
-        if 0 == datasource.count {
-            collectionView.prepareSkeleton { _ in
-                self.view.showAnimatedSkeleton(usingColor: Colors.gray)
-                print("=== Prepare Skeleton End === ")
-                print(Date().description)
-                self.queryNeededTutors(lastKnownKey: nil)
+        if hasNoSubject {
+            if let subject = subject {
+                collectionView.setEmptyMessage(subject) {
+                    self.sendEmail(subject: subject)
+                }
+                self.emptyBackground.isHidden = true
+                self.loadedAllTutors = true
+                self.collectionView.reloadData()
             }
         } else {
-            filteredDatasource = datasource
-            queryNeededTutors(lastKnownKey: nil)
+            print("=== Prepare Skeleton Start === ")
+            print(Date().description)
+            if 0 == datasource.count {
+                collectionView.prepareSkeleton { _ in
+                    self.view.showAnimatedSkeleton(usingColor: Colors.gray)
+                    print("=== Prepare Skeleton End === ")
+                    print(Date().description)
+                    self.queryNeededTutors(lastKnownKey: nil)
+                }
+            } else {
+                filteredDatasource = datasource
+                queryNeededTutors(lastKnownKey: nil)
+            }
         }
         
         if let category = category {
@@ -635,6 +648,18 @@ class CategorySearchVC: UIViewController {
             titleView.setTitle(subcategory)
         } else if let subject = subject {
             titleView.setTitle(subject)
+        }
+    }
+    
+    func sendEmail(subject: String) {
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setToRecipients(["subjects@quicktutor.com"])
+            mail.setMessageBody("<p>I’m submitting a subject: <b>\(subject)</b></p>", isHTML: true)
+            present(mail, animated: true)
+        } else {
+            // show failure alert
         }
     }
     
@@ -806,6 +831,7 @@ extension CategorySearchVC: UITableViewDelegate {
             // Load subject search screen again.
             let vc = CategorySearchVC()
             vc.subject = self.filteredSubjects[indexPath.row].0
+            vc.hasNoSubject = false
             AnalyticsService.shared.logSubjectTapped(vc.subject)
             vc.searchFilter = self.searchFilter
             self.navigationController?.pushViewController(vc, animated: true)
@@ -898,8 +924,16 @@ extension CategorySearchVC: QTSearchBarViewDelegate {
         // Load subject search screen again.
         let vc = CategorySearchVC()
         vc.subject = text
+        vc.hasNoSubject = filteredSubjects.filter({$0.0.lowercased().compare(text.lowercased()) == .orderedSame}).isEmpty
         AnalyticsService.shared.logSubjectTapped(text)
         vc.searchFilter = searchFilter
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+// MARK: - MFMailComposeViewControllerDelegate
+extension CategorySearchVC: MFMailComposeViewControllerDelegate {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true)
     }
 }
