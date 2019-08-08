@@ -40,7 +40,7 @@ class QTSearchBarView: UIView {
         field.returnKeyType = .search
         field.enablesReturnKeyAutomatically = true
         field.clearButtonMode = .never
-        field.tintColor = .white
+        field.tintColor = Colors.purple
         field.autocorrectionType = .no
         return field
     }()
