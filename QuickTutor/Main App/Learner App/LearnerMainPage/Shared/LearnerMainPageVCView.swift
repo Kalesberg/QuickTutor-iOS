@@ -20,7 +20,7 @@ struct MainPageFeaturedItem {
 class LearnerMainPageVCView: UIView {
 
     let searchBarContainer: LearnerMainPageSearchBarContainer = {
-        let container = LearnerMainPageSearchBarContainer()
+        let container = LearnerMainPageSearchBarContainer(frame: CGRect(origin: .zero, size: CGSize(width: 200, height: 80)))
         return container
     }()
     
@@ -66,7 +66,6 @@ class LearnerMainPageVCView: UIView {
         searchBarContainer.anchor(top: getTopAnchor(), left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 8, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         searchBarContainerHeightAnchor = searchBarContainer.heightAnchor.constraint(equalToConstant: 87)
         searchBarContainerHeightAnchor?.isActive = true
-        layoutIfNeeded()
     }
     
     func setupCollectionView() {

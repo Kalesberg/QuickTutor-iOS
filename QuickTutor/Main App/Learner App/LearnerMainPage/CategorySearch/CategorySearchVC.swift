@@ -416,7 +416,7 @@ class CategorySearchVC: UIViewController {
             self._observing = false
             self.view.hideSkeleton()
             
-            guard let tutors = tutors else {
+            guard let tutors = tutors, !tutors.isEmpty else {
                 if self.datasource.isEmpty {
                     self.emptyBackground.isHidden = false
                 } else {
@@ -453,7 +453,7 @@ class CategorySearchVC: UIViewController {
             self._observing = false
             self.view.hideSkeleton()
             
-            guard let tutors = tutors else {
+            guard let tutors = tutors, !tutors.isEmpty else {
                 if self.datasource.isEmpty {
                     self.emptyBackground.isHidden = false
                 } else {
@@ -492,7 +492,7 @@ class CategorySearchVC: UIViewController {
             self._observing = false
             self.view.hideSkeleton()
             
-            guard let tutors = tutors else {
+            guard let tutors = tutors, !tutors.isEmpty else {
                 if self.datasource.isEmpty {
                     self.emptyBackground.isHidden = false
                 } else {
@@ -557,6 +557,18 @@ class CategorySearchVC: UIViewController {
         })
     }
     
+    func sendEmail(subject: String) {
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setToRecipients(["subjects@quicktutor.com"])
+            mail.setMessageBody("<p>I’m submitting a subject: <b>\(subject)</b></p>", isHTML: true)
+            present(mail, animated: true)
+        } else {
+            // show failure alert
+        }
+    }
+    
     // MARK: - Actions
     @objc
     func updateFilters(_ notification: Notification) {
@@ -598,6 +610,9 @@ class CategorySearchVC: UIViewController {
         super.viewDidLoad()
         
         navigationController?.navigationBar.isHidden = false
+        if #available(iOS 11.0, *) {
+            navigationController?.navigationBar.prefersLargeTitles = false
+        }
         view.backgroundColor = Colors.newScreenBackground
         
         if let subjects = SubjectStore.shared.loadTotalSubjectList() {
@@ -652,18 +667,6 @@ class CategorySearchVC: UIViewController {
         }
     }
     
-    func sendEmail(subject: String) {
-        if MFMailComposeViewController.canSendMail() {
-            let mail = MFMailComposeViewController()
-            mail.mailComposeDelegate = self
-            mail.setToRecipients(["subjects@quicktutor.com"])
-            mail.setMessageBody("<p>I’m submitting a subject: <b>\(subject)</b></p>", isHTML: true)
-            present(mail, animated: true)
-        } else {
-            // show failure alert
-        }
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
@@ -677,6 +680,7 @@ class CategorySearchVC: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        self.titleView.endEditing(true)
         hideTabBar(hidden: false)
         locationManager.stopUpdatingLocation()
     }

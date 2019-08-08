@@ -103,7 +103,7 @@ class CustomSearchBarContainer: UIView {
     
     func setupSearchBar() {
         containerView.addSubview(searchBar)
-        searchBar.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 10, paddingRight: 20, width: 0, height: 0)
+        searchBar.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 20, paddingBottom: 10, paddingRight: 0, width: 0, height: 0)
         searchBarRightAnchor = searchBar.rightAnchor.constraint(equalTo: rightAnchor, constant: 0)
         searchBarRightAnchor?.isActive = true
         searchClearButton.isHidden = true
