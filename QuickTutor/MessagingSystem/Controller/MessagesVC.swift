@@ -350,6 +350,16 @@ class MessagesVC: UIViewController {
             self.collectionView.showAnimatedSkeleton(usingColor: Colors.gray)
             self.fetchConversations()
         }
+        
+        // add notifications
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow (_:)),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide (_:)),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -384,6 +394,19 @@ class MessagesVC: UIViewController {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Notification Handler
+    @objc
+    private func keyboardWillShow (_ notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            collectionView.contentInset = UIEdgeInsets (top: 0.0, left: 0.0, bottom: keyboardFrame.cgRectValue.height, right: 0.0)
+        }
+    }
+    
+    @objc
+    private func keyboardWillHide (_ notification: Notification) {
+        collectionView.contentInset = UIEdgeInsets (top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
     }
 }
 

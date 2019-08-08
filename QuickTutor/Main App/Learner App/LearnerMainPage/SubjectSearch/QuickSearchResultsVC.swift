@@ -414,6 +414,14 @@ class TutorAddSubjectsResultsVC: UIViewController {
         hideTabBar(hidden: false)
     }
     
+    override func didMove(toParent parent: UIViewController?) {
+        super.didMove(toParent: parent)
+        
+        if nil == parent {
+            NotificationCenter.default.removeObserver(self)
+        }
+    }
+    
     @objc func onBack() {
         navigationController?.popViewController(animated: true)
     }
