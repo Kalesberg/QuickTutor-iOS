@@ -37,6 +37,8 @@ class MessagesVC: UIViewController {
     
     private var userStatuses = [UserStatus]()
     
+    private var shouldRefresh = true
+    
     // Save the old database reference in order to avoid duplicated calls.
     var conversationMetaDataRef: DatabaseReference?
     var conversationMetaDataHandle: DatabaseHandle?
@@ -118,16 +120,10 @@ class MessagesVC: UIViewController {
     }
     
     @objc func refreshMessages() {
-        conversationsDictionary.removeAll()
-        messages.removeAll()
-        filteredMessages.removeAll()
-        collectionView.reloadData()
-        
-        // End the animation of refersh control
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            self.shouldRefresh = true
             self.fetchConversations()
-            self.refreshControl.endRefreshing()
-        })
+        }
     }
     
     // MARK: - Search Controler Handlers
@@ -172,13 +168,9 @@ class MessagesVC: UIViewController {
         collectionView.reloadData()
     }
     
-    
     var metaDataDictionary = [String: ConversationMetaData]()
     @objc func fetchConversations() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        
-        collectionView.isUserInteractionEnabled = false
-        collectionView.showAnimatedSkeleton(usingColor: Colors.gray)
         
         let userTypeString = AccountService.shared.currentUserType.rawValue
         
@@ -192,8 +184,7 @@ class MessagesVC: UIViewController {
                 guard let snap = snapshot.children.allObjects as? [DataSnapshot], snap.count > 0 else {
                     // TODO: end of loading
                     self.emptyBackround.isHidden = false
-                    self.collectionView.isUserInteractionEnabled = true
-                    self.collectionView.hideSkeleton()
+                    self.endOfFetchConversations()
                     return
                 }
                 
@@ -205,8 +196,7 @@ class MessagesVC: UIViewController {
                         if index == snap.count - 1 {
                             self.emptyBackround.isHidden = false
                         }
-                        self.collectionView.isUserInteractionEnabled = true
-                        self.collectionView.hideSkeleton()
+                        self.endOfFetchConversations()
                         return
                     }
                     
@@ -232,8 +222,7 @@ class MessagesVC: UIViewController {
                         guard let metaData = snapshot.value as? [String: Any],
                             let messageId = metaData["lastMessageId"] as? String else {
                                 // TODO: end of loading
-                                self.collectionView.isUserInteractionEnabled = true
-                                self.collectionView.hideSkeleton()
+                                self.endOfFetchConversations()
                                 return
                         }
                         self.collectionView.alwaysBounceVertical = true
@@ -249,8 +238,7 @@ class MessagesVC: UIViewController {
     func getMessageById(_ messageId: String) {
         Database.database().reference().child("messages").child(messageId).observeSingleEvent(of: .value) { snapshot in
             guard let value = snapshot.value as? [String: Any] else {
-                self.collectionView.isUserInteractionEnabled = true
-                self.collectionView.hideSkeleton()
+                self.endOfFetchConversations()
                 return
             }
             let message = UserMessage(dictionary: value)
@@ -258,8 +246,7 @@ class MessagesVC: UIViewController {
             guard let partnerId = message.partnerId() else { return }
             UserFetchService.shared.getUserOfOppositeTypeWithId(partnerId) { user in
                 guard let user = user else {
-                    self.collectionView.isUserInteractionEnabled = true
-                    self.collectionView.hideSkeleton()
+                    self.endOfFetchConversations()
                     return
                 }
                 
@@ -269,32 +256,32 @@ class MessagesVC: UIViewController {
                     message.user?.isOnline = self.userStatuses.first(where: { $0.userId == user.uid })?.status == .online
                 }
                 
+                if self.shouldRefresh {
+                    self.conversationsDictionary.removeAll()
+                    self.shouldRefresh = false
+                }
                 self.conversationsDictionary[partnerId] = message
                 self.attemptReloadOfTable()
-                
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
-                    self.collectionView.isUserInteractionEnabled = true
-                    self.collectionView.hideSkeleton()
-                }
+                self.endOfFetchConversations()
             }
         }
     }
     
-    fileprivate func attemptReloadOfTable() {
-        self.timer?.invalidate()
-        self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
+    private func endOfFetchConversations() {
+        if self.collectionView.isSkeletonActive {
+            self.collectionView.isUserInteractionEnabled = true
+            self.collectionView.hideSkeleton()
+        }
+        self.refreshControl.endRefreshing()
     }
     
-    var timer: Timer?
-    @objc func handleReloadTable() {
-        self.messages = Array(self.conversationsDictionary.values)
-        self.messages.sort(by: { $0.timeStamp.intValue > $1.timeStamp.intValue })
+    fileprivate func attemptReloadOfTable() {
+        messages = Array(conversationsDictionary.values).sorted(by: { $0.timeStamp.intValue > $1.timeStamp.intValue })
+        emptyBackround.isHidden = !messages.isEmpty
         
-        self.emptyBackround.isHidden = self.messages.count != 0
-        
-        DispatchQueue.main.async(execute: {
+        DispatchQueue.main.async() {
             self.collectionView.reloadData()
-        })
+        }
     }
     
     private func updateTabBarBadge() {
@@ -315,7 +302,7 @@ class MessagesVC: UIViewController {
         }
     }
     
-    private func getUserStatuses () {
+    private func getUserStatuses() {
         UserStatusService.shared.getUserStatuses { statuses in
             if !statuses.isEmpty {
                 self.userStatuses = statuses
@@ -359,6 +346,8 @@ class MessagesVC: UIViewController {
         
         collectionView.isSkeletonable = true
         collectionView.prepareSkeleton { _ in
+            self.collectionView.isUserInteractionEnabled = false
+            self.collectionView.showAnimatedSkeleton(usingColor: Colors.gray)
             self.fetchConversations()
         }
     }
@@ -428,10 +417,6 @@ extension MessagesVC: UICollectionViewDelegate, SkeletonCollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.width, height: 80)
     }
-    
-}
-
-extension MessagesVC: UIGestureRecognizerDelegate {
     
 }
 
