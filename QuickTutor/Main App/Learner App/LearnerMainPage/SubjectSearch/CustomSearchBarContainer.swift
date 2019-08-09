@@ -43,7 +43,7 @@ class CustomSearchBarContainer: UIView {
         field.leftView = searchIcon
         field.leftView?.transform = CGAffineTransform(translationX: 12.5, y: 0)
         field.leftViewMode = .always
-        field.attributedPlaceholder = NSAttributedString(string: "Search", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white.withAlphaComponent(0.75)])
+        field.attributedPlaceholder = NSAttributedString(string: "Search Anything", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white.withAlphaComponent(0.75)])
         field.font = Fonts.createBoldSize(16)
         field.layer.cornerRadius = 4
         field.returnKeyType = .search
@@ -105,7 +105,7 @@ class CustomSearchBarContainer: UIView {
     func setupSearchBar() {
         containerView.addSubview(searchBar)
         searchBar.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 20, paddingBottom: 10, paddingRight: 0, width: 0, height: 0)
-        searchBarRightAnchor = searchBar.rightAnchor.constraint(equalTo: rightAnchor, constant: 0)
+        searchBarRightAnchor = searchBar.rightAnchor.constraint(equalTo: rightAnchor, constant: -20)
         searchBarRightAnchor?.isActive = true
         searchClearButton.isHidden = true
     }
@@ -168,7 +168,7 @@ class CustomSearchBarContainer: UIView {
     func shouldBeginEditing() {
         isEditing = true
         cancelEditingButton.isHidden = false
-        guard searchBarRightAnchor?.constant == 0 else { return }
+        guard searchBarRightAnchor?.constant == -20 else { return }
         self.layoutIfNeeded()
         searchBarRightAnchor?.constant = -70
         UIView.animate(withDuration: 0.15, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseOut, animations: {
@@ -179,14 +179,14 @@ class CustomSearchBarContainer: UIView {
     
     @objc func shouldEndEditing() {
         isEditing = false
-        searchBarRightAnchor?.constant = 0
+        searchBarRightAnchor?.constant = -20
         searchBar.text = nil
         delegate?.customSearchBar(searchBar, shouldEndEditing: true)
     }
     
     @objc func cancelEditing() {
         isEditing = false
-        searchBarRightAnchor?.constant = 0
+        searchBarRightAnchor?.constant = -20
         searchBar.text = nil
         UIView.animate(withDuration: 0.2, animations: {
             self.layoutIfNeeded()

@@ -34,7 +34,7 @@ class QTSearchBarView: UIView {
         field.backgroundColor = Colors.newNavigationBarBackground
         field.textColor = .white
         field.leftView = nil
-        field.attributedPlaceholder = NSAttributedString(string: "Search", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white.withAlphaComponent(0.75)])
+        field.attributedPlaceholder = NSAttributedString(string: "Search Anything", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white.withAlphaComponent(0.75)])
         field.font = Fonts.createBoldSize(16)
         field.layer.cornerRadius = 4
         field.returnKeyType = .search
