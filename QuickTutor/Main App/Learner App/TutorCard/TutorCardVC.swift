@@ -42,7 +42,7 @@ class TutorCardVC: UIViewController {
         navigationController?.view.backgroundColor = Colors.newScreenBackground
         navigationItem.title = tutor?.username
         if #available(iOS 11.0, *) {
-            navigationController?.navigationBar.prefersLargeTitles = false
+            navigationItem.largeTitleDisplayMode = .never
         }
     }
     

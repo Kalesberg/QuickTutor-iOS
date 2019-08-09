@@ -24,24 +24,16 @@ class MessagesVC: UIViewController {
         return cv
     }()
     
-    var messages = [UserMessage]()
-    var filteredMessages = [UserMessage]()
-    var conversationsDictionary = [String: UserMessage]()
-    var swipeRecognizer: UIPanDirectionGestureRecognizer!
-    
     let emptyBackround: EmptyMessagesBackground = {
         let bg = EmptyMessagesBackground()
         bg.isHidden = true
         return bg
     }()
     
-    private var userStatuses = [UserStatus]()
+    private var userStatuses: [UserStatus] = []
     
-    private var shouldRefresh = true
-    
-    // Save the old database reference in order to avoid duplicated calls.
-    var conversationMetaDataRef: DatabaseReference?
-    var conversationMetaDataHandle: DatabaseHandle?
+    private var aryConversationMetadata: [ConversationMetaData] = []
+    private var aryFilteredConversationMetadata: [ConversationMetaData] = []
     
     func setupViews() {
         setupMainView()
@@ -78,7 +70,7 @@ class MessagesVC: UIViewController {
                 UIView.animate(withDuration: 0.3, animations: {
                     self.navigationItem.hidesSearchBarWhenScrolling = false
                     self.navigationItem.largeTitleDisplayMode = .always
-                    if self.messages.count > 0 {
+                    if !self.aryConversationMetadata.isEmpty {
                         self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
                     }
                     self.view.setNeedsLayout()
@@ -116,19 +108,12 @@ class MessagesVC: UIViewController {
         }
         
         refreshControl.tintColor = Colors.purple
-        if #available(iOS 10.0, *) {
-            collectionView.refreshControl = refreshControl
-        } else {
-            collectionView.addSubview(refreshControl)
-        }
+        collectionView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(refreshMessages), for: .valueChanged)
     }
     
     @objc func refreshMessages() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            self.shouldRefresh = true
-            self.fetchConversations()
-        }
+        fetchConversations()
     }
     
     // MARK: - Search Controler Handlers
@@ -152,11 +137,10 @@ class MessagesVC: UIViewController {
     }
     
     func filterMessageForSearchText(_ searchText: String, scope: String = "All") {
-        filteredMessages = messages.filter {
-            $0.user?.formattedName.lowercased().contains(searchText.lowercased()) == true
-                || $0.text?.lowercased().contains(searchText.lowercased()) == true
+        aryFilteredConversationMetadata = aryConversationMetadata.filter {
+            $0.partner?.formattedName.lowercased().contains(searchText.lowercased()) == true
+                || $0.lastMessageContent?.lowercased().contains(searchText.lowercased()) == true
         }
-        collectionView.reloadData()
     }
     
     
@@ -164,113 +148,69 @@ class MessagesVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(didDisconnect), name: Notifications.didDisconnect.name, object: nil)
     }
     
-    func postOverlayDismissalNotfication() {
-        NotificationCenter.default.post(name: Notifications.hideOverlay.name, object: nil)
-    }
-    
-    func postOverlayDisplayNotification() {
-        NotificationCenter.default.post(name: Notifications.showOverlay.name, object: nil)
-    }
-    
     @objc func didDisconnect() {
         collectionView.reloadData()
     }
     
     var metaDataDictionary = [String: ConversationMetaData]()
-    @objc func fetchConversations() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+    private func fetchConversations() {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            emptyBackround.isHidden = false
+            endOfFetchConversations()
+            return
+        }
         
         let userTypeString = AccountService.shared.currentUserType.rawValue
-        
-        Database
-            .database()
-            .reference()
-            .child("conversationMetaData")
-            .child(uid)
-            .child(userTypeString)
-            .queryLimited(toLast: 100).observeSingleEvent(of: .value) { (snapshot) in
-                guard let snap = snapshot.children.allObjects as? [DataSnapshot], snap.count > 0 else {
-                    // TODO: end of loading
-                    self.emptyBackround.isHidden = false
-                    self.endOfFetchConversations()
-                    return
-                }
+        let reference = Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString)
+        reference.observe(.value) { snapshot in
+            guard let dicMetadatas = snapshot.value as? [String: Any] else {
+                self.emptyBackround.isHidden = false
+                self.endOfFetchConversations()
+                self.updateTabBarBadge()
+                return
+            }
+            
+            var tmpConversationMetaData: [ConversationMetaData] = []
+            let metadataGroup = DispatchGroup()
+            for partnerId in dicMetadatas.keys {
+                guard let dicMetadata = dicMetadatas[partnerId] as? [String: Any],
+                    let lastMessageId = dicMetadata["lastMessageId"] as? String,
+                    !lastMessageId.isEmpty else { continue }
                 
-                var index = -1
-                var hasMessage = false
-                for child in snap {
-                    index += 1;
-                    guard let meta = child.value as? [String: Any] else {
-                        if index == snap.count - 1 {
-                            self.emptyBackround.isHidden = false
-                        }
-                        self.endOfFetchConversations()
+                
+                let objConversationMetadata = ConversationMetaData(uid: partnerId, dictionary: dicMetadata)
+                metadataGroup.enter()
+                UserFetchService.shared.getUserOfOppositeTypeWithId(partnerId) { objPartner in
+                    guard let objPartner = objPartner else {
+                        metadataGroup.leave()
                         return
                     }
                     
-                    if let _ = meta["lastMessageId"] as? String {
-                        hasMessage = true
-                        break
+                    if !self.userStatuses.isEmpty {
+                        objPartner.isOnline = self.userStatuses.first(where: { $0.userId == partnerId })?.status == .online
+                    }
+                    objConversationMetadata.partner = objPartner
+                    
+                    Database.database().reference().child("messages").child(lastMessageId).observeSingleEvent(of: .value) { snapshot in
+                        metadataGroup.leave()
+                        guard let dicMessage = snapshot.value as? [String: Any] else { return }
+                        
+                        let message = UserMessage(dictionary: dicMessage)
+                        message.uid = snapshot.key
+                        objConversationMetadata.message = message
+                        tmpConversationMetaData.append(objConversationMetadata)
                     }
                 }
-                
-                self.emptyBackround.isHidden = hasMessage
-                
-                // Remove old database reference and handle.
-                if let ref = self.conversationMetaDataRef, let handle = self.conversationMetaDataHandle {
-                    ref.removeObserver(withHandle: handle)
-                    self.conversationMetaDataRef = nil
-                    self.conversationMetaDataHandle = nil
-                }
-                
-                self.conversationMetaDataRef = Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString)
-                self.conversationMetaDataHandle = self.conversationMetaDataRef?.observe(.childAdded) { snapshot in
-                    let userId = snapshot.key
-                    Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(userId).observe(.value, with: { snapshot in
-                        guard let metaData = snapshot.value as? [String: Any],
-                            let messageId = metaData["lastMessageId"] as? String else {
-                                // TODO: end of loading
-                                self.endOfFetchConversations()
-                                return
-                        }
-                        self.collectionView.alwaysBounceVertical = true
-                        let conversationMetaData = ConversationMetaData(dictionary: metaData)
-                        self.metaDataDictionary[userId] = conversationMetaData
-                        self.updateTabBarBadge()
-                        self.getMessageById(messageId)
-                    })
-                }
-        }
-    }
-    
-    func getMessageById(_ messageId: String) {
-        Database.database().reference().child("messages").child(messageId).observeSingleEvent(of: .value) { snapshot in
-            guard let value = snapshot.value as? [String: Any] else {
-                self.endOfFetchConversations()
-                return
             }
-            let message = UserMessage(dictionary: value)
-            message.uid = snapshot.key
-            guard let partnerId = message.partnerId() else { return }
-            UserFetchService.shared.getUserOfOppositeTypeWithId(partnerId) { user in
-                guard let user = user else {
-                    self.endOfFetchConversations()
-                    return
-                }
+            
+            metadataGroup.notify(queue: .main) {
+                self.aryConversationMetadata = tmpConversationMetaData.sorted(by: { ($0.lastUpdated ?? 0) > ($1.lastUpdated ?? 0) })
+                self.filterMessageForSearchText(self.searchController.searchBar.text ?? "")
                 
-                message.user = user
-                
-                if !self.userStatuses.isEmpty {
-                    message.user?.isOnline = self.userStatuses.first(where: { $0.userId == user.uid })?.status == .online
-                }
-                
-                if self.shouldRefresh {
-                    self.conversationsDictionary.removeAll()
-                    self.shouldRefresh = false
-                }
-                self.conversationsDictionary[partnerId] = message
-                self.attemptReloadOfTable()
+                self.emptyBackround.isHidden = !self.aryConversationMetadata.isEmpty                
                 self.endOfFetchConversations()
+                self.collectionView.reloadData()
+                self.updateTabBarBadge()
             }
         }
     }
@@ -283,21 +223,12 @@ class MessagesVC: UIViewController {
         self.refreshControl.endRefreshing()
     }
     
-    fileprivate func attemptReloadOfTable() {
-        messages = Array(conversationsDictionary.values).sorted(by: { $0.timeStamp.intValue > $1.timeStamp.intValue })
-        emptyBackround.isHidden = !messages.isEmpty
-        
-        DispatchQueue.main.async() {
-            self.collectionView.reloadData()
-        }
-    }
-    
     private func updateTabBarBadge() {
         let messageIndex = .learner == AccountService.shared.currentUserType ? 3 : 2
         
         guard let rootVC = tabBarController?.viewControllers?[messageIndex] else { return }
         
-        let badgeCount = metaDataDictionary.values.filter({ false == $0.hasRead }).count
+        let badgeCount = aryConversationMetadata.filter({ false == $0.hasRead }).count
         if 0 < badgeCount {
             rootVC.tabBarItem.badgeColor = .qtAccentColor
             rootVC.tabBarItem.badgeValue = 9 < badgeCount ? "9+" : "\(badgeCount)"
@@ -315,12 +246,24 @@ class MessagesVC: UIViewController {
             if !statuses.isEmpty {
                 self.userStatuses = statuses
                 
-                var reloadIndexPaths = [IndexPath]()
-                for index in 0..<self.messages.count {
-                    let isOnline = self.userStatuses.first(where: { $0.userId == self.messages[index].user?.uid })?.status == .online
-                    if isOnline != self.messages[index].user?.isOnline {
-                        self.messages[index].user?.isOnline = isOnline
-                        reloadIndexPaths.append(IndexPath(item: index, section: 0))
+                var reloadIndexPaths: [IndexPath] = []
+                for index in 0 ..< self.aryConversationMetadata.count {
+                    let isOnline = self.userStatuses.first(where: { $0.userId == self.aryConversationMetadata[index].partner?.uid })?.status == .online
+                    if isOnline != self.aryConversationMetadata[index].partner?.isOnline {
+                        self.aryConversationMetadata[index].partner?.isOnline = isOnline
+                        if !self.inSearchMode() {
+                            reloadIndexPaths.append(IndexPath(item: index, section: 0))
+                        }
+                    }
+                }
+                
+                for index in 0 ..< self.aryFilteredConversationMetadata.count {
+                    let isOnline = self.userStatuses.first(where: { $0.userId == self.aryFilteredConversationMetadata[index].partner?.uid })?.status == .online
+                    if isOnline != self.aryFilteredConversationMetadata[index].partner?.isOnline {
+                        self.aryFilteredConversationMetadata[index].partner?.isOnline = isOnline
+                        if self.inSearchMode() {
+                            reloadIndexPaths.append(IndexPath(item: index, section: 0))
+                        }
                     }
                 }
                 
@@ -332,9 +275,9 @@ class MessagesVC: UIViewController {
     }
     
     private func showDeleteMessagesAlert(index: Int) {
-        var title = "Delete Messages"
-        let data = inSearchMode() ? filteredMessages : messages
-        if let name = data[index].user?.firstName {
+        var title = "Delete Message"
+        let data = inSearchMode() ? aryFilteredConversationMetadata : aryConversationMetadata
+        if let name = data[index].partner?.firstName {
             title.append(contentsOf: " with \(name)")
         }
         
@@ -342,7 +285,6 @@ class MessagesVC: UIViewController {
         actionSheet.addAction(UIAlertAction(title: "Delete Messages", style: .destructive) { _ in
             self.deleteMessages(index: index)
         })
-        
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(actionSheet, animated: true, completion: nil)
     }
@@ -379,15 +321,9 @@ class MessagesVC: UIViewController {
         super.viewWillAppear(animated)
         hideTabBar(hidden: false)
         navigationController?.setNavigationBarHidden(false, animated: false)
+        
+        view.setNeedsLayout()
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.6) {
-            self.collectionView.reloadData() // Reload cells to remove UI state changes
-        }
-    }
-    
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -425,14 +361,14 @@ extension MessagesVC: UICollectionViewDelegate, SkeletonCollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ConversationCell
-        let message = inSearchMode() ? filteredMessages[indexPath.item] : messages[indexPath.item]
-        cell.updateUI(message: message)
+        let objConversationMetadata = inSearchMode() ? aryFilteredConversationMetadata[indexPath.item] : aryConversationMetadata[indexPath.item]
+        cell.updateUI(metadata: objConversationMetadata)
         cell.delegate = self
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return inSearchMode() ? filteredMessages.count : messages.count
+        return inSearchMode() ? aryFilteredConversationMetadata.count : aryConversationMetadata.count
     }
     
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
@@ -453,19 +389,16 @@ extension MessagesVC: UICollectionViewDelegate, SkeletonCollectionViewDataSource
 
 extension MessagesVC {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let data = inSearchMode() ? filteredMessages : messages
+        let data = inSearchMode() ? aryFilteredConversationMetadata : aryConversationMetadata
+        let objConversationMetadata = data[indexPath.item]
         
-        guard let cell = collectionView.cellForItem(at: indexPath) as? ConversationCell,
-            indexPath.item <= data.count,
-            let receiverId = data[indexPath.item].partnerId() else { return }
-        
+        guard let cell = collectionView.cellForItem(at: indexPath) as? ConversationCell else { return }
         cell.handleTouchDown()
+        
         let vc = ConversationVC()
-        vc.receiverId = receiverId
-        vc.chatPartner = cell.chatPartner
-        if let data = metaDataDictionary[cell.chatPartner.uid] {
-            vc.metaData = data
-        }
+        vc.receiverId = objConversationMetadata.chatPartnerId()
+        vc.chatPartner = data[indexPath.item].partner
+        vc.metaData = objConversationMetadata
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -523,22 +456,15 @@ extension MessagesVC: SwipeCollectionViewCellDelegate {
         Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(id).removeValue()
         
         if inSearchMode() {
-            if let messageIndex = messages.firstIndex(where: { $0.uid == filteredMessages[indexPath.item].uid }) {
-                messages.remove(at: messageIndex)
+            if let index = aryConversationMetadata.firstIndex(where: { $0.uid == aryFilteredConversationMetadata[indexPath.item].uid }) {
+                aryConversationMetadata.remove(at: index)
             }
-            filteredMessages.remove(at: indexPath.item)
+            aryFilteredConversationMetadata.remove(at: indexPath.item)
         } else {
-            messages.remove(at: indexPath.item)
+            aryConversationMetadata.remove(at: indexPath.item)
         }
-        emptyBackround.isHidden = true != messages.isEmpty
-        
-        conversationsDictionary.removeValue(forKey: id)
-        metaDataDictionary.removeValue(forKey: id)
-        updateTabBarBadge()
-        
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.25) {
-            self.collectionView.reloadData()
-        }
+        emptyBackround.isHidden = !aryConversationMetadata.isEmpty
+        collectionView.deleteItems(at: [indexPath])
     }
     
     func requestSession(index: Int) {
@@ -556,6 +482,8 @@ extension MessagesVC: SwipeCollectionViewCellDelegate {
 
 extension MessagesVC: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        filterMessageForSearchText(searchController.searchBar.text!)
+        guard let query = searchController.searchBar.text else { return }
+        filterMessageForSearchText(query)
+        collectionView.reloadData()
     }
 }

@@ -116,11 +116,12 @@ class ConversationCell: SwipeCollectionViewCell {
         timestampLabel.font = Fonts.createSize(12)
     }
     
-    func updateUI(message: UserMessage) {
-        guard let user = message.user,
-            let partnerId = message.partnerId() else { return }
+    func updateUI(metadata: ConversationMetaData) {
+        guard let partner = metadata.partner,
+            let partnerId = partner.uid,
+            let message = metadata.message else { return }
         
-        chatPartner = user
+        chatPartner = partner
         updateUsernameLabel()
         updateOnlineStatusIndicator()
         updateProfileImage()

@@ -63,24 +63,6 @@ class DataService {
         }
     }
     
-    func checkUnreadMessagesForUser(completion: @escaping (Bool) -> Void) {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        let userTypeString = AccountService.shared.currentUserType.rawValue
-        Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).observe(.value) { snapshot in
-            guard let children = snapshot.children.allObjects as? [DataSnapshot] else { return }
-            var hasUnreadMessages = false
-            for child in children {
-                guard let metaDataIn = child.value as? [String: Any] else { return }
-                
-                let metaData = ConversationMetaData(dictionary: metaDataIn)
-                if let read = metaData.hasRead, !read, let _ = metaData.lastMessageId {
-                    hasUnreadMessages = true
-                }
-            }
-            completion(hasUnreadMessages)
-        }
-    }
-    
     func getConversationMetaDataForUid(_ partnerId: String, completion: @escaping (ConversationMetaData?) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
@@ -89,7 +71,7 @@ class DataService {
                 completion(nil)
                 return
             }
-            let metaData = ConversationMetaData(dictionary: value)
+            let metaData = ConversationMetaData(uid: snapshot.key, dictionary: value)
             completion(metaData)
         }
     }

@@ -612,7 +612,7 @@ class CategorySearchVC: UIViewController {
         
         navigationController?.navigationBar.isHidden = false
         if #available(iOS 11.0, *) {
-            navigationController?.navigationBar.prefersLargeTitles = false
+            navigationItem.largeTitleDisplayMode = .never
         }
         view.backgroundColor = Colors.newScreenBackground
         
