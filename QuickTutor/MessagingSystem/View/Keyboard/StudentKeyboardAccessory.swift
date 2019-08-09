@@ -176,6 +176,10 @@ class StudentKeyboardAccessory: KeyboardAccessory {
         }).startAnimation()
     }
     
+    func removeBackgroundBlurView() {
+        backgroundBlurView.removeFromSuperview()
+    }
+    
     override func hideLeftView() {
         leftAccessoryViewLeftAnchor?.constant = -54
         UIView.animate(withDuration: 0.25) {

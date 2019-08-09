@@ -303,6 +303,12 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         IQKeyboardManager.shared().isEnabled = true
     }
     
+    override func didMove(toParent parent: UIViewController?) {
+        if parent == nil {
+            studentKeyboardAccessory.removeBackgroundBlurView()
+        }
+    }
+    
     func setMessageTextViewCoverHidden(_ result: Bool) {
         guard let keyboardAccessory = inputAccessoryView as? KeyboardAccessory else { return }
         result ? keyboardAccessory.hideTextViewCover() : keyboardAccessory.showTextViewCover()
