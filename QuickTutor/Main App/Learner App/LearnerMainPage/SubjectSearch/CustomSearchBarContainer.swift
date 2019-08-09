@@ -50,6 +50,7 @@ class CustomSearchBarContainer: UIView {
         field.clearButtonMode = .never
         field.tintColor = .white
         field.autocorrectionType = .no
+        field.autocapitalizationType = .words
         return field
     }()
     

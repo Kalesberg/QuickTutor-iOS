@@ -42,6 +42,7 @@ class QTSearchBarView: UIView {
         field.clearButtonMode = .never
         field.tintColor = Colors.purple
         field.autocorrectionType = .no
+        field.autocapitalizationType = .words
         return field
     }()
     
@@ -100,7 +101,7 @@ class QTSearchBarView: UIView {
     }
     
     func setTitle(_ title: String) {
-        searchBar.text = title.capitalized
+        searchBar.text = title
         showSearchClearButton()
     }
         
