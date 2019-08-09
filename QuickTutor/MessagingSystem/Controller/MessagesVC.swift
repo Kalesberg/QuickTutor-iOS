@@ -56,8 +56,7 @@ class MessagesVC: UIViewController {
         edgesForExtendedLayout = []
         navigationItem.title = "Messages"
         let connectionButton = UIBarButtonItem(image: UIImage(named: "connectionsIcon"), style: .plain, target: self, action: #selector(showContacts))
-        let searchButton = UIBarButtonItem(image: UIImage(named: "searchIcon"), style: .plain, target: self, action: #selector(onClickSearch))
-        searchButton.tintColor = .white
+        let searchButton = UIBarButtonItem(image: UIImage(named: "ic_search"), style: .plain, target: self, action: #selector(onClickSearch))
         navigationItem.rightBarButtonItems = [connectionButton, searchButton]
         
         navigationController?.navigationBar.barTintColor = Colors.newNavigationBarBackground
