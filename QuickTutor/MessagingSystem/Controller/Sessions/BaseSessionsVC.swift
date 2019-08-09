@@ -41,7 +41,7 @@ class BaseSessionsVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if #available(iOS 11.0, *) {
-            navigationController?.navigationBar.prefersLargeTitles = true
+            navigationItem.largeTitleDisplayMode = .always
         }
         CardService.shared.checkForPaymentMethod()
     }
@@ -82,7 +82,7 @@ class BaseSessionsVC: UIViewController {
         navigationController?.navigationBar.barTintColor = Colors.newNavigationBarBackground
         navigationController?.view.backgroundColor = Colors.newNavigationBarBackground
         if #available(iOS 11.0, *) {
-            navigationController?.navigationBar.prefersLargeTitles = true            
+            navigationItem.largeTitleDisplayMode = .always
         }
     }
     

@@ -14,8 +14,6 @@ struct Notifications {
     static let didEnterBackground = Notification(name: Notification.Name(rawValue: "com.quickTutor.didEnterBackground"))
     static let didEnterForeground = Notification(name: Notification.Name(rawValue: "com.quickTutor.didEnterForeground"))
     static let willTerminate = Notification(name: Notification.Name(rawValue: "com.quickTutor.willTerminate"))
-    static let showOverlay = Notification(name: Notification.Name(rawValue: "com.quickTutor.showOverlay"))
-    static let hideOverlay = Notification(name: Notification.Name(rawValue: "com.quickTutor.hideOverlay"))
     static let didDisconnect = Notification(name: Notification.Name(rawValue: "com.quickTutor.didDisconnect"))
     static let tutorSubjectsDidChange = Notification(name: Notification.Name("com.quickTutor.tutorSubjectsChanged"))
     static let tutorDidAddSubject = Notification(name: Notification.Name("com.quickTutor.tutorDidAddSubject"))

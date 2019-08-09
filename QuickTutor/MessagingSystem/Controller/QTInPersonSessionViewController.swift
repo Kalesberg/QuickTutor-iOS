@@ -223,7 +223,7 @@ class QTInPersonSessionViewController: QTSessionBaseViewController {
     func setupNavBar() {
         navigationController?.setNavigationBarHidden(true, animated: false)
         if #available(iOS 11.0, *) {
-            navigationController?.navigationBar.prefersLargeTitles = false
+            navigationItem.largeTitleDisplayMode = .never
         }
     }
     
