@@ -527,11 +527,10 @@ extension MessagesVC: SwipeCollectionViewCellDelegate {
                 messages.remove(at: messageIndex)
             }
             filteredMessages.remove(at: indexPath.item)
-            
         } else {
             messages.remove(at: indexPath.item)
-            self.emptyBackround.isHidden = self.messages.count != 0
         }
+        emptyBackround.isHidden = true != messages.isEmpty
         
         conversationsDictionary.removeValue(forKey: id)
         metaDataDictionary.removeValue(forKey: id)
