@@ -193,17 +193,23 @@ extension QTTutorSearchViewController: UITableViewDelegate {
         
         let cell = tableView.cellForRow(at: indexPath)
         cell?.growSemiShrink {
-            let user = self.filteredUsers[indexPath.row]
-            
-            let item = QTRecentSearchModel()
-            item.uid = user.uid
-            item.type = .people
-            item.name1 = user.name
-            item.name2 = user.username
-            item.imageUrl = user.imageUrl
-            QTUtils.shared.saveRecentSearch(search: item)
-            
-            self.goToTutorProfileScreen(tutorId: user.uid)
+            if self.isSearchMode {
+                let user = self.filteredUsers[indexPath.row]
+                let item = QTRecentSearchModel()
+                item.uid = user.uid
+                item.type = .people
+                item.name1 = user.name
+                item.name2 = user.username
+                item.imageUrl = user.imageUrl
+                QTUtils.shared.saveRecentSearch(search: item)
+                self.goToTutorProfileScreen(tutorId: user.uid)
+            } else {
+                let user = self.recentSearches[indexPath.row]
+                QTUtils.shared.saveRecentSearch(search: user)
+                if let uid  = user.uid {
+                    self.goToTutorProfileScreen(tutorId: uid)
+                }
+            }
         }
     }
 }
