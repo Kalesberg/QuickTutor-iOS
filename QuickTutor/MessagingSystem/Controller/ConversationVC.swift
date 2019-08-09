@@ -306,6 +306,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     override func didMove(toParent parent: UIViewController?) {
         if parent == nil {
             studentKeyboardAccessory.removeBackgroundBlurView()
+            actionSheet?.removeBlurViews()
         }
     }
     

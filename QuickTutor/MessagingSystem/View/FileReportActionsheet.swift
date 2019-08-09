@@ -231,6 +231,11 @@ class FileReportActionsheet: UIView {
         }
     }
     
+    func removeBlurViews() {
+        backgroundBlur.removeFromSuperview()
+        actionSheetBackground.removeFromSuperview()
+    }
+    
     private override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
