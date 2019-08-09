@@ -660,7 +660,11 @@ class CategorySearchVC: UIViewController {
         }
         
         if let category = category {
-            titleView.setTitle(category)
+            if let categoryType = CategoryType(rawValue: category) {
+                titleView.setTitle(categoryType.title.capitalizingFirstLetter())
+            } else {
+                titleView.setTitle(category.capitalizingFirstLetter())
+            }
         } else if let subcategory = subcategory {
             titleView.setTitle(subcategory)
         } else if let subject = subject {
