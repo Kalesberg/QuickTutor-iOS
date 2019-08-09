@@ -96,6 +96,15 @@ class QuickSearchResultsVC: UIViewController {
 }
 
 extension QuickSearchResultsVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets.zero
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return .leastNonzeroMagnitude
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return currentSubjects.count
     }
@@ -121,7 +130,7 @@ extension QuickSearchResultsVC: UICollectionViewDataSource, UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if isNewQuickSearch {
-            return CGSize(width: collectionView.frame.width, height: 53)
+            return CGSize(width: collectionView.frame.width, height: 61)
         }
         return CGSize(width: collectionView.frame.width, height: 55)
     }
@@ -306,7 +315,7 @@ class QuickSearchNewResultsCell: UICollectionViewCell {
     
     func setupImageView() {
         addSubview(imageView)
-        imageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 4, paddingLeft: 20, paddingBottom: 4, paddingRight: 0, width: 45, height: 45)
+        imageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 8, paddingLeft: 20, paddingBottom: 8, paddingRight: 0, width: 45, height: 45)
     }
     
     func setupTitleLabel() {
