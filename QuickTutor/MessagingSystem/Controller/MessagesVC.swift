@@ -78,7 +78,9 @@ class MessagesVC: UIViewController {
                 UIView.animate(withDuration: 0.3, animations: {
                     self.navigationItem.hidesSearchBarWhenScrolling = false
                     self.navigationItem.largeTitleDisplayMode = .always
-                    self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
+                    if self.messages.count > 0 {
+                        self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
+                    }
                     self.view.setNeedsLayout()
                 }) { finished in
                     if finished {
