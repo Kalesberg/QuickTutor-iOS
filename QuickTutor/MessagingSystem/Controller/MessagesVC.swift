@@ -324,6 +324,7 @@ class MessagesVC: UIViewController {
         hideTabBar(hidden: false)
         navigationController?.setNavigationBarHidden(false, animated: false)
         
+        collectionView.reloadData()
         view.setNeedsLayout()
     }
     
