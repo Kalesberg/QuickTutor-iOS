@@ -144,7 +144,7 @@ extension TutorAddSubjectsVC: UICollectionViewDelegate, UICollectionViewDataSour
 
 extension TutorAddSubjectsVC: CustomSearchBarDelegate {
     func customSearchBarDidTapClearButton(_ searchBar: PaddedTextField) {
-        
+        removeChild(resignFirstResponder: true)
     }
     
     func customSearchBarDidTapLeftView(_ searchBar: PaddedTextField) {

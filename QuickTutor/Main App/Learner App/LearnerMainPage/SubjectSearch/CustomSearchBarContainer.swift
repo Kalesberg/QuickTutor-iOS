@@ -48,7 +48,7 @@ class CustomSearchBarContainer: UIView {
         field.layer.cornerRadius = 4
         field.returnKeyType = .search
         field.clearButtonMode = .never
-        field.tintColor = .white
+        field.tintColor = Colors.purple
         field.autocorrectionType = .no
         field.autocapitalizationType = .words
         return field
