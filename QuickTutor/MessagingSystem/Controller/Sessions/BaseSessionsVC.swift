@@ -41,7 +41,7 @@ class BaseSessionsVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if #available(iOS 11.0, *) {
-            navigationItem.largeTitleDisplayMode = .always
+            navigationController?.navigationBar.prefersLargeTitles = true
         }
         CardService.shared.checkForPaymentMethod()
     }
@@ -82,7 +82,7 @@ class BaseSessionsVC: UIViewController {
         navigationController?.navigationBar.barTintColor = Colors.newNavigationBarBackground
         navigationController?.view.backgroundColor = Colors.newNavigationBarBackground
         if #available(iOS 11.0, *) {
-            navigationItem.largeTitleDisplayMode = .always
+            navigationController?.navigationBar.prefersLargeTitles = true
         }
     }
     
@@ -154,16 +154,14 @@ class BaseSessionsVC: UIViewController {
                     }
                     
                     DataService.shared.getSessionById(snapshot.key, completion: { session in
-                        
-                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
-                            // TODO: end of loading
-                        })
-                        
                         if session.type.compare(QTSessionType.quickCalls.rawValue) == .orderedSame {
                             return
                         }
                         
-                        guard session.status != "cancelled" && session.status != "declined" && !session.isExpired() else {
+                        guard session.status != "cancelled",
+                            session.status != "declined",
+                            session.status != "expired",
+                            !session.isExpired() else {
                             self.attemptReloadOfTable()
                             return
                         }

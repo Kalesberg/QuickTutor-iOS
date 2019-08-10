@@ -71,7 +71,7 @@ class SavedTutorsVC: UIViewController {
     func setupNavigationBar() {
         navigationItem.title = "Saved"
         if #available(iOS 11.0, *) {
-            navigationItem.largeTitleDisplayMode = .always
+            navigationController?.navigationBar.prefersLargeTitles = true
         }
     }
     

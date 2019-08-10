@@ -113,7 +113,9 @@ class MessagesVC: UIViewController {
     }
     
     @objc func refreshMessages() {
-        fetchConversations()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.refreshControl.endRefreshing()
+        }
     }
     
     // MARK: - Search Controler Handlers
@@ -121,6 +123,7 @@ class MessagesVC: UIViewController {
     func setupSearchController() {
         if #available(iOS 11.0, *) {
             navigationItem.searchController = searchController
+            searchController.searchBar.autocorrectionType = .yes
             searchController.definesPresentationContext = true
             searchController.dimsBackgroundDuringPresentation = false
             searchController.searchBar.tintColor = .white
@@ -220,7 +223,6 @@ class MessagesVC: UIViewController {
             self.collectionView.isUserInteractionEnabled = true
             self.collectionView.hideSkeleton()
         }
-        self.refreshControl.endRefreshing()
     }
     
     private func updateTabBarBadge() {
