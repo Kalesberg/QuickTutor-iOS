@@ -623,6 +623,7 @@ class TutorAddSubjectsResultsVCView: UIView {
         cv.alwaysBounceVertical = true
         cv.keyboardDismissMode = .interactive
         cv.register(TutorAddSubjectsResultsCell.self, forCellWithReuseIdentifier: "cellId")
+        cv.clipsToBounds = true
         return cv
     }()
     
