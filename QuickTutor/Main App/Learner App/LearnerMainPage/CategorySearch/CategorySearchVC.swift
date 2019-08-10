@@ -933,8 +933,14 @@ extension CategorySearchVC: QTSearchBarViewDelegate {
         
         // Load subject search screen again.
         let vc = CategorySearchVC()
-        vc.subject = text
-        vc.hasNoSubject = filteredSubjects.filter({$0.0.lowercased().compare(text.lowercased()) == .orderedSame}).isEmpty
+        let filterSubject = filteredSubjects.filter({$0.0.lowercased().compare(text.lowercased()) == .orderedSame})
+        if filterSubject.isEmpty {
+            vc.subject = text
+            vc.hasNoSubject = true
+        } else {
+            vc.subject = filterSubject[0].0
+            vc.hasNoSubject = false
+        }
         AnalyticsService.shared.logSubjectTapped(text)
         vc.searchFilter = searchFilter
         self.navigationController?.pushViewController(vc, animated: true)
