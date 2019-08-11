@@ -224,7 +224,7 @@ class QTAllSearchViewController: UIViewController {
         self.tableView.reloadData()
         self.unknownSubject = nil
         
-        indicatorView.startAnimation(updatedText: "Search for \"\(searchText)\"")
+        indicatorView.startAnimation(updatedText: "Searching for \"\(searchText)\"")
         
         searchTimer?.invalidate()
         searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false

@@ -39,6 +39,7 @@ class QuickSearchVCView: UIView {
     
     func setupMainView() {
         backgroundColor = Colors.newScreenBackground
+        clipsToBounds = true
     }
     
     func setupSearchBarContainer() {
