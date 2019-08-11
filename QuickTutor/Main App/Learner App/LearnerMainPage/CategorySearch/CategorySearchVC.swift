@@ -933,6 +933,7 @@ extension CategorySearchVC: QTSearchBarViewDelegate {
         
         // Load subject search screen again.
         let vc = CategorySearchVC()
+        filteredSubjects = self.allSubjects.filter({ $0.0.lowercased().starts(with: text.lowercased())}).sorted(by: {$0.0 < $1.0})
         let filterSubject = filteredSubjects.filter({$0.0.lowercased().compare(text.lowercased()) == .orderedSame})
         if filterSubject.isEmpty {
             vc.subject = text

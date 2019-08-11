@@ -63,15 +63,30 @@ class TutorAddSubjectsVC: UIViewController {
     
     private func filterSubjects(_ text: String) {
         searchTimer?.invalidate()
+        
         self.child.unknownSubject = nil
+        if self.child.filteredSubjects.isEmpty {
+            DispatchQueue.main.async {
+                self.child.indicatorView.startAnimation(updatedText: "Searching for \"\(text)\"")
+            }
+        } else {
+            DispatchQueue.main.async {
+                self.child.indicatorView.stopAnimation()
+            }
+        }
+        
         searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false
             , block: { (_) in
                 DispatchQueue.global().async {
                     self.child.filteredSubjects = self.child.subjects.filter({ $0.lowercased().starts(with: text.lowercased())}).sorted(by: {$0 < $1})
-                    if self.child.filteredSubjects.count == 0 {
-                        self.child.unknownSubject = text
-                    }
+                    
                     DispatchQueue.main.sync {
+                        self.child.indicatorView.stopAnimation()
+                        
+                        if self.child.filteredSubjects.count == 0 {
+                            self.child.unknownSubject = text
+                        }
+                        
                         self.child.contentView.collectionView.reloadData()
                     }
                 }
@@ -169,6 +184,7 @@ extension TutorAddSubjectsVC: CustomSearchBarDelegate {
     
     func removeChild(resignFirstResponder: Bool) {
         child.willMove(toParent: nil)
+        child.indicatorView.stopAnimation()
         child.view.removeFromSuperview()
         child.removeFromParent()
         guard resignFirstResponder else { return }

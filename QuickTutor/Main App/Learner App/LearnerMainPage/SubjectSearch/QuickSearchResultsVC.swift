@@ -384,7 +384,18 @@ class TutorAddSubjectsResultsVC: UIViewController {
     var filteredSubjects = [String]()
     var inSearchMode = false
     var isBeingControlled = false
-    var unknownSubject: String?
+    var unknownSubject: String? {
+        didSet {
+            let collectionView = contentView.collectionView
+            if let unknownSubject = unknownSubject, !unknownSubject.isEmpty {
+                collectionView.setEmptyMessage(unknownSubject, didSubmitButtonClicked: {
+                    self.sendEmail(subject: unknownSubject)
+                })
+            } else {
+                collectionView.restoreEmptyState()
+            }
+        }
+    }
     
     var currentSubjects: [String] {
         get {
@@ -399,12 +410,15 @@ class TutorAddSubjectsResultsVC: UIViewController {
         return view
     }()
     
+    lazy var indicatorView: HLActivityIndicatorView = HLActivityIndicatorView()
+    
     override func loadView() {
         view = contentView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureViews()
         setupObserers()
         loadSubjects()
         setupDelegates()
@@ -433,6 +447,14 @@ class TutorAddSubjectsResultsVC: UIViewController {
     
     @objc func onBack() {
         navigationController?.popViewController(animated: true)
+    }
+    
+    func configureViews() {
+        contentView.addSubview(indicatorView)
+        indicatorView.translatesAutoresizingMaskIntoConstraints = false
+        indicatorView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        indicatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        indicatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
     }
     
     func setupDelegates() {
@@ -500,15 +522,6 @@ extension TutorAddSubjectsResultsVC: MFMailComposeViewControllerDelegate {
 
 extension TutorAddSubjectsResultsVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if currentSubjects.count == 0 {
-            if let unknownSubject = unknownSubject, !unknownSubject.isEmpty {
-                collectionView.setEmptyMessage(unknownSubject, didSubmitButtonClicked: {
-                    self.sendEmail(subject: unknownSubject)
-                })
-            }
-        } else {
-            collectionView.restoreEmptyState()
-        }
         return currentSubjects.count
     }
     
