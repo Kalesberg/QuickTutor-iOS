@@ -55,11 +55,11 @@ class DynamicLinkFactory {
         }
         
         socialParams.descriptionText = "Check out this QuickTutor!"
-#if DEVELOPMENT
-        socialParams.imageURL = URL(string: "https://firebasestorage.googleapis.com/v0/b/quicktutor-dev.appspot.com/o/logoWithTrademark.png?alt=media&token=2baf6fa7-fd6f-4bf6-a89c-a47429561278")
-#else
-        socialParams.imageURL = URL(string: "https://firebasestorage.googleapis.com/v0/b/quicktutor-3c23b.appspot.com/o/newLogoWithTrademark.png?alt=media&token=6c9610fb-09fa-4f99-8cbf-1b48a6414407")
-#endif
+//#if DEVELOPMENT
+//        socialParams.imageURL = URL(string: "https://firebasestorage.googleapis.com/v0/b/quicktutor-dev.appspot.com/o/logoWithTrademark.png?alt=media&token=2baf6fa7-fd6f-4bf6-a89c-a47429561278")
+//#else
+//        socialParams.imageURL = URL(string: "https://firebasestorage.googleapis.com/v0/b/quicktutor-3c23b.appspot.com/o/newLogoWithTrademark.png?alt=media&token=6c9610fb-09fa-4f99-8cbf-1b48a6414407")
+//#endif
         components?.socialMetaTagParameters = socialParams
 
         components?.iOSParameters = iOSParams

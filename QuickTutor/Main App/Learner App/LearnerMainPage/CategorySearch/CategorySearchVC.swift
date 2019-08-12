@@ -779,11 +779,11 @@ extension CategorySearchVC: UICollectionViewDelegate {
             let uid = featuredTutor.uid
             FirebaseData.manager.fetchTutor(uid!, isQuery: false, { (tutor) in
                 guard let tutor = tutor else { return }
-                let controller = QTProfileViewController.controller//TutorCardVC()
-                controller.subject = featuredTutor.featuredSubject
-                controller.profileViewType = .tutor
-                controller.user = tutor
                 DispatchQueue.main.async {
+                    let controller = QTProfileViewController.controller//TutorCardVC()
+                    controller.subject = featuredTutor.featuredSubject
+                    controller.profileViewType = .tutor
+                    controller.user = tutor
                     self.navigationController?.pushViewController(controller, animated: true)
                 }
             })

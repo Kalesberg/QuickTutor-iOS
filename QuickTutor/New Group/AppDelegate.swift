@@ -222,10 +222,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     func showProfileWithUid(_ uid: String) {
         FirebaseData.manager.fetchTutor(uid, isQuery: false, { (tutor) in
             guard let tutor = tutor else { return }
-            let controller = QTProfileViewController.controller
-            controller.user = tutor
-            controller.profileViewType = .tutor
-            navigationController.pushViewController(controller, animated: true)
+            DispatchQueue.main.async {
+                let controller = QTProfileViewController.controller
+                controller.user = tutor
+                controller.profileViewType = .tutor
+                navigationController.pushViewController(controller, animated: true)
+            }
         })
 
     }

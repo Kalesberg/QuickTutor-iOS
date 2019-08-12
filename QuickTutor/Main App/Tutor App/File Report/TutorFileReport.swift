@@ -153,14 +153,19 @@ extension TutorFileReport: UITableViewDelegate, UITableViewDataSource {
         tableView.allowsSelection = false
         FirebaseData.manager.fetchLearner(datasource[indexPath.row].otherId) { learner in
             if let learner = learner {
-                let controller = QTProfileViewController.controller
-                let tutor = AWTutor(dictionary: [:])
-                controller.user = tutor.copy(learner: learner)
-                controller.profileViewType = .learner
-                self.navigationController?.pushViewController(controller, animated: true)
+                DispatchQueue.main.async {
+                    let controller = QTProfileViewController.controller
+                    let tutor = AWTutor(dictionary: [:])
+                    controller.user = tutor.copy(learner: learner)
+                    controller.profileViewType = .learner
+                    self.navigationController?.pushViewController(controller, animated: true)
+                }
             }
-            tableView.allowsSelection = true
-            self.dismissOverlay()
+            
+            DispatchQueue.main.async {
+                tableView.allowsSelection = true
+                self.dismissOverlay()
+            }
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }

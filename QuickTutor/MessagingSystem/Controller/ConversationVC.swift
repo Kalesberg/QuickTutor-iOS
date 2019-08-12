@@ -17,9 +17,164 @@ import AVFoundation
 import AVKit
 import MobileCoreServices
 import QuickLook
+import Cosmos
+import SnapKit
 
 enum QTConnectionStatus: String {
     case pending, declined, accepted, expired
+}
+
+class QTSharedProfileView: UIView {
+    var avatarImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 47.5
+        imageView.clipsToBounds = true
+        return imageView
+    }()
+    
+    var nameLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = Fonts.createBoldSize(20)
+        return label
+    }()
+    
+    var featuredSubjectLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = Colors.purple
+        label.font = Fonts.createSize(15)
+        return label
+    }()
+    
+    var hourlyRateLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = Fonts.createBoldSize(15)
+        return label
+    }()
+    
+    var ratingView: CosmosView = {
+        var settings = CosmosSettings.default
+        settings.totalStars = 5
+        settings.starSize = 15
+        settings.starMargin = 5
+        settings.fillMode = .precise
+        settings.updateOnTouch = false
+        settings.filledColor = Colors.purple
+        settings.emptyBorderColor = Colors.purple
+        settings.filledBorderColor = Colors.purple
+        settings.filledImage = UIImage(named: "ic_star_filled")
+        settings.emptyImage = UIImage(named: "ic_star_empty")
+        settings.textFont = Fonts.createBlackSize(15)
+        settings.textColor = Colors.purple
+        let view = CosmosView(settings: settings)
+        return view
+    }()
+    
+    var locationIconImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "ic_location_purple"))
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
+    
+    var locationLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = Fonts.createSize(16)
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    func setupViews() {
+        self.backgroundColor = Colors.newScreenBackground
+        setupAvatarImageView()
+        setupNameLabel()
+        setupFeaturedSubjectLabel()
+        setupHourlyRateLabel()
+        setupRatingView()
+        setupLocationIconImageView()
+        setupLocationLabel()
+    }
+    
+    func setupAvatarImageView() {
+        addSubview(avatarImageView)
+        avatarImageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 95, height: 95)
+    }
+    
+    func setupNameLabel() {
+        addSubview(nameLabel)
+        nameLabel.anchor(top: avatarImageView.topAnchor, left: avatarImageView.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 9, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
+    }
+    
+    func setupFeaturedSubjectLabel() {
+        addSubview(featuredSubjectLabel)
+        featuredSubjectLabel.anchor(top: nameLabel.bottomAnchor, left: nameLabel.leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
+    }
+    
+    func setupHourlyRateLabel() {
+        addSubview(hourlyRateLabel)
+        hourlyRateLabel.anchor(top: featuredSubjectLabel.bottomAnchor, left: nameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+    }
+    
+    func setupRatingView() {
+        addSubview(ratingView)
+        ratingView.translatesAutoresizingMaskIntoConstraints = false
+        ratingView.leftAnchor.constraint(greaterThanOrEqualTo: hourlyRateLabel.rightAnchor, constant: 28).isActive = true
+        ratingView.rightAnchor.constraint(equalTo: rightAnchor, constant: -20).isActive = true
+        ratingView.centerYAnchor.constraint(equalTo: hourlyRateLabel.centerYAnchor).isActive = true
+    }
+    
+    func setupLocationIconImageView() {
+        addSubview(locationIconImageView)
+        locationIconImageView.anchor(top: avatarImageView.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 40, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 18, height: 18)
+    }
+    
+    func setupLocationLabel() {
+        addSubview(locationLabel)
+        locationLabel.anchor(top: nil, left: locationIconImageView.rightAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 20, paddingRight: 20, width: 0, height: 0)
+        locationLabel.centerYAnchor.constraint(equalTo: locationIconImageView.centerYAnchor).isActive = true
+    }
+    
+    func setProfile(withTutor user: AWTutor) {
+        // Set the avatar of user profile.
+        UserFetchService.shared.getUserWithId(user.uid, type: .tutor) { (tutor) in
+            self.avatarImageView.sd_setImage(with: tutor?.profilePicUrl)
+        }
+        
+        nameLabel.text = user.formattedName
+        
+        if let featuredSubject = user.featuredSubject, !featuredSubject.isEmpty {
+            // Set the featured subject.
+            featuredSubjectLabel.text = featuredSubject.capitalizingFirstLetter()
+        } else {
+            // Set the first subject
+            if let subject = user.subjects?.first {
+                featuredSubjectLabel.text = subject.capitalizingFirstLetter()
+            }
+        }
+        
+        if let price = user.price {
+            hourlyRateLabel.text = "$\(price) per hour"
+        }
+        
+        ratingView.rating = user.tRating ?? 5.0
+        ratingView.text = "\(user.reviews?.count ?? 0)"
+        
+        locationLabel.text = user.region
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+        setupViews()
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setupViews()
+    }
 }
 
 class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
@@ -72,7 +227,8 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
 
 
     lazy var titleView = CustomTitleView(frame: CGRect.zero)
-
+    lazy var sharedProfileView = QTSharedProfileView()
+    
     var actionSheet: FileReportActionsheet?
     let studentKeyboardAccessory = StudentKeyboardAccessory()
     let teacherKeyboardAccessory = TeacherKeyboardAccessory()
@@ -85,6 +241,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     func setupViews() {
         setupNavBar()
         setupMainView()
+        setupSharedProfileView()
         setupMessagesCollection()
         addSwipeGestureRegocgnizer()
     }
@@ -98,12 +255,6 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         teacherKeyboardAccessory.messageTextview.delegate = self
     }
     
-    @objc func textFieldDidChangeText(_ sender: UITextView) {
-        if studentKeyboardAccessory.messageTextview.text.isEmpty && teacherKeyboardAccessory.messageTextview.text.isEmpty {
-            typingIndicatorManager?.emitStopTyping()
-        }
-    }
-
     private func setupMessagesCollection() {
         messagesCollection.dataSource = self
         messagesCollection.delegate = self
@@ -142,6 +293,72 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         pop()
     }
 
+    func enterConnectionRequestMode() {
+        studentKeyboardAccessory.showQuickChatView()
+        if AccountService.shared.currentUserType == .learner {
+            setupEmptyBackground()
+        }
+        
+        setActionViewUsable(false)
+        headerHeight = 0
+        messagesCollection.collectionViewLayout.invalidateLayout()
+    }
+    
+    func exitConnectionRequestMode() {
+        studentKeyboardAccessory.hideQuickChatView()
+        emptyCellBackground.removeFromSuperview()
+    }
+    
+    func setActionViewUsable(_ result: Bool) {
+        if let keyboardAccessory = inputAccessoryView as? StudentKeyboardAccessory {
+            keyboardAccessory.actionButton.isEnabled = result
+        }
+    }
+    
+    func showAccessoryView(_ show: Bool = true) {
+        self.inputAccessoryView?.isHidden = !show
+        self.hideTabBar(hidden: !show)
+        if show {
+            self.edgesForExtendedLayout = .top
+            self.extendedLayoutIncludesOpaqueBars = false
+        } else {
+            self.edgesForExtendedLayout = .bottom
+            self.extendedLayoutIncludesOpaqueBars = true
+        }
+        self.view.layoutIfNeeded()
+    }
+    
+    private func setupSharedProfileView() {
+        
+        if AccountService.shared.currentUserType == .tutor {
+            return
+        }
+        
+        // Get tutor info
+        FirebaseData.manager.fetchTutor(chatPartner.uid, isQuery: false) { (tutor) in
+            guard let tutor = tutor else { return }
+            self.view.insertSubview(self.sharedProfileView, at: 0)
+            self.sharedProfileView.translatesAutoresizingMaskIntoConstraints = false
+            self.sharedProfileView.anchor(top: self.view.topAnchor,
+                                         left: self.view.leftAnchor,
+                                         bottom: nil,
+                                         right: self.view.rightAnchor,
+                                         paddingTop: 0,
+                                         paddingLeft: 0,
+                                         paddingBottom: 0,
+                                         paddingRight: 0,
+                                         width: 0,
+                                         height: 0)
+            self.sharedProfileView.setProfile(withTutor: tutor)
+        }
+    }
+    
+    @objc func textFieldDidChangeText(_ sender: UITextView) {
+        if studentKeyboardAccessory.messageTextview.text.isEmpty && teacherKeyboardAccessory.messageTextview.text.isEmpty {
+            typingIndicatorManager?.emitStopTyping()
+        }
+    }
+    
     @objc func handleRightViewTapped() {
         showReportSheet()
     }
@@ -166,41 +383,6 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         actionSheet?.partnerId = chatPartner.uid
         actionSheet?.subject = subject
         actionSheet?.show()
-    }
-
-    func enterConnectionRequestMode() {
-        studentKeyboardAccessory.showQuickChatView()
-        if AccountService.shared.currentUserType == .learner {
-            setupEmptyBackground()
-        }
-        
-        setActionViewUsable(false)
-        headerHeight = 0
-        messagesCollection.collectionViewLayout.invalidateLayout()
-    }
-
-    func exitConnectionRequestMode() {
-        studentKeyboardAccessory.hideQuickChatView()
-        emptyCellBackground.removeFromSuperview()
-    }
-
-    func setActionViewUsable(_ result: Bool) {
-        if let keyboardAccessory = inputAccessoryView as? StudentKeyboardAccessory {
-            keyboardAccessory.actionButton.isEnabled = result
-        }
-    }
-    
-    func showAccessoryView(_ show: Bool = true) {
-        self.inputAccessoryView?.isHidden = !show
-        self.hideTabBar(hidden: !show)
-        if show {
-            self.edgesForExtendedLayout = .top
-            self.extendedLayoutIncludesOpaqueBars = false
-        } else {
-            self.edgesForExtendedLayout = .bottom
-            self.extendedLayoutIncludesOpaqueBars = true
-        }
-        self.view.layoutIfNeeded()
     }
 
     @objc func paginateMessages() {
@@ -266,20 +448,24 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         if AccountService.shared.currentUserType == .learner {
             FirebaseData.manager.fetchTutor(receiverId, isQuery: false) { (tutor) in
                 guard let tutor = tutor else { return }
-                let controller = QTProfileViewController.controller
-                controller.user = tutor
-                controller.profileViewType = .tutor
-                controller.subject = self.subject
-                self.navigationController?.pushViewController(controller, animated: true)
+                DispatchQueue.main.async {
+                    let controller = QTProfileViewController.controller
+                    controller.user = tutor
+                    controller.profileViewType = .tutor
+                    controller.subject = self.subject
+                    self.navigationController?.pushViewController(controller, animated: true)
+                }
             }
         } else {
             FirebaseData.manager.fetchLearner(receiverId) { (learner) in
                 guard let learner = learner else { return }
-                let controller = QTProfileViewController.controller
-                let tutor = AWTutor(dictionary: [:])
-                controller.user = tutor.copy(learner: learner)
-                controller.profileViewType = .learner
-                self.navigationController?.pushViewController(controller, animated: true)
+                DispatchQueue.main.async {
+                    let controller = QTProfileViewController.controller
+                    let tutor = AWTutor(dictionary: [:])
+                    controller.user = tutor.copy(learner: learner)
+                    controller.profileViewType = .learner
+                    self.navigationController?.pushViewController(controller, animated: true)
+                }
             }
         }
     }
