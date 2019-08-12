@@ -398,9 +398,9 @@ enum Category {
             categoryInfo = "The smell of baked lasagna coming out of the oven, the feel of clay between one’s fingers — music, yoga, travel, arts & crafts, and motivation are all found here. Lifestyle is where all can tutor the things that warm our hearts and drive our souls."
             suggestedPrices = [12, 25, 50]
             
-        case .health: displayName = "Health & Wellness"
+        case .health: displayName = "Health"
             image = #imageLiteral(resourceName: "health")
-            categoryInfo = "Ever been told you’re a health nut? Well, whether you’re a doctor, dentist, gym-rat, nutritionist, or fitness model — you can tutor any subject in our health & wellness category."
+            categoryInfo = "Ever been told you’re a health nut? Well, whether you’re a doctor, dentist, gym-rat, nutritionist, or fitness model — you can tutor any subject in our health category."
             suggestedPrices = [18, 45, 90]
             
         case .language: displayName = "Language"
@@ -514,7 +514,7 @@ extension CategoryType {
         case .sports:
             return "Sports & Games"
         case .health:
-            return "Health & Wellness"
+            return "Health"
         default:
             return rawValue
         }
