@@ -157,6 +157,7 @@ extension UIViewController {
         loadingView.play()
 	}
 	
+    @objc
 	func dismissOverlay() {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
        // self.view.endEditing(true)

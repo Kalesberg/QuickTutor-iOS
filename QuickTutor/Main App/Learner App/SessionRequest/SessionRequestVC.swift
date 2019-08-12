@@ -136,6 +136,12 @@ class SessionRequestVC: UIViewController {
         
         let sessionRequest = SessionRequest(data: sessionData)
         MessageService.shared.sendSessionRequestToId(sessionRequest: sessionRequest, tutor.uid)
+        
+        if let vcs = navigationController?.viewControllers, vcs.count >= 2 {
+            if !UserDefaults.standard.bool(forKey: QTUserDefaultsKey.learnerAppRateForFirstSession) {
+                vcs[vcs.count - 2].showReviewController(QTUserDefaultsKey.learnerAppRateForFirstSession)
+            }
+        }
         navigationController?.popViewController(animated: true)
     }
     

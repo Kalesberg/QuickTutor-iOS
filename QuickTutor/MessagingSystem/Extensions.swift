@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import StoreKit
 
 protocol UpdatedTutorCallBack: class {
     func tutorWasUpdated(tutor: AWTutor!)
@@ -388,6 +389,27 @@ extension UIViewController {
     
     func showForgotPasswordScreen() {
         navigationController?.pushViewController(ForgotPasswordVC(), animated: true)
+    }
+}
+
+extension UIViewController {
+    func showReviewController (_ userDefaultKey: String) {
+        if #available(iOS 10.3, *) {
+            SKStoreReviewController.requestReview()
+        } else {
+            guard let appstoreUrl = URL(string: QTConstants.APP_STORE_URL) else { return }
+            
+            var components = URLComponents(url: appstoreUrl, resolvingAgainstBaseURL: false)
+            components?.queryItems = [
+                URLQueryItem(name: "action", value: "write-review")
+            ]
+            guard let writeReviewURL = components?.url else { return }
+            
+            UIApplication.shared.open(writeReviewURL)
+        }
+        
+        UserDefaults.standard.set(true, forKey: userDefaultKey)
+        UserDefaults.standard.synchronize()
     }
 }
 

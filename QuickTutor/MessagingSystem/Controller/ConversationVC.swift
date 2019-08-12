@@ -531,8 +531,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     func setupDocumentObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(handleDocumentUploadStarted), name: NotificationNames.Documents.didStartUpload, object: nil)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleDocumentUploadStarted), name: NotificationNames.Documents.didStartUpload, object: nil)    
     }
     
     @objc func handleDocumentUploadStarted() {
@@ -821,6 +820,31 @@ extension ConversationVC: ConversationManagerDelegate {
         exitConnectionRequestMode()
         guard viewIfLoaded?.window != nil else { return }
         conversationManager.readReceiptManager?.markConversationRead()
+        
+        // check send message count
+        if message.senderId == conversationManager.uid,
+            (message.type == .text || message.type == .image || message.type == .video || message.type == .document) {
+            
+            var sendMessages = 0
+            
+            if AccountService.shared.currentUserType == .tutor {
+                sendMessages = UserDefaults.standard.integer(forKey: QTUserDefaultsKey.tutorFirstMessages)
+                if sendMessages < QTConstants.RATE_APP_MESSAGE_LIMIT - 1 {
+                    UserDefaults.standard.set(sendMessages + 1, forKey: QTUserDefaultsKey.tutorFirstMessages)
+                    UserDefaults.standard.synchronize()
+                } else if !UserDefaults.standard.bool(forKey: QTUserDefaultsKey.tutorAppRateForFiveMessages) {
+                    showReviewController(QTUserDefaultsKey.tutorAppRateForFiveMessages)
+                }
+            } else {
+                sendMessages = UserDefaults.standard.integer(forKey: QTUserDefaultsKey.learnerFirstMessages)
+                if sendMessages < QTConstants.RATE_APP_MESSAGE_LIMIT - 1 {
+                    UserDefaults.standard.set(sendMessages + 1, forKey: QTUserDefaultsKey.learnerFirstMessages)
+                    UserDefaults.standard.synchronize()
+                } else if !UserDefaults.standard.bool(forKey: QTUserDefaultsKey.learnerAppRateForFiveMessages) {
+                    showReviewController(QTUserDefaultsKey.learnerAppRateForFiveMessages)
+                }
+            }
+        }
     }
     
     func removeDocumentLoadingAnimationIfNeeded() {

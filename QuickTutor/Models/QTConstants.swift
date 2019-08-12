@@ -9,11 +9,19 @@
 import UIKit
 
 class QTConstants {
-
+    static let APP_STORE_URL = "https://apps.apple.com/us/app/quicktutor/id1388092698"
+    static let RATE_APP_MESSAGE_LIMIT = 5
 }
 
 struct QTUserDefaultsKey {
     static let leanerRecentSearches = "leanerRecentSearches"
+    
+    static let tutorFirstMessages = "tutorFirstMessages"
+    static let tutorAppRateForFiveMessages = "tutorAppRateForFiveMessages"
+    static let tutorAppRateForFirstSession = "tutorAppRateForFirstSession"
+    static let learnerFirstMessages = "learnerFirstMessages"
+    static let learnerAppRateForFiveMessages = "learnerAppRateForFiveMessages"
+    static let learnerAppRateForFirstSession = "learnerAppRateForFirstSession"
 }
 
 struct QTNotificationName {
