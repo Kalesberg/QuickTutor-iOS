@@ -59,6 +59,8 @@ class MessagesVC: UIViewController {
     }
     
     @objc func showContacts() {
+        self.view.endEditing(true)
+        
         let vc = ConnectionsVC()
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -398,6 +400,8 @@ extension MessagesVC {
         guard let cell = collectionView.cellForItem(at: indexPath) as? ConversationCell else { return }
         cell.handleTouchDown()
         
+        self.view.endEditing(true)
+        
         let vc = ConversationVC()
         vc.receiverId = objConversationMetadata.chatPartnerId()
         vc.chatPartner = data[indexPath.item].partner
@@ -474,11 +478,15 @@ extension MessagesVC: SwipeCollectionViewCellDelegate {
         let indexPath = IndexPath(item: index, section: 0)
         guard let cell = collectionView.cellForItem(at: indexPath) as? ConversationCell,
             let id = cell.chatPartner.uid else { return }
-        FirebaseData.manager.fetchTutor(id, isQuery: false) { (tutor) in
-            self.collectionView.reloadItems(at: [indexPath])
-            let vc = SessionRequestVC()
-            vc.tutor = tutor
-            self.navigationController?.pushViewController(vc, animated: true)
+        FirebaseData.manager.fetchTutor(id, isQuery: false) { (tutor) in            
+            DispatchQueue.main.async {
+                self.view.endEditing(true)
+                
+                self.collectionView.reloadItems(at: [indexPath])
+                let vc = SessionRequestVC()
+                vc.tutor = tutor
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         }
     }
 }

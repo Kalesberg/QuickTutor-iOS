@@ -237,6 +237,13 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         }
     }
     
+    override func willMove(toParent parent: UIViewController?) {
+        super.willMove(toParent: parent)
+        if parent == nil {
+            self.view.endEditing(true)
+        }
+    }
+    
     func setupDocumentUploadManager() {
         documentUploadManager = DocumentUploadManager(receiverId: receiverId)
     }
