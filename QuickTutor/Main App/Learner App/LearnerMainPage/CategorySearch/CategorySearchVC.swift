@@ -250,6 +250,7 @@ class CategorySearchVC: UIViewController {
     var unknownSubject: String?
     let suggestionCellHeight: CGFloat = 50
     var hasNoSubject: Bool = false
+    var searchButtonClicked = false
     
     private var tableViewHeight: NSLayoutConstraint?
     
@@ -595,6 +596,7 @@ class CategorySearchVC: UIViewController {
     func handleDidMaskViewTapped(_ gesture: UITapGestureRecognizer) {
         self.maskView.isHidden = true
         self.tableViewHeight?.constant = 0
+        self.searchButtonClicked = true
         
         if let category = category {
             self.titleView.setTitle(category)
@@ -867,6 +869,9 @@ extension CategorySearchVC: UITableViewDataSource {
 extension CategorySearchVC: QTSearchBarViewDelegate {
     func didSearchBarBeginEditing(_ sender: PaddedTextField) {
         maskView.isHidden = false
+        
+        // Reset the state of search button click
+        searchButtonClicked = false
         didSearchBarTextChanged(sender.text)
     }
     
@@ -876,6 +881,11 @@ extension CategorySearchVC: QTSearchBarViewDelegate {
         searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false
             , block: { (_) in
                 DispatchQueue.global().async {
+                    
+                    // If the search button has already been clicked, app should not show the suggestion.
+                    if self.searchButtonClicked {
+                        return
+                    }
                     
                     guard let text = text, !text.isEmpty else {
                         DispatchQueue.main.sync {
