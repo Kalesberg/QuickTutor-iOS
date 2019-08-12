@@ -109,15 +109,17 @@ extension LearnerReviewsVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		FirebaseData.manager.fetchTutor(datasource[indexPath.row].reviewerId, isQuery: false) { (tutor) in
 			if let tutor = tutor {
-                let controller = QTProfileViewController.controller
-                controller.user = tutor
-                controller.profileViewType = .tutor
-                if tutor.uid == AccountService.shared.currentUser.uid {
-                    controller.profileViewType = .myTutor
-                } else {
+                DispatchQueue.main.async {
+                    let controller = QTProfileViewController.controller
+                    controller.user = tutor
                     controller.profileViewType = .tutor
+                    if tutor.uid == AccountService.shared.currentUser.uid {
+                        controller.profileViewType = .myTutor
+                    } else {
+                        controller.profileViewType = .tutor
+                    }
+                    self.navigationController?.pushViewController(controller, animated: true)
                 }
-				self.navigationController?.pushViewController(controller, animated: true)
 			}
 		}
     }

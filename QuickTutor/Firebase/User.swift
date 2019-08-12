@@ -706,7 +706,7 @@ class FirebaseData {
 			})
 		}
 	}
-	
+    
 	func getCompressedImageDataFor(_ image: UIImage) -> Data? {
 		let imageView = UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: 600, height: CGFloat(ceil(600 / image.size.width * image.size.height)))))
 		imageView.contentMode = .scaleAspectFit

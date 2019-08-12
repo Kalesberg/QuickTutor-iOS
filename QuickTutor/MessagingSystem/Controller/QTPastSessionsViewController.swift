@@ -205,19 +205,23 @@ extension QTPastSessionsViewController: UITableViewDelegate {
         if AccountService.shared.currentUserType == .learner {
             FirebaseData.manager.fetchTutor(partnerId, isQuery: false, { tutor in
                 guard let tutor = tutor else { return }
-                let controller = QTProfileViewController.controller
-                controller.user = tutor
-                controller.profileViewType = .tutor
-                self.navigationController?.pushViewController(controller, animated: true)
+                DispatchQueue.main.async {
+                    let controller = QTProfileViewController.controller
+                    controller.user = tutor
+                    controller.profileViewType = .tutor
+                    self.navigationController?.pushViewController(controller, animated: true)
+                }
             })
         } else {
             FirebaseData.manager.fetchLearner(partnerId) { learner in
                 guard let learner = learner else { return }
-                let controller = QTProfileViewController.controller
-                let tutor = AWTutor(dictionary: [:])
-                controller.user = tutor.copy(learner: learner)
-                controller.profileViewType = .learner
-                self.navigationController?.pushViewController(controller, animated: true)
+                DispatchQueue.main.async {
+                    let controller = QTProfileViewController.controller
+                    let tutor = AWTutor(dictionary: [:])
+                    controller.user = tutor.copy(learner: learner)
+                    controller.profileViewType = .learner
+                    self.navigationController?.pushViewController(controller, animated: true)
+                }
             }
         }
     }
