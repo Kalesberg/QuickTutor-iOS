@@ -160,7 +160,7 @@ class QTConfirmMeetUpViewController: QTSessionBaseViewController {
             if let partnerId = self.partnerId {
                 // Set the active status of user.
                 UserStatusService.shared.getUserStatus(partnerId) { status in
-                    self.statusImageView.backgroundColor = status?.status == .online ? Colors.purple : Colors.gray
+                    self.statusImageView.backgroundColor = status?.status == .online ? Colors.statusActiveColor : Colors.gray
                 }
                 
                 UserFetchService.shared.getUserOfOppositeTypeWithId(partnerId, completion: { user in

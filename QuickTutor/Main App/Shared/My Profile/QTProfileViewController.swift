@@ -339,7 +339,7 @@ class QTProfileViewController: UIViewController {
         // Set the active status of user.
         self.statusImageView.backgroundColor = Colors.gray
         UserStatusService.shared.getUserStatus(user.uid) { status in
-            self.statusImageView.backgroundColor = status?.status == .online ? Colors.purple : Colors.gray
+            self.statusImageView.backgroundColor = status?.status == .online ? Colors.statusActiveColor : Colors.gray
         }
         
         // User name

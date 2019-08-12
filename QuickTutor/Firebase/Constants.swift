@@ -81,7 +81,7 @@ struct Colors {
     static let newTabbarBackgroundColor = UIColor(hex: "1B1B26").withAlphaComponent(0.9)
     static let newTextHighlightColor = UIColor(hex: "645FCC")
     
-    
+    static let statusActiveColor = UIColor(hex: "0FD513")
 }
 
 struct Fonts {

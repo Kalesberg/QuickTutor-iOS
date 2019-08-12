@@ -63,7 +63,7 @@ class CustomTitleView: UIView {
     
     func getLastActiveStringFor(uid: String) {
         OnlineStatusService.shared.getLastActiveStringFor(uid: user.uid) { result, status in
-            self.imageView.onlineStatusIndicator.backgroundColor = status == .online ? Colors.purple : Colors.gray
+            self.imageView.onlineStatusIndicator.backgroundColor = status == .online ? Colors.statusActiveColor : Colors.gray
             guard let result = result else { return }
             self.updateActiveLabelAppearence(forStatus: result)
         }

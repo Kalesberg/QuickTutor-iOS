@@ -211,7 +211,7 @@ class ConnectionCell: UICollectionViewCell {
     private func updateOnlineStatusIndicator() {
         UserStatusService.shared.getUserStatus(self.user.uid) { (status) in
             let online = status?.status == UserStatusType.online
-            self.profileImageView.onlineStatusIndicator.backgroundColor = online ? Colors.purple : Colors.gray
+            self.profileImageView.onlineStatusIndicator.backgroundColor = online ? Colors.statusActiveColor : Colors.gray
         }
     }
     
