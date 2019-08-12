@@ -89,6 +89,7 @@ class QTProfileViewController: UIViewController {
     var reviewsHeight: CGFloat = 0.0
     var connectionRef: DatabaseReference?
     var connectionHandle: DatabaseHandle?
+    lazy var sharedProfileView = QTSharedProfileView()
     
     // For quick call observer
     var tutorInfoRef: DatabaseReference?
@@ -100,6 +101,13 @@ class QTProfileViewController: UIViewController {
         setupObservers()
         setupDelegates()
         setupLocationManager()
+        
+        scrollView.backgroundColor = Colors.newScreenBackground
+        
+        if profileViewType == .myTutor || profileViewType == .tutor {
+            setupSharedProfileView()
+        }
+        
         
         if #available(iOS 11.0, *) {
             if !isPresentedFromSessionScreen {
@@ -272,6 +280,16 @@ class QTProfileViewController: UIViewController {
         actionSheet?.show()
     }
     
+    @objc
+    func handleShareProfileButtonClicked() {
+        guard let id = user.uid else { return }
+        DynamicLinkFactory.shared.createLink(userId: id, subject: subject) { shareUrl in
+            guard let shareUrlString = shareUrl?.absoluteString else { return }
+            let ac = UIActivityViewController(activityItems: [self.sharedProfileView.asImage(), shareUrlString], applicationActivities: nil)
+            self.present(ac, animated: true, completion: nil)
+        }
+    }
+    
     // MARK: - Functions
     func setupDelegates() {
         
@@ -390,6 +408,11 @@ class QTProfileViewController: UIViewController {
             // If a tutor visits an another tutor's profile, hide message and more icons.
             if AccountService.shared.currentUserType == UserType.tutor {
                 moreButtonsView.isHidden = true
+                
+                navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_share"),
+                                                                    style: .plain,
+                                                                    target: self,
+                                                                    action: #selector(handleShareProfileButtonClicked))
             } else {
                 navigationItem.rightBarButtonItem = UIBarButtonItem.init(image: UIImage(named: "ic_dots_horizontal"), style: .plain, target: self, action: #selector(handleMoreButtonClicked))
             }
@@ -448,10 +471,16 @@ class QTProfileViewController: UIViewController {
             updateMyBioLabel(bio: user.tBio)
             
             navigationItem.title = user.username
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_pencil"),
-                                                                style: .plain,
-                                                                target: self,
-                                                                action: #selector(handleEditProfile))
+            navigationItem.rightBarButtonItems = [
+                UIBarButtonItem(image: UIImage(named: "ic_pencil"),
+                                style: .plain,
+                                target: self,
+                                action: #selector(handleEditProfile)),
+                UIBarButtonItem(image: UIImage(named: "ic_share"),
+                                style: .plain,
+                                target: self,
+                                action: #selector(handleShareProfileButtonClicked))
+            ]
         case .myLearner:
             moreButtonsView.isHidden = true
             statisticStackView.isHidden = true
@@ -861,6 +890,27 @@ class QTProfileViewController: UIViewController {
                 self.user.quickCallPrice = quickCallPrice
             }
         })
+    }
+    
+    private func setupSharedProfileView() {
+        
+        // Get tutor info
+        FirebaseData.manager.fetchTutor(user.uid, isQuery: false) { (tutor) in
+            guard let tutor = tutor else { return }
+            self.view.insertSubview(self.sharedProfileView, at: 0)
+            self.sharedProfileView.translatesAutoresizingMaskIntoConstraints = false
+            self.sharedProfileView.anchor(top: self.view.topAnchor,
+                                          left: self.view.leftAnchor,
+                                          bottom: nil,
+                                          right: self.view.rightAnchor,
+                                          paddingTop: 0,
+                                          paddingLeft: 0,
+                                          paddingBottom: 0,
+                                          paddingRight: 0,
+                                          width: 0,
+                                          height: 0)
+            self.sharedProfileView.setProfile(withTutor: tutor)
+        }
     }
 }
 

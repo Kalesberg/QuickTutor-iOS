@@ -153,11 +153,13 @@ class LearnerMainPageVC: UIViewController {
         guard let userInfo = notification.userInfo, let uid = userInfo["uid"] as? String else { return }
         FirebaseData.manager.fetchTutor(uid, isQuery: false, { (tutor) in
             guard let tutor = tutor else { return }
-            let controller = QTProfileViewController.controller
-            controller.subject = tutor.featuredSubject
-            controller.profileViewType = .tutor
-            controller.user = tutor
-            self.navigationController?.pushViewController(controller, animated: true)
+            DispatchQueue.main.async {
+                let controller = QTProfileViewController.controller
+                controller.subject = tutor.featuredSubject
+                controller.profileViewType = .tutor
+                controller.user = tutor
+                self.navigationController?.pushViewController(controller, animated: true)
+            }
         })
 
     }

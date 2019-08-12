@@ -213,7 +213,15 @@ class FileReportActionsheet: UIView {
         guard let id = partnerId else { return }
         DynamicLinkFactory.shared.createLink(userId: id, subject: subject) { shareUrl in
             guard let shareUrlString = shareUrl?.absoluteString else { return }
-            let ac = UIActivityViewController(activityItems: [shareUrlString], applicationActivities: nil)
+            var image: UIImage?
+            if let vc = self.parentViewController as? ConversationVC {
+                image = vc.sharedProfileView.asImage()
+            } else if let vc = self.parentViewController as? QTProfileViewController {
+                image = vc.sharedProfileView.asImage()
+            }
+            
+            guard let profileImage = image else { return }
+            let ac = UIActivityViewController(activityItems: [profileImage, shareUrlString], applicationActivities: nil)
             self.parentViewController?.present(ac, animated: true, completion: nil)
         }
     }

@@ -287,13 +287,15 @@ class QTAllSearchViewController: UIViewController {
         NotificationCenter.default.post(name: NSNotification.Name(QTNotificationName.quickSearchDismissKeyboard), object: nil)
         displayLoadingOverlay()
         FirebaseData.manager.fetchTutor(tutorId, isQuery: false, { (tutor) in
-            self.dismissOverlay()
-            guard let tutor = tutor else { return }
-            let controller = QTProfileViewController.controller//TutorCardVC()
-            controller.subject = tutor.featuredSubject
-            controller.profileViewType = .tutor
-            controller.user = tutor
             DispatchQueue.main.async {
+              self.dismissOverlay()
+            }
+            guard let tutor = tutor else { return }
+            DispatchQueue.main.async {
+                let controller = QTProfileViewController.controller//TutorCardVC()
+                controller.subject = tutor.featuredSubject
+                controller.profileViewType = .tutor
+                controller.user = tutor
                 self.navigationController?.pushViewController(controller, animated: true)
             }
         })
