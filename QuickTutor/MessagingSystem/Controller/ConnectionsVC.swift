@@ -53,6 +53,16 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
         setupViews()
         fetchConnections()
         setupSearchController()
+        
+        // add notifications
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow (_:)),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide (_:)),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -68,6 +78,13 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
         if #available(iOS 11.0, *) {
             navigationItem.largeTitleDisplayMode = .automatic
             navigationController?.navigationBar.prefersLargeTitles = true
+        }
+    }
+    
+    override func didMove(toParent parent: UIViewController?) {
+        super.didMove(toParent: parent)
+        if parent == nil {
+            NotificationCenter.default.removeObserver(self)
         }
     }
     
@@ -87,14 +104,23 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
         Database.database().reference().child("connections").child(uid).child(userTypeString).observeSingleEvent(of: .value) { snapshot in
             self.shouldShowEmptyBackground(snapshot.exists())
             guard let connections = snapshot.value as? [String: Any] else { return }
+            
+            var tmpConnections: [User] = []
+            let connectionGroup = DispatchGroup()
+            
             connections.forEach({ key, _ in
+                connectionGroup.enter()
                 UserFetchService.shared.getUserOfOppositeTypeWithId(key, completion: { userIn in
+                    connectionGroup.leave()
                     guard let user = userIn else { return }
-                    self.connections.append(user)
-                    self.collectionView.reloadData()
+                    tmpConnections.append(user)
                 })
             })
-            self.connections = self.connections.sorted(by: {$0.formattedName > $1.formattedName})
+            
+            connectionGroup.notify(queue: .main) {
+                self.connections = tmpConnections.sorted(by: {$0.formattedName < $1.formattedName})
+                self.collectionView.reloadData()
+            }
         }
     }
     
@@ -139,6 +165,19 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
     
     func inSearchMode() -> Bool {
         return !searchBarIsEmpty()
+    }
+    
+    // MARK: - Notification Handler
+    @objc
+    private func keyboardWillShow (_ notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            collectionView.contentInset = UIEdgeInsets (top: 0.0, left: 0.0, bottom: keyboardFrame.cgRectValue.height, right: 0.0)
+        }
+    }
+    
+    @objc
+    private func keyboardWillHide (_ notification: Notification) {
+        collectionView.contentInset = UIEdgeInsets (top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
     }
 }
 
