@@ -229,8 +229,8 @@ class ConnectionCell: UICollectionViewCell {
     func updateToMainFeedLayout() {
         messageButton.setImage(nil, for: .normal)
         messageButton.snp.updateConstraints { make in
-            make.width.equalTo(75)
-            make.height.equalTo(35)
+            make.width.equalTo(70)
+            make.height.equalTo(30)
         }
         messageButton.setTitle("Message", for: .normal)
         messageButton.backgroundColor = Colors.purple

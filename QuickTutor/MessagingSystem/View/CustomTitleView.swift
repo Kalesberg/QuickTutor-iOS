@@ -76,7 +76,7 @@ class CustomTitleView: UIView {
         }
         
         if status == "Active now" {
-            self.activeLabel.textColor = Colors.purple
+            self.activeLabel.textColor = Colors.statusActiveColor
         } else {
             self.activeLabel.textColor = .white
         }

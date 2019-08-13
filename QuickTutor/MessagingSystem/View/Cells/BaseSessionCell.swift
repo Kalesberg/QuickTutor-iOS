@@ -44,6 +44,7 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
     let profileImage: UserImageView = {
         let iv = UserImageView()
         iv.onlineStatusIndicator.isHidden = true
+        iv.containerView.isHidden = true
         return iv
     }()
 
