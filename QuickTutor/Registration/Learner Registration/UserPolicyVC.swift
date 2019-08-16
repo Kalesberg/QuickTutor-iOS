@@ -115,7 +115,8 @@ class UserPolicyVC: BaseRegistrationController {
             group.leave()
         }
         
-        if Registration.studentImageURL.isEmpty {
+        if nil == Registration.studentImageURL
+            || Registration.studentImageURL.isEmpty {
             group.enter()
             FirebaseData.manager.uploadImage(data: Registration.imageData, number: "1") { error, imageUrl in
                 if let error = error {
