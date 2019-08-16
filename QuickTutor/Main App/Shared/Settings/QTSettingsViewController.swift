@@ -24,11 +24,19 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
     @IBOutlet weak var switchOffImageView: QTCustomImageView!
     @IBOutlet weak var switchOnImageView: QTCustomImageView!
     @IBOutlet weak var linkFacebookView: UIView!
+    
+    @IBOutlet weak var showFacebookView: UIView!
+    @IBOutlet weak var imgFacebook: UIImageView!
+    @IBOutlet weak var lblFacebookName: UILabel!
+    @IBOutlet weak var btnDisconnectFacebook: UIButton!
+    
     @IBOutlet weak var rateButton: UIButton!
     @IBOutlet weak var guidelinesReadButton: UIButton!
     @IBOutlet weak var safetyReadButton: UIButton!
     
     var isShowMe: Bool = false
+    
+    private let loginManager = LoginManager()
     
     // MARK: - static functions
     static var controller: QTSettingsViewController {
@@ -103,6 +111,26 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
             showMeSwitchOn(isShowMe)
             locationTextField.text = CurrentUser.shared.tutor.location != nil ? CurrentUser.shared.tutor.region : ""
         }
+        
+        updateFacebookInfoView()
+    }
+    
+    private func updateFacebookInfoView() {
+        if let facebook = AccountService.shared.currentUser.facebook {
+            linkFacebookView.superview?.isHidden = true
+            showFacebookView.superview?.isHidden = false
+            
+            if let imageUrl = facebook["imageUrl"] {
+                imgFacebook.sd_setImage(with: URL(string: imageUrl))
+            }
+            if let strFBName = facebook["name"] {
+                lblFacebookName.text = strFBName
+            }
+            btnDisconnectFacebook.isHidden = "facebook.com" == Auth.auth().currentUser?.providerID
+        } else {
+            linkFacebookView.superview?.isHidden = false
+            showFacebookView.superview?.isHidden = true
+        }
     }
     
     // MARK: - actions
@@ -156,6 +184,38 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
         }
     }
     
+    @IBAction func onClickBtnDisconnectFacebook(_ sender: Any) {
+        guard let currentUser = Auth.auth().currentUser,
+            nil != AccountService.shared.currentUser.facebook else { return }
+        
+        let alert = UIAlertController(title: "Disconnect Facebook",
+                                      message: "Are you sure you want to disconnect your facebook account?",
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Disconnect", style: .destructive) { _ in
+            currentUser.unlink(fromProvider: "facebook.com") { user, error in
+                if let error = error {
+                    let alert = UIAlertController(title: "Link Facebook Error",
+                                                  message: error.localizedDescription,
+                                                  preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                    self.present(alert, animated: true) {
+                        self.loginManager.logOut()
+                    }
+                    return
+                }
+                
+                FirebaseData.manager.updateFacebook(CurrentUser.shared.learner.uid, facebook: nil) { error in
+                    if nil == error {
+                        AccountService.shared.currentUser.facebook = nil
+                        self.updateFacebookInfoView()
+                    }
+                }
+            }
+        })
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
     @objc
     func handleDidLocationViewTap(_ recognizer: UITapGestureRecognizer) {
         let controller = QTLocationsViewController.controller
@@ -189,8 +249,6 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
             break
         case .ended:
             linkFacebookView.didTouchUp()
-            let loginManager = LoginManager()
-            
             loginManager.logIn(readPermissions: [.publicProfile, .email], viewController: self) { (result) in
                 switch result {
                 case .failed(let error):
@@ -198,16 +256,72 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
                 case .cancelled:
                     print("User cancelled login.")
                 case .success:
-                    let credential = FacebookAuthProvider.credential(withAccessToken: (AccessToken.current?.authenticationToken)!)
-                    Auth.auth().currentUser?.linkAndRetrieveData(with: credential, completion: { (authResult, error) in
-                        print("Facebook linked")
-                    })
+                    guard let accessToken = AccessToken.current?.authenticationToken else { break }
+                    
+                    let credential = FacebookAuthProvider.credential(withAccessToken: accessToken)
+                    Auth.auth().currentUser?.linkAndRetrieveData(with: credential) { authResult, error in
+                        if let error = error {
+                            let alert = UIAlertController(title: "Link Facebook Error",
+                                                          message: error.localizedDescription,
+                                                          preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                            self.present(alert, animated: true) {
+                                self.loginManager.logOut()
+                            }
+                            return
+                        }
+                        
+                        self.getFacebookProfile() { dicUserData in
+                            guard let dicUserData = dicUserData else { return }
+                            
+                            var facebookInfo: [String: String] = [:]
+                            if let email = dicUserData["email"] as? String {
+                                facebookInfo["email"] = email
+                            }
+                            if let name = dicUserData["name"] as? String, !name.isEmpty {
+                                facebookInfo["name"] = name
+                            } else if let firstName = dicUserData["firstname"] as? String,
+                                let lastName = dicUserData["lastname"] as? String,
+                                !firstName.isEmpty, !lastName.isEmpty {
+                                facebookInfo["name"] = "\(firstName) \(lastName)"
+                            } else {
+                                facebookInfo["name"] = ""
+                            }
+                            if let userId = dicUserData["id"] as? String {
+                                facebookInfo["id"] = userId
+                                facebookInfo["imageUrl"] = "https://graph.facebook.com/\(userId)/picture?type=large"
+                            }
+                            FirebaseData.manager.updateFacebook(CurrentUser.shared.learner.uid, facebook: facebookInfo) { error in
+                                if nil == error {
+                                    AccountService.shared.currentUser.facebook = facebookInfo
+                                    self.updateFacebookInfoView()
+                                }
+                            }
+                        }
+                    }
                 }
             }
             break
         default:
             linkFacebookView.didTouchUp()
             break
+        }
+    }
+    
+    private func getFacebookProfile(completion: @escaping ([String: Any]?) -> ()) {
+        let params = ["fields": "id, name, first_name, last_name, email", "redirect": "false"]
+        let graphRequest = GraphRequest(graphPath: "me", parameters: params)
+        graphRequest.start { _, requestResult in
+            switch requestResult {
+            case .failed(let error):
+                print("error in graph request:", error)
+                completion(nil)
+            case .success(let graphResponse):
+                if let responseDictionary = graphResponse.dictionaryValue {
+                    print("Facebook response dictionary", responseDictionary)
+                    completion(responseDictionary)
+                }
+            }
         }
     }
     
@@ -247,6 +361,7 @@ extension QTSettingsNavigation {
         let okButton = UIAlertAction(title: "Log Out", style: .destructive) { _ in
             do {
                 try Auth.auth().signOut()
+                LoginManager().logOut()
                 RootControllerManager.shared.configureRootViewController(controller: GetStartedViewController())
             } catch {
                 print("Error signing out")

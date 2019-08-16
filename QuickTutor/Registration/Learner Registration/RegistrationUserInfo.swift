@@ -29,6 +29,7 @@ struct Registration {
     static var emailCredential: AuthCredential?
     static var imageData: Data!
     static var customerId: String!
+    static var facebookInfo: [String: Any]?
 
     static func setRegistrationDefaults() {
         let defaults = UserDefaults.standard

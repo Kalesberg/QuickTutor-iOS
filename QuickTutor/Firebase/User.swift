@@ -109,6 +109,18 @@ class FirebaseData {
 			completion(nil)
 		}
 	}
+    
+    func updateFacebook(_ uid: String, facebook: [String: String]?, completion: @escaping(Error?) -> Void) {
+        if let facebook = facebook {
+            ref.child("account").child(uid).updateChildValues(["facebook": facebook]) { error, ref in
+                completion(error)
+            }
+        } else {
+            ref.child("account").child(uid).child("facebook").removeValue { error, ref in
+                completion(error)
+            }
+        }
+    }
 	
 	func updateFeaturedTutorRegion(_ uid: String, region: String, index:Int=0) {
 		guard index <= 11 else { return }

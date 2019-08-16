@@ -200,7 +200,9 @@ class SignInVC: UIViewController {
 	}
 	
 	func completeFacebookSignIn() {
-		let credential = FacebookAuthProvider.credential(withAccessToken: (AccessToken.current?.authenticationToken)!)
+		guard let accessToken = AccessToken.current?.authenticationToken else { return }
+		
+		let credential = FacebookAuthProvider.credential(withAccessToken: accessToken)
 		Auth.auth().signInAndRetrieveData(with: credential) { (authResult, error) in
 			guard error == nil else {
 				self.showSignInError()
@@ -209,8 +211,20 @@ class SignInVC: UIViewController {
 			guard let uid = authResult?.user.uid else { return }
 			Database.database().reference().child("student-info").child(uid).observeSingleEvent(of: .value) { (snapshot) in
 				if snapshot.exists() {
-					FirebaseData.manager.signInLearner(uid: uid) { (successful) in
+					FirebaseData.manager.signInLearner(uid: uid) { successful in
 						if successful {
+							Database.database().reference().child("account").child(uid).observeSingleEvent(of: .value) { snapshot in
+								guard let dicAccount = snapshot.value as? [String: Any] else { return }
+								
+								if nil == dicAccount["facebook"] as? [String: Any] {
+									self.getFacebookProfile() { userData in
+										self.setupForRegistration(userData: userData)
+										if let facebookInfo = Registration.facebookInfo {
+											snapshot.ref.child("facebook").updateChildValues(facebookInfo)
+										}
+									}
+								}
+							}
 							Registration.setLearnerDefaults()
 							RootControllerManager.shared.setupLearnerTabBar(controller: LearnerMainPageVC())
 						} else {
@@ -219,9 +233,9 @@ class SignInVC: UIViewController {
 					}
 				} else {
 					Registration.uid = uid
-					self.getFacebookEmail(completion: { (userData) in
+					self.getFacebookProfile() { userData in
 						self.setupForRegistration(userData: userData)
-					})
+					}
 				}
 			}
 		}
@@ -237,8 +251,13 @@ class SignInVC: UIViewController {
 	func setupForRegistration(userData: [String: Any]?) {
 		guard let data = userData else { return }
 		guard let email = data["email"] as? String else { return }
+		
+		var facebookInfo: [String: Any] = [:]
+		
 		Registration.email = email
 		AccountService.shared.currentUserType = .lRegistration
+		
+		
 		if let name = data["name"] as? String, !name.isEmpty {
 			Registration.name = name
 		} else if let firstName = data["firstname"] as? String,
@@ -248,15 +267,21 @@ class SignInVC: UIViewController {
 		} else {
 			Registration.name = ""
 		}
+		
+		facebookInfo["email"] = email
+		facebookInfo["name"] = Registration.name
 		if let userId = data["id"] as? String {
 			Registration.studentImageURL = "https://graph.facebook.com/\(userId)/picture?type=large"
+			facebookInfo["id"] = userId
+			facebookInfo["imageUrl"] = Registration.studentImageURL
+			Registration.facebookInfo = facebookInfo
 			let next = BirthdayVC()
 			next.isFacebookManaged = true
 			self.navigationController?.pushViewController(next, animated: true)
 		}
 	}
 
-	func getFacebookEmail(completion: @escaping ([String: Any]?) -> ()) {
+	func getFacebookProfile(completion: @escaping ([String: Any]?) -> ()) {
 		let params = ["fields": "id, name, first_name, last_name, email", "redirect": "false"]
 		let graphRequest = GraphRequest(graphPath: "me", parameters: params)
 		graphRequest.start {
@@ -273,7 +298,6 @@ class SignInVC: UIViewController {
 				}
 			}
 		}
-
 	}
 	
 	@objc func signIn() {

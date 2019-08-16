@@ -29,14 +29,18 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QTSettingsViewController" customModule="QuickTutor" customModuleProvider="target">
             <connections>
+                <outlet property="btnDisconnectFacebook" destination="tAO-qM-jjM" id="hlq-ST-3jj"/>
                 <outlet property="facebookButton" destination="Tv4-7f-wjd" id="Mj4-5h-08z"/>
                 <outlet property="guidelinesReadButton" destination="hAT-bp-Lx4" id="3kI-Rr-s30"/>
+                <outlet property="imgFacebook" destination="kBF-Hs-Zhz" id="wFn-x7-UNF"/>
                 <outlet property="instagramButton" destination="04g-3F-0Km" id="WBi-iB-IgB"/>
+                <outlet property="lblFacebookName" destination="qhF-ZB-2cF" id="IJi-tr-3OG"/>
                 <outlet property="linkFacebookView" destination="m69-cg-Qhz" id="tAw-gW-fLY"/>
                 <outlet property="locationTextField" destination="4V2-Bs-AbN" id="84Q-h5-cw3"/>
                 <outlet property="locationView" destination="e8u-nI-AiX" id="3Sn-ie-Kys"/>
                 <outlet property="rateButton" destination="Mp5-s6-1yb" id="Mkf-qa-iSK"/>
                 <outlet property="safetyReadButton" destination="az4-mY-YKE" id="Xii-Mr-DvM"/>
+                <outlet property="showFacebookView" destination="Xjd-wd-PSw" id="Sr5-Wf-zzX"/>
                 <outlet property="showMeSwitch" destination="7Ya-av-emd" id="L63-SX-UzU"/>
                 <outlet property="showMeView" destination="f6O-SZ-Mav" id="Brd-D4-HPU"/>
                 <outlet property="switchOffImageView" destination="AXD-0b-6X3" id="okd-hm-V6K"/>
@@ -54,7 +58,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="lx4-oa-0C1">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="942"/>
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="1052.5"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e8u-nI-AiX">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="77"/>
@@ -514,7 +518,7 @@
                                         <constraint firstItem="Gvo-9y-fCv" firstAttribute="leading" secondItem="f6O-SZ-Mav" secondAttribute="leading" constant="20" id="x0l-MJ-Dhd"/>
                                     </constraints>
                                 </view>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jxn-07-a19">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jxn-07-a19" userLabel="Link Facebook">
                                     <rect key="frame" x="0.0" y="721" width="375" height="106"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m69-cg-Qhz">
@@ -570,8 +574,84 @@
                                         <constraint firstAttribute="trailing" secondItem="m69-cg-Qhz" secondAttribute="trailing" constant="20" id="fkO-HM-kyc"/>
                                     </constraints>
                                 </view>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H2P-Pz-E96" userLabel="Show Facebook">
+                                    <rect key="frame" x="0.0" y="827" width="375" height="110.5"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xjd-wd-PSw">
+                                            <rect key="frame" x="20" y="20" width="335" height="69.5"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Facebook" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C4e-km-2bf">
+                                                    <rect key="frame" x="0.0" y="0.0" width="68.5" height="19.5"/>
+                                                    <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="16"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kBF-Hs-Zhz">
+                                                    <rect key="frame" x="0.0" y="29.5" width="40" height="40"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="kBF-Hs-Zhz" secondAttribute="height" multiplier="1:1" id="FVe-HT-M58"/>
+                                                        <constraint firstAttribute="width" constant="40" id="FWf-WR-qk9"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="20"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Link Facebook" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qhF-ZB-2cF">
+                                                    <rect key="frame" x="48" y="40" width="101" height="19.5"/>
+                                                    <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="16"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tAO-qM-jjM">
+                                                    <rect key="frame" x="295" y="29.5" width="40" height="40"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="40" id="m3e-nX-gEN"/>
+                                                        <constraint firstAttribute="width" secondItem="tAO-qM-jjM" secondAttribute="height" multiplier="1:1" id="wZT-KE-wEL"/>
+                                                    </constraints>
+                                                    <state key="normal" image="ic_close"/>
+                                                    <connections>
+                                                        <action selector="onClickBtnDisconnectFacebook:" destination="-1" eventType="touchUpInside" id="0pM-FE-0ew"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="C4e-km-2bf" secondAttribute="trailing" id="5LK-sJ-pAr"/>
+                                                <constraint firstItem="kBF-Hs-Zhz" firstAttribute="top" secondItem="C4e-km-2bf" secondAttribute="bottom" constant="10" id="NNB-QE-xHP"/>
+                                                <constraint firstAttribute="trailing" secondItem="tAO-qM-jjM" secondAttribute="trailing" id="NP5-6I-Uyu"/>
+                                                <constraint firstItem="qhF-ZB-2cF" firstAttribute="centerY" secondItem="kBF-Hs-Zhz" secondAttribute="centerY" id="RSJ-ve-wIb"/>
+                                                <constraint firstItem="C4e-km-2bf" firstAttribute="leading" secondItem="Xjd-wd-PSw" secondAttribute="leading" id="TUx-Py-yeg"/>
+                                                <constraint firstItem="C4e-km-2bf" firstAttribute="top" secondItem="Xjd-wd-PSw" secondAttribute="top" id="Wht-pa-kgE"/>
+                                                <constraint firstItem="tAO-qM-jjM" firstAttribute="centerY" secondItem="qhF-ZB-2cF" secondAttribute="centerY" id="cB8-7e-0CV"/>
+                                                <constraint firstItem="tAO-qM-jjM" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="qhF-ZB-2cF" secondAttribute="trailing" constant="8" id="ciy-3s-kYS"/>
+                                                <constraint firstItem="qhF-ZB-2cF" firstAttribute="leading" secondItem="kBF-Hs-Zhz" secondAttribute="trailing" constant="8" id="eXa-vW-PG5"/>
+                                                <constraint firstAttribute="bottom" secondItem="kBF-Hs-Zhz" secondAttribute="bottom" id="g01-nZ-g6L"/>
+                                                <constraint firstItem="kBF-Hs-Zhz" firstAttribute="leading" secondItem="Xjd-wd-PSw" secondAttribute="leading" id="o9a-2d-Phw"/>
+                                            </constraints>
+                                        </view>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eSh-58-Oyy" userLabel="separator">
+                                            <rect key="frame" x="20" y="109.5" width="335" height="1"/>
+                                            <color key="backgroundColor" red="0.17254901959999999" green="0.17254901959999999" blue="0.2274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="1" id="7NY-zu-JJi"/>
+                                            </constraints>
+                                        </view>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstItem="eSh-58-Oyy" firstAttribute="top" secondItem="Xjd-wd-PSw" secondAttribute="bottom" constant="20" id="EId-RZ-QKs"/>
+                                        <constraint firstItem="Xjd-wd-PSw" firstAttribute="leading" secondItem="H2P-Pz-E96" secondAttribute="leading" constant="20" id="H43-T4-LWg"/>
+                                        <constraint firstItem="Xjd-wd-PSw" firstAttribute="top" secondItem="H2P-Pz-E96" secondAttribute="top" constant="20" id="QYU-ZD-Mna"/>
+                                        <constraint firstAttribute="trailing" secondItem="eSh-58-Oyy" secondAttribute="trailing" constant="20" id="S02-Ku-7ky"/>
+                                        <constraint firstAttribute="bottom" secondItem="eSh-58-Oyy" secondAttribute="bottom" id="YXu-Bq-NCR"/>
+                                        <constraint firstItem="eSh-58-Oyy" firstAttribute="leading" secondItem="H2P-Pz-E96" secondAttribute="leading" constant="20" id="bj5-ph-yc8"/>
+                                        <constraint firstAttribute="trailing" secondItem="Xjd-wd-PSw" secondAttribute="trailing" constant="20" id="pCl-wN-LMk"/>
+                                    </constraints>
+                                </view>
                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jnL-pt-u3t">
-                                    <rect key="frame" x="0.0" y="827" width="375" height="115"/>
+                                    <rect key="frame" x="0.0" y="937.5" width="375" height="115"/>
                                     <subviews>
                                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BY8-1B-VaJ" customClass="QTCustomView" customModule="QuickTutor" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="118"/>
@@ -670,6 +750,7 @@
         </view>
     </objects>
     <resources>
+        <image name="ic_close" width="15" height="15"/>
         <image name="ic_facebook" width="24" height="24"/>
         <image name="ic_instagram" width="24" height="24"/>
         <image name="ic_switch_off" width="52" height="52"/>

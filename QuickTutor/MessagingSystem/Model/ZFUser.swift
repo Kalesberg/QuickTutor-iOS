@@ -16,6 +16,7 @@ class User: Decodable {
     var type: String!
     var isOnline: Bool!
     var rating: Double?
+    var facebook: [String: String]?
 
     var formattedName: String {
         guard let name = username?.trimmingCharacters(in: .whitespaces), !name.isEmpty else {
@@ -56,6 +57,7 @@ class User: Decodable {
         rating = dictionary["r"] as? Double
         uid = dictionary["uid"] as? String
         type = dictionary["type"] as? String ?? ""
+        facebook = dictionary["facebook"] as? [String: String]
         let onlineSecondsAgo = dictionary["online"] as? Double ?? 1000
         updateOnlineStatus(onlineSecondsAgo)
     }

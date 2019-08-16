@@ -143,12 +143,29 @@ class UserPolicyVC: BaseRegistrationController {
             if let error = error {
                 self?.genericError(message: error.localizedDescription)
             } else {
-                let account: [String: Any] =
-                    ["phn": Registration.phone ?? "", "age": Registration.age, "em": Registration.email, "bd": Registration.dob, "logged": "", "init": (Date().timeIntervalSince1970)]
+                var account: [String: Any] = [
+                     "phn": Registration.phone ?? "",
+                     "age": Registration.age,
+                     "em": Registration.email,
+                     "bd": Registration.dob,
+                     "logged": "",
+                     "init": (Date().timeIntervalSince1970)
+                ]
+                if let facebookInfo = Registration.facebookInfo {
+                    account["facebook"] = facebookInfo
+                }
                 
-                let studentInfo: [String: Any] =
-                    ["nm": Registration.name, "r": 5.0, "cus": Registration.customerId,
-                     "img": ["image1": Registration.studentImageURL, "image2": "", "image3": "", "image4": ""]]
+                let studentInfo: [String: Any] = [
+                    "nm": Registration.name,
+                    "r": 5.0,
+                    "cus": Registration.customerId,
+                    "img": [
+                        "image1": Registration.studentImageURL,
+                        "image2": "",
+                        "image3": "",
+                        "image4": ""
+                    ]
+                ]
                 
                 guard let registrationId = Registration.uid else {
                     self?.genericError(message: "Invalid registration id")
