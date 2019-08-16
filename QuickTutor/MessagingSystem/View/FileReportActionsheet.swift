@@ -233,8 +233,7 @@ class FileReportActionsheet: UIView {
                 return
             }
             
-            
-            DynamicLinkFactory.shared.createLink(userId: id, subject: self.subject, profilePreviewUrl: url) { shareUrl in
+            DynamicLinkFactory.shared.createLink(userId: id, userName: self.name, subject: self.subject, profilePreviewUrl: url) { shareUrl in
                 guard let shareUrlString = shareUrl?.absoluteString else {
                     DispatchQueue.main.async {
                         self.parentViewController?.dismissOverlay()

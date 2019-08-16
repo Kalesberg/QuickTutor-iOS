@@ -24,7 +24,7 @@ class DynamicLinkFactory {
     var longLink: URL?
     var shortLink: URL?
 
-    func createLink(userId: String?, subject: String?, profilePreviewUrl: String?, completion: @escaping (URL?) -> Void) {
+    func createLink(userId: String?, userName: String?, subject: String?, profilePreviewUrl: String?, completion: @escaping (URL?) -> Void) {
         dictionary[.link] = "https://quickTutor.com/\(userId ?? "")"
         // Initialize the sections array
         sections = [
@@ -50,11 +50,22 @@ class DynamicLinkFactory {
 
         let socialParams = DynamicLinkSocialMetaTagParameters()
         if let subject = subject {
-            socialParams.title = "QuickTutor: Check out this awesome \(subject) tutor!"
+            if let userId = userId, AccountService.shared.currentUserType == UserType.tutor && userId.compare(AccountService.shared.currentUser.uid) == .orderedSame {
+                socialParams.title = "I teach \(subject) on QuickTutor. Check me out!"
+            } else {
+                if let userName = userName {
+                    socialParams.title = "\(userName) teaches \(subject) on QuickTutor. Check them out! "
+                }
+            }
         } else {
-            socialParams.title = "QuickTutor: Check out this awesome tutor!"
+            if let userId = userId, AccountService.shared.currentUserType == UserType.tutor && userId.compare(AccountService.shared.currentUser.uid) == .orderedSame {
+                socialParams.title = "I am an awesome tutor on QuickTutor. Check me out!"
+            } else {
+                if let userName = userName {
+                    socialParams.title = "\(userName) is an awesome tutor on QuickTutor. Check them out! "
+                }
+            }
         }
-        
         socialParams.descriptionText = "Check out this QuickTutor!"
 
 #if DEVELOPMENT

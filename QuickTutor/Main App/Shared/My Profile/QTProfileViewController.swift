@@ -268,9 +268,9 @@ class QTProfileViewController: UIViewController {
     @objc
     func handleMoreButtonClicked() {
         if #available(iOS 11.0, *) {
-            actionSheet = FileReportActionsheet(bottomLayoutMargin: view.safeAreaInsets.bottom, name: String(user?.firstName ?? "Zach"))
+            actionSheet = FileReportActionsheet(bottomLayoutMargin: view.safeAreaInsets.bottom, name: String(user?.formattedName ?? "User"))
         } else {
-            actionSheet = FileReportActionsheet(bottomLayoutMargin: 0, name: String(user?.firstName ?? "Zach"))
+            actionSheet = FileReportActionsheet(bottomLayoutMargin: 0, name: String(user?.formattedName ?? "User"))
         }
         actionSheet?.partnerId = user?.uid
         actionSheet?.isConnected = connectionStatus == .connected
@@ -299,7 +299,7 @@ class QTProfileViewController: UIViewController {
             }
             
             
-            DynamicLinkFactory.shared.createLink(userId: id, subject: self.subject, profilePreviewUrl: url) { shareUrl in
+            DynamicLinkFactory.shared.createLink(userId: id, userName: self.user.formattedName, subject: self.subject, profilePreviewUrl: url) { shareUrl in
                 guard let shareUrlString = shareUrl?.absoluteString else {
                     DispatchQueue.main.async {
                         self.dismissOverlay()
@@ -440,7 +440,7 @@ class QTProfileViewController: UIViewController {
                                                                     target: self,
                                                                     action: #selector(handleShareProfileButtonClicked))
             } else {
-                navigationItem.rightBarButtonItem = UIBarButtonItem.init(image: UIImage(named: "ic_dots_horizontal"), style: .plain, target: self, action: #selector(handleMoreButtonClicked))
+                navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_dots_horizontal"), style: .plain, target: self, action: #selector(handleMoreButtonClicked))
             }
             
             //Update saved button
