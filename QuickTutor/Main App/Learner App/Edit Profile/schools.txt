@@ -10028,3 +10028,103 @@ Central Pennsylvania Diesel Institute
 L Makeup Institute
 Weimer Institute
 Mercy In Action College of Midwifery
+Virginia Tech
+Acadia University
+Algoma University
+Ambrose University
+Aurora College
+Bishop's University
+Brandon University
+British Columbia Institute of Technology
+Brock University
+Burman University
+Campion College at the University of Regina
+Canadian Mennonite University
+Cape Breton University
+Capilano University
+Carleton University
+Collège Militaire royal du Canada
+College of the North Atlantic
+Collège Universitaire Dominicain
+Concordia University
+Concordia University of Edmonton
+Crandall University
+Dalhousie University
+École de Technologie Supérieure
+École Nationale d'Administration Publique
+École Polytechnique de Montréal
+Emily Carr University of Art and Design
+First Nations University of Canada
+HEC Montréal
+Kingswood University
+Kwantlen Polytechnic University
+Lakehead University
+Laurentian University
+Luther College at the University of Regina
+MacEwan University
+McGill University
+McMaster University
+Memorial University of Newfoundland
+Mount Allison University
+Mount Royal University
+Mount Saint Vincent University
+Nicola Valley Institute of Technology
+Nipissing University
+Northern Alberta Institute of Technology
+NSCAD University
+OCAD University
+Queen's University
+Redeemer University College
+Royal Roads University
+Ryerson University
+Saint Mary's University
+SAIT Polytechnic
+Simon Fraser University
+St Mary's University
+St. Francis Xavier University
+St. Stephen's University
+St. Thomas More College
+St. Thomas University
+The King’s University
+The University of British Columbia
+The University of Western Ontario
+The University of Winnipeg
+Thompson Rivers University
+Trent University
+Trinity Western University
+Université de Moncton
+Université de Montréal
+Université de Saint-Boniface
+Université de Sherbrooke
+Université du Québec
+Université du Québec à Chicoutimi
+Université du Québec à Montréal
+Université du Québec à Rimouski
+Université du Québec à Trois-Rivières
+Université du Québec en Abitibi-Témiscamingue
+Université du Québec en Outaouais
+Université Laval
+Université Sainte-Anne
+University Canada West
+University of Alberta
+University of Calgary
+University of Guelph
+University of King's College
+University of Lethbridge
+University of Manitoba
+University of New Brunswick
+University of Northern British Columbia
+University of Ontario Institute of Technology
+University of Ottawa
+University of Prince Edward Island
+University of Regina
+University of Saskatchewan
+University of the Fraser Valley
+University of Toronto
+University of Victoria
+University of Waterloo
+University of Windsor
+Vancouver Island University
+Wilfrid Laurier University
+York University
+Yorkville University

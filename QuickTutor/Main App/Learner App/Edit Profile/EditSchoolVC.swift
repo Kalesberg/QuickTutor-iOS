@@ -86,9 +86,8 @@ class EditSchoolVC: UIViewController {
     }
     
     func setupTableView() {
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "idCell")
+        tableView.register(QTEditSchoolTableViewCell.nib, forCellReuseIdentifier: QTEditSchoolTableViewCell.reuseIdentifier)
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 54
         tableView.separatorColor = UIColor.clear
     }
     
@@ -170,21 +169,15 @@ extension EditSchoolVC: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "idCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: QTEditSchoolTableViewCell.reuseIdentifier, for: indexPath) as! QTEditSchoolTableViewCell
         let data = isFiltering() ? filteredSchools[indexPath.row] : schoolArray[indexPath.row]
-
-        cell.backgroundColor = Colors.newScreenBackground
-        cell.textLabel?.textColor = UIColor.white
-        cell.textLabel?.font = Fonts.createSize(16)
-        cell.textLabel?.adjustsFontSizeToFitWidth = true
-        cell.textLabel?.numberOfLines = 0
 
         let cellBackground = UIView()
         cellBackground.backgroundColor = Colors.newScreenBackground.darker(by: 5)
         cell.selectedBackgroundView = cellBackground
-
-
-        cell.textLabel?.text = data
+        
+        cell.schoolLabel.text = data
+        
         return cell
     }
 

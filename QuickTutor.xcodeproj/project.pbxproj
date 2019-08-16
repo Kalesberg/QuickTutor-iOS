@@ -928,6 +928,10 @@
 		BEC6987B229E4C9A00F970EE /* CVVModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC69879229E4C9A00F970EE /* CVVModal.swift */; };
 		BEC6987D229E4CA400F970EE /* CVVModal.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEC6987C229E4CA400F970EE /* CVVModal.xib */; };
 		BEC6987E229E4CA400F970EE /* CVVModal.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEC6987C229E4CA400F970EE /* CVVModal.xib */; };
+		C406D9E42307177B00D76129 /* QTEditSchoolTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C406D9E22307177B00D76129 /* QTEditSchoolTableViewCell.swift */; };
+		C406D9E52307177B00D76129 /* QTEditSchoolTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C406D9E22307177B00D76129 /* QTEditSchoolTableViewCell.swift */; };
+		C406D9E62307177B00D76129 /* QTEditSchoolTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C406D9E32307177B00D76129 /* QTEditSchoolTableViewCell.xib */; };
+		C406D9E72307177B00D76129 /* QTEditSchoolTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C406D9E32307177B00D76129 /* QTEditSchoolTableViewCell.xib */; };
 		C41F17E1224D2D3A007758FC /* QTCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41F17E0224D2D3A007758FC /* QTCustomButton.swift */; };
 		C41F17E2224D30E0007758FC /* QTCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41F17E0224D2D3A007758FC /* QTCustomButton.swift */; };
 		C447C7C522F9176100818733 /* UserTextMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C447C7C422F9176100818733 /* UserTextMessageCell.swift */; };
@@ -1662,6 +1666,8 @@
 		BEAB1014229E495700CCCCD6 /* ExpirationDateModal.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExpirationDateModal.xib; sourceTree = "<group>"; };
 		BEC69879229E4C9A00F970EE /* CVVModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CVVModal.swift; sourceTree = "<group>"; };
 		BEC6987C229E4CA400F970EE /* CVVModal.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CVVModal.xib; sourceTree = "<group>"; };
+		C406D9E22307177B00D76129 /* QTEditSchoolTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTEditSchoolTableViewCell.swift; sourceTree = "<group>"; };
+		C406D9E32307177B00D76129 /* QTEditSchoolTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTEditSchoolTableViewCell.xib; sourceTree = "<group>"; };
 		C41F17E0224D2D3A007758FC /* QTCustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTCustomButton.swift; sourceTree = "<group>"; };
 		C447C7C422F9176100818733 /* UserTextMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTextMessageCell.swift; sourceTree = "<group>"; };
 		C46A2F10224CD309005058B1 /* UserStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStatus.swift; sourceTree = "<group>"; };
@@ -2805,6 +2811,8 @@
 				CF7D8AB521995F3500463B0E /* ProfileVCHeaderCell.swift */,
 				CF7D8AB721995F8200463B0E /* ProfileToggleView.swift */,
 				CF7D8AB921995FA300463B0E /* ProfileVCFooterCell.swift */,
+				C406D9E22307177B00D76129 /* QTEditSchoolTableViewCell.swift */,
+				C406D9E32307177B00D76129 /* QTEditSchoolTableViewCell.xib */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -3945,6 +3953,7 @@
 				569F18CF223554FD00820A20 /* badwords.txt in Resources */,
 				569F18D0223554FD00820A20 /* QTTutorDashboardTableViewCell.xib in Resources */,
 				569F18D1223554FD00820A20 /* languages.txt in Resources */,
+				C406D9E72307177B00D76129 /* QTEditSchoolTableViewCell.xib in Resources */,
 				561003BF2242D23600A4688F /* QTPastSessionsViewController.xib in Resources */,
 				569F19092235564000820A20 /* GoogleService-Info.plist in Resources */,
 				564C429422A0293B00FC8AE1 /* QTPastSessionSectionHeaderView.xib in Resources */,
@@ -4059,6 +4068,7 @@
 				8404F43B20EAE6EC00747C01 /* badwords.txt in Resources */,
 				569ECDB521F9B682005491CB /* QTTutorDashboardTableViewCell.xib in Resources */,
 				8423F73F214B60E900B3E4D0 /* languages.txt in Resources */,
+				C406D9E62307177B00D76129 /* QTEditSchoolTableViewCell.xib in Resources */,
 				561003BE2242D23600A4688F /* QTPastSessionsViewController.xib in Resources */,
 				56DC6D9C220BD7DF00935F47 /* Lato-Bold.ttf in Resources */,
 				564C429322A0293B00FC8AE1 /* QTPastSessionSectionHeaderView.xib in Resources */,
@@ -5005,6 +5015,7 @@
 				569F1801223554FD00820A20 /* QTSettingsViewController.swift in Sources */,
 				569F1803223554FD00820A20 /* ReceiptCell.swift in Sources */,
 				569F1804223554FD00820A20 /* EditSchoolVC.swift in Sources */,
+				C406D9E52307177B00D76129 /* QTEditSchoolTableViewCell.swift in Sources */,
 				569F1805223554FD00820A20 /* Connections.swift in Sources */,
 				569F1806223554FD00820A20 /* DisconnectModal.swift in Sources */,
 				569F1807223554FD00820A20 /* InfoLabel.swift in Sources */,
@@ -5508,6 +5519,7 @@
 				843A1D192047C5BF00299D27 /* EditSchoolVC.swift in Sources */,
 				84E4C7EA204E97E5009C2FC4 /* Connections.swift in Sources */,
 				CFB6061B207FD6300029CFE4 /* DisconnectModal.swift in Sources */,
+				C406D9E42307177B00D76129 /* QTEditSchoolTableViewCell.swift in Sources */,
 				CFD92A6A222F24B200704531 /* InfoLabel.swift in Sources */,
 				CF177BCD208FB94B006DD50B /* EndSessionProfileBox.swift in Sources */,
 				CF7D8AB821995F8200463B0E /* ProfileToggleView.swift in Sources */,
