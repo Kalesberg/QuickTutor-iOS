@@ -108,14 +108,14 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
             var tmpConnections: [User] = []
             let connectionGroup = DispatchGroup()
             
-            connections.forEach({ key, _ in
+            connections.keys.forEach { key in
                 connectionGroup.enter()
-                UserFetchService.shared.getUserOfOppositeTypeWithId(key, completion: { userIn in
+                UserFetchService.shared.getUserOfOppositeTypeWithId(key) { userIn in
                     connectionGroup.leave()
                     guard let user = userIn else { return }
                     tmpConnections.append(user)
-                })
-            })
+                }
+            }
             
             connectionGroup.notify(queue: .main) {
                 self.connections = tmpConnections.sorted(by: {$0.formattedName < $1.formattedName})
