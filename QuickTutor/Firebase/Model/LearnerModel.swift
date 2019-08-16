@@ -43,6 +43,15 @@ class AWLearner: User {
 		}
 	}
 	
+    override var firstName: String.SubSequence? {
+        get {
+            guard let name = name, !name.isEmpty else {
+                return nil
+            }
+            return name.split(separator: " ").first
+        }
+    }
+    
     override init(dictionary: [String: Any]) {
         super.init(dictionary: dictionary)
         
