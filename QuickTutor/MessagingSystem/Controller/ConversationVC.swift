@@ -1065,10 +1065,33 @@ extension ConversationVC: KeyboardAccessoryViewDelegate {
 
     func shareUsernameForUserId() {
         studentKeyboardAccessory.toggleActionView()
-        DynamicLinkFactory.shared.createLink(userId: receiverId, subject: subject) { shareUrl in
-            guard let shareUrlString = shareUrl?.absoluteString else { return }
-            let ac = UIActivityViewController(activityItems: [shareUrlString], applicationActivities: nil)
-            self.present(ac, animated: true, completion: nil)
+        
+        displayLoadingOverlay()
+        
+        guard let data = sharedProfileView.asImage().jpegData(compressionQuality: 1.0) else { return }
+        FirebaseData.manager.uploadProfilePreviewImage(tutorId: receiverId, data: data) { (error, url) in
+            if let message = error?.localizedDescription {
+                DispatchQueue.main.async {
+                    self.dismissOverlay()
+                    AlertController.genericErrorAlert(self, message: message)
+                }
+                return
+            }
+            
+            DynamicLinkFactory.shared.createLink(userId: self.receiverId, subject: self.subject, profilePreviewUrl: url) { shareUrl in
+                guard let shareUrlString = shareUrl?.absoluteString else {
+                    DispatchQueue.main.async {
+                        self.dismissOverlay()
+                    }
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    self.dismissOverlay()
+                    let ac = UIActivityViewController(activityItems: [shareUrlString], applicationActivities: nil)
+                    self.present(ac, animated: true, completion: nil)
+                }
+            }
         }
     }
 
