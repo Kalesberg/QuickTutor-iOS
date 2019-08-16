@@ -719,6 +719,24 @@ class FirebaseData {
 		}
 	}
     
+    func uploadProfilePreviewImage(tutorId: String, data: Data, _ completion: @escaping (Error?, String?) -> Void) {
+        let storagePath = "tutor-info"
+        let filePath = "tutor-profile-preview"
+        self.storageRef.child(storagePath).child(tutorId).child(filePath).putData(data, metadata: nil) { (meta, error) in
+            if let error = error {
+                return completion(error, nil)
+            }
+            self.storageRef.child(storagePath).child(tutorId).child(filePath).downloadURL(completion: { (url, error) in
+                if let error = error {
+                    return completion(error, nil)
+                }
+                guard let imageUrl = url?.absoluteString else { return completion(nil, nil) }
+                Database.database().reference().child(storagePath).child(tutorId).child("profile-preview-image").setValue(imageUrl)
+                return completion(nil, imageUrl)
+            })
+        }
+    }
+    
 	func getCompressedImageDataFor(_ image: UIImage) -> Data? {
 		let imageView = UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: 600, height: CGFloat(ceil(600 / image.size.width * image.size.height)))))
 		imageView.contentMode = .scaleAspectFit

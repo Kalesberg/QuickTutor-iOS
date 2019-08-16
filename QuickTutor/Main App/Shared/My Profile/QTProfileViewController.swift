@@ -283,10 +283,36 @@ class QTProfileViewController: UIViewController {
     @objc
     func handleShareProfileButtonClicked() {
         guard let id = user.uid else { return }
-        DynamicLinkFactory.shared.createLink(userId: id, subject: subject) { shareUrl in
-            guard let shareUrlString = shareUrl?.absoluteString else { return }
-            let ac = UIActivityViewController(activityItems: [self.sharedProfileView.asImage(), shareUrlString], applicationActivities: nil)
-            self.present(ac, animated: true, completion: nil)
+        
+        let image = self.sharedProfileView.asImage()
+        
+        guard let data = image.jpegData(compressionQuality: 1.0) else { return }
+        
+        displayLoadingOverlay()
+        FirebaseData.manager.uploadProfilePreviewImage(tutorId: id, data: data) { (error, url) in
+            if let message = error?.localizedDescription {
+                DispatchQueue.main.async {
+                    self.dismissOverlay()
+                    AlertController.genericErrorAlert(self, message: message)
+                }
+                return
+            }
+            
+            
+            DynamicLinkFactory.shared.createLink(userId: id, subject: self.subject, profilePreviewUrl: url) { shareUrl in
+                guard let shareUrlString = shareUrl?.absoluteString else {
+                    DispatchQueue.main.async {
+                        self.dismissOverlay()
+                    }
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    self.dismissOverlay()
+                    let ac = UIActivityViewController(activityItems: [shareUrlString], applicationActivities: nil)
+                    self.present(ac, animated: true, completion: nil)
+                }
+            }
         }
     }
     
