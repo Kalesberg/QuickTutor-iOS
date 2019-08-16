@@ -215,7 +215,9 @@ class AddCardViewController: UIViewController {
     }
     
     func createToken() {
+        displayLoadingOverlay()
         STPAPIClient.shared().createToken(withCard: card) { (token: STPToken?, error: Error?) in
+            self.dismissOverlay()
             guard let token = token, error == nil else {
                 self.errorLabel.isHidden = false
                 return

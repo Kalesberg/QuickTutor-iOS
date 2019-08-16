@@ -78,6 +78,8 @@ class CardManagerViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        navigationController?.isNavigationBarHidden = false
+        
         if !Stripe.deviceSupportsApplePay() {
             updateApplePayDefaultStatus(false)
         }
@@ -113,6 +115,7 @@ class CardManagerViewController: UIViewController {
             view.addNewButton?.isHidden = false
         } else {
             view.addNewButton?.isHidden = true
+            btnAddApplePay.isHidden = Stripe.deviceSupportsApplePay()
         }
     }
     

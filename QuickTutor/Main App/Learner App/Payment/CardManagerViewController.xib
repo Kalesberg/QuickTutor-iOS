@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14845" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14799.2"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -219,18 +221,18 @@ There are no subscription fees or upfront payments; and you will only be charged
                             <blurEffect style="dark"/>
                         </visualEffectView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mcb-jF-WH8">
-                            <rect key="frame" x="0.0" y="957" width="414" height="117"/>
+                            <rect key="frame" x="0.0" y="945.5" width="414" height="128.5"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select a type of payment method" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OvB-F9-YPD">
-                                    <rect key="frame" x="20" y="16" width="204.5" height="17"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add a payment method" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OvB-F9-YPD">
+                                    <rect key="frame" x="20" y="16" width="145" height="17"/>
                                     <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="14"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="69D-gZ-2P7">
-                                    <rect key="frame" x="366" y="8.5" width="32" height="32"/>
+                                    <rect key="frame" x="358" y="4.5" width="40" height="40"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="32" id="8B6-qN-ib8"/>
+                                        <constraint firstAttribute="width" constant="40" id="8B6-qN-ib8"/>
                                         <constraint firstAttribute="width" secondItem="69D-gZ-2P7" secondAttribute="height" multiplier="1:1" id="xiH-wQ-rF1"/>
                                     </constraints>
                                     <state key="normal" image="ic_close"/>
@@ -239,7 +241,7 @@ There are no subscription fees or upfront payments; and you will only be charged
                                     </connections>
                                 </button>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="BfR-Co-rL0">
-                                    <rect key="frame" x="20" y="53" width="374" height="44"/>
+                                    <rect key="frame" x="20" y="64.5" width="374" height="44"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GNg-sH-dyo" customClass="RoundedButton" customModule="QuickTutor" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="44"/>
@@ -301,15 +303,15 @@ There are no subscription fees or upfront payments; and you will only be charged
                                 <constraint firstAttribute="trailing" secondItem="69D-gZ-2P7" secondAttribute="trailing" constant="16" id="2ZM-rV-XFK"/>
                                 <constraint firstItem="OvB-F9-YPD" firstAttribute="leading" secondItem="Mcb-jF-WH8" secondAttribute="leading" constant="20" id="9HE-wl-tuZ"/>
                                 <constraint firstItem="BfR-Co-rL0" firstAttribute="centerX" secondItem="Mcb-jF-WH8" secondAttribute="centerX" id="GCN-7J-9WK"/>
+                                <constraint firstItem="BfR-Co-rL0" firstAttribute="top" secondItem="69D-gZ-2P7" secondAttribute="bottom" constant="20" id="Mgx-zb-K4M"/>
                                 <constraint firstAttribute="bottom" secondItem="BfR-Co-rL0" secondAttribute="bottom" constant="20" id="OPl-rV-Glh"/>
                                 <constraint firstItem="69D-gZ-2P7" firstAttribute="centerY" secondItem="OvB-F9-YPD" secondAttribute="centerY" id="aX6-Gd-bl8"/>
                                 <constraint firstItem="69D-gZ-2P7" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="OvB-F9-YPD" secondAttribute="trailing" constant="16" id="fJe-vZ-xMA"/>
-                                <constraint firstItem="BfR-Co-rL0" firstAttribute="top" secondItem="OvB-F9-YPD" secondAttribute="bottom" constant="20" id="gja-HA-avE"/>
                                 <constraint firstItem="BfR-Co-rL0" firstAttribute="leading" secondItem="OvB-F9-YPD" secondAttribute="leading" id="zzY-1F-TiH"/>
                             </constraints>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.69999999999999996" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.90000000000000002" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="ahW-Gp-3mW" firstAttribute="centerX" secondItem="HFi-I2-NbV" secondAttribute="centerX" id="7sH-Ga-7bh"/>
                         <constraint firstAttribute="bottom" secondItem="Mcb-jF-WH8" secondAttribute="bottom" constant="-300" id="9Vv-5S-pi7"/>
