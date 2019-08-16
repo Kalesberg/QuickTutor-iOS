@@ -371,11 +371,11 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         becomeFirstResponder()
         resignFirstResponder()
 
-        let firstName = chatPartner.formattedName.split(separator: " ")[0]
+        let name = chatPartner.formattedName
         if #available(iOS 11.0, *) {
-            actionSheet = FileReportActionsheet(bottomLayoutMargin: UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0, name: String(firstName))
+            actionSheet = FileReportActionsheet(bottomLayoutMargin: UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0, name: String(name))
         } else {
-            actionSheet = FileReportActionsheet(bottomLayoutMargin: 0, name: String(firstName))
+            actionSheet = FileReportActionsheet(bottomLayoutMargin: 0, name: String(name))
         }
         actionSheet?.isConnected = connectionRequestAccepted
         actionSheet?.isTutorSheet = AccountService.shared.currentUserType == .tutor
@@ -647,6 +647,9 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             FirebaseData.manager.fetchTutor(receiverId, isQuery: false) { (tutorIn) in
                 guard let tutor = tutorIn else { return }
                 self.titleView.tutor = tutor
+                if self.subject == nil {
+                    self.subject = tutor.subjects?.first
+                }
             }
         } else {
             FirebaseData.manager.fetchLearner(receiverId) { (learnerIn) in
@@ -1065,10 +1068,33 @@ extension ConversationVC: KeyboardAccessoryViewDelegate {
 
     func shareUsernameForUserId() {
         studentKeyboardAccessory.toggleActionView()
-        DynamicLinkFactory.shared.createLink(userId: receiverId, subject: subject) { shareUrl in
-            guard let shareUrlString = shareUrl?.absoluteString else { return }
-            let ac = UIActivityViewController(activityItems: [shareUrlString], applicationActivities: nil)
-            self.present(ac, animated: true, completion: nil)
+        
+        displayLoadingOverlay()
+        
+        guard let data = sharedProfileView.asImage().jpegData(compressionQuality: 1.0) else { return }
+        FirebaseData.manager.uploadProfilePreviewImage(tutorId: receiverId, data: data) { (error, url) in
+            if let message = error?.localizedDescription {
+                DispatchQueue.main.async {
+                    self.dismissOverlay()
+                    AlertController.genericErrorAlert(self, message: message)
+                }
+                return
+            }
+            
+            DynamicLinkFactory.shared.createLink(userId: self.receiverId, userName: self.chatPartner.formattedName, subject: self.subject, profilePreviewUrl: url) { shareUrl in
+                guard let shareUrlString = shareUrl?.absoluteString else {
+                    DispatchQueue.main.async {
+                        self.dismissOverlay()
+                    }
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    self.dismissOverlay()
+                    let ac = UIActivityViewController(activityItems: [shareUrlString], applicationActivities: nil)
+                    self.present(ac, animated: true, completion: nil)
+                }
+            }
         }
     }
 

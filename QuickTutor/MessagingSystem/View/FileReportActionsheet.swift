@@ -211,18 +211,42 @@ class FileReportActionsheet: UIView {
     func shareUsernameForUserId() {
         dismiss()
         guard let id = partnerId else { return }
-        DynamicLinkFactory.shared.createLink(userId: id, subject: subject) { shareUrl in
-            guard let shareUrlString = shareUrl?.absoluteString else { return }
-            var image: UIImage?
-            if let vc = self.parentViewController as? ConversationVC {
-                image = vc.sharedProfileView.asImage()
-            } else if let vc = self.parentViewController as? QTProfileViewController {
-                image = vc.sharedProfileView.asImage()
+        
+        var image: UIImage?
+        if let vc = self.parentViewController as? ConversationVC {
+            image = vc.sharedProfileView.asImage()
+        } else if let vc = self.parentViewController as? QTProfileViewController {
+            image = vc.sharedProfileView.asImage()
+        }
+        
+        guard let data = image?.jpegData(compressionQuality: 1.0) else { return }
+        
+        self.parentViewController?.displayLoadingOverlay()
+        FirebaseData.manager.uploadProfilePreviewImage(tutorId: id, data: data) { (error, url) in
+            if let message = error?.localizedDescription {
+                DispatchQueue.main.async {
+                    if let vc = self.parentViewController {
+                        vc.dismissOverlay()
+                        AlertController.genericErrorAlert(vc, message: message)
+                    }
+                }
+                return
             }
             
-            guard let profileImage = image else { return }
-            let ac = UIActivityViewController(activityItems: [profileImage, shareUrlString], applicationActivities: nil)
-            self.parentViewController?.present(ac, animated: true, completion: nil)
+            DynamicLinkFactory.shared.createLink(userId: id, userName: self.name, subject: self.subject, profilePreviewUrl: url) { shareUrl in
+                guard let shareUrlString = shareUrl?.absoluteString else {
+                    DispatchQueue.main.async {
+                        self.parentViewController?.dismissOverlay()
+                    }
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    self.parentViewController?.dismissOverlay()
+                    let ac = UIActivityViewController(activityItems: [shareUrlString], applicationActivities: nil)
+                    self.parentViewController?.present(ac, animated: true, completion: nil)
+                }
+            }
         }
     }
     

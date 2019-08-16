@@ -8,6 +8,7 @@
 
 import FirebaseDynamicLinks
 import UIKit
+import FirebaseDatabase
 
 class DynamicLinkFactory {
     static let shared = DynamicLinkFactory()
@@ -23,7 +24,7 @@ class DynamicLinkFactory {
     var longLink: URL?
     var shortLink: URL?
 
-    func createLink(userId: String?, subject: String?, completion: @escaping (URL?) -> Void) {
+    func createLink(userId: String?, userName: String?, subject: String?, profilePreviewUrl: String?, completion: @escaping (URL?) -> Void) {
         dictionary[.link] = "https://quickTutor.com/\(userId ?? "")"
         // Initialize the sections array
         sections = [
@@ -49,17 +50,38 @@ class DynamicLinkFactory {
 
         let socialParams = DynamicLinkSocialMetaTagParameters()
         if let subject = subject {
-            socialParams.title = "QuickTutor: Check out this awesome \(subject) tutor!"
+            if let userId = userId, AccountService.shared.currentUserType == UserType.tutor && userId.compare(AccountService.shared.currentUser.uid) == .orderedSame {
+                socialParams.title = "I teach \(subject) on QuickTutor. Check me out!"
+            } else {
+                if let userName = userName {
+                    socialParams.title = "\(userName) teaches \(subject) on QuickTutor. Check them out! "
+                }
+            }
         } else {
-            socialParams.title = "QuickTutor: Check out this awesome tutor!"
+            if let userId = userId, AccountService.shared.currentUserType == UserType.tutor && userId.compare(AccountService.shared.currentUser.uid) == .orderedSame {
+                socialParams.title = "I am an awesome tutor on QuickTutor. Check me out!"
+            } else {
+                if let userName = userName {
+                    socialParams.title = "\(userName) is an awesome tutor on QuickTutor. Check them out! "
+                }
+            }
         }
-        
         socialParams.descriptionText = "Check out this QuickTutor!"
-//#if DEVELOPMENT
-//        socialParams.imageURL = URL(string: "https://firebasestorage.googleapis.com/v0/b/quicktutor-dev.appspot.com/o/logoWithTrademark.png?alt=media&token=2baf6fa7-fd6f-4bf6-a89c-a47429561278")
-//#else
-//        socialParams.imageURL = URL(string: "https://firebasestorage.googleapis.com/v0/b/quicktutor-3c23b.appspot.com/o/newLogoWithTrademark.png?alt=media&token=6c9610fb-09fa-4f99-8cbf-1b48a6414407")
-//#endif
+
+#if DEVELOPMENT
+        if let profilePreviewUrl = profilePreviewUrl {
+            socialParams.imageURL = URL(string: profilePreviewUrl)
+        } else {
+            socialParams.imageURL = URL(string: "https://firebasestorage.googleapis.com/v0/b/quicktutor-dev.appspot.com/o/logoWithTrademark.png?alt=media&token=2baf6fa7-fd6f-4bf6-a89c-a47429561278")
+        }
+#else
+        if let profilePreviewUrl = profilePreviewUrl {
+            socialParams.imageURL = URL(string: profilePreviewUrl)
+        } else {
+            socialParams.imageURL = URL(string: "https://firebasestorage.googleapis.com/v0/b/quicktutor-3c23b.appspot.com/o/newLogoWithTrademark.png?alt=media&token=6c9610fb-09fa-4f99-8cbf-1b48a6414407")
+        }
+#endif
+
         components?.socialMetaTagParameters = socialParams
 
         components?.iOSParameters = iOSParams

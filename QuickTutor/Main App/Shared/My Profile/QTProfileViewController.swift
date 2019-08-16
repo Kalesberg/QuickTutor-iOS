@@ -268,9 +268,9 @@ class QTProfileViewController: UIViewController {
     @objc
     func handleMoreButtonClicked() {
         if #available(iOS 11.0, *) {
-            actionSheet = FileReportActionsheet(bottomLayoutMargin: view.safeAreaInsets.bottom, name: String(user?.firstName ?? "Zach"))
+            actionSheet = FileReportActionsheet(bottomLayoutMargin: view.safeAreaInsets.bottom, name: String(user?.formattedName ?? "User"))
         } else {
-            actionSheet = FileReportActionsheet(bottomLayoutMargin: 0, name: String(user?.firstName ?? "Zach"))
+            actionSheet = FileReportActionsheet(bottomLayoutMargin: 0, name: String(user?.formattedName ?? "User"))
         }
         actionSheet?.partnerId = user?.uid
         actionSheet?.isConnected = connectionStatus == .connected
@@ -283,10 +283,36 @@ class QTProfileViewController: UIViewController {
     @objc
     func handleShareProfileButtonClicked() {
         guard let id = user.uid else { return }
-        DynamicLinkFactory.shared.createLink(userId: id, subject: subject) { shareUrl in
-            guard let shareUrlString = shareUrl?.absoluteString else { return }
-            let ac = UIActivityViewController(activityItems: [self.sharedProfileView.asImage(), shareUrlString], applicationActivities: nil)
-            self.present(ac, animated: true, completion: nil)
+        
+        let image = self.sharedProfileView.asImage()
+        
+        guard let data = image.jpegData(compressionQuality: 1.0) else { return }
+        
+        displayLoadingOverlay()
+        FirebaseData.manager.uploadProfilePreviewImage(tutorId: id, data: data) { (error, url) in
+            if let message = error?.localizedDescription {
+                DispatchQueue.main.async {
+                    self.dismissOverlay()
+                    AlertController.genericErrorAlert(self, message: message)
+                }
+                return
+            }
+            
+            
+            DynamicLinkFactory.shared.createLink(userId: id, userName: self.user.formattedName, subject: self.subject, profilePreviewUrl: url) { shareUrl in
+                guard let shareUrlString = shareUrl?.absoluteString else {
+                    DispatchQueue.main.async {
+                        self.dismissOverlay()
+                    }
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    self.dismissOverlay()
+                    let ac = UIActivityViewController(activityItems: [shareUrlString], applicationActivities: nil)
+                    self.present(ac, animated: true, completion: nil)
+                }
+            }
         }
     }
     
@@ -414,7 +440,7 @@ class QTProfileViewController: UIViewController {
                                                                     target: self,
                                                                     action: #selector(handleShareProfileButtonClicked))
             } else {
-                navigationItem.rightBarButtonItem = UIBarButtonItem.init(image: UIImage(named: "ic_dots_horizontal"), style: .plain, target: self, action: #selector(handleMoreButtonClicked))
+                navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_dots_horizontal"), style: .plain, target: self, action: #selector(handleMoreButtonClicked))
             }
             
             //Update saved button
