@@ -22,7 +22,7 @@ class SessionRequestSendView: CardFooterView {
     override func setupViews() {
         super.setupViews()
         leftAccessoryView = accessoryView
-        connectButton.setTitle("SEND REQUEST", for: .normal)
+        connectButton.setTitle("Send Request", for: .normal)
     }
 }
 
