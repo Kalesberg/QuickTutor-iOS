@@ -19,7 +19,7 @@ class CardFooterView: UIView {
     let connectButton: DimmableButton = {
         let button = DimmableButton()
         button.backgroundColor = Colors.purple
-        button.setTitle("CONNECT", for: .normal)
+        button.setTitle("Connect", for: .normal)
         button.titleLabel?.font = Fonts.createBoldSize(14)
         button.layer.cornerRadius = 4
         return button
@@ -50,7 +50,7 @@ class CardFooterView: UIView {
         guard let priceView = leftAccessoryView as? TutorCardAccessoryView else { return }
         priceView.priceLabel.text = "$\(price) per hour"
         priceView.starView.rating = tutor.tRating
-        connectButton.setTitle(connected ? "REQUEST SESSION" : "CONNECT", for: .normal)
+        connectButton.setTitle(connected ? "Book Now" : "Connect", for: .normal)
     }
     
     override init(frame: CGRect) {

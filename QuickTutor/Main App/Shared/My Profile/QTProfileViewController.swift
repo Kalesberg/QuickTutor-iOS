@@ -659,7 +659,7 @@ class QTProfileViewController: UIViewController {
             
             // Disable the connect button until app gets the connection status.
             connectButton.isEnabled = false
-            connectButton.setTitle("CONNECT", for: .normal)
+            connectButton.setTitle("Connect", for: .normal)
         case .learner,
              .myTutor,
              .myLearner:
@@ -793,10 +793,10 @@ class QTProfileViewController: UIViewController {
                                                     self.connectButton.isEnabled = true
                                                     if connectionStatus == "pending" {
                                                         self.connectionStatus = .pending
-                                                        self.connectButton.setTitle("REQUEST PENDING", for: .normal)
+                                                        self.connectButton.setTitle("Request Pending", for: .normal)
                                                     } else {
                                                         self.connectionStatus = .none
-                                                        self.connectButton.setTitle("CONNECT", for: .normal)
+                                                        self.connectButton.setTitle("Connect", for: .normal)
                                                     }
                 })
                 return
@@ -805,7 +805,7 @@ class QTProfileViewController: UIViewController {
             self.connectButton.isEnabled = true
             if connected {
                 self.connectionStatus = .connected
-                self.connectButton.setTitle("REQUEST SESSION", for: .normal)
+                self.connectButton.setTitle("Book Now", for: .normal)
             } else {
                 self.checkConnectionRequestStatus(userId: uid,
                                                   userType: currentUserType,
@@ -815,10 +815,10 @@ class QTProfileViewController: UIViewController {
                                                     self.connectButton.isEnabled = true
                                                     if connectionStatus == "pending" {
                                                         self.connectionStatus = .pending
-                                                        self.connectButton.setTitle("REQUEST PENDING", for: .normal)
+                                                        self.connectButton.setTitle("Request Pending", for: .normal)
                                                     } else {
                                                         self.connectionStatus = .none
-                                                        self.connectButton.setTitle("CONNECT", for: .normal)
+                                                        self.connectButton.setTitle("Connect", for: .normal)
                                                     }
                 })
             }
