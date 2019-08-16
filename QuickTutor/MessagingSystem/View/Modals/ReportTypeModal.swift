@@ -11,7 +11,7 @@ import UIKit
 
 class ReportTypeModal: BaseCustomModal {
     
-    let reportTypeStrings = ["Innapropriate Language", "Innapropriate Action", "Harassment/Bullying", "Impersonation", "Cancel"]
+    let reportTypeStrings = ["Inapropriate Language", "Inapropriate Action", "Harassment/Bullying", "Impersonation", "Cancel"]
     var reportSuccessfulModal: ReportSuccessfulModal?
     var chatPartnerId: String?
 
@@ -101,8 +101,8 @@ extension ReportTypeModal: SessionTableCellDelegate {
 }
 
 enum ReportType: String {
-    case inappropriateLanguage = "innapropriate language"
-    case inappropriateAction = "innapropriate action"
+    case inappropriateLanguage = "inapropriate language"
+    case inappropriateAction = "inapropriate action"
     case harassment = "harassment or bullying"
     case impersonation = "impersonation"
 }
