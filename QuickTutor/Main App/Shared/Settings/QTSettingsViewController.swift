@@ -128,8 +128,28 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
             }
             btnDisconnectFacebook.isHidden = "facebook.com" == Auth.auth().currentUser?.providerID
         } else {
-            linkFacebookView.superview?.isHidden = false
-            showFacebookView.superview?.isHidden = true
+            if let provider = Auth.auth().currentUser?.providerData.first(where: { "facebook.com" == $0.providerID }) {
+                var facebookInfo: [String: String] = [:]
+                if let email = provider.email {
+                    facebookInfo["email"] = email
+                }
+                if let name = provider.displayName {
+                    facebookInfo["name"] = name
+                }
+                if let photoUrl = provider.photoURL?.absoluteString {
+                    facebookInfo["imageUrl"] = photoUrl
+                }
+                
+                FirebaseData.manager.updateFacebook(CurrentUser.shared.learner.uid, facebook: facebookInfo) { error in
+                    if nil == error {
+                        AccountService.shared.currentUser.facebook = facebookInfo
+                        self.updateFacebookInfoView()
+                    }
+                }
+            } else {
+                linkFacebookView.superview?.isHidden = false
+                showFacebookView.superview?.isHidden = true
+            }
         }
     }
     
