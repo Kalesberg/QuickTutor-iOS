@@ -647,7 +647,9 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             FirebaseData.manager.fetchTutor(receiverId, isQuery: false) { (tutorIn) in
                 guard let tutor = tutorIn else { return }
                 self.titleView.tutor = tutor
-                if self.subject == nil {
+                if tutor.featuredSubject != nil {
+                    self.subject = tutor.featuredSubject
+                } else {
                     self.subject = tutor.subjects?.first
                 }
             }
