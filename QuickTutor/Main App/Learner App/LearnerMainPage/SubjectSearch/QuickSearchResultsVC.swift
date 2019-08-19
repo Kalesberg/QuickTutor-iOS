@@ -384,6 +384,8 @@ class TutorAddSubjectsResultsVC: UIViewController {
     var filteredSubjects = [String]()
     var inSearchMode = false
     var isBeingControlled = false
+    var isLearnerAddInterests = false
+    
     var unknownSubject: String? {
         didSet {
             let collectionView = contentView.collectionView
@@ -473,13 +475,27 @@ class TutorAddSubjectsResultsVC: UIViewController {
     }
     
     func setupObserers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(showAlert), name: NSNotification.Name(rawValue: "com.qt.tooManySubjects"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(addSubject(_:)), name: Notifications.tutorDidAddSubject.name, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(removeSubject(_:)), name: Notifications.tutorDidRemoveSubject.name, object: nil)
+        if isLearnerAddInterests {
+            NotificationCenter.default.addObserver(self, selector: #selector(showAlert), name: Notifications.learnerTooManyInterests.name, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(addSubject(_:)), name: Notifications.learnerDidAddInterest.name, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(removeSubject(_:)), name: Notifications.learnerDidRemoveInterest.name, object: nil)
+        } else {
+            NotificationCenter.default.addObserver(self, selector: #selector(showAlert), name: NSNotification.Name(rawValue: "com.qt.tooManySubjects"), object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(addSubject(_:)), name: Notifications.tutorDidAddSubject.name, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(removeSubject(_:)), name: Notifications.tutorDidRemoveSubject.name, object: nil)
+        }
     }
     
     @objc func showAlert() {
-        let ac = UIAlertController(title: "Too many subjects", message: "We currently only allow users to choose 20 subjects", preferredStyle: .alert)
+        
+        var title = "Too many subjects"
+        var message = "We currently only allow users to choose 20 subjects"
+        if isLearnerAddInterests {
+            title = "Too many interests"
+            message = "We currently only allow users to choose \(QTConstants.learnerMaxInterests) interests"
+        }
+        
+        let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: { (action) in
             ac.dismiss(animated: true, completion: nil)
         }))
@@ -532,8 +548,15 @@ extension TutorAddSubjectsResultsVC: UICollectionViewDataSource, UICollectionVie
         let categoryString = SubjectStore.shared.findCategoryBy(subject: currentSubjects[indexPath.item]) ?? ""
         let category = Category.category(for: categoryString)!
         cell.imageView.image = Category.imageFor(category: category)
-        cell.selectionView.isHidden = !TutorRegistrationService.shared.subjects.contains(currentSubjects[indexPath.item])
-        cell.titleLabel.textColor = TutorRegistrationService.shared.subjects.contains(currentSubjects[indexPath.item]) ? Colors.purple : .white
+        
+        if isLearnerAddInterests {
+            cell.selectionView.isHidden = !LearnerRegistrationService.shared.interests.contains(currentSubjects[indexPath.item])
+            cell.titleLabel.textColor = LearnerRegistrationService.shared.interests.contains(currentSubjects[indexPath.item]) ? Colors.purple : .white
+        } else {
+            cell.selectionView.isHidden = !TutorRegistrationService.shared.subjects.contains(currentSubjects[indexPath.item])
+            cell.titleLabel.textColor = TutorRegistrationService.shared.subjects.contains(currentSubjects[indexPath.item]) ? Colors.purple : .white
+        }
+        
         return cell
     }
     
@@ -544,11 +567,21 @@ extension TutorAddSubjectsResultsVC: UICollectionViewDataSource, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? TutorAddSubjectsResultsCell else { return }
         selectedSubjectIndex = indexPath.item
-        if cell.selectionView.isHidden {
-            TutorRegistrationService.shared.addSubject(currentSubjects[indexPath.item])
+        
+        if isLearnerAddInterests {
+            if cell.selectionView.isHidden {
+                LearnerRegistrationService.shared.addInterest(currentSubjects[indexPath.item])
+            } else {
+                LearnerRegistrationService.shared.removeInterest(currentSubjects[indexPath.item])
+            }
         } else {
-            TutorRegistrationService.shared.removeSubject(currentSubjects[indexPath.item])
+            if cell.selectionView.isHidden {
+                TutorRegistrationService.shared.addSubject(currentSubjects[indexPath.item])
+            } else {
+                TutorRegistrationService.shared.removeSubject(currentSubjects[indexPath.item])
+            }
         }
+        
         /*cell.selectionView.isHidden = !cell.selectionView.isHidden
         if cell.selectionView.isHidden {
             TutorRegistrationService.shared.removeSubject(currentSubjects[indexPath.item])

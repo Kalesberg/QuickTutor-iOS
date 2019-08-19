@@ -24,12 +24,13 @@ class AWLearner: User {
     var lRating: Double!
     var isApplePayDefault = true
     var savedTutorIds = [String]()
+    var interests: [String]?
     
     var images = ["image1": "", "image2": "", "image3": "", "image4": "", "image5": "", "image6": "", "image7": "", "image8": ""]
     
     var connectedTutorsCount = 0
     
-    var isTutor: Bool = false
+    var hasTutor: Bool = false
     var hasPayment: Bool = false
 	
 	override var formattedName: String {
@@ -58,6 +59,12 @@ class AWLearner: User {
         lRating = dictionary["r"] as? Double ?? 0.0
         lHours = dictionary["hr"] as? Int ?? 0
         isApplePayDefault = dictionary["isApplePayDefault"] as? Bool ?? true
+        
+        if let interests = dictionary["interests"] as? [String: Any] {
+            self.interests = interests.compactMap({$0.key})
+        } else {
+            self.interests = nil
+        }
     }
     
     required init(from decoder: Decoder) throws {

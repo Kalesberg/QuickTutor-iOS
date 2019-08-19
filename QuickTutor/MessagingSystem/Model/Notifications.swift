@@ -19,6 +19,10 @@ struct Notifications {
     static let tutorDidAddSubject = Notification(name: Notification.Name("com.quickTutor.tutorDidAddSubject"))
     static let tutorDidRemoveSubject = Notification(name: Notification.Name("com.quickTutor.tutorDidRemoveSubject"))
     static let showSessionCardManager = Notification(name: Notification.Name("com.quickTutor.session.showCardManagerVC"))
+    
+    static let learnerDidAddInterest = Notification(name: Notification.Name("com.quickTutor.learnerDidAddInterest"))
+    static let learnerDidRemoveInterest = Notification(name: Notification.Name("com.quickTutor.learnerDidRemoveInterest"))
+    static let learnerTooManyInterests = Notification(name: Notification.Name("com.quickTutor.learnerTooManyInterests"))
 }
 
 struct NotificationNames {

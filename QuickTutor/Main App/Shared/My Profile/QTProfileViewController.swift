@@ -134,17 +134,28 @@ class QTProfileViewController: UIViewController {
         self.locationManager.stopUpdatingLocation()
         
         hideTabBar(hidden: false)
-        
-        removeDatabaseObservers()
     }
     
+    override func didMove(toParent parent: UIViewController?) {
+        if parent == nil {
+            removeDatabaseObservers()
+            
+            // Remove old notification observers
+            NotificationCenter.default.removeObserver(self)
+        }
+    }
+    
+    
     func setupObservers() {
-        // Remove old notification observers
-        NotificationCenter.default.removeObserver(self)
-        
-        // Add new notification observers
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadSubjects(_:)), name: Notifications.tutorDidAddSubject.name, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadSubjects(_:)), name: Notifications.tutorDidRemoveSubject.name, object: nil)
+        if profileViewType == .myTutor {
+            // Add new notification observers
+            NotificationCenter.default.addObserver(self, selector: #selector(reloadSubjects(_:)), name: Notifications.tutorDidAddSubject.name, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(reloadSubjects(_:)), name: Notifications.tutorDidRemoveSubject.name, object: nil)
+        } else if profileViewType == .myLearner {
+            // Add new notification observers
+            NotificationCenter.default.addObserver(self, selector: #selector(reloadSubjects(_:)), name: Notifications.learnerDidAddInterest.name, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(reloadSubjects(_:)), name: Notifications.learnerDidRemoveInterest.name, object: nil)
+        }
     }
     
     func removeDatabaseObservers() {
@@ -359,6 +370,7 @@ class QTProfileViewController: UIViewController {
         
         // Set the avatar of user profile.
         if profileViewType == .tutor || profileViewType == .myTutor {
+            lblSubjectTitle.text = "Subjects"
             UserFetchService.shared.getUserWithId(user.uid, type: .tutor) { (tutor) in
                 self.avatarImageView.sd_setImage(with: tutor?.profilePicUrl)
                 self.user?.profilePicUrl = tutor?.profilePicUrl
@@ -367,7 +379,8 @@ class QTProfileViewController: UIViewController {
                 }
             }
         } else {
-            lblSubjectTitle.superview?.isHidden = true
+            lblSubjectTitle.text = "Interests"
+            lblSubjectTitle.superview?.isHidden = user.interests?.isEmpty ?? true
             UserFetchService.shared.getUserWithId(user.uid, type: .learner) { (learner) in
                 self.avatarImageView.sd_setImage(with: learner?.profilePicUrl)
                 if let url = learner?.profilePicUrl {
@@ -572,10 +585,10 @@ class QTProfileViewController: UIViewController {
         guard let user = user else { return }
         if profileViewType == .tutor || profileViewType == .myTutor {
             subjectsCollectionView.isHidden = (user.subjects?.isEmpty ?? true) && (user.featuredSubject?.isEmpty ?? true)
-            subjectsCollectionView.reloadData()
         } else {
-            subjectsCollectionView.isHidden = true
+            subjectsCollectionView.isHidden = (user.interests?.isEmpty ?? true)
         }
+        subjectsCollectionView.reloadData()
     }
     
     func initReviews() {
@@ -694,8 +707,13 @@ class QTProfileViewController: UIViewController {
     }
     
     @objc func reloadSubjects(_ notification: Notification) {
-        guard profileViewType == .myTutor else { return }
-        user.subjects = TutorRegistrationService.shared.subjects
+        guard profileViewType == .myTutor || profileViewType == .myLearner else { return }
+        
+        if profileViewType == .myTutor {
+            user.subjects = TutorRegistrationService.shared.subjects
+        } else if profileViewType == .myLearner {
+            user.interests = LearnerRegistrationService.shared.interests
+        }
         subjectsCollectionView.reloadData()
     }
     
@@ -957,11 +975,19 @@ extension QTProfileViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var width: CGFloat = 60
-        if let subjects = user.subjects {
-            width = subjects[indexPath.item].estimateFrameForFontSize(14, extendedWidth: true).width + 20
-        } else if let featuredSubject = user.featuredSubject {
-            width = featuredSubject.estimateFrameForFontSize(14, extendedWidth: true).width + 20
+        
+        if profileViewType == .tutor || profileViewType == .myTutor {
+            if let subjects = user.subjects {
+                width = subjects[indexPath.item].estimateFrameForFontSize(14, extendedWidth: true).width + 20
+            } else if let featuredSubject = user.featuredSubject {
+                width = featuredSubject.estimateFrameForFontSize(14, extendedWidth: true).width + 20
+            }
+        } else if profileViewType == .myLearner || profileViewType == .learner {
+            if let interests = user.interests {
+                width = interests[indexPath.item].estimateFrameForFontSize(14, extendedWidth: true).width + 20
+            }
         }
+        
         return CGSize(width: width, height: 30)
     }
 }
@@ -969,21 +995,37 @@ extension QTProfileViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - UICollectionViewDataSource
 extension QTProfileViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let subjects = user.subjects, subjects.count > 0 {
-            return subjects.count
-        } else if let featuredSubject = user.featuredSubject, !featuredSubject.isEmpty {
-            return 1
+        
+        if profileViewType == .tutor || profileViewType == .myTutor {
+            if let subjects = user.subjects, subjects.count > 0 {
+                return subjects.count
+            } else if let featuredSubject = user.featuredSubject, !featuredSubject.isEmpty {
+                return 1
+            }
+        } else if profileViewType == .myLearner || profileViewType == .learner {
+            if let interests = user.interests, interests.count > 0 {
+                return interests.count
+            }
         }
+        
         return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PillCollectionViewCell.reuseIdentifier, for: indexPath) as! PillCollectionViewCell
-        if let subjects = user.subjects {
-            cell.titleLabel.text = subjects[indexPath.item]
-        } else if let featuredSubject = user.featuredSubject, !featuredSubject.isEmpty {
-            cell.titleLabel.text = featuredSubject
+        
+        if profileViewType == .tutor || profileViewType == .myTutor {
+            if let subjects = user.subjects {
+                cell.titleLabel.text = subjects[indexPath.item]
+            } else if let featuredSubject = user.featuredSubject, !featuredSubject.isEmpty {
+                cell.titleLabel.text = featuredSubject
+            }
+        } else if profileViewType == .myLearner || profileViewType == .learner {
+            if let interests = user.interests {
+                cell.titleLabel.text = interests[indexPath.item]
+            }
         }
+        
         updateSubjectsHeight()
         return cell
     }
@@ -1024,12 +1066,22 @@ extension QTProfileViewController: LearnerWasUpdatedCallBack {
 extension QTProfileViewController: QTProfileDelegate {
     func didUpdateLearnerProfile(learner: AWLearner) {
         self.user = AWTutor(dictionary: [:]).copy(learner: learner)
+        if profileViewType == .myTutor {
+            self.user.subjects = TutorRegistrationService.shared.subjects
+        } else if profileViewType == .myLearner {
+            self.user.interests = LearnerRegistrationService.shared.interests
+        }
         initUserInfo()
     }
     
     func didUpdateTutorProfile(tutor: AWTutor) {
         self.user = tutor
         self.subject = nil
+        if profileViewType == .myTutor {
+            self.user.subjects = TutorRegistrationService.shared.subjects
+        } else if profileViewType == .myLearner {
+            self.user.interests = LearnerRegistrationService.shared.interests
+        }
         initUserInfo()
     }
 }

@@ -147,7 +147,7 @@ class EditLanguageVC: UIViewController {
         switch AccountService.shared.currentUserType {
         case .learner:
 
-            if !CurrentUser.shared.learner.isTutor {
+            if !CurrentUser.shared.learner.hasTutor {
                 CurrentUser.shared.learner.languages = selectedLanguages
                 FirebaseData.manager.updateValue(node: "student-info", value: ["lng": selectedLanguages]) { error in
                     if let error = error {

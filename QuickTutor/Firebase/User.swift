@@ -248,7 +248,7 @@ class FirebaseData {
 	func removeUserImage(_ number: String) {
 		//Add completion Handler...
 		if AccountService.shared.currentUserType == .learner {
-			if CurrentUser.shared.learner.isTutor {
+			if CurrentUser.shared.learner.hasTutor {
 				ref.child("tutor-info").child(user.uid).child("img").updateChildValues(["image\(number)": ""])
 			}
 			ref.child("student-info").child(user.uid).child("img").updateChildValues(["image\(number)": ""])
@@ -510,7 +510,7 @@ class FirebaseData {
 				
 				group.enter()
 				self.ref.child("tutor-info").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
-					learner.isTutor = snapshot.exists()
+					learner.hasTutor = snapshot.exists()
 					group.leave()
 				})
 				
