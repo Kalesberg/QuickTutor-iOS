@@ -43,6 +43,9 @@ class AWTutor: AWLearner {
     var hasPayoutMethod: Bool = true
 	
 	var featuredDetails : FeaturedDetails?
+    
+    var experienceSubject: String?
+    var experiencePeriod: Float?
 	
     override init(dictionary: [String: Any]) {
         super.init(dictionary: dictionary)
@@ -65,6 +68,8 @@ class AWTutor: AWLearner {
         featuredSubject = dictionary["sbj"] as? String ?? ""
         profilePicUrl = URL(string: dictionary["img"] as? String ?? "")
 
+        experienceSubject = dictionary["exp-subject"] as? String ?? ""
+        experiencePeriod = dictionary["exp-period"] as? Float ?? 0.5
     }
     
     func copy(learner: AWLearner) -> AWTutor {

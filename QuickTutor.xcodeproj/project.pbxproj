@@ -950,6 +950,10 @@
 		C447C7C622F9176100818733 /* UserTextMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C447C7C422F9176100818733 /* UserTextMessageCell.swift */; };
 		C46A2F11224CD309005058B1 /* UserStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46A2F10224CD309005058B1 /* UserStatus.swift */; };
 		C46A2F12224CD309005058B1 /* UserStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46A2F10224CD309005058B1 /* UserStatus.swift */; };
+		C4FB931E2308E2D90070017B /* QTEditProfileExperienceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FB931C2308E2D90070017B /* QTEditProfileExperienceTableViewCell.swift */; };
+		C4FB931F2308E2D90070017B /* QTEditProfileExperienceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FB931C2308E2D90070017B /* QTEditProfileExperienceTableViewCell.swift */; };
+		C4FB93202308E2D90070017B /* QTEditProfileExperienceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4FB931D2308E2D90070017B /* QTEditProfileExperienceTableViewCell.xib */; };
+		C4FB93212308E2D90070017B /* QTEditProfileExperienceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4FB931D2308E2D90070017B /* QTEditProfileExperienceTableViewCell.xib */; };
 		CF046421206ED3D000BFE898 /* EmptySessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF046420206ED3D000BFE898 /* EmptySessionCell.swift */; };
 		CF046423206EE3D800BFE898 /* CancelSessionModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF046422206EE3D800BFE898 /* CancelSessionModal.swift */; };
 		CF04A28B2279713F00967725 /* DocumentUploadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF04A28A2279713F00967725 /* DocumentUploadManager.swift */; };
@@ -1690,6 +1694,8 @@
 		C447C7C422F9176100818733 /* UserTextMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTextMessageCell.swift; sourceTree = "<group>"; };
 		C46A2F10224CD309005058B1 /* UserStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStatus.swift; sourceTree = "<group>"; };
 		C4AE0DF583905E04AFE9A3B4 /* Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutorApp-QuickTutorUITests/Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		C4FB931C2308E2D90070017B /* QTEditProfileExperienceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTEditProfileExperienceTableViewCell.swift; sourceTree = "<group>"; };
+		C4FB931D2308E2D90070017B /* QTEditProfileExperienceTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTEditProfileExperienceTableViewCell.xib; sourceTree = "<group>"; };
 		CF046420206ED3D000BFE898 /* EmptySessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySessionCell.swift; sourceTree = "<group>"; };
 		CF046422206EE3D800BFE898 /* CancelSessionModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSessionModal.swift; sourceTree = "<group>"; };
 		CF04A28A2279713F00967725 /* DocumentUploadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentUploadManager.swift; sourceTree = "<group>"; };
@@ -2843,6 +2849,8 @@
 				CF7D8AB921995FA300463B0E /* ProfileVCFooterCell.swift */,
 				C406D9E22307177B00D76129 /* QTEditSchoolTableViewCell.swift */,
 				C406D9E32307177B00D76129 /* QTEditSchoolTableViewCell.xib */,
+				C4FB931C2308E2D90070017B /* QTEditProfileExperienceTableViewCell.swift */,
+				C4FB931D2308E2D90070017B /* QTEditProfileExperienceTableViewCell.xib */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -4052,6 +4060,7 @@
 				569F18F4223554FD00820A20 /* QTTutorDashboardViewController.xib in Resources */,
 				569F18F5223554FD00820A20 /* outdoors.json in Resources */,
 				569F18F6223554FD00820A20 /* loading9.json in Resources */,
+				C4FB93212308E2D90070017B /* QTEditProfileExperienceTableViewCell.xib in Resources */,
 				569F18F7223554FD00820A20 /* sports.json in Resources */,
 				569F18F8223554FD00820A20 /* loading1.json in Resources */,
 				569F18F9223554FD00820A20 /* loading5.json in Resources */,
@@ -4168,6 +4177,7 @@
 				569ECDA421F9A1E6005491CB /* QTTutorDashboardViewController.xib in Resources */,
 				842576722071310A00FD295B /* outdoors.json in Resources */,
 				840E4E00213761C10045CD35 /* loading9.json in Resources */,
+				C4FB93202308E2D90070017B /* QTEditProfileExperienceTableViewCell.xib in Resources */,
 				842576762071325400FD295B /* sports.json in Resources */,
 				840E4DF52136F58E0045CD35 /* loading1.json in Resources */,
 				840E4E02213761C10045CD35 /* loading5.json in Resources */,
@@ -4230,6 +4240,7 @@
 				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
 				"${BUILT_PRODUCTS_DIR}/PlaceholderTextView/PlaceholderTextView.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/RangeSeekSlider/RangeSeekSlider.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SkeletonView/SkeletonView.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
@@ -4269,6 +4280,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PlaceholderTextView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RangeSeekSlider.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SkeletonView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
@@ -4652,6 +4664,7 @@
 				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
 				"${BUILT_PRODUCTS_DIR}/PlaceholderTextView/PlaceholderTextView.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/RangeSeekSlider/RangeSeekSlider.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SkeletonView/SkeletonView.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
@@ -4691,6 +4704,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PlaceholderTextView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RangeSeekSlider.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SkeletonView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
@@ -5080,6 +5094,7 @@
 				561003B82242A9BB00A4688F /* QTInPersonSessionViewController.swift in Sources */,
 				569F1822223554FD00820A20 /* UserMessageCell.swift in Sources */,
 				569F1823223554FD00820A20 /* TutorBioVC.swift in Sources */,
+				C4FB931F2308E2D90070017B /* QTEditProfileExperienceTableViewCell.swift in Sources */,
 				569F1824223554FD00820A20 /* QuickSearchResultsVC.swift in Sources */,
 				5669A5CE229D8EE5007B3202 /* QTTutorPolicyViewController.swift in Sources */,
 				569F1825223554FD00820A20 /* Review.swift in Sources */,
@@ -5589,6 +5604,7 @@
 				84F245181FDA1127006447A8 /* TutorBioVC.swift in Sources */,
 				CF9F94E9228A3B76002041CF /* RecentSearchesManager.swift in Sources */,
 				CFB1475F21F3B86F00C49BA5 /* QuickSearchResultsVC.swift in Sources */,
+				C4FB931E2308E2D90070017B /* QTEditProfileExperienceTableViewCell.swift in Sources */,
 				84A6E46C218F68AA00D03681 /* Review.swift in Sources */,
 				5669A5CD229D8EE5007B3202 /* QTTutorPolicyViewController.swift in Sources */,
 				841C5070216ED4950035C6C9 /* AddressTextField.swift in Sources */,

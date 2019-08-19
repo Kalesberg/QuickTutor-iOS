@@ -13,7 +13,7 @@ import SDWebImage
 import SnapKit
 import SwiftKeychainWrapper
 import CropViewController
-
+import RangeSeekSlider
 
 protocol QTProfileDelegate {
     func didUpdateTutorProfile(tutor: AWTutor)
@@ -40,6 +40,9 @@ class EditPreferencesVC: TutorPreferencesVC {
 
 class TutorEditProfileVC: LearnerEditProfileVC {
     
+    var experienceSubject: String! = ""
+    var experiencePeriod: Float! = 0.5
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         sectionTitles.insert("Tutoring", at: 1)
@@ -51,6 +54,7 @@ class TutorEditProfileVC: LearnerEditProfileVC {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        setupExperience ()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -58,8 +62,31 @@ class TutorEditProfileVC: LearnerEditProfileVC {
         delegate?.didUpdateTutorProfile(tutor: CurrentUser.shared.tutor)
     }
     
+    private func setupExperience () {
+        guard let tutor = CurrentUser.shared.tutor else { return }
+        if let expSubject = tutor.experienceSubject {
+            self.experienceSubject = expSubject
+        }
+        
+        if let expPeriod = tutor.experiencePeriod {
+            self.experiencePeriod = expPeriod
+        }
+    }
+    
+    @objc func subjectEditingEnded(_ textField: UITextField) {
+        guard let subject = textField.text?.trimmingCharacters(in: .whitespaces) else { return }
+        self.experienceSubject = subject
+        if !subject.isEmpty {
+            textField.attributedText = NSAttributedString(string: "\(subject)", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+            textField.isUserInteractionEnabled = true
+        } else {
+            textField.attributedText = NSAttributedString(string: "Add New", attributes: [NSAttributedString.Key.foregroundColor: Colors.purple])
+            textField.isUserInteractionEnabled = false
+        }
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 5
+        return 6
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -74,6 +101,8 @@ class TutorEditProfileVC: LearnerEditProfileVC {
             return 3
         case 4:
             return 2
+        case 5:
+            return 2
         default:
             return 0
         }
@@ -85,6 +114,8 @@ class TutorEditProfileVC: LearnerEditProfileVC {
             return 115
         case 1:
             return indexPath.row == 2 ? 140 : 75
+        case 5:
+            return indexPath.row == 1 ? 117 : 75
         default:
             return 75
         }
@@ -205,6 +236,29 @@ class TutorEditProfileVC: LearnerEditProfileVC {
             default:
                 return UITableViewCell()
             }
+        case 5:
+            switch indexPath.row {
+            case 0:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileCell", for: indexPath) as! EditProfileCell
+                cell.textField.textField.addTarget(self, action: #selector(subjectEditingEnded(_:)), for: .editingDidEnd)
+                cell.textField.textField.delegate = self
+                cell.textField.placeholder.text = "Subject"
+                if let subject = experienceSubject, !subject.isEmpty {
+                    cell.textField.textField.attributedText = NSAttributedString(string: "\(subject)", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+                    cell.textField.textField.isUserInteractionEnabled = true
+                } else {
+                    cell.textField.textField.attributedText = NSAttributedString(string: "Add New", attributes: [NSAttributedString.Key.foregroundColor: Colors.purple])
+                    cell.textField.textField.isUserInteractionEnabled = false
+                }
+                return cell
+            case 1:
+                let cell = tableView.dequeueReusableCell(withIdentifier: QTEditProfileExperienceTableViewCell.reuseIdentifier, for: indexPath) as! QTEditProfileExperienceTableViewCell
+                cell.periodSlider.delegate = self
+                cell.setExperiencePeriod(experiencePeriod)
+                return cell
+            default:
+                return UITableViewCell()
+            }
         default:
             return UITableViewCell()
         }
@@ -255,11 +309,48 @@ class TutorEditProfileVC: LearnerEditProfileVC {
             default:
                 break
             }
+        case 5:
+            switch indexPath.item {
+            case 0:
+                guard let cell = tableView.cellForRow(at: indexPath) as? EditProfileCell else { return }
+                if !cell.textField.textField.isUserInteractionEnabled {
+                    cell.textField.textField.isUserInteractionEnabled = true
+                    cell.textField.textField.becomeFirstResponder()
+                    cell.textField.textField.attributedText = NSAttributedString(string: "", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+                }
+            default:
+                break
+            }
         default:
             break
         }
     }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = EditProfileHeaderTableViewCell()
+        view.label.text = section == 5 ? "Experience" : sectionTitles[section - 1]
+        return view
+    }
 }
+
+extension TutorEditProfileVC: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentString: NSString = textField.text! as NSString
+        let newString: NSString = currentString.replacingCharacters(in: range, with: string) as NSString
+        return newString.length <= 16
+    }
+}
+
+extension TutorEditProfileVC: RangeSeekSliderDelegate {
+    func rangeSeekSlider(_ slider: RangeSeekSlider, stringForMaxValue maxValue: CGFloat) -> String? {
+        return maxValue < 1 ? "0.5 years" : "\(Int(maxValue)) years"
+    }
+    
+    func rangeSeekSlider(_ slider: RangeSeekSlider, didChange minValue: CGFloat, maxValue: CGFloat) {
+        experiencePeriod = maxValue < 1 ? 0.5 : Float(Int(maxValue))
+    }
+}
+
 
 protocol LearnerWasUpdatedCallBack {
     func learnerWasUpdated(learner: AWLearner!)
@@ -418,8 +509,8 @@ class LearnerEditProfileVC: UIViewController {
         guard textField.text!.count > 0 else { return }
         lastName = textField.text
     }
-
-     func uploadImageUrl(imageUrl _: String, number _: String) {
+    
+    func uploadImageUrl(imageUrl _: String, number _: String) {
         if AccountService.shared.currentUserType == .learner {
             FirebaseData.manager.updateValue(node: "student-info", value: ["img": CurrentUser.shared.learner.images]) { error in
                 if let error = error {
@@ -491,13 +582,21 @@ class LearnerEditProfileVC: UIViewController {
 
         guard let learnerId = CurrentUser.shared.learner.uid else { return }
         
-        let newNodes: [String: Any]
+        var newNodes: [String: Any]
         if AccountService.shared.currentUserType == .learner {
-            newNodes = ["/tutor-info/\(learnerId)/nm": firstName + " " + lastName,
-                "/student-info/\(learnerId)/nm": firstName + " " + lastName,
+            newNodes = [
+                "/tutor-info/\(learnerId)/nm": firstName + " " + lastName,
+                "/student-info/\(learnerId)/nm": firstName + " " + lastName
             ]
         } else {
-            newNodes = ["/student-info/\(CurrentUser.shared.learner.uid!)/nm": firstName + " " + lastName]
+            newNodes = [
+                "/student-info/\(learnerId)/nm": firstName + " " + lastName
+            ]
+            
+            if let tutorEditVC = self as? TutorEditProfileVC {
+                newNodes["/tutor-info/\(learnerId)/exp-subject"] = tutorEditVC.experienceSubject
+                newNodes["/tutor-info/\(learnerId)/exp-period"] = tutorEditVC.experiencePeriod
+            }
         }
         
 
@@ -512,6 +611,11 @@ class LearnerEditProfileVC: UIViewController {
                 if CurrentUser.shared.learner.hasTutor {
                     if CurrentUser.shared.tutor != nil {
                         CurrentUser.shared.tutor.name = self.firstName + " " + self.lastName
+                        
+                        if let tutorEditVC = self as? TutorEditProfileVC {
+                            CurrentUser.shared.tutor.experienceSubject = tutorEditVC.experienceSubject
+                            CurrentUser.shared.tutor.experiencePeriod = tutorEditVC.experiencePeriod
+                        }
                     }
                     CurrentUser.shared.learner.name = self.firstName + " " + self.lastName
                 } else {
@@ -706,6 +810,7 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
             }
             cell.flashCellLine()
         }
+        
         switch indexPath.section {
         case 2:
             let vc = QTLearnerAddInterestsViewController()
