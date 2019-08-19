@@ -160,10 +160,7 @@ class UserPolicyVC: BaseRegistrationController {
                     "r": 5.0,
                     "cus": Registration.customerId,
                     "img": [
-                        "image1": Registration.studentImageURL,
-                        "image2": "",
-                        "image3": "",
-                        "image4": ""
+                        "image1": Registration.studentImageURL
                     ]
                 ]
                 

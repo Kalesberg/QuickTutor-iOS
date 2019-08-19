@@ -702,8 +702,8 @@ class FirebaseData {
             completion(nil, nil)
             return
         }
-        let storagePath = AccountService.shared.currentUserType == .learner ? "student-info" : "tutor-info"
-        let filePath = AccountService.shared.currentUserType == .learner ? "student-profile-pic" : "tutor-profile-pic"
+        let storagePath = AccountService.shared.currentUserType == .learner || AccountService.shared.currentUserType == .lRegistration ? "student-info" : "tutor-info"
+        let filePath = AccountService.shared.currentUserType == .learner || AccountService.shared.currentUserType == .lRegistration ? "student-profile-pic" : "tutor-profile-pic"
         self.storageRef.child(storagePath).child(userId).child(filePath + number).putData(data, metadata: nil) { (meta, error) in
             if let error = error {
                 return completion(error, nil)

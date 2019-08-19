@@ -50,13 +50,11 @@ class TheChoiceVC: UIViewController {
         } else {
             FirebaseData.manager.fetchLearner(Registration.uid) { learner in
                 if let learner = learner {
-                    self.dismissOverlay()
                     CurrentUser.shared.learner = learner
                     let vc = QTBecomeTutorViewController.controller
                     vc.isRegistration = true
                     self.navigationController?.pushViewController(vc, animated: true)
                 } else {
-                    self.dismissOverlay()
                     self.navigationController?.pushViewController(GetStartedViewController(), animated: true)
                 }
             }
