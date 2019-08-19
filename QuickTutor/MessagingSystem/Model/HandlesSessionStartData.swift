@@ -48,9 +48,7 @@ extension HandlesSessionStartData {
                 }
                 controller.sessionType = QTSessionType(rawValue: sessionType)
                 controller.startType = QTSessionStartType(rawValue: startType)
-                controller.parentNavController = navigationController
-                
-                navigationController.navigationBar.isHidden = true
+                controller.parentNavController = navigationController                
                 navigationController.present(controller, animated: true, completion: nil)
             } else {
                 let vc = QTStartSessionViewController.controller
@@ -60,7 +58,6 @@ extension HandlesSessionStartData {
                 }
                 vc.sessionType = QTSessionType(rawValue: sessionType)
                 vc.startType = QTSessionStartType(rawValue: startType)
-                navigationController.navigationBar.isHidden = false
                 navigationController.pushViewController(vc, animated: true)
             }
         })
