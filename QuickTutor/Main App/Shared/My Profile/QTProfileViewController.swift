@@ -45,6 +45,7 @@ class QTProfileViewController: UIViewController {
     @IBOutlet weak var distanceView: QTCustomView!
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var bioLabel: UILabel!
+    @IBOutlet weak var experienceLabel: UILabel!
     @IBOutlet weak var subjectsCollectionView: UICollectionView!
     @IBOutlet weak var subjectsCollectionViewHeight: NSLayoutConstraint!
     @IBOutlet weak var reviewsStackView: UIStackView!
@@ -442,6 +443,9 @@ class QTProfileViewController: UIViewController {
             
             updateBioLabel(bio: user.tBio)
             
+            // set experience
+            updateExperience (user)
+            
             navigationItem.title = user.username
             
             // If a tutor visits an another tutor's profile, hide message and more icons.
@@ -468,6 +472,7 @@ class QTProfileViewController: UIViewController {
             addressView.isHidden = false
             addressLabel.text = "United States"
             distanceView.isHidden = true
+            experienceLabel.superview?.isHidden = true
             
             updateBioLabel(bio: user.bio)
             
@@ -509,6 +514,9 @@ class QTProfileViewController: UIViewController {
             
             updateMyBioLabel(bio: user.tBio)
             
+            // set experience
+            updateExperience (user)
+            
             navigationItem.title = user.username
             navigationItem.rightBarButtonItems = [
                 UIBarButtonItem(image: UIImage(named: "ic_pencil"),
@@ -529,6 +537,7 @@ class QTProfileViewController: UIViewController {
             addressLabel.text = "United States"
             distanceView.isHidden = false
             distanceLabel.text = "1 mile or 0 miles away"
+            experienceLabel.superview?.isHidden = true
             
             updateMyBioLabel(bio: user.bio)
             
@@ -814,6 +823,20 @@ class QTProfileViewController: UIViewController {
             bioLabel.text = "\(bio.trimmingCharacters(in: .whitespacesAndNewlines))"
         } else {
             bioLabel.text = "No biography yet! You can add a bio by tapping \"edit\" in the top right of the screen."
+        }
+    }
+    
+    func updateExperience (_ tutor: AWTutor) {
+        experienceLabel.superview?.isHidden = false
+        guard let subject = tutor.experienceSubject else {
+            experienceLabel.superview?.isHidden = true
+            return
+        }
+        
+        if let period = tutor.experiencePeriod, period >= 1 {
+            experienceLabel.text = "\(Int(period)) Years Experience in \(subject)"
+        } else {
+            experienceLabel.text = "6 Months Experience in \(subject)"
         }
     }
     

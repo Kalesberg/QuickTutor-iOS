@@ -343,7 +343,7 @@ extension TutorEditProfileVC: UITextFieldDelegate {
 
 extension TutorEditProfileVC: RangeSeekSliderDelegate {
     func rangeSeekSlider(_ slider: RangeSeekSlider, stringForMaxValue maxValue: CGFloat) -> String? {
-        return maxValue < 1 ? "0.5 years" : "\(Int(maxValue)) years"
+        return maxValue < 1 ? "6 months" : "\(Int(maxValue)) years"
     }
     
     func rangeSeekSlider(_ slider: RangeSeekSlider, didChange minValue: CGFloat, maxValue: CGFloat) {
