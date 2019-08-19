@@ -272,20 +272,14 @@ class CategorySearchVC: UIViewController {
 
     let menuBtn = UIButton(type: .custom)
     
-    let collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = Colors.newScreenBackground
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.alwaysBounceVertical = true
-        collectionView.contentInset = UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
-        collectionView.isSkeletonable = true
-        return collectionView
+    let tutorsTableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.backgroundColor = Colors.newScreenBackground
+        tableView.isSkeletonable = true
+        return tableView
     }()
     
-    let tableView: UITableView = {
+    let suggestionTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.backgroundColor = Colors.newScreenBackground
         return tableView
@@ -303,11 +297,16 @@ class CategorySearchVC: UIViewController {
         return view
     }()
     
+    let refreshControl: UIRefreshControl = {
+        let control = UIRefreshControl()
+        return control
+    }()
+    
     var titleView = QTSearchTitleView()
     
     func setupEmptyBackgroundView() {
         view.addSubview(emptyBackground)
-        emptyBackground.anchor(top: collectionView.topAnchor, left: collectionView.leftAnchor, bottom: collectionView.bottomAnchor, right: collectionView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        emptyBackground.anchor(top: tutorsTableView.topAnchor, left: tutorsTableView.leftAnchor, bottom: tutorsTableView.bottomAnchor, right: tutorsTableView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         view.bringSubviewToFront(emptyBackground)
     }
     
@@ -317,25 +316,38 @@ class CategorySearchVC: UIViewController {
         titleView.delegate = self
     }
     
-    func setupCollectionView() {
-        view.addSubview(collectionView)
-        collectionView.snp.makeConstraints { make in
+    func setupTutorsTableView() {
+        view.addSubview(tutorsTableView)
+        tutorsTableView.snp.makeConstraints { make in
             make.top.equalTo(view.snp.topMargin)
             make.bottom.equalTo(view.snp.bottomMargin)
             make.left.equalTo(view.snp.leftMargin)
             make.right.equalTo(view.snp.rightMargin)
         }
         
-        collectionView.register(TutorCollectionViewCell.self, forCellWithReuseIdentifier: TutorCollectionViewCell.reuseIdentifier)
-        collectionView.register(TutorLoadMoreCollectionViewCell.self, forCellWithReuseIdentifier: TutorLoadMoreCollectionViewCell.reuseIdentifier)
-        collectionView.delegate = self
-        collectionView.dataSource = self
+        tutorsTableView.register(QTNewTutorInfoTableViewCell.self, forCellReuseIdentifier: QTNewTutorInfoTableViewCell.reuseIdentifier)
+        tutorsTableView.register(QTNewTutorLoadMoreTableViewCell.self, forCellReuseIdentifier: QTNewTutorLoadMoreTableViewCell.reuseIdentifier)
+        tutorsTableView.estimatedRowHeight = 102
+        tutorsTableView.rowHeight = UITableView.automaticDimension
+        
+        tutorsTableView.separatorColor = Colors.purple
+        tutorsTableView.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        let footerView = UIView(frame: .zero)
+        footerView.backgroundColor = .clear
+        tutorsTableView.tableFooterView = footerView
+        
+        tutorsTableView.dataSource = self
+        tutorsTableView.delegate = self
+        
+        tutorsTableView.refreshControl = refreshControl
+        refreshControl.tintColor = Colors.purple
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
     }
     
-    func setupTableView() {
-        view.addSubview(tableView)
-        view.bringSubviewToFront(tableView)
-        tableView.anchor(top: view.topAnchor,
+    func setupSuggestionTableView() {
+        view.addSubview(suggestionTableView)
+        view.bringSubviewToFront(suggestionTableView)
+        suggestionTableView.anchor(top: view.topAnchor,
                          left: view.leftAnchor,
                          bottom: nil,
                          right: view.rightAnchor,
@@ -345,20 +357,20 @@ class CategorySearchVC: UIViewController {
                          paddingRight: 0,
                          width: 0,
                          height: 0)
-        tableViewHeight = tableView.heightAnchor.constraint(equalToConstant: 0)
+        tableViewHeight = suggestionTableView.heightAnchor.constraint(equalToConstant: 0)
         tableViewHeight?.isActive = true
         
-        tableView.register(QTSuggestionTableViewCell.self, forCellReuseIdentifier: QTSuggestionTableViewCell.reuseIdentifier)
-        tableView.estimatedRowHeight = 50
-        tableView.rowHeight = 50
+        suggestionTableView.register(QTSuggestionTableViewCell.self, forCellReuseIdentifier: QTSuggestionTableViewCell.reuseIdentifier)
+        suggestionTableView.estimatedRowHeight = 50
+        suggestionTableView.rowHeight = 50
         
-        tableView.separatorStyle = .none
-        tableView.delegate = self
-        tableView.dataSource = self
+        suggestionTableView.separatorStyle = .none
+        suggestionTableView.delegate = self
+        suggestionTableView.dataSource = self
     }
     
     func setupMaskView() {
-        view.insertSubview(maskView, belowSubview: tableView)
+        view.insertSubview(maskView, belowSubview: suggestionTableView)
         maskView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         maskView.isUserInteractionEnabled = true
         maskView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleDidMaskViewTapped(_:))))
@@ -401,6 +413,11 @@ class CategorySearchVC: UIViewController {
     func queryNeededTutors(lastKnownKey: String?) {
         guard !loadedAllTutors else { return }
         print(subject)
+        
+        if _observing {
+            return
+        }
+        
         if category != nil {
             queryTutorsByCategory(lastKnownKey: lastKnownKey)
         } else if subcategory != nil {
@@ -416,6 +433,7 @@ class CategorySearchVC: UIViewController {
         _observing = true
         TutorSearchService.shared.getTutorsByCategory(category, lastKnownKey: lastKnownKey) { (tutors, loadedAllTutors) in
             self._observing = false
+            self.refreshControl.endRefreshing()
             self.view.hideSkeleton()
             
             guard let tutors = tutors, !tutors.isEmpty else {
@@ -425,7 +443,7 @@ class CategorySearchVC: UIViewController {
                     self.emptyBackground.isHidden = true
                 }
                 self.loadedAllTutors = true
-                self.collectionView.reloadData()
+                self.tutorsTableView.reloadData()
                 return
             }
             
@@ -445,7 +463,7 @@ class CategorySearchVC: UIViewController {
             if let filter = self.searchFilter, self.datasource.count > 0 {
                 self.applySearchFilterToDataSource(filter)
             }
-            self.collectionView.reloadData()
+            self.tutorsTableView.reloadData()
         }
     }
     
@@ -453,6 +471,7 @@ class CategorySearchVC: UIViewController {
         _observing = true
         TutorSearchService.shared.getTutorsBySubcategory(subcategory, lastKnownKey: lastKnownKey) { (tutors, loadedAllTutors) in
             self._observing = false
+            self.refreshControl.endRefreshing()
             self.view.hideSkeleton()
             
             guard let tutors = tutors, !tutors.isEmpty else {
@@ -462,7 +481,7 @@ class CategorySearchVC: UIViewController {
                     self.emptyBackground.isHidden = true
                 }
                 self.loadedAllTutors = true
-                self.collectionView.reloadData()
+                self.tutorsTableView.reloadData()
                 return
             }
             
@@ -483,7 +502,7 @@ class CategorySearchVC: UIViewController {
             if let filter = self.searchFilter, self.datasource.count > 0 {
                 self.applySearchFilterToDataSource(filter)
             }
-            self.collectionView.reloadData()
+            self.tutorsTableView.reloadData()
             
         }
     }
@@ -492,6 +511,7 @@ class CategorySearchVC: UIViewController {
         _observing = true
         TutorSearchService.shared.getTutorsBySubject(subject, lastKnownKey: lastKnownKey) { (tutors, loadedAllTutors) in
             self._observing = false
+            self.refreshControl.endRefreshing()
             self.view.hideSkeleton()
             
             guard let tutors = tutors, !tutors.isEmpty else {
@@ -501,7 +521,7 @@ class CategorySearchVC: UIViewController {
                     self.emptyBackground.isHidden = true
                 }
                 self.loadedAllTutors = true
-                self.collectionView.reloadData()
+                self.tutorsTableView.reloadData()
                 return
             }
             
@@ -521,7 +541,7 @@ class CategorySearchVC: UIViewController {
             if let filter = self.searchFilter, self.datasource.count > 0 {
                 self.applySearchFilterToDataSource(filter)
             }
-            self.collectionView.reloadData()
+            self.tutorsTableView.reloadData()
         }
     }
     
@@ -572,6 +592,31 @@ class CategorySearchVC: UIViewController {
     }
     
     // MARK: - Actions
+    @objc
+    func handleRefresh() {
+        datasource.removeAll()
+        filteredDatasource.removeAll()
+        loadedAllTutors = true
+        tutorsTableView.reloadData()
+        lastKey = nil
+        _observing = false
+        loadedAllTutors = false
+        
+        if hasNoSubject {
+            if let subject = subject {
+                tutorsTableView.setUnknownSubjectView(subject) {
+                    self.sendEmail(subject: subject)
+                }
+                self.emptyBackground.isHidden = true
+                self.loadedAllTutors = true
+                self.tutorsTableView.reloadData()
+                self.refreshControl.endRefreshing()
+            }
+        } else {
+            queryNeededTutors(lastKnownKey: nil)
+        }
+    }
+    
     @objc
     func updateFilters(_ notification: Notification) {
         guard let userInfo = notification.userInfo, let filter = userInfo["filter"] as? SearchFilter else { return }
@@ -630,31 +675,29 @@ class CategorySearchVC: UIViewController {
             setupTitleView()
         }
         
-        setupCollectionView()
+        setupTutorsTableView()
         setupEmptyBackgroundView()
         setUpFiltersButton()
         setupMaskView()
-        setupTableView()
+        setupSuggestionTableView()
         
         if hasNoSubject {
             if let subject = subject {
-                collectionView.setEmptyMessage(subject) {
+                tutorsTableView.setUnknownSubjectView(subject) {
                     self.sendEmail(subject: subject)
                 }
                 self.emptyBackground.isHidden = true
                 self.loadedAllTutors = true
-                self.collectionView.reloadData()
+                self.tutorsTableView.reloadData()
             }
         } else {
             print("=== Prepare Skeleton Start === ")
             print(Date().description)
             if 0 == datasource.count {
-                collectionView.prepareSkeleton { _ in
-                    self.view.showAnimatedSkeleton(usingColor: Colors.gray)
-                    print("=== Prepare Skeleton End === ")
-                    print(Date().description)
-                    self.queryNeededTutors(lastKnownKey: nil)
-                }
+//                self.tutorsTableView.showAnimatedSkeleton(usingColor: Colors.gray)
+                print("=== Prepare Skeleton End === ")
+                print(Date().description)
+                queryNeededTutors(lastKnownKey: nil)
             } else {
                 filteredDatasource = datasource
                 queryNeededTutors(lastKnownKey: nil)
@@ -682,7 +725,7 @@ class CategorySearchVC: UIViewController {
             return
         }
         self.applySearchFilterToDataSource(filter)
-        collectionView.reloadData()
+        tutorsTableView.reloadData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -694,7 +737,7 @@ class CategorySearchVC: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        collectionView.reloadData()
+        tutorsTableView.reloadData()
     }
 }
 
@@ -838,15 +881,32 @@ extension CategorySearchVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
         cell?.growSemiShrink {
-            self.handleDidMaskViewTapped(UITapGestureRecognizer())
-            
-            // Load subject search screen again.
-            let vc = CategorySearchVC()
-            vc.subject = self.filteredSubjects[indexPath.row].0
-            vc.hasNoSubject = false
-            AnalyticsService.shared.logSubjectTapped(vc.subject)
-            vc.searchFilter = self.searchFilter
-            self.navigationController?.pushViewController(vc, animated: true)
+            if tableView == self.tutorsTableView {
+                guard self.filteredDatasource.count > indexPath.item else { return }
+                
+                let featuredTutor = self.filteredDatasource[indexPath.item]
+                let uid = featuredTutor.uid
+                FirebaseData.manager.fetchTutor(uid!, isQuery: false, { (tutor) in
+                    guard let tutor = tutor else { return }
+                    DispatchQueue.main.async {
+                        let controller = QTProfileViewController.controller//TutorCardVC()
+                        controller.subject = featuredTutor.featuredSubject
+                        controller.profileViewType = .tutor
+                        controller.user = tutor
+                        self.navigationController?.pushViewController(controller, animated: true)
+                    }
+                })
+            } else {
+                self.handleDidMaskViewTapped(UITapGestureRecognizer())
+                
+                // Load subject search screen again.
+                let vc = CategorySearchVC()
+                vc.subject = self.filteredSubjects[indexPath.row].0
+                vc.hasNoSubject = false
+                AnalyticsService.shared.logSubjectTapped(vc.subject)
+                vc.searchFilter = self.searchFilter
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         }
     }
 }
@@ -854,14 +914,39 @@ extension CategorySearchVC: UITableViewDelegate {
 // MARK: - UITableViewDataSource
 extension CategorySearchVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.filteredSubjects.count
+        
+        if tableView == tutorsTableView {
+            return filteredDatasource.count + (self.loadedAllTutors ? 0 : 1)
+        } else {
+            return self.filteredSubjects.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: QTSuggestionTableViewCell.reuseIdentifier, for: indexPath) as! QTSuggestionTableViewCell
-        cell.nameLabel.text = self.filteredSubjects[indexPath.row].0
-        cell.selectionStyle = .none
-        return cell
+        
+        if tableView == tutorsTableView {
+            if filteredDatasource.count == indexPath.row {
+                if !_observing {
+                    queryNeededTutors(lastKnownKey: lastKey)
+                }
+                let cell = tutorsTableView.dequeueReusableCell(withIdentifier: QTNewTutorLoadMoreTableViewCell.reuseIdentifier, for: indexPath)
+                cell.selectionStyle = .none
+                let width = UIScreen.main.bounds.width
+                cell.separatorInset = UIEdgeInsets(top: 0, left: width, bottom: 0, right: 0)
+                return cell
+            } else {
+                let cell = tutorsTableView.dequeueReusableCell(withIdentifier: QTNewTutorInfoTableViewCell.reuseIdentifier, for: indexPath) as! QTNewTutorInfoTableViewCell
+                cell.updateUI(filteredDatasource[indexPath.item])
+                cell.selectionStyle = .none
+                cell.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+                return cell
+            }
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: QTSuggestionTableViewCell.reuseIdentifier, for: indexPath) as! QTSuggestionTableViewCell
+            cell.nameLabel.text = self.filteredSubjects[indexPath.row].0
+            cell.selectionStyle = .none
+            return cell
+        }
     }
 }
 
@@ -892,7 +977,7 @@ extension CategorySearchVC: QTSearchBarViewDelegate {
                             self.maskView.isHidden = false
                             self.filteredSubjects.removeAll()
                             self.tableViewHeight?.constant = 0
-                            self.tableView.reloadData()
+                            self.suggestionTableView.reloadData()
                         }
                         return
                     }
@@ -914,7 +999,7 @@ extension CategorySearchVC: QTSearchBarViewDelegate {
                             self.tableViewHeight?.constant = contentSize
                         }
                         
-                        self.tableView.reloadData()
+                        self.suggestionTableView.reloadData()
                     }
                 }
         })
