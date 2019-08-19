@@ -11,8 +11,9 @@ import UIKit
 
 class EditSchoolVC: UIViewController {
     
-    @IBOutlet weak var searchView: UIView!
+    @IBOutlet weak var searchView: UIStackView!
     @IBOutlet weak var searchTextField: UITextField!
+    @IBOutlet weak var spaceView: UIView!
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     
@@ -70,16 +71,26 @@ class EditSchoolVC: UIViewController {
     }
     
     func setupViews() {
-        searchView.layer.applyShadow(color: UIColor(red: 21/255, green: 21/255, blue: 30/255, alpha: 1.0).cgColor,
+        /*searchView.layer.applyShadow(color: UIColor(red: 21/255, green: 21/255, blue: 30/255, alpha: 1.0).cgColor,
                                       opacity: 1,
                                       offset: CGSize(width: 0, height: 10),
-                                      radius: 10)
+                                      radius: 10)*/
         setupSearchField()
         setupTableView()
-        closeButton.isHidden = school?.isEmpty ?? true
+        closeButton.superview?.isHidden = school?.isEmpty ?? true
+        spaceView.isHidden = !(school?.isEmpty ?? true)
     }
     
     func setupSearchField() {
+        searchTextField.layer.cornerRadius = 5
+        searchTextField.backgroundColor = .black
+        let searchImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 30, height: 15))
+        searchImageView.alpha = 0.5
+        searchImageView.image = UIImage(named: "searchIcon")
+        searchImageView.contentMode = .scaleAspectFit
+        searchTextField.leftView = searchImageView
+        searchTextField.leftViewMode = .always
+        
         searchTextField.addTarget(self, action: #selector(handleSearchTextFieldChange(_:)), for: .editingChanged)
         searchTextField.attributedPlaceholder = NSAttributedString(string: "Search for a school", attributes: [.foregroundColor : Colors.grayText80])
         searchTextField.text = school
@@ -93,7 +104,8 @@ class EditSchoolVC: UIViewController {
     
     @IBAction func onCloseButtonClicked(_ sender: Any) {
         searchTextField.text = ""
-        closeButton.isHidden = true
+        closeButton.superview?.isHidden = true
+        spaceView.isHidden = false
     }
 
     @objc func displaySavedAlertController() {
@@ -112,14 +124,16 @@ class EditSchoolVC: UIViewController {
     @objc
     func handleSearchTextFieldChange(_ textField: UITextField) {
         guard let searchText = textField.text, !searchText.isEmpty else {
-            closeButton.isHidden = true
+            closeButton.superview?.isHidden = true
+            spaceView.isHidden = false
             tableView.reloadData()
             return
         }
         
         filterContentForSearchText(searchText)
         
-        closeButton.isHidden = false
+        closeButton.superview?.isHidden = false
+        spaceView.isHidden = true
     }
 
     private func scrollToTop() {
