@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Lato-Bold.ttf">
+            <string>Lato-Bold</string>
+        </array>
+        <array key="Lato-Semibold.ttf">
+            <string>Lato-Semibold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChoosePaymentMethodViewController" customModule="QuickTutor" customModuleProvider="target">
+            <connections>
+                <outlet property="btnAddDebitOrCreditCard" destination="8w9-rd-W9n" id="JXc-c8-GrE"/>
+                <outlet property="btnAddPaypal" destination="cBD-Wm-euf" id="TMa-de-7oA"/>
+                <outlet property="btnLinkApplePay" destination="zi5-h0-zZE" id="Ebu-EF-zWZ"/>
+                <outlet property="constraintContentViewBottom" destination="ch9-XR-Lty" id="BCb-so-o4y"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lk3-Cy-pVc">
+                    <rect key="frame" x="0.0" y="44" width="414" height="689.5"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WAX-Wi-JM6">
+                    <rect key="frame" x="0.0" y="733.5" width="414" height="128.5"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add a payment method" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uAr-HG-V6s">
+                            <rect key="frame" x="20" y="16" width="145" height="17"/>
+                            <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="14"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="key-A9-u3I">
+                            <rect key="frame" x="358" y="4.5" width="40" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="key-A9-u3I" secondAttribute="height" multiplier="1:1" id="R55-EL-4G5"/>
+                                <constraint firstAttribute="width" constant="40" id="aF6-9l-mdK"/>
+                            </constraints>
+                            <state key="normal" image="ic_close"/>
+                            <connections>
+                                <action selector="onClickBtnClose:" destination="-1" eventType="touchUpInside" id="BQd-FG-klX"/>
+                            </connections>
+                        </button>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Wa3-v4-lve">
+                            <rect key="frame" x="20" y="64.5" width="374" height="44"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8w9-rd-W9n" customClass="RoundedButton" customModule="QuickTutor" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="374" height="44"/>
+                                    <color key="backgroundColor" red="0.39607843139999999" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="44" id="Fi5-Ig-x6b"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="13"/>
+                                    <color key="tintColor" red="0.30196078430000001" green="0.28627450980000002" blue="0.36470588240000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <state key="normal" title="Add Debit or Credit Card">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </state>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                            <real key="value" value="3"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="onClickBtnAddDebitOrCreditCard:" destination="-1" eventType="touchUpInside" id="hG1-gC-h9c"/>
+                                    </connections>
+                                </button>
+                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cBD-Wm-euf" customClass="RoundedButton" customModule="QuickTutor" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="374" height="0.0"/>
+                                    <color key="backgroundColor" red="0.0" green="0.43921568630000002" blue="0.72941176470000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="13"/>
+                                    <color key="tintColor" red="0.30196078430000001" green="0.28627450980000002" blue="0.36470588240000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <state key="normal" title="Add PayPal">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </state>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                            <real key="value" value="3"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="onClickBtnAddPaypal:" destination="-1" eventType="touchUpInside" id="ESV-IV-Zw5"/>
+                                    </connections>
+                                </button>
+                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zi5-h0-zZE" customClass="RoundedButton" customModule="QuickTutor" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="374" height="0.0"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="13"/>
+                                    <color key="tintColor" red="0.30196078430000001" green="0.28627450980000002" blue="0.36470588240000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <state key="normal" title="Link   Pay">
+                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </state>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                            <real key="value" value="3"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="onClickBtnLinkApplePay:" destination="-1" eventType="touchUpInside" id="hTf-55-3zP"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                        </stackView>
+                    </subviews>
+                    <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="0.90000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="key-A9-u3I" secondAttribute="trailing" constant="16" id="2uM-Be-C7Y"/>
+                        <constraint firstItem="uAr-HG-V6s" firstAttribute="leading" secondItem="WAX-Wi-JM6" secondAttribute="leading" constant="20" id="3LE-7c-ABD"/>
+                        <constraint firstItem="Wa3-v4-lve" firstAttribute="top" secondItem="key-A9-u3I" secondAttribute="bottom" constant="20" id="IgI-z8-at0"/>
+                        <constraint firstItem="Wa3-v4-lve" firstAttribute="centerX" secondItem="WAX-Wi-JM6" secondAttribute="centerX" id="PAb-Vp-0Rs"/>
+                        <constraint firstItem="key-A9-u3I" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="uAr-HG-V6s" secondAttribute="trailing" constant="16" id="TcT-dE-Nwb"/>
+                        <constraint firstAttribute="bottom" secondItem="Wa3-v4-lve" secondAttribute="bottom" constant="20" id="VsO-1V-31c"/>
+                        <constraint firstItem="Wa3-v4-lve" firstAttribute="leading" secondItem="uAr-HG-V6s" secondAttribute="leading" id="dwV-VI-acA"/>
+                        <constraint firstItem="uAr-HG-V6s" firstAttribute="top" secondItem="WAX-Wi-JM6" secondAttribute="top" constant="16" id="m3U-C4-x1H"/>
+                        <constraint firstItem="key-A9-u3I" firstAttribute="centerY" secondItem="uAr-HG-V6s" secondAttribute="centerY" id="mXY-LR-2oD"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.90000000000000002" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="lk3-Cy-pVc" secondAttribute="trailing" id="Gb3-8K-P4S"/>
+                <constraint firstItem="WAX-Wi-JM6" firstAttribute="top" secondItem="lk3-Cy-pVc" secondAttribute="bottom" id="Okr-cI-W0Y"/>
+                <constraint firstItem="lk3-Cy-pVc" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="RDW-bo-qCX"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="WAX-Wi-JM6" secondAttribute="bottom" id="ch9-XR-Lty"/>
+                <constraint firstItem="WAX-Wi-JM6" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="g5t-8T-aHY"/>
+                <constraint firstItem="lk3-Cy-pVc" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="oCB-O1-Jep"/>
+                <constraint firstItem="WAX-Wi-JM6" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="vz0-lS-6Zx"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="ic_close" width="15" height="15"/>
+    </resources>
+</document>
