@@ -53,6 +53,8 @@
 		562B015B230A887B000146E9 /* LearnerRegistrationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 562B0159230A887B000146E9 /* LearnerRegistrationService.swift */; };
 		562B015D230A9652000146E9 /* QTLearnerAddInterestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 562B015C230A9652000146E9 /* QTLearnerAddInterestsViewController.swift */; };
 		562B015E230A9652000146E9 /* QTLearnerAddInterestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 562B015C230A9652000146E9 /* QTLearnerAddInterestsViewController.swift */; };
+		562B0160230AE2AE000146E9 /* QTNewTutorInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 562B015F230AE2AE000146E9 /* QTNewTutorInfoTableViewCell.swift */; };
+		562B0161230AE2AE000146E9 /* QTNewTutorInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 562B015F230AE2AE000146E9 /* QTNewTutorInfoTableViewCell.swift */; };
 		5630F9592278357A0038E060 /* CustomSwitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5630F9582278357A0038E060 /* CustomSwitchView.swift */; };
 		5630F95A2278357A0038E060 /* CustomSwitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5630F9582278357A0038E060 /* CustomSwitchView.swift */; };
 		5647A778222CB59000E8A26F /* QTSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5647A776222CB59000E8A26F /* QTSettingsViewController.swift */; };
@@ -1329,6 +1331,7 @@
 		562B0156230A879C000146E9 /* QTLearnerAddInterestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTLearnerAddInterestsView.swift; sourceTree = "<group>"; };
 		562B0159230A887B000146E9 /* LearnerRegistrationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerRegistrationService.swift; sourceTree = "<group>"; };
 		562B015C230A9652000146E9 /* QTLearnerAddInterestsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTLearnerAddInterestsViewController.swift; sourceTree = "<group>"; };
+		562B015F230AE2AE000146E9 /* QTNewTutorInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTNewTutorInfoTableViewCell.swift; sourceTree = "<group>"; };
 		5630F9582278357A0038E060 /* CustomSwitchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSwitchView.swift; sourceTree = "<group>"; };
 		5647A776222CB59000E8A26F /* QTSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTSettingsViewController.swift; sourceTree = "<group>"; };
 		5647A777222CB59000E8A26F /* QTSettingsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTSettingsViewController.xib; sourceTree = "<group>"; };
@@ -3137,6 +3140,7 @@
 			isa = PBXGroup;
 			children = (
 				846D9B4F2069E57200302773 /* TutorCollectionViewCell.swift */,
+				562B015F230AE2AE000146E9 /* QTNewTutorInfoTableViewCell.swift */,
 			);
 			path = collectionViewCells;
 			sourceTree = "<group>";
@@ -4915,6 +4919,7 @@
 				569F1772223554FD00820A20 /* UIViewControllerExtensions.swift in Sources */,
 				569F1775223554FD00820A20 /* SessionRequestVCView.swift in Sources */,
 				569F1776223554FD00820A20 /* LearnerOther.swift in Sources */,
+				562B0161230AE2AE000146E9 /* QTNewTutorInfoTableViewCell.swift in Sources */,
 				CFB767D122991BA6001206DA /* BankManagerCollectionViewCell.swift in Sources */,
 				569F1777223554FD00820A20 /* TutorAddUsernameVC.swift in Sources */,
 				569F1778223554FD00820A20 /* UIImageViewExtensions.swift in Sources */,
@@ -5425,6 +5430,7 @@
 				8482AFE3203A9E1300F6F805 /* UIImageViewExtensions.swift in Sources */,
 				CFB9B82021C88ED90022333F /* TutorAddressVCView.swift in Sources */,
 				840E75C2201E8419006FC580 /* LearnerFileReportVC.swift in Sources */,
+				562B0160230AE2AE000146E9 /* QTNewTutorInfoTableViewCell.swift in Sources */,
 				CFB767D022991B97001206DA /* BankManagerCollectionViewCell.swift in Sources */,
 				841DD5BC206552D500A70D65 /* TutorUpdatePayment.swift in Sources */,
 				846252FB206381BD001DD330 /* TaxInformation.swift in Sources */,
