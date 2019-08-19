@@ -23,11 +23,6 @@ class CardManagerViewController: UIViewController {
     @IBOutlet weak var addPaymentView: UIScrollView!
     @IBOutlet weak var btnAddApplePay: RoundedButton!
     
-    // Card ActionSheet
-    @IBOutlet weak var viewCardActionSheet: UIView!
-    @IBOutlet weak var constraintActionSheetBottom: NSLayoutConstraint!
-    @IBOutlet weak var btnLinkApplePay: RoundedButton!
-    
     var addCardViewController: AddCardViewController?
     var shouldHideNavBarWhenDismissed = false
     var isShowingAddCardView = false
@@ -70,9 +65,6 @@ class CardManagerViewController: UIViewController {
         setParagraphStyles()
         addDropShadow()
         addDimming()
-        
-        // add gesture on card action view
-        viewCardActionSheet.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTapActionView (_:))))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -121,12 +113,18 @@ class CardManagerViewController: UIViewController {
     
     @objc
     private func onClickItemAddNewPayment() {
-        showCardActionSheet()
-    }
-    
-    @objc
-    private func onTapActionView (_ sender: UITapGestureRecognizer) {
-        closeCardActionSheet()
+        let choosePaymentMethodVC = ChoosePaymentMethodViewController(nibName: String(describing: ChoosePaymentMethodViewController.self), bundle: nil)
+        choosePaymentMethodVC.didClickBtnAddDebitOrCreditCard = { sender in
+            choosePaymentMethodVC.dismiss(animated: true) {
+                self.tappedAddCard(sender)
+            }
+        }
+        choosePaymentMethodVC.didClickBtnLinkApplePay = { sender in
+            choosePaymentMethodVC.dismiss(animated: true) {
+                self.onClickBtnLinkApplePay(sender)
+            }
+        }
+        present(choosePaymentMethodVC, animated: true, completion: nil)
     }
     
     func setParagraphStyles() {
@@ -486,46 +484,5 @@ extension CardManagerViewController: PaymentCardTableViewCellDelegate {
     func didTapDefaultButton(_ cell: PaymentCardTableViewCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         tableView(tableView, didSelectRowAt: indexPath)
-    }
-}
-
-// MARK: - Card ActionSheet
-extension CardManagerViewController {
-    @IBAction func onClickBtnCloseCardActionSheet(_ sender: Any) {
-        closeCardActionSheet()
-    }
-    
-    @IBAction func onClickBtnDebitCardActionSheet(_ sender: Any) {
-        closeCardActionSheet() {
-            self.tappedAddCard(sender)
-        }
-    }
-    
-    @IBAction func onClickBtnAppleCardActionSheet(_ sender: Any) {
-        closeCardActionSheet() {
-            self.onClickBtnLinkApplePay(sender)
-        }
-    }
-    
-    private func showCardActionSheet(completion: (() -> Void)? = nil) {
-        btnLinkApplePay.isHidden = Stripe.deviceSupportsApplePay()
-        
-        viewCardActionSheet.isHidden = false
-        UIView.animate(withDuration: 0.3, animations: {
-            self.constraintActionSheetBottom.constant = 0
-            self.view.layoutIfNeeded()
-        }, completion: { _ in
-            completion?()
-        })
-    }
-    
-    private func closeCardActionSheet(completion: (() -> Void)? = nil) {
-        UIView.animate(withDuration: 0.3, animations: {
-            self.constraintActionSheetBottom.constant = -300
-            self.view.layoutIfNeeded()
-        }, completion: { _ in
-            self.viewCardActionSheet.isHidden = true
-            completion?()
-        })
     }
 }

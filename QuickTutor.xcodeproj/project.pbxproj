@@ -16,6 +16,12 @@
 		4D348105223A35370004C29A /* QTRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D348103223A35370004C29A /* QTRatingView.swift */; };
 		4D7DD55122832FCC0027B687 /* UITabBarExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7DD55022832FCC0027B687 /* UITabBarExtensions.swift */; };
 		4D7DD55222832FCC0027B687 /* UITabBarExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7DD55022832FCC0027B687 /* UITabBarExtensions.swift */; };
+		4D853D6E230A9BDA00DAC323 /* ChoosePaymentMethodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D853D6C230A9BDA00DAC323 /* ChoosePaymentMethodViewController.swift */; };
+		4D853D6F230A9BDA00DAC323 /* ChoosePaymentMethodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D853D6C230A9BDA00DAC323 /* ChoosePaymentMethodViewController.swift */; };
+		4D853D70230A9BDA00DAC323 /* ChoosePaymentMethodViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D853D6D230A9BDA00DAC323 /* ChoosePaymentMethodViewController.xib */; };
+		4D853D71230A9BDA00DAC323 /* ChoosePaymentMethodViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D853D6D230A9BDA00DAC323 /* ChoosePaymentMethodViewController.xib */; };
+		4D853D74230A9CE100DAC323 /* QTBaseCustomDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D853D73230A9CE100DAC323 /* QTBaseCustomDialog.swift */; };
+		4D853D75230A9CE100DAC323 /* QTBaseCustomDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D853D73230A9CE100DAC323 /* QTBaseCustomDialog.swift */; };
 		4DE3668D2238BC5F00A94C37 /* TheChoiceVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD92A762231BA9D00704531 /* TheChoiceVCView.swift */; };
 		4DE366912239F06C00A94C37 /* QTProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE3668F2239F06C00A94C37 /* QTProfileViewController.swift */; };
 		4DE366922239F06C00A94C37 /* QTProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE3668F2239F06C00A94C37 /* QTProfileViewController.swift */; };
@@ -1299,6 +1305,9 @@
 		4D3480FE223A31E70004C29A /* QTReviewTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTReviewTableViewCell.xib; sourceTree = "<group>"; };
 		4D348103223A35370004C29A /* QTRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTRatingView.swift; sourceTree = "<group>"; };
 		4D7DD55022832FCC0027B687 /* UITabBarExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITabBarExtensions.swift; sourceTree = "<group>"; };
+		4D853D6C230A9BDA00DAC323 /* ChoosePaymentMethodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosePaymentMethodViewController.swift; sourceTree = "<group>"; };
+		4D853D6D230A9BDA00DAC323 /* ChoosePaymentMethodViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChoosePaymentMethodViewController.xib; sourceTree = "<group>"; };
+		4D853D73230A9CE100DAC323 /* QTBaseCustomDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTBaseCustomDialog.swift; sourceTree = "<group>"; };
 		4DE3668F2239F06C00A94C37 /* QTProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTProfileViewController.swift; sourceTree = "<group>"; };
 		4DE366902239F06C00A94C37 /* QTProfileViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTProfileViewController.xib; sourceTree = "<group>"; };
 		561003B42242A9AF00A4688F /* QTInPersonSessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTInPersonSessionViewController.swift; sourceTree = "<group>"; };
@@ -2007,6 +2016,14 @@
 			path = Subviews;
 			sourceTree = "<group>";
 		};
+		4D853D72230A9CC400DAC323 /* CustomDialogs */ = {
+			isa = PBXGroup;
+			children = (
+				4D853D73230A9CE100DAC323 /* QTBaseCustomDialog.swift */,
+			);
+			path = CustomDialogs;
+			sourceTree = "<group>";
+		};
 		4DE3668E2239F03C00A94C37 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
@@ -2466,6 +2483,8 @@
 				931C71EB227E4E1C003C86F8 /* PaymentCardTableViewCell.xib */,
 				BE817233229E21980089FA1E /* AddCardViewController.swift */,
 				BE817234229E21980089FA1E /* AddCardViewController.xib */,
+				4D853D6C230A9BDA00DAC323 /* ChoosePaymentMethodViewController.swift */,
+				4D853D6D230A9BDA00DAC323 /* ChoosePaymentMethodViewController.xib */,
 			);
 			path = Payment;
 			sourceTree = "<group>";
@@ -2775,6 +2794,7 @@
 		8491C2991FBE62350036FC12 /* QuickTutor */ = {
 			isa = PBXGroup;
 			children = (
+				4D853D72230A9CC400DAC323 /* CustomDialogs */,
 				56BE7E5922CFCBD80052BBE7 /* Models */,
 				CF6F5885205EE65C00ACBD32 /* MessagingSystem */,
 				CFEC492220E2AA8F00060E48 /* MessagingSystemTutorial.swift */,
@@ -4010,6 +4030,7 @@
 				569F18EE223554FD00820A20 /* loading2.json in Resources */,
 				56BE7E4522CF06BD0052BBE7 /* QTQuickSearchViewController.xib in Resources */,
 				569F18EF223554FD00820A20 /* background.mp3 in Resources */,
+				4D853D71230A9BDA00DAC323 /* ChoosePaymentMethodViewController.xib in Resources */,
 				93C102862278F77D004B9F0D /* RegistrationSSNModal.xib in Resources */,
 				569F18F0223554FD00820A20 /* Lato-Italic.ttf in Resources */,
 				568E57132270CA7700E18BD4 /* QTCloseAccountTypeViewController.xib in Resources */,
@@ -4125,6 +4146,7 @@
 				840E4E03213761C10045CD35 /* loading2.json in Resources */,
 				56BE7E4322CF06900052BBE7 /* QTQuickSearchViewController.xib in Resources */,
 				CFA0096E2139FFCE00F81EE4 /* background.mp3 in Resources */,
+				4D853D70230A9BDA00DAC323 /* ChoosePaymentMethodViewController.xib in Resources */,
 				93C102852278F77D004B9F0D /* RegistrationSSNModal.xib in Resources */,
 				56DC6DA1220BD7DF00935F47 /* Lato-Italic.ttf in Resources */,
 				568E57122270CA7700E18BD4 /* QTCloseAccountTypeViewController.xib in Resources */,
@@ -5031,6 +5053,7 @@
 				569F1811223554FD00820A20 /* LearnerUnprofessional.swift in Sources */,
 				569F1812223554FD00820A20 /* LegalEntity.swift in Sources */,
 				569F1813223554FD00820A20 /* LearnerUpcomingSessionCell.swift in Sources */,
+				4D853D75230A9CE100DAC323 /* QTBaseCustomDialog.swift in Sources */,
 				569F1814223554FD00820A20 /* DimmableButton.swift in Sources */,
 				569F1816223554FD00820A20 /* SocialMedia.swift in Sources */,
 				C41F17E2224D30E0007758FC /* QTCustomButton.swift in Sources */,
@@ -5147,6 +5170,7 @@
 				5697DD25226F859300AC9775 /* QTInviteOthersConnectTableViewCell.swift in Sources */,
 				569F1885223554FD00820A20 /* ProfileVC.swift in Sources */,
 				569F1886223554FD00820A20 /* EditBillingAddressView.swift in Sources */,
+				4D853D6F230A9BDA00DAC323 /* ChoosePaymentMethodViewController.swift in Sources */,
 				569F1888223554FD00820A20 /* SessionRequestView.swift in Sources */,
 				569F1889223554FD00820A20 /* WalkthroughVC.swift in Sources */,
 				CF6605DF22A096290020A2B7 /* EarningsHistoryTableViewCell.swift in Sources */,
@@ -5535,6 +5559,7 @@
 				CF833B7C207C4BB300323242 /* LearnerUpcomingSessionCell.swift in Sources */,
 				CFA4BB1020B76F18009BC28D /* DimmableButton.swift in Sources */,
 				84DAF6FC2044615A005687F6 /* SocialMedia.swift in Sources */,
+				4D853D74230A9CE100DAC323 /* QTBaseCustomDialog.swift in Sources */,
 				C41F17E1224D2D3A007758FC /* QTCustomButton.swift in Sources */,
 				CFB9B80A21C5C49B0022333F /* EmailVCView.swift in Sources */,
 				CFB9B7F821C23F700022333F /* TutorCardConnectView.swift in Sources */,
@@ -5651,6 +5676,7 @@
 				CF671AD3225EA06800CF4F0A /* LearnerMainPageSuggestionsSectionContainerCell.swift in Sources */,
 				CF2D9774207A828F00914B27 /* AddTutorCell.swift in Sources */,
 				CFEF943F20B3583800413727 /* ImageMessageSender.swift in Sources */,
+				4D853D6E230A9BDA00DAC323 /* ChoosePaymentMethodViewController.swift in Sources */,
 				84C8F5E41FF8997400737A59 /* TextLabel.swift in Sources */,
 				CFEDF90320D57FF100457E77 /* OnlineStatusService.swift in Sources */,
 				CF6605DE22A096150020A2B7 /* EarningsHistoryTableViewCell.swift in Sources */,
