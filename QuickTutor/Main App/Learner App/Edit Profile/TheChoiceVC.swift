@@ -40,6 +40,7 @@ class TheChoiceVC: UIViewController {
                 if let learner = learner {
                     CurrentUser.shared.learner = learner
                     AccountService.shared.currentUserType = .learner
+                    AccountService.shared.loadUser()
                     RootControllerManager.shared.setupLearnerTabBar(controller: LearnerMainPageVC())
                     let endIndex = self.navigationController?.viewControllers.endIndex
                     self.navigationController?.viewControllers.removeFirst(endIndex! - 1)

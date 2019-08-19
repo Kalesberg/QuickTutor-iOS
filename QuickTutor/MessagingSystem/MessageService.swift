@@ -12,14 +12,12 @@ import Firebase
 class MessageService {
     
     static let shared = MessageService()
-    private init() {
-        receiverId = ""
+    var userTypeString: String {
+        return AccountService.shared.currentUserType.rawValue
     }
-    
-    let receiverId: String!
-    let userTypeString = AccountService.shared.currentUserType.rawValue
-    let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
-    
+    var otherUserTypeString: String {
+        return AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
+    }    
     
     func getMessageById(_ messageId: String, completion: @escaping (UserMessage) -> Void) {
         Database.database().reference().child("messages").child(messageId).observeSingleEvent(of: .value) { snapshot in
