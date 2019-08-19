@@ -106,9 +106,6 @@ class QTStartQuickCallViewController: QTSessionBaseViewController, QTStartQuickC
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        self.view.backgroundColor = .clear
-        self.view.isOpaque = false
-        
         setupSocket()
         setupObservers()
         
@@ -173,6 +170,8 @@ class QTStartQuickCallViewController: QTSessionBaseViewController, QTStartQuickC
                 })
             }
         }
+        
+        animateZoomInOut()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -187,17 +186,44 @@ class QTStartQuickCallViewController: QTSessionBaseViewController, QTStartQuickC
         }
     }
     
+    private func animateZoomInOut() {
+        UIView.animate(withDuration: 1.5, animations: {
+            self.avatarImageView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+        }, completion: { _ in
+            UIView.animate(withDuration: 1.5, animations: {
+                self.avatarImageView.transform = .identity
+            }, completion: { _ in
+                self.animateZoomInOut()
+            })
+        })
+    }
+    
+    private func animateRotate(_ sender: UIView?, completion: (() -> Void)? = nil) {
+        UIView.animate(withDuration: 0.2) {
+            sender?.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+        }
+        UIView.animate(withDuration: 0.2, delay: 0.15, options: .curveEaseIn, animations: {
+            sender?.transform = CGAffineTransform(rotationAngle: CGFloat.pi * 2)
+        }, completion: { _ in
+            completion?()
+        })
+    }
+    
     // MARK: - Actions
     @IBAction func onHangUpButtonClicked(_ sender: Any) {
-        socket.emit(SocketEvents.cancelSession, ["roomKey": self.sessionId])
+        animateRotate(sender as? UIView) {
+            self.socket.emit(SocketEvents.cancelSession, ["roomKey": self.sessionId])
+        }
     }
     
     @IBAction func onPickUpButtonClicked(_ sender: Any) {
         guard let session = session else { return }
         
-        removeStartData()
-        let data = ["roomKey": self.sessionId!, "sessionId": self.sessionId!, "sessionType": session.type]
-        socket.emit(SocketEvents.manualStartAccetped, data)
+        animateRotate(sender as? UIView) {
+            self.removeStartData()
+            let data = ["roomKey": self.sessionId!, "sessionId": self.sessionId!, "sessionType": session.type]
+            self.socket.emit(SocketEvents.manualStartAccetped, data)
+        }
     }
     
     // MARK: - Functions

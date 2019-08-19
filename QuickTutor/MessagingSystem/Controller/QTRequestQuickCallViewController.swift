@@ -133,7 +133,7 @@ class QTRequestQuickCallViewController: UIViewController {
         callButton.backgroundColor = Colors.gray
         
         guard let price = tutor.quickCallPrice else { return }
-        quickCallPriceLabel.text = "This tutor’s QuickCall rate is $\(price)/hr."
+        quickCallPriceLabel.text = "\(tutor.firstName ?? "")'s QuickCall rate is $\(price)/hr."
         usernameLabel.text = tutor.formattedName
         ratingView.rating = tutor.tRating
         totalReviewsLabel.text = "\(tutor.reviews?.count ?? 0)"
