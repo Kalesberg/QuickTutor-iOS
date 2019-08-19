@@ -167,7 +167,7 @@ class CloseAccountSubmissionVC: BaseViewController {
                     AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
                 } else {
                     self.dismissOverlay()
-                    CurrentUser.shared.learner.isTutor = false
+                    CurrentUser.shared.learner.hasTutor = false
                     self.navigationController?.pushViewController(LearnerMainPageVC(), animated: true)
                 }
             })
@@ -289,7 +289,7 @@ class CloseAccountSubmissionVC: BaseViewController {
     }
     
     private func removeUser() {
-        if CurrentUser.shared.learner.isTutor == false {
+        if CurrentUser.shared.learner.hasTutor == false {
             self.removeLearner()
         } else {
             if DeleteAccount.type {

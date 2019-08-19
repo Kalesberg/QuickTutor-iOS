@@ -267,7 +267,7 @@ protocol LearnerWasUpdatedCallBack {
 
 class LearnerEditProfileVC: UIViewController {
     
-    var sectionTitles = ["About me", "Private information", "Optional information"]
+    var sectionTitles = ["About me", "Interests", "Private information", "Optional information"]
     var delegate: QTProfileDelegate?
     var firstName: String!
     var lastName: String!
@@ -509,7 +509,7 @@ class LearnerEditProfileVC: UIViewController {
             if let error = error {
                 AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
             } else {
-                if CurrentUser.shared.learner.isTutor {
+                if CurrentUser.shared.learner.hasTutor {
                     if CurrentUser.shared.tutor != nil {
                         CurrentUser.shared.tutor.name = self.firstName + " " + self.lastName
                     }
@@ -557,7 +557,7 @@ class LearnerEditProfileVC: UIViewController {
 extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
+        return 5
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -567,8 +567,10 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
         case 1:
             return 3
         case 2:
-            return 3
+            return 1
         case 3:
+            return 3
+        case 4:
             return 2
         default:
             return 0
@@ -584,6 +586,8 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
         case 2:
             return 75
         case 3:
+            return 75
+        case 4:
             return 75
         default:
             return 75
@@ -639,7 +643,13 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
             default:
                 return UITableViewCell()
             }
-        case 2:
+        case 2: // Manage Interests section
+            let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileCell", for: indexPath) as! EditProfileCell
+            cell.textField.isUserInteractionEnabled = false
+            cell.textField.placeholder.text = "Interests"
+            cell.textField.textField.attributedText = NSAttributedString(string: "Manage Interests", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+            return cell
+        case 3:
             switch indexPath.row {
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileCell", for: indexPath) as! EditProfileCell
@@ -663,7 +673,7 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
             default:
                 return UITableViewCell()
             }
-        case 3:
+        case 4:
             switch indexPath.row {
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileCell", for: indexPath) as! EditProfileCell
@@ -698,6 +708,10 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
         }
         switch indexPath.section {
         case 2:
+            let vc = QTLearnerAddInterestsViewController()
+            vc.isViewing = true
+            navigationController?.pushViewController(vc, animated: true)
+        case 3:
             switch indexPath.item {
             case 0:
                 navigationController?.pushViewController(EditPhoneVC(), animated: true)
@@ -708,7 +722,7 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
             default:
                 break
             }
-        case 3:
+        case 4:
             switch indexPath.item {
             case 0:
                 navigationController?.pushViewController(EditLanguageVC(), animated: true)

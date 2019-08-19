@@ -47,7 +47,7 @@ class QTTutorPolicyViewController: UIViewController {
             if success {
                 self.switchToTutorSide({ success in
                     if success {
-                        CurrentUser.shared.learner.isTutor = true
+                        CurrentUser.shared.learner.hasTutor = true
                         AccountService.shared.currentUserType = .tutor
                         RootControllerManager.shared.setupTutorTabBar(controller: QTTutorDashboardViewController.controller)
                     } else {

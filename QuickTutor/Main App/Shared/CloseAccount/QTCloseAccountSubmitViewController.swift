@@ -153,7 +153,7 @@ class QTCloseAccountSubmitViewController: UIViewController {
     }
     
     private func removeUser() {
-        if CurrentUser.shared.learner.isTutor == false {
+        if CurrentUser.shared.learner.hasTutor == false {
             self.removeLearner()
         } else {
             if closeAccountType == .tutor {
@@ -195,7 +195,7 @@ class QTCloseAccountSubmitViewController: UIViewController {
                 if let error = error {
                     AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
                 } else {
-                    CurrentUser.shared.learner.isTutor = false
+                    CurrentUser.shared.learner.hasTutor = false
                     self.navigationController?.pushViewController(LearnerMainPageVC(), animated: true)
                 }
             })

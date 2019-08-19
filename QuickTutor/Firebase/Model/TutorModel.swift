@@ -90,6 +90,7 @@ class AWTutor: AWLearner {
         self.lReviews = learner.lReviews
         self.lRating = learner.lRating
         self.savedTutorIds = learner.savedTutorIds
+        self.interests = learner.interests
         return self
     }
     

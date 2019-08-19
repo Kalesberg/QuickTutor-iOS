@@ -205,7 +205,7 @@ extension EditSchoolVC: UITableViewDelegate, UITableViewDataSource {
         }
         switch AccountService.shared.currentUserType {
         case .learner:
-            if !CurrentUser.shared.learner.isTutor {
+            if !CurrentUser.shared.learner.hasTutor {
                 FirebaseData.manager.updateValue(node: "student-info", value: ["sch": school]) { error in
                     if let error = error {
                         AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)

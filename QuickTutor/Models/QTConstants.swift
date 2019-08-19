@@ -11,6 +11,8 @@ import UIKit
 class QTConstants {
     static let APP_STORE_URL = "https://apps.apple.com/us/app/quicktutor/id1388092698"
     static let RATE_APP_MESSAGE_LIMIT = 5
+    
+    static let learnerMaxInterests = 12
 }
 
 struct QTUserDefaultsKey {

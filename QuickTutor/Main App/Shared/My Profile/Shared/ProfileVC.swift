@@ -281,7 +281,7 @@ extension ProfileVC: ProfileModeToggleViewDelegate {
     }
     
     func switchToTutor() {        
-        if CurrentUser.shared.learner.isTutor {
+        if CurrentUser.shared.learner.hasTutor {
             displayLoadingOverlay()
             prepareForSwitchToTutor { success in
                 if success {

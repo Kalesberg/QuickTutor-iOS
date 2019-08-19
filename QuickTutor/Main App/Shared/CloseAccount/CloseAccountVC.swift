@@ -298,7 +298,7 @@ class CloseAccountVC: BaseViewController {
     override func handleNavigation() {
         if touchStartView is ProceedButton {
             if AccountService.shared.currentUserType == .learner {
-                if CurrentUser.shared.learner.isTutor {
+                if CurrentUser.shared.learner.hasTutor {
                     navigationController?.pushViewController(CloseAccountChoiceVC(), animated: true)
                 } else {
                     navigationController?.pushViewController(CloseAccountReasonVC(), animated: true)

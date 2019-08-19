@@ -88,7 +88,7 @@ class TutorRegistrationService {
     }
     
     private init() {
-        if CurrentUser.shared.learner.isTutor {
+        if CurrentUser.shared.learner.hasTutor {
             subjects = CurrentUser.shared.tutor.subjects ?? [String]()
         } else {
             subjects = [String]()
