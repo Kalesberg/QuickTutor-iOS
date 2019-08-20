@@ -70,9 +70,19 @@ class AWLearner: User {
         isApplePayDefault = dictionary["isApplePayDefault"] as? Bool ?? true
         
         if let interests = dictionary["interests"] as? [String: Any] {
-            self.interests = interests.compactMap({$0.key})
+            self.interests = interests.compactMap({$0.key}).sorted()
         } else {
             self.interests = nil
+        }
+        
+        if let images = dictionary["img"] as? [String : String] {
+            images.forEach({ (key, value) in
+                self.images[key] = value
+            })
+        }
+        
+        if let avatarUrl = images.filter({!$0.value.isEmpty}).first?.value {
+            profilePicUrl = URL(string: avatarUrl)
         }
     }
     

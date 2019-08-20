@@ -277,7 +277,14 @@ extension ProfileVC: ProfileModeToggleViewDelegate {
     }
     
     func switchToLearner() {
-        RootControllerManager.shared.configureRootViewController(controller: LearnerMainPageVC())
+        if let uid = CurrentUser.shared.tutor.uid {
+            displayLoadingOverlay()
+            FirebaseData.manager.fetchLearner(uid) { (learner) in
+                self.dismissOverlay()
+                CurrentUser.shared.learner = learner
+                RootControllerManager.shared.configureRootViewController(controller: LearnerMainPageVC())
+            }
+        }
     }
     
     func switchToTutor() {        
