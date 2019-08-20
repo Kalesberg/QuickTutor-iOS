@@ -110,7 +110,6 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
     @objc func handleSubjectAdded(_ notification: Notification) {
         showSelectedSubjectsCVIfNeeded(animated: true)
         updateAccessoryViewTextLabel()
-//        selectedSubjectsCV.reloadData()
         let indexPath = IndexPath(item: TutorRegistrationService.shared.subjects.count - 1, section: 0)
         selectedSubjectsCV.insertItems(at: [indexPath])
         selectedSubjectsCV.scrollToItem(at: indexPath, at: .left, animated: true)
@@ -124,6 +123,7 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
         }
         let indexPath = IndexPath(item: removedIndex, section: 0)
         selectedSubjectsCV.deleteItems(at: [indexPath])
+        self.removedIndex = nil
     }
     
     func showSelectedSubjectsCVIfNeeded(animated: Bool) {
