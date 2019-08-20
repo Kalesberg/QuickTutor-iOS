@@ -372,7 +372,7 @@ class QTProfileViewController: UIViewController {
         // Set the avatar of user profile.
         if profileViewType == .tutor || profileViewType == .myTutor {
             lblSubjectTitle.text = "Subjects"
-            UserFetchService.shared.getUserWithId(user.uid, type: .tutor) { (tutor) in
+            UserFetchService.shared.getTutorWithId(uid: user.uid) { (tutor) in
                 self.avatarImageView.sd_setImage(with: tutor?.profilePicUrl)
                 self.user?.profilePicUrl = tutor?.profilePicUrl
                 if let images = tutor?.images {
@@ -382,13 +382,19 @@ class QTProfileViewController: UIViewController {
         } else {
             lblSubjectTitle.text = "Interests"
             lblSubjectTitle.superview?.isHidden = user.interests?.isEmpty ?? true
-            UserFetchService.shared.getUserWithId(user.uid, type: .learner) { (learner) in
+            UserFetchService.shared.getStudentWithId(uid: user.uid) { (learner) in
                 self.avatarImageView.sd_setImage(with: learner?.profilePicUrl)
                 if let url = learner?.profilePicUrl {
                     self.user?.profilePicUrl = url
                 }
                 if let images = learner?.images {
                     self.user.images = images
+                }
+                if let interests = learner?.interests {
+                    self.user.interests = interests
+                    DispatchQueue.main.async {
+                        self.subjectsCollectionView.reloadData()
+                    }
                 }
             }
         }

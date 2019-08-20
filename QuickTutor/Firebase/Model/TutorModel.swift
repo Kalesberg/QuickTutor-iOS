@@ -70,6 +70,18 @@ class AWTutor: AWLearner {
 
         experienceSubject = dictionary["exp-subject"] as? String ?? ""
         experiencePeriod = dictionary["exp-period"] as? Float ?? 0.5
+        
+        if let images = dictionary["img"] as? [String : String] {
+            images.forEach({ (key, value) in
+                self.images[key] = value
+            })
+        }
+        
+        if let avatarUrl = images.filter({!$0.value.isEmpty}).first?.value {
+            profilePicUrl = URL(string: avatarUrl)
+        } else {
+            profilePicUrl = Constants.AVATAR_PLACEHOLDER_URL
+        }
     }
     
     func copy(learner: AWLearner) -> AWTutor {

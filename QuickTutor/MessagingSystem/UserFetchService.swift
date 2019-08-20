@@ -64,6 +64,11 @@ class UserFetchService {
         }
     }
     
+    /**
+     Get a tutor info
+     
+     NOTE: DO NOT use this api if you want to get a full tutor info.
+     */
     func getTutorWithId(_ uid: String, completion: @escaping TutorCompletion) {
         Database.database().reference().child("account").child(uid).observeSingleEvent(of: .value) { snapshot in
             guard let value = snapshot.value as? [String: Any] else {
@@ -82,6 +87,11 @@ class UserFetchService {
         }
     }
     
+    /**
+     Get a learner info
+     
+     NOTE: DO NOT use this api if you want to a get full learner info.
+     */
     func getStudentWithId(_ uid: String, completion: @escaping TutorCompletion) {
         Database.database().reference().child("account").child(uid).observeSingleEvent(of: .value) { snapshot in
             guard let value = snapshot.value as? [String: Any] else {
@@ -123,4 +133,50 @@ class UserFetchService {
         tutor.username = dictionary["nm"] as? String
         return tutor
     }
+    
+    
+    /**
+     Get a full tutor info
+     
+     NOTE: DO use this api if you want to get a full tutor info.
+     */
+    func getTutorWithId(uid: String, completion: @escaping (AWTutor?) -> Void) {
+        Database.database().reference().child("account").child(uid).observeSingleEvent(of: .value) { snapshot in
+            guard let value = snapshot.value as? [String: Any] else {
+                completion(nil)
+                return
+            }
+            Database.database().reference().child("tutor-info").child(uid).observeSingleEvent(of: .value, with: { snapshot2 in
+                guard let value2 = snapshot2.value as? [String: Any] else { return }
+                let finalDict = self.mergeUserDictionaries(value, value2)
+                
+                let tutor = AWTutor(dictionary: finalDict)
+                completion(tutor)
+            })
+        }
+    }
+    
+    /**
+     Get a full learner info
+     
+     NOTE: DO use this api if you want to get a full learner info.
+     */
+    func getStudentWithId(uid: String, completion: @escaping (AWLearner?) -> Void) {
+        Database.database().reference().child("account").child(uid).observeSingleEvent(of: .value) { snapshot in
+            guard let value = snapshot.value as? [String: Any] else {
+                completion(nil)
+                return
+            }
+            Database.database().reference().child("student-info").child(uid).observeSingleEvent(of: .value, with: { snapshot2 in
+                guard let value2 = snapshot2.value as? [String: Any] else {
+                    completion(nil)
+                    return
+                }
+                let finalDict = self.mergeUserDictionaries(value, value2)
+                let learner = AWLearner(dictionary: finalDict)
+                completion(learner)
+            })
+        }
+    }
+    
 }
