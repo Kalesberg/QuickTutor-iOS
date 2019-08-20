@@ -41,7 +41,12 @@ class TutorRegistrationService {
     
     
     func removeSubject(_ subject: String) {
-        subjects = subjects.filter({ $0 != subject})
+        let filteredSubjects = subjects.filter({ $0 != subject})
+        guard !filteredSubjects.isEmpty else {
+            NotificationCenter.default.post(name: Notifications.tutorCannotRemoveSubject.name, object: nil)
+            return
+        }
+        subjects = filteredSubjects
         NotificationCenter.default.post(name: Notifications.tutorDidRemoveSubject.name, object: nil, userInfo: nil)
         if shouldSaveSubjects {
             guard let uid = Auth.auth().currentUser?.uid else { return }

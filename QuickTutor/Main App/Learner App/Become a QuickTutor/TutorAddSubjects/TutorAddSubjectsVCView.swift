@@ -54,6 +54,8 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
     var selectedSubjectsHeightAnchor: NSLayoutConstraint?
     var collectionViewTopAnchor: NSLayoutConstraint?
     
+    private var removedIndex: Int?
+    
     override func setupViews() {
         super.setupViews()
         setupSelectedSubjectsCV()
@@ -99,6 +101,7 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
     }
     
     func setupObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(showAlertPrompt), name: Notifications.tutorCannotRemoveSubject.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleSubjectAdded(_:)), name: Notifications.tutorDidAddSubject.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleSubjectRemoved(_:)), name: Notifications.tutorDidRemoveSubject.name, object: nil)
     }
@@ -107,14 +110,20 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
     @objc func handleSubjectAdded(_ notification: Notification) {
         showSelectedSubjectsCVIfNeeded(animated: true)
         updateAccessoryViewTextLabel()
-        selectedSubjectsCV.reloadData()
-        let indexPath = IndexPath(item: selectedSubjectsCV.numberOfItems(inSection: 0) - 1, section: 0)
+//        selectedSubjectsCV.reloadData()
+        let indexPath = IndexPath(item: TutorRegistrationService.shared.subjects.count - 1, section: 0)
+        selectedSubjectsCV.insertItems(at: [indexPath])
         selectedSubjectsCV.scrollToItem(at: indexPath, at: .left, animated: true)
     }
     
     @objc func handleSubjectRemoved(_ notification: Notification) {
         updateAccessoryViewTextLabel()
-        selectedSubjectsCV.reloadData()
+        guard let removedIndex = self.removedIndex else {
+            selectedSubjectsCV.reloadData()
+            return
+        }
+        let indexPath = IndexPath(item: removedIndex, section: 0)
+        selectedSubjectsCV.deleteItems(at: [indexPath])
     }
     
     func showSelectedSubjectsCVIfNeeded(animated: Bool) {
@@ -146,10 +155,18 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
     func showRemovePromptFor(subject: String) {
         let ac = UIAlertController(title: "Remove subject?", message: nil, preferredStyle: .actionSheet)
         ac.addAction(UIAlertAction(title: "Remove", style: .destructive) { (action) in
+            self.removedIndex = TutorRegistrationService.shared.subjects.firstIndex(of: subject)
             TutorRegistrationService.shared.removeSubject(subject)
         })
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         parentContainerViewController?.present(ac, animated: true, completion: nil)
+    }
+    
+    @objc
+    private func showAlertPrompt () {
+        let alert = UIAlertController(title: "Information", message: "You should have at least one subject", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        parentContainerViewController?.present(alert, animated: true, completion: nil)
     }
 }
 
@@ -191,6 +208,10 @@ extension TutorAddSubjectsVCView: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        showRemovePromptFor(subject: TutorRegistrationService.shared.subjects[indexPath.item])
+        if TutorRegistrationService.shared.subjects.count > 1 {
+            showRemovePromptFor(subject: TutorRegistrationService.shared.subjects[indexPath.item])
+        } else {
+            showAlertPrompt ()
+        }
     }
 }

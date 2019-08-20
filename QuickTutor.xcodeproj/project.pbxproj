@@ -952,6 +952,8 @@
 		C447C7C622F9176100818733 /* UserTextMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C447C7C422F9176100818733 /* UserTextMessageCell.swift */; };
 		C46A2F11224CD309005058B1 /* UserStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46A2F10224CD309005058B1 /* UserStatus.swift */; };
 		C46A2F12224CD309005058B1 /* UserStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46A2F10224CD309005058B1 /* UserStatus.swift */; };
+		C4FA286F230C0DD9003529E9 /* QuickSearchVCViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FA286E230C0DD9003529E9 /* QuickSearchVCViewFlowLayout.swift */; };
+		C4FA2870230C0DD9003529E9 /* QuickSearchVCViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FA286E230C0DD9003529E9 /* QuickSearchVCViewFlowLayout.swift */; };
 		C4FB931E2308E2D90070017B /* QTEditProfileExperienceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FB931C2308E2D90070017B /* QTEditProfileExperienceTableViewCell.swift */; };
 		C4FB931F2308E2D90070017B /* QTEditProfileExperienceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FB931C2308E2D90070017B /* QTEditProfileExperienceTableViewCell.swift */; };
 		C4FB93202308E2D90070017B /* QTEditProfileExperienceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4FB931D2308E2D90070017B /* QTEditProfileExperienceTableViewCell.xib */; };
@@ -1697,6 +1699,7 @@
 		C447C7C422F9176100818733 /* UserTextMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTextMessageCell.swift; sourceTree = "<group>"; };
 		C46A2F10224CD309005058B1 /* UserStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStatus.swift; sourceTree = "<group>"; };
 		C4AE0DF583905E04AFE9A3B4 /* Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutorApp-QuickTutorUITests/Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		C4FA286E230C0DD9003529E9 /* QuickSearchVCViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickSearchVCViewFlowLayout.swift; sourceTree = "<group>"; };
 		C4FB931C2308E2D90070017B /* QTEditProfileExperienceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTEditProfileExperienceTableViewCell.swift; sourceTree = "<group>"; };
 		C4FB931D2308E2D90070017B /* QTEditProfileExperienceTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTEditProfileExperienceTableViewCell.xib; sourceTree = "<group>"; };
 		CF046420206ED3D000BFE898 /* EmptySessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySessionCell.swift; sourceTree = "<group>"; };
@@ -2557,6 +2560,7 @@
 				56BE7E4722CF08790052BBE7 /* QTAllSearchViewController.swift */,
 				56BE7E4D22CF09220052BBE7 /* QTTutorSearchViewController.swift */,
 				56BE7E5322CFA3A60052BBE7 /* QTSubjectSearchViewController.swift */,
+				C4FA286E230C0DD9003529E9 /* QuickSearchVCViewFlowLayout.swift */,
 			);
 			path = SubjectSearch;
 			sourceTree = "<group>";
@@ -4842,6 +4846,7 @@
 				569F1726223554FD00820A20 /* ConversationCell.swift in Sources */,
 				569F1727223554FD00820A20 /* PauseSessionModal.swift in Sources */,
 				569F1728223554FD00820A20 /* EmptyConversationBackground.swift in Sources */,
+				C4FA2870230C0DD9003529E9 /* QuickSearchVCViewFlowLayout.swift in Sources */,
 				569F1729223554FD00820A20 /* LearnerProfilePics.swift in Sources */,
 				569F172A223554FD00820A20 /* VerificationVCView.swift in Sources */,
 				569F172C223554FD00820A20 /* SessionRequestPaymentView.swift in Sources */,
@@ -5353,6 +5358,7 @@
 				84B09D41205050E000BC8F80 /* ChangeEmailVC.swift in Sources */,
 				84E4C7E3204E9425009C2FC4 /* PaymentDeclinedVC.swift in Sources */,
 				84E91B5E205740CC00D1F613 /* SubmissionElements.swift in Sources */,
+				C4FA286F230C0DD9003529E9 /* QuickSearchVCViewFlowLayout.swift in Sources */,
 				84E91B64205761A600D1F613 /* TutorLateVC.swift in Sources */,
 				84CE13FA217CED8B005A1B2C /* TutorCardTutorial.swift in Sources */,
 				84F141A3207F0D7B003D3193 /* IntExtensions.swift in Sources */,

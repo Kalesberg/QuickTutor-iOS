@@ -502,6 +502,13 @@ class TutorAddSubjectsResultsVC: UIViewController {
         present(ac, animated: true, completion: nil)
     }
     
+    /*@objc
+    private func showAlertRemoveSubject (_ notification: Notification) {
+        let alert = UIAlertController (title: "You should have at least one subject", message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }*/
+    
     @objc
     private func addSubject (_ notification: Notification) {
         guard selectedSubjectIndex > -1,
@@ -581,15 +588,6 @@ extension TutorAddSubjectsResultsVC: UICollectionViewDataSource, UICollectionVie
                 TutorRegistrationService.shared.removeSubject(currentSubjects[indexPath.item])
             }
         }
-        
-        /*cell.selectionView.isHidden = !cell.selectionView.isHidden
-        if cell.selectionView.isHidden {
-            TutorRegistrationService.shared.removeSubject(currentSubjects[indexPath.item])
-            cell.titleLabel.textColor = .white
-        } else {
-            TutorRegistrationService.shared.addSubject(currentSubjects[indexPath.item])
-            cell.titleLabel.textColor = Colors.purple
-        }*/
     }
 }
 

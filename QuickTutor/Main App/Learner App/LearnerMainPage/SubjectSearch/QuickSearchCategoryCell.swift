@@ -81,14 +81,6 @@ extension QuickSearchCategoryCell: UICollectionViewDataSource, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        guard indexPath.item < 2 else {
-//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! QuickSearchSubcategoryCell
-//            cell.titleLabel.text = "More"
-//            cell.backgroundColor = Colors.newScreenBackground
-//            cell.layer.borderColor = Colors.gray.cgColor
-//            cell.layer.borderWidth = 1
-//            return cell
-//        }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! QuickSearchSubcategoryCell
         let sortedSubCategories = category?.subcategory.subcategories.sorted(by: { $0.title < $1.title })
         cell.titleLabel.text = sortedSubCategories?[indexPath.item].title
@@ -98,19 +90,10 @@ extension QuickSearchCategoryCell: UICollectionViewDataSource, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let height: CGFloat = 35
         let width = category?.subcategory.subcategories[indexPath.item].title.estimateFrameForFontSize(12, extendedWidth: true).width ?? 0
-//        if indexPath.item == 2 {
-//            width = 25
-//        }
         return CGSize(width: width + 40, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        if !showingAllSubcategories && indexPath.item == 2 {
-//            showingAllSubcategories = true
-//            collectionView.reloadData()
-//            updateCollectionViewHeight()
-//            return
-//        }
         let title = category?.subcategory.subcategories[indexPath.item].title ?? "none"
         let index = IndexPath(item: indexPath.item, section: tag)
         delegate?.quickSearchCategoryCell(self, didSelect: title, at: index)
