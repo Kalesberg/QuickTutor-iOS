@@ -79,6 +79,8 @@ class AWTutor: AWLearner {
         
         if let avatarUrl = images.filter({!$0.value.isEmpty}).first?.value {
             profilePicUrl = URL(string: avatarUrl)
+        } else {
+            profilePicUrl = Constants.AVATAR_PLACEHOLDER_URL
         }
     }
     
