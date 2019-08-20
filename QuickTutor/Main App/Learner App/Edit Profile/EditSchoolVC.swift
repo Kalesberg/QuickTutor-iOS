@@ -11,10 +11,7 @@ import UIKit
 
 class EditSchoolVC: UIViewController {
     
-    @IBOutlet weak var searchView: UIStackView!
-    @IBOutlet weak var searchTextField: UITextField!
-    @IBOutlet weak var spaceView: UIView!
-    @IBOutlet weak var closeButton: UIButton!
+    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     
     var school: String?
@@ -36,7 +33,7 @@ class EditSchoolVC: UIViewController {
             tableView.reloadData()
         }
     }
-
+    
     var automaticScroll: Bool = false
 
     override func viewDidLoad() {
@@ -45,13 +42,22 @@ class EditSchoolVC: UIViewController {
         loadListOfSchools()
         
         setupViews()
-        hideKeyboardWhenTappedAround()
+//        hideKeyboardWhenTappedAround()
+        
+        // add notifications
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow (_:)),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide (_:)),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: false)
-        
         hideTabBar(hidden: true)
     }
     
@@ -62,38 +68,20 @@ class EditSchoolVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        searchTextField.becomeFirstResponder()
     }
     
-    func setupNavBar() {
+    private func setupNavBar() {
         navigationItem.title = "Edit School"
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
-    func setupViews() {
-        /*searchView.layer.applyShadow(color: UIColor(red: 21/255, green: 21/255, blue: 30/255, alpha: 1.0).cgColor,
-                                      opacity: 1,
-                                      offset: CGSize(width: 0, height: 10),
-                                      radius: 10)*/
-        setupSearchField()
+    private func setupViews() {
+        setupSearchController()
         setupTableView()
-        closeButton.superview?.isHidden = school?.isEmpty ?? true
-        spaceView.isHidden = !(school?.isEmpty ?? true)
     }
     
-    func setupSearchField() {
-        searchTextField.layer.cornerRadius = 5
-        searchTextField.backgroundColor = .black
-        let searchImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 30, height: 15))
-        searchImageView.alpha = 0.5
-        searchImageView.image = UIImage(named: "searchIcon")
-        searchImageView.contentMode = .scaleAspectFit
-        searchTextField.leftView = searchImageView
-        searchTextField.leftViewMode = .always
-        
-        searchTextField.addTarget(self, action: #selector(handleSearchTextFieldChange(_:)), for: .editingChanged)
-        searchTextField.attributedPlaceholder = NSAttributedString(string: "Search for a school", attributes: [.foregroundColor : Colors.grayText80])
-        searchTextField.text = school
+    private func setupSearchController () {
+        searchBar.delegate = self
     }
     
     func setupTableView() {
@@ -102,13 +90,10 @@ class EditSchoolVC: UIViewController {
         tableView.separatorColor = UIColor.clear
     }
     
-    @IBAction func onCloseButtonClicked(_ sender: Any) {
-        searchTextField.text = ""
-        closeButton.superview?.isHidden = true
-        spaceView.isHidden = false
-    }
-
     @objc func displaySavedAlertController() {
+        
+        searchBar.resignFirstResponder()
+        
         let alertController = UIAlertController(title: "Saved!", message: "Your changes have been saved", preferredStyle: .alert)
 
         present(alertController, animated: true, completion: nil)
@@ -116,26 +101,15 @@ class EditSchoolVC: UIViewController {
         let when = DispatchTime.now() + 1
         DispatchQueue.main.asyncAfter(deadline: when) {
             alertController.dismiss(animated: true) {
+                if #available(iOS 11.0, *) {
+                    self.navigationItem.searchController = nil
+                    self.navigationItem.hidesSearchBarWhenScrolling = true
+                }
                 self.navigationController?.popViewController(animated: true)
             }
         }
     }
     
-    @objc
-    func handleSearchTextFieldChange(_ textField: UITextField) {
-        guard let searchText = textField.text, !searchText.isEmpty else {
-            closeButton.superview?.isHidden = true
-            spaceView.isHidden = false
-            tableView.reloadData()
-            return
-        }
-        
-        filterContentForSearchText(searchText)
-        
-        closeButton.superview?.isHidden = false
-        spaceView.isHidden = true
-    }
-
     private func scrollToTop() {
         tableView.reloadData()
         let indexPath = IndexPath(row: 0, section: 0)
@@ -163,13 +137,26 @@ class EditSchoolVC: UIViewController {
     }
     
     private func isSearchTextFieldEmpty() -> Bool {
-        return searchTextField.text?.isEmpty ?? true
+        return searchBar.text?.isEmpty ?? true
     }
     
     private func filterContentForSearchText(_ searchText: String, scope: String = "All") {
         filteredSchools = schoolArray.filter({( school : String) -> Bool in
             return school.lowercased().contains(searchText.lowercased())
         })
+    }
+    
+    // MARK: - Notification Handler
+    @objc
+    private func keyboardWillShow (_ notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            tableView.contentInset = UIEdgeInsets (top: 0.0, left: 0.0, bottom: keyboardFrame.cgRectValue.height, right: 0.0)
+        }
+    }
+    
+    @objc
+    private func keyboardWillHide (_ notification: Notification) {
+        tableView.contentInset = UIEdgeInsets (top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
     }
 }
 
@@ -262,5 +249,25 @@ extension EditSchoolVC: UIScrollViewDelegate {
         if !automaticScroll {
             view.endEditing(true)
         }
+    }
+}
+
+extension EditSchoolVC: UISearchBarDelegate {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = nil
+        searchBar.resignFirstResponder()
+        filterContentForSearchText("")
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        filterContentForSearchText(searchText)
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = true
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
     }
 }

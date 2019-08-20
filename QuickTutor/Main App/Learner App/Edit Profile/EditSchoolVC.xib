@@ -9,18 +9,10 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="Lato-Regular.ttf">
-            <string>Lato-Regular</string>
-        </array>
-    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditSchoolVC" customModule="QuickTutor" customModuleProvider="target">
             <connections>
-                <outlet property="closeButton" destination="gub-9B-p46" id="8VR-qW-7NY"/>
-                <outlet property="searchTextField" destination="XjA-es-vmg" id="NhN-kL-b8s"/>
-                <outlet property="searchView" destination="J3B-NN-hIj" id="kab-Qt-Sf3"/>
-                <outlet property="spaceView" destination="mnD-yO-qA6" id="LFH-B6-gBc"/>
+                <outlet property="searchBar" destination="AQT-XQ-5OP" id="Gk2-5p-bvU"/>
                 <outlet property="tableView" destination="Hd2-bq-Go1" id="aRd-XU-lbj"/>
                 <outlet property="view" destination="5c4-9E-inR" id="9Gp-1d-8Yi"/>
             </connections>
@@ -30,98 +22,32 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hJU-X3-FSt">
-                    <rect key="frame" x="0.0" y="20" width="375" height="1"/>
-                    <color key="backgroundColor" red="0.17254901959999999" green="0.17254901959999999" blue="0.2274509804" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="1" id="hca-oY-Moz"/>
-                    </constraints>
-                </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Hd2-bq-Go1">
-                    <rect key="frame" x="0.0" y="91" width="375" height="576"/>
+                    <rect key="frame" x="0.0" y="76" width="375" height="591"/>
                     <color key="backgroundColor" red="0.10588235294117647" green="0.10588235294117647" blue="0.14901960784313725" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="qlS-0u-Zbu"/>
                         <outlet property="delegate" destination="-1" id="INP-52-cWM"/>
                     </connections>
                 </tableView>
-                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J3B-NN-hIj">
-                    <rect key="frame" x="0.0" y="20" width="375" height="71"/>
-                    <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M6o-zT-NPj">
-                            <rect key="frame" x="0.0" y="0.0" width="299" height="71"/>
-                            <subviews>
-                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search for a school" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XjA-es-vmg">
-                                    <rect key="frame" x="20" y="18" width="279" height="35"/>
-                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="35" id="Mvw-cP-2te"/>
-                                    </constraints>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="17"/>
-                                    <textInputTraits key="textInputTraits" textContentType="location"/>
-                                </textField>
-                            </subviews>
-                            <color key="backgroundColor" red="0.082352941176470587" green="0.082352941176470587" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <constraints>
-                                <constraint firstItem="XjA-es-vmg" firstAttribute="leading" secondItem="M6o-zT-NPj" secondAttribute="leading" constant="20" id="9l8-gZ-Tg7"/>
-                                <constraint firstAttribute="trailing" secondItem="XjA-es-vmg" secondAttribute="trailing" id="sJk-U4-hrx"/>
-                                <constraint firstItem="XjA-es-vmg" firstAttribute="centerY" secondItem="M6o-zT-NPj" secondAttribute="centerY" id="vHe-Rx-Cif"/>
-                            </constraints>
-                        </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mnD-yO-qA6">
-                            <rect key="frame" x="299" y="0.0" width="20" height="71"/>
-                            <color key="backgroundColor" red="0.08235294118" green="0.08235294118" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="20" id="Ngz-d1-oVe"/>
-                            </constraints>
-                        </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VhY-hM-Utf">
-                            <rect key="frame" x="319" y="0.0" width="56" height="71"/>
-                            <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gub-9B-p46">
-                                    <rect key="frame" x="8" y="15.5" width="40" height="40"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="40" id="fUb-7g-CwV"/>
-                                        <constraint firstAttribute="width" constant="40" id="kt2-sn-CxA"/>
-                                    </constraints>
-                                    <state key="normal" image="ic_close"/>
-                                    <connections>
-                                        <action selector="onCloseButtonClicked:" destination="-1" eventType="touchUpInside" id="5Rn-Yv-lHV"/>
-                                    </connections>
-                                </button>
-                            </subviews>
-                            <color key="backgroundColor" red="0.082352941176470587" green="0.082352941176470587" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <constraints>
-                                <constraint firstItem="gub-9B-p46" firstAttribute="centerY" secondItem="VhY-hM-Utf" secondAttribute="centerY" id="F2R-dN-bqQ"/>
-                                <constraint firstItem="gub-9B-p46" firstAttribute="leading" secondItem="VhY-hM-Utf" secondAttribute="leading" constant="8" id="Xey-vb-O00"/>
-                                <constraint firstAttribute="trailing" secondItem="gub-9B-p46" secondAttribute="trailing" constant="8" id="fwc-gT-AO6"/>
-                                <constraint firstAttribute="height" constant="71" id="zbd-sd-IVP"/>
-                            </constraints>
-                        </view>
-                    </subviews>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="71" id="XLf-wD-Px1"/>
-                    </constraints>
-                </stackView>
+                <searchBar contentMode="redraw" barStyle="black" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="AQT-XQ-5OP">
+                    <rect key="frame" x="0.0" y="20" width="375" height="56"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="barTintColor" red="0.08235294118" green="0.08235294118" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <textInputTraits key="textInputTraits"/>
+                </searchBar>
             </subviews>
             <color key="backgroundColor" red="0.082352941176470587" green="0.082352941176470587" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
             <constraints>
-                <constraint firstItem="J3B-NN-hIj" firstAttribute="width" secondItem="5c4-9E-inR" secondAttribute="width" id="59f-LY-Xna"/>
-                <constraint firstItem="Hd2-bq-Go1" firstAttribute="centerX" secondItem="3DG-5J-Udj" secondAttribute="centerX" id="9sR-ry-JcQ"/>
-                <constraint firstItem="J3B-NN-hIj" firstAttribute="top" secondItem="3DG-5J-Udj" secondAttribute="top" id="BZ7-dq-Kdw"/>
-                <constraint firstItem="hJU-X3-FSt" firstAttribute="centerX" secondItem="3DG-5J-Udj" secondAttribute="centerX" id="MPY-qG-A9I"/>
-                <constraint firstItem="Hd2-bq-Go1" firstAttribute="width" secondItem="5c4-9E-inR" secondAttribute="width" id="odx-1j-Rdx"/>
-                <constraint firstItem="Hd2-bq-Go1" firstAttribute="top" secondItem="J3B-NN-hIj" secondAttribute="bottom" id="ok1-kz-9lK"/>
-                <constraint firstItem="J3B-NN-hIj" firstAttribute="centerX" secondItem="3DG-5J-Udj" secondAttribute="centerX" id="rKY-W3-GHB"/>
-                <constraint firstItem="3DG-5J-Udj" firstAttribute="bottom" secondItem="Hd2-bq-Go1" secondAttribute="bottom" id="wLg-4z-JCI"/>
-                <constraint firstItem="hJU-X3-FSt" firstAttribute="width" secondItem="5c4-9E-inR" secondAttribute="width" id="wdR-hg-Sh4"/>
-                <constraint firstItem="3DG-5J-Udj" firstAttribute="top" secondItem="hJU-X3-FSt" secondAttribute="top" id="y6h-3o-add"/>
+                <constraint firstItem="AQT-XQ-5OP" firstAttribute="top" secondItem="3DG-5J-Udj" secondAttribute="top" id="3gL-wF-Unw"/>
+                <constraint firstItem="Hd2-bq-Go1" firstAttribute="top" secondItem="AQT-XQ-5OP" secondAttribute="bottom" id="5wI-qL-Rmd"/>
+                <constraint firstItem="AQT-XQ-5OP" firstAttribute="centerX" secondItem="3DG-5J-Udj" secondAttribute="centerX" id="6se-Tb-qYX"/>
+                <constraint firstItem="3DG-5J-Udj" firstAttribute="bottom" secondItem="Hd2-bq-Go1" secondAttribute="bottom" id="Doy-F8-QKG"/>
+                <constraint firstItem="AQT-XQ-5OP" firstAttribute="width" secondItem="5c4-9E-inR" secondAttribute="width" id="Ybe-11-Y90"/>
+                <constraint firstItem="Hd2-bq-Go1" firstAttribute="leading" secondItem="3DG-5J-Udj" secondAttribute="leading" id="c2E-NB-FWV"/>
+                <constraint firstItem="Hd2-bq-Go1" firstAttribute="trailing" secondItem="3DG-5J-Udj" secondAttribute="trailing" id="fpH-yQ-tT1"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="3DG-5J-Udj"/>
         </view>
     </objects>
-    <resources>
-        <image name="ic_close" width="15" height="15"/>
-    </resources>
 </document>

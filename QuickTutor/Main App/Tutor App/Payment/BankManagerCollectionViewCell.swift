@@ -29,6 +29,7 @@ class BankManagerCollectionViewCell: SwipeCollectionViewCell {
         let label = UILabel()
         label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.5
         label.font = Fonts.createBlackSize(14)
         label.textColor = .white
         return label
@@ -38,6 +39,7 @@ class BankManagerCollectionViewCell: SwipeCollectionViewCell {
         let label = UILabel()
         label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.5
         label.font = Fonts.createBlackSize(14)
         label.textColor = .white
         return label
