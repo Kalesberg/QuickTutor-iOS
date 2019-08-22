@@ -10,6 +10,7 @@ import UIKit
 
 protocol ImageMessageCellDelegate {
     func handleZoomFor(imageView: UIImageView, scrollDelegate: UIScrollViewDelegate, zoomableView: ((UIImageView) -> ())?)
+    func messageCell (_ cell: ImageMessageCell, didTapImage imageUrl: String?)
 }
 
 class ImageMessageCell: UserMessageCell {
@@ -43,7 +44,8 @@ class ImageMessageCell: UserMessageCell {
     override func setupViews() {
         super.setupViews()
         setupImageView()
-        addZoomGestureRecognizer()
+//        addZoomGestureRecognizer()
+        addTapGestureRecognizer ()
     }
 
     override func setupBubbleViewAsSentMessage() {
@@ -66,10 +68,20 @@ class ImageMessageCell: UserMessageCell {
         imageView.addGestureRecognizer(tap)
     }
 
+    private func addTapGestureRecognizer() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(onTapImage))
+        imageView.addGestureRecognizer(tap)
+    }
+
     @objc func handleZoom() {
         delegate?.handleZoomFor(imageView: imageView, scrollDelegate: self, zoomableView: { (zoomableView) in
             self.zoomableView = zoomableView
         })
+    }
+    
+    @objc
+    private func onTapImage () {
+        delegate?.messageCell(self, didTapImage: userMessage?.imageUrl)
     }
 }
 

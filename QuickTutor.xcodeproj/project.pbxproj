@@ -952,6 +952,10 @@
 		C447C7C622F9176100818733 /* UserTextMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C447C7C422F9176100818733 /* UserTextMessageCell.swift */; };
 		C46A2F11224CD309005058B1 /* UserStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46A2F10224CD309005058B1 /* UserStatus.swift */; };
 		C46A2F12224CD309005058B1 /* UserStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46A2F10224CD309005058B1 /* UserStatus.swift */; };
+		C4E6B746230DC50A0085898B /* QTChatVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E6B744230DC50A0085898B /* QTChatVideoViewController.swift */; };
+		C4E6B747230DC50A0085898B /* QTChatVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E6B744230DC50A0085898B /* QTChatVideoViewController.swift */; };
+		C4E6B748230DC50A0085898B /* QTChatVideoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4E6B745230DC50A0085898B /* QTChatVideoViewController.xib */; };
+		C4E6B749230DC50A0085898B /* QTChatVideoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4E6B745230DC50A0085898B /* QTChatVideoViewController.xib */; };
 		C4FA286F230C0DD9003529E9 /* QuickSearchVCViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FA286E230C0DD9003529E9 /* QuickSearchVCViewFlowLayout.swift */; };
 		C4FA2870230C0DD9003529E9 /* QuickSearchVCViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FA286E230C0DD9003529E9 /* QuickSearchVCViewFlowLayout.swift */; };
 		C4FB931E2308E2D90070017B /* QTEditProfileExperienceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FB931C2308E2D90070017B /* QTEditProfileExperienceTableViewCell.swift */; };
@@ -1699,6 +1703,8 @@
 		C447C7C422F9176100818733 /* UserTextMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTextMessageCell.swift; sourceTree = "<group>"; };
 		C46A2F10224CD309005058B1 /* UserStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStatus.swift; sourceTree = "<group>"; };
 		C4AE0DF583905E04AFE9A3B4 /* Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutorApp-QuickTutorUITests/Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		C4E6B744230DC50A0085898B /* QTChatVideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTChatVideoViewController.swift; sourceTree = "<group>"; };
+		C4E6B745230DC50A0085898B /* QTChatVideoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTChatVideoViewController.xib; sourceTree = "<group>"; };
 		C4FA286E230C0DD9003529E9 /* QuickSearchVCViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickSearchVCViewFlowLayout.swift; sourceTree = "<group>"; };
 		C4FB931C2308E2D90070017B /* QTEditProfileExperienceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTEditProfileExperienceTableViewCell.swift; sourceTree = "<group>"; };
 		C4FB931D2308E2D90070017B /* QTEditProfileExperienceTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTEditProfileExperienceTableViewCell.xib; sourceTree = "<group>"; };
@@ -3517,6 +3523,8 @@
 				CFEF943E20B3583800413727 /* ImageMessageSender.swift */,
 				CF5D06DE224B170B00270115 /* LearnerTabBarController.swift */,
 				CF5D06E0224B172700270115 /* TutorTabBarController.swift */,
+				C4E6B744230DC50A0085898B /* QTChatVideoViewController.swift */,
+				C4E6B745230DC50A0085898B /* QTChatVideoViewController.xib */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -4057,6 +4065,7 @@
 				93F61E362275250700298B77 /* BankInfoModal.xib in Resources */,
 				569F18EE223554FD00820A20 /* loading2.json in Resources */,
 				56BE7E4522CF06BD0052BBE7 /* QTQuickSearchViewController.xib in Resources */,
+				C4E6B749230DC50A0085898B /* QTChatVideoViewController.xib in Resources */,
 				569F18EF223554FD00820A20 /* background.mp3 in Resources */,
 				4D853D71230A9BDA00DAC323 /* ChoosePaymentMethodViewController.xib in Resources */,
 				93C102862278F77D004B9F0D /* RegistrationSSNModal.xib in Resources */,
@@ -4174,6 +4183,7 @@
 				93F61E352275250700298B77 /* BankInfoModal.xib in Resources */,
 				840E4E03213761C10045CD35 /* loading2.json in Resources */,
 				56BE7E4322CF06900052BBE7 /* QTQuickSearchViewController.xib in Resources */,
+				C4E6B748230DC50A0085898B /* QTChatVideoViewController.xib in Resources */,
 				CFA0096E2139FFCE00F81EE4 /* background.mp3 in Resources */,
 				4D853D70230A9BDA00DAC323 /* ChoosePaymentMethodViewController.xib in Resources */,
 				93C102852278F77D004B9F0D /* RegistrationSSNModal.xib in Resources */,
@@ -4245,11 +4255,13 @@
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManager/IQKeyboardManager.framework",
 				"${BUILT_PRODUCTS_DIR}/Imaginary/Imaginary.framework",
+				"${BUILT_PRODUCTS_DIR}/MobilePlayer/MobilePlayer.framework",
 				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
 				"${BUILT_PRODUCTS_DIR}/PlaceholderTextView/PlaceholderTextView.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/RangeSeekSlider/RangeSeekSlider.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SKPhotoBrowser/SKPhotoBrowser.framework",
 				"${BUILT_PRODUCTS_DIR}/SkeletonView/SkeletonView.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Socket.IO-Client-Swift/SocketIO.framework",
@@ -4285,11 +4297,13 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManager.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Imaginary.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MobilePlayer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PlaceholderTextView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RangeSeekSlider.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SKPhotoBrowser.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SkeletonView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketIO.framework",
@@ -4669,11 +4683,13 @@
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManager/IQKeyboardManager.framework",
 				"${BUILT_PRODUCTS_DIR}/Imaginary/Imaginary.framework",
+				"${BUILT_PRODUCTS_DIR}/MobilePlayer/MobilePlayer.framework",
 				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
 				"${BUILT_PRODUCTS_DIR}/PlaceholderTextView/PlaceholderTextView.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/RangeSeekSlider/RangeSeekSlider.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SKPhotoBrowser/SKPhotoBrowser.framework",
 				"${BUILT_PRODUCTS_DIR}/SkeletonView/SkeletonView.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Socket.IO-Client-Swift/SocketIO.framework",
@@ -4709,11 +4725,13 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManager.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Imaginary.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MobilePlayer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PlaceholderTextView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RangeSeekSlider.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SKPhotoBrowser.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SkeletonView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketIO.framework",
@@ -4899,6 +4917,7 @@
 				569F1757223554FD00820A20 /* AddTimeModal.swift in Sources */,
 				569F1759223554FD00820A20 /* TutorSubjectSearch.swift in Sources */,
 				569F175A223554FD00820A20 /* BaseSessionRequestViewSection.swift in Sources */,
+				C4E6B747230DC50A0085898B /* QTChatVideoViewController.swift in Sources */,
 				569F175B223554FD00820A20 /* TutorCardReviewsView.swift in Sources */,
 				569F175C223554FD00820A20 /* MessagingSystemToggleCell.swift in Sources */,
 				BEC6987B229E4C9A00F970EE /* CVVModal.swift in Sources */,
@@ -5411,6 +5430,7 @@
 				569ECDC521FA9476005491CB /* UIFontExtensions.swift in Sources */,
 				CF0711072117B09A0035A6FF /* EventManager.swift in Sources */,
 				84A6E46E218F68B600D03681 /* TutorSubcategory.swift in Sources */,
+				C4E6B746230DC50A0085898B /* QTChatVideoViewController.swift in Sources */,
 				CFD92A6B222F24B200704531 /* HeaderView.swift in Sources */,
 				CF5BFB052155B19100FB8DD6 /* InAppNotificationView.swift in Sources */,
 				BEC6987A229E4C9A00F970EE /* CVVModal.swift in Sources */,

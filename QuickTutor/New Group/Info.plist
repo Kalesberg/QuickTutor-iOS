@@ -88,6 +88,8 @@
 	<string>For displaying users accurately according to their in-app location setting.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>For video sessions</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>To save media and files</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To chose a profile picture</string>
 	<key>UIAppFonts</key>

@@ -34,6 +34,7 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
         let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         ac.addAction(UIAlertAction(title: "Take Photo/Video", style: .default) { _ in
             self.imagePicker.sourceType = .camera
+            self.imagePicker.videoQuality = .typeHigh
             self.parentViewController.present(self.imagePicker, animated: true, completion: nil)
         })
         ac.addAction(UIAlertAction(title: "Choose Media", style: .default) { _ in
@@ -64,7 +65,7 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
 
     func uploadImageToFirebase(image: UIImage, completion: @escaping(URL) -> Void) {
         parentViewController.dismiss(animated: true, completion: nil)
-        guard let data = image.jpegData(compressionQuality: 0.2) else {
+        guard let data = image.jpegData(compressionQuality: 0.7) else {
             return
         }
         let imageName = NSUUID().uuidString

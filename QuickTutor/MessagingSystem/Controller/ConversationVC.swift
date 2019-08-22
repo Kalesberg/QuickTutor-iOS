@@ -19,6 +19,8 @@ import MobileCoreServices
 import QuickLook
 import Cosmos
 import SnapKit
+import SKPhotoBrowser
+
 
 enum QTConnectionStatus: String {
     case pending, declined, accepted, expired
@@ -788,7 +790,7 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
         switch message.type {
         case .image:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ImageMessageCell
-            cell.delegate = imageMessageAnimator
+            cell.delegate = self//imageMessageAnimator
             cell.updateUI(message: message)
             cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
             return cell
@@ -873,13 +875,16 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let userMessage = conversationManager.messages[indexPath.item] as? UserMessage else { return }
-        if let videoUrl = userMessage.videoUrl {
-            let player = AVPlayer(url: URL(string: videoUrl)!)
+        if let videoUrl = userMessage.videoUrl, let url = URL(string: videoUrl) {
+            /*let player = AVPlayer(url: URL(string: videoUrl)!)
             let vc = AVPlayerViewController()
             vc.player = player
             present(vc, animated: true) {
                 vc.player?.play()
-            }
+            }*/
+            let videoVC = QTChatVideoViewController.new(messageId: userMessage.uid, videoUrl: url)
+            present(videoVC, animated: true, completion: nil)
+            
         } else if let fileDownloadUrl = userMessage.documenUrl {
             guard let url = URL(string: fileDownloadUrl) else { return }
             documentUploadManager?.displayFileAtUrl(url, fromViewController: self)
@@ -897,7 +902,23 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
             }
         }
     }
+}
+
+extension ConversationVC: ImageMessageCellDelegate {
+    func handleZoomFor(imageView: UIImageView, scrollDelegate: UIScrollViewDelegate, zoomableView: ((UIImageView) -> ())?) {}
     
+    func messageCell(_ cell: ImageMessageCell, didTapImage imageUrl: String?) {
+        guard let url = imageUrl else { return }
+
+        let photo = SKPhoto.photoWithImageURL(url)
+        photo.shouldCachePhotoURLImage = true
+        
+        SKPhotoBrowserOptions.displayCounterLabel = false
+        SKPhotoBrowserOptions.displayBackAndForwardButton = false
+        let photoBrowser = SKPhotoBrowser(photos: [photo])
+        photoBrowser.initializePageIndex(0)
+        present(photoBrowser, animated: true, completion: nil)
+    }
 }
 
 // MARK: - ConversationManagerDelegate

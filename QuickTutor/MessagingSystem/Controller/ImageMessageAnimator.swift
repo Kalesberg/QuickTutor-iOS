@@ -90,7 +90,7 @@ class ImageMessageAnimator: ImageMessageCellDelegate {
             self.delegate?.imageAnimatorDidZoomIn(self)
         }.startAnimation()
     }
-
+    
     @objc func zoomOut() {
         delegate?.imageAnimatorWillZoomOut(self)
         guard let startingFrame = imageCellImageView!.superview?.convert(imageCellImageView!.frame, to: nil) else { return }
@@ -120,4 +120,6 @@ class ImageMessageAnimator: ImageMessageCellDelegate {
     init(parentViewController: UIViewController) {
         parentController = parentViewController
     }
+    
+    func messageCell(_ cell: ImageMessageCell, didTapImage imageUrl: String?) {}
 }

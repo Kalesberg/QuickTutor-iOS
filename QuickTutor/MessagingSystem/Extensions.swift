@@ -9,6 +9,8 @@
 import UIKit
 import CoreLocation
 import StoreKit
+import SKPhotoBrowser
+
 
 protocol UpdatedTutorCallBack: class {
     func tutorWasUpdated(tutor: AWTutor!)
@@ -499,3 +501,25 @@ extension UITapGestureRecognizer {
     }
     
 }
+
+/*class QTImageCache: SKImageCacheable {
+    var cache: ImageCache
+    
+    init() {
+        let cache = ImageCache.default
+        self.cache = cache
+    }
+    
+    func imageForKey(_ key: String) -> UIImage? {
+        guard let image = cache.retrieveImageInMemoryCache(forKey: key) else {return nil}
+        return image
+    }
+    
+    func setImage(_ image: UIImage, forKey key: String) {
+        cache.store(image, forKey: key)
+    }
+    
+    func removeAllImages() {}
+    
+    func removeImageForKey(_ key: String) {}
+}*/

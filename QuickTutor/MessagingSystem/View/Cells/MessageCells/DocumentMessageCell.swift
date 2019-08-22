@@ -53,5 +53,7 @@ class DocumentMessageCell: UserMessageCell {
         fileNameLabel.text = fileName
         
         bubbleView.backgroundColor = Colors.newScreenBackground
+        bubbleView.layer.borderColor = Colors.purple.cgColor
+        bubbleView.layer.borderWidth = 0.5
     }
 }
