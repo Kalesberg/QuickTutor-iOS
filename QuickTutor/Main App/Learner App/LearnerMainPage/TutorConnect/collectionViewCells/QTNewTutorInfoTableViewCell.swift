@@ -23,14 +23,14 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
         iv.clipsToBounds = true
         iv.contentMode = .scaleAspectFill
         iv.isSkeletonable = true
-        iv.layer.cornerRadius = 25
+        iv.layer.cornerRadius = 27
         
         return iv
     }()
     
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createBoldSize(17)
+        label.font = Fonts.createBoldSize(14)
         label.textColor = UIColor.white
         label.isSkeletonable = true
         label.linesCornerRadius = 4
@@ -40,8 +40,8 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
     
     let hourlyRateLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createSize(17)
-        label.textColor = .white
+        label.font = Fonts.createSize(14)
+        label.textColor = UIColor.white.withAlphaComponent(0.8)
         label.isSkeletonable = true
         label.linesCornerRadius = 4
         
@@ -59,7 +59,7 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
     
     let ratingLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createSize(17)
+        label.font = Fonts.createSize(12)
         label.textColor = Colors.purple
         label.isSkeletonable = true
         label.linesCornerRadius = 4
@@ -77,7 +77,7 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
     
     let ratingCaptionLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createSize(17)
+        label.font = Fonts.createSize(12)
         label.textColor = Colors.purple
         label.text = "Rating"
         
@@ -86,7 +86,7 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
     
     let subjectsLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createMediumSize(17)
+        label.font = Fonts.createMediumSize(12)
         label.textColor = .white
         label.numberOfLines = 0
         
@@ -96,7 +96,7 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
     func setupProfileImageView() {
         contentView.addSubview(profileImageView)
         
-        profileImageView.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: nil, right: nil, paddingTop: 22, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 50, height: 50)
+        profileImageView.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: nil, right: nil, paddingTop: 22, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 54, height: 54)
     }
     
     func setupNameLabel() {
@@ -115,7 +115,7 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
     func setupStackView() {
         contentView.addSubview(stackView)
         
-        stackView.anchor(top: nameLabel.bottomAnchor, left: nameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 7, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        stackView.anchor(top: nameLabel.bottomAnchor, left: nameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 2, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         stackView.rightAnchor.constraint(lessThanOrEqualTo: contentView.rightAnchor, constant: -20).isActive = true
     }
     
@@ -137,7 +137,7 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
     func setupSubjectsLabel() {
         contentView.addSubview(subjectsLabel)
         
-        subjectsLabel.anchor(top: stackView.bottomAnchor, left: nameLabel.leftAnchor, bottom: contentView.bottomAnchor, right: contentView.rightAnchor, paddingTop: 7, paddingLeft: 0, paddingBottom: 20, paddingRight: 20, width: 0, height: 0)
+        subjectsLabel.anchor(top: stackView.bottomAnchor, left: nameLabel.leftAnchor, bottom: contentView.bottomAnchor, right: contentView.rightAnchor, paddingTop: 2, paddingLeft: 0, paddingBottom: 20, paddingRight: 20, width: 0, height: 0)
     }
     
     func setupViews() {
