@@ -343,7 +343,7 @@ extension TutorEditProfileVC: UITextFieldDelegate {
 
 extension TutorEditProfileVC: RangeSeekSliderDelegate {
     func rangeSeekSlider(_ slider: RangeSeekSlider, stringForMaxValue maxValue: CGFloat) -> String? {
-        return maxValue < 1 ? "6 months" : "\(Int(maxValue)) years"
+        return maxValue < 1 ? "6 mo" : "\(Int(maxValue)) years"
     }
     
     func rangeSeekSlider(_ slider: RangeSeekSlider, didChange minValue: CGFloat, maxValue: CGFloat) {
@@ -575,6 +575,8 @@ class LearnerEditProfileVC: UIViewController {
     }
 
     @objc func saveChanges() {
+        view.endEditing(true)
+        
         if (firstName ?? "").isEmpty || (lastName ?? "").isEmpty {
             AlertController.genericErrorAlert(self, title: "Invalid Name", message: "Your first and last name must contain at least 1 character.")
             return

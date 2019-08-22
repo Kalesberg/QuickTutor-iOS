@@ -834,7 +834,7 @@ class QTProfileViewController: UIViewController {
     
     func updateExperience (_ tutor: AWTutor) {
         experienceLabel.superview?.isHidden = false
-        guard let subject = tutor.experienceSubject else {
+        guard let subject = tutor.experienceSubject, !subject.isEmpty else {
             experienceLabel.superview?.isHidden = true
             return
         }
@@ -842,7 +842,7 @@ class QTProfileViewController: UIViewController {
         if let period = tutor.experiencePeriod, period >= 1 {
             experienceLabel.text = "\(Int(period)) Years Experience in \(subject)"
         } else {
-            experienceLabel.text = "6 Months Experience in \(subject)"
+            experienceLabel.text = "6 mo Experience in \(subject)"
         }
     }
     

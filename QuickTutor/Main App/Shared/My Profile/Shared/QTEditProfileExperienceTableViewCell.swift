@@ -27,13 +27,13 @@ class QTEditProfileExperienceTableViewCell: UITableViewCell {
         periodSlider.disableRange = true
         periodSlider.minValue = 0.5
         periodSlider.maxValue = 20
-        periodSlider.lineHeight = 4
+        periodSlider.lineHeight = 8
         periodSlider.tintColor = Colors.gray
         periodSlider.colorBetweenHandles = Colors.purple
         periodSlider.handleColor = Colors.purple
-        periodSlider.handleDiameter = 10
+        periodSlider.handleDiameter = 20
         periodSlider.maxLabelColor = UIColor.white.withAlphaComponent(0.5)
-        periodSlider.maxLabelFont = Fonts.createBoldSize(10)
+        periodSlider.maxLabelFont = Fonts.createBoldSize(12)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
