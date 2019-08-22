@@ -164,7 +164,7 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
     
     @objc
     private func showAlertPrompt () {
-        let alert = UIAlertController(title: "Information", message: "You should have at least one subject", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Attention!", message: "You should have at least one subject", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         parentContainerViewController?.present(alert, animated: true, completion: nil)
     }
