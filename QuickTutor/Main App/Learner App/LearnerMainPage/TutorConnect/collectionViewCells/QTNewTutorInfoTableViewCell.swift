@@ -23,14 +23,14 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
         iv.clipsToBounds = true
         iv.contentMode = .scaleAspectFill
         iv.isSkeletonable = true
-        iv.layer.cornerRadius = 22
+        iv.layer.cornerRadius = 25
         
         return iv
     }()
     
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createBoldSize(14)
+        label.font = Fonts.createBoldSize(17)
         label.textColor = UIColor.white
         label.isSkeletonable = true
         label.linesCornerRadius = 4
@@ -40,7 +40,7 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
     
     let hourlyRateLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createSize(14)
+        label.font = Fonts.createSize(17)
         label.textColor = .white
         label.isSkeletonable = true
         label.linesCornerRadius = 4
@@ -59,7 +59,7 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
     
     let ratingLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createSize(12)
+        label.font = Fonts.createSize(17)
         label.textColor = Colors.purple
         label.isSkeletonable = true
         label.linesCornerRadius = 4
@@ -77,7 +77,7 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
     
     let ratingCaptionLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createSize(12)
+        label.font = Fonts.createSize(17)
         label.textColor = Colors.purple
         label.text = "Rating"
         
@@ -86,7 +86,7 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
     
     let subjectsLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createMediumSize(12)
+        label.font = Fonts.createMediumSize(17)
         label.textColor = .white
         label.numberOfLines = 0
         
@@ -96,7 +96,7 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
     func setupProfileImageView() {
         contentView.addSubview(profileImageView)
         
-        profileImageView.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: nil, right: nil, paddingTop: 22, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 44, height: 44)
+        profileImageView.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: nil, right: nil, paddingTop: 22, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 50, height: 50)
     }
     
     func setupNameLabel() {
@@ -108,7 +108,8 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
     func setupHorlyRateLabel() {
         contentView.addSubview(hourlyRateLabel)
         
-        hourlyRateLabel.anchor(top: profileImageView.topAnchor, left: nameLabel.rightAnchor, bottom: nil, right: contentView.rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
+        hourlyRateLabel.anchor(top: profileImageView.topAnchor, left: nil, bottom: nil, right: contentView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
+        hourlyRateLabel.rightAnchor.constraint(greaterThanOrEqualTo: nameLabel.rightAnchor, constant: 8).isActive = true
     }
     
     func setupStackView() {
@@ -118,15 +119,15 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
         stackView.rightAnchor.constraint(lessThanOrEqualTo: contentView.rightAnchor, constant: -20).isActive = true
     }
     
-    func setupRatingLabel() {
-        stackView.addArrangedSubview(ratingLabel)
-    }
-    
     func setupRatingImageView() {
         stackView.addArrangedSubview(ratingImageView)
         
         ratingImageView.widthAnchor.constraint(equalToConstant: 12).isActive = true
         ratingImageView.heightAnchor.constraint(equalToConstant: 12).isActive = true
+    }
+    
+    func setupRatingLabel() {
+        stackView.addArrangedSubview(ratingLabel)
     }
     
     func setupRatingCaptionLabel() {
@@ -147,8 +148,8 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
         setupNameLabel()
         setupHorlyRateLabel()
         setupStackView()
-        setupRatingLabel()
         setupRatingImageView()
+        setupRatingLabel()
         setupRatingCaptionLabel()
         setupSubjectsLabel()
         

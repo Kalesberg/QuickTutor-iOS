@@ -318,19 +318,14 @@ class CategorySearchVC: UIViewController {
     
     func setupTutorsTableView() {
         view.addSubview(tutorsTableView)
-        tutorsTableView.snp.makeConstraints { make in
-            make.top.equalTo(view.snp.topMargin)
-            make.bottom.equalTo(view.snp.bottomMargin)
-            make.left.equalTo(view.snp.leftMargin)
-            make.right.equalTo(view.snp.rightMargin)
-        }
+        tutorsTableView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
         tutorsTableView.register(QTNewTutorInfoTableViewCell.self, forCellReuseIdentifier: QTNewTutorInfoTableViewCell.reuseIdentifier)
         tutorsTableView.register(QTNewTutorLoadMoreTableViewCell.self, forCellReuseIdentifier: QTNewTutorLoadMoreTableViewCell.reuseIdentifier)
         tutorsTableView.estimatedRowHeight = 102
         tutorsTableView.rowHeight = UITableView.automaticDimension
         
-        tutorsTableView.separatorColor = Colors.purple
+        tutorsTableView.separatorColor = Colors.gray
         tutorsTableView.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         let footerView = UIView(frame: .zero)
         footerView.backgroundColor = .clear
@@ -342,6 +337,9 @@ class CategorySearchVC: UIViewController {
         tutorsTableView.refreshControl = refreshControl
         refreshControl.tintColor = Colors.purple
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        
+        tutorsTableView.showsVerticalScrollIndicator = false
+        tutorsTableView.showsHorizontalScrollIndicator = false
     }
     
     func setupSuggestionTableView() {
@@ -367,6 +365,9 @@ class CategorySearchVC: UIViewController {
         suggestionTableView.separatorStyle = .none
         suggestionTableView.delegate = self
         suggestionTableView.dataSource = self
+        
+        suggestionTableView.showsHorizontalScrollIndicator = false
+        suggestionTableView.showsVerticalScrollIndicator = false
     }
     
     func setupMaskView() {
@@ -938,7 +939,13 @@ extension CategorySearchVC: UITableViewDataSource {
                 let cell = tutorsTableView.dequeueReusableCell(withIdentifier: QTNewTutorInfoTableViewCell.reuseIdentifier, for: indexPath) as! QTNewTutorInfoTableViewCell
                 cell.updateUI(filteredDatasource[indexPath.item])
                 cell.selectionStyle = .none
-                cell.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+                if indexPath.row == filteredDatasource.count - 1 {
+                    let width = UIScreen.main.bounds.width
+                    cell.separatorInset = UIEdgeInsets(top: 0, left: width, bottom: 0, right: 0)
+                } else {
+                    cell.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+                }
+                
                 return cell
             }
         } else {
