@@ -47,7 +47,7 @@
                 <outlet property="lateFeeLabel" destination="IzK-UI-gic" id="Z6O-h7-L9c"/>
                 <outlet property="latePolicyLabel" destination="H6G-6l-Rwh" id="VBx-te-n2s"/>
                 <outlet property="lblBottomUserName" destination="32Q-Iw-Nbg" id="bm1-J7-uvO"/>
-                <outlet property="lblSubjectTitle" destination="ynF-SV-YAc" id="DWF-Gr-du0"/>
+                <outlet property="lblSubjectTitle" destination="DoI-QO-BGa" id="WYf-R3-d0k"/>
                 <outlet property="numberOfReviewsLabel" destination="GKh-AL-yOi" id="AHc-IF-rIz"/>
                 <outlet property="policiesView" destination="Z9V-UR-w87" id="EpJ-qI-rmW"/>
                 <outlet property="ratingLabel" destination="CC5-9W-O72" id="YnA-6j-O3g"/>
@@ -379,8 +379,14 @@
                                         <view contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="PNR-86-e08" userLabel="Bio View">
                                             <rect key="frame" x="0.0" y="74" width="335" height="192"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="752" verticalCompressionResistancePriority="752" text="Bio" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LDk-HM-G0q">
-                                                    <rect key="frame" x="0.0" y="0.0" width="335" height="192"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="About" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ynF-SV-YAc">
+                                                    <rect key="frame" x="0.0" y="0.0" width="49.5" height="22"/>
+                                                    <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="18"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Bio" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LDk-HM-G0q">
+                                                    <rect key="frame" x="0.0" y="30" width="335" height="162"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="16"/>
                                                     <color key="textColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -389,10 +395,13 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ynF-SV-YAc" secondAttribute="trailing" id="3fX-YR-gGe"/>
                                                 <constraint firstAttribute="bottom" secondItem="LDk-HM-G0q" secondAttribute="bottom" id="5hE-Df-OLD"/>
                                                 <constraint firstAttribute="trailing" secondItem="LDk-HM-G0q" secondAttribute="trailing" id="BQM-KA-Ldw"/>
-                                                <constraint firstItem="LDk-HM-G0q" firstAttribute="top" secondItem="PNR-86-e08" secondAttribute="top" id="UtM-n9-Xy5"/>
+                                                <constraint firstItem="ynF-SV-YAc" firstAttribute="top" secondItem="PNR-86-e08" secondAttribute="top" id="d0d-Fe-fB9"/>
+                                                <constraint firstItem="LDk-HM-G0q" firstAttribute="top" secondItem="ynF-SV-YAc" secondAttribute="bottom" constant="8" id="e81-Bx-eHq"/>
                                                 <constraint firstItem="LDk-HM-G0q" firstAttribute="leading" secondItem="PNR-86-e08" secondAttribute="leading" id="nwK-9E-aCg"/>
+                                                <constraint firstItem="ynF-SV-YAc" firstAttribute="leading" secondItem="PNR-86-e08" secondAttribute="leading" id="qgG-OC-17Y"/>
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hQC-DY-rFI" userLabel="Experience View">
@@ -423,10 +432,10 @@
                                         </view>
                                     </subviews>
                                 </stackView>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hNc-wO-D3u">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qk7-6j-5UN">
                                     <rect key="frame" x="0.0" y="499" width="335" height="128"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Topics" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ynF-SV-YAc">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Topics" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DoI-QO-BGa">
                                             <rect key="frame" x="0.0" y="0.0" width="50" height="128"/>
                                             <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="18"/>
                                             <color key="textColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
@@ -435,10 +444,10 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
-                                        <constraint firstItem="ynF-SV-YAc" firstAttribute="centerY" secondItem="hNc-wO-D3u" secondAttribute="centerY" id="8dl-v6-949"/>
-                                        <constraint firstItem="ynF-SV-YAc" firstAttribute="height" secondItem="hNc-wO-D3u" secondAttribute="height" id="aJb-UC-dcS"/>
-                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ynF-SV-YAc" secondAttribute="trailing" id="dBe-w2-vBc"/>
-                                        <constraint firstItem="ynF-SV-YAc" firstAttribute="leading" secondItem="hNc-wO-D3u" secondAttribute="leading" id="tRB-Mn-47g"/>
+                                        <constraint firstItem="DoI-QO-BGa" firstAttribute="centerY" secondItem="Qk7-6j-5UN" secondAttribute="centerY" id="4Bz-yn-iTV"/>
+                                        <constraint firstItem="DoI-QO-BGa" firstAttribute="height" secondItem="Qk7-6j-5UN" secondAttribute="height" id="R8f-Bj-eZb"/>
+                                        <constraint firstItem="DoI-QO-BGa" firstAttribute="leading" secondItem="Qk7-6j-5UN" secondAttribute="leading" id="pdu-dC-j5I"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="DoI-QO-BGa" secondAttribute="trailing" id="pqU-I9-doh"/>
                                     </constraints>
                                 </view>
                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="255" verticalHuggingPriority="255" horizontalCompressionResistancePriority="752" verticalCompressionResistancePriority="752" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="uR5-Kl-tlZ">
