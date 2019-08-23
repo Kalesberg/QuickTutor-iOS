@@ -23,18 +23,14 @@ class QTProfileViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
-    @IBOutlet weak var moreButtonsView: UIView!
     @IBOutlet weak var statusImageView: QTCustomImageView!
-    @IBOutlet weak var saveButton: UIButton!
-    @IBOutlet weak var messageButton: UIButton!
     @IBOutlet weak var ratingStarImageView: UIImageView!
     @IBOutlet weak var ratingLabel: UILabel!
+    
+    @IBOutlet weak var btnQuickCall: UIButton!
+    
     @IBOutlet weak var lblSubjectTitle: UILabel!
     @IBOutlet weak var topSubjectLabel: UILabel!
-    @IBOutlet weak var statisticStackView: UIStackView!
-    @IBOutlet weak var numberOfLearnersLabel: UILabel!
-    @IBOutlet weak var numberOfSessionsLabel: UILabel!
-    @IBOutlet weak var numberOfSubjectsLabel: UILabel!
     @IBOutlet weak var addressView: UIView!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var languageView: UIView!
@@ -60,11 +56,13 @@ class QTProfileViewController: UIViewController {
     @IBOutlet weak var cancellationPolicyLabel: UILabel!
     @IBOutlet weak var cancellationFeeLabel: UILabel!
     @IBOutlet weak var connectView: UIView!
+    
+    // bottom bar
+    @IBOutlet weak var imgBottomUser: UIImageView!
+    @IBOutlet weak var lblBottomUserName: UILabel!
     @IBOutlet weak var ratingView: CosmosView!
     @IBOutlet weak var numberOfReviewsLabel: UILabel!
     @IBOutlet weak var connectButton: UIButton!
-    @IBOutlet weak var rateLabel: UILabel!
-    @IBOutlet weak var quickCallButton: QTCustomButton!
     
     static var controller: QTProfileViewController {
         return QTProfileViewController(nibName: String(describing: QTProfileViewController.self), bundle: nil)
@@ -77,6 +75,8 @@ class QTProfileViewController: UIViewController {
     let locationManager = CLLocationManager()
     var currentLocation: CLLocation?
     var isPresentedFromSessionScreen = false
+    
+    private var btnSave: UIButton!
     
     enum QTConnectionStatus {
         case connected, pending, none
@@ -114,6 +114,11 @@ class QTProfileViewController: UIViewController {
                 navigationItem.largeTitleDisplayMode = .never
             }
         }
+        
+        btnSave = UIButton(type: .custom)
+        btnSave.setImage(UIImage(named: "heartIcon"), for: .normal)
+        btnSave.setImage(UIImage(named: "heartIconFilled"), for: .selected)
+        btnSave.addTarget(self, action: #selector(onClickBtnSaveTutor), for: .touchUpInside)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -168,13 +173,13 @@ class QTProfileViewController: UIViewController {
         locationManager.startUpdatingLocation()
     }
     
-    // MARK: - Actions
-    @IBAction func onSaveButtonClicked(_ sender: Any) {
+    @objc private func onClickBtnSaveTutor() {
         guard let uid = Auth.auth().currentUser?.uid, let tutorId = user.uid, uid != tutorId else { return }
         let savedTutorIds = CurrentUser.shared.learner.savedTutorIds
         savedTutorIds.contains(tutorId) ? unsaveTutor() : saveTutor()
     }
     
+    // MARK: - Actions
     @IBAction func onMessageButtonClicked(_ sender: Any) {
         let vc = ConversationVC()
         vc.receiverId = user.uid
@@ -238,6 +243,10 @@ class QTProfileViewController: UIViewController {
         let controller = QTRequestQuickCallViewController.controller
         controller.tutor = user
         navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    @IBAction func onClickBtnConnected(_ sender: Any) {
+        handleMoreButtonClicked()
     }
     
     @objc
@@ -361,6 +370,7 @@ class QTProfileViewController: UIViewController {
         if profileViewType == .tutor || profileViewType == .myTutor {
             UserFetchService.shared.getUserWithId(user.uid, type: .tutor) { (tutor) in
                 self.avatarImageView.sd_setImage(with: tutor?.profilePicUrl)
+                self.imgBottomUser.sd_setImage(with: tutor?.profilePicUrl)
                 self.user?.profilePicUrl = tutor?.profilePicUrl
                 if let images = tutor?.images {
                     self.user.images = images
@@ -370,6 +380,7 @@ class QTProfileViewController: UIViewController {
             lblSubjectTitle.superview?.isHidden = true
             UserFetchService.shared.getUserWithId(user.uid, type: .learner) { (learner) in
                 self.avatarImageView.sd_setImage(with: learner?.profilePicUrl)
+                self.imgBottomUser.sd_setImage(with: learner?.profilePicUrl)
                 if let url = learner?.profilePicUrl {
                     self.user?.profilePicUrl = url
                 }
@@ -388,38 +399,47 @@ class QTProfileViewController: UIViewController {
         
         // User name
         usernameLabel.text = user.formattedName
+        lblBottomUserName.text = user.formattedName
         
         showSchool(user: user)
         showLanguage(user: user)
         
         switch profileViewType {
         case .tutor:
-            moreButtonsView.isHidden = false
-            statisticStackView.isHidden = false
-            saveButton.isHidden = false
+//            saveButton.isHidden = false
+            let subjectsCount = user.subjects?.count ?? 0
             if subject?.isEmpty ?? true {
                 if let featuredSubject = user.featuredSubject, !featuredSubject.isEmpty {
                     // Set the featured subject.
                     subject = featuredSubject
-                    self.topSubjectLabel.text = featuredSubject.capitalizingFirstLetter()
+                    if 1 < subjectsCount {
+                        topSubjectLabel.text = "Teaches \(featuredSubject.capitalizingFirstLetter())\n& \(subjectsCount - 1) other subjects."
+                    } else {
+                        topSubjectLabel.text = "Teaches \(featuredSubject.capitalizingFirstLetter())."
+                    }
                 } else {
                     // Set the first subject
                     subject = user.subjects?.first
                     if let subject = subject {
-                        self.topSubjectLabel.text = subject.capitalizingFirstLetter()
+                        if 1 < subjectsCount {
+                            topSubjectLabel.text = "Teaches \(subject.capitalizingFirstLetter())\n& \(subjectsCount - 1) other subjects."
+                        } else {
+                            topSubjectLabel.text = "Teaches \(subject.capitalizingFirstLetter())."
+                        }
                     }
-                    self.topSubjectLabel.isHidden = subject?.isEmpty ?? true
+                    topSubjectLabel.superview?.isHidden = subject?.isEmpty ?? true
                 }
             } else {
-                topSubjectLabel.isHidden = subject?.isEmpty ?? true
+                topSubjectLabel.superview?.isHidden = subject?.isEmpty ?? true
                 if let subject = subject {
-                    topSubjectLabel.text = subject.capitalizingFirstLetter()
+                    if 1 < subjectsCount {
+                        topSubjectLabel.text = "Teaches \(subject.capitalizingFirstLetter())\n& \(subjectsCount - 1) other subjects."
+                    } else {
+                        topSubjectLabel.text = "Teaches \(subject.capitalizingFirstLetter())."
+                    }
                 }
             }
             ratingLabel.text = "\(String(describing: user.tRating ?? 5.0))"
-            numberOfLearnersLabel.text = "\(user.learners.count)"
-            numberOfSessionsLabel.text = "\(user.tNumSessions ?? 0)"
-            numberOfSubjectsLabel.text = "\(user.subjects?.count ?? 0)"
             addressView.isHidden = false
             distanceView.isHidden = true
             // Set address
@@ -433,42 +453,37 @@ class QTProfileViewController: UIViewController {
             
             // If a tutor visits an another tutor's profile, hide message and more icons.
             if AccountService.shared.currentUserType == UserType.tutor {
-                moreButtonsView.isHidden = true
-                
                 navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_share"),
                                                                     style: .plain,
                                                                     target: self,
                                                                     action: #selector(handleShareProfileButtonClicked))
             } else {
-                navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_dots_horizontal"), style: .plain, target: self, action: #selector(handleMoreButtonClicked))
+                navigationItem.rightBarButtonItems = [
+                    UIBarButtonItem(image: UIImage(named: "ic_dots_horizontal"), style: .plain, target: self, action: #selector(handleMoreButtonClicked)),
+                    UIBarButtonItem(customView: btnSave)
+                ]
             }
             
             //Update saved button
             let savedTutorIds = CurrentUser.shared.learner.savedTutorIds
-            savedTutorIds.contains(user.uid) ? saveButton.setImage(UIImage(named:"heartIconFilled"), for: .normal) : saveButton.setImage(UIImage(named:"heartIcon"), for: .normal)
+            btnSave.isSelected = savedTutorIds.contains(user.uid)
             
         case .learner:
-            moreButtonsView.isHidden = false
-            statisticStackView.isHidden = true
-            topSubjectLabel.isHidden = true
+            topSubjectLabel.superview?.isHidden = true
             ratingLabel.text = "\(String(describing: user.lRating ?? 5.0))"
             addressView.isHidden = false
             addressLabel.text = "United States"
             distanceView.isHidden = true
             
             updateBioLabel(bio: user.bio)
-            
+            btnQuickCall.isHidden = true
             navigationItem.title = user.formattedName
             
             // If a learner visits an another learner's profile, hide message and more icons.
-            if AccountService.shared.currentUserType == UserType.learner {
-                moreButtonsView.isHidden = true
-            } else {
-                navigationItem.rightBarButtonItem = UIBarButtonItem.init(image: UIImage(named: "ic_dots_horizontal"), style: .plain, target: self, action: #selector(handleMoreButtonClicked))
+            if AccountService.shared.currentUserType != UserType.learner {
+                navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_dots_horizontal"), style: .plain, target: self, action: #selector(handleMoreButtonClicked))
             }
         case .myTutor:
-            moreButtonsView.isHidden = true
-            statisticStackView.isHidden = true
             if subject?.isEmpty ?? true {
                 if let featuredSubject = user.featuredSubject, !featuredSubject.isEmpty {
                     // Set the featured subject.
@@ -480,10 +495,10 @@ class QTProfileViewController: UIViewController {
                     if let subject = subject {
                         self.topSubjectLabel.text = subject.capitalizingFirstLetter()
                     }
-                    self.topSubjectLabel.isHidden = subject?.isEmpty ?? true
+                    self.topSubjectLabel.superview?.isHidden = subject?.isEmpty ?? true
                 }
             } else {
-                topSubjectLabel.isHidden = subject?.isEmpty ?? true
+                topSubjectLabel.superview?.isHidden = subject?.isEmpty ?? true
                 if let subject = subject {
                     topSubjectLabel.text = subject.capitalizingFirstLetter()
                 }
@@ -508,9 +523,7 @@ class QTProfileViewController: UIViewController {
                                 action: #selector(handleShareProfileButtonClicked))
             ]
         case .myLearner:
-            moreButtonsView.isHidden = true
-            statisticStackView.isHidden = true
-            topSubjectLabel.isHidden = true
+            topSubjectLabel.superview?.isHidden = true
             ratingLabel.text = "\(String(describing: user.lRating ?? 5.0))"
             addressView.isHidden = false
             addressLabel.text = "United States"
@@ -531,7 +544,7 @@ class QTProfileViewController: UIViewController {
     func saveTutor() {
         guard let uid = Auth.auth().currentUser?.uid, let tutorId = user.uid else { return }
         Database.database().reference().child("saved-tutors").child(uid).child(tutorId).setValue(1)
-        saveButton.setImage(UIImage(named: "heartIconFilled"), for: .normal)
+        btnSave.isSelected = true
         CurrentUser.shared.learner.savedTutorIds.append(tutorId)
         NotificationCenter.default.post(name: NotificationNames.SavedTutors.didUpdate, object: nil)
     }
@@ -539,7 +552,7 @@ class QTProfileViewController: UIViewController {
     func unsaveTutor() {
         guard let uid = Auth.auth().currentUser?.uid, let tutorId = user.uid else { return }
         Database.database().reference().child("saved-tutors").child(uid).child(tutorId).removeValue()
-        saveButton.setImage(UIImage(named: "heartIcon"), for: .normal)
+        btnSave.isSelected = false
         CurrentUser.shared.learner.savedTutorIds.removeAll(where: { (id) -> Bool in
             return id == tutorId
         })
@@ -596,10 +609,11 @@ class QTProfileViewController: UIViewController {
             self.reviewsHeight = self.getHeightOfReviews(reviews: user.reviews ?? [Review]())
             let numberOfReviews = user.reviews?.count ?? 0
             if numberOfReviews == 0 {
-                readAllReviewLabel.text = "No Reviews Yet!"
-                readReviewsButton.isEnabled = false;
-                readReviewsButton.backgroundColor = Colors.gray;
+                reviewsStackView.isHidden = true
+                ratingView.superview?.isHidden = true
             } else {
+                reviewsStackView.isHidden = false
+                ratingView.superview?.isHidden = false
                 readAllReviewLabel.text = "Read all \(numberOfReviews) \(numberOfReviews > 1 ? " reviews" : " review")"
             }
         } else {
@@ -607,10 +621,11 @@ class QTProfileViewController: UIViewController {
             let numberOfReviews = user.lReviews?.count ?? 0
             self.reviewsHeight = self.getHeightOfReviews(reviews: user.lReviews ?? [Review]())
             if numberOfReviews == 0 {
-                readAllReviewLabel.text = "No Reviews Yet!"
-                readReviewsButton.isEnabled = false;
-                readReviewsButton.backgroundColor = Colors.gray;
+                reviewsStackView.isHidden = true
+                ratingView.superview?.isHidden = true
             } else {
+                reviewsStackView.isHidden = false
+                ratingView.superview?.isHidden = false
                 readAllReviewLabel.text = "Read all \(numberOfReviews) \(numberOfReviews > 1 ? " reviews" : " review")"
             }
         }
@@ -672,8 +687,6 @@ class QTProfileViewController: UIViewController {
             setupTutorInfoObserver(tutorId: opponentId)
             
             connectView.isHidden = false
-            guard let price = user.price else { return }
-            rateLabel.text = "$\(price) per hour"
             ratingView.rating = user.tRating
             
             numberOfReviewsLabel.text = "\(user.reviews?.count ?? 0)"
@@ -831,6 +844,7 @@ class QTProfileViewController: UIViewController {
             self.connectButton.isEnabled = true
             if connected {
                 self.connectionStatus = .connected
+                self.btnQuickCall.superview?.isHidden = false
                 self.connectButton.setTitle("Book Now", for: .normal)
             } else {
                 self.checkConnectionRequestStatus(userId: uid,

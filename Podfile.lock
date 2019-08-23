@@ -1,5 +1,5 @@
 PODS:
-  - AccountKit (5.3.0)
+  - AccountKit (5.4.0)
   - ActiveLabel (1.0.1)
   - Alamofire (4.8.2)
   - Bolts (1.9.0):
@@ -73,7 +73,7 @@ PODS:
     - GoogleUtilities/Network (~> 5.2)
     - "GoogleUtilities/NSData+zlib (~> 5.2)"
     - nanopb (~> 0.3)
-  - FirebaseAnalyticsInterop (1.3.0)
+  - FirebaseAnalyticsInterop (1.4.0)
   - FirebaseAuth (5.4.2):
     - FirebaseAuthInterop (~> 1.0)
     - FirebaseCore (~> 5.2)
@@ -165,7 +165,7 @@ PODS:
   - Imaginary (4.2.0):
     - Cache (~> 5.0)
   - IQKeyboardManager (6.4.0)
-  - leveldb-library (1.20)
+  - leveldb-library (1.22)
   - lottie-ios (2.5.3)
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
@@ -178,7 +178,7 @@ PODS:
   - SDWebImage (4.4.7):
     - SDWebImage/Core (= 4.4.7)
   - SDWebImage/Core (4.4.7)
-  - SkeletonView (1.7)
+  - SkeletonView (1.8)
   - SnapKit (4.0.1)
   - Socket.IO-Client-Swift (13.1.3):
     - Starscream (~> 3.0.2)
@@ -187,7 +187,7 @@ PODS:
   - SwiftKeychainWrapper (3.4.0)
   - SwiftyJSON (4.2.0)
   - SwipeCellKit (2.6.0)
-  - TwilioVideo (2.10.0)
+  - TwilioVideo (2.10.1)
   - TYPagerController (2.1.2)
 
 DEPENDENCIES:
@@ -292,7 +292,7 @@ SPEC REPOS:
     - TYPagerController
 
 SPEC CHECKSUMS:
-  AccountKit: a196a15d284a5f21137f20bae9db84c90489a8e7
+  AccountKit: ab476b54fd1255bc24ca96060692af0e1019e777
   ActiveLabel: b8b2396fe25308d563601437d6605bf691c3b5db
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
@@ -312,7 +312,7 @@ SPEC CHECKSUMS:
   Firebase: 0c8cf33f266410c61ab3e2265cfa412200351d9c
   FirebaseABTesting: 1f50b8d50f5e3469eea54e7463a7b7fe221d1f5e
   FirebaseAnalytics: ece1aa57a4f43c64d53a648b5a5e05151aae947b
-  FirebaseAnalyticsInterop: 0f250d71e8741352407a8db351e6de78c5c56d35
+  FirebaseAnalyticsInterop: d48b6ab67bcf016a05e55b71fc39c61c0cb6b7f3
   FirebaseAuth: dd7bbf03a5aee0eafb3a1aee4d2812bd74bac890
   FirebaseAuthInterop: 0ffa57668be100582bb7643d4fcb7615496c41fc
   FirebaseCore: f1a9a8be1aee4bf71a2fc0f4096df6788bdfda61
@@ -332,14 +332,14 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
   Imaginary: dae33d06dbc2ada22f98afef5eb45cc061311a2c
   IQKeyboardManager: fcef267266379c003181fc3592f6bdb8bf4db839
-  leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
+  leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   lottie-ios: a50d5c0160425cd4b01b852bb9578963e6d92d31
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   ObjectMapper: 70187b8941977c62ccfb423caf6b50be405cabf0
   PlaceholderTextView: ffca9f176be00ab3090e2191e6908dabf3dbdada
   Protobuf: 1097ca58584c8d9be81bfbf2c5ff5975648dd87a
   SDWebImage: c10d14a8883ebd89664f02a422006f66a85c0c5d
-  SkeletonView: 7d7378731b708f8a6e6b1ffefb68cc3903f10a03
+  SkeletonView: c0717eaa2423d6fe1d684fad17b157ea7800f443
   SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
   Socket.IO-Client-Swift: d30d6fd08a38ad2a182b090936a043bf512ab2de
   Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
@@ -347,7 +347,7 @@ SPEC CHECKSUMS:
   SwiftKeychainWrapper: 6fc49fbf7d4a6b0772917acb0e53a1639f6078d6
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
   SwipeCellKit: 935ca28c187ec6e1ffb2b578cf8ddca842bfdcbb
-  TwilioVideo: e4bd16d69c395fa093636bc9c09a654570578a32
+  TwilioVideo: 4a2235d7b3810fe072383e507dab7fdc93f62320
   TYPagerController: 262556ecef99986d26ed77fb1288a198ed42f4af
 
 PODFILE CHECKSUM: 896bb3546ce58d000e857d121529a168bea87210
