@@ -23,14 +23,14 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
         iv.clipsToBounds = true
         iv.contentMode = .scaleAspectFill
         iv.isSkeletonable = true
-        iv.layer.cornerRadius = 27
+        iv.layer.cornerRadius = 30
         
         return iv
     }()
     
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createBoldSize(14)
+        label.font = Fonts.createBoldSize(16)
         label.textColor = UIColor.white
         label.isSkeletonable = true
         label.linesCornerRadius = 4
@@ -40,7 +40,7 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
     
     let hourlyRateLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createSize(14)
+        label.font = Fonts.createSize(16)
         label.textColor = UIColor.white.withAlphaComponent(0.8)
         label.isHidden = true
         
@@ -60,7 +60,7 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
     
     let ratingLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createSize(12)
+        label.font = Fonts.createSize(14)
         label.textColor = Colors.purple
         label.isSkeletonable = true
         label.linesCornerRadius = 4
@@ -79,7 +79,7 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
     
     let ratingCaptionLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createSize(12)
+        label.font = Fonts.createSize(14)
         label.textColor = Colors.purple
         label.text = "Rating"
         label.isHidden = true
@@ -89,7 +89,7 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
     
     let subjectsLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createMediumSize(12)
+        label.font = Fonts.createMediumSize(14)
         label.textColor = .white
         label.numberOfLines = 0
         label.isSkeletonable = true
@@ -108,7 +108,7 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
     func setupProfileImageView() {
         contentView.addSubview(profileImageView)
         
-        profileImageView.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: nil, right: nil, paddingTop: 22, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 54, height: 54)
+        profileImageView.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: nil, right: nil, paddingTop: 22, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 60, height: 60)
     }
     
     func setupNameLabel() {
@@ -139,7 +139,6 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
         stackView.addArrangedSubview(ratingImageView)
         
         ratingImageView.widthAnchor.constraint(equalToConstant: 12).isActive = true
-        ratingImageView.heightAnchor.constraint(equalToConstant: 12).isActive = true
     }
     
     func setupRatingLabel() {
@@ -216,17 +215,28 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
             }
         }
         
-        if let subjects = tutor.subjects {
+        if let featuredSubject = tutor.featuredSubject {
             var text = "Teaches "
-            if subjects.count == 1 {
-                text += subjects.first!
-            } else if subjects.count == 2 {
-                text += subjects.first! + " & " + subjects.last!
-            } else if subjects.count > 2 {
-                text += subjects.first! + ", " + subjects[1] + " & \(subjects.count - 2) other topics"
+            if let subjects = tutor.subjects {
+                if subjects.count == 1 {
+                    text += featuredSubject
+                } else {
+                    text += featuredSubject
+                    let otherSubjects = subjects.filter({$0.compare(featuredSubject) != .orderedSame})
+                    text += " & \(otherSubjects.count) other topics"
+                }
+                subjectsLabel.text = text
             }
-            
-            subjectsLabel.text = text
+        } else {
+            if let subjects = tutor.subjects {
+                var text = "Teaches "
+                if subjects.count == 1 {
+                    text += subjects.first!
+                } else {
+                    text += subjects.first! + " & \(subjects.count - 1) other topics"
+                }
+                subjectsLabel.text = text
+            }
         }
     }
     
