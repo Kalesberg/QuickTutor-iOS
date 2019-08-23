@@ -241,17 +241,6 @@ class QTProfileViewController: UIViewController {
     }
     
     @IBAction func onQuickCallButtonClicked(_ sender: Any) {
-        
-        if user.quickCallPrice == -1 {
-            let alert = UIAlertController(title: "Wait!", message: "Your tutor has not yet activated QuickCalls, message them to let them know you want to give them a call!", preferredStyle: .alert)
-
-            // Add "OK" Button to alert, pressing it will bring you to the settings app
-            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            // Show the alert with animation
-            present(alert, animated: true)
-            return
-        }
-
         let controller = QTRequestQuickCallViewController.controller
         controller.tutor = user
         navigationController?.pushViewController(controller, animated: true)
@@ -433,7 +422,7 @@ class QTProfileViewController: UIViewController {
                     // Set the featured subject.
                     subject = featuredSubject
                     if 1 < subjectsCount {
-                        topSubjectLabel.text = "Teaches \(featuredSubject.capitalizingFirstLetter())\n& \(subjectsCount - 1) other subjects."
+                        topSubjectLabel.text = "Teaches \(featuredSubject.capitalizingFirstLetter()) & \(subjectsCount - 1) other subjects."
                     } else {
                         topSubjectLabel.text = "Teaches \(featuredSubject.capitalizingFirstLetter())."
                     }
@@ -442,7 +431,7 @@ class QTProfileViewController: UIViewController {
                     subject = user.subjects?.first
                     if let subject = subject {
                         if 1 < subjectsCount {
-                            topSubjectLabel.text = "Teaches \(subject.capitalizingFirstLetter())\n& \(subjectsCount - 1) other subjects."
+                            topSubjectLabel.text = "Teaches \(subject.capitalizingFirstLetter()) & \(subjectsCount - 1) other subjects."
                         } else {
                             topSubjectLabel.text = "Teaches \(subject.capitalizingFirstLetter())."
                         }
@@ -453,7 +442,7 @@ class QTProfileViewController: UIViewController {
                 topSubjectLabel.superview?.isHidden = subject?.isEmpty ?? true
                 if let subject = subject {
                     if 1 < subjectsCount {
-                        topSubjectLabel.text = "Teaches \(subject.capitalizingFirstLetter())\n& \(subjectsCount - 1) other subjects."
+                        topSubjectLabel.text = "Teaches \(subject.capitalizingFirstLetter()) & \(subjectsCount - 1) other subjects."
                     } else {
                         topSubjectLabel.text = "Teaches \(subject.capitalizingFirstLetter())."
                     }
@@ -639,9 +628,11 @@ class QTProfileViewController: UIViewController {
             if numberOfReviews == 0 {
                 reviewsStackView.isHidden = true
                 ratingView.superview?.isHidden = true
+                ratingLabel.superview?.isHidden = true
             } else {
                 reviewsStackView.isHidden = false
                 ratingView.superview?.isHidden = false
+                ratingLabel.superview?.isHidden = false
                 readAllReviewLabel.text = "Read all \(numberOfReviews) \(numberOfReviews > 1 ? " reviews" : " review")"
             }
         } else {
@@ -894,6 +885,7 @@ class QTProfileViewController: UIViewController {
                 self.btnQuickCall.superview?.isHidden = false
                 self.connectButton.setTitle("Book Now", for: .normal)
             } else {
+                self.btnQuickCall.superview?.isHidden = true
                 self.checkConnectionRequestStatus(userId: uid,
                                                   userType: currentUserType,
                                                   partnerId: id,
@@ -972,9 +964,11 @@ class QTProfileViewController: UIViewController {
                 return
             }
             
-            if let quickCallPrice = value as? Int {
-                // Update the quick calls price.
-                self.user.quickCallPrice = quickCallPrice
+            if let quickCallPrice = value as? Int,
+                -1 != quickCallPrice {
+                self.btnQuickCall.isHidden = false
+            } else {
+                self.btnQuickCall.isHidden = true
             }
         })
     }
