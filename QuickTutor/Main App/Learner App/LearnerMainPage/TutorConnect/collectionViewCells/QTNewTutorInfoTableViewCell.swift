@@ -42,8 +42,7 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = Fonts.createSize(14)
         label.textColor = UIColor.white.withAlphaComponent(0.8)
-        label.isSkeletonable = true
-        label.linesCornerRadius = 4
+        label.isHidden = true
         
         return label
     }()
@@ -51,8 +50,10 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
     let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.alignment = .center
+        stackView.alignment = .fill
+        stackView.distribution = .equalSpacing
         stackView.spacing = 4
+        stackView.isSkeletonable = true
         
         return stackView
     }()
@@ -71,6 +72,7 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
         let iv = UIImageView()
         iv.image = UIImage(named: "ic_star_filled")
         iv.contentMode = .scaleAspectFit
+        iv.isHidden = true
         
         return iv
     }()
@@ -80,6 +82,7 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
         label.font = Fonts.createSize(12)
         label.textColor = Colors.purple
         label.text = "Rating"
+        label.isHidden = true
         
         return label
     }()
@@ -89,9 +92,18 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
         label.font = Fonts.createMediumSize(12)
         label.textColor = .white
         label.numberOfLines = 0
+        label.isSkeletonable = true
+        label.linesCornerRadius = 4
         
         return label
     }()
+    
+    var nameLabelWidthAnchor: NSLayoutConstraint?
+    var nameLabelHeightAnchor: NSLayoutConstraint?
+    var ratingLabelWidthAnchor: NSLayoutConstraint?
+    var ratingLabelHeightAnchor: NSLayoutConstraint?
+    var subjectsLabelHeightAnchor: NSLayoutConstraint?
+    var subjectsLabelBottomAnchor: NSLayoutConstraint?
     
     func setupProfileImageView() {
         contentView.addSubview(profileImageView)
@@ -103,13 +115,17 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
         contentView.addSubview(nameLabel)
         
         nameLabel.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        nameLabelWidthAnchor = nameLabel.widthAnchor.constraint(equalToConstant: 100)
+        nameLabelWidthAnchor?.isActive = true
+        nameLabelHeightAnchor = nameLabel.heightAnchor.constraint(equalToConstant: 14)
+        nameLabelHeightAnchor?.isActive = true
     }
     
     func setupHorlyRateLabel() {
         contentView.addSubview(hourlyRateLabel)
         
         hourlyRateLabel.anchor(top: profileImageView.topAnchor, left: nil, bottom: nil, right: contentView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
-        hourlyRateLabel.rightAnchor.constraint(greaterThanOrEqualTo: nameLabel.rightAnchor, constant: 8).isActive = true
+        hourlyRateLabel.leftAnchor.constraint(greaterThanOrEqualTo: nameLabel.rightAnchor, constant: -8).isActive = true
     }
     
     func setupStackView() {
@@ -128,6 +144,11 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
     
     func setupRatingLabel() {
         stackView.addArrangedSubview(ratingLabel)
+        
+        ratingLabelWidthAnchor = ratingLabel.widthAnchor.constraint(equalToConstant: 200)
+        ratingLabelWidthAnchor?.isActive = true
+        ratingLabelHeightAnchor = ratingLabel.heightAnchor.constraint(equalToConstant: 14)
+        ratingLabelHeightAnchor?.isActive = true
     }
     
     func setupRatingCaptionLabel() {
@@ -137,7 +158,11 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
     func setupSubjectsLabel() {
         contentView.addSubview(subjectsLabel)
         
-        subjectsLabel.anchor(top: stackView.bottomAnchor, left: nameLabel.leftAnchor, bottom: contentView.bottomAnchor, right: contentView.rightAnchor, paddingTop: 2, paddingLeft: 0, paddingBottom: 20, paddingRight: 20, width: 0, height: 0)
+        subjectsLabel.anchor(top: stackView.bottomAnchor, left: nameLabel.leftAnchor, bottom: nil, right: contentView.rightAnchor, paddingTop: 2, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
+        subjectsLabelHeightAnchor = subjectsLabel.heightAnchor.constraint(equalToConstant: 14)
+        subjectsLabelHeightAnchor?.isActive = true
+        subjectsLabelBottomAnchor = subjectsLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
+        subjectsLabelBottomAnchor?.isActive = true
     }
     
     func setupViews() {
@@ -157,12 +182,19 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
     }
     
     func updateUI(_ tutor: AWTutor) {
+        if isSkeletonActive {
+            hideSkeleton()
+        }
+        nameLabelWidthAnchor?.isActive = false
+        nameLabelHeightAnchor?.isActive = false
+        ratingLabelWidthAnchor?.isActive = false
+        ratingLabelHeightAnchor?.isActive = false
+        subjectsLabelHeightAnchor?.isActive = false
+        hourlyRateLabel.isHidden = false
+        
         self.tutor = tutor
-        
         profileImageView.sd_setImage(with: tutor.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
-        
         nameLabel.text = tutor.formattedName
-        
         hourlyRateLabel.text = "$\(tutor.price ?? 5)/hr"
         
         if let rating = tutor.tRating, rating > 0 {
