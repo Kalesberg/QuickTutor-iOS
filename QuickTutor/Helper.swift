@@ -257,6 +257,7 @@ enum Category {
             searchBarPhrases = ["search for any art"]
 			subcategories = [(title: "Applied Arts", icon: defaultImage),
 							 (title: "Art Criticism", icon: defaultImage),
+                             (title: "Art History", icon: defaultImage),
 							 (title: "Literary Arts", icon: defaultImage),
 							 (title: "Performing Arts", icon: defaultImage),
 							 (title: "Visual Arts", icon: defaultImage)]
