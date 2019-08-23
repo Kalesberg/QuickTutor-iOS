@@ -26,7 +26,7 @@ class LearnerHandookView: MainLayoutHeaderScroll {
         learningEasyBody.text = "Learn anything, from anyone, anywhere, at any time. Connect to anyone in your area or someone from the other side of the world and learn from each other. You can learn in-person or through instant video calling. You can schedule a session as soon as 15 minutes in advance or late as 30 days in advance."
 
         subjectsSubtitle.label.text = "Infinite possibilities"
-        subjectsBody.text = "QuickTutor has infinite topics to learn and teach. We offer learning in any academic subject, skill, hobby, language, or talent you can think of! We also have a submit queue in which anyone can submit any topic they feel should be available to learn or teach!"
+        subjectsBody.text = "QuickTutor has infinite topics to learn and teach. We offer learning in any academic topic, skill, hobby, language, or talent you can think of! We also have a submit queue in which anyone can submit any topic they feel should be available to learn or teach!"
     }
 
     override func applyConstraints() {

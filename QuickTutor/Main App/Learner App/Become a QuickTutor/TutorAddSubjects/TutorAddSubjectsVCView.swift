@@ -43,7 +43,7 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
     
     let accessoryTextLabel: UILabel = {
         let label = UILabel()
-        label.text = "Add up to 20 subjects."
+        label.text = "Add up to 20 topics."
         label.textAlignment = .left
         label.textColor = .white
         label.font = Fonts.createBoldSize(14)
@@ -153,7 +153,7 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
     }
     
     func showRemovePromptFor(subject: String) {
-        let ac = UIAlertController(title: "Remove subject?", message: nil, preferredStyle: .actionSheet)
+        let ac = UIAlertController(title: "Remove topic?", message: nil, preferredStyle: .actionSheet)
         ac.addAction(UIAlertAction(title: "Remove", style: .destructive) { (action) in
             self.removedIndex = TutorRegistrationService.shared.subjects.firstIndex(of: subject)
             TutorRegistrationService.shared.removeSubject(subject)
@@ -164,7 +164,7 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
     
     @objc
     private func showAlertPrompt () {
-        let alert = UIAlertController(title: "Attention!", message: "You should have at least one subject", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Attention!", message: "You should have at least one topic.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         parentContainerViewController?.present(alert, animated: true, completion: nil)
     }

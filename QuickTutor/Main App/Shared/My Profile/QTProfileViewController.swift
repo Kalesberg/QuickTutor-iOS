@@ -369,7 +369,7 @@ class QTProfileViewController: UIViewController {
         
         // Set the avatar of user profile.
         if profileViewType == .tutor || profileViewType == .myTutor {
-            lblSubjectTitle.text = "Subjects"
+            lblSubjectTitle.text = "Topics"
             UserFetchService.shared.getTutorWithId(uid: user.uid) { (tutor) in
                 self.avatarImageView.sd_setImage(with: tutor?.profilePicUrl)
                 self.imgBottomUser.sd_setImage(with: tutor?.profilePicUrl)
@@ -431,7 +431,7 @@ class QTProfileViewController: UIViewController {
                     subject = user.subjects?.first
                     if let subject = subject {
                         if 1 < subjectsCount {
-                            topSubjectLabel.text = "Teaches \(subject.capitalizingFirstLetter()) & \(subjectsCount - 1) other subjects."
+                            topSubjectLabel.text = "Teaches \(subject.capitalizingFirstLetter()) & \(subjectsCount - 1) other topics."
                         } else {
                             topSubjectLabel.text = "Teaches \(subject.capitalizingFirstLetter())."
                         }
@@ -442,7 +442,7 @@ class QTProfileViewController: UIViewController {
                 topSubjectLabel.superview?.isHidden = subject?.isEmpty ?? true
                 if let subject = subject {
                     if 1 < subjectsCount {
-                        topSubjectLabel.text = "Teaches \(subject.capitalizingFirstLetter()) & \(subjectsCount - 1) other subjects."
+                        topSubjectLabel.text = "Teaches \(subject.capitalizingFirstLetter()) & \(subjectsCount - 1) other topics."
                     } else {
                         topSubjectLabel.text = "Teaches \(subject.capitalizingFirstLetter())."
                     }

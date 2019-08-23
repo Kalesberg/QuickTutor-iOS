@@ -22,10 +22,10 @@ class SearchTutorView: MainLayoutHeaderScroll {
         super.configureView()
 
         header.label.text = "Searching"
-        searchBody.text = "There are various ways to search on QuickTutor.You can search by tapping on the search bar located in your home tab, then selecting \"All\", \"Subjects\" or \"People\".\n\nWhen searching \"All\" — search by entering any topic you would like to learn or the name/username of anyone you would like to learn from.\n\nWhen searching \"people\" you can enter in a tutor’s name or username to find their profile and connect with them."
+        searchBody.text = "There are various ways to search on QuickTutor.You can search by tapping on the search bar located in your home tab, then selecting \"All\", \"Topics\" or \"People\".\n\nWhen searching \"All\" — search by entering any topic you would like to learn or the name/username of anyone you would like to learn from.\n\nWhen searching \"people\" you can enter in a tutor’s name or username to find their profile and connect with them."
 
         pickingTutorTitle.label.text = "There are two other ways to search on QuickTutor:"
-        pickingTutorBody.text = "1. In your sessions tab (center, flame icon), tap the violet “start learning” button.\n\n2.In your saved tab (heart icon) tap the violet “find tutors” button.\n\nIf we don’t have what you’re looking for whether it be a topic or a tutor that teaches a topic — we’ll let you know. If we don’t have a topic you’re looking for, you can always submit a subject to the QuickTutor queue. We’ll review your submission and get back to you within 72 hours!"
+        pickingTutorBody.text = "1. In your sessions tab (center, flame icon), tap the violet “start learning” button.\n\n2.In your saved tab (heart icon) tap the violet “find tutors” button.\n\nIf we don’t have what you’re looking for whether it be a topic or a tutor that teaches a topic — we’ll let you know. If we don’t have a topic you’re looking for, you can always submit a topic to the QuickTutor queue. We’ll review your submission and get back to you within 72 hours!"
     }
 
     override func applyConstraints() {
