@@ -17,6 +17,14 @@ class QTLearnerAddInterestsViewController: UIViewController {
         }
     }
     var sectionHeights = [Int: CGFloat]()
+    var isForQuickRequest = false {
+        didSet {
+            if isForQuickRequest {
+                isViewing = true
+            }
+        }
+    }
+    
     let child = TutorAddSubjectsResultsVC()
     
     let contentView: QTLearnerAddInterestsView = {
@@ -35,6 +43,7 @@ class QTLearnerAddInterestsViewController: UIViewController {
         configureDelegates()
         setupObservers()
         contentView.hideAccessoryView = isViewing
+        contentView.isForQuickRequest = isForQuickRequest
         LearnerRegistrationService.shared.shouldSaveInterests = isViewing
     }
     
@@ -209,7 +218,12 @@ extension QTLearnerAddInterestsViewController: UITextFieldDelegate {
     func beginEditing() {
         guard child.view?.superview == nil else { return }
         child.isBeingControlled = true
-        child.isLearnerAddInterests = true
+        if isForQuickRequest {
+            child.addSubjectsResultsType = .learnerQuickRequestSubject
+        } else {
+            child.addSubjectsResultsType = .learnerInterests
+        }
+        
         addChild(child)
         contentView.insertSubview(child.view, at: 1)
         child.view.anchor(top: contentView.selectedInterestsCV.bottomAnchor, left: contentView.leftAnchor, bottom: contentView.getBottomAnchor(), right: contentView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
@@ -233,7 +247,11 @@ extension QTLearnerAddInterestsViewController: QuickSearchCategoryCellDelegate {
         let vc = TutorAddSubjectsResultsVC()
         vc.subjects = CategoryFactory.shared.getSubjectsFor(subcategoryName: subcategory) ?? [String]()
         vc.navigationItem.title = subcategory.capitalized
-        vc.isLearnerAddInterests = true
+        if isForQuickRequest {
+            vc.addSubjectsResultsType = .learnerQuickRequestSubject
+        } else {
+            vc.addSubjectsResultsType = .learnerInterests
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
     

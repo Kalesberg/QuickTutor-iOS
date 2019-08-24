@@ -251,7 +251,7 @@ enum Category {
 							 (title: "Social Studies", icon:  defaultImage),
 							 (title: "Test Prep", icon: defaultImage),
 							 (title: "The Sciences", icon: defaultImage)]
-		fileToRead = "academics"
+            fileToRead = "academics"
             
         case .arts:
             searchBarPhrases = ["search for any art"]
@@ -376,62 +376,62 @@ enum Category {
         case .academics: displayName = "Academics"
             image = #imageLiteral(resourceName: "academics")
             categoryInfo = "The classics. Whether you’re a master of mechanical engineering or a math wiz — we have a subject you can tutor. These are the core subjects that have been around since the beginning of time."
-            suggestedPrices = [12, 40, 100]
+            suggestedPrices = [12, 30, 80]
             
         case .arts: displayName = "The Arts"
             image = #imageLiteral(resourceName: "arts")
             categoryInfo = "Does the renaissance sing out of your soul? Whether you're a dancer, singer or poet — you now have the ability to tutor others in poetry, drama, painting or phantom of the opera — this is where we get the creative juices flowin’."
-            suggestedPrices = [10, 32, 65]
+            suggestedPrices = [10, 26, 55]
             
         case .auto: displayName = "Auto"
             image = #imageLiteral(resourceName: "auto")
             categoryInfo = "Interested in teaching others a thing or two about being a gear-head? Are you a skilled repairman or designer? In this category, you’ll be able to teach others anything about auto!"
-            suggestedPrices = [12, 20, 45]
+            suggestedPrices = [17, 52, 80]
             
         case .business: displayName = "Business"
             image = #imageLiteral(resourceName: "business")
             categoryInfo = "Are you an entrepreneur, lawyer, accountant, marketer, or economist? Maybe the neighborhood excel expert? Let's talk business. "
-            suggestedPrices = [16, 50, 100]
+            suggestedPrices = [18, 40, 135]
             
         case .lifestyle: displayName = "Lifestyle"
             image = #imageLiteral(resourceName: "experiences")
             categoryInfo = "The smell of baked lasagna coming out of the oven, the feel of clay between one’s fingers — music, yoga, travel, arts & crafts, and motivation are all found here. Lifestyle is where all can tutor the things that warm our hearts and drive our souls."
-            suggestedPrices = [12, 25, 50]
+            suggestedPrices = [10, 20, 45]
             
         case .health: displayName = "Health"
             image = #imageLiteral(resourceName: "health")
             categoryInfo = "Ever been told you’re a health nut? Well, whether you’re a doctor, dentist, gym-rat, nutritionist, or fitness model — you can tutor any subject in our health category."
-            suggestedPrices = [18, 45, 90]
+            suggestedPrices = [19, 55, 98]
             
         case .language: displayName = "Language"
             image = #imageLiteral(resourceName: "languages")
             categoryInfo = "Run a tutoring business teaching others your native language or even a language you’ve adopted! Nearly every language in existence — available to tutor with just the tap of a button."
-            suggestedPrices = [12, 20, 26]
+            suggestedPrices = [12, 30, 86]
             
         case .outdoors: displayName = "Outdoors"
             image = #imageLiteral(resourceName: "outdoors")
             categoryInfo = "Tutors, it’s time to take your learners outside of the classroom and office. Are you a survivalist? Expert in your neck of the woods? Dad of the year? If so, this is the category for you. "
-            suggestedPrices = [7, 22, 45]
+            suggestedPrices = [9, 20, 41]
             
         case .remedial: displayName = "Remedial"
             image = #imageLiteral(resourceName: "remedial")
             categoryInfo = "QuickTutor is a learning and teaching community built for everyone. Remedial is provided and intended for people who experience learning difficulties, or who would like to teach others about special education."
-            suggestedPrices = [16, 28, 65]
+            suggestedPrices = [14, 28, 75]
             
         case .sports: displayName = "Sports & Games"
             image = #imageLiteral(resourceName: "sports")
             categoryInfo = "Snowboarding, video games, chess, fantasy sports, or skydiving — The Sports & Games category is where competitive adrenaline junkies and gamers thrive. Tutor anything."
-            suggestedPrices = [8, 19, 40]
+            suggestedPrices = [16, 40, 95]
             
         case .tech: displayName = "Technology"
             image = #imageLiteral(resourceName: "tech")
             categoryInfo = "Programmers, engineers, gamers, and the creators of the future, come all — here’s where you can share your passion and knowledge with those in need. "
-            suggestedPrices = [15, 45, 90]
+            suggestedPrices = [22, 60, 95]
             
         case .trades: displayName = "Trades"
             image = #imageLiteral(resourceName: "trades")
             categoryInfo = "Time to become a hands-on tutor in construction, industrial, motive-power, services, home, or anything! Turn your everyday skills into a tutoring business."
-            suggestedPrices = [15, 20, 40]
+            suggestedPrices = [17, 50, 74]
         }
         return MainPageData(displayName: displayName, image: image, categoryInfo: categoryInfo, suggestedPrices: suggestedPrices)
     }

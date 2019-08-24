@@ -12,7 +12,7 @@ class BaseCustomModal: UIView {
     var isShown = false
     
     let lastWindow: UIWindow? = {
-        return UIApplication.shared.windows.last
+        return UIApplication.shared.keyWindow
     }()
 
     let backgroundBlurView: UIVisualEffectView = {
@@ -44,7 +44,7 @@ class BaseCustomModal: UIView {
     var backgroundHeightAnchor: NSLayoutConstraint?
 
     func setupViews() {
-        layer.zPosition = CGFloat(Float.greatestFiniteMagnitude)
+//        layer.zPosition = CGFloat(Float.greatestFiniteMagnitude)
         setupBackgroundBlurView()
         setupBackground()
         setupTitleLabel()

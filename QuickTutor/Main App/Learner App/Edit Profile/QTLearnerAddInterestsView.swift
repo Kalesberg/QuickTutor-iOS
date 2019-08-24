@@ -53,6 +53,15 @@ class QTLearnerAddInterestsView: QuickSearchVCView {
     
     var selectedInterestsHeightAnchor: NSLayoutConstraint?
     var collectionViewTopAnchor: NSLayoutConstraint?
+    var isForQuickRequest = false {
+        didSet {
+            self.selectedInterestsCV.reloadData()
+            if isForQuickRequest {
+                selectedInterestsHeightAnchor?.constant = 0
+                collectionViewTopAnchor?.constant = 0
+            }
+        }
+    }
     
     override func setupViews() {
         super.setupViews()
@@ -155,7 +164,11 @@ class QTLearnerAddInterestsView: QuickSearchVCView {
 
 extension QTLearnerAddInterestsView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return LearnerRegistrationService.shared.interests.count
+        if isForQuickRequest {
+            return 0
+        } else {
+            return LearnerRegistrationService.shared.interests.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

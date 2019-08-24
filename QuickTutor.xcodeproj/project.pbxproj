@@ -55,6 +55,10 @@
 		562B015E230A9652000146E9 /* QTLearnerAddInterestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 562B015C230A9652000146E9 /* QTLearnerAddInterestsViewController.swift */; };
 		562B0160230AE2AE000146E9 /* QTNewTutorInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 562B015F230AE2AE000146E9 /* QTNewTutorInfoTableViewCell.swift */; };
 		562B0161230AE2AE000146E9 /* QTNewTutorInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 562B015F230AE2AE000146E9 /* QTNewTutorInfoTableViewCell.swift */; };
+		562B0166230C3760000146E9 /* QTQuickRequestTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 562B0164230C3760000146E9 /* QTQuickRequestTypeViewController.swift */; };
+		562B0167230C3760000146E9 /* QTQuickRequestTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 562B0164230C3760000146E9 /* QTQuickRequestTypeViewController.swift */; };
+		562B0168230C3760000146E9 /* QTQuickRequestTypeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 562B0165230C3760000146E9 /* QTQuickRequestTypeViewController.xib */; };
+		562B0169230C3760000146E9 /* QTQuickRequestTypeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 562B0165230C3760000146E9 /* QTQuickRequestTypeViewController.xib */; };
 		5630F9592278357A0038E060 /* CustomSwitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5630F9582278357A0038E060 /* CustomSwitchView.swift */; };
 		5630F95A2278357A0038E060 /* CustomSwitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5630F9582278357A0038E060 /* CustomSwitchView.swift */; };
 		5647A778222CB59000E8A26F /* QTSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5647A776222CB59000E8A26F /* QTSettingsViewController.swift */; };
@@ -73,6 +77,20 @@
 		564DD5BF2285C53F00912E36 /* QTRequestQuickCallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564DD5BC2285C53F00912E36 /* QTRequestQuickCallViewController.swift */; };
 		564DD5C02285C53F00912E36 /* QTRequestQuickCallViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 564DD5BD2285C53F00912E36 /* QTRequestQuickCallViewController.xib */; };
 		564DD5C12285C53F00912E36 /* QTRequestQuickCallViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 564DD5BD2285C53F00912E36 /* QTRequestQuickCallViewController.xib */; };
+		565BBEB92310D17600986490 /* QTQuickRequestDoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BBEB72310D17500986490 /* QTQuickRequestDoneViewController.swift */; };
+		565BBEBA2310D17600986490 /* QTQuickRequestDoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BBEB72310D17500986490 /* QTQuickRequestDoneViewController.swift */; };
+		565BBEBB2310D17600986490 /* QTQuickRequestDoneViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 565BBEB82310D17600986490 /* QTQuickRequestDoneViewController.xib */; };
+		565BBEBC2310D17600986490 /* QTQuickRequestDoneViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 565BBEB82310D17600986490 /* QTQuickRequestDoneViewController.xib */; };
+		565BBEBF2310DAEF00986490 /* QTQuickRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BBEBE2310DAEF00986490 /* QTQuickRequest.swift */; };
+		565BBEC02310DAEF00986490 /* QTQuickRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BBEBE2310DAEF00986490 /* QTQuickRequest.swift */; };
+		565BFAD2230CDEE40014AE20 /* QTQuickRequestAlertModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BFAD1230CDEE40014AE20 /* QTQuickRequestAlertModal.swift */; };
+		565BFAD3230CDEE40014AE20 /* QTQuickRequestAlertModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BFAD1230CDEE40014AE20 /* QTQuickRequestAlertModal.swift */; };
+		565BFAD5230CF2DD0014AE20 /* QTQuickRequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BFAD4230CF2DD0014AE20 /* QTQuickRequestService.swift */; };
+		565BFAD6230CF2DD0014AE20 /* QTQuickRequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BFAD4230CF2DD0014AE20 /* QTQuickRequestService.swift */; };
+		565BFAD9230D0F970014AE20 /* QTQuickRequestSubmitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BFAD7230D0F970014AE20 /* QTQuickRequestSubmitViewController.swift */; };
+		565BFADA230D0F970014AE20 /* QTQuickRequestSubmitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BFAD7230D0F970014AE20 /* QTQuickRequestSubmitViewController.swift */; };
+		565BFADB230D0F970014AE20 /* QTQuickRequestSubmitViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 565BFAD8230D0F970014AE20 /* QTQuickRequestSubmitViewController.xib */; };
+		565BFADC230D0F970014AE20 /* QTQuickRequestSubmitViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 565BFAD8230D0F970014AE20 /* QTQuickRequestSubmitViewController.xib */; };
 		5669A5CD229D8EE5007B3202 /* QTTutorPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5669A5CB229D8EE5007B3202 /* QTTutorPolicyViewController.swift */; };
 		5669A5CE229D8EE5007B3202 /* QTTutorPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5669A5CB229D8EE5007B3202 /* QTTutorPolicyViewController.swift */; };
 		5669A5CF229D8EE5007B3202 /* QTTutorPolicyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5669A5CC229D8EE5007B3202 /* QTTutorPolicyViewController.xib */; };
@@ -1332,6 +1350,8 @@
 		562B0159230A887B000146E9 /* LearnerRegistrationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerRegistrationService.swift; sourceTree = "<group>"; };
 		562B015C230A9652000146E9 /* QTLearnerAddInterestsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTLearnerAddInterestsViewController.swift; sourceTree = "<group>"; };
 		562B015F230AE2AE000146E9 /* QTNewTutorInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTNewTutorInfoTableViewCell.swift; sourceTree = "<group>"; };
+		562B0164230C3760000146E9 /* QTQuickRequestTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTQuickRequestTypeViewController.swift; sourceTree = "<group>"; };
+		562B0165230C3760000146E9 /* QTQuickRequestTypeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTQuickRequestTypeViewController.xib; sourceTree = "<group>"; };
 		5630F9582278357A0038E060 /* CustomSwitchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSwitchView.swift; sourceTree = "<group>"; };
 		5647A776222CB59000E8A26F /* QTSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTSettingsViewController.swift; sourceTree = "<group>"; };
 		5647A777222CB59000E8A26F /* QTSettingsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTSettingsViewController.xib; sourceTree = "<group>"; };
@@ -1344,6 +1364,13 @@
 		564C429522A03F6400FC8AE1 /* SessionUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionUserInfo.swift; sourceTree = "<group>"; };
 		564DD5BC2285C53F00912E36 /* QTRequestQuickCallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTRequestQuickCallViewController.swift; sourceTree = "<group>"; };
 		564DD5BD2285C53F00912E36 /* QTRequestQuickCallViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTRequestQuickCallViewController.xib; sourceTree = "<group>"; };
+		565BBEB72310D17500986490 /* QTQuickRequestDoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTQuickRequestDoneViewController.swift; sourceTree = "<group>"; };
+		565BBEB82310D17600986490 /* QTQuickRequestDoneViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTQuickRequestDoneViewController.xib; sourceTree = "<group>"; };
+		565BBEBE2310DAEF00986490 /* QTQuickRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTQuickRequest.swift; sourceTree = "<group>"; };
+		565BFAD1230CDEE40014AE20 /* QTQuickRequestAlertModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTQuickRequestAlertModal.swift; sourceTree = "<group>"; };
+		565BFAD4230CF2DD0014AE20 /* QTQuickRequestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTQuickRequestService.swift; sourceTree = "<group>"; };
+		565BFAD7230D0F970014AE20 /* QTQuickRequestSubmitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTQuickRequestSubmitViewController.swift; sourceTree = "<group>"; };
+		565BFAD8230D0F970014AE20 /* QTQuickRequestSubmitViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTQuickRequestSubmitViewController.xib; sourceTree = "<group>"; };
 		5669A5CB229D8EE5007B3202 /* QTTutorPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorPolicyViewController.swift; sourceTree = "<group>"; };
 		5669A5CC229D8EE5007B3202 /* QTTutorPolicyViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTTutorPolicyViewController.xib; sourceTree = "<group>"; };
 		567C56AF22F3365F00B06D40 /* Lato-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-BoldItalic.ttf"; sourceTree = "<group>"; };
@@ -2062,6 +2089,29 @@
 			path = SubViews;
 			sourceTree = "<group>";
 		};
+		562B0163230C370D000146E9 /* QuickRequest */ = {
+			isa = PBXGroup;
+			children = (
+				562B016B230CDDD6000146E9 /* Modals */,
+				565BBEBD2310DAA400986490 /* Model */,
+				562B0164230C3760000146E9 /* QTQuickRequestTypeViewController.swift */,
+				562B0165230C3760000146E9 /* QTQuickRequestTypeViewController.xib */,
+				565BFAD7230D0F970014AE20 /* QTQuickRequestSubmitViewController.swift */,
+				565BFAD8230D0F970014AE20 /* QTQuickRequestSubmitViewController.xib */,
+				565BBEB72310D17500986490 /* QTQuickRequestDoneViewController.swift */,
+				565BBEB82310D17600986490 /* QTQuickRequestDoneViewController.xib */,
+			);
+			path = QuickRequest;
+			sourceTree = "<group>";
+		};
+		562B016B230CDDD6000146E9 /* Modals */ = {
+			isa = PBXGroup;
+			children = (
+				565BFAD1230CDEE40014AE20 /* QTQuickRequestAlertModal.swift */,
+			);
+			path = Modals;
+			sourceTree = "<group>";
+		};
 		5647A775222CB06100E8A26F /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -2079,6 +2129,15 @@
 				564B6C21222D8891004A9EB7 /* QTLocationTableViewCell.xib */,
 			);
 			path = SubViews;
+			sourceTree = "<group>";
+		};
+		565BBEBD2310DAA400986490 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				565BFAD4230CF2DD0014AE20 /* QTQuickRequestService.swift */,
+				565BBEBE2310DAEF00986490 /* QTQuickRequest.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		567E1A052270BDF90094E371 /* CloseAccount */ = {
@@ -3110,6 +3169,7 @@
 		84F245211FDA11C6006447A8 /* Learner App */ = {
 			isa = PBXGroup;
 			children = (
+				562B0163230C370D000146E9 /* QuickRequest */,
 				CFB9B7E621C23E290022333F /* TutorCard */,
 				CFB9B7CB21C18A070022333F /* SessionRequest */,
 				84D8C9262066A8AE003C3AEA /* LearnerMainPage */,
@@ -4026,9 +4086,12 @@
 				569F18DD223554FD00820A20 /* business.json in Resources */,
 				569F18DE223554FD00820A20 /* lifestyle.json in Resources */,
 				564DD5C12285C53F00912E36 /* QTRequestQuickCallViewController.xib in Resources */,
+				562B0169230C3760000146E9 /* QTQuickRequestTypeViewController.xib in Resources */,
 				569F18DF223554FD00820A20 /* qtNotificationPop.aiff in Resources */,
 				BE17EA2022A9D9B50044E934 /* EditSchoolVC.xib in Resources */,
+				565BBEBC2310D17600986490 /* QTQuickRequestDoneViewController.xib in Resources */,
 				569F18E0223554FD00820A20 /* QTRatingReceiptCollectionViewCell.xib in Resources */,
+				565BFADC230D0F970014AE20 /* QTQuickRequestSubmitViewController.xib in Resources */,
 				569F18E1223554FD00820A20 /* QTRatingTipCollectionViewCell.xib in Resources */,
 				569F18E2223554FD00820A20 /* Lato-Regular.ttf in Resources */,
 				569F18E3223554FD00820A20 /* auto.json in Resources */,
@@ -4143,9 +4206,12 @@
 				8425766A20712D0300FD295B /* business.json in Resources */,
 				8425766C20712D9E00FD295B /* lifestyle.json in Resources */,
 				564DD5C02285C53F00912E36 /* QTRequestQuickCallViewController.xib in Resources */,
+				562B0168230C3760000146E9 /* QTQuickRequestTypeViewController.xib in Resources */,
 				CFE18FA321196790000816C4 /* qtNotificationPop.aiff in Resources */,
 				BE17EA1F22A9D9B50044E934 /* EditSchoolVC.xib in Resources */,
+				565BBEBB2310D17600986490 /* QTQuickRequestDoneViewController.xib in Resources */,
 				568B82E3222540DF004DF011 /* QTRatingReceiptCollectionViewCell.xib in Resources */,
+				565BFADB230D0F970014AE20 /* QTQuickRequestSubmitViewController.xib in Resources */,
 				568B82DF222540CD004DF011 /* QTRatingTipCollectionViewCell.xib in Resources */,
 				56DC6DA5220BD7DF00935F47 /* Lato-Regular.ttf in Resources */,
 				8425766820712C3600FD295B /* auto.json in Resources */,
@@ -4760,6 +4826,7 @@
 			files = (
 				569F16D4223554FD00820A20 /* CategorySearchCollectionViewLayout.swift in Sources */,
 				569F16D5223554FD00820A20 /* SessionRequestPaymentInputView.swift in Sources */,
+				565BBEBA2310D17600986490 /* QTQuickRequestDoneViewController.swift in Sources */,
 				569F16D6223554FD00820A20 /* TutorCardHeaderView.swift in Sources */,
 				569F16D7223554FD00820A20 /* SubjectSearchCollectionViewLayout.swift in Sources */,
 				569F16D9223554FD00820A20 /* UploadImageVCView.swift in Sources */,
@@ -4971,6 +5038,7 @@
 				BE817236229E21980089FA1E /* AddCardViewController.swift in Sources */,
 				CFB767CE22991B7A001206DA /* EarningsHistoryCell.swift in Sources */,
 				569F17A5223554FD00820A20 /* SessionsVC.swift in Sources */,
+				565BFAD6230CF2DD0014AE20 /* QTQuickRequestService.swift in Sources */,
 				569F17A6223554FD00820A20 /* PillCollectionViewCell.swift in Sources */,
 				569F17A7223554FD00820A20 /* TutorUnprofessionalVC.swift in Sources */,
 				569F17A9223554FD00820A20 /* ExternalAccounts.swift in Sources */,
@@ -5144,6 +5212,7 @@
 				569F184B223554FD00820A20 /* FeaturedSubjectVC.swift in Sources */,
 				569F184C223554FD00820A20 /* TutorDidNotHelpVC.swift in Sources */,
 				569F184D223554FD00820A20 /* TipCell.swift in Sources */,
+				565BBEC02310DAEF00986490 /* QTQuickRequest.swift in Sources */,
 				569F184E223554FD00820A20 /* TypingIndicatorView.swift in Sources */,
 				569F184F223554FD00820A20 /* TutorPreferencesVC.swift in Sources */,
 				569F1850223554FD00820A20 /* UserSession.swift in Sources */,
@@ -5172,6 +5241,7 @@
 				569F1865223554FD00820A20 /* BaseRegistrationView.swift in Sources */,
 				569F1867223554FD00820A20 /* BasePastSessionCell.swift in Sources */,
 				569F1868223554FD00820A20 /* RatingStarView.swift in Sources */,
+				562B0167230C3760000146E9 /* QTQuickRequestTypeViewController.swift in Sources */,
 				569F1869223554FD00820A20 /* ImageMessageCell.swift in Sources */,
 				569F186A223554FD00820A20 /* CloseAccountSubmissionVC.swift in Sources */,
 				569F186B223554FD00820A20 /* QTTutorDashboardHeaderView.swift in Sources */,
@@ -5220,6 +5290,8 @@
 				569F1893223554FD00820A20 /* MeetupRequest.swift in Sources */,
 				569F1895223554FD00820A20 /* Extensions.swift in Sources */,
 				93F61E332274FB2600298B77 /* BankInfoModal.swift in Sources */,
+				565BFAD3230CDEE40014AE20 /* QTQuickRequestAlertModal.swift in Sources */,
+				565BFADA230D0F970014AE20 /* QTQuickRequestSubmitViewController.swift in Sources */,
 				569F1896223554FD00820A20 /* CALayerExtensions.swift in Sources */,
 				56BE7E6522CFCF5B0052BBE7 /* QTEnumerations.swift in Sources */,
 				569F1897223554FD00820A20 /* QuickSearchVC.swift in Sources */,
@@ -5271,6 +5343,7 @@
 			files = (
 				845B3B9B2069E6CF009F8E04 /* CategorySearchCollectionViewLayout.swift in Sources */,
 				CFB9B7DD21C18B590022333F /* SessionRequestPaymentInputView.swift in Sources */,
+				565BBEB92310D17600986490 /* QTQuickRequestDoneViewController.swift in Sources */,
 				CFB9B7EA21C23E690022333F /* TutorCardHeaderView.swift in Sources */,
 				5630F9592278357A0038E060 /* CustomSwitchView.swift in Sources */,
 				845B3B9C2069E6CF009F8E04 /* SubjectSearchCollectionViewLayout.swift in Sources */,
@@ -5482,6 +5555,7 @@
 				BE817235229E21980089FA1E /* AddCardViewController.swift in Sources */,
 				CFB767CD22991B77001206DA /* EarningsHistoryCell.swift in Sources */,
 				848809F7205770D000F204A0 /* TutorUnprofessionalVC.swift in Sources */,
+				565BFAD5230CF2DD0014AE20 /* QTQuickRequestService.swift in Sources */,
 				84BDE2B920AB2CAB003E66D5 /* ExternalAccounts.swift in Sources */,
 				CFB9B7CD21C18A240022333F /* SessionRequestError.swift in Sources */,
 				84C8F5E21FF83DC600737A59 /* RegistrationDigitTextField.swift in Sources */,
@@ -5655,6 +5729,7 @@
 				84F141A1207E490D003D3193 /* TutorPreferencesVC.swift in Sources */,
 				84F5774420C2B266008486AD /* UserSession.swift in Sources */,
 				84C96C0D1FCE34A900DBD3A6 /* EmailVC.swift in Sources */,
+				565BBEBF2310DAEF00986490 /* QTQuickRequest.swift in Sources */,
 				847463222068B97900B70AD9 /* TutorQTGuide.swift in Sources */,
 				CFB9B81221C627520022333F /* UserPolicyVCView.swift in Sources */,
 				CF833B7A207C4B9D00323242 /* BaseUpcomingSessionCell.swift in Sources */,
@@ -5683,6 +5758,7 @@
 				CF833B81207C4C0100323242 /* BasePastSessionCell.swift in Sources */,
 				CF177BCB208FB8E0006DD50B /* RatingStarView.swift in Sources */,
 				CF6F58C1205EE68800ACBD32 /* ImageMessageCell.swift in Sources */,
+				562B0166230C3760000146E9 /* QTQuickRequestTypeViewController.swift in Sources */,
 				848E91FC20A60C13002D22AA /* CloseAccountSubmissionVC.swift in Sources */,
 				569ECDAD21F9AF92005491CB /* QTTutorDashboardHeaderView.swift in Sources */,
 				568B82DA222540AE004DF011 /* QTRatingReviewCollectionViewCell.swift in Sources */,
@@ -5731,6 +5807,8 @@
 				8449DDEA1FFDD40600FC38CB /* CALayerExtensions.swift in Sources */,
 				84D8C9302066E8CC003C3AEA /* QuickSearchVC.swift in Sources */,
 				CF528CE2216489D600D81D03 /* AnalyticsService.swift in Sources */,
+				565BFAD2230CDEE40014AE20 /* QTQuickRequestAlertModal.swift in Sources */,
+				565BFAD9230D0F970014AE20 /* QTQuickRequestSubmitViewController.swift in Sources */,
 				CFB9B82221C8C5040022333F /* CustomSliderView.swift in Sources */,
 				56BE7E6422CFCF5B0052BBE7 /* QTEnumerations.swift in Sources */,
 				CF671AC2225D8C8B00CF4F0A /* FeaturedSectionController.swift in Sources */,

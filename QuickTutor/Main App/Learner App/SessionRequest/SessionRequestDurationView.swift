@@ -61,6 +61,7 @@ class SessionRequestDurationView: BaseSessionRequestViewSection {
     
     override func setupViews() {
         super.setupViews()
+        
         setupCollectionView()
         setupSelectionView()
         setupSelectionLabel()
@@ -84,6 +85,18 @@ class SessionRequestDurationView: BaseSessionRequestViewSection {
     func setupSelectionLabel() {
         addSubview(selectionLabel)
         selectionLabel.anchor(top: selectionView.bottomAnchor, left: selectionView.leftAnchor, bottom: nil, right: selectionView.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 14)
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
+    
+    required override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
 }
 

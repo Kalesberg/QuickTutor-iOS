@@ -33,12 +33,18 @@ class LearnerMainPageVC: UIViewController {
         setupRefreshControl()
         setupObservers()
         contentView.handleSearchesLoaded()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         hideTabBar(hidden: false)
         navigationController?.setNavigationBarHidden(true, animated: true)
+        
+        // TODO: Jack remove the following statement when you commit the result.
+        let vc = QTQuickRequestTypeViewController.controller
+        vc.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     private func registerPushNotification() {
