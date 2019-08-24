@@ -140,6 +140,7 @@ class ConversationCell: SwipeCollectionViewCell {
     
     private func updateUsernameLabel() {
         usernameLabel.text = chatPartner.formattedName.capitalized
+        usernameLabel.textColor = .white
     }
     
     private func updateOnlineStatusIndicator() {
@@ -153,6 +154,7 @@ class ConversationCell: SwipeCollectionViewCell {
     private func updateTimestampLabel(message: UserMessage) {
         let timestampDate = Date(timeIntervalSince1970: message.timeStamp.doubleValue)
         timestampLabel.text = timestampDate.formatRelativeString()
+        timestampLabel.textColor = .white
     }
     
     private func updateLastMessageLabel(message: UserMessage) {

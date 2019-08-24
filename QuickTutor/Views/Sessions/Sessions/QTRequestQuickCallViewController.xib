@@ -89,7 +89,7 @@
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                 </view>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please select a subject." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yWp-23-r9V">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please select a topic." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yWp-23-r9V">
                                     <rect key="frame" x="20" y="157" width="374" height="17"/>
                                     <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="14"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -109,7 +109,7 @@
                                     </collectionViewFlowLayout>
                                 </collectionView>
                             </subviews>
-                            <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstItem="4QZ-Z8-my0" firstAttribute="leading" secondItem="h4X-kJ-WIZ" secondAttribute="leading" constant="20" id="0AC-kf-1eP"/>
                                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="3Z7-hw-rwm" secondAttribute="bottom" constant="20" id="0pb-KV-ApJ"/>
@@ -132,7 +132,6 @@
                             </constraints>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstItem="h4X-kJ-WIZ" firstAttribute="width" secondItem="uaf-y5-g6U" secondAttribute="width" id="0wN-1g-Rt0"/>
                         <constraint firstItem="h4X-kJ-WIZ" firstAttribute="top" secondItem="uaf-y5-g6U" secondAttribute="top" id="Dds-au-F3T"/>
@@ -251,7 +250,7 @@
                             </userDefinedRuntimeAttributes>
                         </imageView>
                     </subviews>
-                    <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="DUq-sh-PiL" firstAttribute="leading" secondItem="rZq-z2-LVq" secondAttribute="trailing" constant="10" id="1f2-kX-xgi"/>
                         <constraint firstItem="DUq-sh-PiL" firstAttribute="top" secondItem="zuV-n5-xwF" secondAttribute="bottom" constant="8" id="Avx-2H-JQr"/>
@@ -271,7 +270,7 @@
                     <viewLayoutGuide key="safeArea" id="h17-gy-Uk6"/>
                 </view>
             </subviews>
-            <color key="backgroundColor" red="0.10588235294117647" green="0.10588235294117647" blue="0.14901960784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" red="0.082352941176470587" green="0.082352941176470587" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="0pB-iw-qWk" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="0K2-7s-pQr"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="0pB-iw-qWk" secondAttribute="bottom" id="Pl8-0n-xGd"/>

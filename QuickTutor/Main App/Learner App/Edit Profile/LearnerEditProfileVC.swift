@@ -197,11 +197,11 @@ class TutorEditProfileVC: LearnerEditProfileVC {
             cell.textField.isUserInteractionEnabled = false
             switch indexPath.row {
             case 0:
-                cell.textField.placeholder.text = "Subjects"
-                cell.textField.textField.attributedText = NSAttributedString(string: "Manage Subjects", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+                cell.textField.placeholder.text = "Topics"
+                cell.textField.textField.attributedText = NSAttributedString(string: "Manage Topics", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
             case 1:
-                cell.textField.placeholder.text = "Featured Subject"
-                cell.textField.textField.attributedText = NSAttributedString(string: "Set Featured Subject", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+                cell.textField.placeholder.text = "Featured Topic"
+                cell.textField.textField.attributedText = NSAttributedString(string: "Set Featured Topic", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
             case 2:
                 cell.textField.placeholder.text = "Policies"
                 cell.textField.textField.attributedText = NSAttributedString(string: "Manage Policies", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
@@ -263,7 +263,7 @@ class TutorEditProfileVC: LearnerEditProfileVC {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileCell", for: indexPath) as! EditProfileCell
                 cell.textField.textField.addTarget(self, action: #selector(subjectEditingEnded(_:)), for: .editingDidEnd)
                 cell.textField.textField.delegate = self
-                cell.textField.placeholder.text = "Subject"
+                cell.textField.placeholder.text = "Topic"
                 if let subject = experienceSubject, !subject.isEmpty {
                     cell.textField.textField.attributedText = NSAttributedString(string: "\(subject)", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
                     cell.textField.textField.isUserInteractionEnabled = true

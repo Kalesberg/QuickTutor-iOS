@@ -11,7 +11,7 @@ import Foundation
 enum SessionRequestError: String {
     case none = ""
     case noTutor = "Select a tutor"
-    case noSubject = "Select a subject"
+    case noSubject = "Select a topic"
     case noStartTime = "Select a time"
     case noDuration = "Select a duration"
     case noPrice = "Select a price"

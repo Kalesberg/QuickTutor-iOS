@@ -85,7 +85,7 @@ class QuickSearchResultsVC: UIViewController {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self
             mail.setToRecipients(["subjects@quicktutor.com"])
-            mail.setMessageBody("<p>I’m submitting a subject: <b>\(subject)</b></p>", isHTML: true)
+            mail.setMessageBody("<p>I’m submitting a topic: <b>\(subject)</b></p>", isHTML: true)
             present(mail, animated: true)
         } else {
             // show failure alert
@@ -213,9 +213,9 @@ class QuickSearchNoResultsView: UIView {
         label.font = Fonts.createSize(14)
         label.numberOfLines = 0
         if AccountService.shared.currentUserType == UserType.tutor {
-            label.text = "Try searching something similar or you can submit the subject to our submit queue below to potentially add a new subject to QuickTutor!"
+            label.text = "Try searching something similar or you can submit the topic to our submit queue below to potentially add a new topic to QuickTutor!"
         } else {
-            label.text = "Try searching something similar, adjusting your filters or submitting the subject to our submit queue below to potentially add a new subject to QuickTutor!"
+            label.text = "Try searching something similar, adjusting your filters or submitting the topic to our submit queue below to potentially add a new topic to QuickTutor!"
         }
         return label
     }()
@@ -488,8 +488,8 @@ class TutorAddSubjectsResultsVC: UIViewController {
     
     @objc func showAlert() {
         
-        var title = "Too many subjects"
-        var message = "We currently only allow users to choose 20 subjects"
+        var title = "Too many topics"
+        var message = "We currently only allow users to choose 20 topics"
         if isLearnerAddInterests {
             title = "Too many interests"
             message = "We currently only allow users to choose \(QTConstants.learnerMaxInterests) interests"
@@ -530,7 +530,7 @@ class TutorAddSubjectsResultsVC: UIViewController {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self
             mail.setToRecipients(["subjects@quicktutor.com"])
-            mail.setMessageBody("<p>I’m submitting a subject: <b>\(subject)</b></p>", isHTML: true)
+            mail.setMessageBody("<p>I’m submitting a topic: <b>\(subject)</b></p>", isHTML: true)
             present(mail, animated: true)
         } else {
             // show failure alert

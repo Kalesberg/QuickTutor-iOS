@@ -20,7 +20,7 @@ class QTQuickSearchViewController: UIViewController {
     
     let tabBar = TYTabPagerBar()
     let pagerController = TYPagerController()
-    lazy var tabBarTitles = ["All", "Subjects", "People"]
+    lazy var tabBarTitles = ["All", "Topics", "People"]
     let allSearchVC = QTAllSearchViewController.controller
     let subjectSearchVC = QTSubjectSearchViewController.controller
     let tutorSearchVC = QTTutorSearchViewController.controller

@@ -96,7 +96,7 @@ class TutorSessionsView: MainLayoutHeaderScroll {
 
         reportSessionTitle.label.text = "Community guidelines & reports"
         attributesDictionary = [.font: reportSessionBody.font]
-        fullAttributedString = NSMutableAttributedString(string: "Users will not be penalized for leaving sessions early. You are subject to disciplinary action if leaving sessions early becomes a trend.\n\nYou can report a user for canceling, being late to a session, or not showing up to a session in your \"Past Transactions\" section on your profile tab.\n\n", attributes: attributesDictionary)
+        fullAttributedString = NSMutableAttributedString(string: "Users will not be penalized for leaving sessions early. You are topic to disciplinary action if leaving sessions early becomes a trend.\n\nYou can report a user for canceling, being late to a session, or not showing up to a session in your \"Past Transactions\" section on your profile tab.\n\n", attributes: attributesDictionary)
         fullAttributedString.append(NSAttributedString(string: "To file a report on a past session: \n\n", attributes: [.font: UIFont.qtBoldFont(size: 17)]))
         strings = ["1.  Tap the profile tab (profile icon) in the bottom right corner of your screen.\n",
             "2.  Select the \"past transactions\" from your profile tab option menu.\n",

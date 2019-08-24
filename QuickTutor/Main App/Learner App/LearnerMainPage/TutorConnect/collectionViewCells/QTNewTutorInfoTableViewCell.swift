@@ -23,14 +23,14 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
         iv.clipsToBounds = true
         iv.contentMode = .scaleAspectFill
         iv.isSkeletonable = true
-        iv.layer.cornerRadius = 25
+        iv.layer.cornerRadius = 30
         
         return iv
     }()
     
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createBoldSize(17)
+        label.font = Fonts.createBoldSize(16)
         label.textColor = UIColor.white
         label.isSkeletonable = true
         label.linesCornerRadius = 4
@@ -40,10 +40,9 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
     
     let hourlyRateLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createSize(17)
-        label.textColor = .white
-        label.isSkeletonable = true
-        label.linesCornerRadius = 4
+        label.font = Fonts.createSize(16)
+        label.textColor = UIColor.white.withAlphaComponent(0.8)
+        label.isHidden = true
         
         return label
     }()
@@ -51,15 +50,17 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
     let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.alignment = .center
+        stackView.alignment = .fill
+        stackView.distribution = .equalSpacing
         stackView.spacing = 4
+        stackView.isSkeletonable = true
         
         return stackView
     }()
     
     let ratingLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createSize(17)
+        label.font = Fonts.createSize(14)
         label.textColor = Colors.purple
         label.isSkeletonable = true
         label.linesCornerRadius = 4
@@ -71,51 +72,66 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
         let iv = UIImageView()
         iv.image = UIImage(named: "ic_star_filled")
         iv.contentMode = .scaleAspectFit
+        iv.isHidden = true
         
         return iv
     }()
     
     let ratingCaptionLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createSize(17)
+        label.font = Fonts.createSize(14)
         label.textColor = Colors.purple
         label.text = "Rating"
+        label.isHidden = true
         
         return label
     }()
     
     let subjectsLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createMediumSize(17)
+        label.font = Fonts.createMediumSize(14)
         label.textColor = .white
         label.numberOfLines = 0
+        label.isSkeletonable = true
+        label.linesCornerRadius = 4
         
         return label
     }()
     
+    var nameLabelWidthAnchor: NSLayoutConstraint?
+    var nameLabelHeightAnchor: NSLayoutConstraint?
+    var ratingLabelWidthAnchor: NSLayoutConstraint?
+    var ratingLabelHeightAnchor: NSLayoutConstraint?
+    var subjectsLabelHeightAnchor: NSLayoutConstraint?
+    var subjectsLabelBottomAnchor: NSLayoutConstraint?
+    
     func setupProfileImageView() {
         contentView.addSubview(profileImageView)
         
-        profileImageView.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: nil, right: nil, paddingTop: 22, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 50, height: 50)
+        profileImageView.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: nil, right: nil, paddingTop: 22, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 60, height: 60)
     }
     
     func setupNameLabel() {
         contentView.addSubview(nameLabel)
         
         nameLabel.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        nameLabelWidthAnchor = nameLabel.widthAnchor.constraint(equalToConstant: 100)
+        nameLabelWidthAnchor?.isActive = true
+        nameLabelHeightAnchor = nameLabel.heightAnchor.constraint(equalToConstant: 14)
+        nameLabelHeightAnchor?.isActive = true
     }
     
     func setupHorlyRateLabel() {
         contentView.addSubview(hourlyRateLabel)
         
         hourlyRateLabel.anchor(top: profileImageView.topAnchor, left: nil, bottom: nil, right: contentView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
-        hourlyRateLabel.rightAnchor.constraint(greaterThanOrEqualTo: nameLabel.rightAnchor, constant: 8).isActive = true
+        hourlyRateLabel.leftAnchor.constraint(greaterThanOrEqualTo: nameLabel.rightAnchor, constant: -8).isActive = true
     }
     
     func setupStackView() {
         contentView.addSubview(stackView)
         
-        stackView.anchor(top: nameLabel.bottomAnchor, left: nameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 7, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        stackView.anchor(top: nameLabel.bottomAnchor, left: nameLabel.leftAnchor, bottom: nil, right: nil, paddingTop: 2, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         stackView.rightAnchor.constraint(lessThanOrEqualTo: contentView.rightAnchor, constant: -20).isActive = true
     }
     
@@ -123,11 +139,15 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
         stackView.addArrangedSubview(ratingImageView)
         
         ratingImageView.widthAnchor.constraint(equalToConstant: 12).isActive = true
-        ratingImageView.heightAnchor.constraint(equalToConstant: 12).isActive = true
     }
     
     func setupRatingLabel() {
         stackView.addArrangedSubview(ratingLabel)
+        
+        ratingLabelWidthAnchor = ratingLabel.widthAnchor.constraint(equalToConstant: 200)
+        ratingLabelWidthAnchor?.isActive = true
+        ratingLabelHeightAnchor = ratingLabel.heightAnchor.constraint(equalToConstant: 14)
+        ratingLabelHeightAnchor?.isActive = true
     }
     
     func setupRatingCaptionLabel() {
@@ -137,7 +157,11 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
     func setupSubjectsLabel() {
         contentView.addSubview(subjectsLabel)
         
-        subjectsLabel.anchor(top: stackView.bottomAnchor, left: nameLabel.leftAnchor, bottom: contentView.bottomAnchor, right: contentView.rightAnchor, paddingTop: 7, paddingLeft: 0, paddingBottom: 20, paddingRight: 20, width: 0, height: 0)
+        subjectsLabel.anchor(top: stackView.bottomAnchor, left: nameLabel.leftAnchor, bottom: nil, right: contentView.rightAnchor, paddingTop: 2, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
+        subjectsLabelHeightAnchor = subjectsLabel.heightAnchor.constraint(equalToConstant: 14)
+        subjectsLabelHeightAnchor?.isActive = true
+        subjectsLabelBottomAnchor = subjectsLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
+        subjectsLabelBottomAnchor?.isActive = true
     }
     
     func setupViews() {
@@ -157,12 +181,19 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
     }
     
     func updateUI(_ tutor: AWTutor) {
+        if isSkeletonActive {
+            hideSkeleton()
+        }
+        nameLabelWidthAnchor?.isActive = false
+        nameLabelHeightAnchor?.isActive = false
+        ratingLabelWidthAnchor?.isActive = false
+        ratingLabelHeightAnchor?.isActive = false
+        subjectsLabelHeightAnchor?.isActive = false
+        hourlyRateLabel.isHidden = false
+        
         self.tutor = tutor
-        
         profileImageView.sd_setImage(with: tutor.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
-        
         nameLabel.text = tutor.formattedName
-        
         hourlyRateLabel.text = "$\(tutor.price ?? 5)/hr"
         
         if let rating = tutor.tRating, rating > 0 {
@@ -184,17 +215,28 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
             }
         }
         
-        if let subjects = tutor.subjects {
+        if let featuredSubject = tutor.featuredSubject {
             var text = "Teaches "
-            if subjects.count == 1 {
-                text += subjects.first!
-            } else if subjects.count == 2 {
-                text += subjects.first! + " & " + subjects.last!
-            } else if subjects.count > 2 {
-                text += subjects.first! + ", " + subjects[1] + " & \(subjects.count - 2) other topics"
+            if let subjects = tutor.subjects {
+                if subjects.count == 1 {
+                    text += featuredSubject
+                } else {
+                    text += featuredSubject
+                    let otherSubjects = subjects.filter({$0.compare(featuredSubject) != .orderedSame})
+                    text += " & \(otherSubjects.count) other topics"
+                }
+                subjectsLabel.text = text
             }
-            
-            subjectsLabel.text = text
+        } else {
+            if let subjects = tutor.subjects {
+                var text = "Teaches "
+                if subjects.count == 1 {
+                    text += subjects.first!
+                } else {
+                    text += subjects.first! + " & \(subjects.count - 1) other topics"
+                }
+                subjectsLabel.text = text
+            }
         }
     }
     

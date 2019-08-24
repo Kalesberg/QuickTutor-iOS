@@ -244,7 +244,7 @@ enum Category {
         switch self {
             
         case .academics:
-            searchBarPhrases = ["search any academic subject"]
+            searchBarPhrases = ["search any academic topic"]
 			subcategories = [(title: "Extracurricular", icon: defaultImage),
 							 (title: "Language Arts", icon: defaultImage),
 							 (title: "Mathematics", icon: defaultImage),
@@ -257,6 +257,7 @@ enum Category {
             searchBarPhrases = ["search for any art"]
 			subcategories = [(title: "Applied Arts", icon: defaultImage),
 							 (title: "Art Criticism", icon: defaultImage),
+                             (title: "Art History", icon: defaultImage),
 							 (title: "Literary Arts", icon: defaultImage),
 							 (title: "Performing Arts", icon: defaultImage),
 							 (title: "Visual Arts", icon: defaultImage)]
@@ -375,7 +376,7 @@ enum Category {
         switch self {
         case .academics: displayName = "Academics"
             image = #imageLiteral(resourceName: "academics")
-            categoryInfo = "The classics. Whether you’re a master of mechanical engineering or a math wiz — we have a subject you can tutor. These are the core subjects that have been around since the beginning of time."
+            categoryInfo = "The classics. Whether you’re a master of mechanical engineering or a math wiz — we have a topic you can tutor. These are the core topics that have been around since the beginning of time."
             suggestedPrices = [12, 40, 100]
             
         case .arts: displayName = "The Arts"
@@ -400,7 +401,7 @@ enum Category {
             
         case .health: displayName = "Health"
             image = #imageLiteral(resourceName: "health")
-            categoryInfo = "Ever been told you’re a health nut? Well, whether you’re a doctor, dentist, gym-rat, nutritionist, or fitness model — you can tutor any subject in our health category."
+            categoryInfo = "Ever been told you’re a health nut? Well, whether you’re a doctor, dentist, gym-rat, nutritionist, or fitness model — you can tutor any topic in our health category."
             suggestedPrices = [18, 45, 90]
             
         case .language: displayName = "Language"

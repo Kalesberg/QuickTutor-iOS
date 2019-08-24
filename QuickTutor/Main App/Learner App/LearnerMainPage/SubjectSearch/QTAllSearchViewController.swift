@@ -319,7 +319,7 @@ class QTAllSearchViewController: UIViewController {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self
             mail.setToRecipients(["subjects@quicktutor.com"])
-            mail.setMessageBody("<p>I’m submitting a subject: <b>\(subject)</b></p>", isHTML: true)
+            mail.setMessageBody("<p>I’m submitting a topic: <b>\(subject)</b></p>", isHTML: true)
             present(mail, animated: true)
         } else {
             // show failure alert

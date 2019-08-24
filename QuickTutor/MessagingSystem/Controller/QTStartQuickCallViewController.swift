@@ -211,19 +211,17 @@ class QTStartQuickCallViewController: QTSessionBaseViewController, QTStartQuickC
     
     // MARK: - Actions
     @IBAction func onHangUpButtonClicked(_ sender: Any) {
-        animateRotate(sender as? UIView) {
-            self.socket.emit(SocketEvents.cancelSession, ["roomKey": self.sessionId])
-        }
+        animateRotate(sender as? UIView)
+        socket.emit(SocketEvents.cancelSession, ["roomKey": sessionId])
     }
     
     @IBAction func onPickUpButtonClicked(_ sender: Any) {
         guard let session = session else { return }
         
-        animateRotate(sender as? UIView) {
-            self.removeStartData()
-            let data = ["roomKey": self.sessionId!, "sessionId": self.sessionId!, "sessionType": session.type]
-            self.socket.emit(SocketEvents.manualStartAccetped, data)
-        }
+        animateRotate(sender as? UIView)
+        removeStartData()
+        let data = ["roomKey": sessionId, "sessionId": sessionId, "sessionType": session.type]
+        socket.emit(SocketEvents.manualStartAccetped, data)
     }
     
     // MARK: - Functions

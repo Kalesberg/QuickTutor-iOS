@@ -24,7 +24,7 @@ class FeaturedSubjectVC: BaseRegistrationController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Featured Subject"
+        navigationItem.title = "Featured Topic"
         progressView.isHidden = true
         subjects = CurrentUser.shared.tutor.subjects ?? [String]()
         contentView.subjectsCV.delegate = self
@@ -90,7 +90,7 @@ class FeaturedSubjectVCView: BaseRegistrationView {
         let label = UILabel()
         label.textColor = .white
         label.font = Fonts.createSize(12)
-        label.text = "Your featured subject resides on the top section of your profile, next to your name. Make sure you choose the subject you are most experienced in. You can change your featured subject at any time"
+        label.text = "Your featured topic resides on the top section of your profile, next to your name. Make sure you choose the topic you are most experienced in. You can change your featured topic at any time"
         label.numberOfLines = 0
         return label
     }()
@@ -98,7 +98,7 @@ class FeaturedSubjectVCView: BaseRegistrationView {
     var subjectsHeightAnchor: NSLayoutConstraint?
     
     override func updateTitleLabel() {
-        titleLabel.text = "Set Featured Subject"
+        titleLabel.text = "Set Featured Topic"
     }
     
     override func setupViews() {
