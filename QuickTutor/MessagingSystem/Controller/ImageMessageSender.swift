@@ -34,7 +34,7 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
         let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         ac.addAction(UIAlertAction(title: "Take Photo/Video", style: .default) { _ in
             self.imagePicker.sourceType = .camera
-            self.imagePicker.videoQuality = .typeHigh
+//            self.imagePicker.videoQuality = .typeHigh
             self.parentViewController.present(self.imagePicker, animated: true, completion: nil)
         })
         ac.addAction(UIAlertAction(title: "Choose Media", style: .default) { _ in

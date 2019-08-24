@@ -1,5 +1,5 @@
 //
-//  QuickSearchVCViewFlowLayout.swift
+//  QTOpacityAnimationCollectionViewFlowLayout.swift
 //  QuickTutor
 //
 //  Created by JinJin Lee on 2019/8/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class QuickSearchVCViewFlowLayout: UICollectionViewFlowLayout {
+class QTOpacityAnimationCollectionViewFlowLayout: UICollectionViewFlowLayout {
     
     var insertedIndexPaths: [IndexPath]?
     var removedIndexPaths: [IndexPath]?

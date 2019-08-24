@@ -46,6 +46,8 @@ class AWTutor: AWLearner {
     
     var experienceSubject: String?
     var experiencePeriod: Float?
+    
+    var videos: [TutorVideo]?
 	
     override init(dictionary: [String: Any]) {
         super.init(dictionary: dictionary)
@@ -70,6 +72,15 @@ class AWTutor: AWLearner {
 
         experienceSubject = dictionary["exp-subject"] as? String ?? ""
         experiencePeriod = dictionary["exp-period"] as? Float ?? 0.5
+        
+        if let videos = dictionary["videos"] as? [String : [String : Any]] {
+            self.videos = []
+            videos.keys.forEach { (key) in
+                let video = TutorVideo(dictionary: videos[key] ?? [:])
+                video.uid = key
+                self.videos?.append(video)
+            }
+        }
         
         if let images = dictionary["img"] as? [String : String] {
             images.forEach({ (key, value) in
@@ -118,5 +129,42 @@ class AWTutor: AWLearner {
     func categoryReviews(_ category: String) -> [Review] {
         guard let reviews = reviews else { return [] }
         return reviews.filter({ category == SubjectStore.shared.findCategoryBy(subject: $0.subject) })
+    }
+}
+
+class TutorVideo {
+    var uid: String!
+    var videoUrl: String!
+    var thumbUrl: String!
+    var created: Double!
+    
+    var thumbImage: UIImage?
+    
+    init(dictionary: [String: Any]) {
+        videoUrl = dictionary["video"] as? String ?? ""
+        thumbUrl = dictionary["thumb"] as? String ?? ""
+        created = dictionary["created"] as? Double ?? 0.0
+    }
+    
+    init() {
+        videoUrl = ""
+        thumbUrl = ""
+        created = Date().timeIntervalSince1970
+    }
+    
+    func dictionary() -> [String : Any] {
+        var dict = [String : Any]()
+        
+        if let video = videoUrl {
+            dict["video"] = video
+        }
+        
+        if let thumb = thumbUrl {
+            dict["thumb"] = thumb
+        }
+        
+        dict["created"] = Date().timeIntervalSince1970
+        
+        return dict
     }
 }

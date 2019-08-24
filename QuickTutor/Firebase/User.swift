@@ -719,6 +719,87 @@ class FirebaseData {
 		}
 	}
     
+    func uploadVideo(video: URL, thumbImage: UIImage, _ completion: @escaping (Error?, TutorVideo?) -> Void) {
+        guard let userId = Auth.auth().currentUser?.uid else {
+            completion(nil, nil)
+            return
+        }
+        
+        let storagePath = "tutor-info"
+        let dbRef = Database.database().reference().child(storagePath).child(userId).child("videos").childByAutoId()
+        let videoPath = "video-\(dbRef.key!)"
+        let thumbPath = "thumb-\(dbRef.key!)"
+        self.storageRef.child(storagePath).child(userId).child("\(videoPath)").putFile(from: video, metadata: nil) { (meta, error) in
+            if let error = error {
+                return completion(error, nil)
+            }
+            self.storageRef.child(storagePath).child(userId).child("\(videoPath)").downloadURL(completion: { (url, error) in
+                if let error = error {
+                    return completion(error, nil)
+                }
+                
+                guard let videoUrl = url?.absoluteString else { return completion(nil, nil) }
+                
+                // upload thumb image
+                guard let thumbData = thumbImage.jpegData(compressionQuality: 0.7) else { return completion(nil, nil) }
+                
+                let metaData = StorageMetadata(dictionary: ["width": thumbImage.size.width, "height": thumbImage.size.height])
+                self.storageRef.child(storagePath).child(userId).child("\(thumbPath)").putData(thumbData, metadata: metaData, completion: { (meta, error) in
+                    if let error = error {
+                        return completion(error, nil)
+                    }
+                    
+                    self.storageRef.child(storagePath).child(userId).child("\(thumbPath)").downloadURL(completion: { (imageUrl, error) in
+                        if let error = error {
+                            return completion(error, nil)
+                        }
+                        
+                        guard let thumbUrl = imageUrl?.absoluteString else { return completion(nil, nil) }
+                        
+                        // set tutor data
+                        let tutorVideo = TutorVideo ()
+                        tutorVideo.videoUrl = videoUrl
+                        tutorVideo.thumbUrl = thumbUrl
+                        tutorVideo.uid = dbRef.key
+                        
+                        dbRef.setValue(tutorVideo.dictionary())
+                        
+                        return completion (nil, tutorVideo)
+                    })
+                })
+            })
+        }
+    }
+    
+    func deleteVideo (video: TutorVideo, _ completion: @escaping (String?) -> Void) {
+        guard let userId = Auth.auth().currentUser?.uid else {
+            completion("Invalid user operation.")
+            return
+        }
+        
+        let storagePath = "tutor-info"
+        let videoPath = "video-\(video.uid!)"
+        let thumbPath = "thumb-\(video.uid!)"
+        self.storageRef.child(storagePath).child(userId).child("\(videoPath)").delete { error in
+            if let error = error {
+                completion (error.localizedDescription)
+                return
+            }
+            
+            // delete thumb
+            self.storageRef.child(storagePath).child(userId).child("\(thumbPath)").delete { error in
+                if let error = error {
+                    completion (error.localizedDescription)
+                    return
+                }
+                
+                // delete data
+                Database.database().reference().child(storagePath).child(userId).child("videos").child(video.uid).removeValue()
+                completion(nil)
+            }
+        }
+    }
+    
     func uploadProfilePreviewImage(tutorId: String, data: Data, _ completion: @escaping (Error?, String?) -> Void) {
         let storagePath = "tutor-info"
         let filePath = "tutor-profile-preview"

@@ -48,6 +48,7 @@ class QTProfileViewController: UIViewController {
     @IBOutlet weak var experienceLabel: UILabel!
     @IBOutlet weak var subjectsCollectionView: UICollectionView!
     @IBOutlet weak var subjectsCollectionViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var videoCollectionView: UICollectionView!
     @IBOutlet weak var reviewsStackView: UIStackView!
     @IBOutlet weak var reviewsTableView: UITableView!
     @IBOutlet weak var reviewsTabeViewHeight: NSLayoutConstraint!
@@ -95,6 +96,8 @@ class QTProfileViewController: UIViewController {
     // For quick call observer
     var tutorInfoRef: DatabaseReference?
     var tutorInfoHandle: DatabaseHandle?
+    
+    private var videos: [TutorVideo]!
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -452,6 +455,9 @@ class QTProfileViewController: UIViewController {
             // set experience
             updateExperience (user)
             
+            // set video
+            updateVideo(user)
+            
             navigationItem.title = user.username
             
             // If a tutor visits an another tutor's profile, hide message and more icons.
@@ -522,6 +528,9 @@ class QTProfileViewController: UIViewController {
             
             // set experience
             updateExperience (user)
+            
+            // set video
+            updateVideo(user)
             
             navigationItem.title = user.username
             navigationItem.rightBarButtonItems = [
@@ -846,6 +855,19 @@ class QTProfileViewController: UIViewController {
         }
     }
     
+    func updateVideo (_ tutor: AWTutor) {
+        videoCollectionView.superview?.isHidden = false
+        guard let videos = tutor.videos, !videos.isEmpty else {
+            videoCollectionView.superview?.isHidden = true
+            return
+        }
+        self.videos = videos
+        videoCollectionView.delegate = self
+        videoCollectionView.dataSource = self
+        videoCollectionView.register(QTProfileVideoCollectionViewCell.nib, forCellWithReuseIdentifier: QTProfileVideoCollectionViewCell.reuseIdentifier)
+        videoCollectionView.reloadData()
+    }
+    
     func setupConnectionObserver(_ opponentId: String?) {
         guard let id = opponentId else { return }
         guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -989,7 +1011,11 @@ class QTProfileViewController: UIViewController {
 
 // MARK: - UICollectionViewDelegate
 extension QTProfileViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let cell = cell as? QTProfileVideoCollectionViewCell else { return }
+        cell.pause()
+        NotificationCenter.default.removeObserver(cell)
+    }
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
@@ -1006,17 +1032,26 @@ extension QTProfileViewController: UICollectionViewDelegateFlowLayout {
         var width: CGFloat = 60
         
         if profileViewType == .tutor || profileViewType == .myTutor {
-            if let subjects = user.subjects {
-                width = subjects[indexPath.item].estimateFrameForFontSize(14, extendedWidth: true).width + 20
-            } else if let featuredSubject = user.featuredSubject {
-                width = featuredSubject.estimateFrameForFontSize(14, extendedWidth: true).width + 20
+            if collectionView == videoCollectionView {
+                let width = collectionView.frame.width
+                let height = collectionView.frame.height
+                if videos.count == 1 {
+                    return CGSize(width: width, height: height)
+                } else {
+                    return CGSize(width: width - 60, height: height)
+                }
+            } else {
+                if let subjects = user.subjects {
+                    width = subjects[indexPath.item].estimateFrameForFontSize(14, extendedWidth: true).width + 20
+                } else if let featuredSubject = user.featuredSubject {
+                    width = featuredSubject.estimateFrameForFontSize(14, extendedWidth: true).width + 20
+                }
             }
         } else if profileViewType == .myLearner || profileViewType == .learner {
             if let interests = user.interests {
                 width = interests[indexPath.item].estimateFrameForFontSize(14, extendedWidth: true).width + 20
             }
         }
-        
         return CGSize(width: width, height: 30)
     }
 }
@@ -1026,10 +1061,14 @@ extension QTProfileViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if profileViewType == .tutor || profileViewType == .myTutor {
-            if let subjects = user.subjects, subjects.count > 0 {
-                return subjects.count
-            } else if let featuredSubject = user.featuredSubject, !featuredSubject.isEmpty {
-                return 1
+            if collectionView == videoCollectionView {
+                return videos.count
+            } else {
+                if let subjects = user.subjects, subjects.count > 0 {
+                    return subjects.count
+                } else if let featuredSubject = user.featuredSubject, !featuredSubject.isEmpty {
+                    return 1
+                }
             }
         } else if profileViewType == .myLearner || profileViewType == .learner {
             if let interests = user.interests, interests.count > 0 {
@@ -1041,24 +1080,32 @@ extension QTProfileViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PillCollectionViewCell.reuseIdentifier, for: indexPath) as! PillCollectionViewCell
         
-        if profileViewType == .tutor || profileViewType == .myTutor {
-            if let subjects = user.subjects {
-                cell.titleLabel.text = subjects[indexPath.item]
-            } else if let featuredSubject = user.featuredSubject, !featuredSubject.isEmpty {
-                cell.titleLabel.text = featuredSubject
+        if collectionView == videoCollectionView, (profileViewType == .tutor || profileViewType == .myTutor) {
+            let cell = videoCollectionView.dequeueReusableCell(withReuseIdentifier: QTProfileVideoCollectionViewCell.reuseIdentifier, for: indexPath) as! QTProfileVideoCollectionViewCell
+            cell.setData(video: videos[indexPath.item], index: indexPath.item, isEditMode: false)
+            return cell
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PillCollectionViewCell.reuseIdentifier, for: indexPath) as! PillCollectionViewCell
+            if profileViewType == .tutor || profileViewType == .myTutor {
+                if let subjects = user.subjects {
+                    cell.titleLabel.text = subjects[indexPath.item]
+                } else if let featuredSubject = user.featuredSubject, !featuredSubject.isEmpty {
+                    cell.titleLabel.text = featuredSubject
+                }
+            } else if profileViewType == .myLearner || profileViewType == .learner {
+                if let interests = user.interests {
+                    cell.titleLabel.text = interests[indexPath.item]
+                }
             }
-        } else if profileViewType == .myLearner || profileViewType == .learner {
-            if let interests = user.interests {
-                cell.titleLabel.text = interests[indexPath.item]
-            }
+            
+            updateSubjectsHeight()
+            return cell
         }
-        
-        updateSubjectsHeight()
-        return cell
     }
 }
+
+
 
 // MARK: - UITableViewDataSource
 extension QTProfileViewController: UITableViewDataSource {

@@ -502,24 +502,19 @@ extension UITapGestureRecognizer {
     
 }
 
-/*class QTImageCache: SKImageCacheable {
-    var cache: ImageCache
-    
-    init() {
-        let cache = ImageCache.default
-        self.cache = cache
+extension UIImage {
+    func fixOrientation() -> UIImage {
+        if self.imageOrientation == .up {
+            return self
+        }
+        
+        UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
+        let rect = CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height)
+        self.draw(in: rect)
+        
+        let normalizedImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
+        return normalizedImage
     }
-    
-    func imageForKey(_ key: String) -> UIImage? {
-        guard let image = cache.retrieveImageInMemoryCache(forKey: key) else {return nil}
-        return image
-    }
-    
-    func setImage(_ image: UIImage, forKey key: String) {
-        cache.store(image, forKey: key)
-    }
-    
-    func removeAllImages() {}
-    
-    func removeImageForKey(_ key: String) {}
-}*/
+}

@@ -950,14 +950,24 @@
 		C41F17E2224D30E0007758FC /* QTCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41F17E0224D2D3A007758FC /* QTCustomButton.swift */; };
 		C447C7C522F9176100818733 /* UserTextMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C447C7C422F9176100818733 /* UserTextMessageCell.swift */; };
 		C447C7C622F9176100818733 /* UserTextMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C447C7C422F9176100818733 /* UserTextMessageCell.swift */; };
+		C4498A63230F033800EE619A /* QTEditProfileVideoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4498A61230F033800EE619A /* QTEditProfileVideoTableViewCell.swift */; };
+		C4498A64230F033800EE619A /* QTEditProfileVideoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4498A61230F033800EE619A /* QTEditProfileVideoTableViewCell.swift */; };
+		C4498A65230F033800EE619A /* QTEditProfileVideoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4498A62230F033800EE619A /* QTEditProfileVideoTableViewCell.xib */; };
+		C4498A66230F033800EE619A /* QTEditProfileVideoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4498A62230F033800EE619A /* QTEditProfileVideoTableViewCell.xib */; };
+		C4498A69230F063200EE619A /* QTProfileVideoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4498A67230F063200EE619A /* QTProfileVideoCollectionViewCell.swift */; };
+		C4498A6A230F063200EE619A /* QTProfileVideoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4498A67230F063200EE619A /* QTProfileVideoCollectionViewCell.swift */; };
+		C4498A6B230F063200EE619A /* QTProfileVideoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4498A68230F063200EE619A /* QTProfileVideoCollectionViewCell.xib */; };
+		C4498A6C230F063200EE619A /* QTProfileVideoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4498A68230F063200EE619A /* QTProfileVideoCollectionViewCell.xib */; };
 		C46A2F11224CD309005058B1 /* UserStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46A2F10224CD309005058B1 /* UserStatus.swift */; };
 		C46A2F12224CD309005058B1 /* UserStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46A2F10224CD309005058B1 /* UserStatus.swift */; };
+		C489C8772310D51400B4D96F /* video-loading.json in Resources */ = {isa = PBXBuildFile; fileRef = C489C8762310D51300B4D96F /* video-loading.json */; };
+		C489C8782310D51400B4D96F /* video-loading.json in Resources */ = {isa = PBXBuildFile; fileRef = C489C8762310D51300B4D96F /* video-loading.json */; };
 		C4E6B746230DC50A0085898B /* QTChatVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E6B744230DC50A0085898B /* QTChatVideoViewController.swift */; };
 		C4E6B747230DC50A0085898B /* QTChatVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E6B744230DC50A0085898B /* QTChatVideoViewController.swift */; };
 		C4E6B748230DC50A0085898B /* QTChatVideoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4E6B745230DC50A0085898B /* QTChatVideoViewController.xib */; };
 		C4E6B749230DC50A0085898B /* QTChatVideoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4E6B745230DC50A0085898B /* QTChatVideoViewController.xib */; };
-		C4FA286F230C0DD9003529E9 /* QuickSearchVCViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FA286E230C0DD9003529E9 /* QuickSearchVCViewFlowLayout.swift */; };
-		C4FA2870230C0DD9003529E9 /* QuickSearchVCViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FA286E230C0DD9003529E9 /* QuickSearchVCViewFlowLayout.swift */; };
+		C4FA286F230C0DD9003529E9 /* QTOpacityAnimationCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FA286E230C0DD9003529E9 /* QTOpacityAnimationCollectionViewFlowLayout.swift */; };
+		C4FA2870230C0DD9003529E9 /* QTOpacityAnimationCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FA286E230C0DD9003529E9 /* QTOpacityAnimationCollectionViewFlowLayout.swift */; };
 		C4FB931E2308E2D90070017B /* QTEditProfileExperienceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FB931C2308E2D90070017B /* QTEditProfileExperienceTableViewCell.swift */; };
 		C4FB931F2308E2D90070017B /* QTEditProfileExperienceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FB931C2308E2D90070017B /* QTEditProfileExperienceTableViewCell.swift */; };
 		C4FB93202308E2D90070017B /* QTEditProfileExperienceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4FB931D2308E2D90070017B /* QTEditProfileExperienceTableViewCell.xib */; };
@@ -1701,11 +1711,16 @@
 		C406D9E32307177B00D76129 /* QTEditSchoolTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTEditSchoolTableViewCell.xib; sourceTree = "<group>"; };
 		C41F17E0224D2D3A007758FC /* QTCustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTCustomButton.swift; sourceTree = "<group>"; };
 		C447C7C422F9176100818733 /* UserTextMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTextMessageCell.swift; sourceTree = "<group>"; };
+		C4498A61230F033800EE619A /* QTEditProfileVideoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTEditProfileVideoTableViewCell.swift; sourceTree = "<group>"; };
+		C4498A62230F033800EE619A /* QTEditProfileVideoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTEditProfileVideoTableViewCell.xib; sourceTree = "<group>"; };
+		C4498A67230F063200EE619A /* QTProfileVideoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTProfileVideoCollectionViewCell.swift; sourceTree = "<group>"; };
+		C4498A68230F063200EE619A /* QTProfileVideoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTProfileVideoCollectionViewCell.xib; sourceTree = "<group>"; };
 		C46A2F10224CD309005058B1 /* UserStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStatus.swift; sourceTree = "<group>"; };
+		C489C8762310D51300B4D96F /* video-loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "video-loading.json"; sourceTree = "<group>"; };
 		C4AE0DF583905E04AFE9A3B4 /* Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutorApp-QuickTutorUITests/Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		C4E6B744230DC50A0085898B /* QTChatVideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTChatVideoViewController.swift; sourceTree = "<group>"; };
 		C4E6B745230DC50A0085898B /* QTChatVideoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTChatVideoViewController.xib; sourceTree = "<group>"; };
-		C4FA286E230C0DD9003529E9 /* QuickSearchVCViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickSearchVCViewFlowLayout.swift; sourceTree = "<group>"; };
+		C4FA286E230C0DD9003529E9 /* QTOpacityAnimationCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTOpacityAnimationCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		C4FB931C2308E2D90070017B /* QTEditProfileExperienceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTEditProfileExperienceTableViewCell.swift; sourceTree = "<group>"; };
 		C4FB931D2308E2D90070017B /* QTEditProfileExperienceTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTEditProfileExperienceTableViewCell.xib; sourceTree = "<group>"; };
 		CF046420206ED3D000BFE898 /* EmptySessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySessionCell.swift; sourceTree = "<group>"; };
@@ -2319,6 +2334,7 @@
 		840E4DF32136F56E0045CD35 /* Animations */ = {
 			isa = PBXGroup;
 			children = (
+				C489C8762310D51300B4D96F /* video-loading.json */,
 				CFE43E15223AD56F00BF1F71 /* loadingNew.json */,
 				CF507FA221804D05007FE441 /* typing.json */,
 				840E4DF42136F58E0045CD35 /* loading1.json */,
@@ -2566,7 +2582,7 @@
 				56BE7E4722CF08790052BBE7 /* QTAllSearchViewController.swift */,
 				56BE7E4D22CF09220052BBE7 /* QTTutorSearchViewController.swift */,
 				56BE7E5322CFA3A60052BBE7 /* QTSubjectSearchViewController.swift */,
-				C4FA286E230C0DD9003529E9 /* QuickSearchVCViewFlowLayout.swift */,
+				C4FA286E230C0DD9003529E9 /* QTOpacityAnimationCollectionViewFlowLayout.swift */,
 			);
 			path = SubjectSearch;
 			sourceTree = "<group>";
@@ -2864,6 +2880,10 @@
 				C406D9E32307177B00D76129 /* QTEditSchoolTableViewCell.xib */,
 				C4FB931C2308E2D90070017B /* QTEditProfileExperienceTableViewCell.swift */,
 				C4FB931D2308E2D90070017B /* QTEditProfileExperienceTableViewCell.xib */,
+				C4498A61230F033800EE619A /* QTEditProfileVideoTableViewCell.swift */,
+				C4498A62230F033800EE619A /* QTEditProfileVideoTableViewCell.xib */,
+				C4498A67230F063200EE619A /* QTProfileVideoCollectionViewCell.swift */,
+				C4498A68230F063200EE619A /* QTProfileVideoCollectionViewCell.xib */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -4003,6 +4023,7 @@
 				5697DD2F226F859300AC9775 /* QTInviteOthersHeaderView.xib in Resources */,
 				569F18CD223554FD00820A20 /* OFL.txt in Resources */,
 				567E1A0B2270BE310094E371 /* QTCloseAccountReasonViewController.xib in Resources */,
+				C4498A6C230F063200EE619A /* QTProfileVideoCollectionViewCell.xib in Resources */,
 				56BE7E5222CF09220052BBE7 /* QTTutorSearchViewController.xib in Resources */,
 				569F18CE223554FD00820A20 /* loading4.json in Resources */,
 				931C71E9227E4798003C86F8 /* AddCardHeaderView.xib in Resources */,
@@ -4063,12 +4084,14 @@
 				569F18EC223554FD00820A20 /* phone-ring.mp3 in Resources */,
 				569F18ED223554FD00820A20 /* Assets.xcassets in Resources */,
 				93F61E362275250700298B77 /* BankInfoModal.xib in Resources */,
+				C4498A66230F033800EE619A /* QTEditProfileVideoTableViewCell.xib in Resources */,
 				569F18EE223554FD00820A20 /* loading2.json in Resources */,
 				56BE7E4522CF06BD0052BBE7 /* QTQuickSearchViewController.xib in Resources */,
 				C4E6B749230DC50A0085898B /* QTChatVideoViewController.xib in Resources */,
 				569F18EF223554FD00820A20 /* background.mp3 in Resources */,
 				4D853D71230A9BDA00DAC323 /* ChoosePaymentMethodViewController.xib in Resources */,
 				93C102862278F77D004B9F0D /* RegistrationSSNModal.xib in Resources */,
+				C489C8782310D51400B4D96F /* video-loading.json in Resources */,
 				569F18F0223554FD00820A20 /* Lato-Italic.ttf in Resources */,
 				568E57132270CA7700E18BD4 /* QTCloseAccountTypeViewController.xib in Resources */,
 				569F18F1223554FD00820A20 /* QTRatingReviewViewController.xib in Resources */,
@@ -4121,6 +4144,7 @@
 				5697DD2E226F859300AC9775 /* QTInviteOthersHeaderView.xib in Resources */,
 				56DC6DA7220BD7DF00935F47 /* OFL.txt in Resources */,
 				567E1A0A2270BE310094E371 /* QTCloseAccountReasonViewController.xib in Resources */,
+				C4498A6B230F063200EE619A /* QTProfileVideoCollectionViewCell.xib in Resources */,
 				56BE7E5122CF09220052BBE7 /* QTTutorSearchViewController.xib in Resources */,
 				840E4E09213761C10045CD35 /* loading4.json in Resources */,
 				931C71E8227E4798003C86F8 /* AddCardHeaderView.xib in Resources */,
@@ -4181,12 +4205,14 @@
 				CF4EA0ED20E4A6B0007010F0 /* phone-ring.mp3 in Resources */,
 				84D3A8AD201149DF000C2031 /* Assets.xcassets in Resources */,
 				93F61E352275250700298B77 /* BankInfoModal.xib in Resources */,
+				C4498A65230F033800EE619A /* QTEditProfileVideoTableViewCell.xib in Resources */,
 				840E4E03213761C10045CD35 /* loading2.json in Resources */,
 				56BE7E4322CF06900052BBE7 /* QTQuickSearchViewController.xib in Resources */,
 				C4E6B748230DC50A0085898B /* QTChatVideoViewController.xib in Resources */,
 				CFA0096E2139FFCE00F81EE4 /* background.mp3 in Resources */,
 				4D853D70230A9BDA00DAC323 /* ChoosePaymentMethodViewController.xib in Resources */,
 				93C102852278F77D004B9F0D /* RegistrationSSNModal.xib in Resources */,
+				C489C8772310D51400B4D96F /* video-loading.json in Resources */,
 				56DC6DA1220BD7DF00935F47 /* Lato-Italic.ttf in Resources */,
 				568E57122270CA7700E18BD4 /* QTCloseAccountTypeViewController.xib in Resources */,
 				568B82D6222539C2004DF011 /* QTRatingReviewViewController.xib in Resources */,
@@ -4803,6 +4829,7 @@
 				569F16E5223554FD00820A20 /* LightboxImageStub.swift in Sources */,
 				569F16E6223554FD00820A20 /* Notifications.swift in Sources */,
 				569F16E8223554FD00820A20 /* LearnerEditProfileVC.swift in Sources */,
+				C4498A6A230F063200EE619A /* QTProfileVideoCollectionViewCell.swift in Sources */,
 				569F16E9223554FD00820A20 /* SessionRequestDateView.swift in Sources */,
 				569F16EB223554FD00820A20 /* TutorBioVCView.swift in Sources */,
 				569F16EC223554FD00820A20 /* SubjectsCollectionView.swift in Sources */,
@@ -4864,7 +4891,7 @@
 				569F1726223554FD00820A20 /* ConversationCell.swift in Sources */,
 				569F1727223554FD00820A20 /* PauseSessionModal.swift in Sources */,
 				569F1728223554FD00820A20 /* EmptyConversationBackground.swift in Sources */,
-				C4FA2870230C0DD9003529E9 /* QuickSearchVCViewFlowLayout.swift in Sources */,
+				C4FA2870230C0DD9003529E9 /* QTOpacityAnimationCollectionViewFlowLayout.swift in Sources */,
 				569F1729223554FD00820A20 /* LearnerProfilePics.swift in Sources */,
 				569F172A223554FD00820A20 /* VerificationVCView.swift in Sources */,
 				569F172C223554FD00820A20 /* SessionRequestPaymentView.swift in Sources */,
@@ -5282,6 +5309,7 @@
 				569F18B5223554FD00820A20 /* TutorAddBank.swift in Sources */,
 				56056EA3225301900060C251 /* TutorTabBarController.swift in Sources */,
 				569F18B6223554FD00820A20 /* QTTutorDashboardMarkerView.swift in Sources */,
+				C4498A64230F033800EE619A /* QTEditProfileVideoTableViewCell.swift in Sources */,
 				569F18B7223554FD00820A20 /* PhoneAuthentication.swift in Sources */,
 				569F18B8223554FD00820A20 /* LearnerHandbook.swift in Sources */,
 				569F18B9223554FD00820A20 /* SessionHeaderCell.swift in Sources */,
@@ -5316,6 +5344,7 @@
 				CFF50178206990060085B0E9 /* LearnerEditProfileVC.swift in Sources */,
 				CFB9B7D721C18B080022333F /* SessionRequestDateView.swift in Sources */,
 				CFB9B81A21C842C80022333F /* TutorBioVCView.swift in Sources */,
+				C4498A69230F063200EE619A /* QTProfileVideoCollectionViewCell.swift in Sources */,
 				CFB9B80021C240170022333F /* SubjectsCollectionView.swift in Sources */,
 				CFF5017720698F620085B0E9 /* LearnerHelpVC.swift in Sources */,
 				84CFDDED2072836F001CA9BF /* TutorManagePolicies.swift in Sources */,
@@ -5377,7 +5406,7 @@
 				84B09D41205050E000BC8F80 /* ChangeEmailVC.swift in Sources */,
 				84E4C7E3204E9425009C2FC4 /* PaymentDeclinedVC.swift in Sources */,
 				84E91B5E205740CC00D1F613 /* SubmissionElements.swift in Sources */,
-				C4FA286F230C0DD9003529E9 /* QuickSearchVCViewFlowLayout.swift in Sources */,
+				C4FA286F230C0DD9003529E9 /* QTOpacityAnimationCollectionViewFlowLayout.swift in Sources */,
 				84E91B64205761A600D1F613 /* TutorLateVC.swift in Sources */,
 				84CE13FA217CED8B005A1B2C /* TutorCardTutorial.swift in Sources */,
 				84F141A3207F0D7B003D3193 /* IntExtensions.swift in Sources */,
@@ -5795,6 +5824,7 @@
 				CF50ADE420A2C1770035A702 /* TutorAddBank.swift in Sources */,
 				569ECDC921FB1033005491CB /* QTTutorDashboardMarkerView.swift in Sources */,
 				8471FED520C82E6F006E062C /* PhoneAuthentication.swift in Sources */,
+				C4498A63230F033800EE619A /* QTEditProfileVideoTableViewCell.swift in Sources */,
 				84E4C7D6204E8434009C2FC4 /* LearnerHandbook.swift in Sources */,
 				CF1E43C720705FAF0033F845 /* SessionHeaderCell.swift in Sources */,
 				CF6325E7207FE15E0037F8AA /* ReportSuccessfulModal.swift in Sources */,

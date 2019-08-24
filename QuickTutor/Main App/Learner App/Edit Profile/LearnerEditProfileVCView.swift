@@ -25,6 +25,7 @@ class LearnerEditProfileVCView: UIView, Keyboardable {
         tableView.register(EditProfileBioCell.self, forCellReuseIdentifier: "editProfileBioCell")
         tableView.register(EditProfileHeaderTableViewCell.self, forCellReuseIdentifier: "editProfileHeaderTableViewCell")
         if AccountService.shared.currentUserType == .tutor {
+            tableView.register(QTEditProfileVideoTableViewCell.nib, forCellReuseIdentifier: QTEditProfileVideoTableViewCell.reuseIdentifier)
             tableView.register(QTEditProfileExperienceTableViewCell.nib, forCellReuseIdentifier: QTEditProfileExperienceTableViewCell.reuseIdentifier)
         }
         return tableView

@@ -14,6 +14,7 @@ import SnapKit
 import SwiftKeychainWrapper
 import CropViewController
 import RangeSeekSlider
+import AVFoundation
 
 protocol QTProfileDelegate {
     func didUpdateTutorProfile(tutor: AWTutor)
@@ -42,6 +43,8 @@ class TutorEditProfileVC: LearnerEditProfileVC {
     
     var experienceSubject: String! = ""
     var experiencePeriod: Float! = 0.5
+    var videos: [TutorVideo]! = []
+    private var selectedVideoIndex: Int = -1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,6 +58,7 @@ class TutorEditProfileVC: LearnerEditProfileVC {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupExperience ()
+        setupVideos ()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -73,6 +77,13 @@ class TutorEditProfileVC: LearnerEditProfileVC {
         }
     }
     
+    private func setupVideos () {
+        guard let tutor = CurrentUser.shared.tutor else { return }
+        if let videos = tutor.videos {
+            self.videos = videos.sorted(by: { $0.created < $1.created })
+        }
+    }
+    
     @objc func subjectEditingEnded(_ textField: UITextField) {
         guard let subject = textField.text?.trimmingCharacters(in: .whitespaces) else { return }
         self.experienceSubject = subject
@@ -86,7 +97,7 @@ class TutorEditProfileVC: LearnerEditProfileVC {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 6
+        return 7
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -94,14 +105,16 @@ class TutorEditProfileVC: LearnerEditProfileVC {
         case 0:
             return 1
         case 1:
-            return 3
+            return 1
         case 2:
-            return 4
-        case 3:
             return 3
+        case 3:
+            return 4
         case 4:
-            return 2
+            return 3
         case 5:
+            return 2
+        case 6:
             return 2
         default:
             return 0
@@ -113,8 +126,10 @@ class TutorEditProfileVC: LearnerEditProfileVC {
         case 0:
             return 115
         case 1:
+            return 188
+        case 2:
             return indexPath.row == 2 ? 140 : 75
-        case 5:
+        case 6:
             return indexPath.row == 1 ? 117 : 75
         default:
             return 75
@@ -128,6 +143,12 @@ class TutorEditProfileVC: LearnerEditProfileVC {
             cell.delegate = self
             return cell
         case 1:
+            let cell = tableView.dequeueReusableCell(withIdentifier: QTEditProfileVideoTableViewCell.reuseIdentifier, for: indexPath) as! QTEditProfileVideoTableViewCell
+            cell.videos = videos
+            cell.delegate = self
+            cell.collectionView.reloadData()
+            return cell
+        case 2:
             switch indexPath.row {
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileCell", for: indexPath) as! EditProfileCell
@@ -171,7 +192,7 @@ class TutorEditProfileVC: LearnerEditProfileVC {
             default:
                 return UITableViewCell()
             }
-        case 2:
+        case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileCell", for: indexPath) as! EditProfileCell
             cell.textField.isUserInteractionEnabled = false
             switch indexPath.row {
@@ -191,7 +212,7 @@ class TutorEditProfileVC: LearnerEditProfileVC {
                 break
             }
             return cell
-        case 3:
+        case 4:
             switch indexPath.row {
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileCell", for: indexPath) as! EditProfileCell
@@ -215,7 +236,7 @@ class TutorEditProfileVC: LearnerEditProfileVC {
             default:
                 return UITableViewCell()
             }
-        case 4:
+        case 5:
             switch indexPath.row {
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileCell", for: indexPath) as! EditProfileCell
@@ -236,7 +257,7 @@ class TutorEditProfileVC: LearnerEditProfileVC {
             default:
                 return UITableViewCell()
             }
-        case 5:
+        case 6:
             switch indexPath.row {
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileCell", for: indexPath) as! EditProfileCell
@@ -266,13 +287,13 @@ class TutorEditProfileVC: LearnerEditProfileVC {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) as? EditProfileCell {
-            if indexPath.section == 1, indexPath.row < 2 { // remove first and last name flash
+            if indexPath.section == 2, indexPath.row < 2 { // remove first and last name flash
                 return
             }
             cell.flashCellLine()
         }
         switch indexPath.section {
-        case 2:
+        case 3:
             switch indexPath.item {
             case 0:
                 let vc = TutorAddSubjectsVC()
@@ -289,7 +310,7 @@ class TutorEditProfileVC: LearnerEditProfileVC {
             default:
                 break
             }
-        case 3:
+        case 4:
             switch indexPath.item {
             case 0:
                 navigationController?.pushViewController(EditPhoneVC(), animated: true)
@@ -300,7 +321,7 @@ class TutorEditProfileVC: LearnerEditProfileVC {
             default:
                 break
             }
-        case 4:
+        case 5:
             switch indexPath.item {
             case 0:
                 navigationController?.pushViewController(EditLanguageVC(), animated: true)
@@ -309,7 +330,7 @@ class TutorEditProfileVC: LearnerEditProfileVC {
             default:
                 break
             }
-        case 5:
+        case 6:
             switch indexPath.item {
             case 0:
                 guard let cell = tableView.cellForRow(at: indexPath) as? EditProfileCell else { return }
@@ -328,8 +349,76 @@ class TutorEditProfileVC: LearnerEditProfileVC {
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = EditProfileHeaderTableViewCell()
-        view.label.text = section == 5 ? "Experience" : sectionTitles[section - 1]
+        switch section {
+        case 0:
+            view.label.text = "Photos"
+        case 1:
+            view.label.text = "Videos"
+        case 6:
+            view.label.text = "Experience"
+        default:
+            view.label.text = sectionTitles[section - 2]
+        }
         return view
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 30
+    }
+    
+    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.section == 1, let cell = cell as? QTEditProfileVideoTableViewCell {
+            cell.pause()
+        }
+    }
+    
+    // MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
+    override func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let videoURL = info[UIImagePickerController.InfoKey.mediaURL] as? URL,
+            let thumbImage = getThumbnailForVideoUrl(videoURL) else {
+                picker.dismiss(animated: true, completion: nil)
+                return
+        }
+        
+        picker.dismiss(animated: true) {
+            FirebaseData.manager.uploadVideo(video: videoURL, thumbImage: thumbImage) { (error, tutorVideo) in
+                if let error = error {
+                    AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+                } else if let tutorVideo = tutorVideo {
+                    guard let cell = self.contentView.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? QTEditProfileVideoTableViewCell else { return }
+                    self.videos.append(tutorVideo)
+                    cell.insertVideo(self.selectedVideoIndex, video: tutorVideo)
+                    self.selectedVideoIndex = -1
+                    
+                    // set tutor video
+                    guard let tutor = CurrentUser.shared.tutor else { return }
+                    tutor.videos = self.videos
+                }
+            }
+            
+            // insert new video
+            /*guard let cell = self.contentView.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? QTEditProfileVideoTableViewCell else { return }
+            let tutorVideo = TutorVideo ()
+            tutorVideo.videoUrl = videoURL.absoluteString
+            tutorVideo.thumbImage = thumbImage
+            self.videos.append(tutorVideo)
+            cell.insertVideo(self.selectedVideoIndex, videos: self.videos)*/
+        }
+    }
+    
+    private func getThumbnailForVideoUrl(_ url: URL) -> UIImage? {
+        let asset = AVAsset(url: url)
+        let imageGenerator = AVAssetImageGenerator(asset: asset)
+        imageGenerator.appliesPreferredTrackTransform = true
+        
+        do {
+            let thumbnail = try imageGenerator.copyCGImage(at: CMTimeMake(value: 0, timescale: 1), actualTime: nil)
+            let imageWithCorrectOrientation = UIImage(cgImage: thumbnail).fixOrientation()
+            return imageWithCorrectOrientation
+        } catch {
+            return nil
+        }
+        
     }
 }
 
@@ -348,6 +437,56 @@ extension TutorEditProfileVC: RangeSeekSliderDelegate {
     
     func rangeSeekSlider(_ slider: RangeSeekSlider, didChange minValue: CGFloat, maxValue: CGFloat) {
         experiencePeriod = maxValue < 1 ? 0.5 : Float(Int(maxValue))
+    }
+}
+
+extension TutorEditProfileVC: QTProfileVideoCollectionViewCellDelegate {
+    func collectionViewCell(_ cell: QTProfileVideoCollectionViewCell, didTapUploadAt index: Int) {
+        guard index >= 0 else { return }
+        selectedVideoIndex = index
+        let actionSheet = UIAlertController (title: "Upload Video", message: nil, preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: "Take a video", style: .default, handler: { action in
+            if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                self.imagePicker.sourceType = .camera
+                self.imagePicker.delegate = self
+                self.imagePicker.mediaTypes = ["public.movie"]
+                self.present(self.imagePicker, animated: true, completion: nil)
+            }
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Choose a video", style: .default, handler: { action in
+            if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+                self.imagePicker.sourceType = .photoLibrary
+                self.imagePicker.delegate = self
+                self.imagePicker.mediaTypes = ["public.movie"]
+                self.present(self.imagePicker, animated: true, completion: nil)
+            }
+        }))
+        present(actionSheet, animated: true, completion: nil)
+    }
+    
+    func collectionViewCell(_ cell: QTProfileVideoCollectionViewCell, didTapDeleteAt index: Int) {
+        guard index >= 0 else { return }
+        selectedVideoIndex = index
+        let alert = UIAlertController (title: "Delete Video", message: "Are you sure you want to delete this video?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { action in
+            FirebaseData.manager.deleteVideo(video: self.videos[index], { (error) in
+                if let error = error {
+                    AlertController.genericErrorAlert(self, title: "Error", message: error)
+                } else {
+                    guard let cell = self.contentView.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? QTEditProfileVideoTableViewCell else { return }
+                    self.videos.remove(at: self.selectedVideoIndex)
+                    cell.deleteVideo(self.selectedVideoIndex)
+                    self.selectedVideoIndex = -1
+                    
+                    // set tutor video
+                    guard let tutor = CurrentUser.shared.tutor else { return }
+                    tutor.videos = self.videos
+                }
+            })
+        }))
+        present(alert, animated: true, completion: nil)
     }
 }
 
