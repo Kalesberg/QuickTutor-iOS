@@ -90,7 +90,7 @@ class SessionRequestVC: UIViewController {
     }
     
     func setupNavBar() {
-        navigationItem.title = "Request Session"
+        navigationItem.title = "Schedule Session"
         edgesForExtendedLayout = []
         navigationController?.setNavigationBarHidden(false, animated: true)
         if #available(iOS 11.0, *) {

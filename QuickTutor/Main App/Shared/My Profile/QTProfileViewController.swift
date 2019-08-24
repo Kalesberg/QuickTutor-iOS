@@ -109,6 +109,9 @@ class QTProfileViewController: UIViewController {
             setupSharedProfileView()
         }
         
+        if .tutor == profileViewType {
+            btnQuickCall.isHidden = -1 == user.quickCallPrice
+        }
         
         if #available(iOS 11.0, *) {
             if !isPresentedFromSessionScreen {
@@ -883,7 +886,7 @@ class QTProfileViewController: UIViewController {
             if connected {
                 self.connectionStatus = .connected
                 self.btnQuickCall.superview?.isHidden = false
-                self.connectButton.setTitle("Book Now", for: .normal)
+                self.connectButton.setTitle("Schedule Now", for: .normal)
             } else {
                 self.btnQuickCall.superview?.isHidden = true
                 self.checkConnectionRequestStatus(userId: uid,
@@ -966,8 +969,10 @@ class QTProfileViewController: UIViewController {
             
             if let quickCallPrice = value as? Int,
                 -1 != quickCallPrice {
+                self.user.quickCallPrice = quickCallPrice
                 self.btnQuickCall.isHidden = false
             } else {
+                self.user.quickCallPrice = -1
                 self.btnQuickCall.isHidden = true
             }
         })
