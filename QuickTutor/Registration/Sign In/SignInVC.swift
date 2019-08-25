@@ -211,7 +211,7 @@ class SignInVC: UIViewController {
 			guard let uid = authResult?.user.uid else { return }
 			Database.database().reference().child("student-info").child(uid).observeSingleEvent(of: .value) { (snapshot) in
 				if snapshot.exists() {
-					FirebaseData.manager.signInLearner(uid: uid) { successful in
+					FirebaseData.manager.signInLearner(uid: uid, isFacebookLogin: true) { successful in
 						if successful {
 							Database.database().reference().child("account").child(uid).observeSingleEvent(of: .value) { snapshot in
 								guard let dicAccount = snapshot.value as? [String: Any] else { return }
