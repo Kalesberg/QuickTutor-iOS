@@ -81,17 +81,17 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string> Allow access to Calendar to save upcomming session details</string>
 	<key>NSCameraUsageDescription</key>
-	<string>For taking your profile picture</string>
+	<string>To share and save photos.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>To invite friends to join the platform</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>For displaying users accurately according to their in-app location setting.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>For video sessions</string>
+	<string>For app-wide audio usage.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>To save media and files</string>
+	<string>To save photos in messages.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>To chose a profile picture</string>
+	<string>To share and save photos.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Lato-BoldItalic.ttf</string>

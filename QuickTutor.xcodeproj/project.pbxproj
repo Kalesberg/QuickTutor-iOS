@@ -962,6 +962,8 @@
 		C46A2F12224CD309005058B1 /* UserStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46A2F10224CD309005058B1 /* UserStatus.swift */; };
 		C489C8772310D51400B4D96F /* video-loading.json in Resources */ = {isa = PBXBuildFile; fileRef = C489C8762310D51300B4D96F /* video-loading.json */; };
 		C489C8782310D51400B4D96F /* video-loading.json in Resources */ = {isa = PBXBuildFile; fileRef = C489C8762310D51300B4D96F /* video-loading.json */; };
+		C489C87A2311261700B4D96F /* QTChatVideoPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C489C8792311261700B4D96F /* QTChatVideoPlayerViewController.swift */; };
+		C489C87B2311261700B4D96F /* QTChatVideoPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C489C8792311261700B4D96F /* QTChatVideoPlayerViewController.swift */; };
 		C4E6B746230DC50A0085898B /* QTChatVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E6B744230DC50A0085898B /* QTChatVideoViewController.swift */; };
 		C4E6B747230DC50A0085898B /* QTChatVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E6B744230DC50A0085898B /* QTChatVideoViewController.swift */; };
 		C4E6B748230DC50A0085898B /* QTChatVideoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4E6B745230DC50A0085898B /* QTChatVideoViewController.xib */; };
@@ -1717,6 +1719,7 @@
 		C4498A68230F063200EE619A /* QTProfileVideoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTProfileVideoCollectionViewCell.xib; sourceTree = "<group>"; };
 		C46A2F10224CD309005058B1 /* UserStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStatus.swift; sourceTree = "<group>"; };
 		C489C8762310D51300B4D96F /* video-loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "video-loading.json"; sourceTree = "<group>"; };
+		C489C8792311261700B4D96F /* QTChatVideoPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTChatVideoPlayerViewController.swift; sourceTree = "<group>"; };
 		C4AE0DF583905E04AFE9A3B4 /* Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QuickTutorApp-QuickTutorUITests/Pods-QuickTutorApp-QuickTutorUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		C4E6B744230DC50A0085898B /* QTChatVideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTChatVideoViewController.swift; sourceTree = "<group>"; };
 		C4E6B745230DC50A0085898B /* QTChatVideoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTChatVideoViewController.xib; sourceTree = "<group>"; };
@@ -3545,6 +3548,7 @@
 				CF5D06E0224B172700270115 /* TutorTabBarController.swift */,
 				C4E6B744230DC50A0085898B /* QTChatVideoViewController.swift */,
 				C4E6B745230DC50A0085898B /* QTChatVideoViewController.xib */,
+				C489C8792311261700B4D96F /* QTChatVideoPlayerViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -5166,6 +5170,7 @@
 				CF6202702287F70400B925B9 /* MessageService.swift in Sources */,
 				CFCE90AC226524CC00CBB1AD /* LearnerMainPageFeaturedSubjectCell.swift in Sources */,
 				569F1831223554FD00820A20 /* QTLocationTableViewCell.swift in Sources */,
+				C489C87B2311261700B4D96F /* QTChatVideoPlayerViewController.swift in Sources */,
 				569F1832223554FD00820A20 /* TheChoiceVC.swift in Sources */,
 				569F1833223554FD00820A20 /* QuickChatViewDelegate.swift in Sources */,
 				569F1834223554FD00820A20 /* FileReportActionsheet.swift in Sources */,
@@ -5681,6 +5686,7 @@
 				CFB60617207FA6B80029CFE4 /* FileReportActionsheet.swift in Sources */,
 				CF62026F2287F70400B925B9 /* MessageService.swift in Sources */,
 				CFB60619207FB60C0029CFE4 /* FileReportActionsheetCell.swift in Sources */,
+				C489C87A2311261700B4D96F /* QTChatVideoPlayerViewController.swift in Sources */,
 				CFB9B7EE21C23EBA0022333F /* TutorCardInfoView.swift in Sources */,
 				CF6F58E6205EE68800ACBD32 /* ZFUser.swift in Sources */,
 				CF7D8AAE2198ACBA00463B0E /* BaseSessionsVC.swift in Sources */,

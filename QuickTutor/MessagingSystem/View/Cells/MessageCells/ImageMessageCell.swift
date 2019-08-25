@@ -44,8 +44,11 @@ class ImageMessageCell: UserMessageCell {
     override func setupViews() {
         super.setupViews()
         setupImageView()
-//        addZoomGestureRecognizer()
-        addTapGestureRecognizer ()
+        if self is VideoMessageCell {
+            addZoomGestureRecognizer()
+        } else {
+            addTapGestureRecognizer ()
+        }
     }
 
     override func setupBubbleViewAsSentMessage() {
