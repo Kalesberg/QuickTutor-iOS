@@ -17,11 +17,12 @@ struct MainPageFeaturedItem {
     var categoryTitle: String?
 }
 
+
 class LearnerMainPageVCView: UIView {
 
-    let searchBarContainer: LearnerMainPageSearchBarContainer = {
-        let container = LearnerMainPageSearchBarContainer(frame: CGRect(origin: .zero, size: CGSize(width: 200, height: 80)))
-        return container
+    let navigationView: QTLearnerMainPageNavigationView = {
+        let view = QTLearnerMainPageNavigationView(frame: .zero)
+        return view
     }()
     
     let collectionView: UICollectionView = {
@@ -40,11 +41,14 @@ class LearnerMainPageVCView: UIView {
     }()
     
     let collectionViewHelper = LearnerMainPageCollectionViewHelper()
-    var searchBarContainerHeightAnchor: NSLayoutConstraint?
+    var navigationViewTopAnchor: NSLayoutConstraint!
+    var prevOffset: CGFloat = 0
+    var transitionStartOffset: CGFloat = -1
+    let navigationViewHeight: CGFloat = 81
     
     func setupViews() {
         setupMainView()
-        setupSearchBarContainer()
+        setupNavigationView()
         setupCollectionView()
         setupBackgroundView()
     }
@@ -54,66 +58,77 @@ class LearnerMainPageVCView: UIView {
         backgroundView.backgroundColor = Colors.newScreenBackground
         
         addSubview(backgroundView)
-        backgroundView.anchor(top: topAnchor, left: leftAnchor, bottom: searchBarContainer.topAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        backgroundView.anchor(top: topAnchor, left: leftAnchor, bottom: navigationView.topAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
     
     func setupMainView() {
         backgroundColor = Colors.newScreenBackground
     }
     
-    func setupSearchBarContainer() {
-        addSubview(searchBarContainer)
-        searchBarContainer.anchor(top: getTopAnchor(), left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 8, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        searchBarContainerHeightAnchor = searchBarContainer.heightAnchor.constraint(equalToConstant: 87)
-        searchBarContainerHeightAnchor?.isActive = true
+    func setupNavigationView() {
+        addSubview(navigationView)
+        navigationView.anchor(top: nil, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        navigationViewTopAnchor = navigationView.topAnchor.constraint(equalTo: getTopAnchor())
+        navigationViewTopAnchor.isActive = true
     }
     
     func setupCollectionView() {
         insertSubview(collectionView, at: 0)
-        collectionView.anchor(top: getTopAnchor(), left: leftAnchor, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 90, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        collectionView.anchor(top: getTopAnchor(), left: leftAnchor, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 81, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         collectionView.delegate = collectionViewHelper
         collectionView.dataSource = collectionViewHelper
         collectionView.clipsToBounds = false
+        
+        if #available(iOS 11.0, *) {
+            collectionView.contentInsetAdjustmentBehavior = .never
+        } else {
+            
+        }
     }
     
     func setupScrollViewDidScrollAction() {
         collectionViewHelper.handleScrollViewScroll = { [weak self] offset in
             guard let self = self else { return }
-            if -offset < 0 && offset != -50 {
-                self.searchBarContainer.showShadow()
-            } else {
-                self.searchBarContainer.hideShadow()
+            
+            let scrollUp = self.prevOffset >= offset
+            
+            if self.transitionStartOffset > -1 {
+                
+                // If the offset is less than zero, will set navigationViewTopAnchor as 0
+                if offset < 0 {
+                    self.navigationViewTopAnchor.constant = 0
+                } else {
+                    self.navigationViewTopAnchor.constant = min(0, max(self.navigationViewTopAnchor.constant + self.prevOffset - offset, -self.navigationViewHeight))
+                }
+                
+                // Control the alpha of navigationView
+                self.navigationView.alpha = 1 - abs(self.navigationViewTopAnchor.constant) / self.navigationViewHeight
+                
+                // If the show/hide transition is completed, will rest transitionStartOffset as -1
+                if self.navigationViewTopAnchor.constant == 0 || self.navigationViewTopAnchor.constant == -self.navigationViewHeight {
+                    self.transitionStartOffset = -1
+                }
+                
+                self.prevOffset = offset
+                return
             }
             
-            guard RecentSearchesManager.shared.hasNoRecentSearches
-                || (-offset < 0 && offset != -50) else {
-                    self.searchBarContainer.showRecentSearchesCV()
-                    self.searchBarContainerHeightAnchor?.constant = 87
-                    UIView.animate(withDuration: 0.15, animations: {
-                        self.layoutIfNeeded()
-                    })
-                    return
+            // If you scroll up and the delta is greater than 10 or you scroll up closed to the top of view, start to show bar.
+            if scrollUp && self.transitionStartOffset == -1 && self.navigationViewTopAnchor.constant == -self.navigationViewHeight && (abs(self.prevOffset - offset) >= 10 || offset <= self.navigationViewHeight) {
+                self.transitionStartOffset = max(offset, 0)
+                self.prevOffset = offset
+                return
             }
-            self.searchBarContainer.hideRecentSearchesCV()
             
-            self.searchBarContainerHeightAnchor?.constant = 57
-            UIView.animate(withDuration: 0.15, animations: {
-                self.layoutIfNeeded()
-            })
+            // If you scroll down when the navigation view is showing fully, it's about to hide the navigation bar.
+            if !scrollUp && self.transitionStartOffset == -1 && self.navigationViewTopAnchor.constant == 0 {
+                self.transitionStartOffset = max(offset, 0)
+                self.prevOffset = offset
+                return
+            }
+            
+            self.prevOffset = offset
             return
-        }
-    }
-    
-    private func setupObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(handleSearchesLoaded), name: NotificationNames.LearnerMainFeed.searchesLoaded, object: nil)
-    }
-    
-    @objc func handleSearchesLoaded() {
-        searchBarContainer.recentSearchesCV.reloadData()
-        if RecentSearchesManager.shared.hasNoRecentSearches {
-            searchBarContainer.hideRecentSearchesCV()
-        } else {
-            searchBarContainer.showRecentSearchesCV()
         }
     }
     
@@ -121,7 +136,6 @@ class LearnerMainPageVCView: UIView {
         super.init(frame: frame)
         setupViews()
         setupScrollViewDidScrollAction()
-        setupObservers()
     }
     
     required init?(coder aDecoder: NSCoder) {

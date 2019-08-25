@@ -29,11 +29,8 @@ class LearnerMainPageVC: UIViewController {
         super.viewDidLoad()
         
         registerPushNotification()
-        configureView()
         setupRefreshControl()
         setupObservers()
-        contentView.handleSearchesLoaded()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,20 +39,14 @@ class LearnerMainPageVC: UIViewController {
         navigationController?.setNavigationBarHidden(true, animated: true)
         
         // TODO: Jack remove the following statement when you commit the result.
-        let vc = QTQuickRequestTypeViewController.controller
-        vc.hidesBottomBarWhenPushed = true
-        self.navigationController?.pushViewController(vc, animated: true)
+//        let vc = QTQuickRequestTypeViewController.controller
+//        vc.hidesBottomBarWhenPushed = true
+//        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     private func registerPushNotification() {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         appDelegate.registerForPushNotifications(application: UIApplication.shared)
-    }
-    
-    private func configureView() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(handleSearchTap))
-        contentView.searchBarContainer.searchBarView.addGestureRecognizer(tap)
-        contentView.searchBarContainer.parentVC = self
     }
     
     func setupRefreshControl() {

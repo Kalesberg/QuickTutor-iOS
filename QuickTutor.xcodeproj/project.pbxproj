@@ -83,6 +83,8 @@
 		565BBEBC2310D17600986490 /* QTQuickRequestDoneViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 565BBEB82310D17600986490 /* QTQuickRequestDoneViewController.xib */; };
 		565BBEBF2310DAEF00986490 /* QTQuickRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BBEBE2310DAEF00986490 /* QTQuickRequest.swift */; };
 		565BBEC02310DAEF00986490 /* QTQuickRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BBEBE2310DAEF00986490 /* QTQuickRequest.swift */; };
+		565BBEC2231114E200986490 /* QTLearnerMainPageNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BBEC1231114E100986490 /* QTLearnerMainPageNavigationView.swift */; };
+		565BBEC3231114E200986490 /* QTLearnerMainPageNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BBEC1231114E100986490 /* QTLearnerMainPageNavigationView.swift */; };
 		565BFAD2230CDEE40014AE20 /* QTQuickRequestAlertModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BFAD1230CDEE40014AE20 /* QTQuickRequestAlertModal.swift */; };
 		565BFAD3230CDEE40014AE20 /* QTQuickRequestAlertModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BFAD1230CDEE40014AE20 /* QTQuickRequestAlertModal.swift */; };
 		565BFAD5230CF2DD0014AE20 /* QTQuickRequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BFAD4230CF2DD0014AE20 /* QTQuickRequestService.swift */; };
@@ -1367,6 +1369,7 @@
 		565BBEB72310D17500986490 /* QTQuickRequestDoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTQuickRequestDoneViewController.swift; sourceTree = "<group>"; };
 		565BBEB82310D17600986490 /* QTQuickRequestDoneViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTQuickRequestDoneViewController.xib; sourceTree = "<group>"; };
 		565BBEBE2310DAEF00986490 /* QTQuickRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTQuickRequest.swift; sourceTree = "<group>"; };
+		565BBEC1231114E100986490 /* QTLearnerMainPageNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTLearnerMainPageNavigationView.swift; sourceTree = "<group>"; };
 		565BFAD1230CDEE40014AE20 /* QTQuickRequestAlertModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTQuickRequestAlertModal.swift; sourceTree = "<group>"; };
 		565BFAD4230CF2DD0014AE20 /* QTQuickRequestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTQuickRequestService.swift; sourceTree = "<group>"; };
 		565BFAD7230D0F970014AE20 /* QTQuickRequestSubmitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTQuickRequestSubmitViewController.swift; sourceTree = "<group>"; };
@@ -3360,6 +3363,7 @@
 				CF9F94EA228A3BA0002041CF /* LearnerMainPageSearchBarContainer.swift */,
 				846252E620637CF8001DD330 /* LearnerMainPageVC.swift */,
 				CF671AD0225DA48000CF4F0A /* LearnerMainPageCollectionViewHelper.swift */,
+				565BBEC1231114E100986490 /* QTLearnerMainPageNavigationView.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -5134,6 +5138,7 @@
 				569F17FE223554FD00820A20 /* SessionCellActionView.swift in Sources */,
 				569F17FF223554FD00820A20 /* UIView+Gradient.swift in Sources */,
 				CFCE90B2226524E600CBB1AD /* LearnerMainPageActiveTutorsSectionContainerCell.swift in Sources */,
+				565BBEC3231114E200986490 /* QTLearnerMainPageNavigationView.swift in Sources */,
 				569F1801223554FD00820A20 /* QTSettingsViewController.swift in Sources */,
 				569F1803223554FD00820A20 /* ReceiptCell.swift in Sources */,
 				569F1804223554FD00820A20 /* EditSchoolVC.swift in Sources */,
@@ -5651,6 +5656,7 @@
 				CFD92A62222F24B200704531 /* UIView+Gradient.swift in Sources */,
 				5647A778222CB59000E8A26F /* QTSettingsViewController.swift in Sources */,
 				843BAC962143F51400449EE7 /* ReceiptCell.swift in Sources */,
+				565BBEC2231114E200986490 /* QTLearnerMainPageNavigationView.swift in Sources */,
 				843A1D192047C5BF00299D27 /* EditSchoolVC.swift in Sources */,
 				84E4C7EA204E97E5009C2FC4 /* Connections.swift in Sources */,
 				CFB6061B207FD6300029CFE4 /* DisconnectModal.swift in Sources */,
