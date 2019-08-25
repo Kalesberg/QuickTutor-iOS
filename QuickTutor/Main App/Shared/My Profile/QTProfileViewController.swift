@@ -12,6 +12,7 @@ import FirebaseAuth
 import FirebaseDatabase
 import CoreLocation
 import Cosmos
+import AVKit
 
 enum QTProfileViewType {
     case tutor, learner, myTutor, myLearner
@@ -691,9 +692,9 @@ class QTProfileViewController: UIViewController {
     func initSubjects() {
         guard let user = user else { return }
         if profileViewType == .tutor || profileViewType == .myTutor {
-            subjectsCollectionView.isHidden = (user.subjects?.isEmpty ?? true) && (user.featuredSubject?.isEmpty ?? true)
+            subjectsCollectionView.superview?.isHidden = (user.subjects?.isEmpty ?? true) && (user.featuredSubject?.isEmpty ?? true)
         } else {
-            subjectsCollectionView.isHidden = (user.interests?.isEmpty ?? true)
+            subjectsCollectionView.superview?.isHidden = (user.interests?.isEmpty ?? true)
         }
         subjectsCollectionView.reloadData()
     }
@@ -712,7 +713,7 @@ class QTProfileViewController: UIViewController {
 //        let disabledColor = UIColor(red: 44.0/255.0, green: 44.0/255.0, blue: 44.0/255.0, alpha: 1)
         
         if profileViewType == .tutor || profileViewType == .myTutor {
-            reviewsTableView.isHidden = user.reviews?.isEmpty ?? true
+            reviewsTableView.superview?.isHidden = user.reviews?.isEmpty ?? true
             self.reviewsHeight = self.getHeightOfReviews(reviews: user.reviews ?? [Review]())
             let numberOfReviews = user.reviews?.count ?? 0
             if numberOfReviews == 0 {
@@ -726,7 +727,7 @@ class QTProfileViewController: UIViewController {
                 readAllReviewLabel.text = "Read all \(numberOfReviews) \(numberOfReviews > 1 ? " reviews" : " review")"
             }
         } else {
-            reviewsTableView.isHidden = user.lReviews?.isEmpty ?? true
+            reviewsTableView.superview?.isHidden = user.lReviews?.isEmpty ?? true
             let numberOfReviews = user.lReviews?.count ?? 0
             self.reviewsHeight = self.getHeightOfReviews(reviews: user.lReviews ?? [Review]())
             if numberOfReviews == 0 {
@@ -1109,10 +1110,19 @@ class QTProfileViewController: UIViewController {
 
 // MARK: - UICollectionViewDelegate
 extension QTProfileViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let cell = cell as? QTProfileVideoCollectionViewCell else { return }
-        cell.pause()
-        NotificationCenter.default.removeObserver(cell)
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == videoCollectionView,
+            (profileViewType == .tutor || profileViewType == .myTutor) {
+            if let videoUrl = videos[indexPath.item].videoUrl {
+                let player = AVPlayer(url: URL(string: videoUrl)!)
+                let vc = QTChatVideoPlayerViewController()//AVPlayerViewController()
+                vc.videoUrl = URL(string: videoUrl)!
+                vc.player = player
+                present(vc, animated: true) {
+                    vc.player?.play()
+                }
+            }
+        }
     }
 }
 
@@ -1133,11 +1143,7 @@ extension QTProfileViewController: UICollectionViewDelegateFlowLayout {
             if collectionView == videoCollectionView {
                 let width = collectionView.frame.width
                 let height = collectionView.frame.height
-                if videos.count == 1 {
-                    return CGSize(width: width, height: height)
-                } else {
-                    return CGSize(width: width - 60, height: height)
-                }
+                return CGSize(width: width / 2, height: height)
             } else {
                 if let subjects = user.subjects {
                     width = subjects[indexPath.item].estimateFrameForFontSize(14, extendedWidth: true).width + 20
@@ -1181,7 +1187,7 @@ extension QTProfileViewController: UICollectionViewDataSource {
         
         if collectionView == videoCollectionView, (profileViewType == .tutor || profileViewType == .myTutor) {
             let cell = videoCollectionView.dequeueReusableCell(withReuseIdentifier: QTProfileVideoCollectionViewCell.reuseIdentifier, for: indexPath) as! QTProfileVideoCollectionViewCell
-            cell.setData(video: videos[indexPath.item], index: indexPath.item, isEditMode: false)
+            cell.setData(video: videos[indexPath.item], isEditMode: false)
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PillCollectionViewCell.reuseIdentifier, for: indexPath) as! PillCollectionViewCell

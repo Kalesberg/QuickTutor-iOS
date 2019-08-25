@@ -12,7 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="224" id="KGk-i7-Jjw" customClass="QTEditProfileVideoTableViewCell" customModule="QuickTutor" customModuleProvider="target">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="224" id="KGk-i7-Jjw" customClass="QTEditProfileVideoTableViewCell" customModule="QuickTutor" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="320" height="224"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
@@ -20,7 +20,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Ds1-MR-8WI">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="223.5"/>
+                        <rect key="frame" x="0.0" y="17" width="320" height="206.5"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="RlA-qR-ceT" customClass="QTOpacityAnimationCollectionViewFlowLayout" customModule="QuickTutor" customModuleProvider="target">
                             <size key="itemSize" width="50" height="50"/>
@@ -35,7 +35,7 @@
                     <constraint firstAttribute="bottom" secondItem="Ds1-MR-8WI" secondAttribute="bottom" id="Fdo-CM-rqi"/>
                     <constraint firstItem="Ds1-MR-8WI" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="aPn-Cq-4Du"/>
                     <constraint firstAttribute="trailing" secondItem="Ds1-MR-8WI" secondAttribute="trailing" id="mia-wi-l5h"/>
-                    <constraint firstItem="Ds1-MR-8WI" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="oqc-XU-26t"/>
+                    <constraint firstItem="Ds1-MR-8WI" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="17" id="oqc-XU-26t"/>
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" red="0.08235294118" green="0.08235294118" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

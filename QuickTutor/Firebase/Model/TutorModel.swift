@@ -81,6 +81,8 @@ class AWTutor: AWLearner {
                 video.uid = key
                 self.videos?.append(video)
             }
+            
+            self.videos = self.videos?.sorted(by: { $0.created < $1.created })
         }
         
         if let images = dictionary["img"] as? [String : String] {

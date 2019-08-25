@@ -61,7 +61,6 @@ abstract_target 'QuickTutorApp' do
         pod 'ActiveLabel'
         pod 'RangeSeekSlider'
         pod 'SKPhotoBrowser'
-        pod 'MobilePlayer'
         pod 'UITextView+Placeholder'
     end
     
