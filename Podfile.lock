@@ -167,7 +167,6 @@ PODS:
   - IQKeyboardManager (6.4.0)
   - leveldb-library (1.22)
   - lottie-ios (2.5.3)
-  - MobilePlayer (1.3.0)
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
     - nanopb/encode (= 0.3.901)
@@ -222,7 +221,6 @@ DEPENDENCIES:
   - Imaginary
   - IQKeyboardManager
   - lottie-ios (~> 2.5.3)
-  - MobilePlayer
   - ObjectMapper (~> 3.4)
   - PlaceholderTextView
   - RangeSeekSlider
@@ -283,7 +281,6 @@ SPEC REPOS:
     - IQKeyboardManager
     - leveldb-library
     - lottie-ios
-    - MobilePlayer
     - nanopb
     - ObjectMapper
     - PlaceholderTextView
@@ -346,7 +343,6 @@ SPEC CHECKSUMS:
   IQKeyboardManager: fcef267266379c003181fc3592f6bdb8bf4db839
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   lottie-ios: a50d5c0160425cd4b01b852bb9578963e6d92d31
-  MobilePlayer: e50e2160830f3db51d6e08067318aec6a9d39408
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   ObjectMapper: 70187b8941977c62ccfb423caf6b50be405cabf0
   PlaceholderTextView: ffca9f176be00ab3090e2191e6908dabf3dbdada
@@ -366,6 +362,6 @@ SPEC CHECKSUMS:
   TYPagerController: 262556ecef99986d26ed77fb1288a198ed42f4af
   "UITextView+Placeholder": f23df8592290d8d06078072ae1a663e11ee07ff4
 
-PODFILE CHECKSUM: 7567ebef8558eb2e8fd5bfacf6e2592de23939e5
+PODFILE CHECKSUM: 3fe3feefe17c2ecc1e59b436e47c86415940d195
 
 COCOAPODS: 1.7.5
