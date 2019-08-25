@@ -27,6 +27,7 @@ class QTProfileViewController: UIViewController {
     @IBOutlet weak var ratingStarImageView: UIImageView!
     @IBOutlet weak var ratingLabel: UILabel!
     
+    @IBOutlet weak var lblHourlyRate: UILabel!
     @IBOutlet weak var btnQuickCall: UIButton!
     
     @IBOutlet weak var lblSubjectTitle: UILabel!
@@ -57,7 +58,6 @@ class QTProfileViewController: UIViewController {
     @IBOutlet weak var lateFeeLabel: UILabel!
     @IBOutlet weak var cancellationPolicyLabel: UILabel!
     @IBOutlet weak var cancellationFeeLabel: UILabel!
-    @IBOutlet weak var connectView: UIView!
     
     // recommendations
     @IBOutlet weak var viewRecommendations: UIView!
@@ -68,8 +68,10 @@ class QTProfileViewController: UIViewController {
     @IBOutlet weak var lblWriteRecommend: UILabel!
     
     // bottom bar
+    @IBOutlet weak var connectView: UIView!
     @IBOutlet weak var imgBottomUser: UIImageView!
     @IBOutlet weak var lblBottomUserName: UILabel!
+    @IBOutlet weak var lblBottomHourlyRate: UILabel!
     @IBOutlet weak var ratingView: CosmosView!
     @IBOutlet weak var numberOfReviewsLabel: UILabel!
     @IBOutlet weak var connectButton: UIButton!
@@ -455,7 +457,7 @@ class QTProfileViewController: UIViewController {
                     // Set the featured subject.
                     subject = featuredSubject
                     if 1 < subjectsCount {
-                        topSubjectLabel.text = "Teaches \(featuredSubject.capitalizingFirstLetter()) & \(subjectsCount - 1) other subjects."
+                        topSubjectLabel.text = "Teaches \(featuredSubject.capitalizingFirstLetter()) & \(subjectsCount - 1) other topic\(3 < subjectsCount ? "s" : "")."
                     } else {
                         topSubjectLabel.text = "Teaches \(featuredSubject.capitalizingFirstLetter())."
                     }
@@ -464,7 +466,7 @@ class QTProfileViewController: UIViewController {
                     subject = user.subjects?.first
                     if let subject = subject {
                         if 1 < subjectsCount {
-                            topSubjectLabel.text = "Teaches \(subject.capitalizingFirstLetter()) & \(subjectsCount - 1) other topics."
+                            topSubjectLabel.text = "Teaches \(subject.capitalizingFirstLetter()) & \(subjectsCount - 1) other topic\(3 < subjectsCount ? "s" : "")."
                         } else {
                             topSubjectLabel.text = "Teaches \(subject.capitalizingFirstLetter())."
                         }
@@ -475,7 +477,7 @@ class QTProfileViewController: UIViewController {
                 topSubjectLabel.superview?.isHidden = subject?.isEmpty ?? true
                 if let subject = subject {
                     if 1 < subjectsCount {
-                        topSubjectLabel.text = "Teaches \(subject.capitalizingFirstLetter()) & \(subjectsCount - 1) other topics."
+                        topSubjectLabel.text = "Teaches \(subject.capitalizingFirstLetter()) & \(subjectsCount - 1) other topic\(3 < subjectsCount ? "s" : "")."
                     } else {
                         topSubjectLabel.text = "Teaches \(subject.capitalizingFirstLetter())."
                     }
@@ -536,26 +538,40 @@ class QTProfileViewController: UIViewController {
                 navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_dots_horizontal"), style: .plain, target: self, action: #selector(handleMoreButtonClicked))
             }
         case .myTutor:
+            let subjectsCount = user.subjects?.count ?? 0
             if subject?.isEmpty ?? true {
                 if let featuredSubject = user.featuredSubject, !featuredSubject.isEmpty {
                     // Set the featured subject.
                     subject = featuredSubject
-                    self.topSubjectLabel.text = featuredSubject.capitalizingFirstLetter()
+                    if 1 < subjectsCount {
+                        topSubjectLabel.text = "\(featuredSubject.capitalizingFirstLetter()) & \(subjectsCount - 1) other topic\(3 < subjectsCount ? "s" : "")."
+                    } else {
+                        topSubjectLabel.text = "\(featuredSubject.capitalizingFirstLetter())."
+                    }
                 } else {
                     // Set the first subject
                     subject = user.subjects?.first
                     if let subject = subject {
-                        self.topSubjectLabel.text = subject.capitalizingFirstLetter()
+                        if 1 < subjectsCount {
+                            topSubjectLabel.text = "\(subject.capitalizingFirstLetter()) & \(subjectsCount - 1) other topic\(3 < subjectsCount ? "s" : "")."
+                        } else {
+                            topSubjectLabel.text = "\(subject.capitalizingFirstLetter())."
+                        }
                     }
-                    self.topSubjectLabel.superview?.isHidden = subject?.isEmpty ?? true
+                    topSubjectLabel.superview?.isHidden = subject?.isEmpty ?? true
                 }
             } else {
                 topSubjectLabel.superview?.isHidden = subject?.isEmpty ?? true
                 if let subject = subject {
-                    topSubjectLabel.text = subject.capitalizingFirstLetter()
+                    if 1 < subjectsCount {
+                        topSubjectLabel.text = "\(subject.capitalizingFirstLetter()) & \(subjectsCount - 1) other topic\(3 < subjectsCount ? "s" : "")."
+                    } else {
+                        topSubjectLabel.text = "\(subject.capitalizingFirstLetter())."
+                    }
                 }
             }
             ratingLabel.text = "\(String(describing: user.tRating ?? 5.0))"
+            lblHourlyRate.text = "$\(user.price ?? 5)/hr"
             addressView.isHidden = false
             addressLabel.text = user.region
             distanceView.isHidden = false
@@ -601,6 +617,7 @@ class QTProfileViewController: UIViewController {
                                                                 target: self,
                                                                 action: #selector(handleEditProfile))
         }
+        lblHourlyRate.superview?.isHidden = .myTutor != profileViewType
         bioLabel.superview?.layoutIfNeeded()
     }
     
@@ -616,7 +633,7 @@ class QTProfileViewController: UIViewController {
                     lblRecommendedLearners.text = "\(firstRecommendation.learnerName ?? "") recommend Mark."
                 }
             } else if 2 == recommendations.count {
-                if user.uid != CurrentUser.shared.tutor.uid,
+                if user.uid != Auth.auth().currentUser?.uid,
                     recommendations.contains(where: { $0.learnerId == Auth.auth().currentUser?.uid }),
                     let otherRecommendation = recommendations.first(where: { $0.learnerId != Auth.auth().currentUser?.uid }) {
                     lblRecommendedLearners.text = "You and \(otherRecommendation.learnerName ?? "") recommend Mark."
@@ -624,7 +641,7 @@ class QTProfileViewController: UIViewController {
                     lblRecommendedLearners.text = "\(firstRecommendation.learnerName ?? "") and 1 other recommend Mark."
                 }
             } else {
-                if user.uid != CurrentUser.shared.tutor.uid,
+                if user.uid != Auth.auth().currentUser?.uid,
                     recommendations.contains(where: { $0.learnerId == Auth.auth().currentUser?.uid }),
                     let otherRecommendation = recommendations.first(where: { $0.learnerId != Auth.auth().currentUser?.uid }) {
                     lblRecommendedLearners.text = "You, \(otherRecommendation.learnerName ?? "") and \(recommendations.count - 2) other\(3 < recommendations.count ? "s" : "") recommend Mark."
@@ -800,7 +817,7 @@ class QTProfileViewController: UIViewController {
             
             connectView.isHidden = false
             ratingView.rating = user.tRating
-            
+            lblBottomHourlyRate.text = "$\(user.price ?? 5)/hr"
             numberOfReviewsLabel.text = "\(user.reviews?.count ?? 0)"
             
             // If a tutor visits an another tutor's profile, hide connect button
@@ -989,7 +1006,9 @@ class QTProfileViewController: UIViewController {
             self.connectButton.isEnabled = true
             if connected {
                 self.connectionStatus = .connected
-                self.btnQuickCall.superview?.isHidden = false
+                if .tutor == self.profileViewType {
+                    self.btnQuickCall.superview?.isHidden = false
+                }
                 self.connectButton.setTitle("Schedule Now", for: .normal)
             } else {
                 self.btnQuickCall.superview?.isHidden = true
