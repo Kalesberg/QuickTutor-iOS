@@ -263,6 +263,7 @@ class TutorEditProfileVC: LearnerEditProfileVC {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileCell", for: indexPath) as! EditProfileCell
                 cell.textField.textField.addTarget(self, action: #selector(subjectEditingEnded(_:)), for: .editingDidEnd)
                 cell.textField.textField.delegate = self
+                cell.textField.textField.returnKeyType = .done
                 cell.textField.placeholder.text = "Topic"
                 if let subject = experienceSubject, !subject.isEmpty {
                     cell.textField.textField.attributedText = NSAttributedString(string: "\(subject)", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
@@ -432,7 +433,7 @@ extension TutorEditProfileVC: UITextFieldDelegate {
 
 extension TutorEditProfileVC: RangeSeekSliderDelegate {
     func rangeSeekSlider(_ slider: RangeSeekSlider, stringForMaxValue maxValue: CGFloat) -> String? {
-        return maxValue < 1 ? "6 mo" : "\(Int(maxValue)) years"
+        return maxValue < 1 ? "6 mo." : "\(Int(maxValue)) years"
     }
     
     func rangeSeekSlider(_ slider: RangeSeekSlider, didChange minValue: CGFloat, maxValue: CGFloat) {
