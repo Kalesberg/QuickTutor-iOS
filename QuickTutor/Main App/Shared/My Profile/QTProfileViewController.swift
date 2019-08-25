@@ -73,6 +73,7 @@ class QTProfileViewController: UIViewController {
     @IBOutlet weak var ratingView: CosmosView!
     @IBOutlet weak var numberOfReviewsLabel: UILabel!
     @IBOutlet weak var connectButton: UIButton!
+    @IBOutlet weak var constraintConnectViewBottom: NSLayoutConstraint!
     
     static var controller: QTProfileViewController {
         return QTProfileViewController(nibName: String(describing: QTProfileViewController.self), bundle: nil)
@@ -123,7 +124,11 @@ class QTProfileViewController: UIViewController {
         if .tutor == profileViewType {
             btnQuickCall.isHidden = -1 == user.quickCallPrice
         }
-        viewRecommendations.superview?.isHidden = .tutor != profileViewType
+        if .myTutor == profileViewType || .tutor == profileViewType {
+            viewRecommendations.superview?.isHidden = false
+        } else {
+            viewRecommendations.superview?.isHidden = true
+        }
         
         if #available(iOS 11.0, *) {
             if !isPresentedFromSessionScreen {
@@ -575,6 +580,10 @@ class QTProfileViewController: UIViewController {
                                 target: self,
                                 action: #selector(handleShareProfileButtonClicked))
             ]
+            
+            // Update Recommendations
+            updateRecommendataionView()
+            
         case .myLearner:
             topSubjectLabel.superview?.isHidden = true
             ratingLabel.text = "\(String(describing: user.lRating ?? 5.0))"
@@ -607,14 +616,16 @@ class QTProfileViewController: UIViewController {
                     lblRecommendedLearners.text = "\(firstRecommendation.learnerName ?? "") recommend Mark."
                 }
             } else if 2 == recommendations.count {
-                if recommendations.contains(where: { $0.learnerId == Auth.auth().currentUser?.uid }),
+                if user.uid != CurrentUser.shared.tutor.uid,
+                    recommendations.contains(where: { $0.learnerId == Auth.auth().currentUser?.uid }),
                     let otherRecommendation = recommendations.first(where: { $0.learnerId != Auth.auth().currentUser?.uid }) {
                     lblRecommendedLearners.text = "You and \(otherRecommendation.learnerName ?? "") recommend Mark."
                 } else {
                     lblRecommendedLearners.text = "\(firstRecommendation.learnerName ?? "") and 1 other recommend Mark."
                 }
             } else {
-                if recommendations.contains(where: { $0.learnerId == Auth.auth().currentUser?.uid }),
+                if user.uid != CurrentUser.shared.tutor.uid,
+                    recommendations.contains(where: { $0.learnerId == Auth.auth().currentUser?.uid }),
                     let otherRecommendation = recommendations.first(where: { $0.learnerId != Auth.auth().currentUser?.uid }) {
                     lblRecommendedLearners.text = "You, \(otherRecommendation.learnerName ?? "") and \(recommendations.count - 2) other\(3 < recommendations.count ? "s" : "") recommend Mark."
                 } else {
@@ -804,6 +815,7 @@ class QTProfileViewController: UIViewController {
              .myTutor,
              .myLearner:
             connectView.isHidden = true
+            constraintConnectViewBottom.constant = -84
         }
     }
     
@@ -997,7 +1009,7 @@ class QTProfileViewController: UIViewController {
                 })
             }
             
-            if .tutor == self.profileViewType {
+            if .tutor == self.profileViewType || .myTutor == self.profileViewType {
                 self.updateRecommendataionView()
             }
         }

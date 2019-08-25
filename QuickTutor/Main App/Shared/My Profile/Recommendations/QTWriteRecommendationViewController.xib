@@ -40,7 +40,7 @@
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="16"/>
-                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert"/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Start type..."/>
                                 <userDefinedRuntimeAttribute type="color" keyPath="placeholderColor">

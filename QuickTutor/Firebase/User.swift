@@ -861,11 +861,11 @@ class FirebaseData {
 		return dataToUpload
 	}
 	
-	func signInLearner(uid: String,_ completion: @escaping (Bool) -> Void) {
+    func signInLearner(uid: String, isFacebookLogin: Bool = false, _ completion: @escaping (Bool) -> Void) {
 		fetchLearner(uid) { (learner) in
 			guard let learner = learner else { return completion(false) }
 			CurrentUser.shared.learner = learner
-			AccountService.shared.loadUser()
+			AccountService.shared.loadUser(isFacebookLogin: isFacebookLogin)
 			AccountService.shared.currentUserType = .learner
 			return completion(true)
 		}

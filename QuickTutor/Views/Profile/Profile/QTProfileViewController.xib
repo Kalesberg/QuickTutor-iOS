@@ -41,6 +41,7 @@
                 <outlet property="cancellationPolicyLabel" destination="BCA-xc-gDk" id="RZD-6g-Fog"/>
                 <outlet property="connectButton" destination="bch-YN-hK6" id="FLm-DS-1Vb"/>
                 <outlet property="connectView" destination="DAs-F9-YuI" id="Wus-rT-djD"/>
+                <outlet property="constraintConnectViewBottom" destination="bzy-Xx-94E" id="MUE-b2-68a"/>
                 <outlet property="distanceLabel" destination="qI6-3Y-s4S" id="HFJ-XQ-8nM"/>
                 <outlet property="distanceView" destination="LEt-lb-FLE" id="Dsd-VV-tTj"/>
                 <outlet property="experienceLabel" destination="75G-Xv-Ks0" id="Ut5-Eh-WPR"/>
@@ -88,7 +89,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G4J-AK-EAf">
-                    <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                    <rect key="frame" x="0.0" y="20" width="375" height="563"/>
                     <subviews>
                         <stackView contentMode="scaleToFill" axis="vertical" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="GUu-Sf-9Cv">
                             <rect key="frame" x="20" y="0.0" width="335" height="1673"/>
@@ -836,7 +837,7 @@
                     <color key="backgroundColor" red="0.082352941176470587" green="0.082352941176470587" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
                         <constraint firstItem="GUu-Sf-9Cv" firstAttribute="centerX" secondItem="G4J-AK-EAf" secondAttribute="centerX" id="63w-xE-ilK"/>
-                        <constraint firstAttribute="bottom" secondItem="GUu-Sf-9Cv" secondAttribute="bottom" constant="84" id="E23-dW-WQZ"/>
+                        <constraint firstAttribute="bottom" secondItem="GUu-Sf-9Cv" secondAttribute="bottom" constant="16" id="E23-dW-WQZ"/>
                         <constraint firstItem="GUu-Sf-9Cv" firstAttribute="leading" secondItem="G4J-AK-EAf" secondAttribute="leading" constant="20" id="K4B-SU-ERD"/>
                         <constraint firstAttribute="trailing" secondItem="GUu-Sf-9Cv" secondAttribute="trailing" constant="20" id="MZV-Zy-gIX"/>
                         <constraint firstItem="GUu-Sf-9Cv" firstAttribute="top" secondItem="G4J-AK-EAf" secondAttribute="top" id="i8k-p3-hIJ"/>
@@ -958,11 +959,11 @@
             <constraints>
                 <constraint firstItem="G4J-AK-EAf" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="OV8-87-p5J"/>
                 <constraint firstItem="DAs-F9-YuI" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="P42-hf-DHn"/>
+                <constraint firstItem="DAs-F9-YuI" firstAttribute="top" secondItem="G4J-AK-EAf" secondAttribute="bottom" id="WAF-NM-J0w"/>
                 <constraint firstItem="DAs-F9-YuI" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="Wuc-NK-65I"/>
                 <constraint firstItem="G4J-AK-EAf" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="YPA-wU-XZp"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="DAs-F9-YuI" secondAttribute="bottom" id="bzy-Xx-94E"/>
                 <constraint firstItem="G4J-AK-EAf" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="s3a-mH-aWU"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="G4J-AK-EAf" secondAttribute="bottom" id="vfL-Xf-BZx"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="37.600000000000001" y="-16.641679160419791"/>

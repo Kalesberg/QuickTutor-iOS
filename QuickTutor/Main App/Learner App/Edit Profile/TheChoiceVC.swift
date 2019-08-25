@@ -39,8 +39,8 @@ class TheChoiceVC: UIViewController {
             FirebaseData.manager.fetchLearner(Registration.uid) { learner in
                 if let learner = learner {
                     CurrentUser.shared.learner = learner
+                    AccountService.shared.loadUser(isFacebookLogin: nil != Registration.facebookInfo)
                     AccountService.shared.currentUserType = .learner
-                    AccountService.shared.loadUser()
                     RootControllerManager.shared.setupLearnerTabBar(controller: LearnerMainPageVC())
                     let endIndex = self.navigationController?.viewControllers.endIndex
                     self.navigationController?.viewControllers.removeFirst(endIndex! - 1)
