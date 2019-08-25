@@ -126,7 +126,7 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
             if let strFBName = facebook["name"] {
                 lblFacebookName.text = strFBName
             }
-            btnDisconnectFacebook.isHidden = "facebook.com" == Auth.auth().currentUser?.providerID
+            btnDisconnectFacebook.isHidden = AccountService.shared.currentUser.isFacebookLogin || 1 == Auth.auth().currentUser?.providerData.count
         } else {
             if let provider = Auth.auth().currentUser?.providerData.first(where: { "facebook.com" == $0.providerID }) {
                 var facebookInfo: [String: String] = [:]

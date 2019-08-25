@@ -2,7 +2,7 @@
 //  QTWriteRecommendationViewController.swift
 //  QuickTutor
 //
-//  Created by Michael Burkard on 8/24/19.
+//  Created by JH Lee on 8/24/19.
 //  Copyright © 2019 QuickTutor. All rights reserved.
 //
 
@@ -22,7 +22,7 @@ class QTWriteRecommendationViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        title = "Write recommendations"
+        title = "Write Recommendation"
         
         btnSubmit.isEnabled = false
         btnSubmit.backgroundColor = Colors.gray

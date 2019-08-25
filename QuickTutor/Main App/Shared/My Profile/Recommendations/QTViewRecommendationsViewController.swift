@@ -2,7 +2,7 @@
 //  QTViewRecommendationsViewController.swift
 //  QuickTutor
 //
-//  Created by Michael Burkard on 8/24/19.
+//  Created by JH Lee on 8/24/19.
 //  Copyright © 2019 QuickTutor. All rights reserved.
 //
 
@@ -20,7 +20,11 @@ class QTViewRecommendationsViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        title = "\(objTutor.formattedName)'s recommendations"
+        if objTutor.uid == CurrentUser.shared.tutor.uid {
+            title = "Your recommendations"
+        } else {
+            title = "\(objTutor.firstName ?? "")'s recommendations"
+        }
         
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44
