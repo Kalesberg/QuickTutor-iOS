@@ -538,37 +538,17 @@ class QTProfileViewController: UIViewController {
                 navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_dots_horizontal"), style: .plain, target: self, action: #selector(handleMoreButtonClicked))
             }
         case .myTutor:
-            let subjectsCount = user.subjects?.count ?? 0
             if subject?.isEmpty ?? true {
                 if let featuredSubject = user.featuredSubject, !featuredSubject.isEmpty {
-                    // Set the featured subject.
-                    subject = featuredSubject
-                    if 1 < subjectsCount {
-                        topSubjectLabel.text = "\(featuredSubject.capitalizingFirstLetter()) & \(subjectsCount - 1) other topic\(3 < subjectsCount ? "s" : "")."
-                    } else {
-                        topSubjectLabel.text = "\(featuredSubject.capitalizingFirstLetter())."
-                    }
+                    topSubjectLabel.text = featuredSubject.capitalizingFirstLetter()
                 } else {
                     // Set the first subject
-                    subject = user.subjects?.first
-                    if let subject = subject {
-                        if 1 < subjectsCount {
-                            topSubjectLabel.text = "\(subject.capitalizingFirstLetter()) & \(subjectsCount - 1) other topic\(3 < subjectsCount ? "s" : "")."
-                        } else {
-                            topSubjectLabel.text = "\(subject.capitalizingFirstLetter())."
-                        }
-                    }
+                    topSubjectLabel.text = user.subjects?.first?.capitalizingFirstLetter()
                     topSubjectLabel.superview?.isHidden = subject?.isEmpty ?? true
                 }
             } else {
                 topSubjectLabel.superview?.isHidden = subject?.isEmpty ?? true
-                if let subject = subject {
-                    if 1 < subjectsCount {
-                        topSubjectLabel.text = "\(subject.capitalizingFirstLetter()) & \(subjectsCount - 1) other topic\(3 < subjectsCount ? "s" : "")."
-                    } else {
-                        topSubjectLabel.text = "\(subject.capitalizingFirstLetter())."
-                    }
-                }
+                topSubjectLabel.text = subject?.capitalizingFirstLetter()
             }
             ratingLabel.text = "\(String(describing: user.tRating ?? 5.0))"
             lblHourlyRate.text = "$\(user.price ?? 5)/hr"
