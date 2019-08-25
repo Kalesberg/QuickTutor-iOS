@@ -14,6 +14,7 @@ import Stripe
 import CoreLocation
 import SDWebImage
 import SwiftKeychainWrapper
+import ObjectMapper
 
 class CurrentUser {
 	
@@ -297,7 +298,10 @@ class FirebaseData {
     func fetchReviews(uid : String, type: String,_ completion : @escaping ([Review]?) -> Void) {
 		var reviews: [Review] = []
 		self.ref?.child("review").child(uid).child(type).queryOrdered(byChild: "dte").observeSingleEvent(of: .value, with: { (snapshot) in
-			guard let snap = snapshot.children.allObjects as? [DataSnapshot] else { return }
+			guard let snap = snapshot.children.allObjects as? [DataSnapshot] else {
+                completion(nil)
+                return
+            }
 			
 			for child in snap {
 				guard let value = child.value as? [String : Any] else { continue }
@@ -311,6 +315,25 @@ class FirebaseData {
 			return completion(reviews)
 		})
 	}
+    
+    func fetchTutorRecommendations(uid : String, completion: @escaping ([QTTutorRecommendationModel]?) -> Void) {
+        ref?.child("recommendations").child(uid).queryOrdered(byChild: "createdAt").observeSingleEvent(of: .value) { snapshot in
+            guard let dicRecommendations = snapshot.value as? [String: Any] else {
+                completion(nil)
+                return
+            }
+            
+            var aryRecommendations: [QTTutorRecommendationModel] = []
+            for dicRecommendation in dicRecommendations.values {
+                guard let dicValue = dicRecommendation as? [String: Any],
+                    let objRecommendation = Mapper<QTTutorRecommendationModel>().map(JSON: dicValue) else { continue }
+         
+                aryRecommendations.insert(objRecommendation, at: 0)
+            }
+            
+            completion(aryRecommendations)
+        }
+    }
     
     private func fetchSavedTutors(uid: String, completion: @escaping([String]?) -> Void) {
         Database.database().reference().child("saved-tutors").child(uid).observeSingleEvent(of: .value) { (snapshot) in
@@ -591,33 +614,30 @@ class FirebaseData {
 					return completion(nil)
 				}
 				
-				guard let images = tutorDict["img"] as? [String : String] else {
-					print("Couldn't find images: ", uid)
-					return completion(nil)
-				}
-				tutor.images = images
-                if tutor.images.keys.contains("image1") {
-                    tutor.profilePicUrl = URL(string: images["image1"] ?? "")!
-                } else {
-                    tutor.profilePicUrl = Constants.AVATAR_PLACEHOLDER_URL
-                }
                 group.enter()
-				self.fetchTutorLocation(uid: uid, { (location) in
+				self.fetchTutorLocation(uid: uid) { (location) in
 					if let location = location {
 						tutor.location = location
 					}
                     group.leave()
-				})
+				}
 				
 				group.enter()
-				self.fetchReviews(uid: uid, type: "learner", { (reviews) in
+				self.fetchReviews(uid: uid, type: "learner") { (reviews) in
 					if let reviews = reviews {
 						tutor.reviews = reviews
 					}
 					group.leave()
-				})
+				}
+                
+                group.enter()
+                self.fetchTutorRecommendations(uid: uid) { recommendations in
+                    tutor.recommendations = recommendations
+                    group.leave()
+                }
+                
 				group.enter()
-				self.fetchTutorSubjects(uid: uid, { (subjects) in
+				self.fetchTutorSubjects(uid: uid) { (subjects) in
                     guard let subjects = subjects else {
                         group.leave()
                         return
@@ -626,17 +646,17 @@ class FirebaseData {
                     tutor.subjects = subjects
                     tutor.selected = selected
 					group.leave()
-				})
+				}
                 
                 group.enter()
-                self.fetchTutorConnections(uid: uid, { uids in
+                self.fetchTutorConnections(uid: uid) { uids in
                     tutor.learners = uids ?? []
                     group.leave()
-                })
+                }
                 
-				group.notify(queue: .main, execute: {
+				group.notify(queue: .main) {
 					completion(tutor)
-				})
+				}
 			})
 		})
 	}

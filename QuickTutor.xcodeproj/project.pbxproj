@@ -14,6 +14,8 @@
 		4D348102223A31E70004C29A /* QTReviewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D3480FE223A31E70004C29A /* QTReviewTableViewCell.xib */; };
 		4D348104223A35370004C29A /* QTRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D348103223A35370004C29A /* QTRatingView.swift */; };
 		4D348105223A35370004C29A /* QTRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D348103223A35370004C29A /* QTRatingView.swift */; };
+		4D3492C523112A8D004CEAEB /* QTTutorRecommendationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3492C423112A8D004CEAEB /* QTTutorRecommendationModel.swift */; };
+		4D3492C623112A8D004CEAEB /* QTTutorRecommendationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3492C423112A8D004CEAEB /* QTTutorRecommendationModel.swift */; };
 		4D7DD55122832FCC0027B687 /* UITabBarExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7DD55022832FCC0027B687 /* UITabBarExtensions.swift */; };
 		4D7DD55222832FCC0027B687 /* UITabBarExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7DD55022832FCC0027B687 /* UITabBarExtensions.swift */; };
 		4D853D6E230A9BDA00DAC323 /* ChoosePaymentMethodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D853D6C230A9BDA00DAC323 /* ChoosePaymentMethodViewController.swift */; };
@@ -27,6 +29,18 @@
 		4DE366922239F06C00A94C37 /* QTProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE3668F2239F06C00A94C37 /* QTProfileViewController.swift */; };
 		4DE366932239F06C00A94C37 /* QTProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DE366902239F06C00A94C37 /* QTProfileViewController.xib */; };
 		4DE366942239F06C00A94C37 /* QTProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DE366902239F06C00A94C37 /* QTProfileViewController.xib */; };
+		4DF3427D23122364000C554D /* QTWriteRecommendationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF3427B23122364000C554D /* QTWriteRecommendationViewController.swift */; };
+		4DF3427E23122364000C554D /* QTWriteRecommendationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF3427B23122364000C554D /* QTWriteRecommendationViewController.swift */; };
+		4DF3427F23122364000C554D /* QTWriteRecommendationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DF3427C23122364000C554D /* QTWriteRecommendationViewController.xib */; };
+		4DF3428023122364000C554D /* QTWriteRecommendationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DF3427C23122364000C554D /* QTWriteRecommendationViewController.xib */; };
+		4DF3428323122376000C554D /* QTViewRecommendationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF3428123122376000C554D /* QTViewRecommendationsViewController.swift */; };
+		4DF3428423122376000C554D /* QTViewRecommendationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF3428123122376000C554D /* QTViewRecommendationsViewController.swift */; };
+		4DF3428523122376000C554D /* QTViewRecommendationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DF3428223122376000C554D /* QTViewRecommendationsViewController.xib */; };
+		4DF3428623122376000C554D /* QTViewRecommendationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DF3428223122376000C554D /* QTViewRecommendationsViewController.xib */; };
+		4DF3428923122EFB000C554D /* QTRecommendationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF3428723122EFB000C554D /* QTRecommendationTableViewCell.swift */; };
+		4DF3428A23122EFB000C554D /* QTRecommendationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF3428723122EFB000C554D /* QTRecommendationTableViewCell.swift */; };
+		4DF3428B23122EFB000C554D /* QTRecommendationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DF3428823122EFB000C554D /* QTRecommendationTableViewCell.xib */; };
+		4DF3428C23122EFB000C554D /* QTRecommendationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DF3428823122EFB000C554D /* QTRecommendationTableViewCell.xib */; };
 		4EBF70E61F2DAEA41CED62AE /* libPods-QuickTutorApp-QuickTutorUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A996DC02704EE74211A539D2 /* libPods-QuickTutorApp-QuickTutorUITests.a */; };
 		5602379D2267641B005653D5 /* CategorySectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF671AC7225D92FD00CF4F0A /* CategorySectionController.swift */; };
 		5602379E22676458005653D5 /* LearnerMainPageFeaturedSectionContainerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF671AC3225D8CB500CF4F0A /* LearnerMainPageFeaturedSectionContainerCell.swift */; };
@@ -1334,12 +1348,19 @@
 		4D3480FD223A31E70004C29A /* QTReviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTReviewTableViewCell.swift; sourceTree = "<group>"; };
 		4D3480FE223A31E70004C29A /* QTReviewTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTReviewTableViewCell.xib; sourceTree = "<group>"; };
 		4D348103223A35370004C29A /* QTRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTRatingView.swift; sourceTree = "<group>"; };
+		4D3492C423112A8D004CEAEB /* QTTutorRecommendationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorRecommendationModel.swift; sourceTree = "<group>"; };
 		4D7DD55022832FCC0027B687 /* UITabBarExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITabBarExtensions.swift; sourceTree = "<group>"; };
 		4D853D6C230A9BDA00DAC323 /* ChoosePaymentMethodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosePaymentMethodViewController.swift; sourceTree = "<group>"; };
 		4D853D6D230A9BDA00DAC323 /* ChoosePaymentMethodViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChoosePaymentMethodViewController.xib; sourceTree = "<group>"; };
 		4D853D73230A9CE100DAC323 /* QTBaseCustomDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTBaseCustomDialog.swift; sourceTree = "<group>"; };
 		4DE3668F2239F06C00A94C37 /* QTProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTProfileViewController.swift; sourceTree = "<group>"; };
 		4DE366902239F06C00A94C37 /* QTProfileViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTProfileViewController.xib; sourceTree = "<group>"; };
+		4DF3427B23122364000C554D /* QTWriteRecommendationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTWriteRecommendationViewController.swift; sourceTree = "<group>"; };
+		4DF3427C23122364000C554D /* QTWriteRecommendationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTWriteRecommendationViewController.xib; sourceTree = "<group>"; };
+		4DF3428123122376000C554D /* QTViewRecommendationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTViewRecommendationsViewController.swift; sourceTree = "<group>"; };
+		4DF3428223122376000C554D /* QTViewRecommendationsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTViewRecommendationsViewController.xib; sourceTree = "<group>"; };
+		4DF3428723122EFB000C554D /* QTRecommendationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTRecommendationTableViewCell.swift; sourceTree = "<group>"; };
+		4DF3428823122EFB000C554D /* QTRecommendationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTRecommendationTableViewCell.xib; sourceTree = "<group>"; };
 		561003B42242A9AF00A4688F /* QTInPersonSessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTInPersonSessionViewController.swift; sourceTree = "<group>"; };
 		561003B52242A9AF00A4688F /* QTInPersonSessionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTInPersonSessionViewController.xib; sourceTree = "<group>"; };
 		561003BA2242D23600A4688F /* QTPastSessionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTPastSessionsViewController.swift; sourceTree = "<group>"; };
@@ -2078,6 +2099,19 @@
 			path = Profile;
 			sourceTree = "<group>";
 		};
+		4DF3427A2312234A000C554D /* Recommendations */ = {
+			isa = PBXGroup;
+			children = (
+				4DF3427B23122364000C554D /* QTWriteRecommendationViewController.swift */,
+				4DF3427C23122364000C554D /* QTWriteRecommendationViewController.xib */,
+				4DF3428123122376000C554D /* QTViewRecommendationsViewController.swift */,
+				4DF3428223122376000C554D /* QTViewRecommendationsViewController.xib */,
+				4DF3428723122EFB000C554D /* QTRecommendationTableViewCell.swift */,
+				4DF3428823122EFB000C554D /* QTRecommendationTableViewCell.xib */,
+			);
+			path = Recommendations;
+			sourceTree = "<group>";
+		};
 		561003C02243160300A4688F /* SubViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -2538,6 +2572,7 @@
 		843BA3202055087D000C7054 /* My Profile */ = {
 			isa = PBXGroup;
 			children = (
+				4DF3427A2312234A000C554D /* Recommendations */,
 				4DE3668F2239F06C00A94C37 /* QTProfileViewController.swift */,
 				8496FE032161833900BD292F /* TutorViews */,
 				84D6A7D5215B08F6000C0010 /* LearnerViews */,
@@ -2697,6 +2732,7 @@
 				84A6E471218F68FA00D03681 /* TutorLocation.swift */,
 				84A6E46F218F68C700D03681 /* TutorSubjectSearch.swift */,
 				84A6E473218F697400D03681 /* FeaturedTutorCount.swift */,
+				4D3492C423112A8D004CEAEB /* QTTutorRecommendationModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -4002,6 +4038,7 @@
 				5669A5D0229D8EE5007B3202 /* QTTutorPolicyViewController.xib in Resources */,
 				569F18BE223554FD00820A20 /* Lato-Light.ttf in Resources */,
 				56BE7E5822CFA3A60052BBE7 /* QTSubjectSearchViewController.xib in Resources */,
+				4DF3428023122364000C554D /* QTWriteRecommendationViewController.xib in Resources */,
 				4DE366942239F06C00A94C37 /* QTProfileViewController.xib in Resources */,
 				569F18BF223554FD00820A20 /* loading10.json in Resources */,
 				BE817222229C724A0089FA1E /* session_ringtone.mp3 in Resources */,
@@ -4063,6 +4100,7 @@
 				569F18DD223554FD00820A20 /* business.json in Resources */,
 				569F18DE223554FD00820A20 /* lifestyle.json in Resources */,
 				564DD5C12285C53F00912E36 /* QTRequestQuickCallViewController.xib in Resources */,
+				4DF3428623122376000C554D /* QTViewRecommendationsViewController.xib in Resources */,
 				569F18DF223554FD00820A20 /* qtNotificationPop.aiff in Resources */,
 				BE17EA2022A9D9B50044E934 /* EditSchoolVC.xib in Resources */,
 				569F18E0223554FD00820A20 /* QTRatingReceiptCollectionViewCell.xib in Resources */,
@@ -4070,6 +4108,7 @@
 				569F18E2223554FD00820A20 /* Lato-Regular.ttf in Resources */,
 				569F18E3223554FD00820A20 /* auto.json in Resources */,
 				56C889E5228E5FE0008D155D /* QTStartQuickCallViewController.xib in Resources */,
+				4DF3428C23122EFB000C554D /* QTRecommendationTableViewCell.xib in Resources */,
 				569F18E4223554FD00820A20 /* arts.json in Resources */,
 				CFE43E17223AD56F00BF1F71 /* loadingNew.json in Resources */,
 				9359CED7227BEF92008E9FB1 /* ProcessingFeeModal.xib in Resources */,
@@ -4123,6 +4162,7 @@
 				5669A5CF229D8EE5007B3202 /* QTTutorPolicyViewController.xib in Resources */,
 				56DC6DA2220BD7DF00935F47 /* Lato-Light.ttf in Resources */,
 				56BE7E5722CFA3A60052BBE7 /* QTSubjectSearchViewController.xib in Resources */,
+				4DF3427F23122364000C554D /* QTWriteRecommendationViewController.xib in Resources */,
 				4DE366932239F06C00A94C37 /* QTProfileViewController.xib in Resources */,
 				840E4E07213761C10045CD35 /* loading10.json in Resources */,
 				BE817221229C724A0089FA1E /* session_ringtone.mp3 in Resources */,
@@ -4184,6 +4224,7 @@
 				8425766A20712D0300FD295B /* business.json in Resources */,
 				8425766C20712D9E00FD295B /* lifestyle.json in Resources */,
 				564DD5C02285C53F00912E36 /* QTRequestQuickCallViewController.xib in Resources */,
+				4DF3428523122376000C554D /* QTViewRecommendationsViewController.xib in Resources */,
 				CFE18FA321196790000816C4 /* qtNotificationPop.aiff in Resources */,
 				BE17EA1F22A9D9B50044E934 /* EditSchoolVC.xib in Resources */,
 				568B82E3222540DF004DF011 /* QTRatingReceiptCollectionViewCell.xib in Resources */,
@@ -4191,6 +4232,7 @@
 				56DC6DA5220BD7DF00935F47 /* Lato-Regular.ttf in Resources */,
 				8425766820712C3600FD295B /* auto.json in Resources */,
 				56C889E0228E4C51008D155D /* QTStartQuickCallViewController.xib in Resources */,
+				4DF3428B23122EFB000C554D /* QTRecommendationTableViewCell.xib in Resources */,
 				8425766620712B2A00FD295B /* arts.json in Resources */,
 				CFE43E16223AD56F00BF1F71 /* loadingNew.json in Resources */,
 				9359CED6227BEF92008E9FB1 /* ProcessingFeeModal.xib in Resources */,
@@ -4302,6 +4344,7 @@
 				"${BUILT_PRODUCTS_DIR}/SwipeCellKit/SwipeCellKit.framework",
 				"${BUILT_PRODUCTS_DIR}/TYPagerController/TYPagerController.framework",
 				"${PODS_ROOT}/TwilioVideo/Build/iOS/TwilioVideo.framework",
+				"${BUILT_PRODUCTS_DIR}/UITextView+Placeholder/UITextView_Placeholder.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
@@ -4344,6 +4387,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwipeCellKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TYPagerController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwilioVideo.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UITextView_Placeholder.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
@@ -4730,6 +4774,7 @@
 				"${BUILT_PRODUCTS_DIR}/SwipeCellKit/SwipeCellKit.framework",
 				"${BUILT_PRODUCTS_DIR}/TYPagerController/TYPagerController.framework",
 				"${PODS_ROOT}/TwilioVideo/Build/iOS/TwilioVideo.framework",
+				"${BUILT_PRODUCTS_DIR}/UITextView+Placeholder/UITextView_Placeholder.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
@@ -4772,6 +4817,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwipeCellKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TYPagerController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwilioVideo.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UITextView_Placeholder.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
@@ -4989,6 +5035,7 @@
 				569F1783223554FD00820A20 /* SessionRequestSubjectView.swift in Sources */,
 				569F1784223554FD00820A20 /* TutorProfilePicsVC.swift in Sources */,
 				569F1785223554FD00820A20 /* NotificationManager.swift in Sources */,
+				4DF3428A23122EFB000C554D /* QTRecommendationTableViewCell.swift in Sources */,
 				569F1786223554FD00820A20 /* ProfileItemView.swift in Sources */,
 				56BE7E7922CFD88C0052BBE7 /* QTRecentSearchTableViewCell.swift in Sources */,
 				569F1787223554FD00820A20 /* CategorySearchVCView.swift in Sources */,
@@ -5027,6 +5074,7 @@
 				CFB767CE22991B7A001206DA /* EarningsHistoryCell.swift in Sources */,
 				569F17A5223554FD00820A20 /* SessionsVC.swift in Sources */,
 				569F17A6223554FD00820A20 /* PillCollectionViewCell.swift in Sources */,
+				4D3492C623112A8D004CEAEB /* QTTutorRecommendationModel.swift in Sources */,
 				569F17A7223554FD00820A20 /* TutorUnprofessionalVC.swift in Sources */,
 				569F17A9223554FD00820A20 /* ExternalAccounts.swift in Sources */,
 				569F17AA223554FD00820A20 /* SessionRequestError.swift in Sources */,
@@ -5139,6 +5187,7 @@
 				569F1810223554FD00820A20 /* BirthdayVC.swift in Sources */,
 				569F1811223554FD00820A20 /* LearnerUnprofessional.swift in Sources */,
 				569F1812223554FD00820A20 /* LegalEntity.swift in Sources */,
+				4DF3427E23122364000C554D /* QTWriteRecommendationViewController.swift in Sources */,
 				569F1813223554FD00820A20 /* LearnerUpcomingSessionCell.swift in Sources */,
 				4D853D75230A9CE100DAC323 /* QTBaseCustomDialog.swift in Sources */,
 				569F1814223554FD00820A20 /* DimmableButton.swift in Sources */,
@@ -5238,6 +5287,7 @@
 				569F1871223554FD00820A20 /* CloseAccountVC.swift in Sources */,
 				569F1872223554FD00820A20 /* CancelSessionModal.swift in Sources */,
 				569F1873223554FD00820A20 /* PaymentMethodCell.swift in Sources */,
+				4DF3428423122376000C554D /* QTViewRecommendationsViewController.swift in Sources */,
 				569F1874223554FD00820A20 /* AccountPaymentsVC.swift in Sources */,
 				569F1875223554FD00820A20 /* PriceInputView.swift in Sources */,
 				56BE7E6222CFCD500052BBE7 /* QTRecentSearchModel.swift in Sources */,
@@ -5505,6 +5555,7 @@
 				CFD112C4215ACB45000F61F2 /* CategorySearchVCView.swift in Sources */,
 				84000D2E21246B5E0023355B /* ProfileImageViewer.swift in Sources */,
 				846252F320637FA7001DD330 /* BankManager.swift in Sources */,
+				4DF3428923122EFB000C554D /* QTRecommendationTableViewCell.swift in Sources */,
 				840E75BA201E7DF6006FC580 /* LearnerPaymentVC.swift in Sources */,
 				56BE7E7822CFD88C0052BBE7 /* QTRecentSearchTableViewCell.swift in Sources */,
 				564DD5BE2285C53F00912E36 /* QTRequestQuickCallViewController.swift in Sources */,
@@ -5543,6 +5594,7 @@
 				CFB767CD22991B77001206DA /* EarningsHistoryCell.swift in Sources */,
 				848809F7205770D000F204A0 /* TutorUnprofessionalVC.swift in Sources */,
 				84BDE2B920AB2CAB003E66D5 /* ExternalAccounts.swift in Sources */,
+				4D3492C523112A8D004CEAEB /* QTTutorRecommendationModel.swift in Sources */,
 				CFB9B7CD21C18A240022333F /* SessionRequestError.swift in Sources */,
 				84C8F5E21FF83DC600737A59 /* RegistrationDigitTextField.swift in Sources */,
 				CF6F58F0205EE6B300ACBD32 /* DataService.swift in Sources */,
@@ -5655,6 +5707,7 @@
 				84BDE2B720AB1991003E66D5 /* LegalEntity.swift in Sources */,
 				CF833B7C207C4BB300323242 /* LearnerUpcomingSessionCell.swift in Sources */,
 				CFA4BB1020B76F18009BC28D /* DimmableButton.swift in Sources */,
+				4DF3427D23122364000C554D /* QTWriteRecommendationViewController.swift in Sources */,
 				84DAF6FC2044615A005687F6 /* SocialMedia.swift in Sources */,
 				4D853D74230A9CE100DAC323 /* QTBaseCustomDialog.swift in Sources */,
 				C41F17E1224D2D3A007758FC /* QTCustomButton.swift in Sources */,
@@ -5754,6 +5807,7 @@
 				CF046423206EE3D800BFE898 /* CancelSessionModal.swift in Sources */,
 				CF1C6111209EA5BD009B7B0E /* PaymentMethodCell.swift in Sources */,
 				9359CECB227A7CAD008E9FB1 /* CardManagerViewController.swift in Sources */,
+				4DF3428323122376000C554D /* QTViewRecommendationsViewController.swift in Sources */,
 				84E4C7D2204E80E4009C2FC4 /* AccountPaymentsVC.swift in Sources */,
 				CF6F58C8205EE68800ACBD32 /* PriceInputView.swift in Sources */,
 				56BE7E6122CFCD500052BBE7 /* QTRecentSearchModel.swift in Sources */,

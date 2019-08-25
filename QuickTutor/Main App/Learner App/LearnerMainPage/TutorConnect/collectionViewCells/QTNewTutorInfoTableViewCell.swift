@@ -172,8 +172,8 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
         setupNameLabel()
         setupHorlyRateLabel()
         setupStackView()
-        setupRatingImageView()
         setupRatingLabel()
+        setupRatingImageView()
         setupRatingCaptionLabel()
         setupSubjectsLabel()
         
