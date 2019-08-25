@@ -37,6 +37,7 @@ class AWTutor: AWLearner {
     
     var selected: [Selected] = []
     var reviews: [Review]?
+    var recommendations: [QTTutorRecommendationModel]?
     var location: TutorLocation?
     var learners: [String] = []
 	

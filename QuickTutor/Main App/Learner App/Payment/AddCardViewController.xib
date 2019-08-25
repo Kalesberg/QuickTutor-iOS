@@ -278,10 +278,10 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F7Q-7V-suu" customClass="DimmableButton" customModule="QuickTutor" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="607" width="375" height="60"/>
+                    <rect key="frame" x="0.0" y="611" width="375" height="56"/>
                     <color key="backgroundColor" red="0.3921568627" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="60" id="Rzd-dm-LVC"/>
+                        <constraint firstAttribute="height" constant="56" id="Rzd-dm-LVC"/>
                     </constraints>
                     <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="14"/>
                     <state key="normal" title="Save">

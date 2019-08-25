@@ -59,6 +59,14 @@ class QTProfileViewController: UIViewController {
     @IBOutlet weak var cancellationFeeLabel: UILabel!
     @IBOutlet weak var connectView: UIView!
     
+    // recommendations
+    @IBOutlet weak var viewRecommendations: UIView!
+    @IBOutlet weak var imgRecommendedLearner: UIImageView!
+    @IBOutlet weak var lblRecommendedLearners: UILabel!
+    @IBOutlet weak var lblRecommendedText: UILabel!
+    @IBOutlet weak var viewWriteRecommend: UIView!
+    @IBOutlet weak var lblWriteRecommend: UILabel!
+    
     // bottom bar
     @IBOutlet weak var imgBottomUser: UIImageView!
     @IBOutlet weak var lblBottomUserName: UILabel!
@@ -115,6 +123,7 @@ class QTProfileViewController: UIViewController {
         if .tutor == profileViewType {
             btnQuickCall.isHidden = -1 == user.quickCallPrice
         }
+        viewRecommendations.superview?.isHidden = .tutor != profileViewType
         
         if #available(iOS 11.0, *) {
             if !isPresentedFromSessionScreen {
@@ -250,6 +259,18 @@ class QTProfileViewController: UIViewController {
         let controller = QTRequestQuickCallViewController.controller
         controller.tutor = user
         navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    @IBAction func onTapViewRecommendations(_ sender: Any) {
+        let viewRecommendationsVC = QTViewRecommendationsViewController(nibName: String(describing: QTViewRecommendationsViewController.self), bundle: nil)
+        viewRecommendationsVC.objTutor = user
+        navigationController?.pushViewController(viewRecommendationsVC, animated: true)
+    }
+    
+    @IBAction func onTapWriteRecommedation(_ sender: Any) {
+        let writeRecommendationVC = QTWriteRecommendationViewController(nibName: String(describing: QTWriteRecommendationViewController.self), bundle: nil)
+        writeRecommendationVC.objTutor = user
+        navigationController?.pushViewController(writeRecommendationVC, animated: true)
     }
     
     @IBAction func onClickBtnConnected(_ sender: Any) {
@@ -415,6 +436,7 @@ class QTProfileViewController: UIViewController {
         // User name
         usernameLabel.text = user.formattedName
         lblBottomUserName.text = user.formattedName
+        lblWriteRecommend.text = "Recommend \(user.formattedName)"
         
         showSchool(user: user)
         showLanguage(user: user)
@@ -488,6 +510,9 @@ class QTProfileViewController: UIViewController {
             //Update saved button
             let savedTutorIds = CurrentUser.shared.learner.savedTutorIds
             btnSave.isSelected = savedTutorIds.contains(user.uid)
+            
+            // Update Recommendations
+            updateRecommendataionView()
             
         case .learner:
             topSubjectLabel.superview?.isHidden = true
@@ -568,6 +593,51 @@ class QTProfileViewController: UIViewController {
                                                                 action: #selector(handleEditProfile))
         }
         bioLabel.superview?.layoutIfNeeded()
+    }
+    
+    private func updateRecommendataionView() {
+        if let recommendations = user.recommendations,
+            let firstRecommendation = recommendations.first {
+            viewRecommendations.isHidden = false
+            
+            if 1 == recommendations.count {
+                if firstRecommendation.learnerId == Auth.auth().currentUser?.uid {
+                    lblRecommendedLearners.text = "You recommend Mark."
+                } else {
+                    lblRecommendedLearners.text = "\(firstRecommendation.learnerName ?? "") recommend Mark."
+                }
+            } else if 2 == recommendations.count {
+                if recommendations.contains(where: { $0.learnerId == Auth.auth().currentUser?.uid }),
+                    let otherRecommendation = recommendations.first(where: { $0.learnerId != Auth.auth().currentUser?.uid }) {
+                    lblRecommendedLearners.text = "You and \(otherRecommendation.learnerName ?? "") recommend Mark."
+                } else {
+                    lblRecommendedLearners.text = "\(firstRecommendation.learnerName ?? "") and 1 other recommend Mark."
+                }
+            } else {
+                if recommendations.contains(where: { $0.learnerId == Auth.auth().currentUser?.uid }),
+                    let otherRecommendation = recommendations.first(where: { $0.learnerId != Auth.auth().currentUser?.uid }) {
+                    lblRecommendedLearners.text = "You, \(otherRecommendation.learnerName ?? "") and \(recommendations.count - 2) other\(3 < recommendations.count ? "s" : "") recommend Mark."
+                } else {
+                    lblRecommendedLearners.text = "\(firstRecommendation.learnerName ?? "") and \(recommendations.count - 1) others recommend Mark."
+                }
+            }
+            if let avatarUrl = firstRecommendation.learnerAvatarUrl {
+                imgRecommendedLearner.sd_setImage(with: URL(string: avatarUrl), placeholderImage: UIImage(named: "registration-image-placeholder"))
+            } else {
+                imgRecommendedLearner.image = UIImage(named: "registration-image-placeholder")
+            }
+            lblRecommendedText.text = firstRecommendation.recommendationText
+        } else {
+            viewRecommendations.isHidden = true
+        }
+        
+        viewWriteRecommend.isHidden = .tutor != profileViewType || .connected != connectionStatus || true == user.recommendations?.contains(where: { $0.learnerId == Auth.auth().currentUser?.uid })
+        
+        if viewRecommendations.isHidden && viewWriteRecommend.isHidden {
+            viewRecommendations.superview?.isHidden = true
+        } else {
+            viewRecommendations.superview?.isHidden = false
+        }
     }
     
     func saveTutor() {
@@ -925,6 +995,10 @@ class QTProfileViewController: UIViewController {
                                                         self.connectButton.setTitle("Connect", for: .normal)
                                                     }
                 })
+            }
+            
+            if .tutor == self.profileViewType {
+                self.updateRecommendataionView()
             }
         }
     }
