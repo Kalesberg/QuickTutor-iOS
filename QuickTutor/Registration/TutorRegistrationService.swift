@@ -13,6 +13,7 @@ class TutorRegistrationService {
     static let shared = TutorRegistrationService()
     var shouldSaveSubjects = true
     
+    var featuredSubject: String?
     var subjects = [String]()
     
     func addSubject(_ subject: String) {
@@ -62,10 +63,16 @@ class TutorRegistrationService {
                 Database.database().reference().child("categories").child(subcategory.category).child(uid).removeValue()
             }
         }
+        
+        if subject == featuredSubject,
+            let newFeaturedSubject = subjects.first { // removed featured subject
+            setFeaturedSubject(newFeaturedSubject)
+        }
     }
     
     func setFeaturedSubject(_ subject: String) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
+        featuredSubject = subject
         Database.database().reference().child("tutor-info").child(uid).child("sbj").setValue(subject)
         
     }
@@ -95,8 +102,10 @@ class TutorRegistrationService {
     private init() {
         if CurrentUser.shared.learner.hasTutor {
             subjects = CurrentUser.shared.tutor.subjects ?? [String]()
+            featuredSubject = CurrentUser.shared.tutor.featuredSubject
         } else {
             subjects = [String]()
+            featuredSubject = nil
         }
     }
 }

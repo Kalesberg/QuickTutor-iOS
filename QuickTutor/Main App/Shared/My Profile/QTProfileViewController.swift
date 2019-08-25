@@ -544,7 +544,8 @@ class QTProfileViewController: UIViewController {
                     topSubjectLabel.text = featuredSubject.capitalizingFirstLetter()
                 } else {
                     // Set the first subject
-                    topSubjectLabel.text = user.subjects?.first?.capitalizingFirstLetter()
+                    let subject = user.subjects?.first
+                    topSubjectLabel.text = subject?.capitalizingFirstLetter()
                     topSubjectLabel.superview?.isHidden = subject?.isEmpty ?? true
                 }
             } else {
@@ -1245,11 +1246,12 @@ extension QTProfileViewController: LearnerWasUpdatedCallBack {
 // MARK: - QTProfileDelegate
 extension QTProfileViewController: QTProfileDelegate {
     func didUpdateLearnerProfile(learner: AWLearner) {
-        self.user = AWTutor(dictionary: [:]).copy(learner: learner)
+        user = AWTutor(dictionary: [:]).copy(learner: learner)
         if profileViewType == .myTutor {
-            self.user.subjects = TutorRegistrationService.shared.subjects
+            user.subjects = TutorRegistrationService.shared.subjects
+            user.featuredSubject = TutorRegistrationService.shared.featuredSubject
         } else if profileViewType == .myLearner {
-            self.user.interests = LearnerRegistrationService.shared.interests
+            user.interests = LearnerRegistrationService.shared.interests
         }
         initUserInfo()
     }
@@ -1258,9 +1260,10 @@ extension QTProfileViewController: QTProfileDelegate {
         self.user = tutor
         self.subject = nil
         if profileViewType == .myTutor {
-            self.user.subjects = TutorRegistrationService.shared.subjects
+            user.subjects = TutorRegistrationService.shared.subjects
+            user.featuredSubject = TutorRegistrationService.shared.featuredSubject
         } else if profileViewType == .myLearner {
-            self.user.interests = LearnerRegistrationService.shared.interests
+            user.interests = LearnerRegistrationService.shared.interests
         }
         initUserInfo()
     }
@@ -1269,9 +1272,9 @@ extension QTProfileViewController: QTProfileDelegate {
 extension QTProfileViewController: CLLocationManagerDelegate {
     func locationManager(_: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
-            self.currentLocation = location
-            self.updateDistanceLabel()
-            self.locationManager.stopUpdatingLocation()
+            currentLocation = location
+            updateDistanceLabel()
+            locationManager.stopUpdatingLocation()
         }
     }
     
