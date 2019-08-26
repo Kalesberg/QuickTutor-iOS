@@ -12,7 +12,7 @@ class LearnerMainPageActiveTutorsSectionContainerCell: UICollectionViewCell {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Active Now"
+        label.text = "Recently Active"
         label.textColor = .white
         label.textAlignment = .left
         label.font = Fonts.createBoldSize(20)
@@ -38,7 +38,7 @@ class LearnerMainPageActiveTutorsSectionContainerCell: UICollectionViewCell {
     
     func setupCollectionViewController() {
         addSubview(topTutorsController.view)
-        topTutorsController.view.anchor(top: titleLabel.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        topTutorsController.view.anchor(top: titleLabel.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
     }
     
     override init(frame: CGRect) {

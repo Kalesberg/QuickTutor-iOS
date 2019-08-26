@@ -38,6 +38,9 @@ struct NotificationNames {
         static let activeTutorMessageButtonTapped = Notification.Name("com.quickTutor.activeTutorMessageButtonTapped")
         static let searchesLoaded = Notification.Name("com.quickTutor.searchesLoaded")
         static let recentSearchCellTapped = Notification.Name("com.quickTutor.recentSearchCellTapped")
+        static let quickRequestCellTapped = Notification.Name("com.quickTutor.quickRequestCellTapped")
+        static let reloadSessions = Notification.Name("com.quickTutor.reloadSessions")
+        static let requestSession = Notification.Name("com.quickTutor.requestSession")
     }
     struct QuickSearch {
         static let updatedFilters = Notification.Name("com.quickTutor.updatedFilters")

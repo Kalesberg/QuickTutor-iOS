@@ -16,19 +16,16 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         return String(describing: CategoryCollectionViewCell.self)
     }
     
-    let shadowView: UIView = {
+    let containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .clear
         return view
     }()
     
-    let bgView: UIView = {
+    let maskBackgroundView: UIView = {
         let view = UIView()
-        view.clipsToBounds = true
-        view.backgroundColor = Colors.newScreenBackground
         return view
     }()
-
+    
     let label: UILabel = {
         let label = UILabel()
         label.textColor = .white
@@ -36,6 +33,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         label.font = Fonts.createSemiBoldSize(17)
         label.adjustsFontSizeToFitWidth = true
         label.adjustsFontForContentSizeCategory = true
+        
         return label
     }()
 
@@ -43,58 +41,68 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 5
+        
         return imageView
     }()
 
     func setupViews() {
-        setupShadowView()
-        setupBgView()
+        setupContainerView()
         setupImageView()
+        setupMaskBackgroundView()
         setupLabel()
     }
     
-    func setupShadowView() {
-        addSubview(shadowView)
-        shadowView.snp.makeConstraints { make in
+    func setupContainerView() {
+        addSubview(containerView)
+        containerView.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.width.equalToSuperview().offset(-4)
+            make.width.equalToSuperview().offset(-8)
             make.height.equalToSuperview().offset(-8)
         }
     }
     
-    private func setupBgView() {
-        shadowView.addSubview(bgView)
-        bgView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-    }
-    
     func setupImageView() {
-        bgView.addSubview(imageView)
+        containerView.addSubview(imageView)
         imageView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.width.equalToSuperview()
-            make.height.equalTo(126)
+            make.height.equalTo(172)
             make.centerX.equalToSuperview()
         }
     }
     
-    func setupLabel() {
-        bgView.addSubview(label)
-        label.snp.makeConstraints { make in
+    func setupMaskBackgroundView() {
+        containerView.addSubview(maskBackgroundView)
+        maskBackgroundView.snp.makeConstraints { make in
+            make.width.equalToSuperview()
             make.centerX.equalToSuperview()
-            make.top.equalTo(imageView.snp.bottom)
             make.bottom.equalToSuperview()
+            make.height.equalTo(61)
+        }
+        
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = CGRect(x: 0, y: 0, width: 122, height: 61)
+        gradientLayer.colors = [UIColor.clear,
+                                UIColor.black.withAlphaComponent(0.8)].map({$0.cgColor})
+        gradientLayer.locations = [0, 1]
+        maskBackgroundView.layer.insertSublayer(gradientLayer, at: 0)
+        maskBackgroundView.layer.cornerRadius = 5
+        maskBackgroundView.clipsToBounds = true
+    }
+    
+    func setupLabel() {
+        maskBackgroundView.addSubview(label)
+        label.snp.makeConstraints { make in
+            make.bottom.equalToSuperview().offset(-15)
             make.left.equalToSuperview().offset(15)
+            make.right.equalToSuperview().offset(-5)
         }
     }
     
     private func addShadow() {
-        shadowView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 4)
-    }
-    
-    override func layoutSubviews() {
-        bgView.layer.cornerRadius = 4
+        containerView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 5)
+        containerView.layer.cornerRadius = 5
     }
     
     override init(frame: CGRect) {

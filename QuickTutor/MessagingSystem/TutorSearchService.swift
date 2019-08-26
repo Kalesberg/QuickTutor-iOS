@@ -165,6 +165,76 @@ class TutorSearchService {
         }
     }
     
+    func getNewRecommentedTutors(completion: @escaping ([AWTutor]) -> Void) {
+        
+        var tutors = [AWTutor]()
+        
+        guard AccountService.shared.currentUserType == .learner, let uid = Auth.auth().currentUser?.uid else {
+            completion(tutors)
+            return
+        }
+        let group = DispatchGroup()
+        // Get connections
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        group.enter()
+        Database.database().reference().child("connections").child(uid).child(userTypeString).observeSingleEvent(of: .value) { snapshot in
+            guard let connections = snapshot.value as? [String: Any] else {
+                group.leave()
+                return
+            }
+            
+            connections.keys.forEach { key in
+                group.enter()
+                UserFetchService.shared.getTutorWithId(uid: key
+                    , completion: { (tutor) in
+                        if let tutor = tutor {
+                            tutors.append(tutor)
+                        }
+                        group.leave()
+                })
+            }
+            group.leave()
+        }
+        
+        // Get recent searches and tapped users.
+        let recentSearches = QTUtils.shared.getRecentTutors()
+        if !recentSearches.isEmpty {
+            recentSearches.compactMap({$0.uid}).forEach { (uid) in
+                group.enter()
+                FirebaseData.manager.fetchTutor(uid, isQuery: false, { tutor in
+                    guard let tutor = tutor else {
+                        group.leave()
+                        return
+                    }
+                    
+                    if tutor.uid != Auth.auth().currentUser?.uid {
+                        tutors.append(tutor)
+                    }
+                    group.leave()
+                })
+            }
+        }
+        
+        // Interestes
+        if let interests = CurrentUser.shared.learner.interests {
+            interests.forEach { (subject) in
+                group.enter()
+                self.getTutorsBySubject(subject, lastKnownKey: nil, completion: { (sessionTutors, _) in
+                    guard let sessionTutors = sessionTutors else {
+                        group.leave()
+                        return
+                    }
+                    tutors += sessionTutors
+                    group.leave()
+                })
+            }
+        }
+        
+        group.notify(queue: .main, execute: {
+            completion(tutors)
+        })
+    }
+    
     func getRecommendedTutors(completion: @escaping ([AWTutor]) -> Void) {
         fetchSessions { (sessions) in
             var tutors = [AWTutor]()
@@ -180,6 +250,7 @@ class TutorSearchService {
                     group.leave()
                 })
             })
+            
             group.notify(queue: .main, execute: {
                 completion(tutors)
             })

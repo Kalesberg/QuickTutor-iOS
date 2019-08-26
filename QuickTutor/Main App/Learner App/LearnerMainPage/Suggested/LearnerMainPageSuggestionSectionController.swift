@@ -16,8 +16,8 @@ class LearnerMainPageSuggestionController: UIViewController {
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 20
-        layout.minimumInteritemSpacing = 20
+        layout.minimumLineSpacing = 15
+        layout.minimumInteritemSpacing = 0
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
@@ -52,7 +52,7 @@ class LearnerMainPageSuggestionController: UIViewController {
     }
     
     func fetchTutors() {
-        TutorSearchService.shared.getRecommendedTutors { (tutors) in
+        TutorSearchService.shared.getNewRecommentedTutors { (tutors) in
             guard tutors.count > 0 else {
                 self.fetchDefaultTutors()
                 return
@@ -95,18 +95,8 @@ extension LearnerMainPageSuggestionController: SkeletonCollectionViewDataSource 
 
 extension LearnerMainPageSuggestionController: UICollectionViewDelegateFlowLayout {
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
-        let screen = UIScreen.main.bounds
-        return CGSize(width: (screen.width - 60) / 2, height: 225)
+        return CGSize(width: 134, height: 254)
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 20
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 20
-    }
-    
 }
 
 extension LearnerMainPageSuggestionController: UICollectionViewDelegate {

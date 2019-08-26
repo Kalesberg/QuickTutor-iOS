@@ -31,17 +31,15 @@ class LearnerMainPageVC: UIViewController {
         registerPushNotification()
         setupRefreshControl()
         setupObservers()
+        
+        QTLearnerSessionsService.shared.fetchSessions()
+        QTLearnerSessionsService.shared.listenForSessionUpdates()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         hideTabBar(hidden: false)
         navigationController?.setNavigationBarHidden(true, animated: true)
-        
-        // TODO: Jack remove the following statement when you commit the result.
-//        let vc = QTQuickRequestTypeViewController.controller
-//        vc.hidesBottomBarWhenPushed = true
-//        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     private func registerPushNotification() {
@@ -83,6 +81,8 @@ class LearnerMainPageVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleActiveTutorCellTapped(_:)), name: NotificationNames.LearnerMainFeed.activeTutorCellTapped, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleActiveTutorMessageButtonTapped(_:)), name: NotificationNames.LearnerMainFeed.activeTutorMessageButtonTapped, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleRecentSearchCellTapped(_:)), name: NotificationNames.LearnerMainFeed.recentSearchCellTapped, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleQuickRequestTapped(_:)), name: NotificationNames.LearnerMainFeed.quickRequestCellTapped, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleRequestSession(_:)), name: NotificationNames.LearnerMainFeed.requestSession, object: nil)
     }
     
     @objc func handleFeatuedSectionTap(_ notification: Notification) {
@@ -146,6 +146,13 @@ class LearnerMainPageVC: UIViewController {
         }
     }
     
+    @objc func handleQuickRequestTapped(_ notification: Notification) {
+        // Go to quick request screen
+        let vc = QTQuickRequestTypeViewController.controller
+        vc.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
     private func showTutorProfileFromNotification(_ notification: Notification) {
         guard let userInfo = notification.userInfo, let uid = userInfo["uid"] as? String else { return }
         FirebaseData.manager.fetchTutor(uid, isQuery: false, { (tutor) in
@@ -167,6 +174,46 @@ class LearnerMainPageVC: UIViewController {
         vc.subject = subject
         vc.navigationItem.title = subject.capitalized
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc func handleRequestSession(_ notification: Notification) {
+        guard let userInfo = notification.userInfo, let uid = userInfo["uid"] as? String else { return }
+        FirebaseData.manager.fetchTutor(uid, isQuery: false) { (tutor) in
+            guard let tutor = tutor else { return }
+            let vc = SessionRequestVC()
+            vc.tutor = tutor
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+    func listenForSessionUpdates() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        Database.database().reference().child("userSessions").child(uid).child(userTypeString).observe(.childChanged) { snapshot in
+            print("Data needs reload")
+            self.reloadSessionWithId(snapshot.ref.key!)
+            snapshot.ref.setValue(1)
+        }
+    }
+    
+    func reloadSessionWithId(_ id: String) {
+        DataService.shared.getSessionById(id) { session in
+            if let fooOffset = QTLearnerSessionsService.shared.pendingSessions.firstIndex(where: { $0.id == id }) {
+                // do something with fooOffset
+                QTLearnerSessionsService.shared.pendingSessions.remove(at: fooOffset)
+                if session.status == "accepted" {
+                    QTLearnerSessionsService.shared.upcomingSessions.append(session)
+                } else if "cancelled" == session.status {
+                    
+                }
+                self.contentView.handleReloadSessions()
+            } else if let index = QTLearnerSessionsService.shared.upcomingSessions.firstIndex(where: { $0.id == id }) {
+                if "cancelled" == session.status {
+                    QTLearnerSessionsService.shared.upcomingSessions.remove(at: index)
+                    self.contentView.handleReloadSessions()
+                }
+            }
+        }
     }
     
     deinit {

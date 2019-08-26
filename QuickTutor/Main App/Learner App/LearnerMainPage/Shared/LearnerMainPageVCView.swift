@@ -32,11 +32,13 @@ class LearnerMainPageVCView: UIView {
         collectionView.backgroundColor = .clear
         collectionView.showsVerticalScrollIndicator = false
         collectionView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
-        collectionView.register(LearnerMainPageFeaturedSectionContainerCell.self, forCellWithReuseIdentifier: "featuredCell")
         collectionView.register(LearnerMainPageTopTutorsSectionContainerCell.self, forCellWithReuseIdentifier: "topTutors")
         collectionView.register(LearnerMainPageCategorySectionContainerCell.self, forCellWithReuseIdentifier: "categoryCell")
+        collectionView.register(QTLearnerMainPageQuickActionSectionContainerCell.self, forCellWithReuseIdentifier: QTLearnerMainPageQuickActionSectionContainerCell.reuseIdentifier)
         collectionView.register(LearnerMainPageSuggestionSectionContainerCell.self, forCellWithReuseIdentifier: "suggestionCell")
         collectionView.register(LearnerMainPageActiveTutorsSectionContainerCell.self, forCellWithReuseIdentifier: "activeCell")
+        collectionView.register(QTLearnerMainPagePastTransactionContainerCell.self, forCellWithReuseIdentifier: QTLearnerMainPagePastTransactionContainerCell.reuseIdentifier)
+        collectionView.register(QTLearnerMainPageUpcomingSessionContainerCell.self, forCellWithReuseIdentifier: QTLearnerMainPageUpcomingSessionContainerCell.reuseIdentifier)
         return collectionView
     }()
     
@@ -51,6 +53,7 @@ class LearnerMainPageVCView: UIView {
         setupNavigationView()
         setupCollectionView()
         setupBackgroundView()
+        addObservers()
     }
     
     func setupBackgroundView() {
@@ -132,6 +135,10 @@ class LearnerMainPageVCView: UIView {
         }
     }
     
+    func addObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleReloadSessions), name: NotificationNames.LearnerMainFeed.reloadSessions, object: nil)
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -140,6 +147,15 @@ class LearnerMainPageVCView: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func handleReloadSessions() {
+        DispatchQueue.main.async(execute: {
+            // TODO reload past sessions and upcoming sessions.
+            self.collectionViewHelper.hasPastSessions = !QTLearnerSessionsService.shared.pastSessions.isEmpty
+            self.collectionViewHelper.hasUpcomingSessions = !QTLearnerSessionsService.shared.upcomingSessions.isEmpty
+            self.collectionView.reloadData()
+        })
     }
 }
 

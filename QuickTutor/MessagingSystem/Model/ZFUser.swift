@@ -17,7 +17,6 @@ class User: Decodable {
     var isOnline: Bool!
     var rating: Double?
     var facebook: [String: String]?
-
     var formattedName: String {
         guard let name = username?.trimmingCharacters(in: .whitespaces), !name.isEmpty else {
             return ""

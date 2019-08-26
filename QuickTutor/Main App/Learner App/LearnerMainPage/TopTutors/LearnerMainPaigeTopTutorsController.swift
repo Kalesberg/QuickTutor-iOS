@@ -15,9 +15,9 @@ class LearnerMainPaigeTopTutorsController: UIViewController {
     
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 20
-        layout.minimumInteritemSpacing = 20
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 15
+        layout.minimumInteritemSpacing = 0
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         collectionView.showsVerticalScrollIndicator = false
@@ -48,7 +48,7 @@ class LearnerMainPaigeTopTutorsController: UIViewController {
     
     func setupCollectionView() {
         view.addSubview(collectionView)
-        collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 470)
+        collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 254)
         collectionView.delegate = self
         collectionView.dataSource = self
     }
@@ -72,7 +72,7 @@ extension LearnerMainPaigeTopTutorsController: SkeletonCollectionViewDataSource 
     }
     
     func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
-        return 4 < datasource.count ? 4 : datasource.count
+        return datasource.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -84,17 +84,16 @@ extension LearnerMainPaigeTopTutorsController: SkeletonCollectionViewDataSource 
 
 extension LearnerMainPaigeTopTutorsController: UICollectionViewDelegateFlowLayout {
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
-        let screen = UIScreen.main.bounds
-        return CGSize(width: (screen.width - 60) / 2, height: 225)
+        return CGSize(width: 134, height: 254)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 20
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 20
-    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+//        return 20
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+//        return 20
+//    }
     
 }
 

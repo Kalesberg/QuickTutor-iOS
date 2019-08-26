@@ -47,6 +47,9 @@ class AWTutor: AWLearner {
     var experienceSubject: String?
     var experiencePeriod: Float?
 	
+    // Used for active tutors section
+    var isConnected: Bool?
+    
     override init(dictionary: [String: Any]) {
         super.init(dictionary: dictionary)
         policy = dictionary["pol"] as? String ?? ""

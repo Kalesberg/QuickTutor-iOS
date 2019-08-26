@@ -53,9 +53,29 @@ class LearnerMainPageActiveTutorsSectionController: UIViewController {
     
     func fetchTutors() {
         TutorSearchService.shared.getCurrentlyOnlineTutors { (tutors) in
-            self.view.hideSkeleton()
-            self.datasource.append(contentsOf: tutors)
-            self.collectionView.reloadData()
+            
+            if tutors.isEmpty {
+                self.view.hideSkeleton()
+                self.datasource.append(contentsOf: tutors)
+                self.collectionView.reloadData()
+                return
+            }
+            
+            let group = DispatchGroup()
+            
+            tutors.forEach({ (tutor) in
+                group.enter()
+                ConnectionService.shared.getConnectionStatus(partnerId: tutor.uid, completion: { (connected) in
+                    tutor.isConnected = connected
+                    group.leave()
+                })
+            })
+            
+            group.notify(queue: DispatchQueue.main, execute: {
+                self.view.hideSkeleton()
+                self.datasource.append(contentsOf: tutors)
+                self.collectionView.reloadData()
+            })
         }
     }
 }
@@ -83,8 +103,8 @@ extension LearnerMainPageActiveTutorsSectionController: SkeletonCollectionViewDa
 
 extension LearnerMainPageActiveTutorsSectionController: UICollectionViewDelegateFlowLayout {
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
-        let screen = UIScreen.main.bounds
-        return CGSize(width: screen.width, height: 60)
+        let width = UIScreen.main.bounds.width - 60
+        return CGSize(width: width, height: 60)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

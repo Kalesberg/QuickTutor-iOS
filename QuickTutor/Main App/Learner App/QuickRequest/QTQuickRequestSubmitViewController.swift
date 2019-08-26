@@ -88,6 +88,7 @@ class QTQuickRequestSubmitViewController: UIViewController {
         }
     }
     var paymentType = QTSessionPaymentType.hour
+    var helpAlert: QTQuickRequestAlertModal?
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -131,6 +132,13 @@ class QTQuickRequestSubmitViewController: UIViewController {
     
     @IBAction func OnDeleteSubjectButtonClicked(_ sender: Any) {
         subject = nil
+    }
+    
+    @IBAction func OnBudgetInfoButtonClicked(_ sender: Any) {
+        helpAlert = QTQuickRequestAlertModal(frame: .zero)
+        helpAlert?.set("Budget Information",
+                       "Based on your subject selection we’ve complied /naverage industry prices for you so you can know what a reasonable budget looks like.")
+        helpAlert?.show()
     }
     
     @objc

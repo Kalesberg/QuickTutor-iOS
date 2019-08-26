@@ -203,6 +203,11 @@ class ConnectionCell: UICollectionViewCell {
         } else if let awUser = user as? AWTutor {
             let subject = awUser.featuredSubject == "" ? awUser.subjects?.first : awUser.featuredSubject
             featuredSubject.text = subject
+            if let isConnected = awUser.isConnected, isConnected {
+                messageButton.setTitle("Message", for: .normal)
+            } else {
+                messageButton.setTitle("Connect", for: .normal)
+            }
         }
         messageButton.isHidden = false
         updateOnlineStatusIndicator()
@@ -232,7 +237,6 @@ class ConnectionCell: UICollectionViewCell {
             make.width.equalTo(70)
             make.height.equalTo(30)
         }
-        messageButton.setTitle("Message", for: .normal)
         messageButton.backgroundColor = Colors.purple
         messageButton.layer.cornerRadius = 4
         separatorLine.isHidden = true

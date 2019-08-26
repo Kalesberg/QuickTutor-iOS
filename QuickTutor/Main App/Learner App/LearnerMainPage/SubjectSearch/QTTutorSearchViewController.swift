@@ -178,6 +178,15 @@ class QTTutorSearchViewController: UIViewController {
             guard let tutor = tutor else { return }
             
             DispatchQueue.main.async {
+                
+                let item = QTRecentSearchModel()
+                item.uid = tutor.uid
+                item.type = .people
+                item.name1 = tutor.name
+                item.name2 = tutor.username
+                item.imageUrl = tutor.profilePicUrl.absoluteString
+                QTUtils.shared.saveRecentSearch(search: item)
+                
                 let controller = QTProfileViewController.controller//TutorCardVC()
                 controller.subject = tutor.featuredSubject
                 controller.profileViewType = .tutor

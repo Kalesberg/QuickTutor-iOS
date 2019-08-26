@@ -11,6 +11,12 @@ import SnapKit
 
 class LearnerMainPageTopTutorsSectionContainerCell: UICollectionViewCell {
     
+    let risingTalentImageView: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFit
+        return iv
+    }()
+    
     let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Rising Talent"
@@ -22,30 +28,33 @@ class LearnerMainPageTopTutorsSectionContainerCell: UICollectionViewCell {
     
     let topTutorsController = LearnerMainPaigeTopTutorsController()
     
-    let seeAllBox: MockCollectionViewCell = {
-        let cell = MockCollectionViewCell()
-        cell.titleLabel.text = "View new tutors"
-        cell.primaryButton.setTitle("View", for: .normal)
-        return cell
-    }()
-    
     func setupViews() {
         setupMainView()
+        setupRisingTalentImageView()
         setupTitleLabel()
         setupCollectionViewController()
-        setupSeeAllBox()
     }
     
     func setupMainView() {
         backgroundColor = Colors.newScreenBackground
     }
     
+    func setupRisingTalentImageView() {
+        addSubview(risingTalentImageView)
+        risingTalentImageView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(2)
+            make.left.equalToSuperview().offset(20)
+            make.height.equalTo(20)
+            make.width.equalTo(20)
+        }
+    }
+    
     func setupTitleLabel() {
         addSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview()
-            make.left.equalToSuperview().offset(20)
-            make.height.equalTo(30)
+            make.left.equalTo(risingTalentImageView.snp.right).offset(10)
+            make.height.equalTo(24)
         }
     }
     
@@ -55,19 +64,8 @@ class LearnerMainPageTopTutorsSectionContainerCell: UICollectionViewCell {
             make.top.equalTo(titleLabel.snp.bottom).offset(20)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
-            make.height.equalTo(470)
+            make.height.equalTo(254)
         }
-    }
-    
-    func setupSeeAllBox() {
-        addSubview(seeAllBox)
-        seeAllBox.snp.makeConstraints { make in
-            make.top.equalTo(topTutorsController.view.snp.bottom).offset(16)
-            make.left.equalToSuperview().offset(20)
-            make.centerX.equalToSuperview()
-            make.height.equalTo(50)
-        }
-        seeAllBox.profileDelegate = self
     }
     
     func handleSeeAllButton() {

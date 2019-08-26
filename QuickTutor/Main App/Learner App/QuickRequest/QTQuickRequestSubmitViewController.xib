@@ -216,8 +216,8 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wwv-IB-4zd">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="167"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What’s your budget for this session?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hh0-eT-Z7f">
-                                                    <rect key="frame" x="0.0" y="0.0" width="224.5" height="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What’s your budge?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hh0-eT-Z7f">
+                                                    <rect key="frame" x="0.0" y="0.0" width="123.5" height="17"/>
                                                     <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
@@ -370,6 +370,17 @@
                                                         </view>
                                                     </subviews>
                                                 </stackView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MoM-L8-5uj">
+                                                    <rect key="frame" x="334" y="-11.5" width="40" height="40"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="40" id="bh6-Vm-fKH"/>
+                                                        <constraint firstAttribute="width" constant="40" id="rln-3m-xR0"/>
+                                                    </constraints>
+                                                    <state key="normal" image="ic_info_rect"/>
+                                                    <connections>
+                                                        <action selector="OnBudgetInfoButtonClicked:" destination="-1" eventType="touchUpInside" id="dr4-jK-tcT"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" red="0.08235294118" green="0.08235294118" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
@@ -377,7 +388,9 @@
                                                 <constraint firstAttribute="trailing" secondItem="4SM-nc-wAq" secondAttribute="trailing" id="I23-8X-QhK"/>
                                                 <constraint firstAttribute="bottom" secondItem="4SM-nc-wAq" secondAttribute="bottom" id="L7J-nI-aVE"/>
                                                 <constraint firstItem="4SM-nc-wAq" firstAttribute="top" secondItem="hh0-eT-Z7f" secondAttribute="bottom" constant="20" id="Vob-xo-UT3"/>
-                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="hh0-eT-Z7f" secondAttribute="trailing" id="r4v-af-U8X"/>
+                                                <constraint firstItem="MoM-L8-5uj" firstAttribute="centerY" secondItem="hh0-eT-Z7f" secondAttribute="centerY" id="mUX-ZM-iZj"/>
+                                                <constraint firstAttribute="trailing" secondItem="MoM-L8-5uj" secondAttribute="trailing" id="nY1-se-2Sh"/>
+                                                <constraint firstItem="MoM-L8-5uj" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="hh0-eT-Z7f" secondAttribute="trailing" constant="10" id="rOe-J9-eHz"/>
                                                 <constraint firstItem="4SM-nc-wAq" firstAttribute="leading" secondItem="Wwv-IB-4zd" secondAttribute="leading" id="sDO-18-jL9"/>
                                                 <constraint firstItem="hh0-eT-Z7f" firstAttribute="top" secondItem="Wwv-IB-4zd" secondAttribute="top" id="sOG-Eb-1bq"/>
                                             </constraints>
@@ -736,6 +749,7 @@
         </view>
     </objects>
     <resources>
+        <image name="ic_info_rect" width="18" height="18"/>
         <image name="ic_payment_del" width="36" height="36"/>
         <image name="searchIconMain" width="15" height="15"/>
     </resources>

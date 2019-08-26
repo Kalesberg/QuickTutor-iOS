@@ -16,6 +16,7 @@ class CategorySectionController: UIViewController, UICollectionViewDelegate, UIC
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 15
         collectionView.collectionViewLayout = layout
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false

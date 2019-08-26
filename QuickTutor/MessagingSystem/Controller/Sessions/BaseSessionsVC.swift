@@ -192,7 +192,7 @@ class BaseSessionsVC: UIViewController {
                     })
                 }
         }
-        }
+    }
         
     
     fileprivate func attemptReloadOfTable() {
