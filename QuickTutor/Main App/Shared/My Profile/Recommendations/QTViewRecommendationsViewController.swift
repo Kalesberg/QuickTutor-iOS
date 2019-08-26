@@ -20,7 +20,7 @@ class QTViewRecommendationsViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        if objTutor.uid == CurrentUser.shared.tutor.uid {
+        if objTutor.uid == CurrentUser.shared.tutor?.uid {
             title = "Your recommendations"
         } else {
             title = "\(objTutor.firstName ?? "")'s recommendations"

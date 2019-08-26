@@ -989,11 +989,11 @@ class QTProfileViewController: UIViewController {
             if connected {
                 self.connectionStatus = .connected
                 if .tutor == self.profileViewType {
-                    self.btnQuickCall.superview?.isHidden = false
+                    self.btnQuickCall.superview?.superview?.isHidden = false
                 }
                 self.connectButton.setTitle("Schedule Now", for: .normal)
             } else {
-                self.btnQuickCall.superview?.isHidden = true
+                self.btnQuickCall.superview?.superview?.isHidden = true
                 self.checkConnectionRequestStatus(userId: uid,
                                                   userType: currentUserType,
                                                   partnerId: id,
