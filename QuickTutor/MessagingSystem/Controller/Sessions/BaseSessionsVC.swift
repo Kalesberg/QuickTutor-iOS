@@ -133,9 +133,8 @@ class BaseSessionsVC: UIViewController {
             .child(uid)
             .child(userTypeString)
             .queryLimited(toLast: 10).observeSingleEvent(of: .value) { snapshot in
-                guard let snap = snapshot.children.allObjects as? [DataSnapshot], snap.count > 0 else {
+                if let snap = snapshot.children.allObjects as? [DataSnapshot], snap.isEmpty {
                     self.toggleEmptyState(on: true && self.connectionIds.isEmpty)
-                    return
                 }
                 
                 if let ref = self.userSessionsRef, let handle = self.userSessionsHandle {

@@ -113,7 +113,7 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
         UserFetchService.shared.getTutorWithId(partnerId) { tutor in
             guard let username = tutor?.formattedName.capitalized, let profilePicUrl = tutor?.profilePicUrl else { return }
             self.tutorLabel.text = "with \(username)"
-            self.profileImage.imageView.sd_setImage(with: profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+            self.profileImage.imageView.sd_setImage(with: profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
             guard let rating = tutor?.rating else { return }
             self.updateRatingLabel(rating: rating)
         }
@@ -124,7 +124,7 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
         UserFetchService.shared.getStudentWithId(partnerId) { tutor in
             guard let username = tutor?.formattedName.capitalized, let profilePicUrl = tutor?.profilePicUrl else { return }
             self.tutorLabel.text = "with \(username)"
-            self.profileImage.imageView.sd_setImage(with: profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+            self.profileImage.imageView.sd_setImage(with: profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
             guard let rating = tutor?.rating else { return }
             self.updateRatingLabel(rating: rating)
         }

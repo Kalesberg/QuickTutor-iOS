@@ -148,7 +148,7 @@ class ConversationCell: SwipeCollectionViewCell {
     }
     
     private func updateProfileImage() {
-        profileImageView.imageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+        profileImageView.imageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
     }
     
     private func updateTimestampLabel(message: UserMessage) {

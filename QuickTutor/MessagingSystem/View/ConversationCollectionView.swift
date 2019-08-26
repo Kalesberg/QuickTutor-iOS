@@ -113,7 +113,7 @@ class ConversationCollectionView: UICollectionView {
         }
         isTypingIndicatorVisible = true
         if let profilePicUrl = chatPartner?.profilePicUrl {
-            typingIndicatorView.profileImageView.sd_setImage(with: profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+            typingIndicatorView.profileImageView.sd_setImage(with: profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
         }
         typingHeightAnchor?.constant = 48
         layoutTypingLabelIfNeeded()

@@ -22,7 +22,7 @@ class AWLearner: User {
     var languages: [String]?
     var lReviews: [Review]!
     var lRating: Double!
-    var isApplePayDefault = true
+    var isApplePayDefault = false
     var savedTutorIds = [String]()
     var interests: [String]?
     

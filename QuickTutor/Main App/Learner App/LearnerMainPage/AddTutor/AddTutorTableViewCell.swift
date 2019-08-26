@@ -10,7 +10,7 @@ class AddTutorTableViewCell: UITableViewCell {
 	
 	let profileImageView: UIImageView = {
 		let imageView = UIImageView()
-		imageView.image = #imageLiteral(resourceName: "registration-image-placeholder")
+		imageView.image = AVATAR_PLACEHOLDER_IMAGE
 		imageView.layer.masksToBounds = false
 		imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 25

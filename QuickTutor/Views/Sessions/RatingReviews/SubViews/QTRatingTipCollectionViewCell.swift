@@ -215,7 +215,7 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
         
         let nameSplit = tutor.name.split(separator: " ")
         nameLabel.text = String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1) + ".")
-        avatarImageView.sd_setImage(with: storageRef.child("student-info").child(tutor.uid).child("student-profile-pic1"))
+        avatarImageView.sd_setImage(with: tutor.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
         if let rating = tutor.tRating {
             setProfileRating(Int(rating))
         }

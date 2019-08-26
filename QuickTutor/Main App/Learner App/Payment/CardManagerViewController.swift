@@ -71,11 +71,7 @@ class CardManagerViewController: UIViewController {
         super.viewWillAppear(animated)
         
         navigationController?.isNavigationBarHidden = false
-        
-        if !Stripe.deviceSupportsApplePay() {
-            updateApplePayDefaultStatus(false)
-        }
-        
+                
         hideTabBar(hidden: true)
     }
     
@@ -297,6 +293,7 @@ class CardManagerViewController: UIViewController {
     
     private func updateApplePayDefaultStatus(_ isDefault: Bool) {
         FirebaseData.manager.updateValue(node: "student-info", value: ["isApplePayDefault": isDefault]) { error in
+            CurrentUser.shared.learner.isApplePayDefault = isDefault
             if let error = error {
                 AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
             }

@@ -60,7 +60,7 @@ class SessionProfileBox: UIView {
             UserFetchService.shared.getStudentWithId(uid) { (userIn) in
                 guard let user = userIn else { return }
                 self.nameLabel.text = user.formattedName.capitalized
-                self.imageView.sd_setImage(with: user.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+                self.imageView.sd_setImage(with: user.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
             }
             return
         }
@@ -68,7 +68,7 @@ class SessionProfileBox: UIView {
         UserFetchService.shared.getUserOfOppositeTypeWithId(uid) { (userIn) in
             guard let user = userIn else { return }
             self.nameLabel.text = user.formattedName.capitalized
-            self.imageView.sd_setImage(with: user.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+            self.imageView.sd_setImage(with: user.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
         }
     }
     

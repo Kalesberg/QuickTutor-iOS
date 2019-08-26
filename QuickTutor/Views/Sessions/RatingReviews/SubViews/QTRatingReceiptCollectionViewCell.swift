@@ -60,7 +60,7 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
         
         if let tutor = user as? AWTutor {
             let nameSplit = tutor.name.split(separator: " ")
-            setAvatarImageWith(uid: tutor.uid)
+            avatarImageView.sd_setImage(with: tutor.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
             
             updateLabelsWith(sessionType: sessionType, nameSplit: nameSplit)
             
@@ -72,7 +72,7 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
             totalLabel.text = cost.currencyFormat(precision: 2, divider: 1)
         } else if let learner = user as? AWLearner {
             let nameSplit = learner.name.split(separator: " ")
-            setAvatarImageWith(uid: learner.uid)
+            avatarImageView.sd_setImage(with: learner.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
             
             processingFeeTitleLabel.text = "QuickTutor's service fee:"
             
@@ -113,10 +113,6 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
         } else {
             return "\(seconds) seconds"
         }
-    }
-    
-    func setAvatarImageWith(uid: String) {
-        avatarImageView.sd_setImage(with: storageRef.child("student-info").child(uid).child("student-profile-pic1"))
     }
     
     func updateLabelsWith(sessionType: QTSessionType, nameSplit: [String.SubSequence]) {

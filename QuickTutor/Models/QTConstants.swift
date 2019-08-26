@@ -35,3 +35,5 @@ struct QTNotificationName {
     static let quickSearchClearSearchKey = "quickSearchClearSearchKey"
     static let quickSearchDismissKeyboard = "quickSearchDismissKeyboard"
 }
+
+let AVATAR_PLACEHOLDER_IMAGE = UIImage(named: "registration-image-placeholder")

@@ -86,6 +86,8 @@ class QTTutorDashboardViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        registerPushNotification()
+        
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         navigationController?.navigationBar.barTintColor = Colors.newScreenBackground
         navigationController?.navigationBar.backgroundColor = Colors.newScreenBackground
@@ -140,6 +142,11 @@ class QTTutorDashboardViewController: UIViewController {
         super.viewWillDisappear(animated)
         hideTabBar(hidden: false)
     }
+    
+    private func registerPushNotification() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        appDelegate.registerForPushNotifications(application: UIApplication.shared)
+    }
 
     // MARK: - Actions
     @IBAction func onClickTutorSettingsButton(_ sender: Any) {
@@ -171,10 +178,9 @@ class QTTutorDashboardViewController: UIViewController {
     func initUserBasicInformation() {
         guard let tutor = self.tutor else { return }
         
-        let reference = storageRef.child("student-info").child(tutor.uid).child("student-profile-pic1")
         headerView.nameLabel.text = tutor.formattedName
         topSubject = tutor.featuredSubject
-        headerView.avatarImageView.sd_setImage(with: reference)
+        headerView.avatarImageView.sd_setImage(with: tutor.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
         headerView.hourlyRateLabel.text = "$\(String(describing: tutor.price ?? 5))/hr"
         headerView.ratingLabel.text = "\(String(describing: tutor.tRating ?? 5.0))"
         headerView.subjectsLabel.text = "\(tutor.subjects?.count ?? 0)"

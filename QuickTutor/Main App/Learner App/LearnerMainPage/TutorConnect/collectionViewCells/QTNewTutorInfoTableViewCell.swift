@@ -192,7 +192,7 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
         hourlyRateLabel.isHidden = false
         
         self.tutor = tutor
-        profileImageView.sd_setImage(with: tutor.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+        profileImageView.sd_setImage(with: tutor.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
         nameLabel.text = tutor.formattedName
         hourlyRateLabel.text = "$\(tutor.price ?? 5)/hr"
         

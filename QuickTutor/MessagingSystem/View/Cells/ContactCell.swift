@@ -57,7 +57,7 @@ class ContactCell: UICollectionViewCell {
     func updateUI(user: User) {
         self.user = user
         usernameLabel.text = user.formattedName
-        profileImageView.sd_setImage(with: user.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+        profileImageView.sd_setImage(with: user.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
     }
     
     override init(frame: CGRect) {

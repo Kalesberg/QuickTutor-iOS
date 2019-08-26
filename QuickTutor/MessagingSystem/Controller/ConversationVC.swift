@@ -288,7 +288,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             titleView.updateUI(user: partner)
         }
         guard let profilePicUrl = chatPartner?.profilePicUrl else { return }
-        titleView.imageView.imageView.sd_setImage(with: profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+        titleView.imageView.imageView.sd_setImage(with: profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
     }
 
     func handleLeftViewTapped() {
@@ -792,25 +792,25 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ImageMessageCell
             cell.delegate = self//imageMessageAnimator
             cell.updateUI(message: message)
-            cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+            cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
             return cell
         case .sessionRequest:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! SessionRequestCell
             cell.updateUI(message: message)
             cell.delegate = self
             cell.indexPath = [indexPath]
-            cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+            cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
             return cell
         case .connectionRequest:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ConnectionRequestCell
             cell.chatPartner = chatPartner
             cell.updateUI(message: message)
-            cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+            cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
             return cell
         case .video:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! VideoMessageCell
             cell.updateUI(message: message)
-            cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+            cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
             return cell
         case .text:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! UserTextMessageCell
@@ -818,12 +818,12 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
             cell.updateUI(message: message)
 //            cell.bubbleWidthAnchor?.constant = cell.textView.text.estimateFrameForFontSize(14).width + 30
             cell.bubbleWidthAnchor?.constant = (cell.textLabel.text?.estimateFrameForFontSize(14).width ?? 0) + 30
-            cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+            cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
             return cell
         case .document:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! DocumentMessageCell
             cell.updateUI(message: message)
-            cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+            cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
             return cell
         default:
             return UICollectionViewCell()

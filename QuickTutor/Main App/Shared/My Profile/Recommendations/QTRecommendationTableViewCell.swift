@@ -25,9 +25,9 @@ class QTRecommendationTableViewCell: UITableViewCell {
     
     func setView(_ objRecommendation: QTTutorRecommendationModel) {
         if let avatarUrl = objRecommendation.learnerAvatarUrl {
-            imgAvatar.sd_setImage(with: URL(string: avatarUrl), placeholderImage: UIImage(named: "registration-image-placeholder"))
+            imgAvatar.sd_setImage(with: URL(string: avatarUrl), placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
         } else {
-            imgAvatar.image = UIImage(named: "registration-image-placeholder")
+            imgAvatar.image = AVATAR_PLACEHOLDER_IMAGE
         }
         lblLearnerName.text = objRecommendation.learnerName
         lblRecommendationText.text = objRecommendation.recommendationText
