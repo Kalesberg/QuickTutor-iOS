@@ -47,14 +47,6 @@ class QTEditProfileVideoTableViewCell: UITableViewCell {
         self.videos.remove(at: index)
         collectionView.deleteItems(at: [IndexPath(item: index, section: 0)])
     }
-    
-    func pause () {
-        collectionView.visibleCells.forEach { (cell) in
-            guard let cell = cell as? QTProfileVideoCollectionViewCell else { return }
-            cell.pause()
-            NotificationCenter.default.removeObserver(cell)
-        }
-    }
 }
 
 extension QTEditProfileVideoTableViewCell: UICollectionViewDelegateFlowLayout {
@@ -64,7 +56,7 @@ extension QTEditProfileVideoTableViewCell: UICollectionViewDelegateFlowLayout {
         if videos.count == 0 {
             return CGSize(width: width - 40, height: height)
         } else {
-            return CGSize(width: width - 100, height: height)
+            return CGSize(width: width / 2, height: height)
         }
     }
 }
@@ -77,9 +69,9 @@ extension QTEditProfileVideoTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: QTProfileVideoCollectionViewCell.reuseIdentifier, for: indexPath) as! QTProfileVideoCollectionViewCell
         if indexPath.item == videos.count {
-            cell.setData(video: nil, index: indexPath.item, isEditMode: true)
+            cell.setData(video: nil, isEditMode: true)
         } else {
-            cell.setData(video: videos[indexPath.item], index: indexPath.item, isEditMode: true)
+            cell.setData(video: videos[indexPath.item], isEditMode: true)
         }
         cell.delegate = delegate
         return cell
@@ -87,13 +79,4 @@ extension QTEditProfileVideoTableViewCell: UICollectionViewDataSource {
 }
 
 extension QTEditProfileVideoTableViewCell: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let cell = cell as? QTProfileVideoCollectionViewCell else { return }
-        cell.pause()
-        NotificationCenter.default.removeObserver(cell)
-    }
 }

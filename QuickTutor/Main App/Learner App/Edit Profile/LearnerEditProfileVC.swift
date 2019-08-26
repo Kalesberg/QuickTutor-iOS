@@ -124,7 +124,7 @@ class TutorEditProfileVC: LearnerEditProfileVC {
     override func tableView(_: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case 0:
-            return 115
+            return 128
         case 1:
             return 188
         case 2:
@@ -367,12 +367,6 @@ class TutorEditProfileVC: LearnerEditProfileVC {
         return 30
     }
     
-    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.section == 1, let cell = cell as? QTEditProfileVideoTableViewCell {
-            cell.pause()
-        }
-    }
-    
     // MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
     override func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let videoURL = info[UIImagePickerController.InfoKey.mediaURL] as? URL,
@@ -442,14 +436,14 @@ extension TutorEditProfileVC: RangeSeekSliderDelegate {
 }
 
 extension TutorEditProfileVC: QTProfileVideoCollectionViewCellDelegate {
-    func collectionViewCell(_ cell: QTProfileVideoCollectionViewCell, didTapUploadAt index: Int) {
-        guard index >= 0 else { return }
-        selectedVideoIndex = index
+    func collectionViewCell(_ cell: QTProfileVideoCollectionViewCell, didTapUpload video: TutorVideo?) {
+        selectedVideoIndex = videos.count
         let actionSheet = UIAlertController (title: "Upload Video", message: nil, preferredStyle: .actionSheet)
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         actionSheet.addAction(UIAlertAction(title: "Take a video", style: .default, handler: { action in
             if UIImagePickerController.isSourceTypeAvailable(.camera) {
                 self.imagePicker.sourceType = .camera
+                self.imagePicker.videoQuality = .typeHigh
                 self.imagePicker.delegate = self
                 self.imagePicker.mediaTypes = ["public.movie"]
                 self.present(self.imagePicker, animated: true, completion: nil)
@@ -466,8 +460,8 @@ extension TutorEditProfileVC: QTProfileVideoCollectionViewCellDelegate {
         present(actionSheet, animated: true, completion: nil)
     }
     
-    func collectionViewCell(_ cell: QTProfileVideoCollectionViewCell, didTapDeleteAt index: Int) {
-        guard index >= 0 else { return }
+    func collectionViewCell(_ cell: QTProfileVideoCollectionViewCell, didTapDelete video: TutorVideo?) {
+        guard let video = video, let index = videos.firstIndex(where: { $0.uid == video.uid }) else { return }
         selectedVideoIndex = index
         let alert = UIAlertController (title: "Delete Video", message: "Are you sure you want to delete this video?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -488,6 +482,18 @@ extension TutorEditProfileVC: QTProfileVideoCollectionViewCellDelegate {
             })
         }))
         present(alert, animated: true, completion: nil)
+    }
+    
+    func collectionViewCell(_ cell: QTProfileVideoCollectionViewCell, didTapPlay video: TutorVideo?) {
+        if let videoUrl = video?.videoUrl {
+            let player = AVPlayer(url: URL(string: videoUrl)!)
+            let vc = QTChatVideoPlayerViewController()//AVPlayerViewController()
+            vc.videoUrl = URL(string: videoUrl)!
+            vc.player = player
+            present(vc, animated: true) {
+                vc.player?.play()
+            }
+        }
     }
 }
 

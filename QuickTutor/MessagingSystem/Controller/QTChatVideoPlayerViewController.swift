@@ -16,6 +16,8 @@ class QTChatVideoPlayerViewController: AVPlayerViewController {
     
     private var shareButtonView: UIView!
     private var shareButtonImageView: UIImageView!
+    
+    private var playerItemContext = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +35,12 @@ class QTChatVideoPlayerViewController: AVPlayerViewController {
         shareButtonImageView.image = UIImage(named: "ic_save_media")
         shareButtonImageView.center = CGPoint(x: 30, y: 24)
         shareButtonView.addSubview(shareButtonImageView)
+        
+        // share button hidden
+        player?.currentItem?.addObserver(self,
+                                         forKeyPath: #keyPath(AVPlayerItem.status),
+                                         options: [.old, .new],
+                                         context: &playerItemContext)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -50,6 +58,44 @@ class QTChatVideoPlayerViewController: AVPlayerViewController {
             }
         }
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?,
+                               of object: Any?,
+                               change: [NSKeyValueChangeKey : Any]?,
+                               context: UnsafeMutableRawPointer?) {
+        
+        // Only handle observations for the playerItemContext
+        guard context == &playerItemContext else {
+            super.observeValue(forKeyPath: keyPath,
+                               of: object,
+                               change: change,
+                               context: context)
+            return
+        }
+        
+        if keyPath == #keyPath(AVPlayerItem.status) {
+            let status: AVPlayerItem.Status
+            if let statusNumber = change?[.newKey] as? NSNumber {
+                status = AVPlayerItem.Status(rawValue: statusNumber.intValue)!
+            } else {
+                status = .unknown
+            }
+            
+            // Switch over status value
+            switch status {
+            case .readyToPlay:
+                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                    if self.shareButtonView.isHidden == false {
+                        self.shareButtonAnimation()
+                    }
+                }
+            case .failed:
+                break
+            case .unknown:
+                break
+            }
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

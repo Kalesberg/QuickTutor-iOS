@@ -875,7 +875,7 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let userMessage = conversationManager.messages[indexPath.item] as? UserMessage else { return }
-        if let videoUrl = userMessage.videoUrl, let _ = URL(string: videoUrl) {
+        if let videoUrl = userMessage.videoUrl {
            let player = AVPlayer(url: URL(string: videoUrl)!)
             let vc = QTChatVideoPlayerViewController()//AVPlayerViewController()
             vc.videoUrl = URL(string: videoUrl)!
@@ -883,9 +883,6 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
             present(vc, animated: true) {
                 vc.player?.play()
             }
-            /*let videoVC = QTChatVideoViewController.new(messageId: userMessage.uid, videoUrl: url)
-            present(videoVC, animated: true, completion: nil)*/
-            
         } else if let fileDownloadUrl = userMessage.documenUrl {
             guard let url = URL(string: fileDownloadUrl) else { return }
             documentUploadManager?.displayFileAtUrl(url, fromViewController: self)
