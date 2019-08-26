@@ -610,25 +610,25 @@ class QTProfileViewController: UIViewController {
             
             if 1 == recommendations.count {
                 if firstRecommendation.learnerId == Auth.auth().currentUser?.uid {
-                    lblRecommendedLearners.text = "You recommend Mark."
+                    lblRecommendedLearners.text = "You recommend \(user.firstName ?? "")."
                 } else {
-                    lblRecommendedLearners.text = "\(firstRecommendation.learnerName ?? "") recommend Mark."
+                    lblRecommendedLearners.text = "\(firstRecommendation.learnerName ?? "") recommend \(user.firstName ?? "")."
                 }
             } else if 2 == recommendations.count {
                 if user.uid != Auth.auth().currentUser?.uid,
                     recommendations.contains(where: { $0.learnerId == Auth.auth().currentUser?.uid }),
                     let otherRecommendation = recommendations.first(where: { $0.learnerId != Auth.auth().currentUser?.uid }) {
-                    lblRecommendedLearners.text = "You and \(otherRecommendation.learnerName ?? "") recommend Mark."
+                    lblRecommendedLearners.text = "You and \(otherRecommendation.learnerName ?? "") recommend \(user.firstName ?? "")."
                 } else {
-                    lblRecommendedLearners.text = "\(firstRecommendation.learnerName ?? "") and 1 other recommend Mark."
+                    lblRecommendedLearners.text = "\(firstRecommendation.learnerName ?? "") and 1 other recommend \(user.firstName ?? "")."
                 }
             } else {
                 if user.uid != Auth.auth().currentUser?.uid,
                     recommendations.contains(where: { $0.learnerId == Auth.auth().currentUser?.uid }),
                     let otherRecommendation = recommendations.first(where: { $0.learnerId != Auth.auth().currentUser?.uid }) {
-                    lblRecommendedLearners.text = "You, \(otherRecommendation.learnerName ?? "") and \(recommendations.count - 2) other\(3 < recommendations.count ? "s" : "") recommend Mark."
+                    lblRecommendedLearners.text = "You, \(otherRecommendation.learnerName ?? "") and \(recommendations.count - 2) other\(3 < recommendations.count ? "s" : "") recommend \(user.firstName ?? "")."
                 } else {
-                    lblRecommendedLearners.text = "\(firstRecommendation.learnerName ?? "") and \(recommendations.count - 1) others recommend Mark."
+                    lblRecommendedLearners.text = "\(firstRecommendation.learnerName ?? "") and \(recommendations.count - 1) others recommend \(user.firstName ?? "")."
                 }
             }
             if let avatarUrl = firstRecommendation.learnerAvatarUrl {
