@@ -73,7 +73,7 @@ class EarningsHistoryCell: UICollectionViewCell {
     }
     
     func updateUI(_ session: Session) {
-        UserFetchService.shared.getStudentWithId(session.receiverId) { (user) in
+        UserFetchService.shared.getStudentWithId(session.senderId) { (user) in
             guard let user = user else { return }
             self.updateTimestampLabel(session: session)
             let cost = session.cost * 0.9 - 2
