@@ -151,6 +151,7 @@ class UserFetchService {
                 let finalDict = self.mergeUserDictionaries(value, value2)
                 
                 let tutor = AWTutor(dictionary: finalDict)
+                tutor.uid = uid
                 completion(tutor)
             })
         }
@@ -174,6 +175,7 @@ class UserFetchService {
                 }
                 let finalDict = self.mergeUserDictionaries(value, value2)
                 let learner = AWLearner(dictionary: finalDict)
+                learner.uid = uid
                 completion(learner)
             })
         }
