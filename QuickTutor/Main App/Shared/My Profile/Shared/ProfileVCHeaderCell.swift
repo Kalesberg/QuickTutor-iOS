@@ -203,15 +203,23 @@ class ProfileVCHeaderCell: UICollectionReusableView {
             if AccountService.shared.currentUserType == .learner {
                 self.featuredLabel.isHidden = true
             } else {
-                self.featuredLabel.isHidden = false
-                self.featuredLabel.text = CurrentUser.shared.tutor.featuredSubject?.capitalizingFirstLetter()
+                if let tutor = CurrentUser.shared.tutor {
+                    self.featuredLabel.isHidden = false
+                    self.featuredLabel.text = tutor.featuredSubject?.capitalizingFirstLetter()
+                } else {
+                    self.featuredLabel.isHidden = true
+                }
             }
         }
         
         if AccountService.shared.currentUserType == .learner {
             ratingLabel.text = "\(CurrentUser.shared.learner.lRating ?? 0.0)"
         } else {
-            ratingLabel.text = "\(CurrentUser.shared.tutor.tRating ?? 0.0)"
+            if let tutor = CurrentUser.shared.tutor {
+                ratingLabel.text = "\(tutor.tRating ?? 0.0)"
+            } else {
+                ratingLabel.text = "0.0"
+            }
         }
     }
     
