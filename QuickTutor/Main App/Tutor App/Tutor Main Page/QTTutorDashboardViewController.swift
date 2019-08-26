@@ -86,6 +86,8 @@ class QTTutorDashboardViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        registerPushNotification()
+        
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         navigationController?.navigationBar.barTintColor = Colors.newScreenBackground
         navigationController?.navigationBar.backgroundColor = Colors.newScreenBackground
@@ -389,6 +391,11 @@ class QTTutorDashboardViewController: UIViewController {
         let controller = LightboxController(images: images, startIndex: 0)
         controller.dynamicBackground = true
         present(controller, animated: true, completion: nil)
+    }
+    
+    private func registerPushNotification() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        appDelegate.registerForPushNotifications(application: UIApplication.shared)
     }
 }
 
