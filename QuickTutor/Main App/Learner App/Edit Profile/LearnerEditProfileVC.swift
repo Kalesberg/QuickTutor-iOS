@@ -48,7 +48,12 @@ class TutorEditProfileVC: LearnerEditProfileVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Remove interest section title when tutor.
+        sectionTitles.remove(at: 1)
+        
         sectionTitles.insert("Tutoring", at: 1)
+        
         if automaticScroll {
             let indexPath = IndexPath(row: 2, section: 1)
             contentView.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)

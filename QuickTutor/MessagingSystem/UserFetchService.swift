@@ -76,7 +76,10 @@ class UserFetchService {
                 return
             }
             Database.database().reference().child("tutor-info").child(uid).observeSingleEvent(of: .value, with: { snapshot2 in
-                guard let value2 = snapshot2.value as? [String: Any] else { return }
+                guard let value2 = snapshot2.value as? [String: Any] else {
+                    completion(nil)
+                    return
+                }
                 let finalDict = self.mergeUserDictionaries(value, value2)
                 guard let tutor = self.createUserFromDictionary(finalDict, withUid: uid) else {
                     completion(nil)
@@ -151,6 +154,7 @@ class UserFetchService {
                 let finalDict = self.mergeUserDictionaries(value, value2)
                 
                 let tutor = AWTutor(dictionary: finalDict)
+                tutor.uid = uid
                 completion(tutor)
             })
         }
@@ -174,6 +178,7 @@ class UserFetchService {
                 }
                 let finalDict = self.mergeUserDictionaries(value, value2)
                 let learner = AWLearner(dictionary: finalDict)
+                learner.uid = uid
                 completion(learner)
             })
         }

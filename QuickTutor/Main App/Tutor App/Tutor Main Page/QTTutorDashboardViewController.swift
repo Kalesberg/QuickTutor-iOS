@@ -396,6 +396,11 @@ class QTTutorDashboardViewController: UIViewController {
         controller.dynamicBackground = true
         present(controller, animated: true, completion: nil)
     }
+    
+    private func registerPushNotification() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        appDelegate.registerForPushNotifications(application: UIApplication.shared)
+    }
 }
 
 // MARK: - UITableViewDelegate
