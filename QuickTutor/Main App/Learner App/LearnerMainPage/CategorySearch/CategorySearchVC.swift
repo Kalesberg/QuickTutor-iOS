@@ -606,9 +606,23 @@ class CategorySearchVC: UIViewController {
         }
     }
     
+    func fetchRisingTalents() {
+        TutorSearchService.shared.getTopTutors { tutors in
+            self.datasource.append(contentsOf: tutors.sorted(by: {$0.tNumSessions > $1.tNumSessions}))
+            self.filteredDatasource = self.datasource
+            self.loadedAllTutors = true
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+                self.tutorsTableView.reloadData()
+                self.refreshControl.endRefreshing()
+            })
+        }
+    }
+    
     // MARK: - Actions
     @objc
     func handleRefresh() {
+        
         datasource.removeAll()
         filteredDatasource.removeAll()
         loadedAllTutors = true
@@ -616,6 +630,11 @@ class CategorySearchVC: UIViewController {
         lastKey = nil
         _observing = false
         loadedAllTutors = false
+        
+        if navigationItem.title == "Rising Talent" {
+            fetchRisingTalents()
+            return
+        }
         
         if hasNoSubject {
             if let subject = subject {
