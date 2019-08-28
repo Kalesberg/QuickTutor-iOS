@@ -56,6 +56,7 @@ class ConnectionCell: UICollectionViewCell {
     let profileImageView: UserImageView = {
         let iv = UserImageView()
         iv.imageView.contentMode = .scaleAspectFill
+        iv.clipsToBounds = true
         iv.imageView.layer.cornerRadius = 25
         iv.imageView.clipsToBounds = true
         iv.isSkeletonable = true

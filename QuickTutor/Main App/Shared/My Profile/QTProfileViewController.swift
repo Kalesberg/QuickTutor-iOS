@@ -615,7 +615,7 @@ class QTProfileViewController: UIViewController {
                     lblRecommendedLearners.text = "\(firstRecommendation.learnerName ?? "") recommend \(user.firstName ?? "")."
                 }
             } else if 2 == recommendations.count {
-                if user.uid != Auth.auth().currentUser?.uid {
+                if user.uid == Auth.auth().currentUser?.uid {
                     lblRecommendedLearners.text = "\(firstRecommendation.learnerName ?? "") and 1 other recommend."
                 } else {
                     if recommendations.contains(where: { $0.learnerId == Auth.auth().currentUser?.uid }),
@@ -626,11 +626,10 @@ class QTProfileViewController: UIViewController {
                     }
                 }
             } else {
-                if user.uid != Auth.auth().currentUser?.uid {
+                if user.uid == Auth.auth().currentUser?.uid {
                     lblRecommendedLearners.text = "\(firstRecommendation.learnerName ?? "") and \(recommendations.count - 1) others recommend."
                 } else {
-                    if user.uid != Auth.auth().currentUser?.uid,
-                        recommendations.contains(where: { $0.learnerId == Auth.auth().currentUser?.uid }),
+                    if recommendations.contains(where: { $0.learnerId == Auth.auth().currentUser?.uid }),
                         let otherRecommendation = recommendations.first(where: { $0.learnerId != Auth.auth().currentUser?.uid }) {
                         lblRecommendedLearners.text = "You, \(otherRecommendation.learnerName ?? "") and \(recommendations.count - 2) other\(3 < recommendations.count ? "s" : "") recommend \(user.firstName ?? "")."
                     } else {
@@ -996,11 +995,11 @@ class QTProfileViewController: UIViewController {
             if connected {
                 self.connectionStatus = .connected
                 if .tutor == self.profileViewType {
-                    self.btnQuickCall.superview?.isHidden = false
+                    self.btnQuickCall.superview?.superview?.isHidden = false
                 }
                 self.connectButton.setTitle("Schedule Now", for: .normal)
             } else {
-                self.btnQuickCall.superview?.isHidden = true
+                self.btnQuickCall.superview?.superview?.isHidden = true
                 self.checkConnectionRequestStatus(userId: uid,
                                                   userType: currentUserType,
                                                   partnerId: id,
