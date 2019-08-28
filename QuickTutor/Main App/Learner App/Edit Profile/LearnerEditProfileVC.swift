@@ -598,7 +598,9 @@ class LearnerEditProfileVC: UIViewController {
     }
     
     func isBioCorrectLength(didTapSave: Bool = false) -> Bool {
-        guard let cell = contentView.tableView.cellForRow(at: IndexPath(row: 2, section: 1)) as? EditProfileBioCell, let bio = cell.textView.text else {
+        let section = AccountService.shared.currentUserType == .learner ? 1 : 2
+        let row = AccountService.shared.currentUserType == .learner ? 2 : 2
+        guard let cell = contentView.tableView.cellForRow(at: IndexPath(row: row, section: section)) as? EditProfileBioCell, let bio = cell.textView.text else {
             return false
         }
         
