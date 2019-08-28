@@ -20,6 +20,10 @@ class QTChatVideoPlayerViewController: AVPlayerViewController {
     private var playerItemContext = 0
     
     private var isShowingPlayback = true // to check play back controls is showing
+    
+    private let HIDE_TIME_INTERVAL = 3
+    private var hideTimeInterval = -1
+    private var hideTimer: Timer?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,10 +46,8 @@ class QTChatVideoPlayerViewController: AVPlayerViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         NotificationCenter.default.addObserver(self, selector: #selector(pause), name: .AVPlayerItemDidPlayToEndTime, object: player?.currentItem)
-        player?.currentItem?.addObserver(self,
-                                         forKeyPath: #keyPath(AVPlayerItem.status),
-                                         options: [.old, .new],
-                                         context: &playerItemContext)
+        
+        setTimer () // timer to check video is playing
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -58,47 +60,10 @@ class QTChatVideoPlayerViewController: AVPlayerViewController {
             }
         }
         NotificationCenter.default.removeObserver(self)
-        player?.currentItem?.removeObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), context: &playerItemContext)
-    }
-    
-    override func observeValue(forKeyPath keyPath: String?,
-                               of object: Any?,
-                               change: [NSKeyValueChangeKey : Any]?,
-                               context: UnsafeMutableRawPointer?) {
         
-        // Only handle observations for the playerItemContext
-        guard context == &playerItemContext else {
-            super.observeValue(forKeyPath: keyPath,
-                               of: object,
-                               change: change,
-                               context: context)
-            return
-        }
-        
-        if keyPath == #keyPath(AVPlayerItem.status) {
-            let status: AVPlayerItem.Status
-            if let statusNumber = change?[.newKey] as? NSNumber {
-                status = AVPlayerItem.Status(rawValue: statusNumber.intValue)!
-            } else {
-                status = .unknown
-            }
-            
-            // Switch over status value
-            switch status {
-            case .readyToPlay:
-                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                    if self.isShowingPlayback {
-                        self.isShowingPlayback = false
-                        UIView.animate(withDuration: 0.3) {
-                            self.shareButtonView.isHidden = true
-                        }
-                    }
-                }
-            case .failed:
-                break
-            case .unknown:
-                break
-            }
+        if let timer = hideTimer {
+            timer.invalidate()
+            hideTimer = nil
         }
     }
     
@@ -236,6 +201,34 @@ class QTChatVideoPlayerViewController: AVPlayerViewController {
         }
     }
     
+    private func setTimer () {
+        hideTimeInterval = -1
+        
+        if let timer = hideTimer {
+            timer.invalidate()
+            hideTimer = nil
+        }
+        hideTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(checkHide), userInfo: nil, repeats: true)
+    }
+    
+    @objc
+    private func checkHide () {
+        if self.player?.timeControlStatus == .playing {
+            self.hideTimeInterval += 1
+            if self.hideTimeInterval == Int(self.HIDE_TIME_INTERVAL) {
+                if self.isShowingPlayback {
+                    self.isShowingPlayback = false
+                    
+                    UIView.animate(withDuration: 0.3) {
+                        self.shareButtonView.isHidden = true
+                    }
+                }
+                self.hideTimeInterval = -1
+                self.hideTimer?.invalidate()
+            }
+        }
+    }
+    
     // MARK: - Notification Handler
     @objc
     private func pause () {
@@ -243,5 +236,7 @@ class QTChatVideoPlayerViewController: AVPlayerViewController {
         UIView.animate(withDuration: 0.3) {
             self.shareButtonView.isHidden = false
         }
+        
+        setTimer ()
     }
 }
