@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Stripe
 
 class AWLearner: User {
     
@@ -22,7 +23,7 @@ class AWLearner: User {
     var languages: [String]?
     var lReviews: [Review]!
     var lRating: Double!
-    var isApplePayDefault = false
+    var isApplePayDefault = Stripe.deviceSupportsApplePay()
     var savedTutorIds = [String]()
     var interests: [String]?
     

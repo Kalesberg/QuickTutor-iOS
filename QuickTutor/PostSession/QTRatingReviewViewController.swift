@@ -287,12 +287,10 @@ class QTRatingReviewViewController: UIViewController {
             // Apple Pay
             let paymentRequest = Stripe.paymentRequest(withMerchantIdentifier: Constants.APPLE_PAY_MERCHANT_ID, country: "US", currency: "USD")
             var description = tutor.formattedName
-            if let subject = session?.subject {
-                if "quick-calls" == session?.type {
-                    description += "for your Advertising QuickCall."
-                } else {
-                    description += "for your Advertisin \(subject)."
-                }
+            if "quick-calls" == session?.type {
+                description += "for your QuickCall."
+            } else {
+                description += "for your Session."
             }
             
             paymentRequest.paymentSummaryItems = [
