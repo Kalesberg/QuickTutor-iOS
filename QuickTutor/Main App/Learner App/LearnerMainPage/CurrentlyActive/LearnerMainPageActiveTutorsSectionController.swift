@@ -76,7 +76,7 @@ extension LearnerMainPageActiveTutorsSectionController: SkeletonCollectionViewDa
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ConnectionCell.reuseIdentifier, for: indexPath) as! ConnectionCell
         cell.updateUI(user: datasource[indexPath.item])
-//        cell.updateToMainFeedLayout()
+        cell.updateToMainFeedLayout()
         return cell
     }
 }
