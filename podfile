@@ -54,7 +54,7 @@ abstract_target 'QuickTutorApp' do
         pod 'CardScan/Stripe'
         pod 'TYPagerController'
         
-        pod 'SkeletonView'
+        pod 'SkeletonView', '1.8'
         pod 'ESTabBarController-swift'
         pod 'Cosmos'
         

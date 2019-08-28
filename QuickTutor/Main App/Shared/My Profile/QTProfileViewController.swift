@@ -609,10 +609,14 @@ class QTProfileViewController: UIViewController {
             viewRecommendations.isHidden = false
             
             if 1 == recommendations.count {
-                if firstRecommendation.learnerId == Auth.auth().currentUser?.uid {
-                    lblRecommendedLearners.text = "You recommend \(user.firstName ?? "")."
+                if user.uid == Auth.auth().currentUser?.uid {
+                    lblRecommendedLearners.text = "\(firstRecommendation.learnerName ?? "") recommend."
                 } else {
-                    lblRecommendedLearners.text = "\(firstRecommendation.learnerName ?? "") recommend \(user.firstName ?? "")."
+                    if firstRecommendation.learnerId == Auth.auth().currentUser?.uid {
+                        lblRecommendedLearners.text = "You recommend \(user.firstName ?? "")."
+                    } else {
+                        lblRecommendedLearners.text = "\(firstRecommendation.learnerName ?? "") recommend \(user.firstName ?? "")."
+                    }
                 }
             } else if 2 == recommendations.count {
                 if user.uid == Auth.auth().currentUser?.uid {
