@@ -53,11 +53,6 @@ class TutorEditProfileVC: LearnerEditProfileVC {
         sectionTitles.remove(at: 1)
         
         sectionTitles.insert("Tutoring", at: 1)
-        
-        if automaticScroll {
-            let indexPath = IndexPath(row: 2, section: 1)
-            contentView.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -86,6 +81,18 @@ class TutorEditProfileVC: LearnerEditProfileVC {
         guard let tutor = CurrentUser.shared.tutor else { return }
         if let videos = tutor.videos {
             self.videos = videos.sorted(by: { $0.created < $1.created })
+        }
+    }
+    
+    func autoScrollTableViewForTutorSetting() {
+        if automaticScroll {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                let indexPath = IndexPath(row: 2, section: 2)
+                if let _ = self.contentView.tableView.cellForRow(at: indexPath) {
+                    let rect = self.contentView.tableView.rectForRow(at: indexPath)
+                    self.contentView.tableView.contentOffset = CGPoint(x: 0, y: rect.origin.y + rect.size.height)
+                }
+            }
         }
     }
     
@@ -193,6 +200,10 @@ class TutorEditProfileVC: LearnerEditProfileVC {
                     cell.textView.text = CurrentUser.shared.tutor.tBio
                     cell.textView.placeholderLabel.text = nil
                 }
+                
+                // Auto scroll tableview to show tutoring section
+                self.autoScrollTableViewForTutorSetting()
+                
                 return cell
             default:
                 return UITableViewCell()

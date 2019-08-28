@@ -542,9 +542,10 @@ class QTProfileViewController: UIViewController {
             if subject?.isEmpty ?? true {
                 if let featuredSubject = user.featuredSubject, !featuredSubject.isEmpty {
                     topSubjectLabel.text = featuredSubject.capitalizingFirstLetter()
+                    subject = featuredSubject
                 } else {
                     // Set the first subject
-                    let subject = user.subjects?.first
+                    subject = user.subjects?.first
                     topSubjectLabel.text = subject?.capitalizingFirstLetter()
                     topSubjectLabel.superview?.isHidden = subject?.isEmpty ?? true
                 }
