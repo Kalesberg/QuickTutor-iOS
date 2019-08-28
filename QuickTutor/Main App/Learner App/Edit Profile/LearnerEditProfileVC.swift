@@ -837,7 +837,7 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case 0:
-            return 115
+            return 128
         case 1:
             return indexPath.row == 2 ? 140 : 75
         case 2:
@@ -996,12 +996,12 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = EditProfileHeaderTableViewCell()
-        view.label.text = sectionTitles[section - 1]
+        view.label.text = section == 0 ? "Photos" : sectionTitles[section - 1]
         return view
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return section == 0 ? 0 : 30
+        return 30
     }
 }
 
