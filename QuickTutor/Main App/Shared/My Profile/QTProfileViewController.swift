@@ -294,10 +294,12 @@ class QTProfileViewController: UIViewController {
         case .myTutor:
             let next = TutorEditProfileVC()
             next.delegate = self
+            next.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(next, animated: true)
         case .myLearner:
             let next = LearnerEditProfileVC()
             next.delegate = self
+            next.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(next, animated: true)
         default:
             break

@@ -152,6 +152,7 @@ class QTTutorDashboardViewController: UIViewController {
     @IBAction func onClickTutorSettingsButton(_ sender: Any) {
         let controller = TutorEditProfileVC()
         controller.automaticScroll = true
+        controller.hidesBottomBarWhenPushed = true
         controller.delegate = self
         navigationController?.pushViewController(controller, animated: true)
     }

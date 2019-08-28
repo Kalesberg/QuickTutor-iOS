@@ -91,6 +91,7 @@ class TutorEditProfileVC: LearnerEditProfileVC {
                 if let _ = self.contentView.tableView.cellForRow(at: indexPath) {
                     let rect = self.contentView.tableView.rectForRow(at: indexPath)
                     self.contentView.tableView.contentOffset = CGPoint(x: 0, y: rect.origin.y + rect.size.height)
+                    self.automaticScroll = false
                 }
             }
         }
@@ -569,8 +570,6 @@ class LearnerEditProfileVC: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
         
-        hideTabBar(hidden: true)
-        
         updateLearner()
         setupName()
     }
@@ -578,7 +577,6 @@ class LearnerEditProfileVC: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         saveTempBio()
-        hideTabBar(hidden: false)
         delegate?.didUpdateLearnerProfile(learner: CurrentUser.shared.learner)
     }
     
