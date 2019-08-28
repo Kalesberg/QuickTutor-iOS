@@ -39,6 +39,8 @@ class LearnerRegistrationService {
             }
         }
         interests.append(subject)
+        // Save current interests again to the current learner account
+        CurrentUser.shared.learner.interests = interests
         NotificationCenter.default.post(name: Notifications.learnerDidAddInterest.name, object: nil, userInfo: nil)
     }
     
@@ -46,7 +48,6 @@ class LearnerRegistrationService {
     func removeInterest(_ subject: String) {
         interests = interests.filter({ $0 != subject})
         
-        // TODO: change notification name.
         NotificationCenter.default.post(name: Notifications.learnerDidRemoveInterest.name, object: nil, userInfo: nil)
         if shouldSaveInterests {
             guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -61,6 +62,9 @@ class LearnerRegistrationService {
                 print("Removing from category:", subcategory.category)
                 Database.database().reference().child("interest-categories").child(subcategory.category).child(uid).removeValue()
             }
+            
+            // Save current interests again to the current learner account
+            CurrentUser.shared.learner.interests = interests
         }
     }
     
