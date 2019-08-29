@@ -324,10 +324,11 @@ class FirebaseData {
             }
             
             var aryRecommendations: [QTTutorRecommendationModel] = []
-            for dicRecommendation in dicRecommendations.values {
-                guard let dicValue = dicRecommendation as? [String: Any],
+            for key in dicRecommendations.keys {
+                guard let dicValue = dicRecommendations[key] as? [String: Any],
                     let objRecommendation = Mapper<QTTutorRecommendationModel>().map(JSON: dicValue) else { continue }
          
+                objRecommendation.uid = key
                 aryRecommendations.insert(objRecommendation, at: 0)
             }
             

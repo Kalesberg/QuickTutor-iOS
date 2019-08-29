@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import SwipeCellKit
 
-class QTRecommendationTableViewCell: UITableViewCell {
+class QTRecommendationTableViewCell: SwipeTableViewCell {
 
     @IBOutlet weak var imgAvatar: UIImageView!
     @IBOutlet weak var lblLearnerName: UILabel!
@@ -29,7 +30,7 @@ class QTRecommendationTableViewCell: UITableViewCell {
         } else {
             imgAvatar.image = AVATAR_PLACEHOLDER_IMAGE
         }
-        lblLearnerName.text = objRecommendation.learnerName
+        lblLearnerName.text = objRecommendation.learnerName?.trimmingCharacters(in: .whitespacesAndNewlines)
         lblRecommendationText.text = objRecommendation.recommendationText
         if let createdAt = objRecommendation.createdAt {
             let formatter = DateFormatter()

@@ -70,7 +70,11 @@ class QTWriteRecommendationViewController: UIViewController {
     }
 
     @IBAction func onClickBtnSubmit(_ sender: Any) {
+        let refRecommendation = Database.database().reference().child("recommendations").child(objTutor.uid)
+        guard let recommendationId = refRecommendation.childByAutoId().key else { return }
+        
         let recommendation: [String: Any] = [
+            "uid": recommendationId,
             "learnerId": CurrentUser.shared.learner.uid,
             "learnerName": CurrentUser.shared.learner.formattedName,
             "learnerAvatarUrl": CurrentUser.shared.learner.profilePicUrl.absoluteString,
@@ -80,7 +84,7 @@ class QTWriteRecommendationViewController: UIViewController {
         guard let objRecommendation = Mapper<QTTutorRecommendationModel>().map(JSON: recommendation) else { return }
         
         displayLoadingOverlay()
-        Database.database().reference().child("recommendations").child(objTutor.uid).childByAutoId().setValue(objRecommendation.toJSON()) { error, ref in
+        refRecommendation.child(recommendationId).setValue(objRecommendation.toJSON()) { error, ref in
             self.dismissOverlay()
             if nil == self.objTutor.recommendations {
                 self.objTutor.recommendations = []

@@ -10,6 +10,7 @@ import UIKit
 import ObjectMapper
 
 class QTTutorRecommendationModel: Mappable {
+    var uid: String?
     var learnerId: String?
     var learnerName: String?
     var learnerAvatarUrl: String?
@@ -21,6 +22,7 @@ class QTTutorRecommendationModel: Mappable {
     }
     
     func mapping(map: Map) {
+        uid                         <- map["uid"]
         learnerId                   <- map["learnerId"]
         learnerName                 <- map["learnerName"]
         learnerAvatarUrl            <- map["learnerAvatarUrl"]
