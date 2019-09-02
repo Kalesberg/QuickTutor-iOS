@@ -88,7 +88,7 @@ extension QTViewRecommendationsViewController: SwipeTableViewCellDelegate {
         let objRecommendation = aryRecommendations[indexPath.row]
         
         if orientation == .left
-            || objRecommendation.learnerId != CurrentUser.shared.learner?.uid { return nil }
+            || objTutor.uid != CurrentUser.shared.learner?.uid { return nil }
         
         guard let recommendationId = objRecommendation.uid else { return nil }
         
