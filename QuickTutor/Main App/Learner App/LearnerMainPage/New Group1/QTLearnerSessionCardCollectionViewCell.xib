@@ -34,7 +34,7 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mhs-ex-utn">
-                        <rect key="frame" x="4" y="9" width="408" height="183"/>
+                        <rect key="frame" x="4" y="13" width="408" height="175"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nYC-Or-ACw" customClass="QTCustomImageView" customModule="QuickTutor" customModuleProvider="target">
                                 <rect key="frame" x="20" y="20" width="60" height="60"/>
@@ -74,7 +74,7 @@
                                 </userDefinedRuntimeAttributes>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2mJ-59-JpG">
-                                <rect key="frame" x="20" y="100" width="34" height="27"/>
+                                <rect key="frame" x="20" y="100" width="34" height="19"/>
                                 <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -86,7 +86,7 @@
                                 </userDefinedRuntimeAttributes>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0ZK-ew-asj" customClass="QTCustomView" customModule="QuickTutor" customModuleProvider="target">
-                                <rect key="frame" x="64" y="109" width="2" height="9"/>
+                                <rect key="frame" x="64" y="105" width="2" height="9"/>
                                 <color key="backgroundColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="2" id="WQh-YY-6mY"/>
@@ -99,13 +99,13 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b0g-e3-DgC">
-                                <rect key="frame" x="76" y="105" width="34" height="17"/>
+                                <rect key="frame" x="76" y="101" width="34" height="17"/>
                                 <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LUJ-S6-qmI" customClass="CosmosView" customModule="Cosmos">
-                                <rect key="frame" x="308" y="107.5" width="80" height="12"/>
+                                <rect key="frame" x="308" y="103.5" width="80" height="12"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="80" id="eVO-Dp-gl8"/>
@@ -138,7 +138,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Ui-HC-OXL" customClass="QTCustomButton" customModule="QuickTutor" customModuleProvider="target">
-                                <rect key="frame" x="20" y="142" width="126" height="26"/>
+                                <rect key="frame" x="20" y="134" width="126" height="26"/>
                                 <color key="backgroundColor" red="0.3921568627" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="126" id="Fc5-UK-LeQ"/>
@@ -159,14 +159,14 @@
                                 </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="videoCameraIcon" translatesAutoresizingMaskIntoConstraints="NO" id="ktL-dw-qAa">
-                                <rect key="frame" x="331" y="145" width="19" height="19"/>
+                                <rect key="frame" x="331" y="137" width="19" height="19"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="19" id="JOW-r6-NiU"/>
                                     <constraint firstAttribute="height" constant="19" id="bY4-wo-DGr"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JyQ-tz-Tiq">
-                                <rect key="frame" x="355" y="146" width="33" height="17"/>
+                                <rect key="frame" x="355" y="138" width="33" height="17"/>
                                 <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -207,7 +207,7 @@
                 </subviews>
             </view>
             <constraints>
-                <constraint firstItem="mhs-ex-utn" firstAttribute="height" secondItem="gTV-IL-0wX" secondAttribute="height" constant="-8" id="2AP-dx-BNJ"/>
+                <constraint firstItem="mhs-ex-utn" firstAttribute="height" secondItem="gTV-IL-0wX" secondAttribute="height" constant="-16" id="2AP-dx-BNJ"/>
                 <constraint firstItem="mhs-ex-utn" firstAttribute="centerY" secondItem="ZTg-uK-7eu" secondAttribute="centerY" id="6Eb-Y3-2DR"/>
                 <constraint firstItem="mhs-ex-utn" firstAttribute="centerX" secondItem="ZTg-uK-7eu" secondAttribute="centerX" id="Uo0-Ab-Aba"/>
                 <constraint firstItem="mhs-ex-utn" firstAttribute="width" secondItem="gTV-IL-0wX" secondAttribute="width" constant="-8" id="klZ-ps-fWO"/>

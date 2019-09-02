@@ -61,13 +61,13 @@ class LearnerMainPageCollectionViewHelper: NSObject, UICollectionViewDelegate, U
             height = 108
         case 2:
             if hasPastSessions {
-                height = 211
+                height = 231
             } else {
                 height = 0
             }
         case 3:
             if hasUpcomingSessions {
-                height = 211
+                height = 231
             } else {
                 height =  0
             }
