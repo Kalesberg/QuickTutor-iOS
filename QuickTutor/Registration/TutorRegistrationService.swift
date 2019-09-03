@@ -37,7 +37,7 @@ class TutorRegistrationService {
             }
         }
         subjects.append(subject)
-        NotificationCenter.default.post(name: Notifications.tutorDidAddSubject.name, object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: Notifications.tutorDidAddSubject.name, object: nil, userInfo: ["subject" : subject])
     }
     
     
@@ -47,8 +47,10 @@ class TutorRegistrationService {
             NotificationCenter.default.post(name: Notifications.tutorCannotRemoveSubject.name, object: nil)
             return
         }
+        let index = subjects.firstIndex(of: subject)
         subjects = filteredSubjects
-        NotificationCenter.default.post(name: Notifications.tutorDidRemoveSubject.name, object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: Notifications.tutorDidRemoveSubject.name, object: nil, userInfo: ["subject" : subject,
+                                                                                                                "index" : index ?? -1])
         if shouldSaveSubjects {
             guard let uid = Auth.auth().currentUser?.uid else { return }
             Database.database().reference().child("subjects").child(subject).child(uid).removeValue()

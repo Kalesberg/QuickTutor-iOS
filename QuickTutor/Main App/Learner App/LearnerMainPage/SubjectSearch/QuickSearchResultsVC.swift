@@ -405,8 +405,6 @@ class TutorAddSubjectsResultsVC: UIViewController {
         }
     }
     
-    private var selectedSubjectIndex = -1
-    
     let contentView: TutorAddSubjectsResultsVCView = {
         let view = TutorAddSubjectsResultsVCView()
         return view
@@ -511,16 +509,20 @@ class TutorAddSubjectsResultsVC: UIViewController {
     
     @objc
     private func addSubject (_ notification: Notification) {
-        guard selectedSubjectIndex > -1,
-            let cell = contentView.collectionView.cellForItem(at: IndexPath(item: selectedSubjectIndex, section: 0)) as? TutorAddSubjectsResultsCell else { return }
+        guard let userInfo = notification.userInfo as? [String:Any],
+            let subject = userInfo["subject"] as? String,
+            let index = currentSubjects.firstIndex(of: subject),
+            let cell = contentView.collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? TutorAddSubjectsResultsCell else { return }
         cell.selectionView.isHidden = false
         cell.titleLabel.textColor = Colors.purple
     }
     
     @objc
     private func removeSubject (_ notification: Notification) {
-        guard selectedSubjectIndex > -1,
-            let cell = contentView.collectionView.cellForItem(at: IndexPath(item: selectedSubjectIndex, section: 0)) as? TutorAddSubjectsResultsCell else { return }
+        guard let userInfo = notification.userInfo as? [String:Any],
+            let subject = userInfo["subject"] as? String,
+            let index = currentSubjects.firstIndex(of: subject),
+            let cell = contentView.collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? TutorAddSubjectsResultsCell else { return }
         cell.selectionView.isHidden = true
         cell.titleLabel.textColor = .white
     }
@@ -573,7 +575,6 @@ extension TutorAddSubjectsResultsVC: UICollectionViewDataSource, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? TutorAddSubjectsResultsCell else { return }
-        selectedSubjectIndex = indexPath.item
         
         if isLearnerAddInterests {
             if cell.selectionView.isHidden {

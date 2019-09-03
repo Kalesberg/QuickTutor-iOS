@@ -108,22 +108,36 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
     
     
     @objc func handleSubjectAdded(_ notification: Notification) {
+        guard let userInfo = notification.userInfo as? [String:Any], let subject = userInfo["subject"] as? String else { return }
+        
         showSelectedSubjectsCVIfNeeded(animated: true)
         updateAccessoryViewTextLabel()
-        let indexPath = IndexPath(item: TutorRegistrationService.shared.subjects.count - 1, section: 0)
-        selectedSubjectsCV.insertItems(at: [indexPath])
-        selectedSubjectsCV.scrollToItem(at: indexPath, at: .left, animated: true)
-    }
-    
-    @objc func handleSubjectRemoved(_ notification: Notification) {
-        updateAccessoryViewTextLabel()
-        guard let removedIndex = self.removedIndex else {
+        
+        guard let index = TutorRegistrationService.shared.subjects.firstIndex(of: subject) else {
             selectedSubjectsCV.reloadData()
             return
         }
-        let indexPath = IndexPath(item: removedIndex, section: 0)
-        selectedSubjectsCV.deleteItems(at: [indexPath])
-        self.removedIndex = nil
+        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { (timer) in
+            let indexPath = IndexPath(item: index, section: 0)
+            self.selectedSubjectsCV.insertItems(at: [indexPath])
+            self.selectedSubjectsCV.scrollToItem(at: indexPath, at: .left, animated: true)
+            timer.invalidate()
+        }
+    }
+    
+    @objc func handleSubjectRemoved(_ notification: Notification) {
+        guard let userInfo = notification.userInfo as? [String:Any], let index = userInfo["index"] as? Int else { return }
+        
+        updateAccessoryViewTextLabel()
+        guard index > -1 else {
+            selectedSubjectsCV.reloadData()
+            return
+        }
+        
+        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { (timer) in
+            let indexPath = IndexPath(item: index, section: 0)
+            self.selectedSubjectsCV.deleteItems(at: [indexPath])
+        }
     }
     
     func showSelectedSubjectsCVIfNeeded(animated: Bool) {
