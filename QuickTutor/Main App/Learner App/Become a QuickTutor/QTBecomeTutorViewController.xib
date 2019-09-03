@@ -162,7 +162,7 @@
                         </view>
                     </subviews>
                     <constraints>
-                        <constraint firstItem="i5M-Pr-FkT" firstAttribute="height" secondItem="rwh-1C-hor" secondAttribute="height" priority="750" id="3i5-Jd-hvn"/>
+                        <constraint firstItem="i5M-Pr-FkT" firstAttribute="height" secondItem="rwh-1C-hor" secondAttribute="height" priority="250" id="3i5-Jd-hvn"/>
                         <constraint firstAttribute="trailing" secondItem="i5M-Pr-FkT" secondAttribute="trailing" id="76C-kg-qQw"/>
                         <constraint firstItem="i5M-Pr-FkT" firstAttribute="width" secondItem="rwh-1C-hor" secondAttribute="width" id="T35-WB-Zdh"/>
                         <constraint firstItem="i5M-Pr-FkT" firstAttribute="leading" secondItem="rwh-1C-hor" secondAttribute="leading" id="XU8-C9-6BO"/>
