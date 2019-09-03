@@ -205,7 +205,7 @@ class CardManagerViewController: UIViewController {
             })
             
             group.notify(queue: .main) {
-                self.tableView.reloadSections(IndexSet(integer: 2), with: .none)
+                self.tableView.reloadData()
             }
         }
         

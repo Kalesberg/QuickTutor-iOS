@@ -436,17 +436,18 @@ class BaseSessionsVC: UIViewController {
     }
     
     private func getTutor(uid: String) {
-        if uid.isEmpty {return;}
-            UserFetchService.shared.getTutorWithId(uid) { tutor in
-                // the result tutor can be null, because there are some ghost users, so if there is no tutor (/it's a ghost tutor), will just return.
-                guard let tutor = tutor else { return}
-                let vc = ConversationVC()
-                vc.receiverId = uid
-                vc.chatPartner = tutor
-                vc.connectionRequestAccepted = true
-                self.navigationController?.setNavigationBarHidden(false, animated: false)
-                self.navigationController?.pushViewController(vc, animated: true)
-            }
+        if uid.isEmpty { return }
+        
+        UserFetchService.shared.getTutorWithId(uid) { tutor in
+            // the result tutor can be null, because there are some ghost users, so if there is no tutor (/it's a ghost tutor), will just return.
+            guard let tutor = tutor else { return }
+            let vc = ConversationVC()
+            vc.receiverId = uid
+            vc.chatPartner = tutor
+            vc.connectionRequestAccepted = true
+            self.navigationController?.setNavigationBarHidden(false, animated: false)
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     @objc func requestSession(notification: Notification) {
