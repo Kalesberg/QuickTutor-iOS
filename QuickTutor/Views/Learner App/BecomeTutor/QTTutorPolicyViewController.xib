@@ -147,7 +147,7 @@
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="WB0-5g-mhn" secondAttribute="bottom" id="4Yf-iS-998"/>
                         <constraint firstItem="WB0-5g-mhn" firstAttribute="width" secondItem="axU-hl-JO0" secondAttribute="width" id="6jM-u8-fK6"/>
-                        <constraint firstItem="WB0-5g-mhn" firstAttribute="height" secondItem="axU-hl-JO0" secondAttribute="height" priority="750" id="7mV-wu-aQE"/>
+                        <constraint firstItem="WB0-5g-mhn" firstAttribute="height" secondItem="axU-hl-JO0" secondAttribute="height" priority="250" id="7mV-wu-aQE"/>
                         <constraint firstAttribute="trailing" secondItem="WB0-5g-mhn" secondAttribute="trailing" id="EOz-Ol-rcN"/>
                         <constraint firstItem="WB0-5g-mhn" firstAttribute="top" secondItem="axU-hl-JO0" secondAttribute="top" id="Ku4-S4-eHR"/>
                         <constraint firstItem="WB0-5g-mhn" firstAttribute="leading" secondItem="axU-hl-JO0" secondAttribute="leading" id="esT-Jb-Bpg"/>
