@@ -273,7 +273,9 @@ extension ProfileVC: MFMailComposeViewControllerDelegate {
 
 extension ProfileVC: ProfileModeToggleViewDelegate {
     func profleModeToggleView(_ profileModeToggleView: MockCollectionViewCell, shouldSwitchTo side: UserType) {
-        side == .learner ? switchToLearner() : switchToTutor()
+        let selectCategoriesVC = QTSelectCategoriesViewController(nibName: String(describing: QTSelectCategoriesViewController.self), bundle: nil)
+        navigationController?.pushViewController(selectCategoriesVC, animated: true)        
+//        side == .learner ? switchToLearner() : switchToTutor()
     }
     
     func switchToLearner() {
