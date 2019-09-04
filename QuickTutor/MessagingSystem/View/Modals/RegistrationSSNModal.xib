@@ -28,7 +28,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zBB-Tu-t4y" customClass="RoundedView" customModule="QuickTutor" customModuleProvider="target">
-                    <rect key="frame" x="20" y="60.5" width="335" height="546"/>
+                    <rect key="frame" x="20" y="96" width="335" height="475"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n1J-SA-8Dg" userLabel="Trust View">
                             <rect key="frame" x="0.0" y="25" width="335" height="50"/>
@@ -51,63 +51,51 @@
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Built for trust" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kB2-iA-ldV">
                             <rect key="frame" x="20" y="100" width="295" height="20"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="20" id="vsW-SY-ful"/>
-                            </constraints>
                             <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="16"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circleCheck" translatesAutoresizingMaskIntoConstraints="NO" id="RCf-Ez-H8p">
-                            <rect key="frame" x="20" y="143" width="20" height="20"/>
+                            <rect key="frame" x="20" y="138" width="20" height="20"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="20" id="Tsf-X0-w87"/>
                                 <constraint firstAttribute="width" constant="20" id="oN7-Nk-Kig"/>
                             </constraints>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="QuickTutor doesn’t store your bank, SSN or other private information." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AaM-qk-veh">
-                            <rect key="frame" x="50" y="140" width="265" height="35"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="35" id="lRq-nH-YPg"/>
-                            </constraints>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="QT won’t store your private information." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AaM-qk-veh">
+                            <rect key="frame" x="50" y="140" width="265" height="16"/>
                             <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="13"/>
                             <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circleCheck" translatesAutoresizingMaskIntoConstraints="NO" id="uuv-MK-Q9x">
-                            <rect key="frame" x="19" y="191" width="20" height="20"/>
+                            <rect key="frame" x="19" y="175" width="20" height="20"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="20" id="NZp-1b-V0h"/>
                                 <constraint firstAttribute="width" constant="20" id="duv-yP-Hbd"/>
                             </constraints>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="QuickTutor doesn’t have any access to your bank, SSN or other private information." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FAc-5t-qTr">
-                            <rect key="frame" x="49" y="188" width="266" height="35"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="35" id="zlB-Lw-WeQ"/>
-                            </constraints>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="QT doesn’t have access to your private information." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FAc-5t-qTr">
+                            <rect key="frame" x="49" y="169" width="266" height="31.5"/>
                             <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="13"/>
                             <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Why does QuickTutor need my SSN?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bnR-Hx-0OF">
-                            <rect key="frame" x="20" y="238" width="295" height="20"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="20" id="xsm-0e-aRC"/>
-                            </constraints>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Why do we need your SSN?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bnR-Hx-0OF">
+                            <rect key="frame" x="20" y="215.5" width="295" height="20"/>
                             <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="16"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K6c-Px-in4">
-                            <rect key="frame" x="20" y="258" width="297" height="151"/>
-                            <string key="text">In order to get paid on a weekly basis, we require your bank account and routing numbers as well as your social security number to confirm your name with your date of birth. QuickTutor does not have access to this private information. QuickTutor utilizes Stripe API, a payment processor which handles billions of dollars every year for forward-thinking businesses around the world.</string>
+                            <rect key="frame" x="20" y="255.5" width="297" height="62.5"/>
+                            <string key="text">In order to receive payments as soon as possible, Stripe requires your bank account and routing information as well as your social security number to confirm your name with your date of birth.</string>
                             <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="13"/>
                             <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LXF-Ui-8FH" userLabel="Logo View">
-                            <rect key="frame" x="87.5" y="429" width="160" height="28"/>
+                            <rect key="frame" x="87.5" y="358" width="160" height="28"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BBB" translatesAutoresizingMaskIntoConstraints="NO" id="rs3-DM-x1j">
                                     <rect key="frame" x="86" y="0.0" width="74" height="28"/>
@@ -135,14 +123,14 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z6t-iU-tPK" userLabel="Line">
-                            <rect key="frame" x="20" y="490" width="295" height="1"/>
+                            <rect key="frame" x="20" y="419" width="295" height="1"/>
                             <color key="backgroundColor" red="0.17254901959999999" green="0.17254901959999999" blue="0.2274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="QQz-sA-7ng"/>
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CbT-Mt-1Oa">
-                            <rect key="frame" x="0.0" y="492" width="335" height="54"/>
+                            <rect key="frame" x="0.0" y="421" width="335" height="54"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="54" id="jsg-Bl-3Id"/>
                             </constraints>
@@ -159,12 +147,12 @@
                     <constraints>
                         <constraint firstItem="pxK-Lg-eHu" firstAttribute="trailing" secondItem="CbT-Mt-1Oa" secondAttribute="trailing" id="1oQ-qf-JqS"/>
                         <constraint firstAttribute="trailing" secondItem="z6t-iU-tPK" secondAttribute="trailing" constant="20" id="5r3-k9-GRB"/>
+                        <constraint firstItem="LXF-Ui-8FH" firstAttribute="top" secondItem="K6c-Px-in4" secondAttribute="bottom" constant="40" id="5vR-L0-ICe"/>
                         <constraint firstItem="CbT-Mt-1Oa" firstAttribute="leading" secondItem="zBB-Tu-t4y" secondAttribute="leading" id="6xB-Xg-dvV"/>
-                        <constraint firstAttribute="height" constant="546" id="8Dq-cC-Idt"/>
                         <constraint firstItem="K6c-Px-in4" firstAttribute="leading" secondItem="pxK-Lg-eHu" secondAttribute="leading" constant="20" id="A2R-jA-Qzy"/>
                         <constraint firstItem="n1J-SA-8Dg" firstAttribute="leading" secondItem="zBB-Tu-t4y" secondAttribute="leading" id="Fde-NW-IUC"/>
                         <constraint firstItem="FAc-5t-qTr" firstAttribute="leading" secondItem="uuv-MK-Q9x" secondAttribute="trailing" constant="10" id="G6I-1U-f4h"/>
-                        <constraint firstItem="RCf-Ez-H8p" firstAttribute="top" secondItem="kB2-iA-ldV" secondAttribute="bottom" constant="23" id="Glj-wm-tuy"/>
+                        <constraint firstItem="RCf-Ez-H8p" firstAttribute="centerY" secondItem="AaM-qk-veh" secondAttribute="centerY" id="H18-U7-1RP"/>
                         <constraint firstItem="uuv-MK-Q9x" firstAttribute="leading" secondItem="pxK-Lg-eHu" secondAttribute="leading" constant="19" id="HC4-bA-cOC"/>
                         <constraint firstItem="pxK-Lg-eHu" firstAttribute="trailing" secondItem="bnR-Hx-0OF" secondAttribute="trailing" constant="20" id="HUf-gc-iin"/>
                         <constraint firstItem="pxK-Lg-eHu" firstAttribute="trailing" secondItem="AaM-qk-veh" secondAttribute="trailing" constant="20" id="OGu-J1-HPC"/>
@@ -175,9 +163,7 @@
                         <constraint firstItem="pxK-Lg-eHu" firstAttribute="bottom" secondItem="CbT-Mt-1Oa" secondAttribute="bottom" id="UKs-sN-nDo"/>
                         <constraint firstItem="LXF-Ui-8FH" firstAttribute="centerX" secondItem="zBB-Tu-t4y" secondAttribute="centerX" id="caR-BL-Lvc"/>
                         <constraint firstItem="RCf-Ez-H8p" firstAttribute="leading" secondItem="pxK-Lg-eHu" secondAttribute="leading" constant="20" id="e8L-oj-xpJ"/>
-                        <constraint firstItem="uuv-MK-Q9x" firstAttribute="top" secondItem="RCf-Ez-H8p" secondAttribute="bottom" constant="28" id="ftt-mJ-1aO"/>
                         <constraint firstAttribute="trailing" secondItem="n1J-SA-8Dg" secondAttribute="trailing" id="hg5-hu-6tT"/>
-                        <constraint firstItem="LXF-Ui-8FH" firstAttribute="top" secondItem="K6c-Px-in4" secondAttribute="bottom" constant="20" id="i8i-0C-RTq"/>
                         <constraint firstItem="z6t-iU-tPK" firstAttribute="centerX" secondItem="zBB-Tu-t4y" secondAttribute="centerX" id="j8a-Q1-3GL"/>
                         <constraint firstItem="z6t-iU-tPK" firstAttribute="top" secondItem="LXF-Ui-8FH" secondAttribute="bottom" constant="33" id="k4B-lX-UY1"/>
                         <constraint firstItem="pxK-Lg-eHu" firstAttribute="trailing" secondItem="FAc-5t-qTr" secondAttribute="trailing" constant="20" id="kJL-Vb-JNU"/>
@@ -185,9 +171,10 @@
                         <constraint firstItem="AaM-qk-veh" firstAttribute="leading" secondItem="RCf-Ez-H8p" secondAttribute="trailing" constant="10" id="lf3-VS-Gm2"/>
                         <constraint firstItem="kB2-iA-ldV" firstAttribute="leading" secondItem="pxK-Lg-eHu" secondAttribute="leading" constant="20" id="m4X-NC-njr"/>
                         <constraint firstItem="pxK-Lg-eHu" firstAttribute="trailing" secondItem="K6c-Px-in4" secondAttribute="trailing" constant="18" id="m5K-Tn-uc8"/>
+                        <constraint firstItem="uuv-MK-Q9x" firstAttribute="centerY" secondItem="FAc-5t-qTr" secondAttribute="centerY" id="nUz-EU-Ruj"/>
                         <constraint firstItem="kB2-iA-ldV" firstAttribute="top" secondItem="n1J-SA-8Dg" secondAttribute="bottom" constant="25" id="oza-gS-Jsa"/>
                         <constraint firstItem="CbT-Mt-1Oa" firstAttribute="top" secondItem="z6t-iU-tPK" secondAttribute="bottom" constant="1" id="rPw-8i-QfX"/>
-                        <constraint firstItem="K6c-Px-in4" firstAttribute="top" secondItem="bnR-Hx-0OF" secondAttribute="bottom" id="tiu-9b-4Mz"/>
+                        <constraint firstItem="K6c-Px-in4" firstAttribute="top" secondItem="bnR-Hx-0OF" secondAttribute="bottom" constant="20" id="tiu-9b-4Mz"/>
                         <constraint firstItem="bnR-Hx-0OF" firstAttribute="top" secondItem="FAc-5t-qTr" secondAttribute="bottom" constant="15" id="uPu-DA-d2G"/>
                         <constraint firstItem="LXF-Ui-8FH" firstAttribute="centerX" secondItem="zBB-Tu-t4y" secondAttribute="centerX" id="uQQ-fp-Ahy"/>
                         <constraint firstItem="AaM-qk-veh" firstAttribute="top" secondItem="kB2-iA-ldV" secondAttribute="bottom" constant="20" id="yC9-bM-gxa"/>
