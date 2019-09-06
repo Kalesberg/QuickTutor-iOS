@@ -24,6 +24,8 @@ struct Notifications {
     static let learnerDidAddInterest = Notification(name: Notification.Name("com.quickTutor.learnerDidAddInterest"))
     static let learnerDidRemoveInterest = Notification(name: Notification.Name("com.quickTutor.learnerDidRemoveInterest"))
     static let learnerTooManyInterests = Notification(name: Notification.Name("com.quickTutor.learnerTooManyInterests"))
+    
+    static let didUpatePaymentCustomer = Notification(name: Notification.Name("com.quickTutor.didUpatePaymentCustomer"))
 }
 
 struct NotificationNames {

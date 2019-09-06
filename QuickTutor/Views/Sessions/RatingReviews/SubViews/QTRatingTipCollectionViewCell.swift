@@ -8,38 +8,36 @@
 
 import UIKit
 import FirebaseStorage
+import TTSegmentedControl
+import Stripe
 
 class QTRatingTipCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var profileView: UIView!
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var hourlyRateLabel: UILabel!
     @IBOutlet weak var subjectLabel: UILabel!
-    @IBOutlet weak var reviewNumberLabel: UILabel!
-    @IBOutlet weak var profileStar1ImageView: UIImageView!
-    @IBOutlet weak var profileStar2ImageView: UIImageView!
-    @IBOutlet weak var profileStar3ImageView: UIImageView!
-    @IBOutlet weak var profileStar4ImageView: UIImageView!
-    @IBOutlet weak var profileStar5ImageView: UIImageView!
-    @IBOutlet weak var nameView: UIView!
-    @IBOutlet weak var subjectView: UIView!
-    @IBOutlet weak var profileRatingView: UIView!
-    @IBOutlet weak var avatarHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var avatarWidthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var priceLabel: UILabel!
-    @IBOutlet weak var lblProcessingFee: UILabel!
+    @IBOutlet weak var ratingNumberLabel: UILabel!
+    @IBOutlet weak var tutorCostTitleLabel: UILabel!
+    @IBOutlet weak var tutorCostLabel: UILabel!
+    @IBOutlet weak var processingFeeLabel: UILabel!
+    @IBOutlet weak var tutorTipLabel: UILabel!
+    @IBOutlet weak var tipSegmentControl: TTSegmentedControl!
+    
     @IBOutlet weak var minusButton: UIButton!
     @IBOutlet weak var plusButton: UIButton!
     @IBOutlet weak var tipTextField: UITextField!
-    @IBOutlet weak var tipCheckImageView: UIImageView!
-    @IBOutlet weak var tipCheckStackView: UIStackView!
+    
+    @IBOutlet weak var brandImageView: UIImageView!
+    @IBOutlet weak var cardInfoLabel: UILabel!
+    
     
     var isPayWithoutTip = false
-    var tip: Double = 5
+    var tip: Double = 0//5
     var costOfSession: Double = 0.0
-    var didSelectTip: ((Double) ->())?
+    var didSelectTip: ((Double, Double) ->())?
+    var didSelectPayment: (() ->())?
     
     struct Dimension {
         let avatarWidth = 180
@@ -68,17 +66,11 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        profileView.superview?.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 4)
-        
         tipTextField.layer.cornerRadius = 3
         tipTextField.layer.borderColor = Colors.gray.cgColor
         tipTextField.layer.borderWidth = 1
         tipTextField.clipsToBounds = true
         tipTextField.delegate = self
-        
-        tipCheckStackView.isUserInteractionEnabled = true
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTipCheckTap))
-        tipCheckStackView.addGestureRecognizer(tapGesture)
         
         NotificationCenter.default.removeObserver(self)
         NotificationCenter.default.addObserver(self,
@@ -91,6 +83,34 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
                                                object: nil)
         
         tipTextField.addTarget(self, action: #selector(handleTipTextFieldChanged(_:)), for: .editingChanged)
+        
+        // tip segment control
+        tipSegmentControl.itemTitles = ["No tip", "10%", "15%", "20%", "Custom"]
+        tipSegmentControl.selectedTextFont = Fonts.createSemiBoldSize(17.0)
+        tipSegmentControl.defaultTextFont = Fonts.createSemiBoldSize(17.0)
+        tipSegmentControl.allowChangeThumbWidth = false
+        tipSegmentControl.didSelectItemWith = { (index, title) -> () in
+            self.tipTextField.superview?.superview?.superview?.isHidden = index < 4
+            // update tip
+            switch index {
+            case 0:
+                self.tip = 0.0
+            case 1:
+                self.tip = self.costOfSession * 0.1
+            case 2:
+                self.tip = self.costOfSession * 0.15
+            case 3:
+                self.tip = self.costOfSession * 0.2
+            default:
+                self.tip = 5.0
+            }
+            
+            self.updateTipAmount()
+        }
+        tipSegmentControl.selectItemAt(index: 2)
+        
+        // custom tip
+        tipTextField.superview?.superview?.superview?.isHidden = true
     }
 
     @IBAction func onMinusButtonClicked(_ sender: Any) {
@@ -127,20 +147,8 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    @objc
-    private func handleTipCheckTap() {
-        isPayWithoutTip = !isPayWithoutTip
-        minusButton.isEnabled = !isPayWithoutTip
-        minusButton.alpha = isPayWithoutTip ? 0.02 : 1
-        plusButton.isEnabled = !isPayWithoutTip
-        plusButton.alpha = isPayWithoutTip ? 0.02 : 1
-        tipCheckImageView.isHighlighted = isPayWithoutTip
-        tip = 0
-        tipTextField.text = "$0"
-        updateTipAmount(text: tipTextField.text)
-        if let didSelectTip = didSelectTip {
-            didSelectTip(tip)
-        }
+    @IBAction func onClickSelectPayment(_ sender: Any) {
+        didSelectPayment?()
     }
     
     @objc
@@ -162,7 +170,11 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
             }
         }
         
-        UIView.animate(withDuration: TimeInterval(1.5)) {
+        UIView.animate(withDuration: 1.5) {
+            self.scrollView.contentOffset = CGPoint(x: 0, y: delta)
+        }
+        
+        /*UIView.animate(withDuration: TimeInterval(1.5)) {
             if delta > 0 {
                 if delta < CGFloat(self.dimension.avatarHeight - self.dimension.avatarMinHeight) {
                     // Update the avatar height with min height.
@@ -185,12 +197,15 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
                 self.avatarWidthConstraint.constant = self.avatarHeightConstraint.constant * CGFloat(self.dimension.avatarWidth / self.dimension.avatarHeight)
             }
             self.layoutIfNeeded()
-        }
+        }*/
     }
     
     @objc
     func handleKeyboardHide(_ notification: Notification) {
-        UIView.animate(withDuration: TimeInterval(1.5)) {
+        UIView.animate(withDuration: 1.5) {
+            self.scrollView.contentOffset = CGPoint(x: 0, y: 0)
+        }
+        /*UIView.animate(withDuration: TimeInterval(1.5)) {
             if self.avatarWidthConstraint.constant < CGFloat(self.dimension.avatarWidth) {
                 self.avatarWidthConstraint.constant = CGFloat(self.dimension.avatarWidth)
                 self.avatarHeightConstraint.constant = CGFloat(self.dimension.avatarHeight)
@@ -199,7 +214,7 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
             self.subjectView.isHidden = false
             self.profileRatingView.isHidden = false
             self.layoutIfNeeded()
-        }
+        }*/
     }
     
     @objc
@@ -207,7 +222,7 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
         updateTipAmount(text: textField.text)
     }
     
-    public func setProfileInfo(user: Any, subject: String?, costOfSession: Double) {
+    public func setProfileInfo(user: Any, subject: String?, costOfSession: Double, sessionType: QTSessionType) {
         scrollView.contentSize.width = UIScreen.main.bounds.width
         scrollView.backgroundColor = UIColor.red
         
@@ -220,12 +235,12 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
             setProfileRating(Int(rating))
         }
         
-        if let reviews = tutor.reviews {
+        /*if let reviews = tutor.reviews {
             reviewNumberLabel.text = "\(reviews.count)"
             reviewNumberLabel.isHidden = false
         } else {
             reviewNumberLabel.isHidden = true
-        }
+        }*/
         if let subject = subject {
             subjectLabel.text = subject
         }
@@ -236,16 +251,45 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
             hourlyRateLabel.isHidden = true
         }
         
+        // real cost
         self.costOfSession = costOfSession
-        priceLabel.text = (costOfSession + tip).currencyFormat(precision: 2, divider: 1)
-        updateTipAmount(text: tipTextField.text)
+        
+        // tip
+        tip = costOfSession * 0.15
+        tutorTipLabel.text = tip.currencyFormat(precision: 2, divider: 1)
+        
+        // processing fee
+        let cost = costOfSession + tip
+        let costWithFee = (cost + 0.3) / 0.971
+        processingFeeLabel.text = (costWithFee - cost).currencyFormat(precision: 2, divider: 1)
+        
+        // tutor cost
+        tutorCostTitleLabel.text = sessionType == .inPerson ? "Session cost:" : "Call cost:"
+        tutorCostLabel.text = costOfSession.currencyFormat(precision: 2, divider: 1)//costWithFee.currencyFormat(precision: 2, divider: 1)
+
+        // did select tip
+        didSelectTip?(tip, costWithFee)
     }
     
     private func setProfileRating(_ rating: Int) {
-        let stars = [profileStar1ImageView, profileStar2ImageView, profileStar3ImageView, profileStar4ImageView, profileStar5ImageView]
+        /*let stars = [profileStar1ImageView, profileStar2ImageView, profileStar3ImageView, profileStar4ImageView, profileStar5ImageView]
         for i in 0 ..< 5 {
             stars[i]?.isHighlighted = rating > i ? true : false
-        }
+        }*/
+        ratingNumberLabel.text = String(format: "%.1f", Float(rating))
+    }
+    
+    private func updateTipAmount () {
+        // tip
+        tutorTipLabel.text = tip.currencyFormat(precision: 2, divider: 1)
+        
+        //processing fee
+        let cost = costOfSession + tip
+        let costWithFee = (cost + 0.3) / 0.971
+        processingFeeLabel.text = (costWithFee - cost).currencyFormat(precision: 2, divider: 1)
+        
+        // did select tip
+        didSelectTip?(tip, costWithFee)
     }
     
     private func updateTipAmount(text: String?) {
@@ -256,15 +300,23 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
                 tipTextField.text = "$250"
                 tip = maxTip
             }
-            let cost = costOfSession + tip
-            let costWithFee = (cost + 0.3) / 0.971
-            priceLabel.text = costWithFee.currencyFormat(precision: 2, divider: 1)
             
-            let fee = costWithFee - cost
-            lblProcessingFee.text = "Processing Fee: " + fee.currencyFormat(precision: 2, divider: 1)
-            
-            didSelectTip?(tip)
+            updateTipAmount()
         }
+    }
+    
+    // MARK: - Payment Handlers
+    func setPayment (defaultCard: STPCard?) {
+        guard let card = defaultCard else {
+            if Stripe.deviceSupportsApplePay() {
+                brandImageView.image = STPApplePayPaymentOption().image
+                cardInfoLabel.text = "Apple Pay"
+            }
+            return
+        }
+        
+        brandImageView.image = STPImageLibrary.brandImage(for: card.brand)
+        cardInfoLabel.text = "•••• \(card.last4)"
     }
 }
 
@@ -275,7 +327,6 @@ extension QTRatingTipCollectionViewCell: UITextFieldDelegate {
         minusButton.alpha = isPayWithoutTip ? 0.02 : 1
         plusButton.isEnabled = !isPayWithoutTip
         plusButton.alpha = isPayWithoutTip ? 0.02 : 1
-        tipCheckImageView.isHighlighted = isPayWithoutTip
         
         if textField.text?.isEmpty == true {
             textField.text = "$"

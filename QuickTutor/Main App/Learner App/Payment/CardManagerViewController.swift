@@ -43,6 +43,8 @@ class CardManagerViewController: UIViewController {
         return view
     }()
     
+    private var hasPaymentHistory: Bool = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigation()
@@ -85,6 +87,10 @@ class CardManagerViewController: UIViewController {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(!isShowingAddCardView && shouldHideNavBarWhenDismissed, animated: false)
         hideTabBar(hidden: false)
+    }
+    
+    func setHasPaymentHistory (_ hasPaymentHistory: Bool) {
+        self.hasPaymentHistory = hasPaymentHistory
     }
     
     func configureNavigation() {
@@ -235,6 +241,10 @@ class CardManagerViewController: UIViewController {
                         }
                     } else if let customer = customer {
                         self.customer = customer
+                        
+                        if !self.hasPaymentHistory {
+                            NotificationCenter.default.post(name: Notifications.didUpatePaymentCustomer.name, object: nil, userInfo: ["customer" : customer])
+                        }
                     }
                     self.hideLoadingAnimation()
                 })
@@ -325,7 +335,7 @@ extension CardManagerViewController: AddCardViewControllerDelegate {
 
 extension CardManagerViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return hasPaymentHistory ? 3 : 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -392,6 +402,10 @@ extension CardManagerViewController: UITableViewDelegate {
                 CurrentUser.shared.learner.isApplePayDefault = true
                 self.updateApplePayDefaultStatus(true)
                 self.tableView.reloadData()
+                
+                if !self.hasPaymentHistory {
+                    NotificationCenter.default.post(name: Notifications.didUpatePaymentCustomer.name, object: nil, userInfo: ["isApplyPay" : true])
+                }
             }
             
             let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)

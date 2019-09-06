@@ -19,6 +19,7 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var sessionLengthCaptionLabel: UILabel!
     @IBOutlet weak var sessionLengthLabel: UILabel!
     @IBOutlet weak var tutoringCostView: UIView!
+    @IBOutlet weak var tutoringCostTitleLabel: UILabel!
     @IBOutlet weak var tutoringCostLabel: UILabel!
     @IBOutlet weak var processingFeeTitleLabel: UILabel!
     @IBOutlet weak var processingFeeLabel: UILabel!
@@ -64,6 +65,7 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
             
             updateLabelsWith(sessionType: sessionType, nameSplit: nameSplit)
             
+            tutoringCostTitleLabel.text = sessionType == .inPerson ? "Session cost:" : "Call cost:"
             tutoringCostLabel.text = bill.currencyFormat(precision: 2, divider: 1)
             
             let cost = (bill + tip + 0.3) / 0.971
@@ -97,8 +99,8 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
         
         tipLabel.text = tip.currencyFormat(precision: 2, divider: 1)
         totalSessionNumberLabel.text = AccountService.shared.currentUserType == .learner ?
-            "\(CurrentUser.shared.learner.lNumSessions + 1)" : "\(CurrentUser.shared.tutor.tNumSessions + 1)"
-        partnerSessionNumberLabel.text = "\(partnerSessionNumber + 1)"
+            "\(CurrentUser.shared.learner.lNumSessions ?? 0)" : "\(CurrentUser.shared.tutor.tNumSessions ?? 0)"
+        partnerSessionNumberLabel.text = "\(partnerSessionNumber)"
     }
 
     func getFormattedTimeString (seconds : Int) -> String {
