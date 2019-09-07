@@ -273,9 +273,7 @@ extension ProfileVC: MFMailComposeViewControllerDelegate {
 
 extension ProfileVC: ProfileModeToggleViewDelegate {
     func profleModeToggleView(_ profileModeToggleView: MockCollectionViewCell, shouldSwitchTo side: UserType) {
-        let selectCategoriesVC = QTSelectCategoriesViewController(nibName: String(describing: QTSelectCategoriesViewController.self), bundle: nil)
-        navigationController?.pushViewController(selectCategoriesVC, animated: true)        
-//        side == .learner ? switchToLearner() : switchToTutor()
+        side == .learner ? switchToLearner() : switchToTutor()
     }
     
     func switchToLearner() {
@@ -284,7 +282,14 @@ extension ProfileVC: ProfileModeToggleViewDelegate {
             FirebaseData.manager.fetchLearner(uid) { (learner) in
                 self.dismissOverlay()
                 CurrentUser.shared.learner = learner
-                RootControllerManager.shared.configureRootViewController(controller: LearnerMainPageVC())
+                if nil == learner?.interests {
+                    let selectCategoriesVC = QTSelectCategoriesViewController(nibName: String(describing: QTSelectCategoriesViewController.self), bundle: nil)
+                    let hookModelNC = QTHookModelNavigationController(rootViewController: selectCategoriesVC)
+                    hookModelNC.hookModelDelegate = self
+                    self.present(hookModelNC, animated: false, completion: nil)
+                } else {
+                    RootControllerManager.shared.configureRootViewController(controller: LearnerMainPageVC())
+                }
             }
         }
     }
@@ -338,5 +343,13 @@ extension ProfileVC: ProfileModeToggleViewDelegate {
 extension ProfileVC: ProfileVCFooterCellDelegate {
     func profileVCFooterCell(_ cell: ProfileVCFooterCell, didTap button: UIButton) {
         inviteOthers()
+    }
+}
+
+extension ProfileVC: QTHookModelNavigationControllerDelegate {
+    func didFinishHookModel(_ viewController: UIViewController) {
+        viewController.dismiss(animated: false) {
+            RootControllerManager.shared.configureRootViewController(controller: LearnerMainPageVC())
+        }
     }
 }

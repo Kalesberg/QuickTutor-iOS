@@ -23,11 +23,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QTSelectInterestsViewController" customModule="QuickTutor" customModuleProvider="target">
             <connections>
-                <outlet property="btnNext" destination="3F4-pL-Vzw" id="oXW-1p-8se"/>
+                <outlet property="collectionView" destination="nrO-Y2-M15" id="NrB-gs-WaJ"/>
                 <outlet property="lblDescription" destination="khB-QO-UNx" id="g5S-bs-9gH"/>
                 <outlet property="lblSelectedCount" destination="e5I-m2-bGP" id="AaI-mL-AGA"/>
                 <outlet property="magneticView" destination="JJP-o1-V7g" id="MD9-a6-vxX"/>
-                <outlet property="stackView" destination="EW3-qa-z29" id="WJG-OL-e3E"/>
                 <outlet property="view" destination="FOh-eu-Axq" id="CZW-E6-IRD"/>
             </connections>
         </placeholder>
@@ -36,14 +35,14 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Huz-Si-RI3">
-                    <rect key="frame" x="0.0" y="76" width="414" height="698"/>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Huz-Si-RI3">
+                    <rect key="frame" x="0.0" y="52" width="414" height="771"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fhA-NI-7fl">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="42"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share your interests with us." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8GA-2J-S0E">
-                                    <rect key="frame" x="80.5" y="0.0" width="253.5" height="50"/>
+                                    <rect key="frame" x="81" y="0.0" width="252" height="42"/>
                                     <fontDescription key="fontDescription" name="Lato-Heavy" family="Lato" pointSize="20"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
@@ -51,16 +50,23 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstItem="8GA-2J-S0E" firstAttribute="height" secondItem="fhA-NI-7fl" secondAttribute="height" id="XPz-Rc-oJY"/>
+                                <constraint firstItem="8GA-2J-S0E" firstAttribute="height" secondItem="fhA-NI-7fl" secondAttribute="height" id="V4G-xU-NKA"/>
                                 <constraint firstItem="8GA-2J-S0E" firstAttribute="centerY" secondItem="fhA-NI-7fl" secondAttribute="centerY" id="rJf-b1-feA"/>
                                 <constraint firstItem="8GA-2J-S0E" firstAttribute="centerX" secondItem="fhA-NI-7fl" secondAttribute="centerX" id="wiq-gb-jMu"/>
                             </constraints>
                         </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bli-Ig-Cez">
+                            <rect key="frame" x="0.0" y="46" width="414" height="4"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="4" id="0yj-7d-tr0"/>
+                            </constraints>
+                        </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hI9-nP-w1t">
-                            <rect key="frame" x="0.0" y="70" width="414" height="40"/>
+                            <rect key="frame" x="0.0" y="54" width="414" height="40"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select 4 or more interests to add to your profile." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="khB-QO-UNx">
-                                    <rect key="frame" x="57.5" y="0.0" width="299" height="40"/>
+                                    <rect key="frame" x="62" y="0.0" width="290" height="40"/>
                                     <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
@@ -74,70 +80,31 @@
                                 <constraint firstAttribute="height" constant="40" id="kdo-hR-Sva"/>
                             </constraints>
                         </view>
-                        <scrollView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rIu-Jy-KVa">
-                            <rect key="frame" x="0.0" y="120" width="414" height="40"/>
-                            <subviews>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lIy-XS-ler">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="40"/>
-                                    <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="EW3-qa-z29">
-                                            <rect key="frame" x="207" y="2" width="0.0" height="36"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="spa-Ce-N3C">
-                                                    <rect key="frame" x="0.0" y="0.0" width="0.0" height="36"/>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" id="oNn-su-WDP"/>
-                                                    </constraints>
-                                                </view>
-                                            </subviews>
-                                        </stackView>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <constraints>
-                                        <constraint firstItem="EW3-qa-z29" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="lIy-XS-ler" secondAttribute="leading" constant="20" id="ETU-Vp-t7l"/>
-                                        <constraint firstItem="EW3-qa-z29" firstAttribute="centerX" secondItem="lIy-XS-ler" secondAttribute="centerX" id="HL9-wj-770"/>
-                                        <constraint firstItem="EW3-qa-z29" firstAttribute="top" secondItem="lIy-XS-ler" secondAttribute="top" constant="2" id="eyF-zx-U1Y"/>
-                                        <constraint firstItem="EW3-qa-z29" firstAttribute="centerY" secondItem="lIy-XS-ler" secondAttribute="centerY" id="fcP-oE-S3B"/>
-                                    </constraints>
-                                </view>
-                            </subviews>
+                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="nrO-Y2-M15">
+                            <rect key="frame" x="0.0" y="98" width="414" height="40"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstItem="lIy-XS-ler" firstAttribute="width" secondItem="rIu-Jy-KVa" secondAttribute="width" priority="250" id="K6s-PQ-RPI"/>
-                                <constraint firstAttribute="height" constant="40" id="KU3-Sg-kP7"/>
-                                <constraint firstAttribute="trailing" secondItem="lIy-XS-ler" secondAttribute="trailing" id="WPn-He-Oqi"/>
-                                <constraint firstItem="lIy-XS-ler" firstAttribute="leading" secondItem="rIu-Jy-KVa" secondAttribute="leading" id="ciG-vp-4zz"/>
-                                <constraint firstAttribute="bottom" secondItem="lIy-XS-ler" secondAttribute="bottom" id="hSJ-BN-ISa"/>
-                                <constraint firstItem="lIy-XS-ler" firstAttribute="height" secondItem="rIu-Jy-KVa" secondAttribute="height" id="i9l-c6-4jY"/>
-                                <constraint firstItem="lIy-XS-ler" firstAttribute="top" secondItem="rIu-Jy-KVa" secondAttribute="top" id="lXw-S0-Qn2"/>
+                                <constraint firstAttribute="height" constant="40" id="au4-Go-tBB"/>
                             </constraints>
-                        </scrollView>
+                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="8" minimumInteritemSpacing="8" id="KcL-R0-UFA">
+                                <size key="itemSize" width="50" height="50"/>
+                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                <inset key="sectionInset" minX="8" minY="2" maxX="8" maxY="2"/>
+                            </collectionViewFlowLayout>
+                            <connections>
+                                <outlet property="dataSource" destination="-1" id="Onc-KZ-2XS"/>
+                                <outlet property="delegate" destination="-1" id="p5G-ZN-9ES"/>
+                            </connections>
+                        </collectionView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JJP-o1-V7g" customClass="MagneticView" customModule="QuickTutor" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="130" width="414" height="568"/>
+                            <rect key="frame" x="0.0" y="142" width="414" height="629"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </view>
                     </subviews>
                 </stackView>
-                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3F4-pL-Vzw" customClass="DimmableButton" customModule="QuickTutor" customModuleProvider="target">
-                    <rect key="frame" x="117" y="786" width="180" height="44"/>
-                    <color key="backgroundColor" red="0.39607843139999999" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="180" id="Ikg-aR-WW2"/>
-                        <constraint firstAttribute="height" constant="44" id="KgJ-04-Xyh"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="12"/>
-                    <state key="normal" title="Next"/>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                            <integer key="value" value="5"/>
-                        </userDefinedRuntimeAttribute>
-                    </userDefinedRuntimeAttributes>
-                    <connections>
-                        <action selector="onClickBtnNext:" destination="-1" eventType="touchUpInside" id="LOy-IJ-k3J"/>
-                    </connections>
-                </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0/12" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e5I-m2-bGP">
-                    <rect key="frame" x="371.5" y="831.5" width="28.5" height="16.5"/>
+                    <rect key="frame" x="370" y="831" width="30" height="17"/>
                     <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
@@ -145,12 +112,10 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="3F4-pL-Vzw" firstAttribute="top" secondItem="Huz-Si-RI3" secondAttribute="bottom" constant="12" id="07E-WV-NWz"/>
                 <constraint firstItem="7hj-Fc-MlE" firstAttribute="trailing" secondItem="e5I-m2-bGP" secondAttribute="trailing" constant="14" id="5wI-19-eUg"/>
+                <constraint firstItem="e5I-m2-bGP" firstAttribute="top" secondItem="Huz-Si-RI3" secondAttribute="bottom" constant="8" id="Abd-23-ZGW"/>
                 <constraint firstItem="7hj-Fc-MlE" firstAttribute="bottom" secondItem="e5I-m2-bGP" secondAttribute="bottom" constant="14" id="BEU-to-9hH"/>
-                <constraint firstItem="7hj-Fc-MlE" firstAttribute="bottom" secondItem="3F4-pL-Vzw" secondAttribute="bottom" constant="32" id="GAT-Xc-6TB"/>
-                <constraint firstItem="3F4-pL-Vzw" firstAttribute="centerX" secondItem="7hj-Fc-MlE" secondAttribute="centerX" id="e8Q-rw-nwx"/>
-                <constraint firstItem="Huz-Si-RI3" firstAttribute="top" secondItem="7hj-Fc-MlE" secondAttribute="top" constant="32" id="kZU-PJ-p5P"/>
+                <constraint firstItem="Huz-Si-RI3" firstAttribute="top" secondItem="7hj-Fc-MlE" secondAttribute="top" constant="8" id="kZU-PJ-p5P"/>
                 <constraint firstItem="Huz-Si-RI3" firstAttribute="centerX" secondItem="7hj-Fc-MlE" secondAttribute="centerX" id="qlP-aH-DBI"/>
                 <constraint firstItem="Huz-Si-RI3" firstAttribute="width" secondItem="FOh-eu-Axq" secondAttribute="width" id="y6E-bn-1pe"/>
             </constraints>

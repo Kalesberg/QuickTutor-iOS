@@ -10,12 +10,15 @@ import SpriteKit
 
 @objcMembers open class Node: SKShapeNode {
     
-    public lazy var label: SKLabelNode = { [unowned self] in
-        let label = SKLabelNode()
+    public lazy var label: SKMultilineLabelNode = { [unowned self] in
+        let label = SKMultilineLabelNode()
         label.fontName = "Lato-Regular"
         label.fontSize = 14
         label.fontColor = .white
-        label.position = CGPoint(x: frame.midX, y: frame.midY - 20)
+        label.verticalAlignmentMode = .center
+        label.width = self.frame.width - 18
+        label.separator = " "
+        label.position = CGPoint(x: frame.midX, y: frame.midY - 15)
         addChild(label)
         return label
     }()
@@ -23,10 +26,16 @@ import SpriteKit
     public lazy var image: SKSpriteNode = {
         let image = SKSpriteNode()
         image.size = CGSize(width: 50, height: 50)
-        image.position = CGPoint(x: frame.midX, y: frame.midY + 20)
+        image.position = CGPoint(x: frame.midX, y: frame.midY + 22)
         addChild(image)
         return image
     }()
+    
+    public var userInfo: Any?
+    
+    open var clone: Node {
+        return Node(text: text, image: icon, color: strokeColor, path: path, userInfo: userInfo)
+    }
     
     /**
      The text displayed by the node.
@@ -53,6 +62,7 @@ import SpriteKit
     open var color: UIColor = .clear {
         didSet {
             self.lineWidth = NodeStrokeWidth
+            self.glowWidth = 1
             self.strokeColor = color
         }
     }
@@ -83,18 +93,21 @@ import SpriteKit
      
      - Returns: A new node.
      */
-    public init(text: String?, image: UIImage?, color: UIColor, path: CGPath, marginScale: CGFloat = 1.01) {
+    public init(text: String?, image: UIImage?, color: UIColor, path: CGPath?, marginScale: CGFloat = 1.01, userInfo: Any?) {
         super.init()
         self.path = path
-        self.physicsBody = {
-            var transform = CGAffineTransform.identity.scaledBy(x: marginScale, y: marginScale)
-            let body = SKPhysicsBody(polygonFrom: path.copy(using: &transform)!)
-            body.allowsRotation = false
-            body.friction = 0
-            body.linearDamping = 3
-            return body
-        }()
+        if let path = path {
+            self.physicsBody = {
+                var transform = CGAffineTransform.identity.scaledBy(x: marginScale, y: marginScale)
+                let body = SKPhysicsBody(polygonFrom: path.copy(using: &transform)!)
+                body.allowsRotation = false
+                body.friction = 0
+                body.linearDamping = 3
+                return body
+            }()
+        }
         self.fillColor = Colors.newNavigationBarBackground
+        self.userInfo = userInfo
         configure(text: text, image: image, color: color)
     }
     
@@ -110,9 +123,9 @@ import SpriteKit
      
      - Returns: A new node.
      */
-    public convenience init(text: String?, image: UIImage?, color: UIColor, radius: CGFloat, marginScale: CGFloat = 1.1) {        
-        let path = SKShapeNode(circleOfRadius: radius).path!
-        self.init(text: text, image: image, color: color, path: path, marginScale: marginScale)
+    public convenience init(text: String?, image: UIImage?, color: UIColor, radius: CGFloat, marginScale: CGFloat = 1.1, userInfo: Any? = nil) {
+        let path = SKShapeNode(circleOfRadius: radius).path
+        self.init(text: text, image: image, color: color, path: path, marginScale: marginScale, userInfo: userInfo)
     }
     
     required public init?(coder aDecoder: NSCoder) {

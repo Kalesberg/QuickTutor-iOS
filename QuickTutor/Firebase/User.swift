@@ -595,7 +595,7 @@ class FirebaseData {
 		}
 	}
 	
-	func fetchTutor(_ uid: String, isQuery: Bool,_ completion: @escaping (AWTutor?) -> Void) {
+	func fetchTutor(_ uid: String, isQuery: Bool, _ completion: @escaping (AWTutor?) -> Void) {
 		
 		let group = DispatchGroup()
 		

@@ -33,10 +33,6 @@ let NodeStrokeWidth: CGFloat = 2
     
     open var isDragging: Bool = false
     
-    open var isSelectEnabled: Bool = true
-    
-    open var isDeselectEnabled: Bool = true
-    
     /**
      The selected children.
      */
@@ -77,7 +73,7 @@ let NodeStrokeWidth: CGFloat = 2
     
     func configure() {
         let strength = Float(max(size.width, size.height))
-        let radius = strength.squareRoot() * 100
+        let radius = strength.squareRoot() * 400
         
         physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         physicsBody = SKPhysicsBody(edgeLoopFrom: { () -> CGRect in
@@ -89,8 +85,24 @@ let NodeStrokeWidth: CGFloat = 2
         
         magneticField.region = SKRegion(radius: radius)
         magneticField.minimumRadius = radius
-        magneticField.strength = strength
+        magneticField.strength = strength * 30
         magneticField.position = CGPoint(x: size.width / 2, y: size.height / 2)
+    }
+    
+    open func addNode(_ node: SKNode) {
+        super.addChild(node)
+        let speed = physicsWorld.speed
+        physicsWorld.speed = 0
+        let action = SKAction.run {
+            let movingYAction = SKAction.moveTo(y: self.size.height - node.frame.height / 2, duration: 0.4)
+            let showAction = SKAction.group([movingYAction])
+            node.run(showAction)
+        }
+        let wait = SKAction.wait(forDuration: 0.4)
+        let sequence = SKAction.sequence([action, wait])
+        run(sequence) {
+            self.physicsWorld.speed = speed
+        }
     }
     
     override open func addChild(_ node: SKNode) {
@@ -101,6 +113,26 @@ let NodeStrokeWidth: CGFloat = 2
         let y = CGFloat.random(node.frame.height, frame.height - node.frame.height)
         node.position = CGPoint(x: x, y: y)
         super.addChild(node)
+    }
+    
+    open func removeChild(node: SKNode) {
+        let speed = physicsWorld.speed
+        physicsWorld.speed = 0
+        
+        node.physicsBody = nil
+        let action = SKAction.run {
+            let point = CGPoint(x: node.frame.width / 2, y: self.size.height)
+            let movingXAction = SKAction.moveTo(x: point.x, duration: 0.2)
+            let movingYAction = SKAction.moveTo(y: point.y, duration: 0.4)
+            let resize = SKAction.scale(to: 0.3, duration: 0.4)
+            let throwAction = SKAction.group([movingXAction, movingYAction, resize])
+            node.run(throwAction) { [unowned node] in
+                node.removeFromParent()
+            }
+        }
+        run(action) {
+            self.physicsWorld.speed = speed
+        }
     }
     
     open func removeAllChilds(completion: @escaping () -> Void) {
@@ -160,19 +192,15 @@ extension Magnetic {
         guard !isDragging, let node = node(at: location) else { return }
         
         if node.isSelected {
-            if isDeselectEnabled {
-                node.isSelected = false
-                magneticDelegate?.magnetic(self, didDeselect: node)
-            }
+            node.isSelected = false
+            magneticDelegate?.magnetic(self, didDeselect: node)
         } else {
             if !allowsMultipleSelection, let selectedNode = selectedChildren.first {
                 selectedNode.isSelected = false
                 magneticDelegate?.magnetic(self, didDeselect: selectedNode)
             }
-            if isSelectEnabled {
-                node.isSelected = true
-                magneticDelegate?.magnetic(self, didSelect: node)
-            }
+            node.isSelected = true
+            magneticDelegate?.magnetic(self, didSelect: node)
         }
     }
     

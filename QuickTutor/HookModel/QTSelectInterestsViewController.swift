@@ -8,111 +8,64 @@
 
 import UIKit
 
-class QTSelectInterestsViewController: UIViewController {
+class QTSelectInterestsViewController: QTBaseBubbleViewController {
 
     var selectedSubcategories: [(title: String, icon: UIImage?)] = []
-    
-    @IBOutlet weak var lblDescription: UILabel!
-    @IBOutlet weak var stackView: UIStackView!
-    @IBOutlet weak var magneticView: MagneticView! {
-        didSet {
-            magnetic.magneticDelegate = self
-        }
-    }
-    @IBOutlet weak var btnNext: UIButton!
-    @IBOutlet weak var lblSelectedCount: UILabel!
-    
-    private var magnetic: Magnetic {
-        return magneticView.magnetic
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        navigationController?.isNavigationBarHidden = true
-        hideTabBar(hidden: true)
+        minSelectCount = 4
+        maxSelectCount = 12
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        let subjectsCount = Int(48 / selectedSubcategories.count)
         selectedSubcategories.forEach { subcategory in
             if let categoryName = SubjectStore.shared.findCategoryBy(subcategory: subcategory.title),
                 let category = Category.category(for: categoryName),
-                let subjects = CategoryFactory.shared.getSubjectsFor(subcategoryName: subcategory.title) {
-                subjects.forEach { subject in
-                    let radius = fmax(subject.estimateFrameForFontSize(14).width + 30, 100)
-                    let node = Node(text: subject,
+                let subjects = CategoryFactory.shared.getSubjectsFor(subcategoryName: subcategory.title) {                
+                let count = min(subjects.count, subjectsCount)
+                for _ in 0 ..< count {
+                    let rndIndex = Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(subjects.count))
+                    let rndSubject = subjects[rndIndex]
+                    let words = rndSubject.split(separator: " ")
+                    var maxRadius = bubbleRadius
+                    for word in words {
+                        let width = String(word).estimateFrameForFontSize(14, extendedWidth: true).width
+                        maxRadius = max(maxRadius, (width + 18) / 2)
+                    }
+                    let node = Node(text: rndSubject,
                                     image: subcategory.icon,
                                     color: category.color,
-                                    radius: radius / 2)
+                                    radius: maxRadius,
+                                    userInfo: rndSubject)
                     magnetic.addChild(node)
                 }
             }
         }
     }
     
-    private func onUpdatedSelectedNodes() {
-        let selectedNodes = magnetic.selectedChildren
-        
-        // update selected categories
-        lblDescription.superview?.isHidden = !selectedNodes.isEmpty
-        stackView.superview?.superview?.isHidden = selectedNodes.isEmpty
-        
-        lblSelectedCount.text = "\(selectedNodes.count)/12"
-        btnNext.isHidden = 4 > selectedNodes.count
-        if 12 == selectedNodes.count {
-            onClickBtnNext(btnNext!)
-        }
-    }
-    
-    @IBAction func onClickBtnNext(_ sender: Any) {
+    override func onClickItemNext() {
         magnetic.removeAllChilds() {
+            let connectTutorsVC = QTConnectTutorsViewController(nibName: String(describing: QTConnectTutorsViewController.self), bundle: nil)
             
-        }
-        
-        //        let selectSubcategoriesVC = QTSelectSubcategoriesViewController(nibName: String(describing: QTSelectSubcategoriesViewController.self), bundle: nil)
-        //        var selectedCategories: [Category] = []
-        //        for node in magnetic.selectedChildren {
-        //            guard let index = magnetic.children.compactMap({ $0 as? Node }).firstIndex(of: node) else { continue }
-        //            let category = Category.categories[index]
-        //            selectedCategories.append(category)
-        //        }
-        //        selectSubcategoriesVC.selectedCategories = selectedCategories
-        //        navigationController?.pushViewController(selectSubcategoriesVC, animated: true)
-    }
-    
-}
-
-extension QTSelectInterestsViewController: MagneticDelegate {
-    func magnetic(_ magnetic: Magnetic, didSelect node: Node) {
-        onUpdatedSelectedNodes()
-        
-        // add node to stack view
-        let btnNode = NodeButton(icon: node.icon, text: node.text, color: node.strokeColor, node: node)
-        var frame = btnNode.frame
-        frame.size.height = stackView.frame.size.height
-        btnNode.frame = frame
-        stackView.addArrangedSubview(btnNode)
-    }
-    
-    func magnetic(_ magnetic: Magnetic, didDeselect node: Node) {
-        onUpdatedSelectedNodes()
-        
-        // remove node from stack view
-        stackView.arrangedSubviews.forEach { view in
-            if let btnNode = view as? NodeButton,
-                btnNode.node == node {
-                stackView.removeArrangedSubview(view)
-                view.removeFromSuperview()
+            for node in self.selectedNodes {
+                guard let subject = node.userInfo as? String else { continue }
+                
+//                LearnerRegistrationService.shared.shouldSaveInterests = false
+                LearnerRegistrationService.shared.addInterest(subject)
+            }
+            if 0 == CurrentUser.shared.learner.connectedTutorsCount {
+                self.navigationController?.pushViewController(connectTutorsVC, animated: true)
+            } else {
+                guard let hookModelNC = self.navigationController as? QTHookModelNavigationController else { return }
+                hookModelNC.hookModelDelegate?.didFinishHookModel(hookModelNC)
             }
         }
     }
+    
 }
-
