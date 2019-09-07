@@ -65,7 +65,7 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
             
             updateLabelsWith(sessionType: sessionType, nameSplit: nameSplit)
             
-            tutoringCostTitleLabel.text = sessionType == .inPerson ? "Session cost:" : "Call cost:"
+            tutoringCostTitleLabel.text = sessionType == .quickCalls ? "Call cost:" : "Session cost:" 
             tutoringCostLabel.text = bill.currencyFormat(precision: 2, divider: 1)
             
             let cost = (bill + tip + 0.3) / 0.971

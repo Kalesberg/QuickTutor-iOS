@@ -556,7 +556,7 @@ extension QTRatingReviewViewController: UICollectionViewDataSource {
                         let sessionType = QTSessionType(rawValue: type) ?? QTSessionType.online
                         cell.didSelectTip = { tip, totalCost in
                             PostSessionReviewData.tipAmount = tip
-                            self.nextButton.setTitle("\(self.learnerButtonNames[self.currentStep]) TOTAL: $\(String(format: "%.1f", totalCost))", for: .normal)
+                            self.nextButton.setTitle("\(self.learnerButtonNames[self.currentStep]) TOTAL: $\(String(format: "%.02f", totalCost))", for: .normal)
                         }
                         cell.didSelectPayment = {
                             self.selectPayment ()
@@ -564,7 +564,7 @@ extension QTRatingReviewViewController: UICollectionViewDataSource {
                         cell.setProfileInfo(user: tutor, subject: subject, costOfSession: costOfSession, sessionType: sessionType)
                         
                         // stripe
-                        if cards.isEmpty && !Stripe.deviceSupportsApplePay() {
+                        if cards.isEmpty {
                             getPayments (cell)
                         } else {
                             cell.setPayment (defaultCard: defaultCard)

@@ -8,7 +8,7 @@
 
 import UIKit
 import FirebaseStorage
-import TTSegmentedControl
+import BetterSegmentedControl
 import Stripe
 
 class QTRatingTipCollectionViewCell: UICollectionViewCell {
@@ -23,7 +23,7 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var tutorCostLabel: UILabel!
     @IBOutlet weak var processingFeeLabel: UILabel!
     @IBOutlet weak var tutorTipLabel: UILabel!
-    @IBOutlet weak var tipSegmentControl: TTSegmentedControl!
+    @IBOutlet weak var tipSegmentControl: BetterSegmentedControl!
     
     @IBOutlet weak var minusButton: UIButton!
     @IBOutlet weak var plusButton: UIButton!
@@ -84,35 +84,30 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
         
         tipTextField.addTarget(self, action: #selector(handleTipTextFieldChanged(_:)), for: .editingChanged)
         
-        // tip segment control
-        tipSegmentControl.itemTitles = ["No tip", "10%", "15%", "20%", "Custom"]
-        tipSegmentControl.selectedTextFont = Fonts.createSemiBoldSize(17.0)
-        tipSegmentControl.defaultTextFont = Fonts.createSemiBoldSize(17.0)
-        tipSegmentControl.allowChangeThumbWidth = false
-        tipSegmentControl.didSelectItemWith = { (index, title) -> () in
-            self.tipTextField.superview?.superview?.superview?.isHidden = index < 4
-            // update tip
-            switch index {
-            case 0:
-                self.tip = 0.0
-            case 1:
-                self.tip = self.costOfSession * 0.1
-            case 2:
-                self.tip = self.costOfSession * 0.15
-            case 3:
-                self.tip = self.costOfSession * 0.2
-            default:
-                self.tip = 5.0
-            }
-            
-            self.updateTipAmount()
-        }
-        tipSegmentControl.selectItemAt(index: 2)
-        
         // custom tip
         tipTextField.superview?.superview?.superview?.isHidden = true
     }
 
+    @IBAction func onSelectTip(_ sender: Any) {
+        self.tipTextField.superview?.superview?.superview?.isHidden = tipSegmentControl.index < 4
+        // update tip
+        switch tipSegmentControl.index {
+        case 0:
+            self.tip = 0.0
+        case 1:
+            self.tip = self.costOfSession * 0.1
+        case 2:
+            self.tip = self.costOfSession * 0.15
+        case 3:
+            self.tip = self.costOfSession * 0.2
+        default:
+            self.tip = 5.0
+        }
+        
+        self.updateTipAmount()
+    }
+    
+    
     @IBAction func onMinusButtonClicked(_ sender: Any) {
         if tip - 5 < 0 {
             tip = 0
@@ -224,7 +219,15 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
     
     public func setProfileInfo(user: Any, subject: String?, costOfSession: Double, sessionType: QTSessionType) {
         scrollView.contentSize.width = UIScreen.main.bounds.width
-        scrollView.backgroundColor = UIColor.red
+        
+        // tip segment control
+        tipSegmentControl.segments = LabelSegment.segments(withTitles: ["No tip", "10%", "15%", "20%", "Custom"],
+                                                           normalFont: Fonts.createSemiBoldSize(17.0),
+                                                           normalTextColor: .white,
+                                                           selectedFont: Fonts.createSemiBoldSize(17.0),
+                                                           selectedTextColor: .white)
+        tipSegmentControl.setIndex(2, animated: false)
+        
         
         guard let tutor = user as? AWTutor else { return }
         
@@ -264,7 +267,7 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
         processingFeeLabel.text = (costWithFee - cost).currencyFormat(precision: 2, divider: 1)
         
         // tutor cost
-        tutorCostTitleLabel.text = sessionType == .inPerson ? "Session cost:" : "Call cost:"
+        tutorCostTitleLabel.text = sessionType == .quickCalls ? "Call cost:" : "Session cost:"
         tutorCostLabel.text = costOfSession.currencyFormat(precision: 2, divider: 1)//costWithFee.currencyFormat(precision: 2, divider: 1)
 
         // did select tip

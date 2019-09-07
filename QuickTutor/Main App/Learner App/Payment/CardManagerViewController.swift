@@ -230,6 +230,9 @@ class CardManagerViewController: UIViewController {
         let setDefault = UIAlertAction(title: "Set as Default", style: .default) { _ in
             if card == self.defaultCard {
                 self.tableView.reloadData()
+                if !self.hasPaymentHistory {
+                    NotificationCenter.default.post(name: Notifications.didUpatePaymentCustomer.name, object: nil, userInfo: ["customer" : self.customer])
+                }
             } else {
                 self.showLoadingAnimation()
                 StripeService.updateDefaultSource(customer: self.customer, new: card, completion: { customer, error in
