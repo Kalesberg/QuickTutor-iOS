@@ -1,7 +1,7 @@
 PODS:
   - AccountKit (5.4.0)
   - ActiveLabel (1.0.1)
-  - Alamofire (4.8.2)
+  - Alamofire (4.9.0)
   - BetterSegmentedControl (1.2.1)
   - Bolts (1.9.0):
     - Bolts/AppLinks (= 1.9.0)
@@ -9,9 +9,9 @@ PODS:
   - Bolts/AppLinks (1.9.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.9.0)
-  - Branch (0.27.1):
-    - Branch/Core (= 0.27.1)
-  - Branch/Core (0.27.1)
+  - Branch (0.28.1):
+    - Branch/Core (= 0.28.1)
+  - Branch/Core (0.28.1)
   - Cache (5.2.0)
   - CardScan (1.0.4043):
     - CardScan/Core (= 1.0.4043)
@@ -306,10 +306,10 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   AccountKit: ab476b54fd1255bc24ca96060692af0e1019e777
   ActiveLabel: b8b2396fe25308d563601437d6605bf691c3b5db
-  Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
+  Alamofire: afc3e7c6db61476cb45cdd23fed06bad03bbc321
   BetterSegmentedControl: b27bddbdff29b6cae988678d6cd106858986cd03
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
-  Branch: 1ace77c04b6e3efbf982bf4364f0662bfac156a0
+  Branch: edf6cab0cecb437d6a6abba3a25d0a0fa6f277ec
   Cache: 807c5d86d01a177f06ede9865add3aea269bbfd4
   CardScan: badf82e2cfcfc7ee513836a60dbb71bdb2cf5196
   Charts: f69cf0518b6d1d62608ca504248f1bbe0b6ae77e
