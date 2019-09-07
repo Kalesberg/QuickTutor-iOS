@@ -112,6 +112,9 @@ class QTConnectTutorsViewController: UIViewController {
             if self.tableView.isSkeletonActive {
                 self.tableView.hideSkeleton()
                 self.tableView.isUserInteractionEnabled = true
+                
+                self.tableView.rowHeight = UITableView.automaticDimension
+                self.tableView.estimatedRowHeight = 80
             }
             self.tableView.reloadData()
         }
