@@ -36,20 +36,26 @@ class TheChoiceVC: UIViewController {
     
     @objc func handleStartButton() {
         if contentView.userType == .learner {
+            displayLoadingOverlay()
             FirebaseData.manager.fetchLearner(Registration.uid) { learner in
+                self.dismissOverlay()
                 if let learner = learner {
                     CurrentUser.shared.learner = learner
                     AccountService.shared.loadUser(isFacebookLogin: nil != Registration.facebookInfo)
                     AccountService.shared.currentUserType = .learner
-                    RootControllerManager.shared.setupLearnerTabBar(controller: LearnerMainPageVC())
-                    let endIndex = self.navigationController?.viewControllers.endIndex
-                    self.navigationController?.viewControllers.removeFirst(endIndex! - 1)
+                    
+                    let selectCategoriesVC = QTSelectCategoriesViewController(nibName: String(describing: QTSelectCategoriesViewController.self), bundle: nil)
+                    let hookModelNC = QTHookModelNavigationController(rootViewController: selectCategoriesVC)
+                    hookModelNC.hookModelDelegate = self
+                    self.present(hookModelNC, animated: false, completion: nil)
                 } else {
                     self.navigationController?.pushViewController(GetStartedViewController(), animated: true)
                 }
             }
         } else {
+            displayLoadingOverlay()
             FirebaseData.manager.fetchLearner(Registration.uid) { learner in
+                self.dismissOverlay()
                 if let learner = learner {
                     CurrentUser.shared.learner = learner
                     let vc = QTBecomeTutorViewController.controller
@@ -59,6 +65,16 @@ class TheChoiceVC: UIViewController {
                     self.navigationController?.pushViewController(GetStartedViewController(), animated: true)
                 }
             }
+        }
+    }
+}
+
+extension TheChoiceVC: QTHookModelNavigationControllerDelegate {
+    func didFinishHookModel(_ viewController: UIViewController) {
+        viewController.dismiss(animated: false) {
+            RootControllerManager.shared.setupLearnerTabBar(controller: LearnerMainPageVC())
+            let endIndex = self.navigationController?.viewControllers.endIndex
+            self.navigationController?.viewControllers.removeFirst(endIndex! - 1)
         }
     }
 }

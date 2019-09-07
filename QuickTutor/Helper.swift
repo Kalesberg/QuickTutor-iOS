@@ -235,132 +235,160 @@ enum Category {
     case academics, arts, auto, business, lifestyle, health, language, outdoors, remedial, sports, tech, trades
     static let categories: [Category] = [.academics, .business, .lifestyle, .language,  .arts,  .sports, .health, .tech, .outdoors, .auto, .trades, .remedial]
     
+    var color: UIColor {
+        switch self {
+        case .academics:
+            return UIColor(red: 176.0 / 255.0, green: 219.0 / 255.0, blue: 67.0 / 255.0, alpha: 1)
+        case .arts:
+            return UIColor(red: 128.0 / 255.0, green: 1.0 / 255.0, blue: 135.0 / 255.0, alpha: 1)
+        case .auto:
+            return UIColor(red: 224.0 / 255.0, green: 142.0 / 255.0, blue: 69.0 / 255.0, alpha: 1)
+        case .business:
+            return UIColor(red: 135.0 / 255.0, green: 214.0 / 255.0, blue: 141.0 / 255.0, alpha: 1)
+        case .lifestyle:
+            return UIColor(red: 102.0 / 255.0, green: 199.0 / 255.0, blue: 244.0 / 255.0, alpha: 1)
+        case .health:
+            return UIColor(red: 255.0 / 255.0, green: 16.0 / 255.0, blue: 83.0 / 255.0, alpha: 1)
+        case .language:
+            return UIColor(red: 10.0 / 255.0, green: 54.0 / 255.0, blue: 157.0 / 255.0, alpha: 1)
+        case .outdoors:
+            return UIColor(red: 239.0 / 255.0, green: 79.0 / 255.0, blue: 55.0 / 255.0, alpha: 1)
+        case .remedial:
+            return UIColor(red: 135.0 / 255.0, green: 214.0 / 255.0, blue: 141.0 / 255.0, alpha: 1)
+        case .sports:
+            return UIColor(red: 102.0 / 255.0, green: 34.0 / 255.0, blue: 204.0 / 255.0, alpha: 1)
+        case .tech:
+            return UIColor(red: 208.0 / 255.0, green: 0, blue: 0, alpha: 1)
+        case .trades:
+            return UIColor(red: 255.0 / 255.0, green: 242.0 / 255.0, blue: 117.0 / 255.0, alpha: 1)
+        }
+    }
+    
     var subcategory: Subcategory {
         
         let searchBarPhrases: [String]
-		let subcategories: [(title: String, icon: UIImage)]
+		let subcategories: [(title: String, icon: UIImage?)]
         let fileToRead: String
-        let defaultImage = UIImage(named: "uploadImageDefaultImage")!
         switch self {
             
         case .academics:
             searchBarPhrases = ["search any academic topic"]
-			subcategories = [(title: "Extracurricular", icon: defaultImage),
-							 (title: "Language Arts", icon: defaultImage),
-							 (title: "Mathematics", icon: defaultImage),
-							 (title: "Social Studies", icon:  defaultImage),
-							 (title: "Test Prep", icon: defaultImage),
-							 (title: "The Sciences", icon: defaultImage)]
+            subcategories = [(title: "Extracurricular", icon: UIImage(named: "ic_extracurricular")),
+							 (title: "Language Arts", icon: UIImage(named: "ic_language_arts")),
+							 (title: "Mathematics", icon: UIImage(named: "ic_mathematics")),
+							 (title: "Social Studies", icon:  UIImage(named: "ic_social_studies")),
+							 (title: "Test Prep", icon: UIImage(named: "ic_test_prep")),
+							 (title: "The Sciences", icon: UIImage(named: "ic_the_sciences"))]
 		fileToRead = "academics"
             
         case .arts:
             searchBarPhrases = ["search for any art"]
-			subcategories = [(title: "Applied Arts", icon: defaultImage),
-							 (title: "Art Criticism", icon: defaultImage),
-                             (title: "Art History", icon: defaultImage),
-							 (title: "Literary Arts", icon: defaultImage),
-							 (title: "Performing Arts", icon: defaultImage),
-							 (title: "Visual Arts", icon: defaultImage)]
+			subcategories = [(title: "Applied Arts", icon: UIImage(named: "ic_applied_arts")),
+							 (title: "Art Criticism", icon: UIImage(named: "ic_art_criticism")),
+                             (title: "Art History", icon: UIImage(named: "ic_art_history")),
+							 (title: "Literary Arts", icon: UIImage(named: "ic_literary_arts")),
+							 (title: "Performing Arts", icon: UIImage(named: "ic_performing_arts")),
+							 (title: "Visual Arts", icon: UIImage(named: "ic_visual_arts"))]
             fileToRead = "arts"
             
         case .auto:
             searchBarPhrases = ["search anything auto-related"]
-			subcategories = [(title: "Auto Design", icon: defaultImage),
-							 (title: "Auto Repairs", icon: defaultImage),
-							 (title: "Auto Upgrades", icon: defaultImage),
-							 (title: "Automobiles", icon: defaultImage),
-							 (title: "Motor Vehicles", icon: defaultImage),
-							 (title: "Vehicle Maintenance", icon: defaultImage)]
+			subcategories = [(title: "Auto Design", icon: UIImage(named: "ic_auto_design")),
+							 (title: "Auto Repairs", icon: UIImage(named: "ic_auto_repairs")),
+							 (title: "Auto Upgrades", icon: UIImage(named: "ic_auto_upgrades")),
+							 (title: "Automobiles", icon: UIImage(named: "ic_auto_mobiles")),
+							 (title: "Motor Vehicles", icon: UIImage(named: "ic_motor_vehicles")),
+							 (title: "Vehicle Maintenance", icon: UIImage(named: "ic_vehicle_maintenance"))]
             fileToRead = "auto"
             
         case .business:
             searchBarPhrases = ["search any business topic"]
-			subcategories = [(title: "Business Management", icon: defaultImage),
-							 (title: "Economics & Accounting", icon: defaultImage),
-							 (title: "Entrepreneurship", icon: defaultImage),
-							 (title: "Finance & Law", icon: defaultImage),
-							 (title: "Information Systems", icon: defaultImage),
-							 (title: "Marketing & Hospitality", icon: defaultImage)]
+			subcategories = [(title: "Business Management", icon: UIImage(named: "ic_business_management")),
+							 (title: "Economics & Accounting", icon: UIImage(named: "ic_economics_and_accounting")),
+							 (title: "Entrepreneurship", icon: UIImage(named: "ic_entrepreneurship")),
+							 (title: "Finance & Law", icon: UIImage(named: "ic_finance_and_law")),
+							 (title: "Information Systems", icon: UIImage(named: "ic_information_systems")),
+							 (title: "Marketing & Hospitality", icon: UIImage(named: "ic_marketing_and_hospitality"))]
             fileToRead = "business"
             
         case .lifestyle:
             searchBarPhrases = ["search for any lifestyle"]
-			subcategories = [(title: "Careers", icon: defaultImage),
-							 (title: "Cooking & Baking", icon: defaultImage),
-							 (title: "Creations", icon: defaultImage),
-							 (title: "Fitness", icon: defaultImage),
-							 (title: "Motivation & Consulting", icon: defaultImage),
-							 (title: "Travel Destinations", icon: defaultImage)]
+			subcategories = [(title: "Careers", icon: UIImage(named: "ic_careers")),
+							 (title: "Cooking & Baking", icon: UIImage(named: "ic_cooking_and_baking")),
+							 (title: "Creations", icon: UIImage(named: "ic_creations")),
+							 (title: "Fitness", icon: UIImage(named: "ic_fitness")),
+							 (title: "Motivation & Consulting", icon: UIImage(named: "ic_motivation_and_consulting")),
+							 (title: "Travel Destinations", icon: UIImage(named: "ic_travel_destinations"))]
             fileToRead = "lifestyle"
             
         case .health:
             searchBarPhrases = ["search health and wellness"]
-			subcategories = [(title: "General Health", icon: defaultImage),
-							 (title: "Illness", icon: defaultImage),
-							 (title: "Medicine", icon: defaultImage),
-							 (title: "Nutrition", icon: defaultImage),
-							 (title: "Physical Exercise", icon: defaultImage),
-							 (title: "Self-Care", icon: defaultImage)]
+			subcategories = [(title: "General Health", icon: UIImage(named: "ic_general_health")),
+							 (title: "Illness", icon: UIImage(named: "ic_illness")),
+							 (title: "Medicine", icon: UIImage(named: "ic_medicine")),
+							 (title: "Nutrition", icon: UIImage(named: "ic_nutrition")),
+							 (title: "Physical Exercise", icon: UIImage(named: "ic_physical_exercise")),
+							 (title: "Self-Care", icon: UIImage(named: "ic_self-care"))]
             fileToRead = "health"
             
 		case .language:
             searchBarPhrases = ["search for any language skill"]
-			subcategories = [(title: "ESL", icon: defaultImage),
-							 (title: "Listening", icon: defaultImage),
-							 (title: "Reading", icon: defaultImage),
-							 (title: "Sign Language", icon: defaultImage),
-							 (title: "Speaking", icon: defaultImage),
-							 (title: "Writing", icon: defaultImage)]
+			subcategories = [(title: "ESL", icon: UIImage(named: "ic_ESL")),
+							 (title: "Listening", icon: UIImage(named: "ic_listening")),
+							 (title: "Reading", icon: UIImage(named: "ic_reading")),
+							 (title: "Sign Language", icon: UIImage(named: "ic_sign_language")),
+							 (title: "Speaking", icon: UIImage(named: "ic_speaking")),
+							 (title: "Writing", icon: UIImage(named: "ic_writing"))]
             fileToRead = "language"
             
         case .outdoors:
             searchBarPhrases = ["discover the outdoors"]
-			subcategories = [(title: "Land & Water", icon: defaultImage),
-							 (title: "Life Identification", icon: defaultImage),
-							 (title: "Outdoor Activities", icon: defaultImage),
-							 (title: "Outdoors Prep", icon: defaultImage),
-							 (title: "Seasonal", icon: defaultImage),
-							 (title: "Survival", icon: defaultImage)]
+			subcategories = [(title: "Land & Water", icon: UIImage(named: "ic_land_and_water")),
+							 (title: "Life Identification", icon: UIImage(named: "ic_life_identification")),
+							 (title: "Outdoor Activities", icon: UIImage(named: "ic_outdoor_activities")),
+							 (title: "Outdoors Prep", icon: UIImage(named: "ic_outdoors_prep")),
+							 (title: "Seasonal", icon: UIImage(named: "ic_seasonal")),
+							 (title: "Survival", icon: UIImage(named: "ic_survival"))]
             fileToRead = "outdoors"
             
         case .remedial:
             searchBarPhrases = ["search for help in anything"]
-			subcategories = [(title: "Conditions", icon: defaultImage),
-							 (title: "Development", icon: defaultImage),
-							 (title: "Disabilities", icon: defaultImage),
-							 (title: "Impairments", icon: defaultImage),
-							 (title: "Injuries", icon: defaultImage),
-							 (title: "Special Education", icon: defaultImage)]
+			subcategories = [(title: "Conditions", icon: UIImage(named: "ic_conditions")),
+							 (title: "Development", icon: UIImage(named: "ic_development")),
+							 (title: "Disabilities", icon: UIImage(named: "ic_disabilities")),
+							 (title: "Impairments", icon: UIImage(named: "ic_impairments")),
+							 (title: "Injuries", icon: UIImage(named: "ic_injuries")),
+							 (title: "Special Education", icon: UIImage(named: "ic_special_education"))]
             fileToRead = "remedial"
             
         case .sports:
             searchBarPhrases = ["search sports and games"]
-			subcategories = [(title: "Extreme Sports", icon: defaultImage),
-							 (title: "Fantasy Sports", icon: defaultImage),
-							 (title: "Mind Sports", icon: defaultImage),
-							 (title: "Physical Sports", icon: defaultImage),
-							 (title: "Skills Training", icon: defaultImage),
-							 (title: "eSports", icon: defaultImage)]
+			subcategories = [(title: "Extreme Sports", icon: UIImage(named: "ic_extreme_sports")),
+							 (title: "Fantasy Sports", icon: UIImage(named: "ic_fantasy_sports")),
+							 (title: "Mind Sports", icon: UIImage(named: "ic_mind_sports")),
+							 (title: "Physical Sports", icon: UIImage(named: "ic_physical_sports")),
+							 (title: "Skills Training", icon: UIImage(named: "ic_skills_training")),
+							 (title: "eSports", icon: UIImage(named: "ic_eSports"))]
             fileToRead = "sports"
             
         case .tech:
             searchBarPhrases = ["search topics in technology"]
-			subcategories = [(title: "Gaming", icon: defaultImage),
-							 (title: "Hardware", icon: defaultImage),
-							 (title: "IT", icon: defaultImage),
-							 (title: "Programming", icon: defaultImage),
-							 (title: "Software", icon: defaultImage),
-							 (title: "Tech Repairs", icon: defaultImage)]
+			subcategories = [(title: "Gaming", icon: UIImage(named: "ic_gaming")),
+							 (title: "Hardware", icon: UIImage(named: "ic_hardware")),
+							 (title: "IT", icon: UIImage(named: "ic_IT")),
+							 (title: "Programming", icon: UIImage(named: "ic_programming")),
+							 (title: "Software", icon: UIImage(named: "ic_software")),
+							 (title: "Tech Repairs", icon: UIImage(named: "ic_tech_repairs"))]
             fileToRead = "tech"
             
         case .trades:
             searchBarPhrases = ["search for any trade"]
-			subcategories = [(title: "Construction", icon: defaultImage),
-							 (title: "General Trades", icon: defaultImage),
-							 (title: "Home Trades", icon: defaultImage),
-							 (title: "Industrial Trades", icon: defaultImage),
-							 (title: "Motive Power", icon: defaultImage),
-							 (title: "Service Trades", icon: defaultImage)]
+			subcategories = [(title: "Construction", icon: UIImage(named: "ic_construction")),
+							 (title: "General Trades", icon: UIImage(named: "ic_general_trades")),
+							 (title: "Home Trades", icon: UIImage(named: "ic_home_trades")),
+							 (title: "Industrial Trades", icon: UIImage(named: "ic_industrial_trades")),
+							 (title: "Motive Power", icon: UIImage(named: "ic_motive_power")),
+							 (title: "Service Trades", icon: UIImage(named: "ic_service_trades"))]
             fileToRead = "trades"
         }
 		return Subcategory(subcategories: subcategories, phrase: searchBarPhrases[Int(arc4random_uniform(UInt32(searchBarPhrases.count)))], fileToRead: fileToRead)
@@ -484,7 +512,7 @@ extension Category {
     }
     
     struct Subcategory {
-		let subcategories: [(title: String, icon: UIImage)]
+		let subcategories: [(title: String, icon: UIImage?)]
         let phrase: String
         let fileToRead: String
     }

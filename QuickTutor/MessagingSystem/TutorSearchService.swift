@@ -46,7 +46,7 @@ class TutorSearchService {
                 if let _ = lastKnownKey {
                     tutors.removeFirst()
                 }
-                completion(tutors, tutorIds.count < 20)
+                completion(tutors, tutorIds.count < 60)
             }
         }
     }
@@ -97,7 +97,7 @@ class TutorSearchService {
                 if let _ = lastKnownKey {
                     tutors.removeFirst()
                 }
-                completion(tutors, tutorIds.count < 20)
+                completion(tutors, tutorIds.count < 60)
             }
         }
     }
@@ -134,8 +134,36 @@ class TutorSearchService {
                 if let _ = lastKnownKey {
                     tutors.removeFirst()
                 }
-                completion(tutors, tutorIds.count < 20)
+                completion(tutors, tutorIds.count < 60)
             }
+        }
+    }
+    
+    func getTutorIdsBySubject(_ subject: String, completion: @escaping ([String]?) -> Void) {
+        Database.database().reference().child("subjects").child(subject).queryOrderedByKey().observeSingleEvent(of: .value) { snapshot in
+            guard let dicTutorIds = snapshot.value as? [String: Any] else {
+                completion(nil)
+                return
+            }
+            var aryTutorIds: [String] = []
+            dicTutorIds.keys.forEach { tutorId in
+                aryTutorIds.append(tutorId)
+            }
+            completion(aryTutorIds)
+        }
+    }
+    
+    func getTutorIdsByCategory(_ category: String, completion: @escaping ([String]?) -> Void) {
+        Database.database().reference().child("categories").child(category).queryOrderedByKey().observeSingleEvent(of: .value) { snapshot in
+            guard let dicTutorIds = snapshot.value as? [String: Any] else {
+                completion(nil)
+                return
+            }
+            var aryTutorIds: [String] = []
+            dicTutorIds.keys.forEach { tutorId in
+                aryTutorIds.append(tutorId)
+            }
+            completion(aryTutorIds)
         }
     }
     
