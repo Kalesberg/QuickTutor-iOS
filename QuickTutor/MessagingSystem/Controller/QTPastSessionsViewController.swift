@@ -174,7 +174,7 @@ class QTPastSessionsViewController: UIViewController {
         }
         
         // Sort sessions based on startTime.
-        sessionUserInfos.sort(by: {$0.startTime < $1.startTime})
+        sessionUserInfos.sort(by: {$0.startTime > $1.startTime})
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "d MMMM"
         
