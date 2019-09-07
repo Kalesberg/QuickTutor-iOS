@@ -137,7 +137,7 @@ class TutorEditProfileVC: LearnerEditProfileVC {
     override func tableView(_: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case 0:
-            return 128
+            return 118
         case 1:
             return 188
         case 2:
@@ -378,10 +378,6 @@ class TutorEditProfileVC: LearnerEditProfileVC {
             view.label.text = sectionTitles[section - 2]
         }
         return view
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 30
     }
     
     // MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
@@ -848,7 +844,7 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case 0:
-            return 128
+            return 118
         case 1:
             return indexPath.row == 2 ? 140 : 75
         case 2:
@@ -1012,7 +1008,7 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 30
+        return section == 0 ? 60 : 30
     }
 }
 
