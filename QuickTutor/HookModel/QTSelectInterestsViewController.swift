@@ -29,8 +29,8 @@ class QTSelectInterestsViewController: QTBaseBubbleViewController {
                 let category = Category.category(for: categoryName),
                 let subjects = CategoryFactory.shared.getSubjectsFor(subcategoryName: subcategory.title) {                
                 let count = min(subjects.count, subjectsCount)
-                for _ in 0 ..< count {
-                    let rndIndex = Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(subjects.count))
+                for index in 0 ..< count {
+                    let rndIndex = subjects.count > subjectsCount ? Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(subjects.count)) : index
                     let rndSubject = subjects[rndIndex]
                     let words = rndSubject.split(separator: " ")
                     var maxRadius = bubbleRadius

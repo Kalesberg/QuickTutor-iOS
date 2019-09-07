@@ -41,9 +41,24 @@ class LearnerMainPageVC: UIViewController {
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        checkAndOpenHookModel()
+    }
+    
     private func registerPushNotification() {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         appDelegate.registerForPushNotifications(application: UIApplication.shared)
+    }
+    
+    private func checkAndOpenHookModel() {
+        if nil != CurrentUser.shared.learner?.interests { return }
+        
+        let selectCategoriesVC = QTSelectCategoriesViewController(nibName: String(describing: QTSelectCategoriesViewController.self), bundle: nil)
+        let hookModelNC = QTHookModelNavigationController(rootViewController: selectCategoriesVC)
+        hookModelNC.hookModelDelegate = self
+        present(hookModelNC, animated: false, completion: nil)
     }
     
     private func configureView() {
@@ -174,5 +189,11 @@ class LearnerMainPageVC: UIViewController {
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+}
+
+extension LearnerMainPageVC: QTHookModelNavigationControllerDelegate {
+    func didFinishHookModel(_ viewController: UIViewController) {
+        viewController.dismiss(animated: false)
     }
 }

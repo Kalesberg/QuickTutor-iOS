@@ -116,7 +116,9 @@ class QTConnectTutorsViewController: UIViewController {
                 self.tableView.rowHeight = UITableView.automaticDimension
                 self.tableView.estimatedRowHeight = 80
             }
-            self.tableView.reloadData()
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }            
         }
     }
     
