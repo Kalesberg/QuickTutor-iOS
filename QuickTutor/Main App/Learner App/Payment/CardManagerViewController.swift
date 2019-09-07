@@ -211,6 +211,7 @@ class CardManagerViewController: UIViewController {
             })
             
             group.notify(queue: .main) {
+                self.pastSessions = self.pastSessions.sorted(by: { $0.startTime > $1.startTime })
                 self.tableView.reloadData()
             }
         }
