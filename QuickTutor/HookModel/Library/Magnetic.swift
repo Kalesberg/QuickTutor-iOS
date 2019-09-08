@@ -105,17 +105,7 @@ let NodeStrokeWidth: CGFloat = 2
         }
     }
     
-    override open func addChild(_ node: SKNode) {
-        var x = -node.frame.width // left
-        if children.count % 2 == 0 {
-            x = frame.width + node.frame.width // right
-        }
-        let y = CGFloat.random(node.frame.height, frame.height - node.frame.height)
-        node.position = CGPoint(x: x, y: y)
-        super.addChild(node)
-    }
-    
-    open func removeChild(node: SKNode) {
+    open func removeChild(node: SKNode, completion: (() -> Void)? = nil) {
         let speed = physicsWorld.speed
         physicsWorld.speed = 0
         
@@ -132,10 +122,11 @@ let NodeStrokeWidth: CGFloat = 2
         }
         run(action) {
             self.physicsWorld.speed = speed
+            completion?()
         }
     }
     
-    open func removeAllChilds(completion: @escaping () -> Void) {
+    open func removeAllChilds(isFast: Bool = false, completion: (() -> Void)? = nil) {
         let speed = physicsWorld.speed
         physicsWorld.speed = 0
         let sortedNodes = children.compactMap { $0 as? Node }.sorted { node, nextNode in
@@ -148,8 +139,8 @@ let NodeStrokeWidth: CGFloat = 2
             node.physicsBody = nil
             let action = SKAction.run { [unowned node] in
                 let point = CGPoint(x: self.size.width / 2, y: self.size.height + 40)
-                let movingXAction = SKAction.moveTo(x: point.x, duration: 0.2)
-                let movingYAction = SKAction.moveTo(y: point.y, duration: 0.4)
+                let movingXAction = SKAction.moveTo(x: point.x, duration: isFast ? 0.1 : 0.2)
+                let movingYAction = SKAction.moveTo(y: point.y, duration: isFast ? 0.2 : 0.4)
                 let resize = SKAction.scale(to: 0.3, duration: 0.4)
                 let throwAction = SKAction.group([movingXAction, movingYAction, resize])
                 node.run(throwAction) { [unowned node] in
@@ -162,10 +153,7 @@ let NodeStrokeWidth: CGFloat = 2
         }
         run(.sequence(actions)) {
             self.physicsWorld.speed = speed
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            completion()
+            completion?()
         }
     }
     
@@ -211,14 +199,13 @@ extension Magnetic {
 }
 
 extension Magnetic {
-    
     open func moveNodes(location: CGPoint, previous: CGPoint) {
         let x = location.x - previous.x
         let y = location.y - previous.y
         
         for node in children {
             let distance = node.position.distance(from: location)
-            let acceleration: CGFloat = 3 * pow(distance, 1/2)
+            let acceleration: CGFloat = 8 * pow(distance, 1/2)
             let direction = CGVector(dx: x * acceleration, dy: y * acceleration)
             node.physicsBody?.applyForce(direction)
         }
@@ -227,7 +214,6 @@ extension Magnetic {
     open func node(at point: CGPoint) -> Node? {
         return nodes(at: point).compactMap { $0 as? Node }.filter { $0.path!.contains(convert(point, to: $0)) }.first
     }
-    
 }
 
 extension CGFloat {

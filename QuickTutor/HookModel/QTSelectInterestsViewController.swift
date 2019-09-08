@@ -23,8 +23,10 @@ class QTSelectInterestsViewController: QTBaseBubbleViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        let subjectsCount = Int(48 / selectedSubcategories.count)
-        selectedSubcategories.forEach { subcategory in
+        let subjectsCount = Int(72 / selectedSubcategories.count)
+        for index in 0 ..< selectedSubcategories.count {
+            let subcategory = selectedSubcategories[index]
+            
             if let categoryName = SubjectStore.shared.findCategoryBy(subcategory: subcategory.title),
                 let category = Category.category(for: categoryName),
                 let subjects = CategoryFactory.shared.getSubjectsFor(subcategoryName: subcategory.title) {                
@@ -43,6 +45,14 @@ class QTSelectInterestsViewController: QTBaseBubbleViewController {
                                     color: category.color,
                                     radius: maxRadius,
                                     userInfo: rndSubject)
+                    
+                    var x = -node.frame.width * CGFloat(index) // left
+                    if index % 2 == 0 {
+                        x = magnetic.frame.width + node.frame.width * CGFloat(index) // right
+                    }
+                    let y = CGFloat.random(node.frame.height, magnetic.frame.height - node.frame.height)
+                    node.position = CGPoint(x: x, y: y)
+                    
                     magnetic.addChild(node)
                 }
             }
@@ -50,7 +60,7 @@ class QTSelectInterestsViewController: QTBaseBubbleViewController {
     }
     
     override func onClickItemNext() {
-        magnetic.removeAllChilds() {
+        magnetic.removeAllChilds(isFast: true) {
             let connectTutorsVC = QTConnectTutorsViewController(nibName: String(describing: QTConnectTutorsViewController.self), bundle: nil)
             
             for node in self.selectedNodes {
@@ -59,12 +69,7 @@ class QTSelectInterestsViewController: QTBaseBubbleViewController {
 //                LearnerRegistrationService.shared.shouldSaveInterests = false
                 LearnerRegistrationService.shared.addInterest(subject)
             }
-            if 0 == CurrentUser.shared.learner.connectedTutorsCount {
-                self.navigationController?.pushViewController(connectTutorsVC, animated: true)
-            } else {
-                guard let hookModelNC = self.navigationController as? QTHookModelNavigationController else { return }
-                hookModelNC.hookModelDelegate?.didFinishHookModel(hookModelNC)
-            }
+            self.navigationController?.pushViewController(connectTutorsVC, animated: true)
         }
     }
     

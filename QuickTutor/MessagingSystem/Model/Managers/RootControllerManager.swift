@@ -14,7 +14,11 @@ class RootControllerManager {
     
     func configureRootViewController(controller: UIViewController) {
         if controller is LearnerMainPageVC {
-            setupLearnerTabBar(controller: controller)
+            if nil == CurrentUser.shared.learner.interests {
+                setupHookModel()
+            } else {
+                setupLearnerTabBar(controller: controller)
+            }
         } else if controller is QTTutorDashboardViewController { // TutorMainPage
             setupTutorTabBar(controller: controller)
         } else {
@@ -35,6 +39,14 @@ class RootControllerManager {
         setupDefaultConfiguration(controller: tab)
     }
     
+    func setupHookModel() {
+        let selectCategoriesVC = QTSelectCategoriesViewController(nibName: String(describing: QTSelectCategoriesViewController.self), bundle: nil)
+        let hookModelNC = QTHookModelNavigationController(rootViewController: selectCategoriesVC)
+        hookModelNC.hookModelDelegate = self
+        guard let window = UIApplication.shared.keyWindow else { return }
+        window.rootViewController = hookModelNC
+    }
+    
     func setupTutorTabBar(controller: UIViewController) {
         AccountService.shared.currentUserType = .tutor
         let tab = TutorTabBarController()
@@ -43,4 +55,10 @@ class RootControllerManager {
     
     private init() {}
     
+}
+
+extension RootControllerManager: QTHookModelNavigationControllerDelegate {
+    func didFinishHookModel(_ viewController: UIViewController) {
+        setupLearnerTabBar(controller: LearnerMainPageVC())
+    }
 }

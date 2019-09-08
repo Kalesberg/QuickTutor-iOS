@@ -24,7 +24,9 @@ class QTSelectSubcategoriesViewController: QTBaseBubbleViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        selectedCategories.forEach { category in
+        for index in 0 ..< selectedCategories.count {
+            let category = selectedCategories[index]
+            
             category.subcategory.subcategories.forEach { subcategory in
                 let words = subcategory.title.split(separator: " ")
                 var maxRadius = bubbleRadius
@@ -37,6 +39,14 @@ class QTSelectSubcategoriesViewController: QTBaseBubbleViewController {
                                 color: category.color,
                                 radius: maxRadius,
                                 userInfo: subcategory)
+                
+                var x = -node.frame.width * CGFloat(index) // left
+                if index % 2 == 0 {
+                    x = magnetic.frame.width + node.frame.width * CGFloat(index) // right
+                }
+                let y = CGFloat.random(node.frame.height, magnetic.frame.height - node.frame.height)
+                node.position = CGPoint(x: x, y: y)
+                
                 magnetic.addChild(node)
             }
         }
