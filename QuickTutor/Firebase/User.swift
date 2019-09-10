@@ -31,7 +31,7 @@ class FirebaseData {
 	private let ref : DatabaseReference! = Database.database().reference(fromURL: Constants.DATABASE_URL)
 	private let storageRef : StorageReference! = Storage.storage().reference(forURL: Constants.STORAGE_URL)
 	private let user = Auth.auth().currentUser!
-	
+    
 	/*
 		MARK: // Learner Updates
 	*/
@@ -804,4 +804,18 @@ class FirebaseData {
 	deinit {
 		print("FirebaseData has De-initialized")
 	}
+    
+    func getNews(completion: @escaping(([QTNewsModel]) -> Void)) {
+        Database.database().reference().child("news").observeSingleEvent(of: .value) { (snapshot) in
+            if let children = snapshot.children.allObjects as? [DataSnapshot], let values = children.map({$0.value}) as? [[String: Any]] {
+                
+                var news = [QTNewsModel]()
+                for value in values {
+                    news.append(QTNewsModel(data: value))
+                }
+                completion(news)
+            }
+        }
+    }
+    
 }

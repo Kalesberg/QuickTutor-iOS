@@ -439,11 +439,6 @@ class TutorAddSubjectsResultsVC: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "newCheck"), style: .plain, target: self, action: #selector(onBack))
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        hideTabBar(hidden: false)
-    }
-    
     override func didMove(toParent parent: UIViewController?) {
         super.didMove(toParent: parent)
         

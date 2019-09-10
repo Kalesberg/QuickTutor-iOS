@@ -156,7 +156,6 @@ class MessageService {
                 senderSessionRef.updateChildValues([ref1.key!: 1])
                 receiverSessionRef.updateChildValues([ref1.key!: 1])
                 self.updateConversationMetaData(message: message, partnerId: partnerId, messageId: messageId)
-                
             }
         }
     }

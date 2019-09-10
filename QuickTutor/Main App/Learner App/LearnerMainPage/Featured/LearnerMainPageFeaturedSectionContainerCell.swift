@@ -21,6 +21,12 @@ class LearnerMainPageFeaturedSectionContainerCell: UICollectionViewCell {
     
     let featuredSectionController = FeaturedSectionController()
     
+    let pageControl: UIPageControl = {
+        let pageControl = UIPageControl()
+        pageControl.pageIndicatorTintColor = Colors.gray
+        return pageControl
+    }()
+    
     func setupViews() {
         setupMainView()
         setupTitleLabel()

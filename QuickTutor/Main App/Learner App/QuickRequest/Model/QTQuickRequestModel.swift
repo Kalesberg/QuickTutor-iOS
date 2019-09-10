@@ -8,7 +8,7 @@
 
 import UIKit
 
-class QTQuickRequest {
+class QTQuickRequestModel {
 
     var subject: String
     var date: Double
@@ -17,11 +17,17 @@ class QTQuickRequest {
     var minPrice: Double
     var maxPrice: Double
     var expiration: Double?
-    var id: String?
+    var id: String
     var senderId: String
     var duration: Int
     var type: QTSessionType
     var expired: Bool?
+    
+    // Use in local.
+    var userName: String?
+    var profileImageUrl: URL?
+    var price: Double? // the price applied by tutor
+    var paymentType: QTSessionPaymentType? // the payment type applied by tutor
     
     var dictionaryRepresentation: [String: Any] {
         var dictionary = [String: Any]()
@@ -36,6 +42,7 @@ class QTQuickRequest {
         dictionary["type"] = type.rawValue
         dictionary["duration"] = duration
         dictionary["expired"] = expired
+        dictionary["id"] = id
         return dictionary
     }
     
@@ -55,6 +62,7 @@ class QTQuickRequest {
         } else {
             self.type = .online
         }
+        id = data["id"] as? String ?? ""
         if isExpired() {
             expired = true
         }
@@ -90,5 +98,14 @@ class QTQuickRequest {
         guard let expiration = expiration else { return false }
         let isExpired = expiration + 3600 < Date().timeIntervalSince1970
         return isExpired
+    }
+    
+    func getDurationText() -> String {
+        // If the duration is shorter than an hour, just display the duration as minutes
+        if (duration / 3600 < 1) {
+            return "\(duration / 60) Minutes Needed"
+        } else {
+            return String(format: "%.1f", duration / 3600)
+        }
     }
 }

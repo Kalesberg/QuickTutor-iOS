@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Lato-Black.ttf">
+            <string>Lato-Black</string>
+        </array>
+        <array key="Lato-Bold.ttf">
+            <string>Lato-Bold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="QTTutorDiscoverNewsCollectionViewCell" id="gTV-IL-0wX" customClass="QTTutorDiscoverNewsCollectionViewCell" customModule="QuickTutor" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="312" height="237"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="312" height="237"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fVF-eC-f3V" customClass="QTCustomImageView" customModule="QuickTutor" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="312" height="237"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="5"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </imageView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eV7-qM-vk2" customClass="QTCustomView" customModule="QuickTutor" customModuleProvider="target">
+                        <rect key="frame" x="10" y="185" width="292" height="42"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4qu-pq-iDo">
+                                <rect key="frame" x="15" y="10" width="202" height="22"/>
+                                <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AQ9-VC-BiC" customClass="QTCustomButton" customModule="QuickTutor" customModuleProvider="target">
+                                <rect key="frame" x="227" y="10" width="50" height="22"/>
+                                <color key="backgroundColor" red="0.39215686274509803" green="0.38431372549019605" blue="0.78823529411764703" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="DhF-ws-6p9"/>
+                                    <constraint firstAttribute="height" constant="22" id="cUj-5v-3jm"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="12"/>
+                                <state key="normal" title="Read">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="onReadButtonClicked:" destination="gTV-IL-0wX" eventType="touchUpInside" id="Aya-ae-EcT"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.10588235294117647" green="0.10588235294117647" blue="0.14901960784313725" alpha="0.90295911815068497" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="AQ9-VC-BiC" firstAttribute="top" secondItem="eV7-qM-vk2" secondAttribute="top" constant="10" id="C9a-lK-xfZ"/>
+                            <constraint firstAttribute="trailing" secondItem="AQ9-VC-BiC" secondAttribute="trailing" constant="15" id="DXT-hA-QUV"/>
+                            <constraint firstAttribute="bottom" secondItem="4qu-pq-iDo" secondAttribute="bottom" constant="10" id="LlK-zR-nMh"/>
+                            <constraint firstItem="4qu-pq-iDo" firstAttribute="top" secondItem="eV7-qM-vk2" secondAttribute="top" constant="10" id="OgU-f0-85V"/>
+                            <constraint firstItem="4qu-pq-iDo" firstAttribute="leading" secondItem="eV7-qM-vk2" secondAttribute="leading" constant="15" id="VN9-rx-NwN"/>
+                            <constraint firstAttribute="bottom" secondItem="AQ9-VC-BiC" secondAttribute="bottom" constant="10" id="Voa-xc-JMF"/>
+                            <constraint firstItem="AQ9-VC-BiC" firstAttribute="leading" secondItem="4qu-pq-iDo" secondAttribute="trailing" constant="10" id="a7y-ze-m3D"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="5"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="eV7-qM-vk2" secondAttribute="bottom" constant="10" id="3w2-J3-y2O"/>
+                <constraint firstAttribute="trailing" secondItem="eV7-qM-vk2" secondAttribute="trailing" constant="10" id="8n9-ZY-9oM"/>
+                <constraint firstItem="fVF-eC-f3V" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="B8z-I1-PJE"/>
+                <constraint firstItem="eV7-qM-vk2" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="P0Q-oU-yos"/>
+                <constraint firstItem="fVF-eC-f3V" firstAttribute="height" secondItem="gTV-IL-0wX" secondAttribute="height" id="U9b-3N-Ted"/>
+                <constraint firstItem="fVF-eC-f3V" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="ZbV-Rh-wmv"/>
+                <constraint firstItem="fVF-eC-f3V" firstAttribute="width" secondItem="gTV-IL-0wX" secondAttribute="width" id="hI0-50-ppf"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <size key="customSize" width="312" height="237"/>
+            <connections>
+                <outlet property="imageView" destination="fVF-eC-f3V" id="S9m-1Z-N5T"/>
+                <outlet property="readButton" destination="AQ9-VC-BiC" id="p6F-ag-91L"/>
+                <outlet property="titleLabel" destination="4qu-pq-iDo" id="1A2-F2-7BP"/>
+                <outlet property="titleView" destination="eV7-qM-vk2" id="fZK-Ye-YxO"/>
+            </connections>
+            <point key="canvasLocation" x="192.75362318840581" y="91.40625"/>
+        </collectionViewCell>
+    </objects>
+</document>

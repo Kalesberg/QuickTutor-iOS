@@ -32,6 +32,9 @@ class LearnerMainPageVC: UIViewController {
         setupRefreshControl()
         setupObservers()
         
+        // Past transactions and upcoming sessions are existed or not for a learner.
+        // So if there is no data, the certain section should not display on the main screen.
+        // That's why we call the following statement in here instead of their view controllers.
         QTLearnerSessionsService.shared.fetchSessions()
         QTLearnerSessionsService.shared.listenForSessionUpdates()
     }

@@ -15,6 +15,8 @@ class QTQuickRequestSubmitViewController: UIViewController {
     @IBOutlet weak var searchSubjectView: QTCustomView!
     @IBOutlet weak var selectedSubjectView: UIView!
     @IBOutlet weak var subjectLabel: UILabel!
+    @IBOutlet weak var subjectTitleLabel: UILabel!
+    @IBOutlet weak var deleteSubjectButton: UIButton!
     @IBOutlet weak var requestDateView: SessionRequestDateView!
     @IBOutlet weak var sessionDurationView: SessionRequestDurationView!
     @IBOutlet weak var sessionPriceRangeView: UIView!
@@ -34,6 +36,7 @@ class QTQuickRequestSubmitViewController: UIViewController {
     @IBOutlet weak var onlineTypeViewWidthAnchor: NSLayoutConstraint!
     @IBOutlet weak var inPersonTypeViewWdithAnchor: NSLayoutConstraint!
     @IBOutlet weak var errorLabel: UILabel!
+    @IBOutlet weak var nextButton: QTCustomButton!
     
     static var controller: QTQuickRequestSubmitViewController {
         return QTQuickRequestSubmitViewController(nibName: String(describing: QTQuickRequestSubmitViewController.self), bundle: nil)
@@ -146,6 +149,7 @@ class QTQuickRequestSubmitViewController: UIViewController {
         let vc = QTLearnerAddInterestsViewController()
         vc.isViewing = true
         vc.isForQuickRequest = true
+        vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -262,13 +266,16 @@ class QTQuickRequestSubmitViewController: UIViewController {
             self.errorLabel.isHidden = true
         }
     }
+    
+    // MARK: - SessionRequestDateViewDelegate
+    func sessionRequestDateView(_ dateView: SessionRequestDateView, didSelect date: Date) {
+        QTQuickRequestService.shared.startTime = date
+    }
 }
 
 // MARK: - SessionRequestDateViewDelegate
 extension QTQuickRequestSubmitViewController: SessionRequestDateViewDelegate {
-    func sessionRequestDateView(_ dateView: SessionRequestDateView, didSelect date: Date) {
-        QTQuickRequestService.shared.startTime = date
-    }
+    
 }
 
 // MARK: - SessionRequestDurationViewDelegate

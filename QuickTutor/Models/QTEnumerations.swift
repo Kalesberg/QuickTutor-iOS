@@ -24,3 +24,8 @@ enum QTSessionStatusType: String {
     case pending = "pending"
     case completed = "completed"
 }
+
+enum QTNewsType: String {
+    case news = "news"
+    case tip = "tip"
+}
