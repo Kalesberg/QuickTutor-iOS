@@ -148,7 +148,7 @@ let NodeStrokeWidth: CGFloat = 2
                 }
             }
             actions.append(action)
-            let delay = SKAction.wait(forDuration: TimeInterval(index) * 0.002)
+            let delay = SKAction.wait(forDuration: TimeInterval(index) * (isFast ? 0.001 : 0.002))
             actions.append(delay)
         }
         run(.sequence(actions)) {

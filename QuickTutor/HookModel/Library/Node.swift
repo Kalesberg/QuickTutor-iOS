@@ -62,7 +62,6 @@ import SpriteKit
     open var color: UIColor = .clear {
         didSet {
             self.lineWidth = NodeStrokeWidth
-            self.glowWidth = 1
             self.strokeColor = color
         }
     }

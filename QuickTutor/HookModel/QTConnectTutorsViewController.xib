@@ -104,7 +104,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FY3-Ic-0YC" customClass="DimmableButton" customModule="QuickTutor" customModuleProvider="target">
-                            <rect key="frame" x="282" y="20" width="120" height="34"/>
+                            <rect key="frame" x="274" y="20" width="120" height="34"/>
                             <color key="backgroundColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.22745098039215686" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="34" id="3E6-4x-QmX"/>
@@ -122,20 +122,20 @@
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" red="0.08235294118" green="0.08235294118" blue="0.1176470588" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.08235294118" green="0.08235294118" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
-                        <constraint firstAttribute="trailingMargin" secondItem="FY3-Ic-0YC" secondAttribute="trailing" constant="4" id="COh-7W-cE5"/>
                         <constraint firstItem="FY3-Ic-0YC" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="AGt-fr-H7w" secondAttribute="trailing" constant="16" id="VtP-IO-Wze"/>
                         <constraint firstItem="FY3-Ic-0YC" firstAttribute="centerY" secondItem="AGt-fr-H7w" secondAttribute="centerY" id="YP0-AT-dzi"/>
                         <constraint firstItem="xv2-I0-2y2" firstAttribute="centerY" secondItem="Px5-Lg-evb" secondAttribute="centerY" id="aXV-mi-h2z"/>
                         <constraint firstAttribute="height" constant="74" id="cvg-Vm-ry0"/>
+                        <constraint firstAttribute="trailingMargin" secondItem="FY3-Ic-0YC" secondAttribute="trailing" constant="12" id="iDS-p7-nsg"/>
                         <constraint firstItem="AGt-fr-H7w" firstAttribute="leading" secondItem="xv2-I0-2y2" secondAttribute="trailing" constant="15" id="m3z-gc-kA9"/>
                         <constraint firstItem="xv2-I0-2y2" firstAttribute="leading" secondItem="Px5-Lg-evb" secondAttribute="leading" constant="20" id="x9c-NZ-xDF"/>
                         <constraint firstItem="AGt-fr-H7w" firstAttribute="centerY" secondItem="xv2-I0-2y2" secondAttribute="centerY" id="xzl-4z-3Zy"/>
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color key="backgroundColor" red="0.08235294118" green="0.08235294118" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
             <constraints>
                 <constraint firstItem="Yf2-KD-xgM" firstAttribute="width" secondItem="IHO-VU-krO" secondAttribute="width" id="1If-Sk-vAF"/>
                 <constraint firstItem="Px5-Lg-evb" firstAttribute="top" secondItem="Yf2-KD-xgM" secondAttribute="bottom" id="6lI-6Q-eia"/>

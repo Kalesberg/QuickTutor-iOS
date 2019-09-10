@@ -63,7 +63,7 @@ class QTHookModelNavigationController: UINavigationController {
         delegate = self
         
         navigationBar.isTranslucent = true
-        navigationBar.setBackgroundImage(UIImage(color: .black), for: .default)
+        navigationBar.setBackgroundImage(UIImage(color: .clear), for: .default)
         navigationBar.shadowImage = UIImage()
         navigationBar.tintColor = Colors.purple
     }

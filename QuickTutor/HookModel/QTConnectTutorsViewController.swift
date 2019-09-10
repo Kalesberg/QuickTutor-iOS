@@ -31,6 +31,8 @@ class QTConnectTutorsViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        view.backgroundColor = Colors.newScreenBackground
+        
         navigationItem.hidesBackButton = true
         
         tableView.rowHeight = UITableView.automaticDimension
@@ -170,7 +172,7 @@ class QTConnectTutorsViewController: UIViewController {
             progressView.setProgress(Double(aryRequestedTutorIds.count) / Double(minTutorCount))
         }
         
-        btnContinue.isEnabled = aryRequestedTutorIds.count == minTutorCount
+        btnContinue.isEnabled = aryRequestedTutorIds.count >= minTutorCount
         btnContinue.backgroundColor = btnContinue.isEnabled ? Colors.purple : Colors.gray
     }
 

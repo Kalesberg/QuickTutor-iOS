@@ -173,6 +173,7 @@ class ConversationCell: SwipeCollectionViewCell {
         if message.documenUrl != nil {
             lastMessageLabel.text = "Attachment: 1 document"
         }
+        lastMessageLabel.textColor = .white
     }
     
     func checkConversationReadStatus(partnerId: String) {
