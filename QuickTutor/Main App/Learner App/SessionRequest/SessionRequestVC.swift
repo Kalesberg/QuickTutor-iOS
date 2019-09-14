@@ -86,6 +86,20 @@ class SessionRequestVC: UIViewController {
         if let _ = tutor {
             contentView.subjectView.collectionView.reloadData()
             contentView.subjectView.updateUI()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                self.checkTutorSubject()
+            }            
+        }
+    }
+    
+    private func checkTutorSubject() {
+        if let tutor = tutor,
+            let featuredSubject = tutor.featuredSubject,
+            let subjects = tutor.subjects,
+            let index = subjects.firstIndex(of: featuredSubject) {
+            contentView.subjectView.collectionView.selectItem(at: IndexPath(item: index, section: 0), animated: false, scrollPosition: .top)
+            subject = featuredSubject
+            checkForErrors()
         }
     }
     
@@ -208,14 +222,7 @@ extension SessionRequestVC: SessionRequestTutorViewDelegate {
         tutorView.tutorCell.isHidden = false
         self.tutor = tutor
         contentView.tutorView.tutorCell.updateUI(user: tutor)
-        
-        if let featuredSubject = tutor.featuredSubject,
-            let subjects = tutor.subjects,
-            let index = subjects.firstIndex(of: featuredSubject) {
-            contentView.subjectView.collectionView.selectItem(at: IndexPath(item: index, section: 0), animated: false, scrollPosition: .top)
-            subject = featuredSubject
-            checkForErrors()
-        }
+        checkTutorSubject()
     }
     
     func updateTutorViewAsChosen() {

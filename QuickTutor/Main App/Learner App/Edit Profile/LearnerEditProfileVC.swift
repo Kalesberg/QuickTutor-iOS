@@ -15,6 +15,7 @@ import SwiftKeychainWrapper
 import CropViewController
 import RangeSeekSlider
 import AVFoundation
+import MobileCoreServices
 
 protocol QTProfileDelegate {
     func didUpdateTutorProfile(tutor: AWTutor)
@@ -382,35 +383,36 @@ class TutorEditProfileVC: LearnerEditProfileVC {
     
     // MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
     override func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard let videoURL = info[UIImagePickerController.InfoKey.mediaURL] as? URL,
-            let thumbImage = getThumbnailForVideoUrl(videoURL) else {
-                picker.dismiss(animated: true, completion: nil)
-                return
-        }
         
-        picker.dismiss(animated: true) {
-            FirebaseData.manager.uploadVideo(video: videoURL, thumbImage: thumbImage) { (error, tutorVideo) in
-                if let error = error {
-                    AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
-                } else if let tutorVideo = tutorVideo {
-                    guard let cell = self.contentView.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? QTEditProfileVideoTableViewCell else { return }
-                    self.videos.append(tutorVideo)
-                    cell.insertVideo(self.selectedVideoIndex, video: tutorVideo)
-                    self.selectedVideoIndex = -1
-                    
-                    // set tutor video
-                    guard let tutor = CurrentUser.shared.tutor else { return }
-                    tutor.videos = self.videos
-                }
+        let mediaType = info[UIImagePickerController.InfoKey.mediaType] as! CFString
+        switch mediaType {
+        case kUTTypeImage:
+            super.imagePickerController(picker, didFinishPickingMediaWithInfo: info)
+        case kUTTypeMovie:
+            guard let videoURL = info[UIImagePickerController.InfoKey.mediaURL] as? URL,
+                let thumbImage = getThumbnailForVideoUrl(videoURL) else {
+                    picker.dismiss(animated: true, completion: nil)
+                    return
             }
             
-            // insert new video
-            /*guard let cell = self.contentView.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? QTEditProfileVideoTableViewCell else { return }
-            let tutorVideo = TutorVideo ()
-            tutorVideo.videoUrl = videoURL.absoluteString
-            tutorVideo.thumbImage = thumbImage
-            self.videos.append(tutorVideo)
-            cell.insertVideo(self.selectedVideoIndex, videos: self.videos)*/
+            picker.dismiss(animated: true) {
+                FirebaseData.manager.uploadVideo(video: videoURL, thumbImage: thumbImage) { (error, tutorVideo) in
+                    if let error = error {
+                        AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+                    } else if let tutorVideo = tutorVideo {
+                        guard let cell = self.contentView.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? QTEditProfileVideoTableViewCell else { return }
+                        self.videos.append(tutorVideo)
+                        cell.insertVideo(self.selectedVideoIndex, video: tutorVideo)
+                        self.selectedVideoIndex = -1
+                        
+                        // set tutor video
+                        guard let tutor = CurrentUser.shared.tutor else { return }
+                        tutor.videos = self.videos
+                    }
+                }
+            }
+        default:
+            break
         }
     }
     
@@ -458,7 +460,7 @@ extension TutorEditProfileVC: QTProfileVideoCollectionViewCellDelegate {
                 self.imagePicker.sourceType = .camera
                 self.imagePicker.videoQuality = .typeHigh
                 self.imagePicker.delegate = self
-                self.imagePicker.mediaTypes = ["public.movie"]
+                self.imagePicker.mediaTypes = [kUTTypeMovie as String]
                 self.present(self.imagePicker, animated: true, completion: nil)
             }
         }))
@@ -466,7 +468,7 @@ extension TutorEditProfileVC: QTProfileVideoCollectionViewCellDelegate {
             if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
                 self.imagePicker.sourceType = .photoLibrary
                 self.imagePicker.delegate = self
-                self.imagePicker.mediaTypes = ["public.movie"]
+                self.imagePicker.mediaTypes = [kUTTypeMovie as String]
                 self.present(self.imagePicker, animated: true, completion: nil)
             }
         }))

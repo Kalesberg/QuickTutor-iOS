@@ -107,11 +107,13 @@ extension QTBaseBubbleViewController: UICollectionViewDelegateFlowLayout {
 extension QTBaseBubbleViewController: MagneticDelegate {
     func magnetic(_ magnetic: Magnetic, didSelect node: Node) {
         // add node to stack view
-        selectedNodes.insert(node, at: 0)
-        onUpdatedSelectedNodes()
-        
-        collectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
-        magnetic.removeChild(node: node)
+        magnetic.removeChild(node: node) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                self.selectedNodes.insert(node, at: 0)
+                self.onUpdatedSelectedNodes()
+                self.collectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
+            }           
+        }
     }
     
     func magnetic(_ magnetic: Magnetic, didDeselect node: Node) {

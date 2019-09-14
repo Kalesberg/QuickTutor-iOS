@@ -22,7 +22,9 @@ class QTSelectCategoriesViewController: QTBaseBubbleViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        Category.categories.forEach { category in
+        for index in 0 ..< Category.categories.count {
+            let category = Category.categories[index]
+            
             var image: UIImage?
             if let index = Category.categories.firstIndex(of: category) {
                 image = categoryIcons[index]
@@ -38,6 +40,14 @@ class QTSelectCategoriesViewController: QTBaseBubbleViewController {
                             color: category.color,
                             radius: maxRadius,
                             userInfo: category)
+            
+            var x = -node.frame.width // left
+            if index % 2 == 0 {
+                x = magnetic.frame.width + node.frame.width // right
+            }
+            let y = CGFloat.random(node.frame.height, magnetic.frame.height - node.frame.height)
+            node.position = CGPoint(x: x, y: y)
+            
             magnetic.addChild(node)
         }
     }

@@ -39,7 +39,7 @@ class AccountService {
         }
     }
     
-    private func saveFCMToken(_ token: String) {
+    func saveFCMToken(_ token: String?) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         Database.database().reference().child("account").child(uid).child("fcmToken").setValue(token)
     }

@@ -380,6 +380,10 @@ extension QTSettingsNavigation {
         
         let okButton = UIAlertAction(title: "Log Out", style: .destructive) { _ in
             do {
+                if let userId = Auth.auth().currentUser?.uid {
+                    UserStatusService.shared.updateUserStatus(userId, status: .offline)
+                    AccountService.shared.saveFCMToken(nil)
+                }
                 try Auth.auth().signOut()
                 LoginManager().logOut()
                 RootControllerManager.shared.configureRootViewController(controller: GetStartedViewController())

@@ -238,29 +238,29 @@ enum Category {
     var color: UIColor {
         switch self {
         case .academics:
-            return UIColor(red: 176.0 / 255.0, green: 219.0 / 255.0, blue: 67.0 / 255.0, alpha: 1)
+            return UIColor(hex: "5CD074")
         case .arts:
-            return UIColor(red: 128.0 / 255.0, green: 1.0 / 255.0, blue: 135.0 / 255.0, alpha: 1)
+            return UIColor(hex: "30328E")
         case .auto:
-            return UIColor(red: 224.0 / 255.0, green: 142.0 / 255.0, blue: 69.0 / 255.0, alpha: 1)
+            return UIColor(hex: "E47D3A")
         case .business:
-            return UIColor(red: 135.0 / 255.0, green: 214.0 / 255.0, blue: 141.0 / 255.0, alpha: 1)
+            return UIColor(hex: "429479")
         case .lifestyle:
-            return UIColor(red: 102.0 / 255.0, green: 199.0 / 255.0, blue: 244.0 / 255.0, alpha: 1)
+            return UIColor(hex: "3BACA7")
         case .health:
-            return UIColor(red: 255.0 / 255.0, green: 16.0 / 255.0, blue: 83.0 / 255.0, alpha: 1)
+            return UIColor(hex: "A2318A")
         case .language:
-            return UIColor(red: 10.0 / 255.0, green: 54.0 / 255.0, blue: 157.0 / 255.0, alpha: 1)
+            return UIColor(hex: "479FF8")
         case .outdoors:
-            return UIColor(red: 239.0 / 255.0, green: 79.0 / 255.0, blue: 55.0 / 255.0, alpha: 1)
+            return UIColor(hex: "DA3832")
         case .remedial:
-            return UIColor(red: 135.0 / 255.0, green: 214.0 / 255.0, blue: 141.0 / 255.0, alpha: 1)
+            return UIColor(hex: "FDF251")
         case .sports:
-            return UIColor(red: 102.0 / 255.0, green: 34.0 / 255.0, blue: 204.0 / 255.0, alpha: 1)
+            return UIColor(hex: "6C318C")
         case .tech:
-            return UIColor(red: 208.0 / 255.0, green: 0, blue: 0, alpha: 1)
+            return UIColor(hex: "D92F8B")
         case .trades:
-            return UIColor(red: 255.0 / 255.0, green: 242.0 / 255.0, blue: 117.0 / 255.0, alpha: 1)
+            return UIColor(hex: "F1B644")
         }
     }
     

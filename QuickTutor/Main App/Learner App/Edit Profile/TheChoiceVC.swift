@@ -44,10 +44,9 @@ class TheChoiceVC: UIViewController {
                     AccountService.shared.loadUser(isFacebookLogin: nil != Registration.facebookInfo)
                     AccountService.shared.currentUserType = .learner
                     
-                    let selectCategoriesVC = QTSelectCategoriesViewController(nibName: String(describing: QTSelectCategoriesViewController.self), bundle: nil)
-                    let hookModelNC = QTHookModelNavigationController(rootViewController: selectCategoriesVC)
-                    hookModelNC.hookModelDelegate = self
-                    self.present(hookModelNC, animated: false, completion: nil)
+                    RootControllerManager.shared.setupLearnerTabBar(controller: LearnerMainPageVC())
+                    let endIndex = self.navigationController?.viewControllers.endIndex
+                    self.navigationController?.viewControllers.removeFirst(endIndex! - 1)
                 } else {
                     self.navigationController?.pushViewController(GetStartedViewController(), animated: true)
                 }
@@ -65,16 +64,6 @@ class TheChoiceVC: UIViewController {
                     self.navigationController?.pushViewController(GetStartedViewController(), animated: true)
                 }
             }
-        }
-    }
-}
-
-extension TheChoiceVC: QTHookModelNavigationControllerDelegate {
-    func didFinishHookModel(_ viewController: UIViewController) {
-        viewController.dismiss(animated: false) {
-            RootControllerManager.shared.setupLearnerTabBar(controller: LearnerMainPageVC())
-            let endIndex = self.navigationController?.viewControllers.endIndex
-            self.navigationController?.viewControllers.removeFirst(endIndex! - 1)
         }
     }
 }

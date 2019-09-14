@@ -23,34 +23,48 @@ class QTSelectInterestsViewController: QTBaseBubbleViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        let subjectsCount = Int(48 / selectedSubcategories.count)
-        selectedSubcategories.forEach { subcategory in
-            if let categoryName = SubjectStore.shared.findCategoryBy(subcategory: subcategory.title),
+        var subjects: [String] = []
+        let subjectsCount = Int(72 / selectedSubcategories.count)
+        for index in 0 ..< selectedSubcategories.count {
+            let subcategory = selectedSubcategories[index]
+            
+            guard let categoryName = SubjectStore.shared.findCategoryBy(subcategory: subcategory.title),
                 let category = Category.category(for: categoryName),
-                let subjects = CategoryFactory.shared.getSubjectsFor(subcategoryName: subcategory.title) {                
-                let count = min(subjects.count, subjectsCount)
-                for _ in 0 ..< count {
-                    let rndIndex = Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(subjects.count))
-                    let rndSubject = subjects[rndIndex]
-                    let words = rndSubject.split(separator: " ")
-                    var maxRadius = bubbleRadius
-                    for word in words {
-                        let width = String(word).estimateFrameForFontSize(14, extendedWidth: true).width
-                        maxRadius = max(maxRadius, (width + 18) / 2)
-                    }
-                    let node = Node(text: rndSubject,
-                                    image: subcategory.icon,
-                                    color: category.color,
-                                    radius: maxRadius,
-                                    userInfo: rndSubject)
-                    magnetic.addChild(node)
+                let categorySubjects = CategoryFactory.shared.getSubjectsFor(subcategoryName: subcategory.title) else { continue }
+            
+            let count = min(categorySubjects.count, subjectsCount)
+            for index in 0 ..< count {
+                let rndIndex = categorySubjects.count > subjectsCount ? Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(categorySubjects.count)) : index
+                let rndSubject = categorySubjects[rndIndex]
+                
+                if subjects.contains(rndSubject) { continue }
+                subjects.append(rndSubject)
+                
+                let words = rndSubject.split(separator: " ")
+                var maxRadius = bubbleRadius
+                for word in words {
+                    let width = String(word).estimateFrameForFontSize(14, extendedWidth: true).width
+                    maxRadius = max(maxRadius, (width + 18) / 2)
                 }
+                let node = Node(text: rndSubject,
+                                image: subcategory.icon,
+                                color: category.color,
+                                radius: maxRadius,
+                                userInfo: rndSubject)
+                var x = -node.frame.width * CGFloat(index) // left
+                if index % 2 == 0 {
+                    x = magnetic.frame.width + node.frame.width * CGFloat(index) // right
+                }
+                let y = CGFloat.random(node.frame.height, magnetic.frame.height - node.frame.height)
+                node.position = CGPoint(x: x, y: y)
+                
+                magnetic.addChild(node)
             }
         }
     }
     
     override func onClickItemNext() {
-        magnetic.removeAllChilds() {
+        magnetic.removeAllChilds(isFast: true) {
             let connectTutorsVC = QTConnectTutorsViewController(nibName: String(describing: QTConnectTutorsViewController.self), bundle: nil)
             
             for node in self.selectedNodes {
@@ -59,12 +73,7 @@ class QTSelectInterestsViewController: QTBaseBubbleViewController {
 //                LearnerRegistrationService.shared.shouldSaveInterests = false
                 LearnerRegistrationService.shared.addInterest(subject)
             }
-            if 0 == CurrentUser.shared.learner.connectedTutorsCount {
-                self.navigationController?.pushViewController(connectTutorsVC, animated: true)
-            } else {
-                guard let hookModelNC = self.navigationController as? QTHookModelNavigationController else { return }
-                hookModelNC.hookModelDelegate?.didFinishHookModel(hookModelNC)
-            }
+            self.navigationController?.pushViewController(connectTutorsVC, animated: true)
         }
     }
     

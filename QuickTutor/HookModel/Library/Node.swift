@@ -16,7 +16,7 @@ import SpriteKit
         label.fontSize = 14
         label.fontColor = .white
         label.verticalAlignmentMode = .center
-        label.width = self.frame.width - 18
+        label.width = frame.width - 18
         label.separator = " "
         label.position = CGPoint(x: frame.midX, y: frame.midY - 15)
         addChild(label)
@@ -26,7 +26,7 @@ import SpriteKit
     public lazy var image: SKSpriteNode = {
         let image = SKSpriteNode()
         image.size = CGSize(width: 50, height: 50)
-        image.position = CGPoint(x: frame.midX, y: frame.midY + 22)
+        image.position = CGPoint(x: frame.midX, y: frame.midY + 21)
         addChild(image)
         return image
     }()
@@ -62,7 +62,6 @@ import SpriteKit
     open var color: UIColor = .clear {
         didSet {
             self.lineWidth = NodeStrokeWidth
-            self.glowWidth = 1
             self.strokeColor = color
         }
     }
