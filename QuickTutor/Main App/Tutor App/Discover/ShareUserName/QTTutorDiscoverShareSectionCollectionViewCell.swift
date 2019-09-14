@@ -13,7 +13,7 @@ class QTTutorDiscoverShareSectionCollectionViewCell: UICollectionViewCell {
     // MARK: - Properties
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "News"
+        label.text = "Share your user name"
         label.textColor = .white
         label.textAlignment = .left
         label.font = Fonts.createBlackSize(22)

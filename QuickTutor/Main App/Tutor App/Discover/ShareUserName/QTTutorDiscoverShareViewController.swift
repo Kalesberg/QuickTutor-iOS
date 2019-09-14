@@ -12,6 +12,7 @@ import SkeletonView
 class QTTutorDiscoverShareViewController: UIViewController {
 
     // MARK: - Properties
+    @IBOutlet weak var containerView: QTCustomView!
     @IBOutlet weak var avatarImageView: QTCustomImageView!
     @IBOutlet weak var shareUrlLabel: UILabel!
     @IBOutlet weak var copyLinkButton: QTCustomButton!
@@ -20,17 +21,22 @@ class QTTutorDiscoverShareViewController: UIViewController {
     var user: AWTutor!
     
     // MARK: - Functions
-    func setData() {
-        
-        guard let userId = AccountService.shared.currentUser.uid else { return }
-        
+    func setSkeletonView() {
         avatarImageView.isSkeletonable = true
         shareUrlLabel.isSkeletonable = true
         shareUrlLabel.linesCornerRadius = 5
         copyLinkButton.isSkeletonable = true
         shareButton.isSkeletonable = true
+        self.view.isSkeletonable = true
+        self.containerView.isSkeletonable = true
         
         self.view.showSkeleton(usingColor: Colors.gray)
+    }
+    
+    func setData() {
+        
+        guard let userId = AccountService.shared.currentUser.uid else { return }
+        
         UserFetchService.shared.getTutorWithId(uid: userId) { (tutor) in
             self.user = tutor
             self.avatarImageView.sd_setImage(with: tutor?.profilePicUrl)
@@ -55,6 +61,7 @@ class QTTutorDiscoverShareViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setSkeletonView()
         setData()
     }
 }

@@ -21,6 +21,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QTTutorDiscoverShareViewController" customModule="QuickTutor" customModuleProvider="target">
             <connections>
                 <outlet property="avatarImageView" destination="x3I-Eb-YRf" id="yOl-hx-669"/>
+                <outlet property="containerView" destination="7hr-yc-NKC" id="rwm-w0-8fW"/>
                 <outlet property="copyLinkButton" destination="gyX-aU-lpu" id="O5y-Qx-qBs"/>
                 <outlet property="shareButton" destination="kG7-xq-UST" id="9bG-57-dyH"/>
                 <outlet property="shareUrlLabel" destination="4F4-ZO-sld" id="z6V-Ir-iag"/>
@@ -110,6 +111,9 @@
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
                             <color key="value" red="0.17254901960784313" green="0.17254901960784313" blue="0.22745098039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                            <real key="value" value="1"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </view>

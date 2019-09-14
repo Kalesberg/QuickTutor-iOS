@@ -57,7 +57,7 @@ class QTTutorDiscoverTipCollectionViewCell: UICollectionViewCell {
     }
     
     func setupContainerView() {
-        addSubview(containerView)
+        contentView.addSubview(containerView)
         containerView.snp.makeConstraints { make in
             make.center.equalToSuperview()
             make.width.equalToSuperview().offset(-8)
@@ -109,9 +109,25 @@ class QTTutorDiscoverTipCollectionViewCell: UICollectionViewCell {
         containerView.layer.cornerRadius = 5
     }
     
+    func setSkeletonView() {
+        isSkeletonable = true
+        contentView.isSkeletonable = true
+        containerView.isSkeletonable = true
+        maskBackgroundView.isSkeletonable = true
+        
+        label.isHidden = true
+        imageView.isHidden = true
+    }
+    
     func setData(tip: QTNewsModel) {
         label.text = tip.title
         imageView.setImage(url: tip.image)
+        label.isHidden = false
+        imageView.isHidden = false
+        
+        if isSkeletonActive {
+            hideSkeleton()
+        }
     }
     
     
@@ -129,6 +145,8 @@ class QTTutorDiscoverTipCollectionViewCell: UICollectionViewCell {
         backgroundColor = .clear
         cellWidth = Int(UIScreen.main.bounds.size.width - 60) / 2
         setupViews()
+        setSkeletonView()
+        
         addShadow()
     }
     

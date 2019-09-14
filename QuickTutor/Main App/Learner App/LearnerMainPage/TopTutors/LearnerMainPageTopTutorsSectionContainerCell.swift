@@ -14,6 +14,8 @@ class LearnerMainPageTopTutorsSectionContainerCell: UICollectionViewCell {
     let risingTalentImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
+        iv.image = UIImage(named: "ic_rising_talent")
+        
         return iv
     }()
     

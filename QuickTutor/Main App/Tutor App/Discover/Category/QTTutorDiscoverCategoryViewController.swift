@@ -95,7 +95,7 @@ class QTTutorDiscoverCategoryViewController: UIViewController {
         
         advancedPriceLabel.text = "$\(category.mainPageData.suggestedPrices[0])"
         proPriceLabel.text = "$\(category.mainPageData.suggestedPrices[1])"
-        expertPriceLabel.text = "$\(category.mainPageData.suggestedPrices[0])"
+        expertPriceLabel.text = "$\(category.mainPageData.suggestedPrices[2])"
     }
     
     func updateSubjectsHeight() {
