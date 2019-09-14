@@ -7,6 +7,8 @@
 //
 import UIKit
 import EventKit
+import MobileCoreServices
+
 class AlertController : NSObject {
 	
 	class func cropImageAlert(_ viewController: UIViewController, imagePicker: UIImagePickerController, allowsEditing: Bool) {
@@ -15,6 +17,7 @@ class AlertController : NSObject {
 			if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
                 imagePicker.sourceType = .photoLibrary
 				imagePicker.allowsEditing = allowsEditing
+                imagePicker.mediaTypes = [kUTTypeImage as String]
 				viewController.present(imagePicker, animated: true, completion: nil)
 			} else {
 				AlertController.genericErrorAlert(viewController, title: "Oops", message: "Camera is not available at this time.")
@@ -43,6 +46,7 @@ class AlertController : NSObject {
 			if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
 				imagePicker.sourceType = .photoLibrary
 				imagePicker.allowsEditing = false
+                imagePicker.mediaTypes = [kUTTypeImage as String]
 				viewController.present(imagePicker, animated: true, completion: nil)
 			} else {
 				AlertController.genericErrorAlert(viewController, title: "Oops", message: "Photo Library is not available")
