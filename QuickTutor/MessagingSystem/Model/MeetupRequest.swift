@@ -31,6 +31,7 @@ class SessionRequest {
     var duration: Int
     var type: String
     var receiverAccountType: String?
+    var quickRequestId: String?
 
     var dictionaryRepresentation: [String: Any] {
         var dictionary = [String: Any]()
@@ -48,6 +49,7 @@ class SessionRequest {
         dictionary["paymentType"] = paymentType.rawValue
         dictionary["duration"] = duration
         dictionary["receiverAccountType"] = receiverAccountType
+        dictionary["quickRequestId"] = quickRequestId
         return dictionary
     }
 
@@ -70,6 +72,7 @@ class SessionRequest {
         duration = data["duration"] as? Int ?? 0
         type = data["type"] as? String ?? ""
         receiverAccountType = data["receiverAccountType"] as? String
+        quickRequestId = data["quickRequestId"] as? String
         if isExpired() {
             status = "expired"
         }

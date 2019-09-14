@@ -29,6 +29,8 @@ class QTTutorDiscoverMainView: UIView {
                                 forCellWithReuseIdentifier: QTTutorDiscoverNewsSectionCollectionViewCell.reuseIdentifier)
         collectionView.register(QTTutorDiscoverOpportunitiesSectionCollectionViewCell.self,
                                 forCellWithReuseIdentifier: QTTutorDiscoverOpportunitiesSectionCollectionViewCell.reuseIdentifier)
+        collectionView.register(LearnerMainPageCategorySectionContainerCell.self,
+                                forCellWithReuseIdentifier: LearnerMainPageCategorySectionContainerCell.reuseIdentifier)
         
         return collectionView
     }()
@@ -166,7 +168,7 @@ class QTTutorDiscoverMainView: UIView {
 // MARK: - UICollectionViewDataSource
 extension QTTutorDiscoverMainView: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
+        return 3
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -175,6 +177,8 @@ extension QTTutorDiscoverMainView: UICollectionViewDataSource {
             return 1
         case 1:
             return hasOpportunities ? 1 : 0
+        case 2:
+            return 1
         default:
             return 0
         }
@@ -190,6 +194,11 @@ extension QTTutorDiscoverMainView: UICollectionViewDataSource {
         case 1: // Opportunities
             do {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: QTTutorDiscoverOpportunitiesSectionCollectionViewCell.reuseIdentifier, for: indexPath) as! QTTutorDiscoverOpportunitiesSectionCollectionViewCell
+                return cell
+            }
+        case 2:
+            do {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LearnerMainPageCategorySectionContainerCell.reuseIdentifier, for: indexPath)
                 return cell
             }
         default:
@@ -209,6 +218,8 @@ extension QTTutorDiscoverMainView: UICollectionViewDelegateFlowLayout {
             return CGSize(width: width, height: width  * 110 / 165.5 + 57)
         case 1:
             return CGSize(width: width, height: width * 189 / 315 + 44)
+        case 2:
+            return CGSize(width: width, height: 230)
         default:
             return CGSize.zero
         }

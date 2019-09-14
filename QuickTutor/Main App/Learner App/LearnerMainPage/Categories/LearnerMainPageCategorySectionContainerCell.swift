@@ -62,8 +62,11 @@ class LearnerMainPageCategorySectionContainerCell: UICollectionViewCell {
         return label
     }()
     
+    static var reuseIdentifier: String {
+        return String(describing: LearnerMainPageCategorySectionContainerCell.self)
+    }
+    
     weak var delegate: CategoryTableViewCellDelegate?
-
     var categorySectionController = CategorySectionController()
     
     func setupViews() {

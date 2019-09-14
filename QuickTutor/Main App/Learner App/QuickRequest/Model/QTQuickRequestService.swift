@@ -138,7 +138,7 @@ class QTQuickRequestService {
         // 3. Add a conversation info into conversations table with message id
         // 4. Add a conversation meta data into conversationMetaData table
         // 5. Connect learner and tutor each other because they should communicate each other before accept a session of quickrequest
-        // 6. Save tutorId and quickRequestId into quickRequestsApplies table.
+        // 6. Save tutorId, sessionId and quickRequestId into quickRequestsApplies table.
         
         guard let tutorId = CurrentUser.shared.tutor.uid,
             let price = request.price,
@@ -207,11 +207,21 @@ class QTQuickRequestService {
                 let values = ["/\(tutorId)/\(myUserType)/\(partnerId)": 1, "/\(partnerId)/\(partnerType)/\(tutorId)": 1]
                 Database.database().reference().child("connections").updateChildValues(values)
                 
-                // 6. Save tutorId and quickRequestId into quickRequestsApplies table.
-                let applyInfo = ["/tutor/\(tutorId)/\(request.id)": 1, "/quickRequest/\(request.id)/\(tutorId)": 1]
-                Database.database().reference().child("quickRequestsApplies").updateChildValues(applyInfo)
-                
-                NotificationCenter.default.post(name: NotificationNames.TutorDiscoverPage.appliedToOpportunity, object: nil, userInfo: ["quickRequestId": request.id])
+                // 6. Save tutorId, sessionId and quickRequestId into quickRequestsApplies table.
+                Database.database().reference()
+                    .child("quickRequestsApplies")
+                    .child("tutor")
+                    .child(tutorId).updateChildValues([request.id: 1], withCompletionBlock: { (error, ref) in
+                        
+                        Database.database().reference()
+                            .child("quickRequestsApplies")
+                            .child("quickRequest")
+                            .child(request.id)
+                            .childByAutoId()
+                            .updateChildValues(["tutorId": tutorId, "sessionId": ref1.key!])
+                        
+                        NotificationCenter.default.post(name: NotificationNames.TutorDiscoverPage.appliedToOpportunity, object: nil, userInfo: ["quickRequestId": request.id])
+                    })
             }
         }
     }
@@ -304,37 +314,74 @@ class QTQuickRequestService {
         tutorQuickRequestsSubjectsRefs?.removeAll()
         tutorQuickRequestsSubjectsHandles?.removeAll()
         
+        var emptySubjects = 0
         for subject in subjects {
             // Get a quickrequest from quickRequestsSubjects table with a subject as the search keyword.
             let ref = Database.database().reference().child("quickRequestsSubjects").child(subject.lowercased())
-            let handle = ref.observe(.childAdded) { (snapshot) in
+            ref.observeSingleEvent(of: .value) { (snapshot) in
+                
+                let handle = ref.observe(.childAdded) { (snapshot) in
+                    if !snapshot.exists() {
+                        return
+                    }
+                    
+                    let id = snapshot.key
+                    // Get the detail info of a quickrequest
+                    Database.database().reference().child("quickRequests").child(id).observeSingleEvent(of: .value, with: { (requestSnapshot) in
+                        if let dictionary = requestSnapshot.value as? [String: Any] {
+                            let quickRequest = QTQuickRequestModel(data: dictionary)
+                            
+                            // Check the tutor has already applied this quickRequest or not.
+                            if !self.appliedQuickRequestIds.contains(quickRequest.id) {
+                                FirebaseData.manager.fetchLearner(quickRequest.senderId, { (learner) in
+                                    quickRequest.profileImageUrl = learner?.profilePicUrl
+                                    quickRequest.userName = learner?.formattedName
+                                    
+                                    NotificationCenter.default.post(name: NotificationNames.TutorDiscoverPage.quickRequestAdded, object: nil, userInfo: ["quickRequest": quickRequest])
+                                })
+                            }
+                            
+                            return
+                        }
+                    })
+                }
+                
+                self.tutorQuickRequestsSubjectsHandles?.append(handle)
+                
                 if !snapshot.exists() {
+                    emptySubjects += 1
+                    if emptySubjects == subjects.count {
+                        NotificationCenter.default.post(name: NotificationNames.TutorDiscoverPage.noQuickRequest, object: nil, userInfo: nil)
+                    }
                     return
                 }
                 
-                let id = snapshot.key
-                // Get the detail info of a quickrequest
-                Database.database().reference().child("quickRequests").child(id).observeSingleEvent(of: .value, with: { (requestSnapshot) in
-                    if let dictionary = requestSnapshot.value as? [String: Any] {
-                        let quickRequest = QTQuickRequestModel(data: dictionary)
-                        
-                        // Check the tutor has already applied this quickRequest or not.
-                        if !self.appliedQuickRequestIds.contains(quickRequest.id) {
-                            FirebaseData.manager.fetchLearner(quickRequest.senderId, { (learner) in
-                                quickRequest.profileImageUrl = learner?.profilePicUrl
-                                quickRequest.userName = learner?.formattedName
+                if let children = snapshot.children.allObjects as? [DataSnapshot] {
+                    for child in children {
+                        Database.database().reference().child("quickRequests").child(child.key).observeSingleEvent(of: .value, with: { (requestSnapshot) in
+                            if let dictionary = requestSnapshot.value as? [String: Any] {
+                                let quickRequest = QTQuickRequestModel(data: dictionary)
                                 
-                                NotificationCenter.default.post(name: NotificationNames.TutorDiscoverPage.quickRequestAdded, object: nil, userInfo: ["quickRequest": quickRequest])
-                            })
-                        }
-                        
-                        return
+                                // Check the tutor has already applied this quickRequest or not.
+                                if !self.appliedQuickRequestIds.contains(quickRequest.id) {
+                                    FirebaseData.manager.fetchLearner(quickRequest.senderId, { (learner) in
+                                        quickRequest.profileImageUrl = learner?.profilePicUrl
+                                        quickRequest.userName = learner?.formattedName
+                                        
+                                        NotificationCenter.default.post(name: NotificationNames.TutorDiscoverPage.quickRequestAdded, object: nil, userInfo: ["quickRequest": quickRequest])
+                                    })
+                                }
+                                
+                                return
+                            }
+                        })
                     }
-                })
+                }
+                
             }
+            
             // Save the database reference and handle.
             tutorQuickRequestsSubjectsRefs?.append(ref)
-            tutorQuickRequestsSubjectsHandles?.append(handle)
         }
     }
     
@@ -366,37 +413,73 @@ class QTQuickRequestService {
         tutorQuickRequestsSubcategoriesRefs?.removeAll()
         tutorQuickRequestsSubcategoriesHandles?.removeAll()
         
+        var emptySubcategories = 0
         for name in subcategoryNames {
             // Get a quickrequest from quickRequestsSubcategories table with a subject as the search keyword.
             let ref = Database.database().reference().child("quickRequestSubcategories").child(name.lowercased())
-            let handle = ref.observe(.childAdded) { (snapshot) in
+            ref.observeSingleEvent(of: .value) { (snapshot) in
+                
+                let handle = ref.observe(.childAdded) { (snapshot) in
+                    if !snapshot.exists() {
+                        return
+                    }
+                    
+                    let id = snapshot.key
+                    // Get the detail info of a quickrequest
+                    Database.database().reference().child("quickRequests").child(id).observeSingleEvent(of: .value, with: { (requestSnapshot) in
+                        if let dictionary = requestSnapshot.value as? [String: Any] {
+                            let quickRequest = QTQuickRequestModel(data: dictionary)
+                            
+                            // Check the tutor has already applied this quickRequest or not.
+                            if !self.appliedQuickRequestIds.contains(quickRequest.id) {
+                                FirebaseData.manager.fetchLearner(quickRequest.senderId, { (learner) in
+                                    quickRequest.profileImageUrl = learner?.profilePicUrl
+                                    quickRequest.userName = learner?.formattedName
+                                    
+                                    NotificationCenter.default.post(name: NotificationNames.TutorDiscoverPage.quickRequestAdded, object: nil, userInfo: ["quickRequest": quickRequest])
+                                })
+                            }
+                            
+                            return
+                        }
+                    })
+                }
+                self.tutorQuickRequestsSubcategoriesHandles?.append(handle)
+                
                 if !snapshot.exists() {
+                    emptySubcategories += 1
+                    if emptySubcategories == subcategoryNames.count {
+                        NotificationCenter.default.post(name: NotificationNames.TutorDiscoverPage.noQuickRequest, object: nil, userInfo: nil)
+                    }
                     return
                 }
                 
-                let id = snapshot.key
-                // Get the detail info of a quickrequest
-                Database.database().reference().child("quickRequests").child(id).observeSingleEvent(of: .value, with: { (requestSnapshot) in
-                    if let dictionary = requestSnapshot.value as? [String: Any] {
-                        let quickRequest = QTQuickRequestModel(data: dictionary)
-                        
-                        // Check the tutor has already applied this quickRequest or not.
-                        if !self.appliedQuickRequestIds.contains(quickRequest.id) {
-                            FirebaseData.manager.fetchLearner(quickRequest.senderId, { (learner) in
-                                quickRequest.profileImageUrl = learner?.profilePicUrl
-                                quickRequest.userName = learner?.formattedName
+                if let children = snapshot.children.allObjects as? [DataSnapshot] {
+                    for child in children {
+                        // Get the detail info of a quickrequest
+                        Database.database().reference().child("quickRequests").child(child.key).observeSingleEvent(of: .value, with: { (requestSnapshot) in
+                            if let dictionary = requestSnapshot.value as? [String: Any] {
+                                let quickRequest = QTQuickRequestModel(data: dictionary)
                                 
-                                NotificationCenter.default.post(name: NotificationNames.TutorDiscoverPage.quickRequestAdded, object: nil, userInfo: ["quickRequest": quickRequest])
-                            })
-                        }
-                        
-                        return
+                                // Check the tutor has already applied this quickRequest or not.
+                                if !self.appliedQuickRequestIds.contains(quickRequest.id) {
+                                    FirebaseData.manager.fetchLearner(quickRequest.senderId, { (learner) in
+                                        quickRequest.profileImageUrl = learner?.profilePicUrl
+                                        quickRequest.userName = learner?.formattedName
+                                        
+                                        NotificationCenter.default.post(name: NotificationNames.TutorDiscoverPage.quickRequestAdded, object: nil, userInfo: ["quickRequest": quickRequest])
+                                    })
+                                }
+                                
+                                return
+                            }
+                        })
                     }
-                })
+                }
             }
+            
             // Save the database reference and handle.
             tutorQuickRequestsSubcategoriesRefs?.append(ref)
-            tutorQuickRequestsSubcategoriesHandles?.append(handle)
         }
     }
     
@@ -427,37 +510,75 @@ class QTQuickRequestService {
         tutorQuickRequestsCategoriesRefs?.removeAll()
         tutorQuickRequestsCategoriesHandles?.removeAll()
         
+        var emptyCategories = 0
         for name in categoryNames {
             // Get a quickrequest from quickRequestsCategories table with a subject as the search keyword.
             let ref = Database.database().reference().child("quickRequestsCategories").child(name.lowercased())
-            let handle = ref.observe(.childAdded) { (snapshot) in
+            
+            ref.observeSingleEvent(of: .value) { (snapshot) in
+                
+                let handle = ref.observe(.childAdded) { (snapshot) in
+                    if !snapshot.exists() {
+                        return
+                    }
+                    
+                    let id = snapshot.key
+                    // Get the detail info of a quickrequest
+                    Database.database().reference().child("quickRequests").child(id).observeSingleEvent(of: .value, with: { (requestSnapshot) in
+                        if let dictionary = requestSnapshot.value as? [String: Any] {
+                            let quickRequest = QTQuickRequestModel(data: dictionary)
+                            
+                            // Check the tutor has already applied this quickRequest or not.
+                            if !self.appliedQuickRequestIds.contains(quickRequest.id) {
+                                FirebaseData.manager.fetchLearner(quickRequest.senderId, { (learner) in
+                                    quickRequest.profileImageUrl = learner?.profilePicUrl
+                                    quickRequest.userName = learner?.formattedName
+                                    
+                                    NotificationCenter.default.post(name: NotificationNames.TutorDiscoverPage.quickRequestAdded, object: nil, userInfo: ["quickRequest": quickRequest])
+                                })
+                            }
+                            
+                            return
+                        }
+                    })
+                }
+                self.tutorQuickRequestsCategoriesHandles?.append(handle)
+                
                 if !snapshot.exists() {
+                    emptyCategories += 1
+                    if emptyCategories == categoryNames.count {
+                        NotificationCenter.default.post(name: NotificationNames.TutorDiscoverPage.noQuickRequest, object: nil, userInfo: nil)
+                    }
                     return
                 }
                 
-                let id = snapshot.key
-                // Get the detail info of a quickrequest
-                Database.database().reference().child("quickRequests").child(id).observeSingleEvent(of: .value, with: { (requestSnapshot) in
-                    if let dictionary = requestSnapshot.value as? [String: Any] {
-                        let quickRequest = QTQuickRequestModel(data: dictionary)
-                        
-                        // Check the tutor has already applied this quickRequest or not.
-                        if !self.appliedQuickRequestIds.contains(quickRequest.id) {
-                            FirebaseData.manager.fetchLearner(quickRequest.senderId, { (learner) in
-                                quickRequest.profileImageUrl = learner?.profilePicUrl
-                                quickRequest.userName = learner?.formattedName
+                if let children = snapshot.children.allObjects as? [DataSnapshot] {
+                    for child in children {
+                        // Get the detail info of a quickrequest
+                        Database.database().reference().child("quickRequests").child(child.key).observeSingleEvent(of: .value, with: { (requestSnapshot) in
+                            if let dictionary = requestSnapshot.value as? [String: Any] {
+                                let quickRequest = QTQuickRequestModel(data: dictionary)
                                 
-                                NotificationCenter.default.post(name: NotificationNames.TutorDiscoverPage.quickRequestAdded, object: nil, userInfo: ["quickRequest": quickRequest])
-                            })
-                        }
-                        
-                        return
+                                // Check the tutor has already applied this quickRequest or not.
+                                if !self.appliedQuickRequestIds.contains(quickRequest.id) {
+                                    FirebaseData.manager.fetchLearner(quickRequest.senderId, { (learner) in
+                                        quickRequest.profileImageUrl = learner?.profilePicUrl
+                                        quickRequest.userName = learner?.formattedName
+                                        
+                                        NotificationCenter.default.post(name: NotificationNames.TutorDiscoverPage.quickRequestAdded, object: nil, userInfo: ["quickRequest": quickRequest])
+                                    })
+                                }
+                                
+                                return
+                            }
+                        })
                     }
-                })
+                }
             }
+            
+            
             // Save the database reference and handle.
             tutorQuickRequestsCategoriesRefs?.append(ref)
-            tutorQuickRequestsCategoriesHandles?.append(handle)
         }
     }
     

@@ -24,6 +24,7 @@ class QTLearnerSessionCardCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var sessionTypeImageView: UIImageView!
     @IBOutlet weak var sessionTypeLabel: UILabel!
     @IBOutlet weak var ratingView: CosmosView!
+    @IBOutlet weak var experienceLabel: UILabel!
     @IBOutlet weak var actionButton: QTCustomButton!
     
     static var reuseIdentifier: String {
@@ -119,8 +120,9 @@ class QTLearnerSessionCardCollectionViewCell: UICollectionViewCell {
         if let username = tutor?.formattedName.capitalized, let profilePicUrl = tutor?.profilePicUrl {
             self.nameLabel.text = username
             self.avatarImageView.sd_setImage(with: profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
-            self.updateRatingLabel(rating: tutor?.rating ?? 0)
         }
+        
+        updateRatingLabel()
         
         subjectLabel.text = session.subject
         if session.type == "online" {
@@ -133,7 +135,11 @@ class QTLearnerSessionCardCollectionViewCell: UICollectionViewCell {
         updateDurationAndPriceLabel()
         
         if self.sessionStatusType == QTSessionStatusType.completed {
-            actionButton.setTitle("Repeat session", for: .normal)
+            if session.type == QTSessionType.quickCalls.rawValue {
+                actionButton.setTitle("Call Again", for: .normal)
+            } else {
+                actionButton.setTitle("Repeat session", for: .normal)
+            }
         } else { // it will be upcomming session.
             actionButton.setTitle("Start early", for: .normal)
         }
@@ -150,13 +156,25 @@ class QTLearnerSessionCardCollectionViewCell: UICollectionViewCell {
         sessionTypeLabel.isHidden = false
     }
     
-    func updateRatingLabel(rating: Double) {
-        if rating == 0 {
-            ratingView.isHidden = true
-        } else {
+    func updateRatingLabel() {
+        
+        if let rating = tutor?.tRating, rating > 0 {
             ratingView.isHidden = false
+            ratingView.rating = rating
+            experienceLabel.isHidden = true
+        } else {
+            ratingView.isHidden = true
+            experienceLabel.isHidden = false
+            if let experienceSubject = tutor?.experienceSubject, let experiencePeriod = tutor?.experiencePeriod, !experienceSubject.isEmpty {
+                if experiencePeriod == 0.5 {
+                    experienceLabel.text = "6 Months Exp in \(experienceSubject)"
+                } else {
+                    experienceLabel.text = "\(Int(experiencePeriod)) Years Exp in \(experienceSubject)"
+                }
+            } else if let address = tutor?.region {
+                experienceLabel.text = address
+            }
         }
-        ratingView.rating = rating
     }
     
     func updateDurationAndPriceLabel() {

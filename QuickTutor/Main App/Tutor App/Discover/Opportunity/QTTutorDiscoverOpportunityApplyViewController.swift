@@ -41,6 +41,7 @@ class QTTutorDiscoverOpportunityApplyViewController: QTQuickRequestSubmitViewCon
         
         // Set date & time
         requestDateView.titleLabel.text = "Time & Date"
+        requestDateView.datePicker.setValue(UIColor.white, forKeyPath: "textColor")
         // Set the start time.
         if Date().timeIntervalSince1970 > quickRequest.startTime {
             if let minimunDate = Calendar.current.date(byAdding: .minute, value: 15, to: Date()) {

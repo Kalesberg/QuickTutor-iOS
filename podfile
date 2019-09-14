@@ -53,6 +53,7 @@ abstract_target 'QuickTutorApp' do
         pod 'CardScan'
         pod 'CardScan/Stripe'
         pod 'TYPagerController'
+        pod 'MXParallaxHeader'
         
         pod 'SkeletonView'
         pod 'ESTabBarController-swift'

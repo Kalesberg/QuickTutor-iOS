@@ -58,7 +58,16 @@ class CategorySectionController: UIViewController, UICollectionViewDelegate, UIC
         cell.growSemiShrink {
             let category = CategoryFactory.shared.getCategoryFor(categories[indexPath.item].subcategory.fileToRead)
             let userInfo = ["category": category?.name ?? ""]
-            NotificationCenter.default.post(name: NotificationNames.LearnerMainFeed.categoryTapped, object: nil, userInfo: userInfo)
+            
+            if AccountService.shared.currentUserType == UserType.tutor {
+                NotificationCenter.default.post(name: NotificationNames.TutorDiscoverPage.tutorCategoryTapped,
+                                                object: nil,
+                                                userInfo: userInfo)
+            } else {
+                NotificationCenter.default.post(name: NotificationNames.LearnerMainFeed.categoryTapped,
+                                                object: nil,
+                                                userInfo: userInfo)
+            }
         }
     }
     

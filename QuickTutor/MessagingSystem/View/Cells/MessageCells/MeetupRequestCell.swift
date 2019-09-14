@@ -398,20 +398,176 @@ class SessionRequestCell: UserMessageCell {
 
     @objc func acceptSessionRequest() {
         guard let sessionRequestId = self.sessionRequest?.id, sessionRequest?.status == "pending" else { print("return"); return }
+        
+        // If the session request is related to a quick request, need more steps to update.
+        // 1. Update the status field of sessions table as accepted.
+        // 2. Update userSessions table (userId->userType->sessionId:0, partnerId->partnerType->sessionId:0)
+        // 3. Find other session requests related to the quick request of the current session request, then make them as expired and also updated userSessions table as well.
+        // 4. Delete all quick requests from quickRequets tables such as quickRequestsSubjects, quickRequestsSubcategories, quickRequestsCategories
+        // 5. Delete the data related to the quick request in quckRequestsApplies table
+        
+        // 1. Update the status field of sessions table as accepted.
         Database.database().reference().child("sessions").child(sessionRequestId).child("status").setValue("accepted")
-        sessionCache.removeValue(forKey: sessionRequestId)
-        buttonView.setupAsAccepted()
-        updateAsAccepted()
-        markSessionDataStale()
-        delegate?.updateAfterCellButtonPress(indexPath: indexPath)
+        
+        if let quickRequestId = sessionRequest?.quickRequestId, !quickRequestId.isEmpty {
+            
+            let group = DispatchGroup()
+            group.enter()
+            Database.database().reference()
+                .child("quickRequestsApplies")
+                .child("quickRequest")
+                .child(quickRequestId)
+                .observeSingleEvent(of: .value) { (snapshot) in
+                    if !snapshot.exists() {
+                        group.leave()
+                        return
+                    }
+                    
+                    if let children = snapshot.children.allObjects as? [DataSnapshot], let data = children.map({$0.value}) as? [[String: Any]] {
+                        
+                        for apply in data {
+                            if let sessionId = apply["sessionId"] as? String {
+                                // 3. Find other session requests related to the quick request of the current session request, then make them as expired and also updated userSessions table as well.
+                                Database.database().reference().child("sessions").child(sessionId).child("status").setValue("expired")
+                                
+                                guard let uid = Auth.auth().currentUser?.uid,
+                                    let partnerId = self.sessionRequest?.partnerId() else { return }
+                                let userTypeString = AccountService.shared.currentUserType.rawValue
+                                let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
+                                Database.database().reference().child("userSessions")
+                                    .child(uid)
+                                    .child(userTypeString)
+                                    .child(sessionId)
+                                    .setValue(0)
+                                Database.database().reference().child("userSessions")
+                                    .child(partnerId)
+                                    .child(otherUserTypeString)
+                                    .child(sessionId).setValue(0)
+                            }
+                            
+                            if let tutorId = apply["tutorId"] as? String {
+                                // 5. Delete the data related to the quick request in quckRequestsApplies table
+                                Database.database().reference()
+                                    .child("quickRequestsApplies")
+                                    .child("tutor")
+                                    .child(tutorId)
+                                    .removeValue()
+                                
+                                Database.database().reference()
+                                    .child("quickRequestsApplies")
+                                    .child("quickRequest")
+                                    .child(quickRequestId)
+                                    .removeValue()
+                            }
+                        }
+                    }
+                    
+                    group.leave()
+            }
+            
+            group.notify(queue: DispatchQueue.main) {
+                // 4. Delete all quick requests from quickRequets tables such as quickRequestsSubjects, quickRequestsSubcategories, quickRequestsCategories
+                if let subject = self.sessionRequest?.subject {
+                    Database.database().reference().child("quickRequestsSubjects")
+                        .child(subject.lowercased())
+                        .child(quickRequestId)
+                        .removeValue()
+                    if let subcategory = CategoryFactory.shared.getSubcategoryFor(subject: subject) {
+                        Database.database().reference().child("quickRequestsSubcategories")
+                            .child(subcategory.name.lowercased())
+                            .child(quickRequestId)
+                            .removeValue()
+                        Database.database().reference().child("quickRequestsCategories")
+                            .child(subcategory.category.lowercased())
+                            .child(quickRequestId)
+                            .removeValue()
+                    }
+                }
+                
+                // 5. Delete the data related to the quick request in quckRequestsApplies table
+                if let partnerId = self.sessionRequest?.partnerId() {
+                    Database.database().reference()
+                        .child("quickRequestsApplies")
+                        .child("tutor")
+                        .child(partnerId)
+                        .removeValue()
+                }
+                
+                Database.database().reference()
+                    .child("quickRequestsApplies")
+                    .child("quickRequest")
+                    .child(quickRequestId)
+                    .removeValue()
+                
+                // 2. Update userSessions table (userId->userType->sessionId:0, partnerId->partnerType->sessionId:0)
+                self.markSessionDataStale()
+                
+                sessionCache.removeValue(forKey: sessionRequestId)
+                self.buttonView.setupAsAccepted()
+                self.updateAsAccepted()
+                self.delegate?.updateAfterCellButtonPress(indexPath: self.indexPath)
+            }
+        } else {
+            // 2. Update userSessions table (userId->userType->sessionId:0, partnerId->partnerType->sessionId:0)
+            markSessionDataStale()
+            
+            sessionCache.removeValue(forKey: sessionRequestId)
+            buttonView.setupAsAccepted()
+            updateAsAccepted()
+            delegate?.updateAfterCellButtonPress(indexPath: indexPath)
+        }
     }
 
     @objc func declineSessionRequest() {
         guard let sessionRequestId = self.sessionRequest?.id, sessionRequest?.status == "pending" else { return }
+        
+        // If the session request is related to a quick request, need more steps to update.
+        // 1. Update the status field of sessions table as declined.
+        // 2. Update userSessions table (userId->userType->sessionId:0, partnerId->partnerType->sessionId:0)
+        // 3. Delete the quick request from quickRequets tables such as quickRequestsSubjects, quickRequestsSubcategories, quickRequestsCategories
+        // 4. Delete the data related to the quick request in quckRequestsApplies table
+        
+        // 1. Update the status field of sessions table as declined.
         Database.database().reference().child("sessions").child(sessionRequestId).child("status").setValue("declined")
+        // 2. Update userSessions table (userId->userType->sessionId:0, partnerId->partnerType->sessionId:0)
+        markSessionDataStale()
+        
+        if let quickRequestId = sessionRequest?.quickRequestId {
+            // 3. Delete the quick request from quickRequets tables such as quickRequestsSubjects, quickRequestsSubcategories, quickRequestsCategories
+            if let subject = self.sessionRequest?.subject {
+                Database.database().reference().child("quickRequestsSubjects")
+                    .child(subject.lowercased())
+                    .child(quickRequestId)
+                    .removeValue()
+                if let subcategory = CategoryFactory.shared.getSubcategoryFor(subject: subject) {
+                    Database.database().reference().child("quickRequestsSubcategories")
+                        .child(subcategory.name.lowercased())
+                        .child(quickRequestId)
+                        .removeValue()
+                    Database.database().reference().child("quickRequestsCategories")
+                        .child(subcategory.category.lowercased())
+                        .child(quickRequestId)
+                        .removeValue()
+                }
+            }
+            
+            // 4. Delete the data related to the quick request in quckRequestsApplies table
+            if let partnerId = self.sessionRequest?.partnerId() {
+                Database.database().reference()
+                    .child("quickRequestsApplies")
+                    .child("tutor")
+                    .child(partnerId)
+                    .removeValue()
+            }
+            
+            Database.database().reference()
+                .child("quickRequestsApplies")
+                .child("quickRequest")
+                .child(quickRequestId)
+                .removeValue()
+        }
         sessionCache.removeValue(forKey: sessionRequestId)
         buttonView.setupAsDeclined()
-        markSessionDataStale()
         delegate?.updateAfterCellButtonPress(indexPath: indexPath)
     }
 

@@ -42,7 +42,7 @@ class QTQuickRequestModel {
         dictionary["type"] = type.rawValue
         dictionary["duration"] = duration
         dictionary["expired"] = expired
-        dictionary["id"] = id
+        dictionary["uid"] = id
         return dictionary
     }
     
@@ -62,7 +62,7 @@ class QTQuickRequestModel {
         } else {
             self.type = .online
         }
-        id = data["id"] as? String ?? ""
+        id = data["uid"] as? String ?? ""
         if isExpired() {
             expired = true
         }

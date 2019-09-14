@@ -32,4 +32,8 @@ extension UIFont {
     class func qtBoldItalicFont(size: CGFloat) -> UIFont {
         return UIFont(name: "Lato-BoldItalic", size: size) ?? UIFont.boldSystemFont(ofSize: size)
     }
+    
+    class func qtItalicFont(size: CGFloat) -> UIFont {
+        return UIFont(name: "Lato-Italic", size: size) ?? UIFont.italicSystemFont(ofSize: size)
+    }
 }

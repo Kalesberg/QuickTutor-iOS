@@ -51,7 +51,13 @@ class QTTutorDiscoverViewController: UIViewController {
     
     @objc
     func onReceivedTutorCategoryTapped(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+            let category = userInfo["category"] as? String else { return }
         
+        let vc = QTTutorDiscoverCategoryViewController.controller
+        vc.categoryName = category
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc

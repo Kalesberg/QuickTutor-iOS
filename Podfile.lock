@@ -167,6 +167,7 @@ PODS:
   - IQKeyboardManager (6.4.0)
   - leveldb-library (1.20)
   - lottie-ios (2.5.3)
+  - MXParallaxHeader (1.0.0)
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
     - nanopb/encode (= 0.3.901)
@@ -219,6 +220,7 @@ DEPENDENCIES:
   - Imaginary
   - IQKeyboardManager
   - lottie-ios (~> 2.5.3)
+  - MXParallaxHeader
   - ObjectMapper (~> 3.4)
   - PlaceholderTextView
   - RangeSeekSlider
@@ -277,6 +279,7 @@ SPEC REPOS:
     - IQKeyboardManager
     - leveldb-library
     - lottie-ios
+    - MXParallaxHeader
     - nanopb
     - ObjectMapper
     - PlaceholderTextView
@@ -337,6 +340,7 @@ SPEC CHECKSUMS:
   IQKeyboardManager: fcef267266379c003181fc3592f6bdb8bf4db839
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   lottie-ios: a50d5c0160425cd4b01b852bb9578963e6d92d31
+  MXParallaxHeader: a95e0af1f485b1b718a6939f583f0dbae6992c41
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   ObjectMapper: 70187b8941977c62ccfb423caf6b50be405cabf0
   PlaceholderTextView: ffca9f176be00ab3090e2191e6908dabf3dbdada
@@ -354,6 +358,6 @@ SPEC CHECKSUMS:
   TwilioVideo: 4a2235d7b3810fe072383e507dab7fdc93f62320
   TYPagerController: 262556ecef99986d26ed77fb1288a198ed42f4af
 
-PODFILE CHECKSUM: 6231bf65291e94a1b99eb7248059b2db21fb00b6
+PODFILE CHECKSUM: a535341d163ae39983d6a082dc5112c67bd5091f
 
 COCOAPODS: 1.7.5
