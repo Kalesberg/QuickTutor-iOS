@@ -20,7 +20,7 @@ class QTTutorDiscoverMainView: UIView {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .clear
+        collectionView.backgroundColor = Colors.newScreenBackground
         collectionView.showsVerticalScrollIndicator = false
         collectionView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         
@@ -31,6 +31,10 @@ class QTTutorDiscoverMainView: UIView {
                                 forCellWithReuseIdentifier: QTTutorDiscoverOpportunitiesSectionCollectionViewCell.reuseIdentifier)
         collectionView.register(LearnerMainPageCategorySectionContainerCell.self,
                                 forCellWithReuseIdentifier: LearnerMainPageCategorySectionContainerCell.reuseIdentifier)
+        collectionView.register(QTTutorDiscoverTipsSectionCollectionViewCell.self,
+                                forCellWithReuseIdentifier: QTTutorDiscoverTipsSectionCollectionViewCell.reuseIdentifier)
+        collectionView.register(QTTutorDiscoverShareSectionCollectionViewCell.self,
+                                forCellWithReuseIdentifier: QTTutorDiscoverShareSectionCollectionViewCell.reuseIdentifier)
         
         return collectionView
     }()
@@ -168,7 +172,7 @@ class QTTutorDiscoverMainView: UIView {
 // MARK: - UICollectionViewDataSource
 extension QTTutorDiscoverMainView: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 3
+        return 5
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -178,6 +182,10 @@ extension QTTutorDiscoverMainView: UICollectionViewDataSource {
         case 1:
             return hasOpportunities ? 1 : 0
         case 2:
+            return 1
+        case 3:
+            return 1
+        case 4:
             return 1
         default:
             return 0
@@ -201,6 +209,16 @@ extension QTTutorDiscoverMainView: UICollectionViewDataSource {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LearnerMainPageCategorySectionContainerCell.reuseIdentifier, for: indexPath)
                 return cell
             }
+        case 3:
+            do {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: QTTutorDiscoverTipsSectionCollectionViewCell.reuseIdentifier, for: indexPath)
+                return cell
+            }
+        case 4:
+            do {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: QTTutorDiscoverShareSectionCollectionViewCell.reuseIdentifier, for: indexPath)
+                return cell
+            }
         default:
             return UICollectionViewCell()
         }
@@ -220,6 +238,10 @@ extension QTTutorDiscoverMainView: UICollectionViewDelegateFlowLayout {
             return CGSize(width: width, height: width * 189 / 315 + 44)
         case 2:
             return CGSize(width: width, height: 230)
+        case 3:
+            return CGSize(width: width, height: 527)
+        case 4:
+            return CGSize(width: width, height: 197)
         default:
             return CGSize.zero
         }

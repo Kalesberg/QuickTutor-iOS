@@ -363,7 +363,12 @@ class QTQuickRequestService {
                                 let quickRequest = QTQuickRequestModel(data: dictionary)
                                 
                                 // Check the tutor has already applied this quickRequest or not.
-                                if !self.appliedQuickRequestIds.contains(quickRequest.id) {
+                                if self.appliedQuickRequestIds.contains(quickRequest.id) {
+                                    emptySubjects += 1
+                                    if emptySubjects == subjects.count {
+                                        NotificationCenter.default.post(name: NotificationNames.TutorDiscoverPage.noQuickRequest, object: nil, userInfo: nil)
+                                    }
+                                } else {
                                     FirebaseData.manager.fetchLearner(quickRequest.senderId, { (learner) in
                                         quickRequest.profileImageUrl = learner?.profilePicUrl
                                         quickRequest.userName = learner?.formattedName
@@ -462,7 +467,12 @@ class QTQuickRequestService {
                                 let quickRequest = QTQuickRequestModel(data: dictionary)
                                 
                                 // Check the tutor has already applied this quickRequest or not.
-                                if !self.appliedQuickRequestIds.contains(quickRequest.id) {
+                                if self.appliedQuickRequestIds.contains(quickRequest.id) {
+                                    emptySubcategories += 1
+                                    if emptySubcategories == subcategoryNames.count {
+                                        NotificationCenter.default.post(name: NotificationNames.TutorDiscoverPage.noQuickRequest, object: nil, userInfo: nil)
+                                    }
+                                } else {
                                     FirebaseData.manager.fetchLearner(quickRequest.senderId, { (learner) in
                                         quickRequest.profileImageUrl = learner?.profilePicUrl
                                         quickRequest.userName = learner?.formattedName
@@ -560,7 +570,12 @@ class QTQuickRequestService {
                                 let quickRequest = QTQuickRequestModel(data: dictionary)
                                 
                                 // Check the tutor has already applied this quickRequest or not.
-                                if !self.appliedQuickRequestIds.contains(quickRequest.id) {
+                                if self.appliedQuickRequestIds.contains(quickRequest.id) {
+                                    emptyCategories += 1
+                                    if emptyCategories == categoryNames.count {
+                                        NotificationCenter.default.post(name: NotificationNames.TutorDiscoverPage.noQuickRequest, object: nil, userInfo: nil)
+                                    }
+                                } else {
                                     FirebaseData.manager.fetchLearner(quickRequest.senderId, { (learner) in
                                         quickRequest.profileImageUrl = learner?.profilePicUrl
                                         quickRequest.userName = learner?.formattedName
