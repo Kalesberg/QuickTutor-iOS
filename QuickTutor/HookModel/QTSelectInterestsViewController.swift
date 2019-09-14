@@ -70,7 +70,7 @@ class QTSelectInterestsViewController: QTBaseBubbleViewController {
             for node in self.selectedNodes {
                 guard let subject = node.userInfo as? String else { continue }
                 
-                LearnerRegistrationService.shared.shouldSaveInterests = false
+//                LearnerRegistrationService.shared.shouldSaveInterests = false
                 LearnerRegistrationService.shared.addInterest(subject)
             }
             self.navigationController?.pushViewController(connectTutorsVC, animated: true)
