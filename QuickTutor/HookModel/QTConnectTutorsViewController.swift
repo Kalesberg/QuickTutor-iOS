@@ -72,12 +72,18 @@ class QTConnectTutorsViewController: UIViewController {
         
         // load same subjects tutors
         var categories: [String] = []
+        var subcategories: [String] = []
         let interestsGroup = DispatchGroup()
         for interest in interests {
             if let category = SubjectStore.shared.findCategoryBy(subject: interest),
                 !categories.contains(category) {
                 categories.append(category)
             }
+            if let subcategory = SubjectStore.shared.findSubCategory(subject: interest),
+                !subcategories.contains(subcategory) {
+                subcategories.append(subcategory)
+            }
+            
             interestsGroup.enter()
             TutorSearchService.shared.getTutorIdsBySubject(interest) { tutorIds in
                 guard let tutorIds = tutorIds else {
@@ -96,13 +102,13 @@ class QTConnectTutorsViewController: UIViewController {
         }
         
         interestsGroup.notify(queue: .main) {
-            // load same category tutors
-            let categoriesGroup = DispatchGroup()
-            for category in categories {
-                categoriesGroup.enter()
-                TutorSearchService.shared.getTutorIdsByCategory(category) { tutorIds in
+            // load same subcategory tutors
+            let subcategoriesGroup = DispatchGroup()
+            for subcategory in subcategories {
+                subcategoriesGroup.enter()
+                TutorSearchService.shared.getTutorIdsBySubcategory(subcategory) { tutorIds in
                     guard let tutorIds = tutorIds else {
-                        categoriesGroup.leave()
+                        subcategoriesGroup.leave()
                         return
                     }
                     tutorIds.forEach { tutorId in
@@ -112,26 +118,45 @@ class QTConnectTutorsViewController: UIViewController {
                             self.aryTutorIds.append(tutorId)
                         }
                     }
-                    categoriesGroup.leave()
+                    subcategoriesGroup.leave()
                 }
             }
-            categoriesGroup.notify(queue: .main) {
-                completion()
+            subcategoriesGroup.notify(queue: .main) {
+                // load same category tutors
+                let categoriesGroup = DispatchGroup()
+                for category in categories {
+                    categoriesGroup.enter()
+                    TutorSearchService.shared.getTutorIdsByCategory(category) { tutorIds in
+                        guard let tutorIds = tutorIds else {
+                            categoriesGroup.leave()
+                            return
+                        }
+                        tutorIds.forEach { tutorId in
+                            if CurrentUser.shared.learner.uid != tutorId,
+                                !self.aryConnectedTutorIds.contains(tutorId),
+                                !self.aryTutorIds.contains(tutorId) {
+                                self.aryTutorIds.append(tutorId)
+                            }
+                        }
+                        categoriesGroup.leave()
+                    }
+                }
+                categoriesGroup.notify(queue: .main) {
+                    completion()
+                }
             }
         }
-        
     }
     
     private func loadTutors() {
         _observing = true        
         let tutorsGroup = DispatchGroup()
         var tutors: [AWTutor] = []
-        for index in 0 ..< limit {
-            let realIndex = aryTutors.count + index
-            if realIndex >= aryTutorIds.count { break }
-            
+        
+        let realLimit = limit < aryTutorIds.count ? limit : aryTutorIds.count
+        for index in 0 ..< realLimit {
             tutorsGroup.enter()
-            FirebaseData.manager.fetchTutor(aryTutorIds[realIndex], isQuery: false) { tutor in
+            FirebaseData.manager.fetchTutor(aryTutorIds[index], isQuery: false) { tutor in
                 guard let tutor = tutor else {
                     tutorsGroup.leave()
                     return
@@ -149,7 +174,8 @@ class QTConnectTutorsViewController: UIViewController {
                 self.tableView.rowHeight = UITableView.automaticDimension
                 self.tableView.estimatedRowHeight = 80
             }
-            self.shouldLoadMore = self.limit + self.aryTutors.count < self.aryTutorIds.count
+            self.aryTutorIds = Array(self.aryTutorIds.dropFirst(realLimit))
+            self.shouldLoadMore = 0 < self.aryTutorIds.count
             let beforeTutorsCount = self.aryTutors.count
             self.aryTutors.append(contentsOf: tutors)
             self.tableView.reloadData()
@@ -162,15 +188,8 @@ class QTConnectTutorsViewController: UIViewController {
     }
     
     private func onUpdateConnectStatus() {
-        if aryRequestedTutorIds.count > minTutorCount {
-            progressView.isHidden = true
-            lblConnectedCount.isHidden = true
-        } else {
-            progressView.isHidden = false
-            lblConnectedCount.isHidden = false
-            lblConnectedCount.text = "\(aryRequestedTutorIds.count)/\(minTutorCount) Connected"
-            progressView.setProgress(Double(aryRequestedTutorIds.count) / Double(minTutorCount))
-        }
+        lblConnectedCount.text = "\(aryRequestedTutorIds.count)/\(minTutorCount) Connected"
+        progressView.setProgress(Double(aryRequestedTutorIds.count) / Double(minTutorCount))
         
         btnContinue.isEnabled = aryRequestedTutorIds.count >= minTutorCount
         btnContinue.backgroundColor = btnContinue.isEnabled ? Colors.purple : Colors.gray
@@ -240,7 +259,7 @@ extension QTConnectTutorsViewController: UITableViewDelegate {
 
 extension QTConnectTutorsViewController: QTConnectTutorTableViewCellDelegate {
     func onClickBtnConnect(_ cell: UITableViewCell, connect tutor: AWTutor) {
-        MessageService.shared.sendConnectionRequestToId(text: "Hi, I would like to connect with you.", tutor.uid)
+//        MessageService.shared.sendConnectionRequestToId(text: "Hi, I would like to connect with you.", tutor.uid)
         aryRequestedTutorIds.append(tutor.uid)
         onUpdateConnectStatus()
         

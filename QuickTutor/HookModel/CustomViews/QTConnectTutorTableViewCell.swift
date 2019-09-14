@@ -41,7 +41,12 @@ class QTConnectTutorTableViewCell: UITableViewCell {
         
         imgAvatar.sd_setImage(with: objTutor.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
         lblTutorName.text = objTutor.formattedName
-        lblTutorFeaturedSubject.text = objTutor.featuredSubject
+        if let featuredSubject = objTutor.featuredSubject,
+            !featuredSubject.isEmpty {
+            lblTutorFeaturedSubject.text = featuredSubject
+        } else {
+            lblTutorFeaturedSubject.text = objTutor.subjects?.first
+        }
         
         btnConnect.isHidden = false
     }

@@ -16,9 +16,6 @@
         <array key="Lato-Heavy.ttf">
             <string>Lato-Heavy</string>
         </array>
-        <array key="Lato-Medium.ttf">
-            <string>Lato-Medium</string>
-        </array>
         <array key="Lato-Regular.ttf">
             <string>Lato-Regular</string>
         </array>
@@ -90,27 +87,27 @@
                     <rect key="frame" x="0.0" y="788" width="414" height="74"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xv2-I0-2y2" customClass="ProgressView" customModule="QuickTutor" customModuleProvider="target">
-                            <rect key="frame" x="20" y="27" width="20" height="20"/>
+                            <rect key="frame" x="20" y="25" width="24" height="24"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="xv2-I0-2y2" secondAttribute="height" multiplier="1:1" id="4Vx-Ub-5ZO"/>
-                                <constraint firstAttribute="width" constant="20" id="nqc-cH-QMb"/>
+                                <constraint firstAttribute="width" constant="24" id="nqc-cH-QMb"/>
                             </constraints>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0/5 Connected" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AGt-fr-H7w">
-                            <rect key="frame" x="55" y="28.5" width="93" height="17"/>
-                            <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
+                            <rect key="frame" x="59" y="27.5" width="106" height="19.5"/>
+                            <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FY3-Ic-0YC" customClass="DimmableButton" customModule="QuickTutor" customModuleProvider="target">
-                            <rect key="frame" x="274" y="20" width="120" height="34"/>
+                            <rect key="frame" x="226" y="15" width="168" height="44"/>
                             <color key="backgroundColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.22745098039215686" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="34" id="3E6-4x-QmX"/>
-                                <constraint firstAttribute="width" constant="120" id="JIG-TB-bRu"/>
+                                <constraint firstAttribute="height" constant="44" id="3E6-4x-QmX"/>
+                                <constraint firstAttribute="width" constant="168" id="JIG-TB-bRu"/>
                             </constraints>
-                            <fontDescription key="fontDescription" name="Lato-Medium" family="Lato" pointSize="14"/>
+                            <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
                             <state key="normal" title="Continue"/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">

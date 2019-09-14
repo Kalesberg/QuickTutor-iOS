@@ -153,6 +153,20 @@ class TutorSearchService {
         }
     }
     
+    func getTutorIdsBySubcategory(_ subcategory: String, completion: @escaping ([String]?) -> Void) {
+        Database.database().reference().child("subcategories").child(subcategory.lowercased()).queryOrderedByKey().observeSingleEvent(of: .value) { snapshot in
+            guard let dicTutorIds = snapshot.value as? [String: Any] else {
+                completion(nil)
+                return
+            }
+            var aryTutorIds: [String] = []
+            dicTutorIds.keys.forEach { tutorId in
+                aryTutorIds.append(tutorId)
+            }
+            completion(aryTutorIds)
+        }
+    }
+    
     func getTutorIdsByCategory(_ category: String, completion: @escaping ([String]?) -> Void) {
         Database.database().reference().child("categories").child(category).queryOrderedByKey().observeSingleEvent(of: .value) { snapshot in
             guard let dicTutorIds = snapshot.value as? [String: Any] else {
