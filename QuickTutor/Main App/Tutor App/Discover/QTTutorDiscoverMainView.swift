@@ -44,6 +44,7 @@ class QTTutorDiscoverMainView: UIView {
     var transitionStartOffset: CGFloat = -1
     let navigationViewHeight: CGFloat = 81
     var hasOpportunities = true
+    var collectionViewTopInset: CGFloat = 0
     
     // MARK: - Functions
     func setupViews() {
@@ -80,13 +81,14 @@ class QTTutorDiscoverMainView: UIView {
     
     func setupCollectionView() {
         insertSubview(collectionView, at: 0)
-        collectionView.anchor(top: getTopAnchor(), left: leftAnchor, bottom: getBottomAnchor(), right: rightAnchor,
-                              paddingTop: 81, paddingLeft: 0, paddingBottom: 0, paddingRight: 0,
-                              width: 0, height: 0)
+        collectionView.anchor(top: topAnchor, left: leftAnchor, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        
+        collectionViewTopInset = navigationViewHeight + UIApplication.shared.statusBarFrame.height
+        collectionView.contentInset = UIEdgeInsets(top: collectionViewTopInset, left: 0, bottom: 0, right: 0)
+        collectionView.clipsToBounds = false
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.clipsToBounds = false
-        
+
         if #available(iOS 11.0, *) {
             collectionView.contentInsetAdjustmentBehavior = .never
         } else {
@@ -95,15 +97,17 @@ class QTTutorDiscoverMainView: UIView {
     }
     
     func animateTopBar(withOffset offset: CGFloat) {
-        let scrollUp = self.prevOffset >= offset
+        let delta = offset + self.collectionViewTopInset
+        
+        let scrollUp = self.prevOffset >= delta
         
         if self.transitionStartOffset > -1 {
             
             // If the offset is less than zero, will set navigationViewTopAnchor as 0
-            if offset < 0 {
+            if delta < 0 {
                 self.navigationViewTopAnchor.constant = 0
             } else {
-                self.navigationViewTopAnchor.constant = min(0, max(self.navigationViewTopAnchor.constant + self.prevOffset - offset, -self.navigationViewHeight))
+                self.navigationViewTopAnchor.constant = min(0, max(self.navigationViewTopAnchor.constant + self.prevOffset - delta, -self.navigationViewHeight))
             }
             
             // Control the alpha of navigationView
@@ -114,26 +118,25 @@ class QTTutorDiscoverMainView: UIView {
                 self.transitionStartOffset = -1
             }
             
-            self.prevOffset = offset
+            self.prevOffset = delta
             return
         }
         
         // If you scroll up and the delta is greater than 10 or you scroll up closed to the top of view, start to show bar.
-        if scrollUp && self.transitionStartOffset == -1 && self.navigationViewTopAnchor.constant == -self.navigationViewHeight && (abs(self.prevOffset - offset) >= 10 || offset <= self.navigationViewHeight) {
-            self.transitionStartOffset = max(offset, 0)
-            self.prevOffset = offset
+        if scrollUp && self.transitionStartOffset == -1 && self.navigationViewTopAnchor.constant == -self.navigationViewHeight && (abs(self.prevOffset - delta) >= 10 || delta <= self.navigationViewHeight) {
+            self.transitionStartOffset = max(delta, 0)
+            self.prevOffset = delta
             return
         }
         
         // If you scroll down when the navigation view is showing fully, it's about to hide the navigation bar.
         if !scrollUp && self.transitionStartOffset == -1 && self.navigationViewTopAnchor.constant == 0 {
-            self.transitionStartOffset = max(offset, 0)
-            self.prevOffset = offset
+            self.transitionStartOffset = max(delta, 0)
+            self.prevOffset = delta
             return
         }
         
-        self.prevOffset = offset
-        return
+        self.prevOffset = delta
     }
     
     func addObservers() {

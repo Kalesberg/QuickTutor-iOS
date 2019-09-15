@@ -19,9 +19,19 @@ class QTLearnerMainPageNavigationView: UIView {
         return imageView
     }()
 
-    let searchIconImageView: UIView = {
+    
+    let searchIconView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 20.5
+        view.clipsToBounds = true
+        view.backgroundColor = UIColor(hex: "010101")
+        
+        return view
+    }()
+    
+    let searchIconImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .center
+        imageView.contentMode = .scaleAspectFit
         imageView.image = UIImage(named: "searchIconMain")
         
         return imageView
@@ -36,19 +46,29 @@ class QTLearnerMainPageNavigationView: UIView {
         logoImageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 20, paddingLeft: 20, paddingBottom: 20, paddingRight: 0, width: 170, height: 41)
     }
     
+    func setupSearchIconView() {
+        addSubview(searchIconView)
+        
+        searchIconView.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 20, paddingRight: 20, width: 41, height: 41)
+        searchIconView.leftAnchor.constraint(greaterThanOrEqualTo: logoImageView.rightAnchor, constant: 20).isActive = true
+        
+        searchIconView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleDidSearchIconTap)))
+    }
+    
     func setupSearchIconImageView() {
-        addSubview(searchIconImageView)
+        searchIconView.addSubview(searchIconImageView)
         
-        searchIconImageView.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 20, paddingRight: 20, width: 41, height: 41)
-        searchIconImageView.leftAnchor.constraint(greaterThanOrEqualTo: logoImageView.rightAnchor, constant: 20).isActive = true
-        
-        searchIconImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleDidSearchIconTap)))
+        searchIconImageView.centerXAnchor.constraint(equalTo: searchIconView.centerXAnchor).isActive = true
+        searchIconImageView.centerYAnchor.constraint(equalTo: searchIconView.centerYAnchor).isActive = true
+        searchIconImageView.widthAnchor.constraint(equalToConstant: 21).isActive = true
+        searchIconImageView.heightAnchor.constraint(equalToConstant: 21).isActive = true
     }
     
     func setupViews() {
         backgroundColor = Colors.newNavigationBarBackground
         
         setupLogoImageView()
+        setupSearchIconView()
         setupSearchIconImageView()
     }
     

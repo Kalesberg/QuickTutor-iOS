@@ -29,9 +29,8 @@ class LearnerMainPageVCView: UIView {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .clear
+        collectionView.backgroundColor = Colors.newScreenBackground
         collectionView.showsVerticalScrollIndicator = false
-        collectionView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         collectionView.register(LearnerMainPageTopTutorsSectionContainerCell.self, forCellWithReuseIdentifier: "topTutors")
         collectionView.register(LearnerMainPageCategorySectionContainerCell.self, forCellWithReuseIdentifier: "categoryCell")
         collectionView.register(QTLearnerMainPageQuickActionSectionContainerCell.self, forCellWithReuseIdentifier: QTLearnerMainPageQuickActionSectionContainerCell.reuseIdentifier)
@@ -47,7 +46,7 @@ class LearnerMainPageVCView: UIView {
     var prevOffset: CGFloat = 0
     var transitionStartOffset: CGFloat = -1
     let navigationViewHeight: CGFloat = 81
-    
+    var collectionViewTopInset: CGFloat = 0
     func setupViews() {
         setupMainView()
         setupNavigationView()
@@ -77,9 +76,12 @@ class LearnerMainPageVCView: UIView {
     
     func setupCollectionView() {
         insertSubview(collectionView, at: 0)
-        collectionView.anchor(top: getTopAnchor(), left: leftAnchor, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 81, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        collectionView.anchor(top: topAnchor, left: leftAnchor, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         collectionView.delegate = collectionViewHelper
         collectionView.dataSource = collectionViewHelper
+        
+        collectionViewTopInset = navigationViewHeight + UIApplication.shared.statusBarFrame.height
+        collectionView.contentInset = UIEdgeInsets(top: collectionViewTopInset, left: 0, bottom: 0, right: 0)
         collectionView.clipsToBounds = false
         
         if #available(iOS 11.0, *) {
@@ -93,15 +95,17 @@ class LearnerMainPageVCView: UIView {
         collectionViewHelper.handleScrollViewScroll = { [weak self] offset in
             guard let self = self else { return }
             
-            let scrollUp = self.prevOffset >= offset
+            let delta = offset + self.collectionViewTopInset
+            
+            let scrollUp = self.prevOffset >= delta
             
             if self.transitionStartOffset > -1 {
                 
                 // If the offset is less than zero, will set navigationViewTopAnchor as 0
-                if offset < 0 {
+                if delta < 0 {
                     self.navigationViewTopAnchor.constant = 0
                 } else {
-                    self.navigationViewTopAnchor.constant = min(0, max(self.navigationViewTopAnchor.constant + self.prevOffset - offset, -self.navigationViewHeight))
+                    self.navigationViewTopAnchor.constant = min(0, max(self.navigationViewTopAnchor.constant + self.prevOffset - delta, -self.navigationViewHeight))
                 }
                 
                 // Control the alpha of navigationView
@@ -112,26 +116,25 @@ class LearnerMainPageVCView: UIView {
                     self.transitionStartOffset = -1
                 }
                 
-                self.prevOffset = offset
+                self.prevOffset = delta
                 return
             }
             
             // If you scroll up and the delta is greater than 10 or you scroll up closed to the top of view, start to show bar.
-            if scrollUp && self.transitionStartOffset == -1 && self.navigationViewTopAnchor.constant == -self.navigationViewHeight && (abs(self.prevOffset - offset) >= 10 || offset <= self.navigationViewHeight) {
-                self.transitionStartOffset = max(offset, 0)
-                self.prevOffset = offset
+            if scrollUp && self.transitionStartOffset == -1 && self.navigationViewTopAnchor.constant == -self.navigationViewHeight && (abs(self.prevOffset - delta) >= 10 || delta <= self.navigationViewHeight) {
+                self.transitionStartOffset = max(delta, 0)
+                self.prevOffset = delta
                 return
             }
             
             // If you scroll down when the navigation view is showing fully, it's about to hide the navigation bar.
             if !scrollUp && self.transitionStartOffset == -1 && self.navigationViewTopAnchor.constant == 0 {
-                self.transitionStartOffset = max(offset, 0)
-                self.prevOffset = offset
+                self.transitionStartOffset = max(delta, 0)
+                self.prevOffset = delta
                 return
             }
             
-            self.prevOffset = offset
-            return
+            self.prevOffset = delta
         }
     }
     
