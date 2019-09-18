@@ -239,10 +239,9 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
     
     @objc
     func handleDidLocationViewTap(_ recognizer: UITapGestureRecognizer) {
-        AddPaymentModal().show()
-        /*let controller = QTLocationsViewController.controller
+        let controller = QTLocationsViewController.controller
         controller.address = locationTextField.text
-        navigationController?.pushViewController(controller, animated: true)*/
+        navigationController?.pushViewController(controller, animated: true)
     }
     
     @IBAction func handleDidTwitterViewTap(_ sender: Any) {
