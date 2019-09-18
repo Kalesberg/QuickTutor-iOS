@@ -644,7 +644,7 @@ class LearnerEditProfileVC: UIViewController {
     }
     
      func displaySavedAlertController() {
-        let alertController = UIAlertController(title: "Saved!", message: "Your profile changes have been saved", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Saved!", message: "Your profile changes have been saved.", preferredStyle: .alert)
         
         present(alertController, animated: true, completion: nil)
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
