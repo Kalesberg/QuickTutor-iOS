@@ -102,14 +102,15 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
         setupNavBar()
         
         if AccountService.shared.currentUserType == .learner {
-            locationView.isHidden = true
+            locationView.isHidden = false
             showMeView.isHidden = true
+            locationTextField.text = CurrentUser.shared.learner.location != nil ? CurrentUser.shared.learner.region : "United States"
         } else {
             locationView.isHidden = false
             showMeView.isHidden = false
             isShowMe = CurrentUser.shared.tutor.isVisible
             showMeSwitchOn(isShowMe)
-            locationTextField.text = CurrentUser.shared.tutor.location != nil ? CurrentUser.shared.tutor.region : ""
+            locationTextField.text = CurrentUser.shared.tutor.location != nil ? CurrentUser.shared.tutor.region : "United States"
         }
         
         updateFacebookInfoView()
@@ -239,7 +240,7 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
     @objc
     func handleDidLocationViewTap(_ recognizer: UITapGestureRecognizer) {
         let controller = QTLocationsViewController.controller
-        controller.address = CurrentUser.shared.tutor.region
+        controller.address = locationTextField.text
         navigationController?.pushViewController(controller, animated: true)
     }
     

@@ -15,6 +15,7 @@ import CoreLocation
 import SDWebImage
 import SwiftKeychainWrapper
 import ObjectMapper
+import GeoFire
 
 class CurrentUser {
 	
@@ -182,6 +183,7 @@ class FirebaseData {
 		childNodes["/readReceipts/\(uid)"] = NSNull()
 		childNodes["/review/\(uid)"] = NSNull()
 		childNodes["/student-info/\(uid)"] = NSNull()
+        childNodes["/student_loc/\(uid)"] = NSNull()
 		childNodes["/subject/\(uid)"] = NSNull()
 		childNodes["/tutor-info/\(uid)"] = NSNull()
 		childNodes["/tutor_loc/\(uid)"] = NSNull()
@@ -281,6 +283,19 @@ class FirebaseData {
 			return completion(nil)
 		})
 	}
+    
+    func fetchLearnerLocation(uid: String,_ completion: @escaping (TutorLocation?) -> Void) {
+        self.ref?.child("student_loc").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.exists() {
+                guard let value = snapshot.value as? [String : Any] else {
+                    return completion(nil)
+                }
+                let tutorLocation = TutorLocation(dictionary: value)
+                return completion(tutorLocation)
+            }
+            return completion(nil)
+        })
+    }
 	
 	func fetchTutorLocation(uid: String,_ completion: @escaping (TutorLocation?) -> Void) {
 		self.ref?.child("tutor_loc").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
@@ -545,6 +560,14 @@ class FirebaseData {
 					}
 					group.leave()
 				})
+                
+                group.enter()
+                self.fetchLearnerLocation(uid: uid) { (location) in
+                    if let location = location {
+                        learner.location = location
+                    }
+                    group.leave()
+                }
 				
 				group.enter()
 				self.fetchReviews(uid: uid, type: "tutor", { (reviews) in
@@ -902,8 +925,15 @@ class FirebaseData {
 			}
 		}
 	}
+    
+    public func geoFire(location: CLLocation, completion: ((Bool) -> Void)? = nil) {
+        let geoFire = GeoFire(firebaseRef: ref.child("student_loc"))
+        geoFire.setLocation(location, forKey: CurrentUser.shared.learner.uid!) { error in
+            completion?(error == nil)
+        }
+    }
 	
-	deinit {
+    deinit {
 		print("FirebaseData has De-initialized")
 	}
 }

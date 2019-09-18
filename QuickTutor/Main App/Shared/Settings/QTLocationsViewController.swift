@@ -12,14 +12,12 @@ import MapKit
 class QTLocationsViewController: UIViewController {
 
     // MARK: - variables
-    @IBOutlet weak var searchView: UIView!
-    @IBOutlet weak var searchTextField: UITextField!
-    @IBOutlet weak var closeButton: UIButton!
+    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     
     var address: String?
     
-    var searchSource: [String]?
+    private var searchSource: [String]?
     let searchCompleter = MKLocalSearchCompleter()
     var searchResults = [MKLocalSearchCompletion]()
     
@@ -32,11 +30,9 @@ class QTLocationsViewController: UIViewController {
         super.viewDidLoad()
         
         setupNavBar()
-
-        searchView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.1, offset: CGSize(width: 0, height: 1), radius: 5.0)
         
         // Register a nib
-        tableView.register(QTLocationTableViewCell.nib(), forCellReuseIdentifier: QTLocationTableViewCell.resuableIdentifier())
+        tableView.register(QTLocationTableViewCell.nib, forCellReuseIdentifier: QTLocationTableViewCell.resuableIdentifier)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 54
         tableView.separatorColor = UIColor.clear
@@ -44,32 +40,24 @@ class QTLocationsViewController: UIViewController {
         searchCompleter.delegate = self
         searchCompleter.filterType = .locationsOnly
         
-        searchTextField.addTarget(self, action: #selector(handleSearchTextFieldChange(_:)), for: .editingChanged)
-        searchTextField.attributedPlaceholder = NSAttributedString(string: "Search for an address", attributes: [.foregroundColor : Colors.grayText80])
-        searchTextField.text = address
-        closeButton.isHidden = address?.isEmpty ?? true
+        // search bar
+        searchBar.delegate = self
+        searchBar.text = address
+        
+        // add notifications
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow (_:)),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide (_:)),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        searchTextField.becomeFirstResponder()
-    }
-    // MARK: - actions
-    @IBAction func onCloseButtonClicked(_ sender: Any) {
-        searchTextField.text = ""
-        closeButton.isHidden = true
-    }
-    
-    @objc
-    func handleSearchTextFieldChange(_ textField: UITextField) {
-        guard let searchText = textField.text, searchText.count > 0, searchText != "" else {
-            closeButton.isHidden = true
-            searchResults = []
-            tableView.reloadData()
-            return
-        }
-        closeButton.isHidden = false
-        searchCompleter.queryFragment = searchText
+        searchBar.becomeFirstResponder()
     }
     
     // MARK: - private functions
@@ -115,6 +103,29 @@ class QTLocationsViewController: UIViewController {
             completion(addressString, nil)
         }
     }
+    
+    // MARK: - Search Handlers
+    private func searchLocations (_ searchText: String) {
+        guard searchText.count > 0, searchText != "" else {
+            searchResults = []
+            tableView.reloadData()
+            return
+        }
+        searchCompleter.queryFragment = searchText
+    }
+    
+    // MARK: - Notification Handler
+    @objc
+    private func keyboardWillShow (_ notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            tableView.contentInset = UIEdgeInsets (top: 0.0, left: 0.0, bottom: keyboardFrame.cgRectValue.height, right: 0.0)
+        }
+    }
+    
+    @objc
+    private func keyboardWillHide (_ notification: Notification) {
+        tableView.contentInset = UIEdgeInsets (top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
+    }
 }
 
 // MARK: - MKLocalSearchCompleterDelegate
@@ -141,11 +152,46 @@ extension QTLocationsViewController: UITableViewDelegate {
                 if error != nil {
                     AlertController.genericErrorAlertWithoutCancel(self, title: "Error", message: "Unable to successfully find location. Please try again.")
                 } else if let region = region {
-                    FirebaseData.manager.updateFeaturedTutorRegion(CurrentUser.shared.learner.uid!, region: region)
-                    CurrentUser.shared.tutor.location?.location = CLLocation(latitude: location.latitude, longitude: location.longitude)
-                    CurrentUser.shared.tutor.region = region
-                    Tutor.shared.updateValue(value: ["rg" : region])
-                    Tutor.shared.geoFire(location: CLLocation(latitude: location.latitude, longitude: location.longitude))
+                    if AccountService.shared.currentUserType == .learner {
+                        CurrentUser.shared.learner.region = region
+                        FirebaseData.manager.updateValue(node: "student-info", value: ["rg": region]) { error in
+                            if let error = error {
+                                AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+                            }
+                        }
+                        
+                        // save location
+                        if CurrentUser.shared.learner.location == nil {
+                            FirebaseData.manager.geoFire(location: CLLocation(latitude: location.latitude, longitude: location.longitude)) { isSuccess in
+                                if isSuccess {
+                                    FirebaseData.manager.fetchLearnerLocation(uid: CurrentUser.shared.learner.uid!, { location in
+                                        CurrentUser.shared.learner.location = location
+                                    })
+                                }
+                            }
+                        } else {
+                            FirebaseData.manager.geoFire(location: CLLocation(latitude: location.latitude, longitude: location.longitude))
+                            CurrentUser.shared.learner.location?.location = CLLocation(latitude: location.latitude, longitude: location.longitude)
+                        }
+                    } else {
+                        FirebaseData.manager.updateFeaturedTutorRegion(CurrentUser.shared.learner.uid!, region: region)
+                        CurrentUser.shared.tutor.region = region
+                        Tutor.shared.updateValue(value: ["rg" : region])
+                        
+                        if CurrentUser.shared.tutor.location == nil {
+                            Tutor.shared.geoFire(location: CLLocation(latitude: location.latitude, longitude: location.longitude)) { isSuccess in
+                                if isSuccess {
+                                    FirebaseData.manager.fetchTutorLocation(uid: CurrentUser.shared.learner.uid!, { location in
+                                        CurrentUser.shared.tutor.location = location
+                                    })
+                                }
+                            }
+                        } else {
+                            CurrentUser.shared.tutor.location?.location = CLLocation(latitude: location.latitude, longitude: location.longitude)
+                            Tutor.shared.geoFire(location: CLLocation(latitude: location.latitude, longitude: location.longitude))
+                        }
+                    }
+                    
                     AlertController.genericSavedAlert(self, title: "Address Saved!", message: "This address has been saved.")
                 }
             })
@@ -161,7 +207,7 @@ extension QTLocationsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let searchResult = searchResults[indexPath.row]
-        if let cell: QTLocationTableViewCell = tableView.dequeueReusableCell(withIdentifier: QTLocationTableViewCell.resuableIdentifier(),
+        if let cell: QTLocationTableViewCell = tableView.dequeueReusableCell(withIdentifier: QTLocationTableViewCell.resuableIdentifier,
                                                                               for: indexPath) as? QTLocationTableViewCell {
             cell.setData(landmark: searchResult.title, address: searchResult.subtitle)
             cell.selectionStyle = .none
@@ -178,3 +224,25 @@ extension QTLocationsViewController: UIScrollViewDelegate {
         view.endEditing(true)
     }
 }
+
+extension QTLocationsViewController: UISearchBarDelegate {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = nil
+        searchBar.resignFirstResponder()
+        searchLocations("")
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        searchLocations(searchText)
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = true
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+    }
+}
+
+

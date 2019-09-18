@@ -26,6 +26,8 @@ class AWLearner: User {
     var isApplePayDefault = Stripe.deviceSupportsApplePay()
     var savedTutorIds = [String]()
     var interests: [String]?
+    var location: TutorLocation?
+    var region: String!
     
     var images = ["image1": "", "image2": "", "image3": "", "image4": "", "image5": "", "image6": "", "image7": "", "image8": ""]
     
@@ -69,6 +71,7 @@ class AWLearner: User {
         lRating = dictionary["r"] as? Double ?? 0.0
         lHours = dictionary["hr"] as? Int ?? 0
         isApplePayDefault = dictionary["isApplePayDefault"] as? Bool ?? true
+        region = dictionary["rg"] as? String ?? ""
         
         if let interests = dictionary["interests"] as? [String: Any] {
             self.interests = interests.compactMap({$0.key}).sorted()

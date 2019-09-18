@@ -15,11 +15,11 @@ class QTLocationTableViewCell: UITableViewCell {
     @IBOutlet weak var addressLabel: UILabel!
     
     // MARK: - static functions
-    static func resuableIdentifier() -> String {
+    static var resuableIdentifier: String {
         return String(describing: QTLocationTableViewCell.self)
     }
     
-    static func nib() -> UINib {
+    static var nib: UINib {
         return UINib(nibName: String(describing: QTLocationTableViewCell.self), bundle: nil)
     }
     
@@ -32,8 +32,6 @@ class QTLocationTableViewCell: UITableViewCell {
     // MARK: - actions
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
     // MARK: - public functions

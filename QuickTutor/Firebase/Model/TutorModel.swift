@@ -15,7 +15,6 @@ struct FeaturedDetails {
 
 class AWTutor: AWLearner {
     var tBio: String!
-    var region: String!
     var policy: String?
     var acctId: String!
     var topSubject: String?
@@ -38,7 +37,6 @@ class AWTutor: AWLearner {
     var selected: [Selected] = []
     var reviews: [Review]?
     var recommendations: [QTTutorRecommendationModel]?
-    var location: TutorLocation?
     var learners: [String] = []
 	
     var hasPayoutMethod: Bool = true
@@ -53,7 +51,6 @@ class AWTutor: AWLearner {
     override init(dictionary: [String: Any]) {
         super.init(dictionary: dictionary)
         policy = dictionary["pol"] as? String ?? ""
-        region = dictionary["rg"] as? String ?? ""
         topSubject = dictionary["tp"] as? String ?? ""
         tBio = dictionary["tbio"] as? String ?? ""
         acctId = dictionary["act"] as? String ?? ""
