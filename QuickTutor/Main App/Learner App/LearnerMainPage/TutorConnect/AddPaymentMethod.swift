@@ -37,8 +37,17 @@ class AddPaymentModal: CustomModal {
         background.backgroundColor = Colors.modalBackground
         buttonDivider.removeFromSuperview()
         nevermindButton.removeFromSuperview()
-        noteLabel.text = "QuickTutor is a cashless payment experience. You must have a payment method on file to enter a session with a tutor. There are no subscription fees or upfront payments. You will only be charged after your session."
+        
+        // set title
         titleLabel.text = "Wait a minute"
+        
+        // set note style
+        let attributedString = NSMutableAttributedString(string: "QuickTutor is a cashless payment experience. You must have a payment method on file to enter a session with a tutor. There are no subscription fees or upfront payments. You will only be charged after your session.")
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 2
+        paragraphStyle.alignment = .center
+        attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
+        noteLabel.attributedText = attributedString
     }
     
     func setupIcon() {
