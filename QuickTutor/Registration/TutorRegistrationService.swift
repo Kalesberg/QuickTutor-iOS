@@ -103,8 +103,8 @@ class TutorRegistrationService {
     
     private init() {
         if CurrentUser.shared.learner.hasTutor {
-            subjects = CurrentUser.shared.tutor.subjects ?? [String]()
-            featuredSubject = CurrentUser.shared.tutor.featuredSubject
+            subjects = CurrentUser.shared.tutor?.subjects ?? [String]()
+            featuredSubject = CurrentUser.shared.tutor?.featuredSubject
         } else {
             subjects = [String]()
             featuredSubject = nil
