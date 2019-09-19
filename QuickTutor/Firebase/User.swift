@@ -198,11 +198,13 @@ class FirebaseData {
 		
 		func removeImages(imageURL: [String]) {
 			imageURL.forEach({
-				Storage.storage().reference(forURL: $0).delete(completion: { (error) in
-					if let error = error {
-						print(error.localizedDescription)
-					}
-				})
+                if !$0.isEmpty, ($0.hasPrefix("https://firebasestorage.googleapis.com") || $0.hasPrefix("http://firebasestorage.googleapis.com")) {
+                    Storage.storage().reference(forURL: $0).delete(completion: { (error) in
+                        if let error = error {
+                            print(error.localizedDescription)
+                        }
+                    })
+                }
 			})
 		}
 		
@@ -220,6 +222,7 @@ class FirebaseData {
 		var childNodes = [String : Any]()
 		
 		childNodes["/student-info/\(uid)"] = NSNull()
+        childNodes["/student_loc/\(uid)"] = NSNull()
 		childNodes["/account/\(uid)"] = NSNull()
 		childNodes["/deleted/\(uid)"] = [
 			"reason" : reason,
