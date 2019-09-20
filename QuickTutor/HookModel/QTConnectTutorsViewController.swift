@@ -295,7 +295,7 @@ extension QTConnectTutorsViewController: UITableViewDelegate {
 
 extension QTConnectTutorsViewController: QTConnectTutorTableViewCellDelegate {
     func onClickBtnConnect(_ cell: UITableViewCell, connect tutor: AWTutor) {
-//        MessageService.shared.sendConnectionRequestToId(text: "Hi, I would like to connect with you.", tutor.uid, shouldMarkAsRead: true)
+        MessageService.shared.sendConnectionRequestToId(text: "Hi, I would like to connect with you.", tutor.uid, shouldMarkAsRead: true)
         aryRequestedTutorIds.append(tutor.uid)
         onUpdateConnectStatus()
         

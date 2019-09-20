@@ -117,6 +117,7 @@ extension QuickSearchResultsVC: UICollectionViewDataSource, UICollectionViewDele
             let categoryString = SubjectStore.shared.findCategoryBy(subject: currentSubjects[indexPath.item].0) ?? ""
             let category = Category.category(for: categoryString)!
             cell.imageView.image = Category.imageFor(category: category)
+            cell.imageView.layer.borderColor = category.color.cgColor
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! QuickSearchResultsCell
@@ -124,6 +125,7 @@ extension QuickSearchResultsVC: UICollectionViewDataSource, UICollectionViewDele
             let categoryString = SubjectStore.shared.findCategoryBy(subject: currentSubjects[indexPath.item].0) ?? ""
             let category = Category.category(for: categoryString)!
             cell.imageView.image = Category.imageFor(category: category)
+            cell.imageView.layer.borderColor = category.color.cgColor
             return cell
         }
     }

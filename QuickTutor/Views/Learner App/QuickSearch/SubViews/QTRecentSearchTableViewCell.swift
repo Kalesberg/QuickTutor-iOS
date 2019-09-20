@@ -66,18 +66,21 @@ class QTRecentSearchTableViewCell: UITableViewCell {
                 usernameLabel.text = named2
                 if let category = Category.category(for: recentSearch.name1) {
                     iconImageView.image = Category.imageFor(category: category)
+                    iconImageView.borderColor = category.color
                 } else {
                     iconImageView.image = UIImage(named: "uploadImageDefaultImage")
+                    iconImageView.borderColor = Colors.purple
                 }
             } else {
                 usernameLabel.text = recentSearch.name1
                 if let category = Category.category(for: recentSearch.name1) {
                     iconImageView.image = Category.imageFor(category: category)
+                    iconImageView.borderColor = category.color
                 } else {
                     iconImageView.image = UIImage(named: "uploadImageDefaultImage")
+                    iconImageView.borderColor = Colors.purple
                 }
             }
-            iconImageView.borderColor = Colors.purple
             iconImageView.borderWidth = 1
             nameLabel.isHidden = true
         }
