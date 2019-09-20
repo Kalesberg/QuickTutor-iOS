@@ -270,3 +270,25 @@ class ConnectionCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+class QTRecentlyActiveCollectionViewCell: ConnectionCell {
+    
+    override func setupProfileImageView() {
+        contentView.addSubview(profileImageView)
+        profileImageView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(5)
+            make.centerY.equalToSuperview()
+            make.left.equalToSuperview().offset(20)
+            make.height.equalTo(50)
+            make.width.equalTo(50)
+        }
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}

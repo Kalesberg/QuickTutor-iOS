@@ -21,20 +21,28 @@ class LearnerMainPageTopTutorsSectionContainerCell: UICollectionViewCell {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Rising Talent"
+        label.text = "Rising Talents"
         label.textColor = .white
         label.textAlignment = .left
         label.font = Fonts.createBoldSize(20)
         return label
     }()
     
-    let topTutorsController = LearnerMainPaigeTopTutorsController()
+    let seeAllBox: MockCollectionViewCell = {
+        let cell = MockCollectionViewCell()
+        cell.titleLabel.text = "View new tutors"
+        cell.primaryButton.setTitle("View", for: .normal)
+        return cell
+    }()
+    
+    let topTutorsController = LearnerMainPageTopTutorsController()
     
     func setupViews() {
         setupMainView()
         setupRisingTalentImageView()
         setupTitleLabel()
         setupCollectionViewController()
+        setupSeeAllBox()
     }
     
     func setupMainView() {
@@ -66,8 +74,19 @@ class LearnerMainPageTopTutorsSectionContainerCell: UICollectionViewCell {
             make.top.equalTo(titleLabel.snp.bottom).offset(20)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
-            make.height.equalTo(254)
+            make.height.equalTo(528)
         }
+    }
+    
+    func setupSeeAllBox() {
+        addSubview(seeAllBox)
+        seeAllBox.snp.makeConstraints { make in
+            make.top.equalTo(topTutorsController.view.snp.bottom).offset(16)
+            make.left.equalToSuperview().offset(20)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(50)
+        }
+        seeAllBox.profileDelegate = self
     }
     
     func handleSeeAllButton() {

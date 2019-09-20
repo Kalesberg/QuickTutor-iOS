@@ -1,5 +1,5 @@
 //
-//  LearnerMainPaigeTopTutorsController.swift
+//  LearnerMainPageTopTutorsController.swift
 //  QuickTutor
 //
 //  Created by Zach Fuller on 4/9/19.
@@ -9,7 +9,7 @@
 import UIKit
 import SkeletonView
 
-class LearnerMainPaigeTopTutorsController: UIViewController {
+class LearnerMainPageTopTutorsController: UIViewController {
     
     var datasource = [AWTutor]()
     
@@ -24,7 +24,7 @@ class LearnerMainPaigeTopTutorsController: UIViewController {
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.isScrollEnabled = false
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-        collectionView.register(TutorCollectionViewCell.self, forCellWithReuseIdentifier: TutorCollectionViewCell.reuseIdentifier)
+        collectionView.register(QTWideTutorCollectionViewCell.self, forCellWithReuseIdentifier: QTWideTutorCollectionViewCell.reuseIdentifier)
         collectionView.isSkeletonable = true
         
         return collectionView
@@ -48,7 +48,7 @@ class LearnerMainPaigeTopTutorsController: UIViewController {
     
     func setupCollectionView() {
         view.addSubview(collectionView)
-        collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 254)
+        collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 528)
         collectionView.delegate = self
         collectionView.dataSource = self
     }
@@ -62,7 +62,7 @@ class LearnerMainPaigeTopTutorsController: UIViewController {
     }
 }
 
-extension LearnerMainPaigeTopTutorsController: SkeletonCollectionViewDataSource {
+extension LearnerMainPageTopTutorsController: SkeletonCollectionViewDataSource {
     func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 4
     }
@@ -72,32 +72,33 @@ extension LearnerMainPaigeTopTutorsController: SkeletonCollectionViewDataSource 
     }
     
     func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
-        return datasource.count
+        return 4 < datasource.count ? 4 : datasource.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TutorCollectionViewCell.reuseIdentifier, for: indexPath) as! TutorCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: QTWideTutorCollectionViewCell.reuseIdentifier, for: indexPath) as! TutorCollectionViewCell
         cell.updateUI(datasource[indexPath.item])
         return cell
     }
 }
 
-extension LearnerMainPaigeTopTutorsController: UICollectionViewDelegateFlowLayout {
+extension LearnerMainPageTopTutorsController: UICollectionViewDelegateFlowLayout {
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
-        return CGSize(width: 134, height: 254)
+        let width = (UIScreen.main.bounds.size.width - 60) / 2
+        return CGSize(width: width, height: 254)
     }
     
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-//        return 20
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-//        return 20
-//    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 20
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 20
+    }
     
 }
 
-extension LearnerMainPaigeTopTutorsController: UICollectionViewDelegate {
+extension LearnerMainPageTopTutorsController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! TutorCollectionViewCell
         UIView.animate(withDuration: 0.2) {

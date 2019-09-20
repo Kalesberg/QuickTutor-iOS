@@ -125,7 +125,7 @@ class LearnerMainPageVC: UIViewController {
         guard let userInfo = notification.userInfo, let tutors = userInfo["tutors"] as? [AWTutor] else { return }
         let next = CategorySearchVC()
         next.datasource = tutors
-        next.navigationItem.title = "Rising Talent"
+        next.navigationItem.title = "Rising Talents"
         next.loadedAllTutors = true
         navigationController?.pushViewController(next, animated: true)
     }

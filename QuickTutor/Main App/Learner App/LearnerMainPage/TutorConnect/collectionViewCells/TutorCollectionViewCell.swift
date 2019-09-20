@@ -246,7 +246,8 @@ class TutorCollectionViewCell: UICollectionViewCell {
         priceLabel.text = "$\(tutor.price ?? 5) per hour"
         
         profileImageView.isHidden = false
-        profileImageView.sd_setImage(with: URL(string: tutor.profilePicUrl.absoluteString)!, placeholderImage: UIImage(named: "registration-image-placeholder"))
+        profileImageView.sd_setImage(with: URL(string: tutor.profilePicUrl.absoluteString)!,
+                                     placeholderImage: UIImage(named: "ic_avatar_placeholder"))
         
         saveButton.isHidden = false
         if !CurrentUser.shared.learner.savedTutorIds.isEmpty {
@@ -326,7 +327,44 @@ class TutorCollectionViewCell: UICollectionViewCell {
     
     override func willMove(toWindow newWindow: UIWindow?) {
         super.willMove(toWindow: newWindow)
-//        updateSaveButton()
+        updateSaveButton()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+class QTWideTutorCollectionViewCell: TutorCollectionViewCell {
+    
+    var cellWidth = 0
+    
+    override func setupMaskBackgroundView() {
+        containerView.addSubview(maskBackgroundView)
+        maskBackgroundView.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(profileImageView.snp.bottom)
+            make.height.equalTo(50)
+        }
+        
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = CGRect(x: 0, y: 0, width: cellWidth, height: 50)
+        gradientLayer.colors = [UIColor.clear,
+                                UIColor.black.withAlphaComponent(0.8)].map({$0.cgColor})
+        gradientLayer.locations = [0, 1]
+        maskBackgroundView.layer.insertSublayer(gradientLayer, at: 0)
+        maskBackgroundView.layer.cornerRadius = 5
+        maskBackgroundView.clipsToBounds = true
+    }
+    
+    override init(frame: CGRect) {
+        cellWidth = Int(UIScreen.main.bounds.size.width - 60) / 2
+        super.init(frame: frame)
+    }
+    
+    override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
     }
     
     required init?(coder aDecoder: NSCoder) {

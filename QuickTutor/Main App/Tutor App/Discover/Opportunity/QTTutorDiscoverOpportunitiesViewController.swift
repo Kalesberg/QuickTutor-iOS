@@ -94,6 +94,11 @@ class QTTutorDiscoverOpportunitiesViewController: UIViewController {
     func onReceivedQuickRequestAdded(_ notification: Notification) {
         if let userInfo = notification.userInfo as? [String: Any],
             let quickRequest = userInfo["quickRequest"] as? QTQuickRequestModel {
+            
+            // Check whether the quick request has already been added or not.
+            if let _ = quickRequests.first(where: {$0.id.compare(quickRequest.id) == .orderedSame}) {
+                return
+            }
             quickRequests.append(quickRequest)
             
             reloadContents()

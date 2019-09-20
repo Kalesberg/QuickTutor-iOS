@@ -16,7 +16,7 @@ class QTTutorDiscoverNewsCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var imageView: QTCustomImageView!
     @IBOutlet weak var titleView: QTCustomView!
-    @IBOutlet weak var readButton: QTCustomButton!
+    @IBOutlet weak var readButton: DimmableButton!
     
     static var reuseIdentifier: String {
         return String(describing: QTTutorDiscoverNewsCollectionViewCell.self)
@@ -30,6 +30,11 @@ class QTTutorDiscoverNewsCollectionViewCell: UICollectionViewCell {
     var didReadButtonClickedHandler: ((QTNewsModel) -> Void)?
     
     // MARK: - Functions
+    func configureViews() {
+        readButton.backgroundColor = Colors.purple
+        readButton.layer.cornerRadius = 5
+    }
+    
     func setSkeletonViews() {
         titleLabel.isHidden = true
         readButton.isHidden = true
@@ -63,6 +68,7 @@ class QTTutorDiscoverNewsCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        configureViews()
         setSkeletonViews()
     }
 

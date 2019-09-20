@@ -42,7 +42,7 @@ class QTTutorDiscoverMainView: UIView {
     var navigationViewTopAnchor: NSLayoutConstraint!
     var prevOffset: CGFloat = 0
     var transitionStartOffset: CGFloat = -1
-    let navigationViewHeight: CGFloat = 81
+    let navigationViewHeight: CGFloat = 82
     var hasOpportunities = true
     var collectionViewTopInset: CGFloat = 0
     
@@ -71,7 +71,7 @@ class QTTutorDiscoverMainView: UIView {
     
     func setupNavigationView() {
         addSubview(navigationView)
-        navigationView.searchIconImageView.isHidden = true
+        navigationView.searchIconView.isHidden = true
         navigationView.anchor(top: nil, left: leftAnchor, bottom: nil, right: rightAnchor,
                               paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0,
                               width: 0, height: 0)

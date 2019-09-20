@@ -21,6 +21,11 @@ class QTTutorDiscoverShareViewController: UIViewController {
     var user: AWTutor!
     
     // MARK: - Functions
+    func configureViews() {
+        copyLinkButton.backgroundColor = Colors.purple
+        shareButton.backgroundColor = Colors.orange
+    }
+    
     func setSkeletonView() {
         avatarImageView.isSkeletonable = true
         shareUrlLabel.isSkeletonable = true
@@ -61,6 +66,7 @@ class QTTutorDiscoverShareViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        configureViews()
         setSkeletonView()
         setData()
     }

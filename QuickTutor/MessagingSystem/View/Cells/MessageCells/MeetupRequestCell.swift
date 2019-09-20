@@ -427,6 +427,10 @@ class SessionRequestCell: UserMessageCell {
                         
                         for apply in data {
                             if let sessionId = apply["sessionId"] as? String {
+                                // If it's related with current requested session, just skip the steps.
+                                if sessionId.compare(sessionRequestId) == .orderedSame {
+                                    continue
+                                }
                                 // 3. Find other session requests related to the quick request of the current session request, then make them as expired and also updated userSessions table as well.
                                 Database.database().reference().child("sessions").child(sessionId).child("status").setValue("expired")
                                 

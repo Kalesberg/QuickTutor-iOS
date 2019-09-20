@@ -40,7 +40,7 @@
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z30-td-bmi">
                             <rect key="frame" x="25" y="94" width="364" height="61.5"/>
-                            <string key="text"> Thanks! We’ll send your request out to as many tutors as possible,
+                            <string key="text"> Thanks! We’ll send your request out to as many QuickTutors as possible,
 immediately.</string>
                             <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="17"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

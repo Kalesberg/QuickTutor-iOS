@@ -22,7 +22,7 @@ class LearnerMainPageActiveTutorsSectionController: UIViewController {
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.isPagingEnabled = true
-        collectionView.register(ConnectionCell.self, forCellWithReuseIdentifier: ConnectionCell.reuseIdentifier)
+        collectionView.register(QTRecentlyActiveCollectionViewCell.self, forCellWithReuseIdentifier: QTRecentlyActiveCollectionViewCell.reuseIdentifier)
         collectionView.isSkeletonable = true
         
         return collectionView
@@ -103,7 +103,7 @@ extension LearnerMainPageActiveTutorsSectionController: SkeletonCollectionViewDa
 
 extension LearnerMainPageActiveTutorsSectionController: UICollectionViewDelegateFlowLayout {
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
-        let width = UIScreen.main.bounds.width - 60
+        let width = UIScreen.main.bounds.width - 40
         return CGSize(width: width, height: 60)
     }
     

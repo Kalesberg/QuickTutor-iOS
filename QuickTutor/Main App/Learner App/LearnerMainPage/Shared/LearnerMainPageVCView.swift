@@ -45,7 +45,7 @@ class LearnerMainPageVCView: UIView {
     var navigationViewTopAnchor: NSLayoutConstraint!
     var prevOffset: CGFloat = 0
     var transitionStartOffset: CGFloat = -1
-    let navigationViewHeight: CGFloat = 81
+    let navigationViewHeight: CGFloat = 82
     var collectionViewTopInset: CGFloat = 0
     func setupViews() {
         setupMainView()

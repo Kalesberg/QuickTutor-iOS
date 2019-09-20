@@ -19,10 +19,9 @@ class QTLearnerMainPageNavigationView: UIView {
         return imageView
     }()
 
-    
     let searchIconView: UIView = {
         let view = UIView()
-        view.layer.cornerRadius = 20.5
+        view.layer.cornerRadius = 21
         view.clipsToBounds = true
         view.backgroundColor = UIColor(hex: "010101")
         
@@ -31,7 +30,7 @@ class QTLearnerMainPageNavigationView: UIView {
     
     let searchIconImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.image = UIImage(named: "searchIconMain")
         
         return imageView
@@ -43,13 +42,14 @@ class QTLearnerMainPageNavigationView: UIView {
     func setupLogoImageView() {
         addSubview(logoImageView)
         
-        logoImageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 20, paddingLeft: 20, paddingBottom: 20, paddingRight: 0, width: 170, height: 41)
+        logoImageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 20, paddingLeft: 20, paddingBottom: 20, paddingRight: 0, width: 170, height: 42)
     }
+    
     
     func setupSearchIconView() {
         addSubview(searchIconView)
         
-        searchIconView.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 20, paddingRight: 20, width: 41, height: 41)
+        searchIconView.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 20, paddingRight: 20, width: 42, height: 42)
         searchIconView.leftAnchor.constraint(greaterThanOrEqualTo: logoImageView.rightAnchor, constant: 20).isActive = true
         
         searchIconView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleDidSearchIconTap)))
@@ -57,11 +57,12 @@ class QTLearnerMainPageNavigationView: UIView {
     
     func setupSearchIconImageView() {
         searchIconView.addSubview(searchIconImageView)
-        
-        searchIconImageView.centerXAnchor.constraint(equalTo: searchIconView.centerXAnchor).isActive = true
-        searchIconImageView.centerYAnchor.constraint(equalTo: searchIconView.centerYAnchor).isActive = true
-        searchIconImageView.widthAnchor.constraint(equalToConstant: 21).isActive = true
-        searchIconImageView.heightAnchor.constraint(equalToConstant: 21).isActive = true
+        searchIconImageView.snp.makeConstraints { (make) in
+            make.width.equalTo(21)
+            make.height.equalTo(21)
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview()
+        }
     }
     
     func setupViews() {
