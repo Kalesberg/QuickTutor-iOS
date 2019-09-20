@@ -9,14 +9,31 @@
 import UIKit
 import SkeletonView
 
+class QTTutorSubjectInterface {
+    var tutorId: String!
+    var subject: String!
+    
+    init(tutorId: String, subject: String) {
+        self.tutorId = tutorId
+        self.subject = subject
+    }
+}
+
+extension QTTutorSubjectInterface: Equatable {
+    static func == (lhs: QTTutorSubjectInterface, rhs: QTTutorSubjectInterface) -> Bool {
+        return lhs.tutorId == rhs.tutorId
+    }
+}
+
 class QTConnectTutorsViewController: UIViewController {
 
+    @IBOutlet weak var viewDescription: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var progressView: ProgressView!
     @IBOutlet weak var lblConnectedCount: UILabel!
     @IBOutlet weak var btnContinue: UIButton!
     
-    private var aryTutorIds: [String] = []
+    private var aryTutorIds: [QTTutorSubjectInterface] = []
     private var aryTutors: [AWTutor] = []
     private var aryConnectedTutorIds: [String] = []
     private var aryRequestedTutorIds: [String] = []
@@ -43,6 +60,7 @@ class QTConnectTutorsViewController: UIViewController {
         tableView.isUserInteractionEnabled = false
         tableView.showAnimatedSkeleton(usingColor: Colors.gray)
         
+        viewDescription.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.2, offset: CGSize(width: 0, height: 2), radius: 2)
         btnContinue.superview?.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.2, offset: CGSize(width: 0, height: -2), radius: 2)
         
         onUpdateConnectStatus()
@@ -93,8 +111,8 @@ class QTConnectTutorsViewController: UIViewController {
                 tutorIds.forEach { tutorId in
                     if CurrentUser.shared.learner.uid != tutorId,
                         !self.aryConnectedTutorIds.contains(tutorId),
-                        !self.aryTutorIds.contains(tutorId) {
-                        self.aryTutorIds.append(tutorId)
+                        !self.aryTutorIds.contains(where: { $0.tutorId == tutorId }) {
+                        self.aryTutorIds.append(QTTutorSubjectInterface(tutorId: tutorId, subject: interest))
                     }
                 }
                 interestsGroup.leave()
@@ -114,8 +132,13 @@ class QTConnectTutorsViewController: UIViewController {
                     tutorIds.forEach { tutorId in
                         if CurrentUser.shared.learner.uid != tutorId,
                             !self.aryConnectedTutorIds.contains(tutorId),
-                            !self.aryTutorIds.contains(tutorId) {
-                            self.aryTutorIds.append(tutorId)
+                            !self.aryTutorIds.contains(where: { $0.tutorId == tutorId }) {
+                            // get any subject of this subcategory
+                            if let subjects = CategoryFactory.shared.getSubjectsFor(subcategoryName: subcategory) {
+                                // get random subject
+                                let rndIndex = Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(subjects.count))
+                                self.aryTutorIds.append(QTTutorSubjectInterface(tutorId: tutorId, subject: subjects[rndIndex]))
+                            }
                         }
                     }
                     subcategoriesGroup.leave()
@@ -134,8 +157,20 @@ class QTConnectTutorsViewController: UIViewController {
                         tutorIds.forEach { tutorId in
                             if CurrentUser.shared.learner.uid != tutorId,
                                 !self.aryConnectedTutorIds.contains(tutorId),
-                                !self.aryTutorIds.contains(tutorId) {
-                                self.aryTutorIds.append(tutorId)
+                                !self.aryTutorIds.contains(where: { $0.tutorId == tutorId }) {
+                                
+                                // get any subcategory of this category
+                                if let category = Category.category(for: category) {
+                                    let rndIndex = Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(category.subcategory.subcategories.count))
+                                    let rndSubcategoryName = category.subcategory.subcategories[rndIndex].title
+                                    
+                                    // get any subject of subcategory
+                                    if let subjects = CategoryFactory.shared.getSubjectsFor(subcategoryName: rndSubcategoryName) {
+                                        // get random subject
+                                        let rndIndex = Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(subjects.count))
+                                        self.aryTutorIds.append(QTTutorSubjectInterface(tutorId: tutorId, subject: subjects[rndIndex]))
+                                    }
+                                }
                             }
                         }
                         categoriesGroup.leave()
@@ -156,11 +191,12 @@ class QTConnectTutorsViewController: UIViewController {
         let realLimit = limit < aryTutorIds.count ? limit : aryTutorIds.count
         for index in 0 ..< realLimit {
             tutorsGroup.enter()
-            FirebaseData.manager.fetchTutor(aryTutorIds[index], isQuery: false) { tutor in
+            FirebaseData.manager.fetchTutor(aryTutorIds[index].tutorId, isQuery: false) { tutor in
                 guard let tutor = tutor else {
                     tutorsGroup.leave()
                     return
                 }
+                tutor.featuredSubject = self.aryTutorIds[index].subject
                 tutors.append(tutor)
                 tutorsGroup.leave()
             }
@@ -259,7 +295,7 @@ extension QTConnectTutorsViewController: UITableViewDelegate {
 
 extension QTConnectTutorsViewController: QTConnectTutorTableViewCellDelegate {
     func onClickBtnConnect(_ cell: UITableViewCell, connect tutor: AWTutor) {
-        MessageService.shared.sendConnectionRequestToId(text: "Hi, I would like to connect with you.", tutor.uid, shouldMarkAsRead: true)
+//        MessageService.shared.sendConnectionRequestToId(text: "Hi, I would like to connect with you.", tutor.uid, shouldMarkAsRead: true)
         aryRequestedTutorIds.append(tutor.uid)
         onUpdateConnectStatus()
         

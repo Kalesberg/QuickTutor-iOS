@@ -282,6 +282,8 @@ extension ProfileVC: ProfileModeToggleViewDelegate {
             FirebaseData.manager.fetchLearner(uid) { (learner) in
                 self.dismissOverlay()
                 CurrentUser.shared.learner = learner
+                AccountService.shared.loadUser()
+                AccountService.shared.currentUserType = .learner
                 RootControllerManager.shared.configureRootViewController(controller: LearnerMainPageVC())
             }
         }

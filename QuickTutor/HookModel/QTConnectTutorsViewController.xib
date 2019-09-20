@@ -28,6 +28,7 @@
                 <outlet property="progressView" destination="xv2-I0-2y2" id="n9d-uU-mAB"/>
                 <outlet property="tableView" destination="Yf2-KD-xgM" id="xJM-FC-6SN"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="viewDescription" destination="IHO-VU-krO" id="zFE-Ng-cbf"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -53,27 +54,8 @@
                         <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="SBA-fv-XBE" secondAttribute="trailing" constant="22" id="sUS-h5-2NY"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IHO-VU-krO">
-                    <rect key="frame" x="0.0" y="88" width="414" height="40"/>
-                    <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Connect with at least 5 people." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D7k-Am-cUp">
-                            <rect key="frame" x="16" y="0.0" width="187.5" height="40"/>
-                            <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                    </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstItem="D7k-Am-cUp" firstAttribute="height" secondItem="IHO-VU-krO" secondAttribute="height" id="BQ3-GT-D5J"/>
-                        <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="D7k-Am-cUp" secondAttribute="trailing" constant="22" id="RAZ-bT-fQE"/>
-                        <constraint firstItem="D7k-Am-cUp" firstAttribute="leading" secondItem="IHO-VU-krO" secondAttribute="leadingMargin" constant="8" id="Z5G-VI-tgl"/>
-                        <constraint firstAttribute="height" constant="40" id="cTT-aj-Kbc"/>
-                        <constraint firstItem="D7k-Am-cUp" firstAttribute="centerY" secondItem="IHO-VU-krO" secondAttribute="centerY" id="vlm-B9-2Ue"/>
-                    </constraints>
-                </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="Yf2-KD-xgM">
-                    <rect key="frame" x="0.0" y="132" width="414" height="656"/>
+                    <rect key="frame" x="0.0" y="128" width="414" height="660"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
@@ -83,6 +65,25 @@
                         <outlet property="delegate" destination="-1" id="jWj-u5-Iem"/>
                     </connections>
                 </tableView>
+                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IHO-VU-krO">
+                    <rect key="frame" x="0.0" y="88" width="414" height="40"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Connect with at least 5 people." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D7k-Am-cUp">
+                            <rect key="frame" x="16" y="0.0" width="187.5" height="40"/>
+                            <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.08235294118" green="0.08235294118" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <constraints>
+                        <constraint firstItem="D7k-Am-cUp" firstAttribute="height" secondItem="IHO-VU-krO" secondAttribute="height" id="BQ3-GT-D5J"/>
+                        <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="D7k-Am-cUp" secondAttribute="trailing" constant="22" id="RAZ-bT-fQE"/>
+                        <constraint firstItem="D7k-Am-cUp" firstAttribute="leading" secondItem="IHO-VU-krO" secondAttribute="leadingMargin" constant="8" id="Z5G-VI-tgl"/>
+                        <constraint firstAttribute="height" constant="40" id="cTT-aj-Kbc"/>
+                        <constraint firstItem="D7k-Am-cUp" firstAttribute="centerY" secondItem="IHO-VU-krO" secondAttribute="centerY" id="vlm-B9-2Ue"/>
+                    </constraints>
+                </view>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Px5-Lg-evb">
                     <rect key="frame" x="0.0" y="788" width="414" height="74"/>
                     <subviews>
@@ -143,7 +144,7 @@
                 <constraint firstItem="0a7-xa-Rh9" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="Mys-ce-Tlv"/>
                 <constraint firstItem="IHO-VU-krO" firstAttribute="width" secondItem="0a7-xa-Rh9" secondAttribute="width" id="X71-GD-meW"/>
                 <constraint firstItem="Yf2-KD-xgM" firstAttribute="centerX" secondItem="IHO-VU-krO" secondAttribute="centerX" id="bOC-70-2KM"/>
-                <constraint firstItem="Yf2-KD-xgM" firstAttribute="top" secondItem="IHO-VU-krO" secondAttribute="bottom" constant="4" id="lJh-wz-p8x"/>
+                <constraint firstItem="Yf2-KD-xgM" firstAttribute="top" secondItem="IHO-VU-krO" secondAttribute="bottom" id="lJh-wz-p8x"/>
                 <constraint firstItem="IHO-VU-krO" firstAttribute="centerX" secondItem="0a7-xa-Rh9" secondAttribute="centerX" id="mgh-ov-twq"/>
                 <constraint firstItem="Px5-Lg-evb" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="xmT-Uf-95x"/>
                 <constraint firstItem="Px5-Lg-evb" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="zP7-Eh-m7j"/>

@@ -177,13 +177,13 @@ class ConversationCell: SwipeCollectionViewCell {
     
     func checkConversationReadStatus(partnerId: String) {
         guard let uid = Auth.auth().currentUser?.uid else {
-            self.updateAsRead()
+            self.updateAsUnread()
             return
         }
         let userTypeString = AccountService.shared.currentUserType.rawValue
         Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(partnerId).child("readBy").observeSingleEvent(of: .value) { snapshot in
             guard let readByIds = snapshot.value as? [String: Any] else {
-                self.updateAsRead()
+                self.updateAsUnread()
                 return
             }
             let isRead = readByIds[uid] != nil
