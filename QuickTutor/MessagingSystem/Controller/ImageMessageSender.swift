@@ -49,6 +49,7 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
         if let image = info[.originalImage] as? UIImage {
             picker.dismiss(animated: false) {
                 let cropViewController = CropViewController(image: image)
+                cropViewController.modalPresentationStyle = .fullScreen
                 cropViewController.delegate = self
                 cropViewController.aspectRatioPreset = .presetSquare
                 self.parentViewController.present(cropViewController, animated: true, completion: nil)
@@ -168,9 +169,6 @@ extension ImageMessageSender: CropViewControllerDelegate {
         uploadImageToFirebase(image: image) { (imageUrl) in
             self.sendMessage(image, imageUrl: imageUrl)
         }
-        if let viewController = cropViewController.children.first {
-            viewController.modalTransitionStyle = .coverVertical
-            viewController.dismiss(animated: true, completion: nil)
-        }
+        cropViewController.dismiss(animated: true, completion: nil)
     }
 }
