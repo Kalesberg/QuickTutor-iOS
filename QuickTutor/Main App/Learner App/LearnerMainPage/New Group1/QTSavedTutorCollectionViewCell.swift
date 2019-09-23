@@ -54,7 +54,7 @@ class QTSavedTutorCollectionViewCell: UICollectionViewCell {
         hourlyRateLabel.text = "$\(tutor.price ?? 5) per hour"
         
         // rating or location
-        if let rating = tutor.tRating {
+        if let rating = tutor.tRating, rating > 0 {
             ratingLabel.superview?.isHidden = false
             locationLabel.superview?.isHidden = true
             
@@ -68,13 +68,7 @@ class QTSavedTutorCollectionViewCell: UICollectionViewCell {
                 locationLabel.superview?.isHidden = true
                 return
             }
-            TutorLocationFormatter.formatAddressStringFromLatLong(location: location) { (error) in
-                if let error = error {
-                    print(error.localizedDescription)
-                } else {
-                    self.locationLabel.text = TutorRegistration.address
-                }
-            }
+            locationLabel.text = tutor.region ?? "United States"
         }
     }
 }
