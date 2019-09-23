@@ -83,6 +83,7 @@ class QTWriteRecommendationViewController: UIViewController {
         ]
         guard let objRecommendation = Mapper<QTTutorRecommendationModel>().map(JSON: recommendation) else { return }
         
+        txtRecommendation.resignFirstResponder()
         displayLoadingOverlay()
         refRecommendation.child(recommendationId).setValue(objRecommendation.toJSON()) { error, ref in
             self.dismissOverlay()

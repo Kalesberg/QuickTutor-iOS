@@ -117,6 +117,8 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
     }
     
     private func updateFacebookInfoView() {
+        if nil == AccountService.shared.currentUser { return }
+        
         if let facebook = AccountService.shared.currentUser.facebook {
             linkFacebookView.superview?.isHidden = true
             showFacebookView.superview?.isHidden = false

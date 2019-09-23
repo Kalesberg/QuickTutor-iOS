@@ -394,6 +394,7 @@ class QTProfileViewController: UIViewController {
         initUserInfo()
         initSubjects()
         initReviews()
+        initRecommendations()
         initPolicies()
         initConnectView()
     }
@@ -604,6 +605,15 @@ class QTProfileViewController: UIViewController {
         }
         lblHourlyRate.superview?.isHidden = .myTutor != profileViewType
         bioLabel.superview?.layoutIfNeeded()
+    }
+    
+    private func initRecommendations() {
+        guard .myTutor == profileViewType else { return }
+            
+        FirebaseData.manager.fetchTutorRecommendations(uid: user.uid) { recommendations in
+            self.user.recommendations = recommendations
+            self.updateRecommendataionView()
+        }
     }
     
     private func updateRecommendataionView() {
