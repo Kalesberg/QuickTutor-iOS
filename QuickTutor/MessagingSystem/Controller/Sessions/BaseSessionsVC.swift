@@ -201,6 +201,7 @@ class BaseSessionsVC: UIViewController {
     
     var timer: Timer?
     @objc func handleReloadTable() {
+        self.pastSessions = self.pastSessions.sorted(by: { $0.startTime > $1.startTime })
         DispatchQueue.main.async(execute: {
             self.updateTabBarBadge()
             self.collectionView.reloadData()

@@ -64,7 +64,7 @@ class QTSavedTutorCollectionViewCell: UICollectionViewCell {
         } else {
             ratingLabel.superview?.isHidden = true
             locationLabel.superview?.isHidden = false
-            guard let location = tutor.location?.location else {
+            guard let _ = tutor.location?.location else {
                 locationLabel.superview?.isHidden = true
                 return
             }

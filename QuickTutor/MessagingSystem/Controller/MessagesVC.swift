@@ -45,7 +45,6 @@ class MessagesVC: UIViewController {
     
     private func setupMainView() {
         view.backgroundColor = Colors.newScreenBackground
-        edgesForExtendedLayout = []
         navigationItem.title = "Messages"
         let connectionButton = UIBarButtonItem(image: UIImage(named: "connectionsIcon"), style: .plain, target: self, action: #selector(showContacts))
         let searchButton = UIBarButtonItem(image: UIImage(named: "ic_search"), style: .plain, target: self, action: #selector(onClickSearch))
