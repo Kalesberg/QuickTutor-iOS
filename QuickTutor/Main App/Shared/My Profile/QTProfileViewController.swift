@@ -737,18 +737,33 @@ class QTProfileViewController: UIViewController {
         readReviewsButton.clipsToBounds = true
         readReviewsButton.setupTargets()
 
-        reviewsTableView.superview?.isHidden = user.lReviews?.isEmpty ?? true
-        let numberOfReviews = user.lReviews?.count ?? 0
-        reviewsHeight = getHeightOfReviews(reviews: user.lReviews ?? [Review]())
-        if 0 == numberOfReviews {
-            reviewsStackView.isHidden = true
-            ratingView.superview?.isHidden = true
-            ratingLabel.superview?.isHidden = true
+        if profileViewType == .tutor || profileViewType == .myTutor {
+            reviewsTableView.superview?.isHidden = user.reviews?.isEmpty ?? true
+            reviewsHeight = getHeightOfReviews(reviews: user.reviews ?? [Review]())
+            let numberOfReviews = user.reviews?.count ?? 0
+            if numberOfReviews == 0 {
+                reviewsStackView.isHidden = true
+                ratingView.superview?.isHidden = true
+                ratingLabel.superview?.isHidden = true
+            } else {
+                reviewsStackView.isHidden = false
+                ratingView.superview?.isHidden = false
+                ratingLabel.superview?.isHidden = false
+                readAllReviewLabel.text = "Read all \(numberOfReviews) \(numberOfReviews > 1 ? " reviews" : " review")"
+            }
         } else {
-            reviewsStackView.isHidden = false
-            ratingView.superview?.isHidden = false
-            ratingLabel.superview?.isHidden = false
-            readAllReviewLabel.text = "Read all \(numberOfReviews) \(numberOfReviews > 1 ? " reviews" : " review")"
+            reviewsTableView.superview?.isHidden = user.lReviews?.isEmpty ?? true
+            let numberOfReviews = user.lReviews?.count ?? 0
+            reviewsHeight = getHeightOfReviews(reviews: user.lReviews ?? [Review]())
+            if numberOfReviews == 0 {
+                reviewsStackView.isHidden = true
+                ratingView.superview?.isHidden = true
+            } else {
+                reviewsStackView.isHidden = false
+                ratingView.superview?.isHidden = false
+                ratingLabel.superview?.isHidden = false
+                readAllReviewLabel.text = "Read all \(numberOfReviews) \(numberOfReviews > 1 ? " reviews" : " review")"
+            }
         }
         
         reviewsTableView.reloadData()
