@@ -49,6 +49,7 @@ class SavedTutorsVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupMainView()
         setupCollectionView()
         setupEmptyBackground()
@@ -73,8 +74,9 @@ class SavedTutorsVC: UIViewController {
     
     func setupNavigationBar() {
         navigationItem.title = "Saved"
-        
-        if #available(iOS 11.0, *) {
+        if #available(iOS 13.0, *) {
+            navigationController?.navigationBar.prefersLargeTitles = true
+        } else if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_search"), style: .plain, target: self, action: #selector(onClickSearch))
         }
