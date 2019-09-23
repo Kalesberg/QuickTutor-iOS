@@ -168,6 +168,9 @@ extension ImageMessageSender: CropViewControllerDelegate {
         uploadImageToFirebase(image: image) { (imageUrl) in
             self.sendMessage(image, imageUrl: imageUrl)
         }
-        cropViewController.dismiss(animated: true, completion: nil)
+        if let viewController = cropViewController.children.first {
+            viewController.modalTransitionStyle = .coverVertical
+            viewController.dismiss(animated: true, completion: nil)
+        }
     }
 }
