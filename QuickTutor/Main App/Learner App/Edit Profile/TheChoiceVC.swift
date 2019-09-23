@@ -44,7 +44,7 @@ class TheChoiceVC: UIViewController {
                     AccountService.shared.loadUser(isFacebookLogin: nil != Registration.facebookInfo)
                     AccountService.shared.currentUserType = .learner
                     
-                    RootControllerManager.shared.setupLearnerTabBar(controller: LearnerMainPageVC())
+                    RootControllerManager.shared.configureRootViewController(controller: LearnerMainPageVC())
                     let endIndex = self.navigationController?.viewControllers.endIndex
                     self.navigationController?.viewControllers.removeFirst(endIndex! - 1)
                 } else {

@@ -120,7 +120,11 @@ extension UploadImageVC: CropViewControllerDelegate {
         contentView.imageView.layer.borderWidth = 0 // remove border
         accessoryView.nextButton.isEnabled = true
         accessoryView.nextButton.backgroundColor = Colors.purple
-        cropViewController.dismiss(animated: true, completion: nil)
+        
+        if let viewController = cropViewController.children.first {
+            viewController.modalTransitionStyle = .coverVertical
+            viewController.dismiss(animated: true, completion: nil)
+        }
     }
     
 }

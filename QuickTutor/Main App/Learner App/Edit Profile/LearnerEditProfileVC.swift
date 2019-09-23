@@ -1124,7 +1124,10 @@ extension LearnerEditProfileVC: CropViewControllerDelegate {
             }
         }
         
-        cropViewController.dismiss(animated: true, completion: nil)
+        if let viewController = cropViewController.children.first {
+            viewController.modalTransitionStyle = .coverVertical
+            viewController.dismiss(animated: true, completion: nil)
+        }
     }
 
 }

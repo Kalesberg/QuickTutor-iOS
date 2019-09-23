@@ -22,7 +22,7 @@ PODS:
     - Charts/Core (= 3.2.2)
   - Charts/Core (3.2.2)
   - Cosmos (19.0.3)
-  - Crashlytics (3.13.4):
+  - Crashlytics (3.14.0):
     - Fabric (~> 1.10.2)
   - CropViewController (2.5.1)
   - ESTabBarController-swift (2.7)
@@ -165,7 +165,7 @@ PODS:
   - GTMSessionFetcher/Core (1.2.2)
   - Imaginary (4.2.0):
     - Cache (~> 5.0)
-  - IQKeyboardManager (6.4.0)
+  - IQKeyboardManager (6.4.2)
   - leveldb-library (1.22)
   - lottie-ios (2.5.3)
   - nanopb (0.3.901):
@@ -175,7 +175,7 @@ PODS:
   - nanopb/encode (0.3.901)
   - ObjectMapper (3.5.1)
   - PlaceholderTextView (0.3.0)
-  - Protobuf (3.9.0)
+  - Protobuf (3.9.2)
   - RangeSeekSlider (1.8.0)
   - SDWebImage (4.4.7):
     - SDWebImage/Core (= 4.4.7)
@@ -189,10 +189,10 @@ PODS:
   - Stripe (15.0.1)
   - SwiftKeychainWrapper (3.4.0)
   - SwiftyJSON (4.2.0)
-  - SwipeCellKit (2.6.0)
+  - SwipeCellKit (2.7.0)
   - TwilioVideo (2.10.1)
   - TYPagerController (2.1.2)
-  - "UITextView+Placeholder (1.3.1)"
+  - "UITextView+Placeholder (1.3.3)"
 
 DEPENDENCIES:
   - AccountKit
@@ -314,7 +314,7 @@ SPEC CHECKSUMS:
   CardScan: badf82e2cfcfc7ee513836a60dbb71bdb2cf5196
   Charts: f69cf0518b6d1d62608ca504248f1bbe0b6ae77e
   Cosmos: a6fb17284281fa12cf4c85c2efecd440a215ec44
-  Crashlytics: 2dfd686bcb918dc10ee0e76f7f853fe42c7bd552
+  Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
   CropViewController: 10ba7af75e302f2db7eb913f8aa1156f95cfe88e
   ESTabBarController-swift: 4fb52ad03d94d0717ef97bc9eb09a5abfdded0a2
   Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
@@ -344,13 +344,13 @@ SPEC CHECKSUMS:
   GoogleUtilities: 04fce34bcd5620c1ee76fb79172105c74a4df335
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
   Imaginary: dae33d06dbc2ada22f98afef5eb45cc061311a2c
-  IQKeyboardManager: fcef267266379c003181fc3592f6bdb8bf4db839
+  IQKeyboardManager: b41e0a4943fbac4c11a239d31a688667675f962e
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   lottie-ios: a50d5c0160425cd4b01b852bb9578963e6d92d31
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   ObjectMapper: 70187b8941977c62ccfb423caf6b50be405cabf0
   PlaceholderTextView: ffca9f176be00ab3090e2191e6908dabf3dbdada
-  Protobuf: 1097ca58584c8d9be81bfbf2c5ff5975648dd87a
+  Protobuf: 67fb42ba613def994e61854de2b3164f13790cc4
   RangeSeekSlider: 650b11fa1edcb92e1e0ede797669d98622570fb5
   SDWebImage: c10d14a8883ebd89664f02a422006f66a85c0c5d
   SkeletonView: c0717eaa2423d6fe1d684fad17b157ea7800f443
@@ -361,10 +361,10 @@ SPEC CHECKSUMS:
   Stripe: 2c4d0a88817361a102886315ff452d90f65e898b
   SwiftKeychainWrapper: 6fc49fbf7d4a6b0772917acb0e53a1639f6078d6
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
-  SwipeCellKit: 935ca28c187ec6e1ffb2b578cf8ddca842bfdcbb
+  SwipeCellKit: cfcdcbfb739734e494c9d3832a7b6e6f9411e1fd
   TwilioVideo: 4a2235d7b3810fe072383e507dab7fdc93f62320
   TYPagerController: 262556ecef99986d26ed77fb1288a198ed42f4af
-  "UITextView+Placeholder": f23df8592290d8d06078072ae1a663e11ee07ff4
+  "UITextView+Placeholder": c407b27599ea23cca425946fee3cf1db5d547008
 
 PODFILE CHECKSUM: 4d972f689082b324386d21f3e69b3b6bbad26491
 
