@@ -61,7 +61,7 @@ class WalkthroughVCView: UIView {
     
     let pageControl: UIPageControl = {
         let control = UIPageControl()
-        control.numberOfPages = 5
+        control.numberOfPages = 4
         control.currentPageIndicatorTintColor = .white
         control.pageIndicatorTintColor = Colors.gray
         control.currentPage = 0
@@ -159,6 +159,9 @@ extension WalkthroughVCView: UICollectionViewDelegate, UICollectionViewDataSourc
         return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height)
     }
     
+}
+
+extension WalkthroughVCView: UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let x = scrollView.contentOffset.x
         let w = scrollView.bounds.size.width
@@ -170,7 +173,6 @@ extension WalkthroughVCView: UICollectionViewDelegate, UICollectionViewDataSourc
             collectionView.isScrollEnabled = false
         }
     }
-    
 }
 
 class WalkthroughCell: UICollectionViewCell {
