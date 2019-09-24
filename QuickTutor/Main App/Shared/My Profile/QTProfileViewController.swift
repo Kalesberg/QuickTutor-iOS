@@ -879,7 +879,6 @@ class QTProfileViewController: UIViewController {
     func presentLightBox(_ images: [LightboxImage]) {
         let controller = LightboxController(images: images, startIndex: 0)
         controller.dynamicBackground = true
-        controller.modalPresentationStyle = .fullScreen
         present(controller, animated: true, completion: nil)
     }
     

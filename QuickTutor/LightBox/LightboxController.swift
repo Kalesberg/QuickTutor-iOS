@@ -169,9 +169,13 @@ open class LightboxController: UIViewController {
     statusBarHidden = UIApplication.shared.isStatusBarHidden
 
     view.backgroundColor = UIColor.black
-    transitionManager.lightboxController = self
-    transitionManager.scrollView = scrollView
-    transitioningDelegate = transitionManager
+    if #available(iOS 13, *) {
+        
+    } else {
+        transitionManager.lightboxController = self
+        transitionManager.scrollView = scrollView
+        transitioningDelegate = transitionManager
+    }
 
     [scrollView, overlayView, headerView, footerView].forEach { view.addSubview($0) }
     overlayView.addGestureRecognizer(overlayTapGestureRecognizer)
