@@ -61,6 +61,7 @@ class QTVideoSessionViewController: QTSessionBaseViewController {
     var socket: SocketIOClient!
     var sessionManager: SessionManager?
     var twilioSessionManager: TwilioSessionManager?
+    var connectionLostTimer: Timer?
     
     var bottomMenuStatus: QTBottomMenuStatus = .collapsed {
         didSet {
@@ -413,21 +414,24 @@ class QTVideoSessionViewController: QTSessionBaseViewController {
         }
     }
     
+   func animateConnectionLostLabel() {
+       connectionLostTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true, block: { (timer) in
+           if self.pauseLabel.text == "Connection lost..." {
+               self.pauseLabel.text = "Connection lost"
+           } else {
+               self.pauseLabel.text = self.pauseLabel.text! + "."
+           }
+       })
+       connectionLostTimer?.fire()
+   }
+    
     func showConnectionLostModal(pausedById: String) {
-        connectionLostModal?.delegate = self
-        UserFetchService.shared.getUserOfOppositeTypeWithId(sessionManager?.session.partnerId() ?? "test") { user in
-            guard let username = user?.formattedName else { return }
-            self.connectionLostModal = PauseSessionModal(frame: .zero)
-            self.connectionLostModal?.setupAsLostConnection()
-            self.connectionLostModal?.partnerUsername = username
-            self.connectionLostModal?.delegate = self
-            self.connectionLostModal?.pausedById = pausedById
-            self.connectionLostModal?.sessionType = self.sessionType
-            self.connectionLostModal?.show()
-            if let type = self.sessionManager?.session.type {
-                self.connectionLostModal?.setupEndSessionButtons(type: type)
-            }
-        }
+        
+        // Show the pause blur view
+        self.pauseBlurView.isHidden = false
+        // Configure the pause label
+        self.pauseLabel.text = "Connection lost..."
+        animateConnectionLostLabel()
     }
     
     func showAddTimeModal() {
