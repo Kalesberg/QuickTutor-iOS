@@ -448,6 +448,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         conversationManager.readReceiptManager?.markConversationRead()
         NotificationManager.shared.disableConversationNotificationsFor(uid: chatPartner.uid)
         IQKeyboardManager.shared().isEnabled = false
+        
     }
     
     func addCustomTitleView() {
@@ -698,7 +699,6 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         NotificationCenter.default.addObserver(self, selector: #selector(becomeFirstResponder), name: NSNotification.Name(rawValue: "actionSheetDismissed"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didDisconnect), name: Notifications.didDisconnect.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidChangeText(_:)), name: UITextView.textDidChangeNotification, object: nil)
-        
         
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)

@@ -103,7 +103,7 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
     override var intrinsicContentSize: CGSize {
         return .zero
     }
-
+    
     func setupViews() {
         setupMainView()
         setupLeftAccessoryView()

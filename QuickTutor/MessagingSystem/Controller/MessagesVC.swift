@@ -412,6 +412,7 @@ extension MessagesVC {
         vc.receiverId = objConversationMetadata.chatPartnerId()
         vc.chatPartner = data[indexPath.item].partner
         vc.metaData = objConversationMetadata
+        vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
     }
     
