@@ -1057,7 +1057,7 @@ extension LearnerEditProfileVC: UIImagePickerControllerDelegate, UINavigationCon
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let image = info[.originalImage] as? UIImage else { return }
         
-        picker.dismiss(animated: false) {
+        picker.dismiss(animated: true) {
             let cropViewController = CropViewController(croppingStyle: .circular, image: image)
             cropViewController.delegate = self
             cropViewController.aspectRatioPreset = .presetSquare
@@ -1126,9 +1126,12 @@ extension LearnerEditProfileVC: CropViewControllerDelegate {
             }
         }
         
-        if let viewController = cropViewController.children.first {
+        if #available(iOS 13.0, *),
+            let viewController = cropViewController.children.first {
             viewController.modalTransitionStyle = .coverVertical
-            viewController.dismiss(animated: true, completion: nil)
+            viewController.dismiss(animated: true)
+        } else {
+            cropViewController.dismiss(animated: true)
         }
     }
 

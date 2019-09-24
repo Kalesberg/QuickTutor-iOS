@@ -47,12 +47,12 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[.originalImage] as? UIImage {
-            picker.dismiss(animated: false) {
+            picker.dismiss(animated: true) {
                 let cropViewController = CropViewController(image: image)
-                cropViewController.modalPresentationStyle = .fullScreen
                 cropViewController.delegate = self
                 cropViewController.aspectRatioPreset = .presetSquare
-                self.parentViewController.present(cropViewController, animated: true, completion: nil)
+                cropViewController.modalPresentationStyle = .fullScreen
+                self.parentViewController.present(cropViewController, animated: false)
             }
         } else if let url = info[.mediaURL] as? URL {
             uploadVideoToFirebase(url)
@@ -169,6 +169,7 @@ extension ImageMessageSender: CropViewControllerDelegate {
         uploadImageToFirebase(image: image) { (imageUrl) in
             self.sendMessage(image, imageUrl: imageUrl)
         }
-        cropViewController.dismiss(animated: true, completion: nil)
+        
+        cropViewController.dismiss(animated: true)
     }
 }
