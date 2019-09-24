@@ -776,45 +776,52 @@ class FirebaseData {
         let dbRef = Database.database().reference().child(storagePath).child(userId).child("videos").childByAutoId()
         let videoPath = "video-\(dbRef.key!)"
         let thumbPath = "thumb-\(dbRef.key!)"
-        self.storageRef.child(storagePath).child(userId).child("\(videoPath)").putFile(from: video, metadata: nil) { (meta, error) in
-            if let error = error {
-                return completion(error, nil)
-            }
-            self.storageRef.child(storagePath).child(userId).child("\(videoPath)").downloadURL(completion: { (url, error) in
+        do {
+            let videoData = try Data(contentsOf: video)
+            
+            self.storageRef.child(storagePath).child(userId).child("\(videoPath)").putData(videoData, metadata: nil) { (meta, error) in
                 if let error = error {
                     return completion(error, nil)
                 }
-                
-                guard let videoUrl = url?.absoluteString else { return completion(nil, nil) }
-                
-                // upload thumb image
-                guard let thumbData = thumbImage.jpegData(compressionQuality: 0.7) else { return completion(nil, nil) }
-                
-                let metaData = StorageMetadata(dictionary: ["width": thumbImage.size.width, "height": thumbImage.size.height])
-                self.storageRef.child(storagePath).child(userId).child("\(thumbPath)").putData(thumbData, metadata: metaData, completion: { (meta, error) in
+                self.storageRef.child(storagePath).child(userId).child("\(videoPath)").downloadURL(completion: { (url, error) in
                     if let error = error {
                         return completion(error, nil)
                     }
                     
-                    self.storageRef.child(storagePath).child(userId).child("\(thumbPath)").downloadURL(completion: { (imageUrl, error) in
+                    guard let videoUrl = url?.absoluteString else { return completion(nil, nil) }
+                    
+                    // upload thumb image
+                    guard let thumbData = thumbImage.jpegData(compressionQuality: 0.7) else { return completion(nil, nil) }
+                    
+                    let metaData = StorageMetadata(dictionary: ["width": thumbImage.size.width, "height": thumbImage.size.height])
+                    self.storageRef.child(storagePath).child(userId).child("\(thumbPath)").putData(thumbData, metadata: metaData, completion: { (meta, error) in
                         if let error = error {
                             return completion(error, nil)
                         }
                         
-                        guard let thumbUrl = imageUrl?.absoluteString else { return completion(nil, nil) }
-                        
-                        // set tutor data
-                        let tutorVideo = TutorVideo ()
-                        tutorVideo.videoUrl = videoUrl
-                        tutorVideo.thumbUrl = thumbUrl
-                        tutorVideo.uid = dbRef.key
-                        
-                        dbRef.setValue(tutorVideo.dictionary())
-                        
-                        return completion (nil, tutorVideo)
+                        self.storageRef.child(storagePath).child(userId).child("\(thumbPath)").downloadURL(completion: { (imageUrl, error) in
+                            if let error = error {
+                                return completion(error, nil)
+                            }
+                            
+                            guard let thumbUrl = imageUrl?.absoluteString else { return completion(nil, nil) }
+                            
+                            // set tutor data
+                            let tutorVideo = TutorVideo ()
+                            tutorVideo.videoUrl = videoUrl
+                            tutorVideo.thumbUrl = thumbUrl
+                            tutorVideo.uid = dbRef.key
+                            
+                            dbRef.setValue(tutorVideo.dictionary())
+                            
+                            return completion (nil, tutorVideo)
+                        })
                     })
                 })
-            })
+            }
+            
+        } catch {
+            completion(nil, nil)
         }
     }
     

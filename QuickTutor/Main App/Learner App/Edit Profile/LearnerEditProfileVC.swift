@@ -408,6 +408,8 @@ class TutorEditProfileVC: LearnerEditProfileVC {
                         // set tutor video
                         guard let tutor = CurrentUser.shared.tutor else { return }
                         tutor.videos = self.videos
+                    } else {
+                        AlertController.genericErrorAlert(self, title: "Error", message: "Cannot get video data from url.")
                     }
                 }
             }

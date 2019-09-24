@@ -54,12 +54,12 @@ class QTSavedTutorCollectionViewCell: UICollectionViewCell {
         hourlyRateLabel.text = "$\(tutor.price ?? 5) per hour"
         
         // rating or location
-        if let rating = tutor.tRating, rating > 0 {
+        if let rating = tutor.tRating, rating > 0, let reviews = tutor.reviews, reviews.count > 0 {
             ratingLabel.superview?.isHidden = false
             locationLabel.superview?.isHidden = true
             
             ratingView.rating = rating
-            ratingLabel.text = "\(tutor.reviews?.count ?? 0)"
+            ratingLabel.text = "\(reviews.count)"
 
         } else {
             ratingLabel.superview?.isHidden = true
