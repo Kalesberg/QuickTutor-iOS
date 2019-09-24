@@ -6154,7 +6154,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "QuickTutor/New Group/QuickTutor.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -6178,7 +6178,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.quicktutor1.quicktutor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "4024852e-1476-4a89-8145-2a2e709f7205";
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.quicktutor1.quicktutor";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development com.quicktutor1.quicktutor";
 				SWIFT_OBJC_BRIDGING_HEADER = "QuickTutor/QuickTutor-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -6532,7 +6532,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = QYG3ENEK3P;
@@ -6543,7 +6543,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.quicktutor1.quicktutor.NotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.quicktutor1.quicktutor.NotificationService";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development com.quicktutor1.quicktutor.NotificationService";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;

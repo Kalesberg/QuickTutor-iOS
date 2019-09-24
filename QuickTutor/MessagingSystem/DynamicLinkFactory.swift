@@ -46,20 +46,29 @@ class DynamicLinkFactory {
             return
         }
         
+        let currentUserType = AccountService.shared.currentUserType
+        
+        guard let currentUser = AccountService.shared.currentUser,
+            let currentUserId = currentUser.uid else {
+                completion(nil)
+                return
+        }
+        
+        
         let components = DynamicLinkComponents(link: link, domainURIPrefix: domain)
 
         let socialParams = DynamicLinkSocialMetaTagParameters()
         if let subject = subject {
-            if let userId = userId, AccountService.shared.currentUserType == UserType.tutor && userId.compare(AccountService.shared.currentUser.uid) == .orderedSame {
-                socialParams.title = "I teach \(subject) on QuickTutor. Check me out!"
+            if let userId = userId, currentUserType == UserType.tutor && userId.compare(currentUserId) == .orderedSame {
+                socialParams.title = "I teach \(subject) on QuickTutor. Connect with me!"
             } else {
                 if let userName = userName {
                     socialParams.title = "\(userName) teaches \(subject) on QuickTutor. Check them out! "
                 }
             }
         } else {
-            if let userId = userId, AccountService.shared.currentUserType == UserType.tutor && userId.compare(AccountService.shared.currentUser.uid) == .orderedSame {
-                socialParams.title = "I am an awesome tutor on QuickTutor. Check me out!"
+            if let userId = userId, currentUserType == UserType.tutor && userId.compare(currentUserId) == .orderedSame {
+                socialParams.title = "I am an awesome tutor on QuickTutor. Connect with me!"
             } else {
                 if let userName = userName {
                     socialParams.title = "\(userName) is an awesome tutor on QuickTutor. Check them out! "

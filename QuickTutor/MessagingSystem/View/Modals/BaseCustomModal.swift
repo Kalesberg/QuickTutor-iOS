@@ -12,7 +12,7 @@ class BaseCustomModal: UIView {
     var isShown = false
     
     let lastWindow: UIWindow? = {
-        return UIApplication.shared.windows.last
+        return UIApplication.shared.keyWindow
     }()
 
     let backgroundBlurView: UIVisualEffectView = {
