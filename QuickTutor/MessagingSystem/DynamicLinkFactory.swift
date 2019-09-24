@@ -24,8 +24,8 @@ class DynamicLinkFactory {
     var longLink: URL?
     var shortLink: URL?
 
-    func createLink(userId: String?, userName: String?, subject: String?, profilePreviewUrl: String?, completion: @escaping (URL?) -> Void) {
-        dictionary[.link] = "https://quickTutor.com/\(userId ?? "")"
+    func createLink(userId: String, username: String, subject: String, profilePreviewUrl: String?, completion: @escaping (URL?) -> Void) {
+        dictionary[.link] = "https://quickTutor.com/\(userId)"
         // Initialize the sections array
         sections = [
             Section(name: .iOS, items: [.bundleID, .fallbackURL, .minimumAppVersion, .customScheme,
@@ -54,26 +54,13 @@ class DynamicLinkFactory {
                 return
         }
         
-        
         let components = DynamicLinkComponents(link: link, domainURIPrefix: domain)
-
         let socialParams = DynamicLinkSocialMetaTagParameters()
-        if let subject = subject {
-            if let userId = userId, currentUserType == UserType.tutor && userId.compare(currentUserId) == .orderedSame {
-                socialParams.title = "I teach \(subject) on QuickTutor. Connect with me!"
-            } else {
-                if let userName = userName {
-                    socialParams.title = "\(userName) teaches \(subject) on QuickTutor. Check them out! "
-                }
-            }
+        
+        if currentUserType == UserType.tutor && userId.compare(currentUserId) == .orderedSame {
+            socialParams.title = "I teach \(subject) on QuickTutor. Connect with me, my username is \(username)!"
         } else {
-            if let userId = userId, currentUserType == UserType.tutor && userId.compare(currentUserId) == .orderedSame {
-                socialParams.title = "I am an awesome tutor on QuickTutor. Connect with me!"
-            } else {
-                if let userName = userName {
-                    socialParams.title = "\(userName) is an awesome tutor on QuickTutor. Check them out! "
-                }
-            }
+            socialParams.title = "\(username) teaches \(subject) on QuickTutor. Connect with them to learn."
         }
         socialParams.descriptionText = "Check out this QuickTutor!"
 

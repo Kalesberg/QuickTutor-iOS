@@ -1094,7 +1094,7 @@ extension ConversationVC: KeyboardAccessoryViewDelegate {
 
     func shareUsernameForUserId() {
         studentKeyboardAccessory.toggleActionView()
-        
+        guard let username = self.chatPartner.username, let subject = self.subject else { return }
         displayLoadingOverlay()
         
         guard let data = sharedProfileView.asImage().jpegData(compressionQuality: 1.0) else { return }
@@ -1107,7 +1107,7 @@ extension ConversationVC: KeyboardAccessoryViewDelegate {
                 return
             }
             
-            DynamicLinkFactory.shared.createLink(userId: self.receiverId, userName: self.chatPartner.formattedName, subject: self.subject, profilePreviewUrl: url) { shareUrl in
+            DynamicLinkFactory.shared.createLink(userId: self.receiverId, username: username, subject: subject, profilePreviewUrl: url) { shareUrl in
                 guard let shareUrlString = shareUrl?.absoluteString else {
                     DispatchQueue.main.async {
                         self.dismissOverlay()

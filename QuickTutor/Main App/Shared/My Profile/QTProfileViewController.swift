@@ -330,7 +330,7 @@ class QTProfileViewController: UIViewController {
     @objc
     func handleShareProfileButtonClicked() {
         guard let id = user.uid else { return }
-        
+        guard let username = user.username, let subject = self.subject else { return }
         let image = self.sharedProfileView.asImage()
         
         guard let data = image.jpegData(compressionQuality: 1.0) else { return }
@@ -346,7 +346,7 @@ class QTProfileViewController: UIViewController {
             }
             
             
-            DynamicLinkFactory.shared.createLink(userId: id, userName: self.user.formattedName, subject: self.subject, profilePreviewUrl: url) { shareUrl in
+            DynamicLinkFactory.shared.createLink(userId: id, username: username, subject: subject, profilePreviewUrl: url) { shareUrl in
                 guard let shareUrlString = shareUrl?.absoluteString else {
                     DispatchQueue.main.async {
                         self.dismissOverlay()
