@@ -45,7 +45,7 @@ class QTSharedProfileView: UIView {
     var featuredSubjectLabel: UILabel = {
         let label = UILabel()
         label.textColor = Colors.purple
-        label.font = Fonts.createSize(15)
+        label.font = Fonts.createSize(16)
         return label
     }()
     
@@ -134,7 +134,7 @@ class QTSharedProfileView: UIView {
     
     func setupLocationLabel() {
         addSubview(locationLabel)
-        locationLabel.anchor(top: nil, left: locationIconImageView.rightAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 20, paddingRight: 20, width: 0, height: 0)
+        locationLabel.anchor(top: nil, left: locationIconImageView.rightAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 20, paddingRight: 20, width: 0, height: 0)
         locationLabel.centerYAnchor.constraint(equalTo: locationIconImageView.centerYAnchor).isActive = true
     }
     
@@ -160,8 +160,13 @@ class QTSharedProfileView: UIView {
             hourlyRateLabel.text = "$\(price) per hour"
         }
         
-        ratingView.rating = user.tRating ?? 5.0
-        ratingView.text = "\(user.reviews?.count ?? 0)"
+        if let totalReviews = user.reviews?.count, totalReviews > 0 {
+            ratingView.rating = user.tRating ?? 5.0
+            ratingView.text = "\(totalReviews)"
+            ratingView.isHidden = false
+        } else {
+            ratingView.isHidden = true
+        }
         
         locationLabel.text = user.region
     }
