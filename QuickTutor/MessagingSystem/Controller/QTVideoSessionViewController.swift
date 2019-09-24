@@ -40,6 +40,7 @@ class QTVideoSessionViewController: QTSessionBaseViewController {
     @IBOutlet weak var animationView: LOTAnimationView!
     @IBOutlet weak var pauseBlurView: UIVisualEffectView!
     @IBOutlet weak var pauseLabel: UILabel!
+    @IBOutlet weak var bottomSheetMaskView: UIView!
     
     // Parameters
     var sessionId: String!
@@ -75,6 +76,7 @@ class QTVideoSessionViewController: QTSessionBaseViewController {
                 animator.addAnimations {
                     self.bottomSheetViewBottom.constant = 0
                     self.menuButton.transform = CGAffineTransform(rotationAngle: 0)
+                    self.bottomSheetMaskView.isHidden = true
                     self.view.layoutIfNeeded()
                 }
                 animator.startAnimation()
@@ -85,6 +87,7 @@ class QTVideoSessionViewController: QTSessionBaseViewController {
                 animator.addAnimations {
                     self.bottomSheetViewBottom.constant = -120
                     self.menuButton.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi))
+                    self.bottomSheetMaskView.isHidden = false
                     self.view.layoutIfNeeded()
                 }
                 animator.startAnimation()
@@ -94,6 +97,7 @@ class QTVideoSessionViewController: QTSessionBaseViewController {
                 let animator = UIViewPropertyAnimator(duration: 0.15, curve: .easeIn, animations: nil)
                 animator.addAnimations {
                     self.bottomSheetViewBottom.constant = -200
+                    self.bottomSheetMaskView.isHidden = false
                     self.menuButton.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi))
                     self.view.layoutIfNeeded()
                 }
