@@ -186,7 +186,7 @@ class SignInVC: UIViewController {
 	
 	@objc func handleFacebookSignIn() {
 		let loginManager = LoginManager()
-		loginManager.logIn(readPermissions: [.publicProfile, .email], viewController: self) { (result) in
+		loginManager.logIn(permissions: [.publicProfile, .email], viewController: self) { (result) in
 			switch result {
 			case .failed(let error):
 				print(error)
@@ -201,7 +201,7 @@ class SignInVC: UIViewController {
 	
 	func completeFacebookSignIn() {
 		displayLoadingOverlay()
-		guard let accessToken = AccessToken.current?.authenticationToken else { return }
+		guard let accessToken = AccessToken.current?.tokenString else { return }
 		let credential = FacebookAuthProvider.credential(withAccessToken: accessToken)
 		Auth.auth().signInAndRetrieveData(with: credential) { (authResult, error) in
 			guard error == nil else {
@@ -292,15 +292,12 @@ class SignInVC: UIViewController {
 	func getFacebookProfile(completion: @escaping ([String: Any]?) -> ()) {
 		let params = ["fields": "id, name, first_name, last_name, email", "redirect": "false"]
 		let graphRequest = GraphRequest(graphPath: "me", parameters: params)
-		graphRequest.start {
-			_, requestResult in
-			
-			switch requestResult {
-			case .failed(let error):
+		graphRequest.start { _, response, error in
+			if let error = error {
 				print("error in graph request:", error)
 				completion(nil)
-			case .success(let graphResponse):
-				if let responseDictionary = graphResponse.dictionaryValue {
+			} else {
+				if let responseDictionary = response as? [String: Any] {
 					print("Facebook response dictionary", responseDictionary)
 					completion(responseDictionary)
 				}

@@ -33,9 +33,10 @@ class ImageMessageCell: UserMessageCell {
     override func updateUI(message: UserMessage) {
         super.updateUI(message: message)
         bubbleView.layer.borderWidth = 0
-        if let imageUrl = message.imageUrl {
+        if let imageUrl = message.imageUrl,
+            let url = URL(string: imageUrl) {
             imageView.isHidden = false
-            imageView.loadImage(urlString: imageUrl)
+            imageView.sd_setImage(with: url, placeholderImage: UIImage(named: "img_default"))
         } else {
             imageView.isHidden = true
         }

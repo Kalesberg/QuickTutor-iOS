@@ -30,7 +30,7 @@ class LearnerMainPageVCView: UIView {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         collectionView.showsVerticalScrollIndicator = false
-        collectionView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
+        collectionView.contentInset = UIEdgeInsets(top: 100, left: 0, bottom: 0, right: 0)
         collectionView.register(LearnerMainPageFeaturedSectionContainerCell.self, forCellWithReuseIdentifier: "featuredCell")
         collectionView.register(LearnerMainPageTopTutorsSectionContainerCell.self, forCellWithReuseIdentifier: "topTutors")
         collectionView.register(LearnerMainPageCategorySectionContainerCell.self, forCellWithReuseIdentifier: "categoryCell")
@@ -70,7 +70,8 @@ class LearnerMainPageVCView: UIView {
     
     func setupCollectionView() {
         insertSubview(collectionView, at: 0)
-        collectionView.anchor(top: getTopAnchor(), left: leftAnchor, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 90, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        collectionView.anchor(top: getTopAnchor(), left: leftAnchor, bottom: getBottomAnchor(), right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        
         collectionView.delegate = collectionViewHelper
         collectionView.dataSource = collectionViewHelper
         collectionView.clipsToBounds = false
@@ -79,28 +80,28 @@ class LearnerMainPageVCView: UIView {
     func setupScrollViewDidScrollAction() {
         collectionViewHelper.handleScrollViewScroll = { [weak self] offset in
             guard let self = self else { return }
-            if -offset < 0 && offset != -50 {
+            if -offset < 0 && offset != -30 {
                 self.searchBarContainer.showShadow()
             } else {
                 self.searchBarContainer.hideShadow()
             }
             
             guard RecentSearchesManager.shared.hasNoRecentSearches
-                || (-offset < 0 && offset != -50) else {
+                || (-offset < 0 && offset != -30) else {
                     self.searchBarContainer.showRecentSearchesCV()
-                    self.searchBarContainerHeightAnchor?.constant = 87
-                    UIView.animate(withDuration: 0.15, animations: {
+                    self.collectionView.contentInset = UIEdgeInsets(top: 100, left: 0, bottom: 0, right: 0)
+                    UIView.animate(withDuration: 0.15) {
+                        self.searchBarContainerHeightAnchor?.constant = 87
                         self.layoutIfNeeded()
-                    })
+                    }
                     return
             }
             self.searchBarContainer.hideRecentSearchesCV()
-            
-            self.searchBarContainerHeightAnchor?.constant = 57
-            UIView.animate(withDuration: 0.15, animations: {
+            self.collectionView.contentInset = UIEdgeInsets(top: 70, left: 0, bottom: 0, right: 0)
+            UIView.animate(withDuration: 0.15) {
+                self.searchBarContainerHeightAnchor?.constant = 57
                 self.layoutIfNeeded()
-            })
-            return
+            }
         }
     }
     
@@ -111,8 +112,10 @@ class LearnerMainPageVCView: UIView {
     @objc func handleSearchesLoaded() {
         searchBarContainer.recentSearchesCV.reloadData()
         if RecentSearchesManager.shared.hasNoRecentSearches {
+            collectionView.contentInset = UIEdgeInsets(top: 70, left: 0, bottom: 0, right: 0)
             searchBarContainer.hideRecentSearchesCV()
         } else {
+            collectionView.contentInset = UIEdgeInsets(top: 100, left: 0, bottom: 0, right: 0)
             searchBarContainer.showRecentSearchesCV()
         }
     }
@@ -122,6 +125,7 @@ class LearnerMainPageVCView: UIView {
         setupViews()
         setupScrollViewDidScrollAction()
         setupObservers()
+        RecentSearchesManager.shared.fetchSearches()
     }
     
     required init?(coder aDecoder: NSCoder) {

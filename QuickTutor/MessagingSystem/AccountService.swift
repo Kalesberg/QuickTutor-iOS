@@ -23,6 +23,10 @@ class AccountService {
     private init() {
         loadUser()
     }
+    
+    func logout() {
+        currentUser = nil
+    }
 
     func loadUser(isFacebookLogin: Bool = false) {
         guard let uid = Auth.auth().currentUser?.uid else { return }

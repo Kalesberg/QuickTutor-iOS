@@ -25,7 +25,7 @@ class RecentSearchesManager {
         return searches.isEmpty
     }
     
-    private func fetchSearches() {
+    func fetchSearches() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         Database.database().reference().child("searches").child(uid).observeSingleEvent(of: .value) { (snapshot) in
             guard let searches = snapshot.value as? [String: Any] else {
@@ -56,10 +56,6 @@ class RecentSearchesManager {
         Database.database().reference().child("searches").child(uid).child(term).removeValue()
         searches.remove(at: at)
         searches = searches.suffix(MAX_LIMIT)
-    }
-    
-    private init() {
-        fetchSearches()
     }
     
 }

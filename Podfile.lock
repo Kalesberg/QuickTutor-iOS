@@ -3,12 +3,6 @@ PODS:
   - ActiveLabel (1.0.1)
   - Alamofire (4.9.0)
   - BetterSegmentedControl (1.2.1)
-  - Bolts (1.9.0):
-    - Bolts/AppLinks (= 1.9.0)
-    - Bolts/Tasks (= 1.9.0)
-  - Bolts/AppLinks (1.9.0):
-    - Bolts/Tasks
-  - Bolts/Tasks (1.9.0)
   - Branch (0.28.1):
     - Branch/Core (= 0.28.1)
   - Branch/Core (0.28.1)
@@ -27,18 +21,22 @@ PODS:
   - CropViewController (2.5.1)
   - ESTabBarController-swift (2.7)
   - Fabric (1.10.2)
-  - FacebookCore (0.4.0):
-    - Bolts (~> 1.9)
-    - FBSDKCoreKit (~> 4.36)
-  - FacebookLogin (0.4.0):
-    - Bolts (~> 1.9)
-    - FacebookCore (~> 0.4)
-    - FBSDKCoreKit (~> 4.36)
-    - FBSDKLoginKit (~> 4.36)
-  - FBSDKCoreKit (4.44.1):
-    - Bolts (~> 1.9)
-  - FBSDKLoginKit (4.44.1):
-    - FBSDKCoreKit
+  - FacebookCore (0.9.0):
+    - FBSDKCoreKit (~> 5.0)
+  - FacebookLogin (0.9.0):
+    - FacebookCore (~> 0.9.0)
+    - FBSDKCoreKit (~> 5.0)
+    - FBSDKLoginKit (~> 5.0)
+  - FBSDKCoreKit (5.6.0):
+    - FBSDKCoreKit/Basics (= 5.6.0)
+    - FBSDKCoreKit/Core (= 5.6.0)
+  - FBSDKCoreKit/Basics (5.6.0)
+  - FBSDKCoreKit/Core (5.6.0):
+    - FBSDKCoreKit/Basics
+  - FBSDKLoginKit (5.6.0):
+    - FBSDKLoginKit/Login (= 5.6.0)
+  - FBSDKLoginKit/Login (5.6.0):
+    - FBSDKCoreKit (~> 5.0)
   - Firebase/Auth (5.20.2):
     - Firebase/CoreOnly
     - FirebaseAuth (= 5.4.2)
@@ -189,7 +187,7 @@ PODS:
   - Stripe (15.0.1)
   - SwiftKeychainWrapper (3.4.0)
   - SwiftyJSON (4.2.0)
-  - SwipeCellKit (2.7.0)
+  - SwipeCellKit (2.7.1)
   - TwilioVideo (2.10.1)
   - TYPagerController (2.1.2)
   - "UITextView+Placeholder (1.3.3)"
@@ -208,8 +206,8 @@ DEPENDENCIES:
   - CropViewController
   - ESTabBarController-swift
   - Fabric
-  - FacebookCore (~> 0.4.0)
-  - FacebookLogin (~> 0.4.0)
+  - FacebookCore
+  - FacebookLogin
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Database
@@ -240,12 +238,11 @@ DEPENDENCIES:
   - "UITextView+Placeholder"
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - AccountKit
     - ActiveLabel
     - Alamofire
     - BetterSegmentedControl
-    - Bolts
     - Branch
     - Cache
     - CardScan
@@ -308,7 +305,6 @@ SPEC CHECKSUMS:
   ActiveLabel: b8b2396fe25308d563601437d6605bf691c3b5db
   Alamofire: afc3e7c6db61476cb45cdd23fed06bad03bbc321
   BetterSegmentedControl: b27bddbdff29b6cae988678d6cd106858986cd03
-  Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Branch: edf6cab0cecb437d6a6abba3a25d0a0fa6f277ec
   Cache: 807c5d86d01a177f06ede9865add3aea269bbfd4
   CardScan: badf82e2cfcfc7ee513836a60dbb71bdb2cf5196
@@ -318,10 +314,10 @@ SPEC CHECKSUMS:
   CropViewController: 10ba7af75e302f2db7eb913f8aa1156f95cfe88e
   ESTabBarController-swift: 4fb52ad03d94d0717ef97bc9eb09a5abfdded0a2
   Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
-  FacebookCore: 770e57cfe250a4de4458b682191c0ff062dee247
-  FacebookLogin: eb0f2251aca835a94d70a5f7e580edc46d1e1603
-  FBSDKCoreKit: a823ae35bdb60ebb8d7a7e51abe7c5d87d2bfced
-  FBSDKLoginKit: 54ae59987f2a8703021557c90a9aebb9e5c2bef6
+  FacebookCore: ba86524b66cfa86d0f8e65d08faa8504a9f732dd
+  FacebookLogin: 6cee9fd6e1fe976fe8f7eec199e27b28b14f5d63
+  FBSDKCoreKit: d6655a343868d4bb5c29a60859bab07c3be14a0b
+  FBSDKLoginKit: c5a623de88a6b0cda35b35582921f6cec2efcc36
   Firebase: 0c8cf33f266410c61ab3e2265cfa412200351d9c
   FirebaseABTesting: 1f50b8d50f5e3469eea54e7463a7b7fe221d1f5e
   FirebaseAnalytics: ece1aa57a4f43c64d53a648b5a5e05151aae947b
@@ -361,11 +357,11 @@ SPEC CHECKSUMS:
   Stripe: 2c4d0a88817361a102886315ff452d90f65e898b
   SwiftKeychainWrapper: 6fc49fbf7d4a6b0772917acb0e53a1639f6078d6
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
-  SwipeCellKit: cfcdcbfb739734e494c9d3832a7b6e6f9411e1fd
+  SwipeCellKit: 3972254a826da74609926daf59b08d6c72e619ea
   TwilioVideo: 4a2235d7b3810fe072383e507dab7fdc93f62320
   TYPagerController: 262556ecef99986d26ed77fb1288a198ed42f4af
   "UITextView+Placeholder": c407b27599ea23cca425946fee3cf1db5d547008
 
-PODFILE CHECKSUM: 4d972f689082b324386d21f3e69b3b6bbad26491
+PODFILE CHECKSUM: cdda3543e6999567b63be8ac2c1836119f1ed923
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.8.0

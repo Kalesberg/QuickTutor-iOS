@@ -195,11 +195,12 @@ class ProfileVCHeaderCell: UICollectionReusableView {
     }
     
     func updateUI() {
+        profileImageView.image = AVATAR_PLACEHOLDER_IMAGE        
         guard let uid = Auth.auth().currentUser?.uid else { return }
         UserFetchService.shared.getUserOfCurrentTypeWithId(uid) { (user) in
             guard let user = user else { return }
             self.nameLabel.text = user.formattedName
-            self.profileImageView.sd_setImage(with: user.profilePicUrl, completed: nil)
+            self.profileImageView.sd_setImage(with: user.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
             if AccountService.shared.currentUserType == .learner {
                 self.featuredLabel.isHidden = true
             } else {

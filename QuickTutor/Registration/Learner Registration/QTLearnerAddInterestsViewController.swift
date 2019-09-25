@@ -138,9 +138,10 @@ extension QTLearnerAddInterestsViewController: UICollectionViewDelegate, UIColle
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionHeader {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerId", for: indexPath) as! QuickSearchSectionHeader
-            header.titleLabel.text = categories[indexPath.section].mainPageData.displayName
+            let category = categories[indexPath.section]
+            header.titleLabel.text = category.mainPageData.displayName
             header.icon.image = categoryIcons[indexPath.section]
-            header.icon.layer.borderColor = Colors.purple.cgColor
+            header.icon.layer.borderColor = category.color.cgColor
             header.icon.layer.borderWidth = 1
             return header
         }
