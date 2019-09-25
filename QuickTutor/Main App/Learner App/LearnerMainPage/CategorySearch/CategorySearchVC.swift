@@ -669,6 +669,7 @@ class CategorySearchVC: UIViewController {
     func showQuickSearch() {
         let vc = QuickSearchVC()
         vc.needDismissWhenPush = true
+        vc.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(vc, animated: false)
     }
     
@@ -757,7 +758,6 @@ class CategorySearchVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
-        hideTabBar(hidden: true)
         guard let filter = self.searchFilter, self.datasource.count > 0 else {
             return
         }
@@ -768,7 +768,6 @@ class CategorySearchVC: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.titleView.endEditing(true)
-        hideTabBar(hidden: false)
         locationManager.stopUpdatingLocation()
     }
     

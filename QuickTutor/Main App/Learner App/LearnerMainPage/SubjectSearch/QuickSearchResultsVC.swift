@@ -158,7 +158,7 @@ extension QuickSearchResultsVC: UICollectionViewDataSource, UICollectionViewDele
             self.navigationController?.setViewControllers(viewControllers, animated: true)
             return
         }
-        
+        vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -428,15 +428,9 @@ class TutorAddSubjectsResultsVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        hideTabBar(hidden: true)
         guard !isBeingControlled else { return }
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "newCheck"), style: .plain, target: self, action: #selector(onBack))
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        hideTabBar(hidden: false)
     }
     
     override func didMove(toParent parent: UIViewController?) {

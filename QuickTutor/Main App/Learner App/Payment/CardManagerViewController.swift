@@ -73,8 +73,6 @@ class CardManagerViewController: UIViewController {
         super.viewWillAppear(animated)
         
         navigationController?.isNavigationBarHidden = false
-                
-        hideTabBar(hidden: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -86,7 +84,6 @@ class CardManagerViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(!isShowingAddCardView && shouldHideNavBarWhenDismissed, animated: false)
-        hideTabBar(hidden: false)
     }
     
     func setHasPaymentHistory (_ hasPaymentHistory: Bool) {

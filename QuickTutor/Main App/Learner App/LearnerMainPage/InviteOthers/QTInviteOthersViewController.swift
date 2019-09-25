@@ -65,18 +65,6 @@ class QTInviteOthersViewController: UIViewController {
         tableView.layoutIfNeeded()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        // Show the tab bar.
-        hideTabBar(hidden: true)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        hideTabBar(hidden: false)
-    }
-    
     // MARK: - Actions
     @objc func sendInvite() {
         if selectedContacts.count < 1 {

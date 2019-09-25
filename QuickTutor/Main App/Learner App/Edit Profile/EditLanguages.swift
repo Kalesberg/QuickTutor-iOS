@@ -80,15 +80,8 @@ class EditLanguageVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: false)
-        
-        hideTabBar(hidden: true)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        hideTabBar(hidden: false)
-    }
-
     private func configureDelegates() {
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self

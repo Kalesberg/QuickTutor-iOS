@@ -401,6 +401,7 @@ class BaseSessionsVC: UIViewController {
                     controller.user = tutor
                     controller.profileViewType = .tutor
                     controller.isPresentedFromSessionScreen = true
+                    controller.hidesBottomBarWhenPushed = true
                     self.navigationController?.pushViewController(controller, animated: true)
                 }
             })
@@ -413,6 +414,7 @@ class BaseSessionsVC: UIViewController {
                     controller.user = tutor.copy(learner: learner)
                     controller.profileViewType = .learner
                     controller.isPresentedFromSessionScreen = true
+                    controller.hidesBottomBarWhenPushed = true
                     self.navigationController?.pushViewController(controller, animated: true)
                 }
             }
@@ -457,6 +459,7 @@ class BaseSessionsVC: UIViewController {
             guard let tutor = tutor else { return }
             let vc = SessionRequestVC()
             vc.tutor = tutor
+            vc.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -485,6 +488,7 @@ extension BaseSessionsVC: CustomModalDelegate {
     
     func handleConfirm() {
         let next = CardManagerViewController()
+        next.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(next, animated: true)
     }
     

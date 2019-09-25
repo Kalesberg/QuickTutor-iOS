@@ -475,6 +475,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
                     controller.user = tutor
                     controller.profileViewType = .tutor
                     controller.subject = self.subject
+                    controller.hidesBottomBarWhenPushed = true
                     self.navigationController?.pushViewController(controller, animated: true)
                 }
             }
@@ -486,6 +487,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
                     let tutor = AWTutor(dictionary: [:])
                     controller.user = tutor.copy(learner: learner)
                     controller.profileViewType = .learner
+                    controller.hidesBottomBarWhenPushed = true
                     self.navigationController?.pushViewController(controller, animated: true)
                 }
             }

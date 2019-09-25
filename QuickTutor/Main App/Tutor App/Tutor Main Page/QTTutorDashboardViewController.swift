@@ -384,11 +384,14 @@ class QTTutorDashboardViewController: UIViewController {
         guard let tutor = self.tutor else { return [] }
         
         var images = [LightboxImage]()
-        tutor.images.forEach({ (arg) in
-            let (_, imageUrl) = arg
-            guard let url = URL(string: imageUrl) else { return }
-            images.append(LightboxImage(imageURL: url))
-        })
+        let existedImages = tutor.images.filter { (_, imageUrl) -> Bool in
+            return URL(string: imageUrl) != nil
+        }
+        let sorted = existedImages.sorted { (arg0, arg1) -> Bool in
+            return arg0.key.compare(arg1.key) == .orderedAscending
+        }
+        images.append(contentsOf: sorted.compactMap({LightboxImage(imageURL: URL(string: $1)!)}))
+        
         return images
     }
     

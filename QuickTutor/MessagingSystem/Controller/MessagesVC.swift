@@ -68,6 +68,7 @@ class MessagesVC: UIViewController {
     @objc func showContacts() {
         self.view.endEditing(true)
         let vc = ConnectionsVC()
+        vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -329,9 +330,7 @@ class MessagesVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        hideTabBar(hidden: false)
         navigationController?.setNavigationBarHidden(false, animated: false)
-        
         collectionView.reloadData()
         view.setNeedsLayout()
     }
@@ -492,6 +491,7 @@ extension MessagesVC: SwipeCollectionViewCellDelegate {
                 self.collectionView.reloadItems(at: [indexPath])
                 let vc = SessionRequestVC()
                 vc.tutor = tutor
+                vc.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         }

@@ -66,7 +66,6 @@ class QuickSearchVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
-        hideTabBar(hidden: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -74,11 +73,6 @@ class QuickSearchVC: UIViewController {
         contentView.searchBarContainer.searchBar.becomeFirstResponder()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        hideTabBar(hidden: false)
-    }
-
     private func configureDelegates() {
         contentView.collectionView.delegate = self
         contentView.collectionView.dataSource = self
@@ -195,6 +189,7 @@ extension QuickSearchVC: QuickSearchCategoryCellDelegate {
             self.navigationController?.setViewControllers(viewControllers, animated: true)
             return
         }
+        vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
     }
     

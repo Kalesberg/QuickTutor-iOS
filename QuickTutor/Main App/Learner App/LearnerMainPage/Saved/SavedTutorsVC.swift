@@ -234,7 +234,9 @@ class SavedTutorsVC: UIViewController {
     
     @objc
     private func onClickBtnFindTutor() {
-        navigationController?.pushViewController(QTQuickSearchViewController.controller, animated: false)
+        let controller = QTQuickSearchViewController.controller
+        controller.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(controller, animated: false)
     }
     
     deinit {
@@ -314,6 +316,7 @@ extension SavedTutorsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
                     controller.subject = featuredTutor.featuredSubject
                     controller.profileViewType = .tutor
                     controller.user = tutor
+                    controller.hidesBottomBarWhenPushed = true
                     self.navigationController?.pushViewController(controller, animated: true)
                 }
             })

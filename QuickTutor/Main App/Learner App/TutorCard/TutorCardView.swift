@@ -133,6 +133,7 @@ class TutorCardView: UIView, TutorDataSource {
         if isConnected {
             let vc = SessionRequestVC()
             vc.tutor = tutor
+            vc.hidesBottomBarWhenPushed = true
             self.parentViewController?.navigationController?.pushViewController(vc, animated: true)
         } else {
             UserFetchService.shared.getTutorWithId(tutor.uid) { tutor in
@@ -151,6 +152,7 @@ class TutorCardView: UIView, TutorDataSource {
             let vc = TutorReviewsVC()
             vc.datasource = fetchedTutor.reviews ?? [Review]()
             vc.isViewing = true
+            vc.hidesBottomBarWhenPushed = true
             self.parentViewController?.navigationController?.pushViewController(vc, animated: true)
         }
     }

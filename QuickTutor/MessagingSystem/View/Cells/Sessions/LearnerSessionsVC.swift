@@ -85,9 +85,13 @@ class LearnerSessionsVC: BaseSessionsVC {
     
     @objc func handleRequestSession() {
         if collectionView.isHidden {
-            navigationController?.pushViewController(QTQuickSearchViewController.controller, animated: false)
+            let controller = QTQuickSearchViewController.controller
+            controller.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(controller, animated: false)
         } else {
-            navigationController?.pushViewController(SessionRequestVC(), animated: true)
+            let controller = SessionRequestVC()
+            controller.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(controller, animated: true)
         }
     }
     

@@ -675,6 +675,7 @@ class LearnerEditProfileVC: UIViewController {
     func uploadImageUrl(imageUrl _: String, number _: String) {
         if AccountService.shared.currentUserType == .learner {
             FirebaseData.manager.updateValue(node: "student-info", value: ["img": CurrentUser.shared.learner.images]) { error in
+                self.dismissOverlay()
                 if let error = error {
                     AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
                 }
@@ -682,6 +683,7 @@ class LearnerEditProfileVC: UIViewController {
             learner.images = CurrentUser.shared.learner.images
         } else {
             FirebaseData.manager.updateValue(node: "tutor-info", value: ["img": CurrentUser.shared.learner.images]) { error in
+                self.dismissOverlay()
                 if let error = error {
                     AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
                 }
@@ -1101,12 +1103,19 @@ extension LearnerEditProfileVC: CropViewControllerDelegate {
         }*/
         
         let index = imageToChange
-        
+        displayLoadingOverlay()
         FirebaseData.manager.uploadImage(data: data, number: String(index)) { error, imageUrl in
             if let error = error {
+                self.dismissOverlay()
                 AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
             } else if let imageUrl = imageUrl {
-                self.learner.images["image\(index)"] = imageUrl
+                if AccountService.shared.currentUserType == .tutor {
+                    CurrentUser.shared.tutor.images["image\(index)"] = imageUrl
+                    self.learner.images["image\(index)"] = imageUrl
+                } else {
+                    self.learner.images["image\(index)"] = imageUrl
+                }
+                
                 self.uploadImageUrl(imageUrl: imageUrl, number: String(index))
             }
         }
