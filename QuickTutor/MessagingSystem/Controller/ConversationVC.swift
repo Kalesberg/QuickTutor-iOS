@@ -205,7 +205,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     var headerHeight = 30
     var subject: String?
     var connectionStatus: QTConnectionStatus? = .declined
-
+    
     // MARK: Layout Views -
     let messagesCollection: ConversationCollectionView = {
         let layout = ConversationFlowLayout()
@@ -430,12 +430,43 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         if #available(iOS 11.0, *) {
             navigationItem.largeTitleDisplayMode = .never
         }
+        
+        // set draft message
+        let key = AccountService.shared.currentUserType == .learner ? QTUserDefaultsKey.tutorDraftMessages : QTUserDefaultsKey.learnerDraftMessages
+        let accessoryView = AccountService.shared.currentUserType == .learner ? studentKeyboardAccessory : teacherKeyboardAccessory
+        guard let draftMessages = UserDefaults.standard.dictionary(forKey: key) as? [String : String], let draftMessage = draftMessages[receiverId] else { return }
+        accessoryView.messageTextview.text = draftMessage
+        accessoryView.messageTextview.placeholderLabel.isHidden = !draftMessage.isEmpty
     }
     
     override func willMove(toParent parent: UIViewController?) {
         super.willMove(toParent: parent)
         if parent == nil {
             self.view.endEditing(true)
+            
+            // save draft message
+            let key = AccountService.shared.currentUserType == .learner ? QTUserDefaultsKey.tutorDraftMessages : QTUserDefaultsKey.learnerDraftMessages
+            let accessoryView = AccountService.shared.currentUserType == .learner ? studentKeyboardAccessory : teacherKeyboardAccessory
+            var draftMessages = UserDefaults.standard.dictionary(forKey: key) as? [String : String]
+            if draftMessages != nil {
+                let draftMessage = accessoryView.messageTextview.text.trimmingCharacters(in: .whitespaces)
+                if !draftMessage.isEmpty {
+                    draftMessages?[receiverId] = draftMessage
+                    
+                    UserDefaults.standard.set(draftMessages, forKey: key)
+                    UserDefaults.standard.synchronize()
+                }
+            } else {
+                draftMessages = [String:String]()
+                
+                let draftMessage = accessoryView.messageTextview.text.trimmingCharacters(in: .whitespaces)
+                if !draftMessage.isEmpty {
+                    draftMessages?[receiverId] = draftMessage
+                    
+                    UserDefaults.standard.set(draftMessages, forKey: key)
+                    UserDefaults.standard.synchronize()
+                }
+            }
         }
     }
     
