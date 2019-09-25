@@ -163,7 +163,7 @@ PODS:
   - GTMSessionFetcher/Core (1.2.2)
   - Imaginary (4.2.0):
     - Cache (~> 5.0)
-  - IQKeyboardManager (6.4.2)
+  - IQKeyboardManager (6.5.0)
   - leveldb-library (1.22)
   - lottie-ios (2.5.3)
   - nanopb (0.3.901):
@@ -340,7 +340,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: 04fce34bcd5620c1ee76fb79172105c74a4df335
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
   Imaginary: dae33d06dbc2ada22f98afef5eb45cc061311a2c
-  IQKeyboardManager: b41e0a4943fbac4c11a239d31a688667675f962e
+  IQKeyboardManager: 700e5155d6a292383b54e8678aec769e14fc78fc
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   lottie-ios: a50d5c0160425cd4b01b852bb9578963e6d92d31
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48

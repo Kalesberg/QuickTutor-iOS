@@ -271,7 +271,13 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
 
     private func setupEmptyBackground() {
         view.addSubview(emptyCellBackground)
-        emptyCellBackground.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 60, paddingRight: 0, width: 0, height: 0)
+        
+        if #available(iOS 11, *) {
+            let bottom = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
+            emptyCellBackground.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: bottom + 120, paddingRight: 0, width: 0, height: 0)
+        } else {
+            emptyCellBackground.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 120, paddingRight: 0, width: 0, height: 0)
+        }
     }
 
     private func setupNavBar() {
@@ -451,7 +457,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             messagesCollection.updateBottomValues(inputAccessoryView?.frame.height ?? 0)
         }
         
-        messagesCollection.scrollToBottom(animated: true)
+//        messagesCollection.scrollToBottom(animated: true)
 //        tutorial.showIfNeeded()
         conversationManager.readReceiptManager?.markConversationRead()
         NotificationManager.shared.disableConversationNotificationsFor(uid: chatPartner.uid)
