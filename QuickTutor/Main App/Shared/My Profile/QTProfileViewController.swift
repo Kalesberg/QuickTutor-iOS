@@ -863,12 +863,17 @@ class QTProfileViewController: UIViewController {
     }
     
     func createLightBoxImages() -> [LightboxImage] {
+        guard let user = user else { return [] }
+        
         var images = [LightboxImage]()
-        let imageKeys = user?.images.keys.sorted(by: { $0 < $1 })
-        imageKeys?.forEach {
-            guard let imageUrl = user?.images[$0], let url = URL(string: imageUrl) else { return }
-            images.append(LightboxImage(imageURL: url))
+        let existedImages = user.images.filter { (_, imageUrl) -> Bool in
+            return URL(string: imageUrl) != nil
         }
+        let sorted = existedImages.sorted { (arg0, arg1) -> Bool in
+            return arg0.key.compare(arg1.key) == .orderedAscending
+        }
+        images.append(contentsOf: sorted.compactMap({LightboxImage(imageURL: URL(string: $1)!)}))
+        
         return images
     }
     
