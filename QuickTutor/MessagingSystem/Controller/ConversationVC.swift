@@ -447,26 +447,17 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             // save draft message
             let key = AccountService.shared.currentUserType == .learner ? QTUserDefaultsKey.tutorDraftMessages : QTUserDefaultsKey.learnerDraftMessages
             let accessoryView = AccountService.shared.currentUserType == .learner ? studentKeyboardAccessory : teacherKeyboardAccessory
+            let draftMessage = accessoryView.messageTextview.text.trimmingCharacters(in: .whitespaces)
+            
             var draftMessages = UserDefaults.standard.dictionary(forKey: key) as? [String : String]
-            if draftMessages != nil {
-                let draftMessage = accessoryView.messageTextview.text.trimmingCharacters(in: .whitespaces)
-                if !draftMessage.isEmpty {
-                    draftMessages?[receiverId] = draftMessage
-                    
-                    UserDefaults.standard.set(draftMessages, forKey: key)
-                    UserDefaults.standard.synchronize()
-                }
-            } else {
+            
+            if draftMessages == nil {
                 draftMessages = [String:String]()
-                
-                let draftMessage = accessoryView.messageTextview.text.trimmingCharacters(in: .whitespaces)
-                if !draftMessage.isEmpty {
-                    draftMessages?[receiverId] = draftMessage
-                    
-                    UserDefaults.standard.set(draftMessages, forKey: key)
-                    UserDefaults.standard.synchronize()
-                }
             }
+            
+            draftMessages?[receiverId] = draftMessage
+            UserDefaults.standard.set(draftMessages, forKey: key)
+            UserDefaults.standard.synchronize()
         }
     }
     
