@@ -778,8 +778,9 @@ class FirebaseData {
         let thumbPath = "thumb-\(dbRef.key!)"
         do {
             let videoData = try Data(contentsOf: video)
-            
-            self.storageRef.child(storagePath).child(userId).child("\(videoPath)").putData(videoData, metadata: nil) { (meta, error) in
+            let metaData = StorageMetadata()
+            metaData.contentType = video.mimeType()
+            self.storageRef.child(storagePath).child(userId).child("\(videoPath)").putData(videoData, metadata: metaData) { (meta, error) in
                 if let error = error {
                     return completion(error, nil)
                 }

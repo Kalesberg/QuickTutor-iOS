@@ -51,14 +51,20 @@ class LearnerRegistrationService {
         interests.append(subject)
         // Save current interests again to the current learner account
         CurrentUser.shared.learner.interests = interests
-        NotificationCenter.default.post(name: Notifications.learnerDidAddInterest.name, object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: Notifications.learnerDidAddInterest.name, object: nil, userInfo: ["subject" : subject])
     }
     
     
     func removeInterest(_ subject: String) {
-        interests = interests.filter({ $0 != subject})
+        /*interests = interests.filter({ $0 != subject})
         
-        NotificationCenter.default.post(name: Notifications.learnerDidRemoveInterest.name, object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: Notifications.learnerDidRemoveInterest.name, object: nil, userInfo: nil)*/
+        
+        let index = interests.firstIndex(of: subject)
+        interests = interests.filter({ $0 != subject})
+        NotificationCenter.default.post(name: Notifications.learnerDidRemoveInterest.name, object: nil, userInfo: ["subject" : subject,
+                                                                                                                   "index" : index ?? -1])
+        
         if shouldSaveInterests {
             guard let uid = Auth.auth().currentUser?.uid else { return }
             Database.database().reference().child("interests").child(subject).child(uid).removeValue()

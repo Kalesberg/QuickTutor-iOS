@@ -443,12 +443,19 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         if shouldRequestSession {
             handleSessionRequest()
         }
+        
+        if #available(iOS 11.0, *) {
+            let bottom = (inputAccessoryView?.frame.height ?? 0) - (UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0)
+            messagesCollection.updateBottomValues(bottom)
+        } else {
+            messagesCollection.updateBottomValues(inputAccessoryView?.frame.height ?? 0)
+        }
+        
         messagesCollection.scrollToBottom(animated: true)
 //        tutorial.showIfNeeded()
         conversationManager.readReceiptManager?.markConversationRead()
         NotificationManager.shared.disableConversationNotificationsFor(uid: chatPartner.uid)
         IQKeyboardManager.shared().isEnabled = false
-        
     }
     
     func addCustomTitleView() {
@@ -712,15 +719,17 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         let keyboardScreenEndFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
         
+        let inputAccessoryViewHeight = inputAccessoryView?.frame.height ?? 0 // add input accessory view height
+        
         if notification.name == UIResponder.keyboardWillHideNotification {
-            messagesCollection.updateBottomValues(0)
+            messagesCollection.updateBottomValues(inputAccessoryViewHeight)
         } else {
             var keyboardHeight = keyboardViewEndFrame.height
             if #available(iOS 11.0, *) {
                 keyboardHeight -= UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
             }
-            let typingIndicatorHeight: CGFloat = 48 // The height of word suggestion section on the keyboard
-            var bottom = keyboardHeight - typingIndicatorHeight
+//            let typingIndicatorHeight: CGFloat = 48 // The height of word suggestion section on the keyboard
+            var bottom = keyboardHeight
             bottom = max(bottom, 0)
             messagesCollection.updateBottomValues(bottom)
         }
@@ -932,6 +941,10 @@ extension ConversationVC: ConversationManagerDelegate {
         conversationManager.isFinishedPaginating = true
         addMessageStatusLabel()
         setupTypingInidcatorManagerIfNeeded()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            self.messagesCollection.scrollToBottom(animated: true)
+        }
     }
     
     func setupTypingInidcatorManagerIfNeeded() {

@@ -1169,7 +1169,11 @@ extension QTProfileViewController: UICollectionViewDelegateFlowLayout {
             if collectionView == videoCollectionView {
                 let width = collectionView.frame.width
                 let height = collectionView.frame.height
-                return CGSize(width: width / 2, height: height)
+                if videos.count == 1 {
+                    return CGSize(width: width - 40, height: height)
+                } else {
+                    return CGSize(width: width / 2, height: height)
+                }
             } else {
                 if let subjects = user.subjects {
                     width = subjects[indexPath.item].estimateFrameForFontSize(14, extendedWidth: true).width + 20
