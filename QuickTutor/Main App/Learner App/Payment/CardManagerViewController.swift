@@ -391,7 +391,7 @@ extension CardManagerViewController: UITableViewDelegate {
             
             if CurrentUser.shared.learner.isApplePayDefault {
                 CurrentUser.shared.learner.isApplePayDefault = false
-                self.updateApplePayDefaultStatus(false)
+                updateApplePayDefaultStatus(false)
                 
                 defaultCardAlert(card: card)
             } else if card != defaultCard {

@@ -72,7 +72,7 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
     let starLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .right
-        label.font = Fonts.createBoldSize(9)
+        label.font = Fonts.createBoldSize(11)
         label.textColor = Colors.purple
         label.text = "5.0"
         return label
@@ -191,7 +191,7 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
     
     func setupStarIcon() {
         addSubview(starIcon)
-        starIcon.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 8, width: 12, height: 12)
+        starIcon.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 8, width: 10, height: 10)
         addConstraint(NSLayoutConstraint(item: starIcon, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
     }
     

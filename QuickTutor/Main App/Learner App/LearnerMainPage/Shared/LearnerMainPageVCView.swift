@@ -113,9 +113,15 @@ class LearnerMainPageVCView: UIView {
         searchBarContainer.recentSearchesCV.reloadData()
         if RecentSearchesManager.shared.hasNoRecentSearches {
             collectionView.contentInset = UIEdgeInsets(top: 70, left: 0, bottom: 0, right: 0)
+            if 0 == collectionView.contentOffset.y {
+                collectionView.contentOffset = CGPoint(x: 0, y: 70)
+            }
             searchBarContainer.hideRecentSearchesCV()
         } else {
             collectionView.contentInset = UIEdgeInsets(top: 100, left: 0, bottom: 0, right: 0)
+            if 0 == collectionView.contentOffset.y {
+                collectionView.contentOffset = CGPoint(x: 0, y: 100)
+            }
             searchBarContainer.showRecentSearchesCV()
         }
     }

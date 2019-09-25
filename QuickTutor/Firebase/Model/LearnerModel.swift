@@ -70,7 +70,7 @@ class AWLearner: User {
         lNumSessions = dictionary["nos"] as? Int ?? 0
         lRating = dictionary["r"] as? Double ?? 0.0
         lHours = dictionary["hr"] as? Int ?? 0
-        isApplePayDefault = dictionary["isApplePayDefault"] as? Bool ?? true
+        isApplePayDefault = dictionary["isApplePayDefault"] as? Bool ?? Stripe.deviceSupportsApplePay()
         region = dictionary["rg"] as? String ?? ""
         
         if let interests = dictionary["interests"] as? [String: Any] {
