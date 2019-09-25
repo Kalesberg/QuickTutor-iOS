@@ -311,6 +311,7 @@ class QTAllSearchViewController: UIViewController {
         } else {
             vc.navigationItem.title = subject
         }
+        vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
     }
     

@@ -125,8 +125,6 @@ class ChangeEmailVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: false)
-        
-        hideTabBar(hidden: true)
     }
     
     func setupNavBar() {
@@ -141,7 +139,6 @@ class ChangeEmailVC: UIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        hideTabBar(hidden: false)
         contentView.textField.resignFirstResponder()
     }
     

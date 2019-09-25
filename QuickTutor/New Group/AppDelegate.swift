@@ -170,6 +170,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         if AccountService.shared.currentUserType == .learner {
             let vc = CardManagerViewController()
             vc.shouldHideNavBarWhenDismissed = true
+            vc.hidesBottomBarWhenPushed = true
             navigationController.pushViewController(vc, animated: false)
         }
     }
@@ -226,6 +227,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
                 let controller = QTProfileViewController.controller
                 controller.user = tutor
                 controller.profileViewType = .tutor
+                controller.hidesBottomBarWhenPushed = true
                 navigationController.pushViewController(controller, animated: true)
             }
         })

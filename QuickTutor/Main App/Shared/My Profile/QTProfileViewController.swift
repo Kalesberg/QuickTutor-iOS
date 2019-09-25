@@ -151,8 +151,6 @@ class QTProfileViewController: UIViewController {
         
         navigationController?.setNavigationBarHidden(false, animated: true)
         
-        hideTabBar(hidden: true)
-        
         if #available(iOS 11.0, *) {
             navigationItem.largeTitleDisplayMode = .never
         }
@@ -161,8 +159,6 @@ class QTProfileViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.locationManager.stopUpdatingLocation()
-        
-        hideTabBar(hidden: false)
     }
     
     override func didMove(toParent parent: UIViewController?) {

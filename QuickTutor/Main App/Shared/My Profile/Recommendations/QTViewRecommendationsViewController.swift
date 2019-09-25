@@ -38,17 +38,10 @@ class QTViewRecommendationsViewController: UIViewController {
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        hideTabBar(hidden: true)
-    }
-    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         objTutor.recommendations = aryRecommendations
-        hideTabBar(hidden: false)
     }
     
 }

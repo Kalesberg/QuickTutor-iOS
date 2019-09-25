@@ -32,18 +32,6 @@ class QTWriteRecommendationViewController: UIViewController {
         txtRecommendation.becomeFirstResponder()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        hideTabBar(hidden: true)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        hideTabBar(hidden: false)
-    }
-    
     override func didMove(toParent parent: UIViewController?) {
         super.didMove(toParent: parent)
         

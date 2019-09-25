@@ -39,16 +39,9 @@ class EditBirthdateVC: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: false)
-        
-        hideTabBar(hidden: true)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        hideTabBar(hidden: false)
-    }
-    
-	private func showErrorMessage() {
+    private func showErrorMessage() {
 		contentView.errorLabel.isHidden = false
 		contentView.errorLabel.shake()
 	}
