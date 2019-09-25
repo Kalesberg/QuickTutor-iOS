@@ -401,11 +401,12 @@ class QTProfileViewController: UIViewController {
         
         guard let user = user, let profileViewType = profileViewType else { return }
         
+        avatarImageView.image = AVATAR_PLACEHOLDER_IMAGE
         // Set the avatar of user profile.
         if profileViewType == .tutor || profileViewType == .myTutor {
             lblSubjectTitle.text = "Topics"
             UserFetchService.shared.getTutorWithId(uid: user.uid) { (tutor) in
-                self.avatarImageView.sd_setImage(with: tutor?.profilePicUrl)
+                self.avatarImageView.sd_setImage(with: tutor?.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
                 self.imgBottomUser.sd_setImage(with: tutor?.profilePicUrl)
                 self.user?.profilePicUrl = tutor?.profilePicUrl
                 if let images = tutor?.images {
@@ -416,7 +417,7 @@ class QTProfileViewController: UIViewController {
             lblSubjectTitle.text = "Interests"
             lblSubjectTitle.superview?.isHidden = user.interests?.isEmpty ?? true
             UserFetchService.shared.getStudentWithId(uid: user.uid) { (learner) in
-                self.avatarImageView.sd_setImage(with: learner?.profilePicUrl)
+                self.avatarImageView.sd_setImage(with: learner?.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
                 self.imgBottomUser.sd_setImage(with: learner?.profilePicUrl)
                 if let url = learner?.profilePicUrl {
                     self.user?.profilePicUrl = url
@@ -754,6 +755,7 @@ class QTProfileViewController: UIViewController {
             if numberOfReviews == 0 {
                 reviewsStackView.isHidden = true
                 ratingView.superview?.isHidden = true
+                ratingLabel.superview?.isHidden = true
             } else {
                 reviewsStackView.isHidden = false
                 ratingView.superview?.isHidden = false

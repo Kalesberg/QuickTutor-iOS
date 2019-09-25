@@ -124,7 +124,7 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
             showFacebookView.superview?.isHidden = false
             
             if let imageUrl = facebook["imageUrl"] {
-                imgFacebook.sd_setImage(with: URL(string: imageUrl))
+                imgFacebook.sd_setImage(with: URL(string: imageUrl), placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
             }
             if let strFBName = facebook["name"] {
                 lblFacebookName.text = strFBName
@@ -272,14 +272,14 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
             break
         case .ended:
             linkFacebookView.didTouchUp()
-            loginManager.logIn(readPermissions: [.publicProfile, .email], viewController: self) { (result) in
+            loginManager.logIn(permissions: [.publicProfile, .email], viewController: self) { (result) in
                 switch result {
                 case .failed(let error):
                     print(error)
                 case .cancelled:
                     print("User cancelled login.")
                 case .success:
-                    guard let accessToken = AccessToken.current?.authenticationToken else { break }
+                    guard let accessToken = AccessToken.current?.tokenString else { break }
                     
                     let credential = FacebookAuthProvider.credential(withAccessToken: accessToken)
                     Auth.auth().currentUser?.linkAndRetrieveData(with: credential) { authResult, error in
@@ -334,13 +334,12 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
     private func getFacebookProfile(completion: @escaping ([String: Any]?) -> ()) {
         let params = ["fields": "id, name, first_name, last_name, email", "redirect": "false"]
         let graphRequest = GraphRequest(graphPath: "me", parameters: params)
-        graphRequest.start { _, requestResult in
-            switch requestResult {
-            case .failed(let error):
+        graphRequest.start { _, response, error in
+            if let error = error {
                 print("error in graph request:", error)
                 completion(nil)
-            case .success(let graphResponse):
-                if let responseDictionary = graphResponse.dictionaryValue {
+            } else {
+                if let responseDictionary = response as? [String: Any] {
                     print("Facebook response dictionary", responseDictionary)
                     completion(responseDictionary)
                 }
@@ -387,8 +386,14 @@ extension QTSettingsNavigation {
                     UserStatusService.shared.updateUserStatus(userId, status: .offline)
                     AccountService.shared.saveFCMToken(nil)
                 }
+                // Facebook Logout
                 try Auth.auth().signOut()
+                // Firebase Logout
                 LoginManager().logOut()
+                // Remove shared user object
+                CurrentUser.shared.logout()
+                AccountService.shared.logout()
+                
                 RootControllerManager.shared.configureRootViewController(controller: GetStartedViewController())
             } catch {
                 print("Error signing out")

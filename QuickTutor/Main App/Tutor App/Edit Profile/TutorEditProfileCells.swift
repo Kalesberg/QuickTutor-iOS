@@ -175,7 +175,7 @@ extension EditProfileImagesCell: UICollectionViewDelegate, UICollectionViewDataS
             return cell
         }
         
-        cell.backgrounImageView.sd_setImage(with: url, placeholderImage: nil, options: []) { (image, error, cacheType, url) in
+        cell.backgrounImageView.sd_setImage(with: url, placeholderImage: AVATAR_PLACEHOLDER_IMAGE, options: []) { (image, error, cacheType, url) in
             if image == nil {
                 cell.backgrounImageView.image = UIImage(named: "addPhotoButtonBackground")
             } else {

@@ -68,9 +68,9 @@ class LearnerMainPageVC: UIViewController {
         self.refreshControl.beginRefreshing()
         
         // End the animation of refersh control
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
             self.refreshControl.endRefreshing()
-        })
+        }
     }
     
     @objc func handleSearchTap() {

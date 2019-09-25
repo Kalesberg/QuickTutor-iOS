@@ -24,6 +24,12 @@ class CurrentUser {
 	var learner : AWLearner!
 	var tutor : AWTutor!
 	var connectAccount : ConnectAccount!
+    
+    func logout() {
+        learner = nil
+        tutor = nil
+        connectAccount = nil
+    }
 }
 
 class FirebaseData {

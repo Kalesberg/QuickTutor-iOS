@@ -114,7 +114,7 @@ class MockCollectionViewCell: UIView {
         primaryButton.isSelected = true
         secondaryButton.backgroundColor = Colors.gray
         secondaryButton.isSelected = false
-        let newUserType: UserType = AccountService.shared.currentUserType == .learner ? .tutor : .learner
+        let newUserType: UserType = .tutor == AccountService.shared.currentUserType ? .learner : .tutor
         delegate?.mockCollectionViewCellDidSelectPrimaryButton(self)
         profileDelegate?.profleModeToggleView(self, shouldSwitchTo: newUserType)
     }

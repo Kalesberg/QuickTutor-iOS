@@ -73,7 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         FirebaseApp.configure()
         
         //Facebook init
-        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         window = UIWindow(frame: UIScreen.main.bounds)
         
         window?.rootViewController = launchScreen
@@ -193,7 +193,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
             self.handlIncomingDynamicLink(dynamicLink)
         }
         Branch.getInstance().application(app, open: url, options: options)
-        let handled = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, options: options)
+        let handled = ApplicationDelegate.shared.application(app, open: url, options: options)
         return handled
     }
     
@@ -299,7 +299,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        FBSDKAppEvents.activateApp()
+        AppEvents.activateApp()
         OnlineStatusService.shared.makeActive()
         NotificationCenter.default.post(Notifications.didEnterForeground)
         
