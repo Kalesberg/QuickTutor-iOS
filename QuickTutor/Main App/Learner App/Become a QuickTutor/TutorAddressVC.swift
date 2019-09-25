@@ -7,6 +7,7 @@
 //
 import UIKit
 import SnapKit
+import IQKeyboardManager
 
 class TutorAddressVC: BaseRegistrationController {
 
@@ -31,6 +32,17 @@ class TutorAddressVC: BaseRegistrationController {
         accessoryView.nextButton.setTitle("NEXT", for: .normal)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        IQKeyboardManager.shared().isEnabled = true
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        IQKeyboardManager.shared().isEnabled = false
+        contentView.resignFirstResponder()
+    }
+    
     func setupTargets() {
         accessoryView.nextButton.addTarget(self, action: #selector(handleNext(_:)), for: .touchUpInside)
     }
@@ -45,11 +57,6 @@ class TutorAddressVC: BaseRegistrationController {
             textField.inputAccessoryView = accessoryView
         }
         textFields[0].becomeFirstResponder()
-    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        contentView.resignFirstResponder()
     }
     
     @objc private func textFieldDidChange(_: UITextField) {
