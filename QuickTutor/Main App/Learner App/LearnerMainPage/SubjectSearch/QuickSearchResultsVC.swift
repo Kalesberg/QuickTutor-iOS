@@ -553,6 +553,11 @@ extension TutorAddSubjectsResultsVC: UICollectionViewDataSource, UICollectionVie
         let categoryString = SubjectStore.shared.findCategoryBy(subject: currentSubjects[indexPath.item]) ?? ""
         let category = Category.category(for: categoryString)!
         cell.imageView.image = Category.imageFor(category: category)
+        cell.imageView.layer.borderColor = category.color.cgColor
+        
+        
+        
+        
         
         if isLearnerAddInterests {
             cell.selectionView.isHidden = !LearnerRegistrationService.shared.interests.contains(currentSubjects[indexPath.item])
