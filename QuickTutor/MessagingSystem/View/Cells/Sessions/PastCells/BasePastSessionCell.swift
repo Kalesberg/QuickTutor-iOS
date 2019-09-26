@@ -18,8 +18,6 @@ class BasePastSessionCell: BaseSessionCell {
 
     let starView: CosmosView = {
         let view = CosmosView()
-        view.isHidden = true
-        
         view.settings.emptyImage = UIImage(named: "ic_star_empty")
         view.settings.filledImage = UIImage(named: "ic_star_filled")
         view.settings.totalStars = 5
@@ -31,8 +29,9 @@ class BasePastSessionCell: BaseSessionCell {
         return view
     }()
 
-    func updateUI(_ session: Session) {
-        self.session = session
+    override func updateUI(session: Session) {
+        super.updateUI(session: session)
+        starView.rating = session.rating
     }
 
     override func setupViews() {
@@ -54,7 +53,8 @@ class BasePastSessionCell: BaseSessionCell {
 
     private func setupStarView() {
         addSubview(starView)
-        starView.anchor(top: nil, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 8, paddingRight: 12, width: 59, height: 12)
+        starView.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 12, width: 59, height: 12)
+        addConstraint(NSLayoutConstraint(item: starView, attribute: .centerY, relatedBy: .equal, toItem: timeAndPriceLabel, attribute: .centerY, multiplier: 1, constant: 0))
     }
 
     override func cellActionView(_ actionView: SessionCellActionView, didSelectButtonAt position: Int) {
