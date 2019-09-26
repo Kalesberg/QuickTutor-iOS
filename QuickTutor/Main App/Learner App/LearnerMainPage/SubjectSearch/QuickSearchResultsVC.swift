@@ -554,11 +554,7 @@ extension TutorAddSubjectsResultsVC: UICollectionViewDataSource, UICollectionVie
         let category = Category.category(for: categoryString)!
         cell.imageView.image = Category.imageFor(category: category)
         cell.imageView.layer.borderColor = category.color.cgColor
-        
-        
-        
-        
-        
+                
         if isLearnerAddInterests {
             cell.selectionView.isHidden = !LearnerRegistrationService.shared.interests.contains(currentSubjects[indexPath.item])
             cell.titleLabel.textColor = LearnerRegistrationService.shared.interests.contains(currentSubjects[indexPath.item]) ? Colors.purple : .white
