@@ -56,7 +56,6 @@ class SavedTutorsVC: UIViewController {
         setupFindTutorView()
         setupRefreshControl()
         setupObservers()
-        setupSearchController()
         loadSavedTutors()
     }
     
@@ -228,6 +227,10 @@ class SavedTutorsVC: UIViewController {
                 self.datasource.removeAll()
                 self.datasource = tutors
                 self.collectionView.reloadData()
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    self.setupSearchController()
+                }
             })
         }
     }

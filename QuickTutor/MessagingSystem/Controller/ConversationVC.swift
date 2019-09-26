@@ -266,7 +266,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         messagesCollection.dataSource = self
         messagesCollection.delegate = self
         view.addSubview(messagesCollection)
-        messagesCollection.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 7.5, paddingRight: -60, width: 0, height: 0)
+        messagesCollection.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 20, paddingRight: -60, width: 0, height: 0)
     }
 
     private func setupEmptyBackground() {
@@ -973,7 +973,7 @@ extension ConversationVC: ConversationManagerDelegate {
         setupTypingInidcatorManagerIfNeeded()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            self.messagesCollection.scrollToBottom(animated: true)
+            self.messagesCollection.scrollToBottom(animated: false)
         }
     }
     

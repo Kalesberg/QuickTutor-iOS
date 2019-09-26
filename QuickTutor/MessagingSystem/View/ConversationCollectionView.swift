@@ -78,7 +78,7 @@ class ConversationCollectionView: UICollectionView {
     
     func scrollToBottom(animated: Bool) {
         guard contentSize.height > bounds.size.height else { return }
-        scrollToItem(at: IndexPath(item: self.numberOfItems(inSection: 0) - 1, section: 0), at: .top, animated: animated)
+        scrollToItem(at: IndexPath(item: self.numberOfItems(inSection: 0) - 1, section: 0), at: .bottom, animated: animated)
     }
     
     func layoutTypingLabelIfNeeded() {

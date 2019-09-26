@@ -34,10 +34,6 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
         navigationItem.title = "Connections"
         guard AccountService.shared.currentUserType == .learner else { return }
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "addTutor"), style: .plain, target: self, action: #selector(handleRightViewTapped))
-        navigationController?.setNavigationBarHidden(false, animated: true)
-        if #available(iOS 11.0, *) {
-            navigationItem.largeTitleDisplayMode = .automatic
-        }
     }
     
     func setupCollectionView() {
@@ -52,7 +48,6 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
         super.viewDidLoad()
         setupViews()
         fetchConnections()
-        setupSearchController()
         
         // add notifications
         NotificationCenter.default.addObserver(self,
@@ -69,7 +64,6 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
         super.viewDidAppear(animated)
         isTransitioning = false
         filteredConnections = connections
-        navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -78,6 +72,7 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
         if #available(iOS 11.0, *) {
             navigationItem.largeTitleDisplayMode = .automatic
             navigationController?.navigationBar.prefersLargeTitles = true
+            navigationController?.view.backgroundColor = Colors.newScreenBackground
         }
     }
     
@@ -120,6 +115,10 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
             connectionGroup.notify(queue: .main) {
                 self.connections = tmpConnections.sorted(by: {$0.formattedName < $1.formattedName})
                 self.collectionView.reloadData()
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    self.setupSearchController()
+                }
             }
         }
     }

@@ -8,12 +8,18 @@
 
 import UIKit
 import Firebase
+import SkeletonView
 
 class BaseSessionsVC: UIViewController {
     
     var pendingSessions = [Session]()
     var upcomingSessions = [Session]()
     var pastSessions = [Session]()
+    
+    var tmpPendingSessions = [Session]()
+    var tmpUpcomingSessions = [Session]()
+    var tmpPastSessions = [Session]()
+    
     
     let refreshControl = UIRefreshControl()
     
@@ -59,7 +65,14 @@ class BaseSessionsVC: UIViewController {
     func setupViews() {
         setupMainView()
         setupCollectionView()
+        
+        view.isSkeletonable = true
         fetchSessions()
+        
+        collectionView.prepareSkeleton { _ in
+            self.view.showAnimatedSkeleton(usingColor: Colors.gray)
+        }
+
         
         // Update connectionIds
         self.connectionIds.removeAll()
@@ -118,10 +131,15 @@ class BaseSessionsVC: UIViewController {
     }
     
     @objc func fetchSessions() {
-        pendingSessions.removeAll()
+        
+        /*pendingSessions.removeAll()
         upcomingSessions.removeAll()
         pastSessions.removeAll()
-        collectionView.reloadData()
+        collectionView.reloadData()*/
+        
+        tmpPendingSessions.removeAll()
+        tmpUpcomingSessions.removeAll()
+        tmpPastSessions.removeAll()
         
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
@@ -166,24 +184,24 @@ class BaseSessionsVC: UIViewController {
                         }
                         
                         if session.status == "pending" && session.startTime > Date().timeIntervalSince1970 {
-                            if !self.pendingSessions.contains(where: { $0.id == session.id }) {
-                                self.pendingSessions.append(session)
+                            if !self.tmpPendingSessions.contains(where: { $0.id == session.id }) {
+                                self.tmpPendingSessions.append(session)
                             }
                             self.attemptReloadOfTable()
                             return
                         }
                         
                         if session.startTime < Date().timeIntervalSince1970 && session.status == "completed" {
-                            if !self.pastSessions.contains(where: { $0.id == session.id }) {
-                                self.pastSessions.insert(session, at: 0)
+                            if !self.tmpPastSessions.contains(where: { $0.id == session.id }) {
+                                self.tmpPastSessions.insert(session, at: 0)
                             }
                             self.attemptReloadOfTable()
                             return
                         }
                         
                         if session.status == "accepted" {
-                            if !self.upcomingSessions.contains(where: { $0.id == session.id }) {
-                                self.upcomingSessions.append(session)
+                            if !self.tmpUpcomingSessions.contains(where: { $0.id == session.id }) {
+                                self.tmpUpcomingSessions.append(session)
                             }
                             self.attemptReloadOfTable()
                             return
@@ -201,8 +219,19 @@ class BaseSessionsVC: UIViewController {
     
     var timer: Timer?
     @objc func handleReloadTable() {
-        self.pastSessions = self.pastSessions.sorted(by: { $0.startTime > $1.startTime })
+        self.tmpPastSessions = self.tmpPastSessions.sorted(by: { $0.startTime > $1.startTime })
         DispatchQueue.main.async(execute: {
+            
+            self.pendingSessions.removeAll()
+            self.upcomingSessions.removeAll()
+            self.pastSessions.removeAll()
+            
+            self.pendingSessions.append(contentsOf: self.tmpPendingSessions)
+            self.upcomingSessions.append(contentsOf: self.tmpUpcomingSessions)
+            self.pastSessions.append(contentsOf: self.tmpPastSessions)
+            
+            self.view.hideSkeleton()
+            
             self.updateTabBarBadge()
             self.collectionView.reloadData()
             self.toggleEmptyState(on: self.pendingSessions.count

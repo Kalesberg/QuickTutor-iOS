@@ -39,10 +39,9 @@ class LearnerSessionsVC: BaseSessionsVC {
         setupEmptyStateImageView()
         setupEmptyStateLabel()
         collectionView.isHidden = true
-        
+
         super.setupViews()
         setupRequestSessionButton()
-        setupRefreshControl()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -54,8 +53,9 @@ class LearnerSessionsVC: BaseSessionsVC {
         view.addSubview(requestSessionButton)
         requestSessionButton.anchor(top: nil, left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 65)
         requestSessionButton.addTarget(self, action: #selector(handleRequestSession), for: .touchUpInside)
-        collectionViewBottomAnchor?.constant = -65
-        view.layoutIfNeeded()
+//        collectionViewBottomAnchor?.constant = -65
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 65, right: 0)
+//        view.layoutIfNeeded()
     }
     
     func setupEmptyStateImageView() {
