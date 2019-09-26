@@ -72,7 +72,7 @@ class BaseSessionsVC: UIViewController {
         collectionView.prepareSkeleton { _ in
             self.view.showAnimatedSkeleton(usingColor: Colors.gray)
         }
-
+        
         
         // Update connectionIds
         self.connectionIds.removeAll()
@@ -133,9 +133,9 @@ class BaseSessionsVC: UIViewController {
     @objc func fetchSessions() {
         
         /*pendingSessions.removeAll()
-        upcomingSessions.removeAll()
-        pastSessions.removeAll()
-        collectionView.reloadData()*/
+         upcomingSessions.removeAll()
+         pastSessions.removeAll()
+         collectionView.reloadData()*/
         
         tmpPendingSessions.removeAll()
         tmpUpcomingSessions.removeAll()
@@ -179,8 +179,8 @@ class BaseSessionsVC: UIViewController {
                             session.status != "declined",
                             session.status != "expired",
                             !session.isExpired() else {
-                            self.attemptReloadOfTable()
-                            return
+                                self.attemptReloadOfTable()
+                                return
                         }
                         
                         if session.status == "pending" && session.startTime > Date().timeIntervalSince1970 {
@@ -191,7 +191,7 @@ class BaseSessionsVC: UIViewController {
                             return
                         }
                         
-                        if session.startTime < Date().timeIntervalSince1970 && session.status == "completed" {
+                        if session.isPast {
                             if !self.tmpPastSessions.contains(where: { $0.id == session.id }) {
                                 self.tmpPastSessions.insert(session, at: 0)
                             }
@@ -209,8 +209,8 @@ class BaseSessionsVC: UIViewController {
                     })
                 }
         }
-        }
-        
+    }
+    
     
     fileprivate func attemptReloadOfTable() {
         timer?.invalidate()
@@ -527,7 +527,7 @@ extension BaseSessionsVC: CustomModalDelegate {
         DataService.shared.getSessionById(id) { session in
             if let chatPartnerId = session.partnerId() {
                 Database.database().reference().child("sessionCancels").child(chatPartnerId).child(uid).setValue(1)
-            
+                
                 // Cancells session
                 let userTypeString = AccountService.shared.currentUserType.rawValue
                 let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
@@ -581,7 +581,7 @@ extension BaseSessionsVC {
             .child(uid)
             .child(userTypeString)
             .observe(.childChanged) { snapshot in
-            
+                
                 // Update connectionIds
                 self.connectionIds.removeAll()
                 self.fetchConnections({ (ids) in

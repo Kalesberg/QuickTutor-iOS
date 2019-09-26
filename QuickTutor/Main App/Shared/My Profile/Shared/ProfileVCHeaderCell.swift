@@ -154,8 +154,8 @@ class ProfileVCHeaderCell: UICollectionReusableView {
         stackView.addArrangedSubview(ratingLabel)
         stackView.addArrangedSubview(starIcon)
         starIcon.snp.makeConstraints { make in
-            make.width.equalTo(11)
-            make.height.equalTo(11)
+            make.width.equalTo(12)
+            make.height.equalTo(12)
         }
     }
     

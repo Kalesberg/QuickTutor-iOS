@@ -72,14 +72,14 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
     let starLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .right
-        label.font = Fonts.createBoldSize(11)
+        label.font = Fonts.createBlackSize(14)
         label.textColor = Colors.purple
         label.text = "5.0"
         return label
     }()
 
     let starIcon: UIImageView = {
-        let iv = UIImageView(image: UIImage(named: "ic_star_sm_filled"))
+        let iv = UIImageView(image: UIImage(named: "ic_star_filled"))
         iv.contentMode = .scaleAspectFit
         iv.image = iv.image!.withRenderingMode(.alwaysTemplate)
         iv.tintColor = Colors.purple
@@ -191,13 +191,13 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
     
     func setupStarIcon() {
         addSubview(starIcon)
-        starIcon.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 8, width: 10, height: 10)
+        starIcon.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 8, width: 12, height: 12)
         addConstraint(NSLayoutConstraint(item: starIcon, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
     }
     
     func setupStarLabel() {
         addSubview(starLabel)
-        starLabel.anchor(top: nil, left: nil, bottom: nil, right: starIcon.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 4, width: 60, height: 15)
+        starLabel.anchor(top: nil, left: nil, bottom: nil, right: starIcon.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 5, width: 60, height: 15)
         addConstraint(NSLayoutConstraint(item: starLabel, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
     }
     

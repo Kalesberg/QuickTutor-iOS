@@ -135,19 +135,19 @@
                                                             </userDefinedRuntimeAttributes>
                                                         </imageView>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="czc-DP-LPE">
-                                                            <rect key="frame" x="186.5" y="27" width="38.5" height="19.5"/>
+                                                            <rect key="frame" x="188" y="28.5" width="37" height="17"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="0.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CC5-9W-O72">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="22.5" height="19.5"/>
-                                                                    <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="16"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="20" height="17"/>
+                                                                    <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="14"/>
                                                                     <color key="textColor" red="0.3921568627" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_star_filled" translatesAutoresizingMaskIntoConstraints="NO" id="CMW-hq-mef">
-                                                                    <rect key="frame" x="24.5" y="3" width="14" height="14"/>
+                                                                    <rect key="frame" x="25" y="2.5" width="12" height="12"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" secondItem="CMW-hq-mef" secondAttribute="height" multiplier="1:1" id="77S-LS-rft"/>
-                                                                        <constraint firstAttribute="width" constant="14" id="FNb-IV-tbe"/>
+                                                                        <constraint firstAttribute="width" constant="12" id="FNb-IV-tbe"/>
                                                                     </constraints>
                                                                 </imageView>
                                                             </subviews>
@@ -157,7 +157,7 @@
                                                                 <constraint firstItem="CC5-9W-O72" firstAttribute="height" secondItem="czc-DP-LPE" secondAttribute="height" id="O8c-BG-7c2"/>
                                                                 <constraint firstItem="CC5-9W-O72" firstAttribute="leading" secondItem="czc-DP-LPE" secondAttribute="leading" id="RvG-0p-40R"/>
                                                                 <constraint firstAttribute="trailing" secondItem="CMW-hq-mef" secondAttribute="trailing" id="UqE-tX-pJo"/>
-                                                                <constraint firstItem="CMW-hq-mef" firstAttribute="leading" secondItem="CC5-9W-O72" secondAttribute="trailing" constant="2" id="fMW-C7-fad"/>
+                                                                <constraint firstItem="CMW-hq-mef" firstAttribute="leading" secondItem="CC5-9W-O72" secondAttribute="trailing" constant="5" id="fMW-C7-fad"/>
                                                                 <constraint firstItem="CC5-9W-O72" firstAttribute="centerY" secondItem="CMW-hq-mef" secondAttribute="centerY" id="jid-8H-GoI"/>
                                                             </constraints>
                                                         </view>

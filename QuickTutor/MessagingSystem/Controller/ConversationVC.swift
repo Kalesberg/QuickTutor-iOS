@@ -330,7 +330,6 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     func showAccessoryView(_ show: Bool = true) {
         self.inputAccessoryView?.isHidden = !show
-        self.hideTabBar(hidden: !show)
         if show {
             self.edgesForExtendedLayout = .top
             self.extendedLayoutIncludesOpaqueBars = false
