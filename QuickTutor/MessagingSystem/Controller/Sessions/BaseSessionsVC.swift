@@ -173,7 +173,7 @@ class BaseSessionsVC: UIViewController {
                             return
                         }
                         
-                        if session.startTime < Date().timeIntervalSince1970 && session.status == "completed" {
+                        if session.isPast {
                             if !self.pastSessions.contains(where: { $0.id == session.id }) {
                                 self.pastSessions.insert(session, at: 0)
                             }
