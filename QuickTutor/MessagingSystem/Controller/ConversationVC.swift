@@ -766,7 +766,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             messagesCollection.updateBottomValues(bottom)
         }
         let indexPath = IndexPath(item: conversationManager.messages.count - 1, section: 0)
-        messagesCollection.scrollToItem(at: indexPath, at: .top, animated: true)
+        messagesCollection.scrollToItem(at: indexPath, at: .bottom, animated: true)
     }
     
     func setupDocumentObserver() {
@@ -975,7 +975,16 @@ extension ConversationVC: ConversationManagerDelegate {
         setupTypingInidcatorManagerIfNeeded()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            self.messagesCollection.scrollToBottom(animated: false)
+//            self.messagesCollection.scrollToBottom(animated: false)
+            if self.messagesCollection.contentSize.height > self.messagesCollection.frame.height {
+                if #available(iOS 11.0, *) {
+                    let bottom = (self.inputAccessoryView?.frame.height ?? 0) - (UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0)
+                    self.messagesCollection.contentOffset = CGPoint(x: 0, y: self.messagesCollection.contentSize.height - self.messagesCollection.frame.height + bottom)
+                } else {
+                    let bottom = self.inputAccessoryView?.frame.height ?? 0
+                    self.messagesCollection.contentOffset = CGPoint(x: 0, y: self.messagesCollection.contentSize.height - self.messagesCollection.frame.height + bottom)
+                }
+            }
         }
     }
     
