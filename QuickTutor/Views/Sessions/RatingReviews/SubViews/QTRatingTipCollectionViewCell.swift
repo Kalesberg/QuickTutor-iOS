@@ -226,7 +226,7 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
                                                            normalTextColor: .white,
                                                            selectedFont: Fonts.createSemiBoldSize(17.0),
                                                            selectedTextColor: .white)
-        tipSegmentControl.setIndex(2, animated: false)
+        tipSegmentControl.setIndex(3, animated: false)
         
         
         guard let tutor = user as? AWTutor else { return }
