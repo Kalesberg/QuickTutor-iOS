@@ -56,14 +56,13 @@ class SavedTutorsVC: UIViewController {
         setupFindTutorView()
         setupRefreshControl()
         setupObservers()
-        loadSavedTutors()
+//        loadSavedTutors()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        setupNavigationBar()
         navigationController?.setNavigationBarHidden(false, animated: true)
+        setupNavigationBar()
         loadSavedTutors()
     }
     
@@ -75,15 +74,17 @@ class SavedTutorsVC: UIViewController {
         navigationItem.title = "Saved"
         if #available(iOS 13.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
+            navigationItem.largeTitleDisplayMode = .automatic
         } else if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
+            navigationItem.largeTitleDisplayMode = .automatic
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_search"), style: .plain, target: self, action: #selector(onClickSearch))
         }
     }
     
     func setupCollectionView() {
         view.addSubview(collectionView)
-        collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 8, paddingLeft: 20, paddingBottom: 61, paddingRight: 20, width: 0, height: 0)
+        collectionView.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 8, paddingLeft: 20, paddingBottom: 61, paddingRight: 20, width: 0, height: 0)
         collectionView.delegate = self
         collectionView.dataSource = self
     }

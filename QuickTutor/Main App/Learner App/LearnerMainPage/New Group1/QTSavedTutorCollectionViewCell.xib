@@ -43,13 +43,27 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="va9-hA-F8Z">
+                                        <rect key="frame" x="130" y="10" width="20" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="9JA-IA-duc"/>
+                                            <constraint firstAttribute="width" constant="20" id="LvE-3a-3bI"/>
+                                        </constraints>
+                                        <state key="normal" image="heartIcon"/>
+                                        <state key="selected" image="heartIconFilled"/>
+                                        <connections>
+                                            <action selector="onClickSave:" destination="gTV-IL-0wX" eventType="touchUpInside" id="eLs-Iu-OEu"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="wdw-il-6He" firstAttribute="height" secondItem="ysh-bK-HuO" secondAttribute="height" id="0Bo-q4-So9"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="jNA-H3-Fcw" secondAttribute="trailing" constant="16" id="2Sq-dP-R7O"/>
                                     <constraint firstAttribute="height" constant="183" id="6EC-YU-AAN"/>
+                                    <constraint firstItem="va9-hA-F8Z" firstAttribute="top" secondItem="ysh-bK-HuO" secondAttribute="top" constant="10" id="TKz-hA-raC"/>
                                     <constraint firstItem="jNA-H3-Fcw" firstAttribute="leading" secondItem="ysh-bK-HuO" secondAttribute="leading" constant="16" id="XiS-PS-UI2"/>
                                     <constraint firstItem="wdw-il-6He" firstAttribute="centerY" secondItem="ysh-bK-HuO" secondAttribute="centerY" id="a2c-mM-goN"/>
+                                    <constraint firstAttribute="trailing" secondItem="va9-hA-F8Z" secondAttribute="trailing" constant="10" id="guK-VZ-9BL"/>
                                     <constraint firstAttribute="bottom" secondItem="jNA-H3-Fcw" secondAttribute="bottom" constant="10" id="lJe-Fu-eGh"/>
                                     <constraint firstItem="wdw-il-6He" firstAttribute="width" secondItem="ysh-bK-HuO" secondAttribute="width" id="oLb-vP-j3y"/>
                                     <constraint firstItem="wdw-il-6He" firstAttribute="centerX" secondItem="ysh-bK-HuO" secondAttribute="centerX" id="qqW-Y9-LOA"/>
@@ -167,6 +181,7 @@
                 <outlet property="locationLabel" destination="3JA-e0-iFp" id="V2w-NW-Eoz"/>
                 <outlet property="ratingLabel" destination="C5d-Vy-2Sc" id="OCS-yf-oUD"/>
                 <outlet property="ratingView" destination="SvY-nK-wIz" id="j05-5g-C5S"/>
+                <outlet property="saveButton" destination="va9-hA-F8Z" id="dx7-U7-0EX"/>
                 <outlet property="shadowView" destination="wYE-j2-E20" id="GT9-Dy-QF1"/>
                 <outlet property="subjectLabel" destination="tul-fe-gc5" id="hvF-T6-yQj"/>
                 <outlet property="usernameLabel" destination="jNA-H3-Fcw" id="q9H-UQ-gk7"/>
@@ -175,6 +190,8 @@
         </collectionViewCell>
     </objects>
     <resources>
+        <image name="heartIcon" width="20" height="18"/>
+        <image name="heartIconFilled" width="20" height="18"/>
         <image name="ic_star_empty" width="24" height="24"/>
         <image name="ic_star_filled" width="24" height="24"/>
     </resources>

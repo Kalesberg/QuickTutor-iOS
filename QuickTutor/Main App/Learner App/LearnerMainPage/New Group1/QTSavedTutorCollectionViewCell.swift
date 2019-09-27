@@ -8,6 +8,7 @@
 
 import UIKit
 import Cosmos
+import Firebase
 
 class QTSavedTutorCollectionViewCell: UICollectionViewCell {
 
@@ -19,6 +20,7 @@ class QTSavedTutorCollectionViewCell: UICollectionViewCell {
     @IBOutlet var ratingView: CosmosView!
     @IBOutlet weak var ratingLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var saveButton: UIButton!
     
     private var tutor: AWTutor?
     
@@ -36,10 +38,49 @@ class QTSavedTutorCollectionViewCell: UICollectionViewCell {
         
         // shadow view
         shadowView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 4)
+        
+        // save button
+        saveButton.isHidden = true
     }
 
+    // MARK: - Event Handlers
+    @IBAction func onClickSave(_ sender: Any) {
+        guard let uid = Auth.auth().currentUser?.uid, let tutorId = tutor?.uid, uid != tutorId else { return }
+        if !CurrentUser.shared.learner.savedTutorIds.isEmpty {
+            let savedTutorIds = CurrentUser.shared.learner.savedTutorIds
+            savedTutorIds.contains(tutorId) ? unsaveTutor() : saveTutor()
+        } else {
+            saveTutor()
+        }
+    }
+    
+    func saveTutor() {
+        guard let uid = Auth.auth().currentUser?.uid, let tutorId = tutor?.uid else { return }
+        Database.database().reference().child("saved-tutors").child(uid).child(tutorId).setValue(1)
+        saveButton.isSelected = true
+        CurrentUser.shared.learner.savedTutorIds.append(tutorId)
+        NotificationCenter.default.post(name: NotificationNames.SavedTutors.didUpdate, object: nil)
+    }
+    
+    func unsaveTutor() {
+        guard let uid = Auth.auth().currentUser?.uid, let tutorId = tutor?.uid else { return }
+        Database.database().reference().child("saved-tutors").child(uid).child(tutorId).removeValue()
+        saveButton.isSelected = false
+        CurrentUser.shared.learner.savedTutorIds.removeAll(where: { (id) -> Bool in
+            return id == tutorId
+        })
+        NotificationCenter.default.post(name: NotificationNames.SavedTutors.didUpdate, object: nil)
+    }
+    
+    // MARK: - Set Data Handler
     func setTutor (_ tutor: AWTutor) {
         self.tutor = tutor
+        
+        saveButton.isHidden = false
+        if !CurrentUser.shared.learner.savedTutorIds.isEmpty {
+            let savedTutorIds = CurrentUser.shared.learner.savedTutorIds
+            saveButton.isSelected = savedTutorIds.contains(tutor.uid)
+        }
         
         // set avatar
         avatarImageView.sd_setImage(with: URL(string: tutor.profilePicUrl.absoluteString)!, completed: nil)
