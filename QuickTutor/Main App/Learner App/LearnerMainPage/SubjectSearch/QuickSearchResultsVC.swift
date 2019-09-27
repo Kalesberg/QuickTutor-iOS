@@ -471,12 +471,8 @@ class TutorAddSubjectsResultsVC: UIViewController {
     func setupObserers() {
         if isLearnerAddInterests {
             NotificationCenter.default.addObserver(self, selector: #selector(showAlert), name: Notifications.learnerTooManyInterests.name, object: nil)
-            NotificationCenter.default.addObserver(self, selector: #selector(addSubject(_:)), name: Notifications.learnerDidAddInterest.name, object: nil)
-            NotificationCenter.default.addObserver(self, selector: #selector(removeSubject(_:)), name: Notifications.learnerDidRemoveInterest.name, object: nil)
         } else {
             NotificationCenter.default.addObserver(self, selector: #selector(showAlert), name: NSNotification.Name(rawValue: "com.qt.tooManySubjects"), object: nil)
-            NotificationCenter.default.addObserver(self, selector: #selector(addSubject(_:)), name: Notifications.tutorDidAddSubject.name, object: nil)
-            NotificationCenter.default.addObserver(self, selector: #selector(removeSubject(_:)), name: Notifications.tutorDidRemoveSubject.name, object: nil)
         }
     }
     
@@ -494,33 +490,6 @@ class TutorAddSubjectsResultsVC: UIViewController {
             ac.dismiss(animated: true, completion: nil)
         }))
         present(ac, animated: true, completion: nil)
-    }
-    
-    /*@objc
-    private func showAlertRemoveSubject (_ notification: Notification) {
-        let alert = UIAlertController (title: "You should have at least one subject", message: nil, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        present(alert, animated: true, completion: nil)
-    }*/
-    
-    @objc
-    private func addSubject (_ notification: Notification) {
-        guard let userInfo = notification.userInfo as? [String:Any],
-            let subject = userInfo["subject"] as? String,
-            let index = currentSubjects.firstIndex(of: subject),
-            let cell = contentView.collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? TutorAddSubjectsResultsCell else { return }
-        cell.selectionView.isHidden = false
-        cell.titleLabel.textColor = Colors.purple
-    }
-    
-    @objc
-    private func removeSubject (_ notification: Notification) {
-        guard let userInfo = notification.userInfo as? [String:Any],
-            let subject = userInfo["subject"] as? String,
-            let index = currentSubjects.firstIndex(of: subject),
-            let cell = contentView.collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? TutorAddSubjectsResultsCell else { return }
-        cell.selectionView.isHidden = true
-        cell.titleLabel.textColor = .white
     }
 
     func sendEmail(subject: String) {
@@ -557,11 +526,12 @@ extension TutorAddSubjectsResultsVC: UICollectionViewDataSource, UICollectionVie
                 
         if isLearnerAddInterests {
             cell.selectionView.isHidden = !LearnerRegistrationService.shared.interests.contains(currentSubjects[indexPath.item])
-            cell.titleLabel.textColor = LearnerRegistrationService.shared.interests.contains(currentSubjects[indexPath.item]) ? Colors.purple : .white
+            cell.titleLabel.textColor = LearnerRegistrationService.shared.interests.contains(currentSubjects[indexPath.item]) ? category.color : .white
         } else {
             cell.selectionView.isHidden = !TutorRegistrationService.shared.subjects.contains(currentSubjects[indexPath.item])
-            cell.titleLabel.textColor = TutorRegistrationService.shared.subjects.contains(currentSubjects[indexPath.item]) ? Colors.purple : .white
+            cell.titleLabel.textColor = TutorRegistrationService.shared.subjects.contains(currentSubjects[indexPath.item]) ? category.color : .white
         }
+        cell.selectionView.backgroundColor = category.color
         
         return cell
     }
@@ -586,6 +556,8 @@ extension TutorAddSubjectsResultsVC: UICollectionViewDataSource, UICollectionVie
                 TutorRegistrationService.shared.removeSubject(currentSubjects[indexPath.item])
             }
         }
+        
+        collectionView.reloadItems(at: [indexPath])
     }
 }
 
