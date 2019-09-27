@@ -436,6 +436,9 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         guard let draftMessages = UserDefaults.standard.dictionary(forKey: key) as? [String : String], let draftMessage = draftMessages[receiverId] else { return }
         accessoryView.messageTextview.text = draftMessage
         accessoryView.messageTextview.placeholderLabel.isHidden = !draftMessage.isEmpty
+        if !draftMessage.isEmpty {
+            accessoryView.hideLeftView()
+        }
     }
     
     override func willMove(toParent parent: UIViewController?) {
