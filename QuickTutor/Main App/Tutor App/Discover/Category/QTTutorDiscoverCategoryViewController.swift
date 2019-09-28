@@ -93,9 +93,9 @@ class QTTutorDiscoverCategoryViewController: UIViewController {
         priceView.layer.cornerRadius = 5
         priceView.clipsToBounds = true
         
-        advancedPriceLabel.text = "$\(category.mainPageData.suggestedPrices[0])"
-        proPriceLabel.text = "$\(category.mainPageData.suggestedPrices[1])"
-        expertPriceLabel.text = "$\(category.mainPageData.suggestedPrices[2])"
+        advancedPriceLabel.text = "$\(category.suggestedPrices[0])"
+        proPriceLabel.text = "$\(category.suggestedPrices[1])"
+        expertPriceLabel.text = "$\(category.suggestedPrices[2])"
     }
     
     func updateSubjectsHeight() {

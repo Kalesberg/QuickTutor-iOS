@@ -729,6 +729,8 @@
 		56C889E0228E4C51008D155D /* QTStartQuickCallViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56C889DE228E4C51008D155D /* QTStartQuickCallViewController.xib */; };
 		56C889E4228E5FDB008D155D /* QTStartQuickCallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C889DD228E4C51008D155D /* QTStartQuickCallViewController.swift */; };
 		56C889E5228E5FE0008D155D /* QTStartQuickCallViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56C889DE228E4C51008D155D /* QTStartQuickCallViewController.xib */; };
+		56D206AA233EF1EA0078ACDC /* QTGlobalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D206A9233EF1EA0078ACDC /* QTGlobalData.swift */; };
+		56D206AB233EF1EA0078ACDC /* QTGlobalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D206A9233EF1EA0078ACDC /* QTGlobalData.swift */; };
 		56D938FE2320A06400A3754C /* QTTutorDiscoverOpportunityApplyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D938FD2320A06400A3754C /* QTTutorDiscoverOpportunityApplyViewController.swift */; };
 		56D938FF2320A06400A3754C /* QTTutorDiscoverOpportunityApplyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D938FD2320A06400A3754C /* QTTutorDiscoverOpportunityApplyViewController.swift */; };
 		56DC6D9A220BD7DF00935F47 /* Lato-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56DC6D8C220BD7DF00935F47 /* Lato-Black.ttf */; };
@@ -1564,6 +1566,7 @@
 		56BE7E7B22D067FB0052BBE7 /* QTTutorSearchTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTTutorSearchTableViewCell.xib; sourceTree = "<group>"; };
 		56C889DD228E4C51008D155D /* QTStartQuickCallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTStartQuickCallViewController.swift; sourceTree = "<group>"; };
 		56C889DE228E4C51008D155D /* QTStartQuickCallViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTStartQuickCallViewController.xib; sourceTree = "<group>"; };
+		56D206A9233EF1EA0078ACDC /* QTGlobalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTGlobalData.swift; sourceTree = "<group>"; };
 		56D938FD2320A06400A3754C /* QTTutorDiscoverOpportunityApplyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorDiscoverOpportunityApplyViewController.swift; sourceTree = "<group>"; };
 		56DC6D8C220BD7DF00935F47 /* Lato-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Black.ttf"; sourceTree = "<group>"; };
 		56DC6D8D220BD7DF00935F47 /* Lato-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-BlackItalic.ttf"; sourceTree = "<group>"; };
@@ -2563,6 +2566,7 @@
 				56BE7E5D22CFCC390052BBE7 /* QTUtils.swift */,
 				56BE7E6022CFCD500052BBE7 /* QTRecentSearchModel.swift */,
 				56BE7E6322CFCF5B0052BBE7 /* QTEnumerations.swift */,
+				56D206A9233EF1EA0078ACDC /* QTGlobalData.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -5647,6 +5651,7 @@
 				569F18A7223554FD00820A20 /* NewMessageVC.swift in Sources */,
 				569F18A8223554FD00820A20 /* FeaturedTutorCount.swift in Sources */,
 				931C71ED227E4E1C003C86F8 /* PaymentCardTableViewCell.swift in Sources */,
+				56D206AB233EF1EA0078ACDC /* QTGlobalData.swift in Sources */,
 				569F18AA223554FD00820A20 /* Constants.swift in Sources */,
 				569F18AB223554FD00820A20 /* TutorSessionDetails.swift in Sources */,
 				569F18AC223554FD00820A20 /* LearnerHarassment.swift in Sources */,
@@ -6194,6 +6199,7 @@
 				CF6F58DF205EE68800ACBD32 /* NewMessageVC.swift in Sources */,
 				84A6E474218F697400D03681 /* FeaturedTutorCount.swift in Sources */,
 				931C71EC227E4E1C003C86F8 /* PaymentCardTableViewCell.swift in Sources */,
+				56D206AA233EF1EA0078ACDC /* QTGlobalData.swift in Sources */,
 				8426A16B2055BC3200EAF1A8 /* Constants.swift in Sources */,
 				84052F16206BCCD7007B1248 /* TutorSessionDetails.swift in Sources */,
 				84052F10206BCC3D007B1248 /* LearnerHarassment.swift in Sources */,

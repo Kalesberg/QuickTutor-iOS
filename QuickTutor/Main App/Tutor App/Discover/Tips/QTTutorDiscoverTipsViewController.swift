@@ -40,6 +40,8 @@ class QTTutorDiscoverTipsViewController: UIViewController {
         
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsVerticalScrollIndicator = false
     }
     
     // MARK: - Actions

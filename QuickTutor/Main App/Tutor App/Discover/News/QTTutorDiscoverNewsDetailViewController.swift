@@ -113,12 +113,11 @@ extension QTTutorDiscoverNewsDetailViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if let nav = self.navigationController {
             let height = nav.navigationBar.frame.origin.y + nav.navigationBar.frame.size.height
-            if scrollView.contentOffset.y >= -height + 60 {
-                navigationController?.navigationBar.isTranslucent = false
+            if scrollView.contentOffset.y >= -height { // + 60
                 navigationController?.navigationBar.backgroundColor = Colors.newNavigationBarBackground.withAlphaComponent(max(height + scrollView.contentOffset.y, 0) / height)
+                UIApplication.shared.statusBarView?.backgroundColor = Colors.newNavigationBarBackground.withAlphaComponent(max(height + scrollView.contentOffset.y, 0) / height)
                 title = news.title
             } else {
-                navigationController?.navigationBar.isTranslucent = true
                 navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
                 navigationController?.navigationBar.shadowImage = UIImage()
                 navigationController?.navigationBar.backgroundColor = .clear

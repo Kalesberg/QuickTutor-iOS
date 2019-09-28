@@ -26,6 +26,8 @@ class QTTutorDiscoverOpportunitiesViewController: UIViewController {
                                 forCellWithReuseIdentifier: QTTutorDiscoverOpportunityCollectionViewCell.reuseIdentifier)
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsVerticalScrollIndicator = false
     }
     
     func setupSkeletonView() {

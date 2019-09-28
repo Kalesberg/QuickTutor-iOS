@@ -145,4 +145,23 @@ class DataService {
             }
         }
     }
+    
+    func getCategoriesInfo() {
+        
+        Database.database().reference()
+            .child("categoriesInfo")
+            .observeSingleEvent(of: .value) { (snapshot) in
+                if let children = snapshot.value as? [String: Any] {
+                    Category.categories.forEach { (category) in
+                        if let info = children[category.mainPageData.name] as? [String: Any], let priceClass = info["price-class"] as? [String: Int] {
+                            if let advanced = priceClass["advanced"],
+                                let pro = priceClass["pro"],
+                                let expert = priceClass["expert"] {
+                                QTGlobalData.shared.categoriesPriceClasses[category.mainPageData.name] = [advanced, pro, expert]
+                            }
+                        }
+                    }
+                }
+        }
+    }
 }

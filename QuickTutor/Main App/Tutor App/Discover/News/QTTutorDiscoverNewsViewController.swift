@@ -31,6 +31,8 @@ class QTTutorDiscoverNewsViewController: UIViewController {
         collectionView.isPagingEnabled = true
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.showsHorizontalScrollIndicator = false
     }
     
     func setupSkeletonView() {

@@ -15,7 +15,7 @@ class QTTutorDiscoverNewsCollectionViewCell: UICollectionViewCell {
     // MARK: - Properties
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var imageView: QTCustomImageView!
-    @IBOutlet weak var titleView: QTCustomView!
+    @IBOutlet weak var titleView: UIVisualEffectView!
     @IBOutlet weak var readButton: DimmableButton!
     
     static var reuseIdentifier: String {
@@ -33,6 +33,10 @@ class QTTutorDiscoverNewsCollectionViewCell: UICollectionViewCell {
     func configureViews() {
         readButton.backgroundColor = Colors.purple
         readButton.layer.cornerRadius = 5
+        
+        titleView.layer.cornerRadius = 5
+        titleView.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+        titleView.clipsToBounds = true
     }
     
     func setSkeletonViews() {
