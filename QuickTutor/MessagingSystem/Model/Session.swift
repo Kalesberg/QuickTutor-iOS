@@ -41,7 +41,7 @@ class Session: Codable {
         runTime = dictionary["runTime"] as? Int ?? 0
         paymentType = dictionary["paymentType"] as? String ?? QTSessionPaymentType.hour.rawValue
         duration = dictionary["duration"] as? Int ?? 1200
-        rating = dictionary["rating"] as? Double ?? 5
+        rating = dictionary["rating"] as? Double ?? 0
     }
     
     init(_ session: Session) {

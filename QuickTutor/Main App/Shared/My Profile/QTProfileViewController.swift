@@ -484,7 +484,7 @@ class QTProfileViewController: UIViewController {
                     }
                 }
             }
-            ratingLabel.text = "\(String(describing: user.tRating ?? 5.0))"
+            ratingLabel.text = "\(String(describing: user.tRating ?? 0))"
             addressView.isHidden = false
             distanceView.isHidden = true
             // Set address
@@ -524,7 +524,7 @@ class QTProfileViewController: UIViewController {
             
         case .learner:
             topSubjectLabel.superview?.isHidden = true
-            ratingLabel.text = "\(String(describing: user.lRating ?? 5.0))"
+            ratingLabel.text = "\(String(describing: user.lRating ?? 0))"
             addressView.isHidden = false
             addressLabel.text = "United States"
             distanceView.isHidden = true
@@ -553,7 +553,7 @@ class QTProfileViewController: UIViewController {
                 topSubjectLabel.superview?.isHidden = subject?.isEmpty ?? true
                 topSubjectLabel.text = subject?.capitalizingFirstLetter()
             }
-            ratingLabel.text = "\(String(describing: user.tRating ?? 5.0))"
+            ratingLabel.text = "\(String(describing: user.tRating ?? 0))"
             lblHourlyRate.text = "$\(user.price ?? 5)/hr"
             addressView.isHidden = false
             addressLabel.text = user.region
@@ -585,7 +585,7 @@ class QTProfileViewController: UIViewController {
             
         case .myLearner:
             topSubjectLabel.superview?.isHidden = true
-            ratingLabel.text = "\(String(describing: user.lRating ?? 5.0))"
+            ratingLabel.text = "\(String(describing: user.lRating ?? 0))"
             addressView.isHidden = false
             addressLabel.text = "United States"
             distanceView.isHidden = false

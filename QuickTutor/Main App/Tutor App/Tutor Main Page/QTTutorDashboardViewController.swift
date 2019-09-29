@@ -183,7 +183,7 @@ class QTTutorDashboardViewController: UIViewController {
         topSubject = tutor.featuredSubject
         headerView.avatarImageView.sd_setImage(with: tutor.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
         headerView.hourlyRateLabel.text = "$\(String(describing: tutor.price ?? 5))/hr"
-        headerView.ratingLabel.text = "\(String(describing: tutor.tRating ?? 5.0))"
+        headerView.ratingLabel.text = "\(String(describing: tutor.tRating ?? 0))"
         headerView.subjectsLabel.text = "\(tutor.subjects?.count ?? 0)"
         headerView.sessionsLabel.text = "\(tutor.tNumSessions ?? 0)"
         headerView.learnersLabel.text = "\(tutor.learners.count)"

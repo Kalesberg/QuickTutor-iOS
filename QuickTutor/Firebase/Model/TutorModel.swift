@@ -63,7 +63,7 @@ class AWTutor: AWLearner {
         preference = dictionary["prf"] as? Int ?? 3
         tNumSessions = dictionary["nos"] as? Int ?? 0
         isVisible = ((dictionary["h"] as? Int) == 0) ? true : false
-        tRating = dictionary["tr"] as? Double ?? 5.0
+        tRating = dictionary["tr"] as? Double ?? 0
         earnings = dictionary["ern"] as? Double ?? 0.0
         featuredSubject = dictionary["sbj"] as? String ?? ""
         profilePicUrl = URL(string: dictionary["img"] as? String ?? "")
