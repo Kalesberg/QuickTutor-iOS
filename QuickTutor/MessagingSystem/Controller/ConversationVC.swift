@@ -161,7 +161,7 @@ class QTSharedProfileView: UIView {
         }
         
         if let totalReviews = user.reviews?.count, totalReviews > 0 {
-            ratingView.rating = user.tRating ?? 5.0
+            ratingView.rating = user.tRating ?? 0
             ratingView.text = "\(totalReviews)"
             ratingView.isHidden = false
         } else {
