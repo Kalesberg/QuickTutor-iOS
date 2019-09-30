@@ -236,7 +236,7 @@ extension QTTutorDiscoverMainView: UICollectionViewDelegateFlowLayout {
         
         switch indexPath.section {
         case 0:
-            return CGSize(width: width, height: width  * 110 / 165.5 + 57)
+            return CGSize(width: width, height: 290)
         case 1:
             return CGSize(width: width, height: width * 189 / 315 + 44)
         case 2:

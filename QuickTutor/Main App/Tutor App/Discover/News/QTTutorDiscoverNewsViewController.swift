@@ -99,7 +99,7 @@ extension QTTutorDiscoverNewsViewController: UICollectionViewDataSource {
 extension QTTutorDiscoverNewsViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = UIScreen.main.bounds.width - 40
-        return CGSize(width: width, height: width * 110 / 167.5)
+        return CGSize(width: width, height: 190)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
