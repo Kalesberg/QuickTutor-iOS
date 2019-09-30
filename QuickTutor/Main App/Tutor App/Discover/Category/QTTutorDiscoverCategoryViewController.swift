@@ -37,6 +37,8 @@ class QTTutorDiscoverCategoryViewController: UIViewController {
         scrollView.parallaxHeader.height = 380
         scrollView.parallaxHeader.mode = .fill
         scrollView.parallaxHeader.minimumHeight = 0
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
         
         headerView.setData(category: category)
     }
@@ -160,12 +162,11 @@ extension QTTutorDiscoverCategoryViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if let nav = self.navigationController {
             let height = nav.navigationBar.frame.origin.y + nav.navigationBar.frame.size.height
-            if scrollView.contentOffset.y >= -height + 60 {
-                navigationController?.navigationBar.isTranslucent = false
+            if scrollView.contentOffset.y >= -height {
                 navigationController?.navigationBar.backgroundColor = Colors.newNavigationBarBackground.withAlphaComponent(max(height + scrollView.contentOffset.y, 0) / height)
+                UIApplication.shared.statusBarView?.backgroundColor = Colors.newNavigationBarBackground.withAlphaComponent(max(height + scrollView.contentOffset.y, 0) / height)
                 title = category.mainPageData.displayName
             } else {
-                navigationController?.navigationBar.isTranslucent = true
                 navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
                 navigationController?.navigationBar.shadowImage = UIImage()
                 navigationController?.navigationBar.backgroundColor = .clear
