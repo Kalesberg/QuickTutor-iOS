@@ -192,6 +192,7 @@ extension QTLocationsViewController: UITableViewDelegate {
                         }
                     }
                     
+                    NotificationCenter.default.post(name: Notifications.didUpdateUserRegion.name, object: nil)
                     AlertController.genericSavedAlert(self, title: "Address Saved!", message: "This address has been saved.")
                 }
             })

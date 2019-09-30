@@ -42,6 +42,8 @@ class LearnerMainPageVCView: UIView {
     let collectionViewHelper = LearnerMainPageCollectionViewHelper()
     var searchBarContainerHeightAnchor: NSLayoutConstraint?
     
+    var isRefreshing = false
+    
     func setupViews() {
         setupMainView()
         setupSearchBarContainer()
@@ -80,6 +82,11 @@ class LearnerMainPageVCView: UIView {
     func setupScrollViewDidScrollAction() {
         collectionViewHelper.handleScrollViewScroll = { [weak self] offset in
             guard let self = self else { return }
+            
+            if self.isRefreshing {
+                return
+            }
+            
             if -offset < 0 && offset != -30 {
                 self.searchBarContainer.showShadow()
             } else {

@@ -95,11 +95,6 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
         linkFacebookView.addGestureRecognizer(tapGestureRecognizer)
         
         showMeSwitch.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleShowMeSwitchTap(_:))))
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setupNavBar()
         
         if AccountService.shared.currentUserType == .learner {
             locationView.isHidden = false
@@ -111,6 +106,25 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
             isShowMe = CurrentUser.shared.tutor.isVisible
             showMeSwitchOn(isShowMe)
             locationTextField.text = CurrentUser.shared.tutor.location != nil ? CurrentUser.shared.tutor.region : "United States"
+        }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUserRegion(_:)), name: Notifications.didUpdateUserRegion.name, object: nil)
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupNavBar()
+        
+        if AccountService.shared.currentUserType == .learner {
+            locationView.isHidden = false
+            showMeView.isHidden = true
+//            locationTextField.text = CurrentUser.shared.learner.location != nil ? CurrentUser.shared.learner.region : "United States"
+        } else {
+            locationView.isHidden = false
+            showMeView.isHidden = false
+            isShowMe = CurrentUser.shared.tutor.isVisible
+            showMeSwitchOn(isShowMe)
+//            locationTextField.text = CurrentUser.shared.tutor.location != nil ? CurrentUser.shared.tutor.region : "United States"
         }
         
         updateFacebookInfoView()
@@ -344,6 +358,15 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
                     completion(responseDictionary)
                 }
             }
+        }
+    }
+    
+    @objc
+    private func updateUserRegion(_ notification: Notification) {
+        if AccountService.shared.currentUserType == .learner {
+            locationTextField.text = CurrentUser.shared.learner.region
+        } else {
+            locationTextField.text = CurrentUser.shared.tutor.region
         }
     }
     

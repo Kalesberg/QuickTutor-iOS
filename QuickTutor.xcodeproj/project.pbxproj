@@ -1008,6 +1008,8 @@
 		C40CEEC2233BD7C60070A816 /* MimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40CEEC0233BD7C60070A816 /* MimeType.swift */; };
 		C41F17E1224D2D3A007758FC /* QTCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41F17E0224D2D3A007758FC /* QTCustomButton.swift */; };
 		C41F17E2224D30E0007758FC /* QTCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41F17E0224D2D3A007758FC /* QTCustomButton.swift */; };
+		C43F670B23418F33001BBD25 /* QTSavedTutorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43F670A23418F33001BBD25 /* QTSavedTutorsViewController.swift */; };
+		C43F670C23418F33001BBD25 /* QTSavedTutorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43F670A23418F33001BBD25 /* QTSavedTutorsViewController.swift */; };
 		C447C7C522F9176100818733 /* UserTextMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C447C7C422F9176100818733 /* UserTextMessageCell.swift */; };
 		C447C7C622F9176100818733 /* UserTextMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C447C7C422F9176100818733 /* UserTextMessageCell.swift */; };
 		C4498A63230F033800EE619A /* QTEditProfileVideoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4498A61230F033800EE619A /* QTEditProfileVideoTableViewCell.swift */; };
@@ -1798,6 +1800,7 @@
 		C406D9E32307177B00D76129 /* QTEditSchoolTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTEditSchoolTableViewCell.xib; sourceTree = "<group>"; };
 		C40CEEC0233BD7C60070A816 /* MimeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MimeType.swift; sourceTree = "<group>"; };
 		C41F17E0224D2D3A007758FC /* QTCustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTCustomButton.swift; sourceTree = "<group>"; };
+		C43F670A23418F33001BBD25 /* QTSavedTutorsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTSavedTutorsViewController.swift; sourceTree = "<group>"; };
 		C447C7C422F9176100818733 /* UserTextMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTextMessageCell.swift; sourceTree = "<group>"; };
 		C4498A61230F033800EE619A /* QTEditProfileVideoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTEditProfileVideoTableViewCell.swift; sourceTree = "<group>"; };
 		C4498A62230F033800EE619A /* QTEditProfileVideoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTEditProfileVideoTableViewCell.xib; sourceTree = "<group>"; };
@@ -3499,6 +3502,7 @@
 				CF51958921A60F72007EEC37 /* SavedTutorsVC.swift */,
 				CF51958B21A7D87A007EEC37 /* AlignedCollectionViewFlowLayout.swift */,
 				93179FA2228FC52100768BBB /* EmptySavedTutorsBackground.swift */,
+				C43F670A23418F33001BBD25 /* QTSavedTutorsViewController.swift */,
 			);
 			path = Saved;
 			sourceTree = "<group>";
@@ -5194,6 +5198,7 @@
 				CFCE90AF226524DC00CBB1AD /* LearnerMainPageSuggestionsSectionContainerCell.swift in Sources */,
 				569F17A3223554FD00820A20 /* CardFooterView.swift in Sources */,
 				569F17A4223554FD00820A20 /* TutorHandbook.swift in Sources */,
+				C43F670C23418F33001BBD25 /* QTSavedTutorsViewController.swift in Sources */,
 				BE817236229E21980089FA1E /* AddCardViewController.swift in Sources */,
 				CFB767CE22991B7A001206DA /* EarningsHistoryCell.swift in Sources */,
 				569F17A5223554FD00820A20 /* SessionsVC.swift in Sources */,
@@ -5728,6 +5733,7 @@
 				847463282069482D00B70AD9 /* TutorHandbook.swift in Sources */,
 				84E4C7EC204E9829009C2FC4 /* SessionsVC.swift in Sources */,
 				CFB9B7EC21C23E850022333F /* PillCollectionViewCell.swift in Sources */,
+				C43F670B23418F33001BBD25 /* QTSavedTutorsViewController.swift in Sources */,
 				BE817235229E21980089FA1E /* AddCardViewController.swift in Sources */,
 				CFB767CD22991B77001206DA /* EarningsHistoryCell.swift in Sources */,
 				848809F7205770D000F204A0 /* TutorUnprofessionalVC.swift in Sources */,

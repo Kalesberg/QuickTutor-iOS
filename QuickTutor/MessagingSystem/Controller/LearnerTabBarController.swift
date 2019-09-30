@@ -14,7 +14,7 @@ class LearnerTabBarController: BaseTabBarController {
         super.viewDidLoad()
         let home = UINavigationController(rootViewController: LearnerMainPageVC())
         home.tabBarItem = ESTabBarItem(QTTabBarItemContentView(), image: UIImage(named: "homeTabBarIcon"), selectedImage: UIImage(named: "homeTabBarIcon"))
-        let saved = UINavigationController(rootViewController: SavedTutorsVC())
+        let saved = UINavigationController(rootViewController: QTSavedTutorsViewController()/*SavedTutorsVC()*/)
         saved.tabBarItem = ESTabBarItem(QTTabBarItemContentView(), image: UIImage(named: "savedTabBarIcon"), selectedImage: UIImage(named: "savedTabBarIcon"))
         let sessions = UINavigationController(rootViewController: LearnerSessionsVC())
         sessions.tabBarItem = ESTabBarItem(QTTabBarItemContentView(), image: UIImage(named: "sessionsTabBarIcon"), selectedImage: UIImage(named: "sessionsTabBarIcon"))
