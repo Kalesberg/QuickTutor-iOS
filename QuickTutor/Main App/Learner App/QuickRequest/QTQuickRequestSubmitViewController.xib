@@ -67,7 +67,7 @@
                     <rect key="frame" x="0.0" y="44" width="414" height="734"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hU0-jN-wJK">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="1076"/>
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="1034"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What do you need help with?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="46j-KT-jYB">
                                     <rect key="frame" x="20" y="20" width="181" height="17"/>
@@ -180,39 +180,15 @@
                                         <constraint firstAttribute="height" constant="232" id="FS9-ro-mwp"/>
                                     </constraints>
                                 </view>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ipo-8B-hOP" userLabel="separatorView" customClass="QTCustomView" customModule="QuickTutor" customModuleProvider="target">
-                                    <rect key="frame" x="20" y="428" width="374" height="1"/>
-                                    <color key="backgroundColor" red="0.17254901959999999" green="0.17254901959999999" blue="0.2274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="1" id="2f1-uP-fiO"/>
-                                    </constraints>
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                            <real key="value" value="0.59999999999999998"/>
-                                        </userDefinedRuntimeAttribute>
-                                    </userDefinedRuntimeAttributes>
-                                </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V7x-mY-RBw" customClass="SessionRequestDurationView" customModule="QuickTutor" customModuleProvider="target">
-                                    <rect key="frame" x="20" y="449" width="374" height="120"/>
+                                    <rect key="frame" x="20" y="428" width="374" height="120"/>
                                     <color key="backgroundColor" red="0.08235294118" green="0.08235294118" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="120" id="LBd-bX-12K"/>
                                     </constraints>
                                 </view>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yLY-sh-9fi" userLabel="separatorView" customClass="QTCustomView" customModule="QuickTutor" customModuleProvider="target">
-                                    <rect key="frame" x="20" y="589" width="374" height="1"/>
-                                    <color key="backgroundColor" red="0.17254901959999999" green="0.17254901959999999" blue="0.2274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="1" id="HXm-ap-hjQ"/>
-                                    </constraints>
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                            <real key="value" value="0.59999999999999998"/>
-                                        </userDefinedRuntimeAttribute>
-                                    </userDefinedRuntimeAttributes>
-                                </view>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="9eb-PB-Qj3">
-                                    <rect key="frame" x="20" y="610" width="374" height="334"/>
+                                    <rect key="frame" x="20" y="568" width="374" height="334"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wwv-IB-4zd">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="167"/>
@@ -559,7 +535,7 @@
                                     </subviews>
                                 </stackView>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yeR-5R-Su4" userLabel="separatorView" customClass="QTCustomView" customModule="QuickTutor" customModuleProvider="target">
-                                    <rect key="frame" x="20" y="964" width="374" height="1"/>
+                                    <rect key="frame" x="20" y="922" width="374" height="1"/>
                                     <color key="backgroundColor" red="0.17254901959999999" green="0.17254901959999999" blue="0.2274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="1" id="tys-uP-JZQ"/>
@@ -571,7 +547,7 @@
                                     </userDefinedRuntimeAttributes>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tzd-xz-t0B">
-                                    <rect key="frame" x="20" y="985" width="374" height="71"/>
+                                    <rect key="frame" x="20" y="943" width="374" height="71"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Session Type:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v50-4a-t52" userLabel="Please selet a request type">
                                             <rect key="frame" x="0.0" y="0.0" width="83" height="17"/>
@@ -648,19 +624,14 @@
                             </subviews>
                             <color key="backgroundColor" red="0.08235294118" green="0.08235294118" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
-                                <constraint firstItem="9eb-PB-Qj3" firstAttribute="top" secondItem="yLY-sh-9fi" secondAttribute="bottom" constant="20" id="01l-xj-KnU"/>
                                 <constraint firstAttribute="trailing" secondItem="V7x-mY-RBw" secondAttribute="trailing" constant="20" id="0N6-Em-XtG"/>
                                 <constraint firstAttribute="trailing" secondItem="Cum-aA-vOE" secondAttribute="trailing" constant="20" id="0kQ-cj-UrU"/>
-                                <constraint firstItem="yLY-sh-9fi" firstAttribute="leading" secondItem="hU0-jN-wJK" secondAttribute="leading" constant="20" id="0n8-2s-v11"/>
-                                <constraint firstItem="Ipo-8B-hOP" firstAttribute="leading" secondItem="hU0-jN-wJK" secondAttribute="leading" constant="20" id="1K5-lP-KOv"/>
                                 <constraint firstItem="V7x-mY-RBw" firstAttribute="leading" secondItem="hU0-jN-wJK" secondAttribute="leading" constant="20" id="3tb-U8-ryt"/>
                                 <constraint firstItem="Tzd-xz-t0B" firstAttribute="leading" secondItem="hU0-jN-wJK" secondAttribute="leading" constant="20" id="55S-2A-Nny"/>
                                 <constraint firstAttribute="trailing" secondItem="Tzd-xz-t0B" secondAttribute="trailing" constant="20" id="5Sq-Q9-CNw"/>
                                 <constraint firstItem="Cum-aA-vOE" firstAttribute="top" secondItem="46j-KT-jYB" secondAttribute="bottom" constant="20" id="62a-Zh-29i"/>
                                 <constraint firstItem="9eb-PB-Qj3" firstAttribute="leading" secondItem="hU0-jN-wJK" secondAttribute="leading" constant="20" id="8uU-qe-a83"/>
                                 <constraint firstItem="AWQ-cA-maC" firstAttribute="leading" secondItem="hU0-jN-wJK" secondAttribute="leading" constant="20" id="AAI-UO-1iJ"/>
-                                <constraint firstItem="Ipo-8B-hOP" firstAttribute="top" secondItem="AWQ-cA-maC" secondAttribute="bottom" constant="20" id="I4t-My-teO"/>
-                                <constraint firstAttribute="trailing" secondItem="Ipo-8B-hOP" secondAttribute="trailing" constant="20" id="IMG-8P-fA0"/>
                                 <constraint firstAttribute="trailing" secondItem="AWQ-cA-maC" secondAttribute="trailing" constant="20" id="M4F-zl-VSs"/>
                                 <constraint firstAttribute="trailing" secondItem="9eb-PB-Qj3" secondAttribute="trailing" constant="20" id="PE7-Cd-Ozo"/>
                                 <constraint firstItem="yeR-5R-Su4" firstAttribute="leading" secondItem="hU0-jN-wJK" secondAttribute="leading" constant="20" id="RtG-lo-6u6"/>
@@ -668,14 +639,13 @@
                                 <constraint firstAttribute="trailing" secondItem="yeR-5R-Su4" secondAttribute="trailing" constant="20" id="Uej-oM-nmr"/>
                                 <constraint firstItem="Cum-aA-vOE" firstAttribute="leading" secondItem="hU0-jN-wJK" secondAttribute="leading" constant="20" id="XOE-ao-xGd"/>
                                 <constraint firstItem="Tzd-xz-t0B" firstAttribute="top" secondItem="yeR-5R-Su4" secondAttribute="bottom" constant="20" id="Z24-JP-drW"/>
+                                <constraint firstItem="V7x-mY-RBw" firstAttribute="top" secondItem="AWQ-cA-maC" secondAttribute="bottom" constant="20" id="bvp-OK-gu2"/>
                                 <constraint firstAttribute="bottom" secondItem="Tzd-xz-t0B" secondAttribute="bottom" constant="20" id="czE-2N-GpO"/>
                                 <constraint firstItem="s8E-T0-G7K" firstAttribute="top" secondItem="Cum-aA-vOE" secondAttribute="bottom" constant="20" id="foT-ND-nuv"/>
                                 <constraint firstItem="46j-KT-jYB" firstAttribute="leading" secondItem="hU0-jN-wJK" secondAttribute="leading" constant="20" id="fym-N4-Rcg"/>
-                                <constraint firstItem="V7x-mY-RBw" firstAttribute="top" secondItem="Ipo-8B-hOP" secondAttribute="bottom" constant="20" id="gJj-x5-ok0"/>
+                                <constraint firstItem="9eb-PB-Qj3" firstAttribute="top" secondItem="V7x-mY-RBw" secondAttribute="bottom" constant="20" id="gHu-7Y-6He"/>
                                 <constraint firstItem="yeR-5R-Su4" firstAttribute="top" secondItem="9eb-PB-Qj3" secondAttribute="bottom" constant="20" id="i2k-7n-qOO"/>
-                                <constraint firstItem="yLY-sh-9fi" firstAttribute="top" secondItem="V7x-mY-RBw" secondAttribute="bottom" constant="20" id="oDb-wO-f2w"/>
                                 <constraint firstItem="s8E-T0-G7K" firstAttribute="leading" secondItem="hU0-jN-wJK" secondAttribute="leading" constant="20" id="pAa-xr-ukN"/>
-                                <constraint firstAttribute="trailing" secondItem="yLY-sh-9fi" secondAttribute="trailing" constant="20" id="ryp-W6-k7D"/>
                                 <constraint firstAttribute="trailing" secondItem="s8E-T0-G7K" secondAttribute="trailing" constant="20" id="sQS-Sw-EZg"/>
                                 <constraint firstItem="AWQ-cA-maC" firstAttribute="top" secondItem="s8E-T0-G7K" secondAttribute="bottom" constant="20" id="zga-mh-vOq"/>
                             </constraints>
