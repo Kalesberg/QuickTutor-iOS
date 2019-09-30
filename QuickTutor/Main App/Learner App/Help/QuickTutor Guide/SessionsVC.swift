@@ -77,7 +77,7 @@ class SessionsView: MainLayoutHeaderScroll {
         inSessionTitle.label.text = "In-Session"
         inSessionBody.text = "In-person and online sessions operate similarly. Both users can pause or leave sessions at anytime. When a session is paused — the clock is completely stopped, users are not charged and tutors will not be compensated for this time. You can pause a session by tapping on the arrow button in the bottom left corner of your screen and then selecting \"pause session\".\n\nWhen a session’s time is up, we will ask you you’d like to keep the session going or end it immediately. Your tutor can choose to end the session immediately and override your choice at any time.\n\nIf you decide to add time, your tutor has the option to accept or deny the added time request. If they deny the time addition, the session will end immediately."
         guidelinesTitle.label.text = "Community guidelines & reports"
-        guidelinesBody.text = "You will not be penalized for leaving sessions early. Tutors are subject to disciplinary action if leaving sessions early becomes a trend.\n\nYou can report a tutor for canceling, being late to a session, or not showing up to a session in your \"Past Transactions\" section on your profile tab."
+        guidelinesBody.text = "You will not be penalized for leaving sessions early. Tutors are topic to disciplinary action if leaving sessions early becomes a trend.\n\nYou can report a tutor for canceling, being late to a session, or not showing up to a session in your \"Past Transactions\" section on your profile tab."
         reportOnPastSessionTitle.label.text = "To file a report on a past session:"
         
         attributesDictionary = [.font: reportOnPastSessionBody.font]

@@ -28,8 +28,8 @@ abstract_target 'QuickTutorApp' do
 
         # Pods for Facebook
         pod 'AccountKit'
-        pod 'FacebookCore', '~> 0.4.0'
-        pod 'FacebookLogin', '~> 0.4.0'
+        pod 'FacebookCore'
+        pod 'FacebookLogin'
         pod 'SnapKit', '~> 4.0.1'
         pod 'lottie-ios', '~> 2.5.3'
 
@@ -55,12 +55,15 @@ abstract_target 'QuickTutorApp' do
         pod 'TYPagerController'
         pod 'MXParallaxHeader'
         
-        pod 'SkeletonView'
+        pod 'SkeletonView', '1.8'
         pod 'ESTabBarController-swift'
         pod 'Cosmos'
         
         pod 'ActiveLabel'
         pod 'RangeSeekSlider'
+        pod 'SKPhotoBrowser'
+        pod 'UITextView+Placeholder'
+        pod 'BetterSegmentedControl'
     end
     
     target 'QuickTutor' do

@@ -140,6 +140,7 @@ class ConversationCell: SwipeCollectionViewCell {
     
     private func updateUsernameLabel() {
         usernameLabel.text = chatPartner.formattedName.capitalized
+        usernameLabel.textColor = .white
     }
     
     private func updateOnlineStatusIndicator() {
@@ -147,12 +148,13 @@ class ConversationCell: SwipeCollectionViewCell {
     }
     
     private func updateProfileImage() {
-        profileImageView.imageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+        profileImageView.imageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
     }
     
     private func updateTimestampLabel(message: UserMessage) {
         let timestampDate = Date(timeIntervalSince1970: message.timeStamp.doubleValue)
         timestampLabel.text = timestampDate.formatRelativeString()
+        timestampLabel.textColor = .white
     }
     
     private func updateLastMessageLabel(message: UserMessage) {
@@ -174,10 +176,16 @@ class ConversationCell: SwipeCollectionViewCell {
     }
     
     func checkConversationReadStatus(partnerId: String) {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let uid = Auth.auth().currentUser?.uid else {
+            self.updateAsUnread()
+            return
+        }
         let userTypeString = AccountService.shared.currentUserType.rawValue
         Database.database().reference().child("conversationMetaData").child(uid).child(userTypeString).child(partnerId).child("readBy").observeSingleEvent(of: .value) { snapshot in
-            guard let readByIds = snapshot.value as? [String: Any] else { return }
+            guard let readByIds = snapshot.value as? [String: Any] else {
+                self.updateAsUnread()
+                return
+            }
             let isRead = readByIds[uid] != nil
             isRead ? self.updateAsRead() : self.updateAsUnread()
         }

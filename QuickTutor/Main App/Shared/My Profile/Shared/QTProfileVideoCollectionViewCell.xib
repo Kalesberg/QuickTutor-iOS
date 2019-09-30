@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Lato-Semibold.ttf">
+            <string>Lato-Semibold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="QTProfileVideoCollectionViewCell" customModule="QuickTutor" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="388" height="231"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="388" height="231"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DJt-HP-oWD">
+                        <rect key="frame" x="0.0" y="0.0" width="388" height="231"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MQa-Q8-1Ah" customClass="CustomImageView" customModule="QuickTutor" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="388" height="231"/>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="BP6-vE-9ba">
+                                <rect key="frame" x="0.0" y="15.5" width="388" height="200"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NfI-Jy-09t">
+                                        <rect key="frame" x="0.0" y="0.0" width="388" height="50"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cGn-2t-Z9k">
+                                                <rect key="frame" x="0.0" y="0.0" width="388" height="50"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="Lzi-iw-SsA"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="14"/>
+                                                <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <inset key="imageEdgeInsets" minX="-8" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="Play" image="ic_video_play">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="onClickPlay:" destination="gTV-IL-0wX" eventType="touchUpInside" id="MV0-AZ-6Yq"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="cGn-2t-Z9k" secondAttribute="bottom" id="34h-jL-8hH"/>
+                                            <constraint firstAttribute="trailing" secondItem="cGn-2t-Z9k" secondAttribute="trailing" id="3zF-XK-cBh"/>
+                                            <constraint firstItem="cGn-2t-Z9k" firstAttribute="leading" secondItem="NfI-Jy-09t" secondAttribute="leading" id="HXf-pf-5lQ"/>
+                                            <constraint firstItem="cGn-2t-Z9k" firstAttribute="top" secondItem="NfI-Jy-09t" secondAttribute="top" id="qBJ-Es-fcp"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cfq-ET-tr3">
+                                        <rect key="frame" x="0.0" y="50" width="388" height="50"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XIJ-qd-rGK">
+                                                <rect key="frame" x="0.0" y="0.0" width="388" height="50"/>
+                                                <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="14"/>
+                                                <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <inset key="imageEdgeInsets" minX="-8" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="Upload" image="ic_video_upload">
+                                                    <color key="titleColor" red="0.396078431372549" green="0.38431372549019605" blue="0.78823529411764703" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="onClickUpload:" destination="gTV-IL-0wX" eventType="touchUpInside" id="IBs-br-A0A"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="XIJ-qd-rGK" secondAttribute="trailing" id="UBd-vz-Qsy"/>
+                                            <constraint firstItem="XIJ-qd-rGK" firstAttribute="top" secondItem="cfq-ET-tr3" secondAttribute="top" id="W7C-7L-2Rd"/>
+                                            <constraint firstAttribute="bottom" secondItem="XIJ-qd-rGK" secondAttribute="bottom" id="cAF-an-lmQ"/>
+                                            <constraint firstItem="XIJ-qd-rGK" firstAttribute="leading" secondItem="cfq-ET-tr3" secondAttribute="leading" id="veu-c4-78x"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ns5-Ms-FOT">
+                                        <rect key="frame" x="0.0" y="100" width="388" height="50"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0K8-yq-ojD">
+                                                <rect key="frame" x="0.0" y="0.0" width="388" height="50"/>
+                                                <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="14"/>
+                                                <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <inset key="imageEdgeInsets" minX="-8" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="Delete" image="ic_video_delete">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="onClickDelete:" destination="gTV-IL-0wX" eventType="touchUpInside" id="RWB-dw-lp5"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="0K8-yq-ojD" firstAttribute="leading" secondItem="ns5-Ms-FOT" secondAttribute="leading" id="6CS-7Z-kht"/>
+                                            <constraint firstAttribute="trailing" secondItem="0K8-yq-ojD" secondAttribute="trailing" id="9OZ-Ws-XZt"/>
+                                            <constraint firstItem="0K8-yq-ojD" firstAttribute="top" secondItem="ns5-Ms-FOT" secondAttribute="top" id="Mvg-Ve-pD5"/>
+                                            <constraint firstAttribute="bottom" secondItem="0K8-yq-ojD" secondAttribute="bottom" id="bAL-eK-Xed"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M9x-kP-WLY">
+                                        <rect key="frame" x="0.0" y="150" width="388" height="50"/>
+                                        <subviews>
+                                            <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YV3-pI-Beb">
+                                                <rect key="frame" x="169" y="0.0" width="50" height="50"/>
+                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="50" id="P3u-tY-j8n"/>
+                                                    <constraint firstAttribute="width" secondItem="YV3-pI-Beb" secondAttribute="height" multiplier="1:1" id="pvF-Bo-n0P"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="14"/>
+                                                <state key="normal" image="ic_profile_video_play">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <state key="selected" image="ic_profile_video_pause"/>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="YV3-pI-Beb" firstAttribute="centerY" secondItem="M9x-kP-WLY" secondAttribute="centerY" id="7nt-3H-0iO"/>
+                                            <constraint firstItem="YV3-pI-Beb" firstAttribute="centerX" secondItem="M9x-kP-WLY" secondAttribute="centerX" id="8Yn-2H-d4u"/>
+                                            <constraint firstItem="YV3-pI-Beb" firstAttribute="height" secondItem="M9x-kP-WLY" secondAttribute="height" id="Yn4-F3-DPA"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.22745098039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="MQa-Q8-1Ah" secondAttribute="trailing" id="5I0-ue-fnf"/>
+                            <constraint firstItem="MQa-Q8-1Ah" firstAttribute="leading" secondItem="DJt-HP-oWD" secondAttribute="leading" id="89O-cr-azF"/>
+                            <constraint firstAttribute="bottom" secondItem="MQa-Q8-1Ah" secondAttribute="bottom" id="eQP-eb-Xwf"/>
+                            <constraint firstAttribute="trailing" secondItem="BP6-vE-9ba" secondAttribute="trailing" id="ejF-aP-FYn"/>
+                            <constraint firstItem="BP6-vE-9ba" firstAttribute="leading" secondItem="DJt-HP-oWD" secondAttribute="leading" id="haE-Lz-jzW"/>
+                            <constraint firstItem="BP6-vE-9ba" firstAttribute="centerY" secondItem="DJt-HP-oWD" secondAttribute="centerY" id="iem-DM-Dcd"/>
+                            <constraint firstItem="BP6-vE-9ba" firstAttribute="top" secondItem="DJt-HP-oWD" secondAttribute="top" priority="250" id="pLC-mn-PTQ"/>
+                            <constraint firstItem="MQa-Q8-1Ah" firstAttribute="top" secondItem="DJt-HP-oWD" secondAttribute="top" id="qvR-62-pIQ"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <color key="backgroundColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.22745098039215686" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="DJt-HP-oWD" secondAttribute="trailing" id="PO8-pb-RnB"/>
+                <constraint firstItem="DJt-HP-oWD" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="TuF-k7-uS6"/>
+                <constraint firstAttribute="bottom" secondItem="DJt-HP-oWD" secondAttribute="bottom" id="cot-e3-oSd"/>
+                <constraint firstItem="DJt-HP-oWD" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="q7X-lD-UjV"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <size key="customSize" width="388" height="231"/>
+            <connections>
+                <outlet property="containerView" destination="DJt-HP-oWD" id="5Yh-x0-RTf"/>
+                <outlet property="deleteButton" destination="0K8-yq-ojD" id="tsT-N7-jff"/>
+                <outlet property="optButton" destination="YV3-pI-Beb" id="7KT-rm-vAe"/>
+                <outlet property="playButton" destination="cGn-2t-Z9k" id="FpM-cL-RmZ"/>
+                <outlet property="thumbImageView" destination="MQa-Q8-1Ah" id="QdM-4K-fkS"/>
+                <outlet property="uploadButton" destination="XIJ-qd-rGK" id="Nff-me-Zan"/>
+            </connections>
+            <point key="canvasLocation" x="376.81159420289856" y="204.57589285714286"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="ic_profile_video_pause" width="25" height="29"/>
+        <image name="ic_profile_video_play" width="27" height="29"/>
+        <image name="ic_video_delete" width="12" height="12"/>
+        <image name="ic_video_play" width="12" height="12"/>
+        <image name="ic_video_upload" width="12" height="12"/>
+    </resources>
+</document>

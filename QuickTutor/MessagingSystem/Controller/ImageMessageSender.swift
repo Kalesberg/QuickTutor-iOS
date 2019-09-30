@@ -34,6 +34,7 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
         let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         ac.addAction(UIAlertAction(title: "Take Photo/Video", style: .default) { _ in
             self.imagePicker.sourceType = .camera
+//            self.imagePicker.videoQuality = .typeHigh
             self.parentViewController.present(self.imagePicker, animated: true, completion: nil)
         })
         ac.addAction(UIAlertAction(title: "Choose Media", style: .default) { _ in
@@ -46,11 +47,12 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[.originalImage] as? UIImage {
-            picker.dismiss(animated: false) {
+            picker.dismiss(animated: true) {
                 let cropViewController = CropViewController(image: image)
                 cropViewController.delegate = self
                 cropViewController.aspectRatioPreset = .presetSquare
-                self.parentViewController.present(cropViewController, animated: true, completion: nil)
+                cropViewController.modalPresentationStyle = .fullScreen
+                self.parentViewController.present(cropViewController, animated: false)
             }
         } else if let url = info[.mediaURL] as? URL {
             uploadVideoToFirebase(url)
@@ -64,7 +66,7 @@ class ImageMessageSender: NSObject, UIImagePickerControllerDelegate, UINavigatio
 
     func uploadImageToFirebase(image: UIImage, completion: @escaping(URL) -> Void) {
         parentViewController.dismiss(animated: true, completion: nil)
-        guard let data = image.jpegData(compressionQuality: 0.2) else {
+        guard let data = image.jpegData(compressionQuality: 0.7) else {
             return
         }
         let imageName = NSUUID().uuidString
@@ -167,6 +169,7 @@ extension ImageMessageSender: CropViewControllerDelegate {
         uploadImageToFirebase(image: image) { (imageUrl) in
             self.sendMessage(image, imageUrl: imageUrl)
         }
-        cropViewController.dismiss(animated: true, completion: nil)
+        
+        cropViewController.dismiss(animated: true)
     }
 }

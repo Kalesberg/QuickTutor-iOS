@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Lato-Regular.ttf">
+            <string>Lato-Regular</string>
+        </array>
+        <array key="Lato-Semibold.ttf">
+            <string>Lato-Semibold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QTWriteRecommendationViewController" customModule="QuickTutor" customModuleProvider="target">
+            <connections>
+                <outlet property="btnSubmit" destination="Dgl-Vg-Y3Y" id="fHx-dL-EQn"/>
+                <outlet property="constraintViewBottom" destination="cOT-rE-3rB" id="VYJ-6Y-bQy"/>
+                <outlet property="txtRecommendation" destination="J6d-lF-RlQ" id="ObH-F5-tYV"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tj0-rK-9LE" customClass="QTCustomView" customModule="QuickTutor" customModuleProvider="target">
+                    <rect key="frame" x="16" y="16" width="343" height="515"/>
+                    <subviews>
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="J6d-lF-RlQ">
+                            <rect key="frame" x="5" y="0.0" width="333" height="515"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="16"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Start type..."/>
+                                <userDefinedRuntimeAttribute type="color" keyPath="placeholderColor">
+                                    <color key="value" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="xVs-IA-Agb"/>
+                            </connections>
+                        </textView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="J6d-lF-RlQ" firstAttribute="top" secondItem="Tj0-rK-9LE" secondAttribute="top" id="PHL-JV-yRS"/>
+                        <constraint firstAttribute="bottom" secondItem="J6d-lF-RlQ" secondAttribute="bottom" id="aNG-cs-tb3"/>
+                        <constraint firstItem="J6d-lF-RlQ" firstAttribute="leading" secondItem="Tj0-rK-9LE" secondAttribute="leading" constant="5" id="nt6-hD-lD9"/>
+                        <constraint firstAttribute="trailing" secondItem="J6d-lF-RlQ" secondAttribute="trailing" constant="5" id="r8k-cz-PUB"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                            <color key="value" red="0.39607843139999999" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                            <real key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="6"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dgl-Vg-Y3Y" customClass="DimmableButton" customModule="QuickTutor" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="547" width="375" height="56"/>
+                    <color key="backgroundColor" red="0.39607843139999999" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="56" id="RHc-sO-gNG"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="16"/>
+                    <state key="normal" title="Submit"/>
+                    <connections>
+                        <action selector="onClickBtnSubmit:" destination="-1" eventType="touchUpInside" id="IXI-eS-xpl"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="0.08235294118" green="0.08235294118" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <constraints>
+                <constraint firstItem="Dgl-Vg-Y3Y" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="HwR-0Y-fYp"/>
+                <constraint firstItem="Dgl-Vg-Y3Y" firstAttribute="top" secondItem="Tj0-rK-9LE" secondAttribute="bottom" constant="16" id="ICF-CA-n5I"/>
+                <constraint firstItem="Tj0-rK-9LE" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="16" id="Lpu-Zt-CHv"/>
+                <constraint firstItem="Dgl-Vg-Y3Y" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="ODv-k2-8WP"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Tj0-rK-9LE" secondAttribute="trailing" constant="16" id="T6G-ZG-OQ0"/>
+                <constraint firstItem="Dgl-Vg-Y3Y" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="cOT-rE-3rB"/>
+                <constraint firstItem="Tj0-rK-9LE" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="e21-hc-RU9"/>
+            </constraints>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+        </view>
+    </objects>
+</document>

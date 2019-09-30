@@ -25,29 +25,46 @@ class LearnerRegistrationService {
         }
         
         if shouldSaveInterests {
-            guard let uid = Auth.auth().currentUser?.uid else { return }
-            Database.database().reference().child("interests").child(subject).child(uid).setValue(1)
+            guard let uid = CurrentUser.shared.learner.uid else { return }
+            
+            var newValue = [
+                "name": CurrentUser.shared.learner.formattedName,
+                "email": CurrentUser.shared.learner.email
+            ]
+            if let phone = CurrentUser.shared.learner.phone,
+                !phone.isEmpty {
+                newValue["phone"] = phone
+            }
+            
+            Database.database().reference().child("interests").child(subject).child(uid).setValue(newValue)
             Database.database().reference().child("student-info").child(uid).child("interests").child(subject).setValue(1)
             guard let subcategory = CategoryFactory.shared.getSubcategoryFor(subject: subject) else { return }
             if !subcategoriesTaught().contains(where: {$0.name == subcategory.name}) {
                 print("Adding interest to subcategory:", subcategory.name)
-                Database.database().reference().child("interest-subcategories").child(subcategory.name.lowercased()).child(uid).setValue(1)
+                Database.database().reference().child("interest-subcategories").child(subcategory.name.lowercased()).child(uid).setValue(newValue)
             }
             if !categoriesTaught().contains(where: {$0.name == subcategory.category}) {
                 print("Adding interest to category:", subcategory.category)
-                Database.database().reference().child("interest-categories").child(subcategory.category).child(uid).setValue(1)
+                Database.database().reference().child("interest-categories").child(subcategory.category).child(uid).setValue(newValue)
             }
         }
         interests.append(subject)
-        NotificationCenter.default.post(name: Notifications.learnerDidAddInterest.name, object: nil, userInfo: nil)
+        // Save current interests again to the current learner account
+        CurrentUser.shared.learner.interests = interests
+        NotificationCenter.default.post(name: Notifications.learnerDidAddInterest.name, object: nil, userInfo: ["subject" : subject])
     }
     
     
     func removeInterest(_ subject: String) {
-        interests = interests.filter({ $0 != subject})
+        /*interests = interests.filter({ $0 != subject})
         
-        // TODO: change notification name.
-        NotificationCenter.default.post(name: Notifications.learnerDidRemoveInterest.name, object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: Notifications.learnerDidRemoveInterest.name, object: nil, userInfo: nil)*/
+        
+        let index = interests.firstIndex(of: subject)
+        interests = interests.filter({ $0 != subject})
+        NotificationCenter.default.post(name: Notifications.learnerDidRemoveInterest.name, object: nil, userInfo: ["subject" : subject,
+                                                                                                                   "index" : index ?? -1])
+        
         if shouldSaveInterests {
             guard let uid = Auth.auth().currentUser?.uid else { return }
             Database.database().reference().child("interests").child(subject).child(uid).removeValue()
@@ -61,6 +78,9 @@ class LearnerRegistrationService {
                 print("Removing from category:", subcategory.category)
                 Database.database().reference().child("interest-categories").child(subcategory.category).child(uid).removeValue()
             }
+            
+            // Save current interests again to the current learner account
+            CurrentUser.shared.learner.interests = interests
         }
     }
     

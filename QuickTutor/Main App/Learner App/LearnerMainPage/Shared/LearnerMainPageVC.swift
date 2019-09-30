@@ -66,13 +66,15 @@ class LearnerMainPageVC: UIViewController {
         self.refreshControl.beginRefreshing()
         
         // End the animation of refersh control
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
             self.refreshControl.endRefreshing()
-        })
+        }
     }
     
     @objc func handleSearchTap() {
-        navigationController?.pushViewController(QTQuickSearchViewController.controller, animated: false) // QuickSearchVC()
+        let controller = QTQuickSearchViewController.controller
+        controller.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(controller, animated: false)
     }
     
     func setupObservers() {
@@ -101,6 +103,7 @@ class LearnerMainPageVC: UIViewController {
             vc.category = cateogryTitle
             vc.navigationItem.title = cateogryTitle
         }
+        vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -114,6 +117,7 @@ class LearnerMainPageVC: UIViewController {
         } else {
             next.navigationItem.title = category.capitalizingFirstLetter()
         }
+        next.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(next, animated: true)
     }
     
@@ -127,6 +131,7 @@ class LearnerMainPageVC: UIViewController {
         next.datasource = tutors
         next.navigationItem.title = "Rising Talents"
         next.loadedAllTutors = true
+        next.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(next, animated: true)
     }
     
@@ -165,6 +170,7 @@ class LearnerMainPageVC: UIViewController {
                 controller.subject = tutor.featuredSubject
                 controller.profileViewType = .tutor
                 controller.user = tutor
+                controller.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(controller, animated: true)
             }
         })
@@ -176,6 +182,7 @@ class LearnerMainPageVC: UIViewController {
         let vc = CategorySearchVC()
         vc.subject = subject
         vc.navigationItem.title = subject.capitalized
+        vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
     }
     

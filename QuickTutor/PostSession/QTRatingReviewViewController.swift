@@ -28,6 +28,15 @@ class QTRatingReviewViewController: UIViewController {
     var name : String!
     var sessionsWithPartner : Int = 0
     
+    private var cards = [STPCard]()
+    private var defaultCard: STPCard?
+    var customer: STPCustomer! {
+        didSet {
+            setCustomer()
+        }
+    }
+    
+    
     struct PostSessionReviewData {
         static var rating : Int!
         static var tipAmount : Double = 5
@@ -109,6 +118,11 @@ class QTRatingReviewViewController: UIViewController {
             }
         }
         SessionService.shared.session = nil
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear (animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     @IBAction func onClickNextButton(_ sender: Any) {
@@ -272,6 +286,55 @@ class QTRatingReviewViewController: UIViewController {
         return Int(cost * 100)
     }
     
+    private func selectPayment () {
+        NotificationCenter.default.addObserver(self, selector: #selector(updatedCustomer(_ :)), name: Notifications.didUpatePaymentCustomer.name, object: nil)
+        
+        let cardManagerVC = CardManagerViewController()
+        cardManagerVC.setHasPaymentHistory(false)
+        self.navigationController?.pushViewController(cardManagerVC, animated: true)
+    }
+    
+    @objc
+    private func updatedCustomer (_ notification: Notification) {
+        guard let userInfo = notification.userInfo as? [String:Any] else { return }
+        if let customer = userInfo["customer"] as? STPCustomer {
+            self.customer = customer
+            guard let cell = collectionView.cellForItem(at: IndexPath(item: 1, section: 0)) as? QTRatingTipCollectionViewCell else { return }
+            cell.setPayment(defaultCard: defaultCard)
+        } else if let isApplyPay = userInfo["isApplyPay"] as? Bool, isApplyPay {
+            defaultCard = nil
+            guard let cell = collectionView.cellForItem(at: IndexPath(item: 1, section: 0)) as? QTRatingTipCollectionViewCell else { return }
+            cell.setPayment(defaultCard: defaultCard)
+        }
+    }
+    
+    // MARK: - Stripe Handlers
+    private func getPayments (_ cell: QTRatingTipCollectionViewCell) {
+        if let learner = CurrentUser.shared.learner, !learner.customer.isEmpty {
+            displayLoadingOverlay()
+            StripeService.retrieveCustomer(cusID: CurrentUser.shared.learner.customer) { customer, error in
+                self.dismissOverlay()
+                if let error = error {
+                    if let message = error.message {
+                        AlertController.genericAlertWithoutCancel(self, title: "Error Retrieving Cards", message: message)
+                    } else {
+                        AlertController.genericAlertWithoutCancel(self, title: "Error Retrieving Cards", message: error.error?.localizedDescription)
+                    }
+                } else if let customer = customer {
+                    self.customer = customer
+                    cell.setPayment(defaultCard: self.defaultCard)
+                }
+            }
+        }
+    }
+    
+    private func setCustomer() {
+        guard let cards = customer.sources as? [STPCard] else { return }
+        self.cards = cards
+        guard let defaultCard = customer.defaultSource as? STPCard else { return }
+        self.defaultCard = defaultCard
+    }
+    
     private func createCharge(tutorId: String, learnerId: String, cost: Int, tip: Int, completion: @escaping (QTStripeError?) -> Void) {
         let totalPrice = cost + tip
         amount = Int(Double(totalPrice + 30) / 0.971 + 0.5)
@@ -286,13 +349,11 @@ class QTRatingReviewViewController: UIViewController {
         if CurrentUser.shared.learner.isApplePayDefault {
             // Apple Pay
             let paymentRequest = Stripe.paymentRequest(withMerchantIdentifier: Constants.APPLE_PAY_MERCHANT_ID, country: "US", currency: "USD")
-            var description = ""
-            if let subject = self.session?.subject {
-                if "quick-call" == self.session?.type {
-                    description = "QuickCall: \(subject)"
-                } else {
-                    description = "Session: \(subject)"
-                }
+            var description = tutor.formattedName
+            if "quick-calls" == session?.type {
+                description += " for your QuickCall."
+            } else {
+                description += " for your Session."
             }
             
             paymentRequest.paymentSummaryItems = [
@@ -470,6 +531,7 @@ extension QTRatingReviewViewController: UICollectionViewDataSource {
         
         switch indexPath.row {
         case 0:
+            NotificationCenter.default.removeObserver(self)
             if let cell: QTRatingReviewCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: QTRatingReviewCollectionViewCell.reuseIdentifier,
                                                                                                for: indexPath) as? QTRatingReviewCollectionViewCell {
                 cell.didUpdateRating = { rating in
@@ -490,13 +552,28 @@ extension QTRatingReviewViewController: UICollectionViewDataSource {
         case 1:
             if AccountService.shared.currentUserType == .learner {
                 if let cell: QTRatingTipCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: QTRatingTipCollectionViewCell.reuseIdentifier, for: indexPath) as? QTRatingTipCollectionViewCell {
-                    cell.setProfileInfo(user: tutor, subject: subject, costOfSession: costOfSession)
-                    cell.didSelectTip = { tip in
-                        PostSessionReviewData.tipAmount = tip
+                    if let type = session?.type {
+                        let sessionType = QTSessionType(rawValue: type) ?? QTSessionType.online
+                        cell.didSelectTip = { tip, totalCost in
+                            PostSessionReviewData.tipAmount = tip
+                            self.nextButton.setTitle("\(self.learnerButtonNames[self.currentStep]) TOTAL: $\(String(format: "%.02f", totalCost))", for: .normal)
+                        }
+                        cell.didSelectPayment = {
+                            self.selectPayment ()
+                        }
+                        cell.setProfileInfo(user: tutor, subject: subject, costOfSession: costOfSession, sessionType: sessionType)
+                        
+                        // stripe
+                        if cards.isEmpty {
+                            getPayments (cell)
+                        } else {
+                            cell.setPayment (defaultCard: defaultCard)
+                        }
                     }
                     return cell
                 }
             } else {
+                NotificationCenter.default.removeObserver(self)
                 if let cell: QTRatingReceiptCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: QTRatingReceiptCollectionViewCell.reuseIdentifier,
                                                                                                     for: indexPath) as? QTRatingReceiptCollectionViewCell {
                     if let type = session?.type {
@@ -515,6 +592,7 @@ extension QTRatingReviewViewController: UICollectionViewDataSource {
             }
             break
         case 2:
+            NotificationCenter.default.removeObserver(self)
             if let cell: QTRatingReceiptCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: QTRatingReceiptCollectionViewCell.reuseIdentifier,
                                                                                                 for: indexPath) as? QTRatingReceiptCollectionViewCell {
                 if let type = session?.type {

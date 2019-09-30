@@ -15,7 +15,11 @@ class ProcessingFeeModal: BaseModalXibView {
     override func commonInit() {
         super.commonInit()
         
-        setParagraphStyle(label: processingFeeLabel)
+        let attributedString = NSMutableAttributedString(string: processingFeeLabel?.text ?? "")
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 5
+        attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
+        processingFeeLabel?.attributedText = attributedString
     }
     
     @IBAction func tappedDone(_ sender: Any) {

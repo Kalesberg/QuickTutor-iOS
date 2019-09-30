@@ -49,13 +49,12 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="355" height="70"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UWy-QK-aoU">
-                                                        <rect key="frame" x="30" y="22.5" width="119" height="25"/>
+                                                        <rect key="frame" x="30" y="17" width="146" height="36"/>
                                                         <subviews>
-                                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_qt_logo" translatesAutoresizingMaskIntoConstraints="NO" id="DPW-2U-Epe">
-                                                                <rect key="frame" x="0.0" y="0.0" width="119" height="25"/>
+                                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_session_logo" translatesAutoresizingMaskIntoConstraints="NO" id="DPW-2U-Epe">
+                                                                <rect key="frame" x="0.0" y="0.0" width="146" height="36"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="height" constant="25" id="YBb-9w-nk7"/>
-                                                                    <constraint firstAttribute="width" constant="119" id="wo7-tF-gh4"/>
+                                                                    <constraint firstAttribute="width" secondItem="DPW-2U-Epe" secondAttribute="height" multiplier="73:18" id="ucY-Pz-o8R"/>
                                                                 </constraints>
                                                             </imageView>
                                                         </subviews>
@@ -150,8 +149,8 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xQI-xB-ch8" userLabel="Tutoring Cost View">
                                                         <rect key="frame" x="0.0" y="28" width="295" height="20"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tutoring cost:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NnY-YJ-4pH" userLabel="Tutoring Cost:">
-                                                                <rect key="frame" x="0.0" y="0.0" width="85" height="17"/>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Session cost:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NnY-YJ-4pH" userLabel="Tutoring Cost:">
+                                                                <rect key="frame" x="0.0" y="0.0" width="79.5" height="17"/>
                                                                 <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="14"/>
                                                                 <color key="textColor" white="1" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <nil key="highlightedColor"/>
@@ -176,13 +175,13 @@
                                                         <rect key="frame" x="0.0" y="56" width="295" height="20"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Processing fee:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gMA-dH-GDE">
-                                                                <rect key="frame" x="0.0" y="0.0" width="93" height="17"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="93" height="20"/>
                                                                 <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="14"/>
                                                                 <color key="textColor" white="1" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Processing Fee" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Jf-NI-Pzh">
-                                                                <rect key="frame" x="202" y="0.0" width="93" height="17"/>
+                                                                <rect key="frame" x="202" y="1.5" width="93" height="17"/>
                                                                 <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <nil key="highlightedColor"/>
@@ -191,8 +190,9 @@
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstItem="0Jf-NI-Pzh" firstAttribute="centerY" secondItem="gMA-dH-GDE" secondAttribute="centerY" id="8Ir-lP-DWF"/>
-                                                            <constraint firstItem="gMA-dH-GDE" firstAttribute="top" secondItem="syO-Zd-ibB" secondAttribute="top" id="bc0-Hd-CpI"/>
-                                                            <constraint firstAttribute="height" constant="20" id="o6h-1a-tRa"/>
+                                                            <constraint firstAttribute="height" constant="20" id="DjU-3W-ppf"/>
+                                                            <constraint firstAttribute="bottom" secondItem="gMA-dH-GDE" secondAttribute="bottom" id="KJF-qD-0fc"/>
+                                                            <constraint firstItem="gMA-dH-GDE" firstAttribute="top" secondItem="syO-Zd-ibB" secondAttribute="top" id="pwX-3o-Wnr"/>
                                                             <constraint firstAttribute="trailing" secondItem="0Jf-NI-Pzh" secondAttribute="trailing" id="q0z-HR-GUM"/>
                                                             <constraint firstItem="gMA-dH-GDE" firstAttribute="leading" secondItem="syO-Zd-ibB" secondAttribute="leading" id="s89-CQ-vcI"/>
                                                         </constraints>
@@ -235,7 +235,7 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sessions complered with " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q4P-mJ-8uv">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sessions completed with " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q4P-mJ-8uv">
                                                 <rect key="frame" x="30" y="419" width="156" height="17"/>
                                                 <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="14"/>
                                                 <color key="textColor" white="1" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -522,12 +522,13 @@
                 <outlet property="totalSessionNumberLabel" destination="gv0-9H-kmV" id="t6c-rZ-B2d"/>
                 <outlet property="totalTitleLabel" destination="LRd-dO-Scr" id="hU1-Lc-sQL"/>
                 <outlet property="tutoringCostLabel" destination="QPc-js-vPy" id="gHe-4x-4R0"/>
+                <outlet property="tutoringCostTitleLabel" destination="NnY-YJ-4pH" id="mZ0-5F-nFp"/>
                 <outlet property="tutoringCostView" destination="xQI-xB-ch8" id="yL2-5V-erM"/>
             </connections>
             <point key="canvasLocation" x="373.60000000000002" y="283.35832083958024"/>
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="ic_qt_logo" width="119" height="25"/>
+        <image name="ic_session_logo" width="146" height="36"/>
     </resources>
 </document>

@@ -22,6 +22,7 @@ class FileReportActionsheet: UIView {
     var reportTypeModal: ReportTypeModal?
     var partnerId: String?
     var name: String!
+    var username: String!
     var panelHeight: CGFloat = 250
     var subject: String?
     
@@ -211,6 +212,9 @@ class FileReportActionsheet: UIView {
     func shareUsernameForUserId() {
         dismiss()
         guard let id = partnerId else { return }
+        guard let username = self.name, let subject = self.subject else {
+            return
+        }
         
         var image: UIImage?
         if let vc = self.parentViewController as? ConversationVC {
@@ -233,7 +237,7 @@ class FileReportActionsheet: UIView {
                 return
             }
             
-            DynamicLinkFactory.shared.createLink(userId: id, userName: self.name, subject: self.subject, profilePreviewUrl: url) { shareUrl in
+            DynamicLinkFactory.shared.createLink(userId: id, username: username, subject: subject, profilePreviewUrl: url) { shareUrl in
                 guard let shareUrlString = shareUrl?.absoluteString else {
                     DispatchQueue.main.async {
                         self.parentViewController?.dismissOverlay()

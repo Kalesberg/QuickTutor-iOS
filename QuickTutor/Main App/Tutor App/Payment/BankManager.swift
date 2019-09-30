@@ -98,7 +98,7 @@ class BankManagerVC: UIViewController {
         Database.database().reference().child("userSessions").child(uid).child(currentUserType).observe(.value) { (snapshot) in
             let group = DispatchGroup()
             guard let sessionsDict = snapshot.value as? [String: Any] else { return }
-            sessionsDict.forEach({ (key, value) in
+            sessionsDict.forEach ({ (key, value) in
                 group.enter()
                 
                 DataService.shared.getSessionById(key, completion: { (session) in
@@ -112,6 +112,7 @@ class BankManagerVC: UIViewController {
             })
             
             group.notify(queue: .main) {
+                self.pastSessions = self.pastSessions.sorted(by: { $0.startTime > $1.startTime })
                 self.contentView.collectionView.reloadSections(IndexSet(integer: 1))
             }
         }

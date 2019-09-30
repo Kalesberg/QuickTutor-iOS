@@ -66,7 +66,6 @@ class QuickSearchVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
-        hideTabBar(hidden: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -74,11 +73,6 @@ class QuickSearchVC: UIViewController {
         contentView.searchBarContainer.searchBar.becomeFirstResponder()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        hideTabBar(hidden: false)
-    }
-
     private func configureDelegates() {
         contentView.collectionView.delegate = self
         contentView.collectionView.dataSource = self
@@ -195,6 +189,7 @@ extension QuickSearchVC: QuickSearchCategoryCellDelegate {
             self.navigationController?.setViewControllers(viewControllers, animated: true)
             return
         }
+        vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -225,9 +220,10 @@ extension QuickSearchVC: UICollectionViewDelegate, UICollectionViewDataSource, U
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionHeader {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerId", for: indexPath) as! QuickSearchSectionHeader
-            header.titleLabel.text = categories[indexPath.section].mainPageData.displayName
+            let category = categories[indexPath.section]
+            header.titleLabel.text = category.mainPageData.displayName
             header.icon.image = categoryIcons[indexPath.section]
-            header.icon.layer.borderColor = Colors.purple.cgColor
+            header.icon.layer.borderColor = category.color.cgColor
             header.icon.layer.borderWidth = 1
             return header
         }

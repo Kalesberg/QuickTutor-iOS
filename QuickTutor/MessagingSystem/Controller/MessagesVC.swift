@@ -45,14 +45,21 @@ class MessagesVC: UIViewController {
     
     private func setupMainView() {
         view.backgroundColor = Colors.newScreenBackground
-        edgesForExtendedLayout = []
         navigationItem.title = "Messages"
-        let connectionButton = UIBarButtonItem(image: UIImage(named: "connectionsIcon"), style: .plain, target: self, action: #selector(showContacts))
-        let searchButton = UIBarButtonItem(image: UIImage(named: "ic_search"), style: .plain, target: self, action: #selector(onClickSearch))
-        navigationItem.rightBarButtonItems = [connectionButton, searchButton]
-        
+        edgesForExtendedLayout = []
+
         navigationController?.navigationBar.barTintColor = Colors.newNavigationBarBackground
-        if #available(iOS 11.0, *) {
+        if #available(iOS 13.0, *) {
+            navigationController?.navigationBar.prefersLargeTitles = true
+            
+            let connectionButton = UIBarButtonItem(image: UIImage(named: "connectionsIcon"), style: .plain, target: self, action: #selector(showContacts))
+            navigationItem.rightBarButtonItems = [connectionButton]
+            
+        } else if #available(iOS 11.0, *) {
+            let connectionButton = UIBarButtonItem(image: UIImage(named: "connectionsIcon"), style: .plain, target: self, action: #selector(showContacts))
+            let searchButton = UIBarButtonItem(image: UIImage(named: "ic_search"), style: .plain, target: self, action: #selector(onClickSearch))
+            navigationItem.rightBarButtonItems = [connectionButton, searchButton]
+            
             navigationController?.navigationBar.prefersLargeTitles = true
             navigationController?.view.backgroundColor = Colors.newNavigationBarBackground
         }
@@ -60,8 +67,8 @@ class MessagesVC: UIViewController {
     
     @objc func showContacts() {
         self.view.endEditing(true)
-        
         let vc = ConnectionsVC()
+        vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -323,9 +330,7 @@ class MessagesVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        hideTabBar(hidden: false)
         navigationController?.setNavigationBarHidden(false, animated: false)
-        
         collectionView.reloadData()
         view.setNeedsLayout()
     }
@@ -406,6 +411,7 @@ extension MessagesVC {
         vc.receiverId = objConversationMetadata.chatPartnerId()
         vc.chatPartner = data[indexPath.item].partner
         vc.metaData = objConversationMetadata
+        vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -485,6 +491,7 @@ extension MessagesVC: SwipeCollectionViewCellDelegate {
                 self.collectionView.reloadItems(at: [indexPath])
                 let vc = SessionRequestVC()
                 vc.tutor = tutor
+                vc.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         }

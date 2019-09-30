@@ -209,7 +209,6 @@ class EditPhoneVC: BaseViewController {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: false)
         setupKeyboardObservers()
-        hideTabBar(hidden: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -219,7 +218,6 @@ class EditPhoneVC: BaseViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        hideTabBar(hidden: false)
         NotificationCenter.default.removeObserver(self)
     }
     

@@ -36,7 +36,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SSN" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PJ2-NU-x5c">
-                    <rect key="frame" x="30" y="93" width="40.5" height="30"/>
+                    <rect key="frame" x="30" y="93" width="44.5" height="30"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="sRj-Y0-q4D"/>
                     </constraints>

@@ -83,7 +83,7 @@ class TutorCardAccessoryView: BaseAccessoryView {
 
 enum SessionRequestErrorCode: String {
     case noTutor = "Choose a tutor"
-    case noSubject = "Choose a subject"
+    case noSubject = "Choose a topic"
     case invalidDate = "Choose a valid date"
     case invalidDuration = "Choose a valid duration"
     case invalidPrice = "Enter a valid price"

@@ -14,6 +14,8 @@ import Stripe
 import CoreLocation
 import SDWebImage
 import SwiftKeychainWrapper
+import ObjectMapper
+import GeoFire
 
 class CurrentUser {
 	
@@ -22,6 +24,12 @@ class CurrentUser {
 	var learner : AWLearner!
 	var tutor : AWTutor!
 	var connectAccount : ConnectAccount!
+    
+    func logout() {
+        learner = nil
+        tutor = nil
+        connectAccount = nil
+    }
 }
 
 class FirebaseData {
@@ -181,6 +189,7 @@ class FirebaseData {
 		childNodes["/readReceipts/\(uid)"] = NSNull()
 		childNodes["/review/\(uid)"] = NSNull()
 		childNodes["/student-info/\(uid)"] = NSNull()
+        childNodes["/student_loc/\(uid)"] = NSNull()
 		childNodes["/subject/\(uid)"] = NSNull()
 		childNodes["/tutor-info/\(uid)"] = NSNull()
 		childNodes["/tutor_loc/\(uid)"] = NSNull()
@@ -195,11 +204,13 @@ class FirebaseData {
 		
 		func removeImages(imageURL: [String]) {
 			imageURL.forEach({
-				Storage.storage().reference(forURL: $0).delete(completion: { (error) in
-					if let error = error {
-						print(error.localizedDescription)
-					}
-				})
+                if !$0.isEmpty, ($0.hasPrefix("https://firebasestorage.googleapis.com") || $0.hasPrefix("http://firebasestorage.googleapis.com")) {
+                    Storage.storage().reference(forURL: $0).delete(completion: { (error) in
+                        if let error = error {
+                            print(error.localizedDescription)
+                        }
+                    })
+                }
 			})
 		}
 		
@@ -217,6 +228,7 @@ class FirebaseData {
 		var childNodes = [String : Any]()
 		
 		childNodes["/student-info/\(uid)"] = NSNull()
+        childNodes["/student_loc/\(uid)"] = NSNull()
 		childNodes["/account/\(uid)"] = NSNull()
 		childNodes["/deleted/\(uid)"] = [
 			"reason" : reason,
@@ -280,6 +292,19 @@ class FirebaseData {
 			return completion(nil)
 		})
 	}
+    
+    func fetchLearnerLocation(uid: String,_ completion: @escaping (TutorLocation?) -> Void) {
+        self.ref?.child("student_loc").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.exists() {
+                guard let value = snapshot.value as? [String : Any] else {
+                    return completion(nil)
+                }
+                let tutorLocation = TutorLocation(dictionary: value)
+                return completion(tutorLocation)
+            }
+            return completion(nil)
+        })
+    }
 	
 	func fetchTutorLocation(uid: String,_ completion: @escaping (TutorLocation?) -> Void) {
 		self.ref?.child("tutor_loc").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
@@ -297,7 +322,10 @@ class FirebaseData {
     func fetchReviews(uid : String, type: String,_ completion : @escaping ([Review]?) -> Void) {
 		var reviews: [Review] = []
 		self.ref?.child("review").child(uid).child(type).queryOrdered(byChild: "dte").observeSingleEvent(of: .value, with: { (snapshot) in
-			guard let snap = snapshot.children.allObjects as? [DataSnapshot] else { return }
+			guard let snap = snapshot.children.allObjects as? [DataSnapshot] else {
+                completion(nil)
+                return
+            }
 			
 			for child in snap {
 				guard let value = child.value as? [String : Any] else { continue }
@@ -311,6 +339,26 @@ class FirebaseData {
 			return completion(reviews)
 		})
 	}
+    
+    func fetchTutorRecommendations(uid : String, completion: @escaping ([QTTutorRecommendationModel]?) -> Void) {
+        ref?.child("recommendations").child(uid).queryOrdered(byChild: "createdAt").observeSingleEvent(of: .value) { snapshot in
+            guard let dicRecommendations = snapshot.value as? [String: Any] else {
+                completion(nil)
+                return
+            }
+            
+            var aryRecommendations: [QTTutorRecommendationModel] = []
+            for key in dicRecommendations.keys {
+                guard let dicValue = dicRecommendations[key] as? [String: Any],
+                    let objRecommendation = Mapper<QTTutorRecommendationModel>().map(JSON: dicValue) else { continue }
+         
+                objRecommendation.uid = key
+                aryRecommendations.insert(objRecommendation, at: 0)
+            }
+            
+            completion(aryRecommendations)
+        }
+    }
     
     private func fetchSavedTutors(uid: String, completion: @escaping([String]?) -> Void) {
         Database.database().reference().child("saved-tutors").child(uid).observeSingleEvent(of: .value) { (snapshot) in
@@ -521,6 +569,14 @@ class FirebaseData {
 					}
 					group.leave()
 				})
+                
+                group.enter()
+                self.fetchLearnerLocation(uid: uid) { (location) in
+                    if let location = location {
+                        learner.location = location
+                    }
+                    group.leave()
+                }
 				
 				group.enter()
 				self.fetchReviews(uid: uid, type: "tutor", { (reviews) in
@@ -571,7 +627,7 @@ class FirebaseData {
 		}
 	}
 	
-	func fetchTutor(_ uid: String, isQuery: Bool,_ completion: @escaping (AWTutor?) -> Void) {
+	func fetchTutor(_ uid: String, isQuery: Bool, _ completion: @escaping (AWTutor?) -> Void) {
 		
 		let group = DispatchGroup()
 		
@@ -591,33 +647,30 @@ class FirebaseData {
 					return completion(nil)
 				}
 				
-				guard let images = tutorDict["img"] as? [String : String] else {
-					print("Couldn't find images: ", uid)
-					return completion(nil)
-				}
-				tutor.images = images
-                if tutor.images.keys.contains("image1") {
-                    tutor.profilePicUrl = URL(string: images["image1"] ?? "")!
-                } else {
-                    tutor.profilePicUrl = Constants.AVATAR_PLACEHOLDER_URL
-                }
                 group.enter()
-				self.fetchTutorLocation(uid: uid, { (location) in
+				self.fetchTutorLocation(uid: uid) { (location) in
 					if let location = location {
 						tutor.location = location
 					}
                     group.leave()
-				})
+				}
 				
 				group.enter()
-				self.fetchReviews(uid: uid, type: "learner", { (reviews) in
+				self.fetchReviews(uid: uid, type: "learner") { (reviews) in
 					if let reviews = reviews {
 						tutor.reviews = reviews
 					}
 					group.leave()
-				})
+				}
+                
+                group.enter()
+                self.fetchTutorRecommendations(uid: uid) { recommendations in
+                    tutor.recommendations = recommendations
+                    group.leave()
+                }
+                
 				group.enter()
-				self.fetchTutorSubjects(uid: uid, { (subjects) in
+				self.fetchTutorSubjects(uid: uid) { (subjects) in
                     guard let subjects = subjects else {
                         group.leave()
                         return
@@ -626,17 +679,17 @@ class FirebaseData {
                     tutor.subjects = subjects
                     tutor.selected = selected
 					group.leave()
-				})
+				}
                 
                 group.enter()
-                self.fetchTutorConnections(uid: uid, { uids in
+                self.fetchTutorConnections(uid: uid) { uids in
                     tutor.learners = uids ?? []
                     group.leave()
-                })
+                }
                 
-				group.notify(queue: .main, execute: {
+				group.notify(queue: .main) {
 					completion(tutor)
-				})
+				}
 			})
 		})
 	}
@@ -719,6 +772,95 @@ class FirebaseData {
 		}
 	}
     
+    func uploadVideo(video: URL, thumbImage: UIImage, _ completion: @escaping (Error?, TutorVideo?) -> Void) {
+        guard let userId = Auth.auth().currentUser?.uid else {
+            completion(nil, nil)
+            return
+        }
+        
+        let storagePath = "tutor-info"
+        let dbRef = Database.database().reference().child(storagePath).child(userId).child("videos").childByAutoId()
+        let videoPath = "video-\(dbRef.key!)"
+        let thumbPath = "thumb-\(dbRef.key!)"
+        do {
+            let videoData = try Data(contentsOf: video)
+            let metaData = StorageMetadata()
+            metaData.contentType = video.mimeType()
+            self.storageRef.child(storagePath).child(userId).child("\(videoPath)").putData(videoData, metadata: metaData) { (meta, error) in
+                if let error = error {
+                    return completion(error, nil)
+                }
+                self.storageRef.child(storagePath).child(userId).child("\(videoPath)").downloadURL(completion: { (url, error) in
+                    if let error = error {
+                        return completion(error, nil)
+                    }
+                    
+                    guard let videoUrl = url?.absoluteString else { return completion(nil, nil) }
+                    
+                    // upload thumb image
+                    guard let thumbData = thumbImage.jpegData(compressionQuality: 0.7) else { return completion(nil, nil) }
+                    
+                    let metaData = StorageMetadata(dictionary: ["width": thumbImage.size.width, "height": thumbImage.size.height])
+                    self.storageRef.child(storagePath).child(userId).child("\(thumbPath)").putData(thumbData, metadata: metaData, completion: { (meta, error) in
+                        if let error = error {
+                            return completion(error, nil)
+                        }
+                        
+                        self.storageRef.child(storagePath).child(userId).child("\(thumbPath)").downloadURL(completion: { (imageUrl, error) in
+                            if let error = error {
+                                return completion(error, nil)
+                            }
+                            
+                            guard let thumbUrl = imageUrl?.absoluteString else { return completion(nil, nil) }
+                            
+                            // set tutor data
+                            let tutorVideo = TutorVideo ()
+                            tutorVideo.videoUrl = videoUrl
+                            tutorVideo.thumbUrl = thumbUrl
+                            tutorVideo.uid = dbRef.key
+                            
+                            dbRef.setValue(tutorVideo.dictionary())
+                            
+                            return completion (nil, tutorVideo)
+                        })
+                    })
+                })
+            }
+            
+        } catch {
+            completion(nil, nil)
+        }
+    }
+    
+    func deleteVideo (video: TutorVideo, _ completion: @escaping (String?) -> Void) {
+        guard let userId = Auth.auth().currentUser?.uid else {
+            completion("Invalid user operation.")
+            return
+        }
+        
+        let storagePath = "tutor-info"
+        let videoPath = "video-\(video.uid!)"
+        let thumbPath = "thumb-\(video.uid!)"
+        self.storageRef.child(storagePath).child(userId).child("\(videoPath)").delete { error in
+            if let error = error {
+                completion (error.localizedDescription)
+                return
+            }
+            
+            // delete thumb
+            self.storageRef.child(storagePath).child(userId).child("\(thumbPath)").delete { error in
+                if let error = error {
+                    completion (error.localizedDescription)
+                    return
+                }
+                
+                // delete data
+                Database.database().reference().child(storagePath).child(userId).child("videos").child(video.uid).removeValue()
+                completion(nil)
+            }
+        }
+    }
+    
     func uploadProfilePreviewImage(tutorId: String, data: Data, _ completion: @escaping (Error?, String?) -> Void) {
         let storagePath = "tutor-info"
         let filePath = "tutor-profile-preview"
@@ -760,11 +902,11 @@ class FirebaseData {
 		return dataToUpload
 	}
 	
-	func signInLearner(uid: String,_ completion: @escaping (Bool) -> Void) {
+    func signInLearner(uid: String, isFacebookLogin: Bool = false, _ completion: @escaping (Bool) -> Void) {
 		fetchLearner(uid) { (learner) in
 			guard let learner = learner else { return completion(false) }
 			CurrentUser.shared.learner = learner
-			AccountService.shared.loadUser()
+			AccountService.shared.loadUser(isFacebookLogin: isFacebookLogin)
 			AccountService.shared.currentUserType = .learner
 			return completion(true)
 		}
@@ -800,8 +942,15 @@ class FirebaseData {
 			}
 		}
 	}
+    
+    public func geoFire(location: CLLocation, completion: ((Bool) -> Void)? = nil) {
+        let geoFire = GeoFire(firebaseRef: ref.child("student_loc"))
+        geoFire.setLocation(location, forKey: CurrentUser.shared.learner.uid!) { error in
+            completion?(error == nil)
+        }
+    }
 	
-	deinit {
+    deinit {
 		print("FirebaseData has De-initialized")
 	}
     

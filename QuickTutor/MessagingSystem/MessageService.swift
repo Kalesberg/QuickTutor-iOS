@@ -113,7 +113,7 @@ class MessageService {
         }
     }
     
-    func sendConnectionRequestToId(text: String, _ id: String) {
+    func sendConnectionRequestToId(text: String, _ id: String, shouldMarkAsRead: Bool = false) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         guard let expiration = Calendar.current.date(byAdding: .day, value: 7, to: Date())?.timeIntervalSince1970 else { return }
         var values: [String: Any] = ["expiration": expiration, "status": "pending"]
@@ -122,7 +122,9 @@ class MessageService {
         Database.database().reference().child("connectionRequests").childByAutoId().setValue(values) { _, ref in
             let message = UserMessage(dictionary: ["text": text, "timestamp": timestamp, "senderId": uid, "receiverId": id, "connectionRequestId": ref.key!, "receiverAccountType": self.otherUserTypeString])
             self.sendMessage(message, toUserId: id, completion: {
-                
+                if shouldMarkAsRead {                    Database.database().reference().child("conversationMetaData").child(uid).child(self.userTypeString).child(id).child("readBy").child(uid).setValue(true)
+                    Database.database().reference().child("conversationMetaData").child(id).child(self.otherUserTypeString).child(uid).child("readBy").child(uid).setValue(true)
+                }
             })
         }
     }

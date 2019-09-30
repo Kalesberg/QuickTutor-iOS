@@ -9,6 +9,8 @@
 import UIKit
 import CoreLocation
 import StoreKit
+import SKPhotoBrowser
+
 
 protocol UpdatedTutorCallBack: class {
     func tutorWasUpdated(tutor: AWTutor!)
@@ -112,7 +114,7 @@ extension String {
     func estimateFrameForFontSize(_ fontSize: CGFloat, extendedWidth: Bool = false, width: CGFloat = 1000) -> CGRect {
         let size = CGSize(width: extendedWidth ? width : 200, height: 1000)
         let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-        return NSString(string: self).boundingRect(with: size, options: options, attributes: [NSAttributedString.Key.font: Fonts.createSize(fontSize)], context: nil)
+        return NSString(string: self).boundingRect(with: size, options: options, attributes: [.font: Fonts.createSize(fontSize)], context: nil)
     }
     
     func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
@@ -498,4 +500,21 @@ extension UITapGestureRecognizer {
         return NSLocationInRange(indexOfCharacter, targetRange)
     }
     
+}
+
+extension UIImage {
+    func fixOrientation() -> UIImage {
+        if self.imageOrientation == .up {
+            return self
+        }
+        
+        UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
+        let rect = CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height)
+        self.draw(in: rect)
+        
+        let normalizedImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
+        return normalizedImage
+    }
 }

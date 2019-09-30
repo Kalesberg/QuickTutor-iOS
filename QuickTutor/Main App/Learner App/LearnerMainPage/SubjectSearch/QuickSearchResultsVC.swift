@@ -85,7 +85,7 @@ class QuickSearchResultsVC: UIViewController {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self
             mail.setToRecipients(["subjects@quicktutor.com"])
-            mail.setMessageBody("<p>I’m submitting a subject: <b>\(subject)</b></p>", isHTML: true)
+            mail.setMessageBody("<p>I’m submitting a topic: <b>\(subject)</b></p>", isHTML: true)
             present(mail, animated: true)
         } else {
             // show failure alert
@@ -117,6 +117,7 @@ extension QuickSearchResultsVC: UICollectionViewDataSource, UICollectionViewDele
             let categoryString = SubjectStore.shared.findCategoryBy(subject: currentSubjects[indexPath.item].0) ?? ""
             let category = Category.category(for: categoryString)!
             cell.imageView.image = Category.imageFor(category: category)
+            cell.imageView.layer.borderColor = category.color.cgColor
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! QuickSearchResultsCell
@@ -124,6 +125,7 @@ extension QuickSearchResultsVC: UICollectionViewDataSource, UICollectionViewDele
             let categoryString = SubjectStore.shared.findCategoryBy(subject: currentSubjects[indexPath.item].0) ?? ""
             let category = Category.category(for: categoryString)!
             cell.imageView.image = Category.imageFor(category: category)
+            cell.imageView.layer.borderColor = category.color.cgColor
             return cell
         }
     }
@@ -156,7 +158,7 @@ extension QuickSearchResultsVC: UICollectionViewDataSource, UICollectionViewDele
             self.navigationController?.setViewControllers(viewControllers, animated: true)
             return
         }
-        
+        vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -213,9 +215,9 @@ class QuickSearchNoResultsView: UIView {
         label.font = Fonts.createSize(14)
         label.numberOfLines = 0
         if AccountService.shared.currentUserType == UserType.tutor {
-            label.text = "Try searching something similar or you can submit the subject to our submit queue below to potentially add a new subject to QuickTutor!"
+            label.text = "Try searching something similar or you can submit the topic to our submit queue below to potentially add a new topic to QuickTutor!"
         } else {
-            label.text = "Try searching something similar, adjusting your filters or submitting the subject to our submit queue below to potentially add a new subject to QuickTutor!"
+            label.text = "Try searching something similar, adjusting your filters or submitting the topic to our submit queue below to potentially add a new topic to QuickTutor!"
         }
         return label
     }()
@@ -410,8 +412,6 @@ class TutorAddSubjectsResultsVC: UIViewController {
         }
     }
     
-    private var selectedSubjectIndex = -1
-    
     let contentView: TutorAddSubjectsResultsVCView = {
         let view = TutorAddSubjectsResultsVCView()
         return view
@@ -433,7 +433,6 @@ class TutorAddSubjectsResultsVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        hideTabBar(hidden: true)
         guard !isBeingControlled else { return }
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "newCheck"), style: .plain, target: self, action: #selector(onBack))
@@ -475,25 +474,17 @@ class TutorAddSubjectsResultsVC: UIViewController {
     }
     
     func setupObserers() {
-        switch addSubjectsResultsType {
-        case .tutorSubjects:
-            NotificationCenter.default.addObserver(self, selector: #selector(showAlert), name: NSNotification.Name(rawValue: "com.qt.tooManySubjects"), object: nil)
-            NotificationCenter.default.addObserver(self, selector: #selector(addSubject(_:)), name: Notifications.tutorDidAddSubject.name, object: nil)
-            NotificationCenter.default.addObserver(self, selector: #selector(removeSubject(_:)), name: Notifications.tutorDidRemoveSubject.name, object: nil)
-        case .learnerInterests:
+        if isLearnerAddInterests {
             NotificationCenter.default.addObserver(self, selector: #selector(showAlert), name: Notifications.learnerTooManyInterests.name, object: nil)
-            NotificationCenter.default.addObserver(self, selector: #selector(addSubject(_:)), name: Notifications.learnerDidAddInterest.name, object: nil)
-            NotificationCenter.default.addObserver(self, selector: #selector(removeSubject(_:)), name: Notifications.learnerDidRemoveInterest.name, object: nil)
-        case .learnerQuickRequestSubject:
-            break
+        } else {
+            NotificationCenter.default.addObserver(self, selector: #selector(showAlert), name: NSNotification.Name(rawValue: "com.qt.tooManySubjects"), object: nil)
         }
     }
     
     @objc func showAlert() {
-        
-        var title = "Too many subjects"
-        var message = "We currently only allow users to choose 20 subjects"
-        if addSubjectsResultsType == .learnerInterests {
+        var title = "Too many topics"
+        var message = "We currently only allow users to choose 20 topics"
+        if isLearnerAddInterests {
             title = "Too many interests"
             message = "We currently only allow users to choose \(QTConstants.learnerMaxInterests) interests"
         }
@@ -504,29 +495,13 @@ class TutorAddSubjectsResultsVC: UIViewController {
         }))
         present(ac, animated: true, completion: nil)
     }
-    
-    @objc
-    private func addSubject (_ notification: Notification) {
-        guard selectedSubjectIndex > -1,
-            let cell = contentView.collectionView.cellForItem(at: IndexPath(item: selectedSubjectIndex, section: 0)) as? TutorAddSubjectsResultsCell else { return }
-        cell.selectionView.isHidden = false
-        cell.titleLabel.textColor = Colors.purple
-    }
-    
-    @objc
-    private func removeSubject (_ notification: Notification) {
-        guard selectedSubjectIndex > -1,
-            let cell = contentView.collectionView.cellForItem(at: IndexPath(item: selectedSubjectIndex, section: 0)) as? TutorAddSubjectsResultsCell else { return }
-        cell.selectionView.isHidden = true
-        cell.titleLabel.textColor = .white
-    }
 
     func sendEmail(subject: String) {
         if MFMailComposeViewController.canSendMail() {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self
             mail.setToRecipients(["subjects@quicktutor.com"])
-            mail.setMessageBody("<p>I’m submitting a subject: <b>\(subject)</b></p>", isHTML: true)
+            mail.setMessageBody("<p>I’m submitting a topic: <b>\(subject)</b></p>", isHTML: true)
             present(mail, animated: true)
         } else {
             // show failure alert
@@ -551,19 +526,16 @@ extension TutorAddSubjectsResultsVC: UICollectionViewDataSource, UICollectionVie
         let categoryString = SubjectStore.shared.findCategoryBy(subject: currentSubjects[indexPath.item]) ?? ""
         let category = Category.category(for: categoryString)!
         cell.imageView.image = Category.imageFor(category: category)
-        
-        switch addSubjectsResultsType {
-        case .learnerInterests:
+        cell.imageView.layer.borderColor = category.color.cgColor
+                
+        if isLearnerAddInterests {
             cell.selectionView.isHidden = !LearnerRegistrationService.shared.interests.contains(currentSubjects[indexPath.item])
-            cell.titleLabel.textColor = LearnerRegistrationService.shared.interests.contains(currentSubjects[indexPath.item]) ? Colors.purple : .white
-        case .tutorSubjects:
+            cell.titleLabel.textColor = LearnerRegistrationService.shared.interests.contains(currentSubjects[indexPath.item]) ? category.color : .white
+        } else {
             cell.selectionView.isHidden = !TutorRegistrationService.shared.subjects.contains(currentSubjects[indexPath.item])
-            cell.titleLabel.textColor = TutorRegistrationService.shared.subjects.contains(currentSubjects[indexPath.item]) ? Colors.purple : .white
-        default:
-            cell.selectionView.isHidden = true
-            cell.titleLabel.textColor = .white
-            break
+            cell.titleLabel.textColor = TutorRegistrationService.shared.subjects.contains(currentSubjects[indexPath.item]) ? category.color : .white
         }
+        cell.selectionView.backgroundColor = category.color
         
         return cell
     }
@@ -574,7 +546,6 @@ extension TutorAddSubjectsResultsVC: UICollectionViewDataSource, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? TutorAddSubjectsResultsCell else { return }
-        selectedSubjectIndex = indexPath.item
         
         switch addSubjectsResultsType {
         case .learnerInterests:
@@ -595,6 +566,8 @@ extension TutorAddSubjectsResultsVC: UICollectionViewDataSource, UICollectionVie
                                             userInfo: ["quickRequestSubject": currentSubjects[indexPath.item]])
             break
         }
+        
+        collectionView.reloadItems(at: [indexPath])
     }
 }
 

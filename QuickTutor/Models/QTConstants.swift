@@ -24,6 +24,8 @@ struct QTUserDefaultsKey {
     static let learnerFirstMessages = "learnerFirstMessages"
     static let learnerAppRateForFiveMessages = "learnerAppRateForFiveMessages"
     static let learnerAppRateForFirstSession = "learnerAppRateForFirstSession"
+    static let tutorDraftMessages = "tutorDraftMessages"
+    static let learnerDraftMessages = "learnerDraftMessages"
 }
 
 struct QTNotificationName {
@@ -35,3 +37,5 @@ struct QTNotificationName {
     static let quickSearchClearSearchKey = "quickSearchClearSearchKey"
     static let quickSearchDismissKeyboard = "quickSearchDismissKeyboard"
 }
+
+let AVATAR_PLACEHOLDER_IMAGE = UIImage(named: "ic_avatar_placeholder")

@@ -43,7 +43,7 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
     
     let accessoryTextLabel: UILabel = {
         let label = UILabel()
-        label.text = "Add up to 20 subjects."
+        label.text = "Add up to 20 topics."
         label.textAlignment = .left
         label.textColor = .white
         label.font = Fonts.createBoldSize(14)
@@ -53,6 +53,8 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
     
     var selectedSubjectsHeightAnchor: NSLayoutConstraint?
     var collectionViewTopAnchor: NSLayoutConstraint?
+    
+    private var removedIndex: Int?
     
     override func setupViews() {
         super.setupViews()
@@ -99,22 +101,43 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
     }
     
     func setupObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(showAlertPrompt), name: Notifications.tutorCannotRemoveSubject.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleSubjectAdded(_:)), name: Notifications.tutorDidAddSubject.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleSubjectRemoved(_:)), name: Notifications.tutorDidRemoveSubject.name, object: nil)
     }
     
     
     @objc func handleSubjectAdded(_ notification: Notification) {
+        guard let userInfo = notification.userInfo as? [String:Any], let subject = userInfo["subject"] as? String else { return }
+        
         showSelectedSubjectsCVIfNeeded(animated: true)
         updateAccessoryViewTextLabel()
-        selectedSubjectsCV.reloadData()
-        let indexPath = IndexPath(item: selectedSubjectsCV.numberOfItems(inSection: 0) - 1, section: 0)
-        selectedSubjectsCV.scrollToItem(at: indexPath, at: .left, animated: true)
+        
+        guard let index = TutorRegistrationService.shared.subjects.firstIndex(of: subject) else {
+            selectedSubjectsCV.reloadData()
+            return
+        }
+        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { (timer) in
+            let indexPath = IndexPath(item: index, section: 0)
+            self.selectedSubjectsCV.insertItems(at: [indexPath])
+            self.selectedSubjectsCV.scrollToItem(at: indexPath, at: .left, animated: true)
+            timer.invalidate()
+        }
     }
     
     @objc func handleSubjectRemoved(_ notification: Notification) {
+        guard let userInfo = notification.userInfo as? [String:Any], let index = userInfo["index"] as? Int else { return }
+        
         updateAccessoryViewTextLabel()
-        selectedSubjectsCV.reloadData()
+        guard index > -1 else {
+            selectedSubjectsCV.reloadData()
+            return
+        }
+        
+        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { (timer) in
+            let indexPath = IndexPath(item: index, section: 0)
+            self.selectedSubjectsCV.deleteItems(at: [indexPath])
+        }
     }
     
     func showSelectedSubjectsCVIfNeeded(animated: Bool) {
@@ -144,12 +167,20 @@ class TutorAddSubjectsVCView: QuickSearchVCView {
     }
     
     func showRemovePromptFor(subject: String) {
-        let ac = UIAlertController(title: "Remove subject?", message: nil, preferredStyle: .actionSheet)
+        let ac = UIAlertController(title: "Remove topic?", message: nil, preferredStyle: .actionSheet)
         ac.addAction(UIAlertAction(title: "Remove", style: .destructive) { (action) in
+            self.removedIndex = TutorRegistrationService.shared.subjects.firstIndex(of: subject)
             TutorRegistrationService.shared.removeSubject(subject)
         })
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         parentContainerViewController?.present(ac, animated: true, completion: nil)
+    }
+    
+    @objc
+    private func showAlertPrompt () {
+        let alert = UIAlertController(title: "Attention!", message: "You should have at least one topic.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        parentContainerViewController?.present(alert, animated: true, completion: nil)
     }
 }
 
@@ -191,6 +222,10 @@ extension TutorAddSubjectsVCView: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        showRemovePromptFor(subject: TutorRegistrationService.shared.subjects[indexPath.item])
+        if TutorRegistrationService.shared.subjects.count > 1 {
+            showRemovePromptFor(subject: TutorRegistrationService.shared.subjects[indexPath.item])
+        } else {
+            showAlertPrompt ()
+        }
     }
 }

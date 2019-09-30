@@ -29,7 +29,7 @@ class CustomModal: BaseCustomModal {
         label.text = "Be sure to check with your tutor before cancelling a session request."
         label.textColor = Colors.grayText
         label.textAlignment = .center
-        label.font = Fonts.createBoldSize(14)
+        label.font = Fonts.createSize(13)//Fonts.createBoldSize(14)
         label.numberOfLines = 0
         label.adjustsFontSizeToFitWidth = true
         return label
@@ -40,7 +40,7 @@ class CustomModal: BaseCustomModal {
         button.setTitle("Never mind", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 4
-        button.titleLabel?.font = Fonts.createBoldSize(16)
+        button.titleLabel?.font = Fonts.createBlackSize(14)//Fonts.createBoldSize(16)
         return button
     }()
     

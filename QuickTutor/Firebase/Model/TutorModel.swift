@@ -15,7 +15,6 @@ struct FeaturedDetails {
 
 class AWTutor: AWLearner {
     var tBio: String!
-    var region: String!
     var policy: String?
     var acctId: String!
     var topSubject: String?
@@ -37,7 +36,7 @@ class AWTutor: AWLearner {
     
     var selected: [Selected] = []
     var reviews: [Review]?
-    var location: TutorLocation?
+    var recommendations: [QTTutorRecommendationModel]?
     var learners: [String] = []
 	
     var hasPayoutMethod: Bool = true
@@ -46,6 +45,8 @@ class AWTutor: AWLearner {
     
     var experienceSubject: String?
     var experiencePeriod: Float?
+    
+    var videos: [TutorVideo]?
 	
     // Used for active tutors section
     var isConnected: Bool?
@@ -53,7 +54,6 @@ class AWTutor: AWLearner {
     override init(dictionary: [String: Any]) {
         super.init(dictionary: dictionary)
         policy = dictionary["pol"] as? String ?? ""
-        region = dictionary["rg"] as? String ?? ""
         topSubject = dictionary["tp"] as? String ?? ""
         tBio = dictionary["tbio"] as? String ?? ""
         acctId = dictionary["act"] as? String ?? ""
@@ -66,7 +66,7 @@ class AWTutor: AWLearner {
         preference = dictionary["prf"] as? Int ?? 3
         tNumSessions = dictionary["nos"] as? Int ?? 0
         isVisible = ((dictionary["h"] as? Int) == 0) ? true : false
-        tRating = dictionary["tr"] as? Double ?? 5.0
+        tRating = dictionary["tr"] as? Double ?? 0
         earnings = dictionary["ern"] as? Double ?? 0.0
         featuredSubject = dictionary["sbj"] as? String ?? ""
         profilePicUrl = URL(string: dictionary["img"] as? String ?? "")
@@ -74,13 +74,24 @@ class AWTutor: AWLearner {
         experienceSubject = dictionary["exp-subject"] as? String ?? ""
         experiencePeriod = dictionary["exp-period"] as? Float ?? 0.5
         
+        if let videos = dictionary["videos"] as? [String : [String : Any]] {
+            self.videos = []
+            videos.keys.forEach { (key) in
+                let video = TutorVideo(dictionary: videos[key] ?? [:])
+                video.uid = key
+                self.videos?.append(video)
+            }
+            
+            self.videos = self.videos?.sorted(by: { $0.created < $1.created })
+        }
+        
         if let images = dictionary["img"] as? [String : String] {
             images.forEach({ (key, value) in
                 self.images[key] = value
             })
         }
         
-        if let avatarUrl = images.filter({!$0.value.isEmpty}).first?.value {
+        if let avatarUrl = images.filter({ !$0.value.isEmpty }).sorted(by: { $0.key < $1.key }).first?.value {
             profilePicUrl = URL(string: avatarUrl)
         } else {
             profilePicUrl = Constants.AVATAR_PLACEHOLDER_URL
@@ -111,6 +122,7 @@ class AWTutor: AWLearner {
         self.lRating = learner.lRating
         self.savedTutorIds = learner.savedTutorIds
         self.interests = learner.interests
+        self.images = learner.images
         return self
     }
     
@@ -121,5 +133,42 @@ class AWTutor: AWLearner {
     func categoryReviews(_ category: String) -> [Review] {
         guard let reviews = reviews else { return [] }
         return reviews.filter({ category == SubjectStore.shared.findCategoryBy(subject: $0.subject) })
+    }
+}
+
+class TutorVideo {
+    var uid: String!
+    var videoUrl: String!
+    var thumbUrl: String!
+    var created: Double!
+    
+    var thumbImage: UIImage?
+    
+    init(dictionary: [String: Any]) {
+        videoUrl = dictionary["video"] as? String ?? ""
+        thumbUrl = dictionary["thumb"] as? String ?? ""
+        created = dictionary["created"] as? Double ?? 0.0
+    }
+    
+    init() {
+        videoUrl = ""
+        thumbUrl = ""
+        created = Date().timeIntervalSince1970
+    }
+    
+    func dictionary() -> [String : Any] {
+        var dict = [String : Any]()
+        
+        if let video = videoUrl {
+            dict["video"] = video
+        }
+        
+        if let thumb = thumbUrl {
+            dict["thumb"] = thumb
+        }
+        
+        dict["created"] = Date().timeIntervalSince1970
+        
+        return dict
     }
 }

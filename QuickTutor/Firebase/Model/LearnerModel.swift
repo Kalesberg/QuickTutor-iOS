@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Stripe
 
 class AWLearner: User {
     
@@ -22,9 +23,11 @@ class AWLearner: User {
     var languages: [String]?
     var lReviews: [Review]!
     var lRating: Double!
-    var isApplePayDefault = true
+    var isApplePayDefault = Stripe.deviceSupportsApplePay()
     var savedTutorIds = [String]()
     var interests: [String]?
+    var location: TutorLocation?
+    var region: String!
     
     var images = ["image1": "", "image2": "", "image3": "", "image4": "", "image5": "", "image6": "", "image7": "", "image8": ""]
     
@@ -67,7 +70,8 @@ class AWLearner: User {
         lNumSessions = dictionary["nos"] as? Int ?? 0
         lRating = dictionary["r"] as? Double ?? 0.0
         lHours = dictionary["hr"] as? Int ?? 0
-        isApplePayDefault = dictionary["isApplePayDefault"] as? Bool ?? true
+        isApplePayDefault = dictionary["isApplePayDefault"] as? Bool ?? Stripe.deviceSupportsApplePay()
+        region = dictionary["rg"] as? String ?? ""
         
         if let interests = dictionary["interests"] as? [String: Any] {
             self.interests = interests.compactMap({$0.key}).sorted()
@@ -81,7 +85,7 @@ class AWLearner: User {
             })
         }
         
-        if let avatarUrl = images.filter({!$0.value.isEmpty}).first?.value {
+        if let avatarUrl = images.filter({ !$0.value.isEmpty }).sorted(by: { $0.key < $1.key }).first?.value {
             profilePicUrl = URL(string: avatarUrl)
         } else {
             profilePicUrl = Constants.AVATAR_PLACEHOLDER_URL

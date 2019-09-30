@@ -189,7 +189,9 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
         case 5:
             showPastSessions()
         default:
-            navigationController?.pushViewController(QTInviteOthersViewController.controller, animated: true)
+            let controller = QTInviteOthersViewController.controller
+            controller.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(controller, animated: true)
         }
     }
     
@@ -199,11 +201,13 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
             let tutor = CurrentUser.shared.tutor ?? AWTutor(dictionary: [:])
             controller.user = tutor.copy(learner: CurrentUser.shared.learner)
             controller.profileViewType = .myLearner
+            controller.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(controller, animated: true)
         } else {
             let controller = QTProfileViewController.controller
             controller.user = CurrentUser.shared.tutor
             controller.profileViewType = .myTutor
+            controller.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(controller, animated: true)
         }
     }
@@ -211,11 +215,14 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
     func showPayment() {
         let vc = AccountService.shared.currentUserType == .learner ? CardManagerViewController() : BankManagerVC()
         navigationItem.hidesBackButton = true
+        vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
     }
     
     func showSettings() {
-        navigationController?.pushViewController(QTSettingsViewController.controller, animated: true)
+        let controller = QTSettingsViewController.controller
+        controller.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(controller, animated: true)
     }
     
     func showLegal() {
@@ -223,11 +230,13 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
         next.navigationItem.title = "Terms of Service"
         next.url = "https://www.quicktutor.com/legal/terms-of-service"
         next.loadAgreementPdf()
+        next.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(next, animated: true)
     }
     
     func showHelp() {
         let vc = AccountService.shared.currentUserType == .learner ? LearnerHelpVC() : TutorHelp()
+        vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -236,6 +245,7 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
         next.navigationItem.title = "Shop"
         next.url = "https://www.quicktutor.com/shop"
         next.loadAgreementPdf()
+        next.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(next, animated: true)
     }
     
@@ -246,7 +256,9 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
     }
     
     func showPastSessions() {
-        navigationController?.pushViewController(QTPastSessionsViewController.controller, animated: true)
+        let controller = QTPastSessionsViewController.controller
+        controller.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(controller, animated: true)
     }
     
     func showFeedback() {
@@ -260,7 +272,9 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
     }
     
     func inviteOthers() {
-        navigationController?.pushViewController(QTInviteOthersViewController.controller, animated: true)
+        let controller = QTInviteOthersViewController.controller
+        controller.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(controller, animated: true)
     }
     
 }
@@ -282,6 +296,8 @@ extension ProfileVC: ProfileModeToggleViewDelegate {
             FirebaseData.manager.fetchLearner(uid) { (learner) in
                 self.dismissOverlay()
                 CurrentUser.shared.learner = learner
+                AccountService.shared.loadUser()
+                AccountService.shared.currentUserType = .learner
                 RootControllerManager.shared.configureRootViewController(controller: LearnerMainPageVC())
             }
         }

@@ -10,6 +10,7 @@ import Alamofire
 import SnapKit
 import Stripe
 import UIKit
+import IQKeyboardManager
 
 class TutorAddBank: BaseRegistrationController {
     
@@ -41,6 +42,17 @@ class TutorAddBank: BaseRegistrationController {
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        IQKeyboardManager.shared().isEnabled = true
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        IQKeyboardManager.shared().isEnabled = false
+        contentView.resignFirstResponder()
+    }
+    
     func setupTargets() {
         accessoryView.nextButton.addTarget(self, action: #selector(handleNext(_:)), for: .touchUpInside)
         accessoryView.nextButton.setTitle("NEXT", for: .normal)
@@ -58,11 +70,6 @@ class TutorAddBank: BaseRegistrationController {
             textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
             textField.inputAccessoryView = accessoryView
         }
-    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        contentView.resignFirstResponder()
     }
 
     @objc private func textFieldDidChange(_: UITextField) {

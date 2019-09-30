@@ -24,8 +24,10 @@ class Session: Codable {
     var duration: Int
     var status: String
     var runTime: Int
+    var rating: Double
 
     init(dictionary: [String: Any], id: String) {
+        self.id = id
         senderId = dictionary["senderId"] as? String ?? ""
         receiverId = dictionary["receiverId"] as? String ?? ""
         startTime = dictionary["startTime"] as? Double ?? 0
@@ -39,7 +41,7 @@ class Session: Codable {
         runTime = dictionary["runTime"] as? Int ?? 0
         paymentType = dictionary["paymentType"] as? String ?? QTSessionPaymentType.hour.rawValue
         duration = dictionary["duration"] as? Int ?? 1200
-        self.id = id
+        rating = dictionary["rating"] as? Double ?? 0
     }
     
     init(_ session: Session) {
@@ -57,6 +59,7 @@ class Session: Codable {
         paymentType = session.paymentType
         duration = session.duration
         id = session.id
+        rating = session.rating
     }
     
     func lengthInMinutes() -> Double {
@@ -81,6 +84,10 @@ class Session: Codable {
         guard status == "pending" || status == "accepted" else { return false }
         let isExpired = startTime + 3600 < Date().timeIntervalSince1970
         return isExpired
+    }
+    
+    var isPast: Bool {
+        return startTime < Date().timeIntervalSince1970 && status == "completed"
     }
 
     func isNeededToStartNow() -> Bool {

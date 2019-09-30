@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import SkeletonView
 
 class BaseSessionsVC: UIViewController {
     
@@ -34,6 +35,8 @@ class BaseSessionsVC: UIViewController {
     var userSessionsHandle: DatabaseHandle?
     var connectionIds = [String]()
     
+    private var isLoading: Bool = false
+    
     override func viewDidLoad() {
         setupViews()
     }
@@ -59,7 +62,14 @@ class BaseSessionsVC: UIViewController {
     func setupViews() {
         setupMainView()
         setupCollectionView()
+        
+        view.isSkeletonable = true
         fetchSessions()
+        
+        collectionView.prepareSkeleton { _ in
+            self.view.showAnimatedSkeleton(usingColor: Colors.gray)
+        }
+        
         
         // Update connectionIds
         self.connectionIds.removeAll()
@@ -89,7 +99,7 @@ class BaseSessionsVC: UIViewController {
     func setupCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
-        view.addSubview(collectionView)
+        view.insertSubview(collectionView, at: 0)
         collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         collectionViewBottomAnchor = collectionView.bottomAnchor.constraint(equalTo: view.getBottomAnchor(), constant: 0)
         collectionViewBottomAnchor?.isActive = true
@@ -118,10 +128,14 @@ class BaseSessionsVC: UIViewController {
     }
     
     @objc func fetchSessions() {
+        
+        if isLoading { return }
+        isLoading = true
+        
         pendingSessions.removeAll()
         upcomingSessions.removeAll()
         pastSessions.removeAll()
-        collectionView.reloadData()
+//        collectionView.reloadData()
         
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
@@ -133,9 +147,8 @@ class BaseSessionsVC: UIViewController {
             .child(uid)
             .child(userTypeString)
             .queryLimited(toLast: 10).observeSingleEvent(of: .value) { snapshot in
-                guard let snap = snapshot.children.allObjects as? [DataSnapshot], snap.count > 0 else {
+                if let snap = snapshot.children.allObjects as? [DataSnapshot], snap.isEmpty {
                     self.toggleEmptyState(on: true && self.connectionIds.isEmpty)
-                    return
                 }
                 
                 if let ref = self.userSessionsRef, let handle = self.userSessionsHandle {
@@ -162,8 +175,8 @@ class BaseSessionsVC: UIViewController {
                             session.status != "declined",
                             session.status != "expired",
                             !session.isExpired() else {
-                            self.attemptReloadOfTable()
-                            return
+                                self.attemptReloadOfTable()
+                                return
                         }
                         
                         if session.status == "pending" && session.startTime > Date().timeIntervalSince1970 {
@@ -174,7 +187,7 @@ class BaseSessionsVC: UIViewController {
                             return
                         }
                         
-                        if session.startTime < Date().timeIntervalSince1970 && session.status == "completed" {
+                        if session.isPast {
                             if !self.pastSessions.contains(where: { $0.id == session.id }) {
                                 self.pastSessions.insert(session, at: 0)
                             }
@@ -193,7 +206,6 @@ class BaseSessionsVC: UIViewController {
                 }
         }
     }
-        
     
     fileprivate func attemptReloadOfTable() {
         timer?.invalidate()
@@ -202,13 +214,19 @@ class BaseSessionsVC: UIViewController {
     
     var timer: Timer?
     @objc func handleReloadTable() {
+        self.pastSessions = self.pastSessions.sorted(by: { $0.startTime > $1.startTime })
         DispatchQueue.main.async(execute: {
+            
+            self.view.hideSkeleton()
+            
             self.updateTabBarBadge()
             self.collectionView.reloadData()
             self.toggleEmptyState(on: self.pendingSessions.count
                 + self.upcomingSessions.count
                 + self.pastSessions.count == 0
                 && self.connectionIds.isEmpty)
+            
+            self.isLoading = false
         })
     }
     
@@ -380,7 +398,17 @@ class BaseSessionsVC: UIViewController {
     var selectedPastCell: BasePastSessionCell? = nil
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? BaseSessionCell else { return }
+        var sessions = [Session]()
+        switch indexPath.section {
+        case 0:
+            sessions = pendingSessions
+        case 1:
+            sessions = upcomingSessions
+        default:
+            sessions = pastSessions
+        }
+        
+        guard !isLoading, indexPath.item < sessions.count, let cell = collectionView.cellForItem(at: indexPath) as? BaseSessionCell else { return }
         selectedCell?.actionView.hideActionContainerView()
         selectedPastCell?.toggleStarViewHidden()
         selectedCell = cell
@@ -401,6 +429,7 @@ class BaseSessionsVC: UIViewController {
                     controller.user = tutor
                     controller.profileViewType = .tutor
                     controller.isPresentedFromSessionScreen = true
+                    controller.hidesBottomBarWhenPushed = true
                     self.navigationController?.pushViewController(controller, animated: true)
                 }
             })
@@ -413,6 +442,7 @@ class BaseSessionsVC: UIViewController {
                     controller.user = tutor.copy(learner: learner)
                     controller.profileViewType = .learner
                     controller.isPresentedFromSessionScreen = true
+                    controller.hidesBottomBarWhenPushed = true
                     self.navigationController?.pushViewController(controller, animated: true)
                 }
             }
@@ -437,15 +467,18 @@ class BaseSessionsVC: UIViewController {
     }
     
     private func getTutor(uid: String) {
-        if uid.isEmpty {return;}
-            UserFetchService.shared.getTutorWithId(uid) { tutor in
-                let vc = ConversationVC()
-                vc.receiverId = uid
-                vc.chatPartner = tutor!
-                vc.connectionRequestAccepted = true
-                self.navigationController?.setNavigationBarHidden(false, animated: false)
-                self.navigationController?.pushViewController(vc, animated: true)
-            }
+        if uid.isEmpty { return }
+        
+        UserFetchService.shared.getTutorWithId(uid) { tutor in
+            // the result tutor can be null, because there are some ghost users, so if there is no tutor (/it's a ghost tutor), will just return.
+            guard let tutor = tutor else { return }
+            let vc = ConversationVC()
+            vc.receiverId = uid
+            vc.chatPartner = tutor
+            vc.connectionRequestAccepted = true
+            self.navigationController?.setNavigationBarHidden(false, animated: false)
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     @objc func requestSession(notification: Notification) {
@@ -454,6 +487,7 @@ class BaseSessionsVC: UIViewController {
             guard let tutor = tutor else { return }
             let vc = SessionRequestVC()
             vc.tutor = tutor
+            vc.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -482,6 +516,7 @@ extension BaseSessionsVC: CustomModalDelegate {
     
     func handleConfirm() {
         let next = CardManagerViewController()
+        next.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(next, animated: true)
     }
     
@@ -491,7 +526,7 @@ extension BaseSessionsVC: CustomModalDelegate {
         DataService.shared.getSessionById(id) { session in
             if let chatPartnerId = session.partnerId() {
                 Database.database().reference().child("sessionCancels").child(chatPartnerId).child(uid).setValue(1)
-            
+                
                 // Cancells session
                 let userTypeString = AccountService.shared.currentUserType.rawValue
                 let otherUserTypeString = AccountService.shared.currentUserType == .learner ? UserType.tutor.rawValue : UserType.learner.rawValue
@@ -545,7 +580,7 @@ extension BaseSessionsVC {
             .child(uid)
             .child(userTypeString)
             .observe(.childChanged) { snapshot in
-            
+                
                 // Update connectionIds
                 self.connectionIds.removeAll()
                 self.fetchConnections({ (ids) in

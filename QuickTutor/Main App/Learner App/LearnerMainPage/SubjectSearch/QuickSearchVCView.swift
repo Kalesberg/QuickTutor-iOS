@@ -18,7 +18,7 @@ class QuickSearchVCView: UIView {
     }()
     
     let collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
+        let layout = QTOpacityAnimationCollectionViewFlowLayout () //UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         cv.backgroundColor = Colors.newScreenBackground

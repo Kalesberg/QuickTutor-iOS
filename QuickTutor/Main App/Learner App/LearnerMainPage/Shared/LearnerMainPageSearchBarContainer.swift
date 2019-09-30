@@ -94,10 +94,10 @@ class LearnerMainPageSearchBarContainer: UIView {
         if 0 == recentSearchesCV.alpha { return }
         
         self.recentSearchesCVHeightAnchor?.constant = 0
-        UIView.animate(withDuration: 0.15, animations: {
+        UIView.animate(withDuration: 0.15) {
             self.recentSearchesCV.alpha = 0
             self.layoutIfNeeded()
-        })
+        }
     }
     
     func hideShadow() {
@@ -112,10 +112,10 @@ class LearnerMainPageSearchBarContainer: UIView {
         if 1 == recentSearchesCV.alpha { return }
         
         self.recentSearchesCVHeightAnchor?.constant = 30
-        UIView.animate(withDuration: 0.15, animations: {
+        UIView.animate(withDuration: 0.15) {
             self.recentSearchesCV.alpha = 1
             self.layoutIfNeeded()
-        })
+        }
     }
     
     override init(frame: CGRect) {

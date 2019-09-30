@@ -143,6 +143,7 @@ extension FeaturedSectionController: UICollectionViewDelegate {
             vc.navigationItem.title = cateogryTitle
         }
         vc.navigationItem.title = featuredItems[indexPath.item].subject
+        vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
     }
     

@@ -72,14 +72,14 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
     let starLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .right
-        label.font = Fonts.createBoldSize(9)
+        label.font = Fonts.createBlackSize(14)
         label.textColor = Colors.purple
         label.text = "5.0"
         return label
     }()
 
     let starIcon: UIImageView = {
-        let iv = UIImageView(image: UIImage(named: "ic_star_sm_filled"))
+        let iv = UIImageView(image: UIImage(named: "ic_star_filled"))
         iv.contentMode = .scaleAspectFit
         iv.image = iv.image!.withRenderingMode(.alwaysTemplate)
         iv.tintColor = Colors.purple
@@ -113,7 +113,7 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
         UserFetchService.shared.getTutorWithId(partnerId) { tutor in
             guard let username = tutor?.formattedName.capitalized, let profilePicUrl = tutor?.profilePicUrl else { return }
             self.tutorLabel.text = "with \(username)"
-            self.profileImage.imageView.sd_setImage(with: profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+            self.profileImage.imageView.sd_setImage(with: profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
             guard let rating = tutor?.rating else { return }
             self.updateRatingLabel(rating: rating)
         }
@@ -124,7 +124,7 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
         UserFetchService.shared.getStudentWithId(partnerId) { tutor in
             guard let username = tutor?.formattedName.capitalized, let profilePicUrl = tutor?.profilePicUrl else { return }
             self.tutorLabel.text = "with \(username)"
-            self.profileImage.imageView.sd_setImage(with: profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+            self.profileImage.imageView.sd_setImage(with: profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
             guard let rating = tutor?.rating else { return }
             self.updateRatingLabel(rating: rating)
         }
@@ -197,7 +197,7 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
     
     func setupStarLabel() {
         addSubview(starLabel)
-        starLabel.anchor(top: nil, left: nil, bottom: nil, right: starIcon.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 4, width: 60, height: 15)
+        starLabel.anchor(top: nil, left: nil, bottom: nil, right: starIcon.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 5, width: 60, height: 15)
         addConstraint(NSLayoutConstraint(item: starLabel, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
     }
     

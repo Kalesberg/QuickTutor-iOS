@@ -19,6 +19,7 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var sessionLengthCaptionLabel: UILabel!
     @IBOutlet weak var sessionLengthLabel: UILabel!
     @IBOutlet weak var tutoringCostView: UIView!
+    @IBOutlet weak var tutoringCostTitleLabel: UILabel!
     @IBOutlet weak var tutoringCostLabel: UILabel!
     @IBOutlet weak var processingFeeTitleLabel: UILabel!
     @IBOutlet weak var processingFeeLabel: UILabel!
@@ -60,10 +61,11 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
         
         if let tutor = user as? AWTutor {
             let nameSplit = tutor.name.split(separator: " ")
-            setAvatarImageWith(uid: tutor.uid)
+            avatarImageView.sd_setImage(with: tutor.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
             
             updateLabelsWith(sessionType: sessionType, nameSplit: nameSplit)
             
+            tutoringCostTitleLabel.text = sessionType == .quickCalls ? "Call cost:" : "Session cost:" 
             tutoringCostLabel.text = bill.currencyFormat(precision: 2, divider: 1)
             
             let cost = (bill + tip + 0.3) / 0.971
@@ -72,7 +74,7 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
             totalLabel.text = cost.currencyFormat(precision: 2, divider: 1)
         } else if let learner = user as? AWLearner {
             let nameSplit = learner.name.split(separator: " ")
-            setAvatarImageWith(uid: learner.uid)
+            avatarImageView.sd_setImage(with: learner.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
             
             processingFeeTitleLabel.text = "QuickTutor's service fee:"
             
@@ -97,8 +99,8 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
         
         tipLabel.text = tip.currencyFormat(precision: 2, divider: 1)
         totalSessionNumberLabel.text = AccountService.shared.currentUserType == .learner ?
-            "\(CurrentUser.shared.learner.lNumSessions + 1)" : "\(CurrentUser.shared.tutor.tNumSessions + 1)"
-        partnerSessionNumberLabel.text = "\(partnerSessionNumber + 1)"
+            "\(CurrentUser.shared.learner.lNumSessions ?? 0)" : "\(CurrentUser.shared.tutor.tNumSessions ?? 0)"
+        partnerSessionNumberLabel.text = "\(partnerSessionNumber)"
     }
 
     func getFormattedTimeString (seconds : Int) -> String {
@@ -113,10 +115,6 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
         } else {
             return "\(seconds) seconds"
         }
-    }
-    
-    func setAvatarImageWith(uid: String) {
-        avatarImageView.sd_setImage(with: storageRef.child("student-info").child(uid).child("student-profile-pic1"))
     }
     
     func updateLabelsWith(sessionType: QTSessionType, nameSplit: [String.SubSequence]) {

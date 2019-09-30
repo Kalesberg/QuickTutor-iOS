@@ -20,7 +20,7 @@ class QTQuickSearchViewController: UIViewController {
     
     let tabBar = TYTabPagerBar()
     let pagerController = TYPagerController()
-    lazy var tabBarTitles = ["All", "Subjects", "People"]
+    lazy var tabBarTitles = ["All", "Topics", "People"]
     let allSearchVC = QTAllSearchViewController.controller
     let subjectSearchVC = QTSubjectSearchViewController.controller
     let tutorSearchVC = QTTutorSearchViewController.controller
@@ -57,7 +57,6 @@ class QTQuickSearchViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
-        hideTabBar(hidden: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -65,11 +64,6 @@ class QTQuickSearchViewController: UIViewController {
         searchBarContainer.searchBar.becomeFirstResponder()
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        hideTabBar(hidden: false)
-    }
-    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         

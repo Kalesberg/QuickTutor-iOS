@@ -82,7 +82,7 @@ class TutorSessionDetails: BaseViewController {
                 contentView.sessionHeader.nameLabel.text = "with \(String(name[0]).capitalized)"
             }
         }
-        contentView.sessionHeader.profilePic.sd_setImage(with: storageRef.child("student-info").child(datasource.otherId).child("student-profile-pic1"), placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+        contentView.sessionHeader.profilePic.sd_setImage(with: storageRef.child("student-info").child(datasource.otherId).child("student-profile-pic1"), placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
         contentView.sessionHeader.subjectLabel.text = datasource.subject
         contentView.sessionHeader.monthLabel.text = String(date[1])
         contentView.sessionHeader.dayLabel.text = String(date[0])

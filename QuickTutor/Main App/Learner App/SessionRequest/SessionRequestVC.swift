@@ -27,7 +27,7 @@ class SessionRequestVC: UIViewController {
     }
     var subject: String?
     var startTime: Date = Date().adding(minutes: 15)
-    var duration: Int = 20
+    var duration: Int = 30
     var price: Double?
     var sessionType: String = "online"
     var paymentType = QTSessionPaymentType.hour
@@ -54,8 +54,8 @@ class SessionRequestVC: UIViewController {
         contentView.sendView.connectButton.isUserInteractionEnabled = false
         contentView.sendView.connectButton.addTarget(self, action: #selector(sendRequest), for: .touchUpInside)
         contentView.scrollView.isExclusiveTouch = false
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.25) {
-            self.contentView.durationView.collectionView.scrollToItem(at: IndexPath(item: 6, section: 0), at: .centeredHorizontally, animated: false)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            self.contentView.durationView.collectionView.scrollToItem(at: IndexPath(item: 8, section: 0), at: .centeredHorizontally, animated: false)
         }
     }
     
@@ -75,22 +75,30 @@ class SessionRequestVC: UIViewController {
         extendedLayoutIncludesOpaqueBars = true
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        hideTabBar(hidden: false)
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if let _ = tutor {
             contentView.subjectView.collectionView.reloadData()
             contentView.subjectView.updateUI()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                self.checkTutorSubject()
+            }            
+        }
+    }
+    
+    private func checkTutorSubject() {
+        if let tutor = tutor,
+            let featuredSubject = tutor.featuredSubject,
+            let subjects = tutor.subjects,
+            let index = subjects.firstIndex(of: featuredSubject) {
+            contentView.subjectView.collectionView.selectItem(at: IndexPath(item: index, section: 0), animated: false, scrollPosition: .top)
+            subject = featuredSubject
+            checkForErrors()
         }
     }
     
     func setupNavBar() {
-        navigationItem.title = "Request Session"
+        navigationItem.title = "Schedule Session"
         edgesForExtendedLayout = []
         navigationController?.setNavigationBarHidden(false, animated: true)
         if #available(iOS 11.0, *) {
@@ -208,6 +216,7 @@ extension SessionRequestVC: SessionRequestTutorViewDelegate {
         tutorView.tutorCell.isHidden = false
         self.tutor = tutor
         contentView.tutorView.tutorCell.updateUI(user: tutor)
+        checkTutorSubject()
     }
     
     func updateTutorViewAsChosen() {
@@ -228,9 +237,11 @@ extension SessionRequestVC: SessionRequestDateViewDelegate {
 extension SessionRequestVC: SessionRequestDurationViewDelegate {
     func sessionRequestDurationView(_ durationView: SessionRequestDurationView, didSelect duration: Int) {
         self.duration = duration
-        guard let priceText = contentView.paymentView.paymentInputView.inputField.text else { return }
-        updatePriceLabelText(Double(priceText) ?? 0)
-        checkForErrors()
+        if nil != tutor {
+            guard let priceText = contentView.paymentView.paymentInputView.inputField.text else { return }
+            updatePriceLabelText(Double(priceText) ?? 0)
+            checkForErrors()
+        }
     }
 }
 

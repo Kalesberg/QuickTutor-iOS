@@ -19,6 +19,8 @@ import MobileCoreServices
 import QuickLook
 import Cosmos
 import SnapKit
+import SKPhotoBrowser
+
 
 enum QTConnectionStatus: String {
     case pending, declined, accepted, expired
@@ -43,7 +45,7 @@ class QTSharedProfileView: UIView {
     var featuredSubjectLabel: UILabel = {
         let label = UILabel()
         label.textColor = Colors.purple
-        label.font = Fonts.createSize(15)
+        label.font = Fonts.createSize(16)
         return label
     }()
     
@@ -132,7 +134,7 @@ class QTSharedProfileView: UIView {
     
     func setupLocationLabel() {
         addSubview(locationLabel)
-        locationLabel.anchor(top: nil, left: locationIconImageView.rightAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 20, paddingRight: 20, width: 0, height: 0)
+        locationLabel.anchor(top: nil, left: locationIconImageView.rightAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 20, paddingRight: 20, width: 0, height: 0)
         locationLabel.centerYAnchor.constraint(equalTo: locationIconImageView.centerYAnchor).isActive = true
     }
     
@@ -158,8 +160,13 @@ class QTSharedProfileView: UIView {
             hourlyRateLabel.text = "$\(price) per hour"
         }
         
-        ratingView.rating = user.tRating ?? 5.0
-        ratingView.text = "\(user.reviews?.count ?? 0)"
+        if let totalReviews = user.reviews?.count, totalReviews > 0 {
+            ratingView.rating = user.tRating ?? 0
+            ratingView.text = "\(totalReviews)"
+            ratingView.isHidden = false
+        } else {
+            ratingView.isHidden = true
+        }
         
         locationLabel.text = user.region
     }
@@ -198,7 +205,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     var headerHeight = 30
     var subject: String?
     var connectionStatus: QTConnectionStatus? = .declined
-
+    
     // MARK: Layout Views -
     let messagesCollection: ConversationCollectionView = {
         let layout = ConversationFlowLayout()
@@ -259,12 +266,18 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         messagesCollection.dataSource = self
         messagesCollection.delegate = self
         view.addSubview(messagesCollection)
-        messagesCollection.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 7.5, paddingRight: -60, width: 0, height: 0)
+        messagesCollection.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 20, paddingRight: -60, width: 0, height: 0)
     }
 
     private func setupEmptyBackground() {
         view.addSubview(emptyCellBackground)
-        emptyCellBackground.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 60, paddingRight: 0, width: 0, height: 0)
+        
+        if #available(iOS 11, *) {
+            let bottom = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
+            emptyCellBackground.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: bottom + 120, paddingRight: 0, width: 0, height: 0)
+        } else {
+            emptyCellBackground.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 120, paddingRight: 0, width: 0, height: 0)
+        }
     }
 
     private func setupNavBar() {
@@ -286,7 +299,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             titleView.updateUI(user: partner)
         }
         guard let profilePicUrl = chatPartner?.profilePicUrl else { return }
-        titleView.imageView.imageView.sd_setImage(with: profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+        titleView.imageView.imageView.sd_setImage(with: profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
     }
 
     func handleLeftViewTapped() {
@@ -317,7 +330,6 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     func showAccessoryView(_ show: Bool = true) {
         self.inputAccessoryView?.isHidden = !show
-        self.hideTabBar(hidden: !show)
         if show {
             self.edgesForExtendedLayout = .top
             self.extendedLayoutIncludesOpaqueBars = false
@@ -417,12 +429,37 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         if #available(iOS 11.0, *) {
             navigationItem.largeTitleDisplayMode = .never
         }
+        
+        // set draft message
+        let key = AccountService.shared.currentUserType == .learner ? QTUserDefaultsKey.tutorDraftMessages : QTUserDefaultsKey.learnerDraftMessages
+        let accessoryView = AccountService.shared.currentUserType == .learner ? studentKeyboardAccessory : teacherKeyboardAccessory
+        guard let draftMessages = UserDefaults.standard.dictionary(forKey: key) as? [String : String], let draftMessage = draftMessages[receiverId] else { return }
+        accessoryView.messageTextview.text = draftMessage
+        accessoryView.messageTextview.placeholderLabel.isHidden = !draftMessage.isEmpty
+        if !draftMessage.isEmpty {
+            accessoryView.hideLeftView()
+        }
     }
     
     override func willMove(toParent parent: UIViewController?) {
         super.willMove(toParent: parent)
         if parent == nil {
             self.view.endEditing(true)
+            
+            // save draft message
+            let key = AccountService.shared.currentUserType == .learner ? QTUserDefaultsKey.tutorDraftMessages : QTUserDefaultsKey.learnerDraftMessages
+            let accessoryView = AccountService.shared.currentUserType == .learner ? studentKeyboardAccessory : teacherKeyboardAccessory
+            let draftMessage = accessoryView.messageTextview.text.trimmingCharacters(in: .whitespaces)
+            
+            var draftMessages = UserDefaults.standard.dictionary(forKey: key) as? [String : String]
+            
+            if draftMessages == nil {
+                draftMessages = [String:String]()
+            }
+            
+            draftMessages?[receiverId] = draftMessage
+            UserDefaults.standard.set(draftMessages, forKey: key)
+            UserDefaults.standard.synchronize()
         }
     }
     
@@ -436,7 +473,15 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         if shouldRequestSession {
             handleSessionRequest()
         }
-        messagesCollection.scrollToBottom(animated: true)
+        
+        if #available(iOS 11.0, *) {
+            let bottom = (inputAccessoryView?.frame.height ?? 0) - (UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0)
+            messagesCollection.updateBottomValues(bottom)
+        } else {
+            messagesCollection.updateBottomValues(inputAccessoryView?.frame.height ?? 0)
+        }
+        
+//        messagesCollection.scrollToBottom(animated: true)
 //        tutorial.showIfNeeded()
         conversationManager.readReceiptManager?.markConversationRead()
         NotificationManager.shared.disableConversationNotificationsFor(uid: chatPartner.uid)
@@ -460,6 +505,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
                     controller.user = tutor
                     controller.profileViewType = .tutor
                     controller.subject = self.subject
+                    controller.hidesBottomBarWhenPushed = true
                     self.navigationController?.pushViewController(controller, animated: true)
                 }
             }
@@ -471,6 +517,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
                     let tutor = AWTutor(dictionary: [:])
                     controller.user = tutor.copy(learner: learner)
                     controller.profileViewType = .learner
+                    controller.hidesBottomBarWhenPushed = true
                     self.navigationController?.pushViewController(controller, animated: true)
                 }
             }
@@ -692,7 +739,6 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         NotificationCenter.default.addObserver(self, selector: #selector(didDisconnect), name: Notifications.didDisconnect.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidChangeText(_:)), name: UITextView.textDidChangeNotification, object: nil)
         
-        
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
@@ -705,20 +751,22 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         let keyboardScreenEndFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
         
+        let inputAccessoryViewHeight = inputAccessoryView?.frame.height ?? 0 // add input accessory view height
+        
         if notification.name == UIResponder.keyboardWillHideNotification {
-            messagesCollection.updateBottomValues(0)
+            messagesCollection.updateBottomValues(inputAccessoryViewHeight)
         } else {
             var keyboardHeight = keyboardViewEndFrame.height
             if #available(iOS 11.0, *) {
                 keyboardHeight -= UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
             }
-            let typingIndicatorHeight: CGFloat = 48 // The height of word suggestion section on the keyboard
-            var bottom = keyboardHeight - typingIndicatorHeight
+//            let typingIndicatorHeight: CGFloat = 48 // The height of word suggestion section on the keyboard
+            var bottom = keyboardHeight
             bottom = max(bottom, 0)
             messagesCollection.updateBottomValues(bottom)
         }
         let indexPath = IndexPath(item: conversationManager.messages.count - 1, section: 0)
-        messagesCollection.scrollToItem(at: indexPath, at: .top, animated: true)
+        messagesCollection.scrollToItem(at: indexPath, at: .bottom, animated: true)
     }
     
     func setupDocumentObserver() {
@@ -788,27 +836,27 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
         switch message.type {
         case .image:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ImageMessageCell
-            cell.delegate = imageMessageAnimator
+            cell.delegate = self//imageMessageAnimator
             cell.updateUI(message: message)
-            cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+            cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
             return cell
         case .sessionRequest:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! SessionRequestCell
             cell.updateUI(message: message)
             cell.delegate = self
             cell.indexPath = [indexPath]
-            cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+            cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
             return cell
         case .connectionRequest:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ConnectionRequestCell
             cell.chatPartner = chatPartner
             cell.updateUI(message: message)
-            cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+            cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
             return cell
         case .video:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! VideoMessageCell
             cell.updateUI(message: message)
-            cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+            cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
             return cell
         case .text:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! UserTextMessageCell
@@ -816,12 +864,12 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
             cell.updateUI(message: message)
 //            cell.bubbleWidthAnchor?.constant = cell.textView.text.estimateFrameForFontSize(14).width + 30
             cell.bubbleWidthAnchor?.constant = (cell.textLabel.text?.estimateFrameForFontSize(14).width ?? 0) + 30
-            cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+            cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
             return cell
         case .document:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! DocumentMessageCell
             cell.updateUI(message: message)
-            cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+            cell.profileImageView.sd_setImage(with: chatPartner.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
             return cell
         default:
             return UICollectionViewCell()
@@ -874,8 +922,9 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let userMessage = conversationManager.messages[indexPath.item] as? UserMessage else { return }
         if let videoUrl = userMessage.videoUrl {
-            let player = AVPlayer(url: URL(string: videoUrl)!)
-            let vc = AVPlayerViewController()
+           let player = AVPlayer(url: URL(string: videoUrl)!)
+            let vc = QTChatVideoPlayerViewController()//AVPlayerViewController()
+            vc.videoUrl = URL(string: videoUrl)!
             vc.player = player
             present(vc, animated: true) {
                 vc.player?.play()
@@ -897,7 +946,23 @@ extension ConversationVC: UICollectionViewDelegateFlowLayout {
             }
         }
     }
+}
+
+extension ConversationVC: ImageMessageCellDelegate {
+    func handleZoomFor(imageView: UIImageView, scrollDelegate: UIScrollViewDelegate, zoomableView: ((UIImageView) -> ())?) {}
     
+    func messageCell(_ cell: ImageMessageCell, didTapImage imageUrl: String?) {
+        guard let url = imageUrl else { return }
+
+        let photo = SKPhoto.photoWithImageURL(url)
+        photo.shouldCachePhotoURLImage = true
+        
+        SKPhotoBrowserOptions.displayCounterLabel = false
+        SKPhotoBrowserOptions.displayBackAndForwardButton = false
+        let photoBrowser = SKPhotoBrowser(photos: [photo])
+        photoBrowser.initializePageIndex(0)
+        present(photoBrowser, animated: true, completion: nil)
+    }
 }
 
 // MARK: - ConversationManagerDelegate
@@ -908,6 +973,19 @@ extension ConversationVC: ConversationManagerDelegate {
         conversationManager.isFinishedPaginating = true
         addMessageStatusLabel()
         setupTypingInidcatorManagerIfNeeded()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+//            self.messagesCollection.scrollToBottom(animated: false)
+            if self.messagesCollection.contentSize.height > self.messagesCollection.frame.height {
+                if #available(iOS 11.0, *) {
+                    let bottom = (self.inputAccessoryView?.frame.height ?? 0) - (UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0)
+                    self.messagesCollection.contentOffset = CGPoint(x: 0, y: self.messagesCollection.contentSize.height - self.messagesCollection.frame.height + bottom)
+                } else {
+                    let bottom = self.inputAccessoryView?.frame.height ?? 0
+                    self.messagesCollection.contentOffset = CGPoint(x: 0, y: self.messagesCollection.contentSize.height - self.messagesCollection.frame.height + bottom)
+                }
+            }
+        }
     }
     
     func setupTypingInidcatorManagerIfNeeded() {
@@ -1070,7 +1148,7 @@ extension ConversationVC: KeyboardAccessoryViewDelegate {
 
     func shareUsernameForUserId() {
         studentKeyboardAccessory.toggleActionView()
-        
+        guard let username = self.chatPartner.username, let subject = self.subject else { return }
         displayLoadingOverlay()
         
         guard let data = sharedProfileView.asImage().jpegData(compressionQuality: 1.0) else { return }
@@ -1083,7 +1161,7 @@ extension ConversationVC: KeyboardAccessoryViewDelegate {
                 return
             }
             
-            DynamicLinkFactory.shared.createLink(userId: self.receiverId, userName: self.chatPartner.formattedName, subject: self.subject, profilePreviewUrl: url) { shareUrl in
+            DynamicLinkFactory.shared.createLink(userId: self.receiverId, username: username, subject: subject, profilePreviewUrl: url) { shareUrl in
                 guard let shareUrlString = shareUrl?.absoluteString else {
                     DispatchQueue.main.async {
                         self.dismissOverlay()

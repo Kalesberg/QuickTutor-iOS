@@ -43,6 +43,8 @@ class CardManagerViewController: UIViewController {
         return view
     }()
     
+    private var hasPaymentHistory: Bool = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigation()
@@ -71,12 +73,6 @@ class CardManagerViewController: UIViewController {
         super.viewWillAppear(animated)
         
         navigationController?.isNavigationBarHidden = false
-        
-        if !Stripe.deviceSupportsApplePay() {
-            updateApplePayDefaultStatus(false)
-        }
-        
-        hideTabBar(hidden: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -88,7 +84,10 @@ class CardManagerViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(!isShowingAddCardView && shouldHideNavBarWhenDismissed, animated: false)
-        hideTabBar(hidden: false)
+    }
+    
+    func setHasPaymentHistory (_ hasPaymentHistory: Bool) {
+        self.hasPaymentHistory = hasPaymentHistory
     }
     
     func configureNavigation() {
@@ -209,7 +208,8 @@ class CardManagerViewController: UIViewController {
             })
             
             group.notify(queue: .main) {
-                self.tableView.reloadSections(IndexSet(integer: 2), with: .none)
+                self.pastSessions = self.pastSessions.sorted(by: { $0.startTime > $1.startTime })
+                self.tableView.reloadData()
             }
         }
         
@@ -228,6 +228,9 @@ class CardManagerViewController: UIViewController {
         let setDefault = UIAlertAction(title: "Set as Default", style: .default) { _ in
             if card == self.defaultCard {
                 self.tableView.reloadData()
+                if !self.hasPaymentHistory {
+                    NotificationCenter.default.post(name: Notifications.didUpatePaymentCustomer.name, object: nil, userInfo: ["customer" : self.customer])
+                }
             } else {
                 self.showLoadingAnimation()
                 StripeService.updateDefaultSource(customer: self.customer, new: card, completion: { customer, error in
@@ -239,6 +242,10 @@ class CardManagerViewController: UIViewController {
                         }
                     } else if let customer = customer {
                         self.customer = customer
+                        
+                        if !self.hasPaymentHistory {
+                            NotificationCenter.default.post(name: Notifications.didUpatePaymentCustomer.name, object: nil, userInfo: ["customer" : customer])
+                        }
                     }
                     self.hideLoadingAnimation()
                 })
@@ -297,6 +304,7 @@ class CardManagerViewController: UIViewController {
     
     private func updateApplePayDefaultStatus(_ isDefault: Bool) {
         FirebaseData.manager.updateValue(node: "student-info", value: ["isApplePayDefault": isDefault]) { error in
+            CurrentUser.shared.learner.isApplePayDefault = isDefault
             if let error = error {
                 AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
             }
@@ -328,7 +336,7 @@ extension CardManagerViewController: AddCardViewControllerDelegate {
 
 extension CardManagerViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return hasPaymentHistory ? 3 : 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -383,7 +391,7 @@ extension CardManagerViewController: UITableViewDelegate {
             
             if CurrentUser.shared.learner.isApplePayDefault {
                 CurrentUser.shared.learner.isApplePayDefault = false
-                self.updateApplePayDefaultStatus(false)
+                updateApplePayDefaultStatus(false)
                 
                 defaultCardAlert(card: card)
             } else if card != defaultCard {
@@ -395,6 +403,10 @@ extension CardManagerViewController: UITableViewDelegate {
                 CurrentUser.shared.learner.isApplePayDefault = true
                 self.updateApplePayDefaultStatus(true)
                 self.tableView.reloadData()
+                
+                if !self.hasPaymentHistory {
+                    NotificationCenter.default.post(name: Notifications.didUpatePaymentCustomer.name, object: nil, userInfo: ["isApplyPay" : true])
+                }
             }
             
             let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)

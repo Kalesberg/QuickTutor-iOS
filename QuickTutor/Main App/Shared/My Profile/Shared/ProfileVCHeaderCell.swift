@@ -154,8 +154,8 @@ class ProfileVCHeaderCell: UICollectionReusableView {
         stackView.addArrangedSubview(ratingLabel)
         stackView.addArrangedSubview(starIcon)
         starIcon.snp.makeConstraints { make in
-            make.width.equalTo(11)
-            make.height.equalTo(11)
+            make.width.equalTo(12)
+            make.height.equalTo(12)
         }
     }
     
@@ -195,23 +195,32 @@ class ProfileVCHeaderCell: UICollectionReusableView {
     }
     
     func updateUI() {
+        profileImageView.image = AVATAR_PLACEHOLDER_IMAGE        
         guard let uid = Auth.auth().currentUser?.uid else { return }
         UserFetchService.shared.getUserOfCurrentTypeWithId(uid) { (user) in
             guard let user = user else { return }
             self.nameLabel.text = user.formattedName
-            self.profileImageView.sd_setImage(with: user.profilePicUrl, completed: nil)
+            self.profileImageView.sd_setImage(with: user.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
             if AccountService.shared.currentUserType == .learner {
                 self.featuredLabel.isHidden = true
             } else {
-                self.featuredLabel.isHidden = false
-                self.featuredLabel.text = CurrentUser.shared.tutor.featuredSubject?.capitalizingFirstLetter()
+                if let tutor = CurrentUser.shared.tutor {
+                    self.featuredLabel.isHidden = false
+                    self.featuredLabel.text = tutor.featuredSubject?.capitalizingFirstLetter()
+                } else {
+                    self.featuredLabel.isHidden = true
+                }
             }
         }
         
         if AccountService.shared.currentUserType == .learner {
             ratingLabel.text = "\(CurrentUser.shared.learner.lRating ?? 0.0)"
         } else {
-            ratingLabel.text = "\(CurrentUser.shared.tutor.tRating ?? 0.0)"
+            if let tutor = CurrentUser.shared.tutor {
+                ratingLabel.text = "\(tutor.tRating ?? 0.0)"
+            } else {
+                ratingLabel.text = "0.0"
+            }
         }
     }
     

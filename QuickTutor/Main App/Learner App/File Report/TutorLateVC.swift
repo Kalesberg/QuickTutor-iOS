@@ -15,7 +15,7 @@ class TutorLateView: FileReportCheckboxLayout {
         header.text = "My tutor was late"
 
         textBody.font = Fonts.createSize(14)
-        textBody.text = "Tutors have the option to create their own custom cancellation policy (CCP) — which learners are subject to upon scheduling a session with a tutor. This includes late fees. However, tutors are subject to their own policies as well.\n\nIf your tutor disobeyed their late policy, please let us know. Note that a report must be filed no earlier than 30 mins before the scheduled end of a session. And cannot be filed more than 7 days after the date of the scheduled session.\n"
+        textBody.text = "Tutors have the option to create their own custom cancellation policy (CCP) — which learners are topic to upon scheduling a session with a tutor. This includes late fees. However, tutors are topic to their own policies as well.\n\nIf your tutor disobeyed their late policy, please let us know. Note that a report must be filed no earlier than 30 mins before the scheduled end of a session. And cannot be filed more than 7 days after the date of the scheduled session.\n"
 
         cb1.label.text = "Tutor arrived late"
         cb2.label.text = "Tutor arrived extensively late"

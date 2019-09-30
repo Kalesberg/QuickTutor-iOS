@@ -14,6 +14,8 @@ import SnapKit
 import SwiftKeychainWrapper
 import CropViewController
 import RangeSeekSlider
+import AVFoundation
+import MobileCoreServices
 
 protocol QTProfileDelegate {
     func didUpdateTutorProfile(tutor: AWTutor)
@@ -42,19 +44,22 @@ class TutorEditProfileVC: LearnerEditProfileVC {
     
     var experienceSubject: String! = ""
     var experiencePeriod: Float! = 0.5
+    var videos: [TutorVideo]! = []
+    private var selectedVideoIndex: Int = -1
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Remove interest section title when tutor.
+        sectionTitles.remove(at: 1)
+        
         sectionTitles.insert("Tutoring", at: 1)
-        if automaticScroll {
-            let indexPath = IndexPath(row: 2, section: 1)
-            contentView.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupExperience ()
+        setupVideos ()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -73,6 +78,26 @@ class TutorEditProfileVC: LearnerEditProfileVC {
         }
     }
     
+    private func setupVideos () {
+        guard let tutor = CurrentUser.shared.tutor else { return }
+        if let videos = tutor.videos {
+            self.videos = videos.sorted(by: { $0.created < $1.created })
+        }
+    }
+    
+    func autoScrollTableViewForTutorSetting() {
+        if automaticScroll {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                let indexPath = IndexPath(row: 2, section: 2)
+                if let _ = self.contentView.tableView.cellForRow(at: indexPath) {
+                    let rect = self.contentView.tableView.rectForRow(at: indexPath)
+                    self.contentView.tableView.contentOffset = CGPoint(x: 0, y: rect.origin.y + rect.size.height)
+                    self.automaticScroll = false
+                }
+            }
+        }
+    }
+    
     @objc func subjectEditingEnded(_ textField: UITextField) {
         guard let subject = textField.text?.trimmingCharacters(in: .whitespaces) else { return }
         self.experienceSubject = subject
@@ -86,7 +111,7 @@ class TutorEditProfileVC: LearnerEditProfileVC {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 6
+        return 7
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -94,14 +119,16 @@ class TutorEditProfileVC: LearnerEditProfileVC {
         case 0:
             return 1
         case 1:
-            return 3
+            return 1
         case 2:
-            return 4
-        case 3:
             return 3
+        case 3:
+            return 4
         case 4:
-            return 2
+            return 3
         case 5:
+            return 2
+        case 6:
             return 2
         default:
             return 0
@@ -111,10 +138,12 @@ class TutorEditProfileVC: LearnerEditProfileVC {
     override func tableView(_: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case 0:
-            return 115
+            return 118
         case 1:
+            return 188
+        case 2:
             return indexPath.row == 2 ? 140 : 75
-        case 5:
+        case 6:
             return indexPath.row == 1 ? 117 : 75
         default:
             return 75
@@ -128,6 +157,12 @@ class TutorEditProfileVC: LearnerEditProfileVC {
             cell.delegate = self
             return cell
         case 1:
+            let cell = tableView.dequeueReusableCell(withIdentifier: QTEditProfileVideoTableViewCell.reuseIdentifier, for: indexPath) as! QTEditProfileVideoTableViewCell
+            cell.videos = videos
+            cell.delegate = self
+            cell.collectionView.reloadData()
+            return cell
+        case 2:
             switch indexPath.row {
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileCell", for: indexPath) as! EditProfileCell
@@ -167,20 +202,24 @@ class TutorEditProfileVC: LearnerEditProfileVC {
                     cell.textView.text = CurrentUser.shared.tutor.tBio
                     cell.textView.placeholderLabel.text = nil
                 }
+                
+                // Auto scroll tableview to show tutoring section
+                self.autoScrollTableViewForTutorSetting()
+                
                 return cell
             default:
                 return UITableViewCell()
             }
-        case 2:
+        case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileCell", for: indexPath) as! EditProfileCell
             cell.textField.isUserInteractionEnabled = false
             switch indexPath.row {
             case 0:
-                cell.textField.placeholder.text = "Subjects"
-                cell.textField.textField.attributedText = NSAttributedString(string: "Manage Subjects", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+                cell.textField.placeholder.text = "Topics"
+                cell.textField.textField.attributedText = NSAttributedString(string: "Manage Topics", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
             case 1:
-                cell.textField.placeholder.text = "Featured Subject"
-                cell.textField.textField.attributedText = NSAttributedString(string: "Set Featured Subject", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
+                cell.textField.placeholder.text = "Featured Topic"
+                cell.textField.textField.attributedText = NSAttributedString(string: "Set Featured Topic", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
             case 2:
                 cell.textField.placeholder.text = "Policies"
                 cell.textField.textField.attributedText = NSAttributedString(string: "Manage Policies", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
@@ -191,7 +230,7 @@ class TutorEditProfileVC: LearnerEditProfileVC {
                 break
             }
             return cell
-        case 3:
+        case 4:
             switch indexPath.row {
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileCell", for: indexPath) as! EditProfileCell
@@ -215,7 +254,7 @@ class TutorEditProfileVC: LearnerEditProfileVC {
             default:
                 return UITableViewCell()
             }
-        case 4:
+        case 5:
             switch indexPath.row {
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileCell", for: indexPath) as! EditProfileCell
@@ -236,13 +275,14 @@ class TutorEditProfileVC: LearnerEditProfileVC {
             default:
                 return UITableViewCell()
             }
-        case 5:
+        case 6:
             switch indexPath.row {
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "editProfileCell", for: indexPath) as! EditProfileCell
                 cell.textField.textField.addTarget(self, action: #selector(subjectEditingEnded(_:)), for: .editingDidEnd)
                 cell.textField.textField.delegate = self
-                cell.textField.placeholder.text = "Subject"
+                cell.textField.textField.returnKeyType = .done
+                cell.textField.placeholder.text = "Topic"
                 if let subject = experienceSubject, !subject.isEmpty {
                     cell.textField.textField.attributedText = NSAttributedString(string: "\(subject)", attributes: [NSAttributedString.Key.foregroundColor: Colors.grayText])
                     cell.textField.textField.isUserInteractionEnabled = true
@@ -266,13 +306,13 @@ class TutorEditProfileVC: LearnerEditProfileVC {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) as? EditProfileCell {
-            if indexPath.section == 1, indexPath.row < 2 { // remove first and last name flash
+            if indexPath.section == 2, indexPath.row < 2 { // remove first and last name flash
                 return
             }
             cell.flashCellLine()
         }
         switch indexPath.section {
-        case 2:
+        case 3:
             switch indexPath.item {
             case 0:
                 let vc = TutorAddSubjectsVC()
@@ -289,7 +329,7 @@ class TutorEditProfileVC: LearnerEditProfileVC {
             default:
                 break
             }
-        case 3:
+        case 4:
             switch indexPath.item {
             case 0:
                 navigationController?.pushViewController(EditPhoneVC(), animated: true)
@@ -300,7 +340,7 @@ class TutorEditProfileVC: LearnerEditProfileVC {
             default:
                 break
             }
-        case 4:
+        case 5:
             switch indexPath.item {
             case 0:
                 navigationController?.pushViewController(EditLanguageVC(), animated: true)
@@ -309,7 +349,7 @@ class TutorEditProfileVC: LearnerEditProfileVC {
             default:
                 break
             }
-        case 5:
+        case 6:
             switch indexPath.item {
             case 0:
                 guard let cell = tableView.cellForRow(at: indexPath) as? EditProfileCell else { return }
@@ -328,8 +368,69 @@ class TutorEditProfileVC: LearnerEditProfileVC {
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = EditProfileHeaderTableViewCell()
-        view.label.text = section == 5 ? "Experience" : sectionTitles[section - 1]
+        switch section {
+        case 0:
+            view.label.text = "Photos"
+        case 1:
+            view.label.text = "Videos"
+        case 6:
+            view.label.text = "Experience"
+        default:
+            view.label.text = sectionTitles[section - 2]
+        }
         return view
+    }
+    
+    // MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
+    override func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        let mediaType = info[UIImagePickerController.InfoKey.mediaType] as! CFString
+        switch mediaType {
+        case kUTTypeImage:
+            super.imagePickerController(picker, didFinishPickingMediaWithInfo: info)
+        case kUTTypeMovie:
+            guard let videoURL = info[UIImagePickerController.InfoKey.mediaURL] as? URL,
+                let thumbImage = getThumbnailForVideoUrl(videoURL) else {
+                    picker.dismiss(animated: true, completion: nil)
+                    return
+            }
+            
+            picker.dismiss(animated: true) {
+                FirebaseData.manager.uploadVideo(video: videoURL, thumbImage: thumbImage) { (error, tutorVideo) in
+                    if let error = error {
+                        AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
+                    } else if let tutorVideo = tutorVideo {
+                        guard let cell = self.contentView.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? QTEditProfileVideoTableViewCell else { return }
+                        self.videos.append(tutorVideo)
+                        cell.insertVideo(self.selectedVideoIndex, video: tutorVideo)
+                        self.selectedVideoIndex = -1
+                        
+                        // set tutor video
+                        guard let tutor = CurrentUser.shared.tutor else { return }
+                        tutor.videos = self.videos
+                    } else {
+                        AlertController.genericErrorAlert(self, title: "Error", message: "Cannot get video data from url.")
+                    }
+                }
+            }
+        default:
+            break
+        }
+    }
+    
+    private func getThumbnailForVideoUrl(_ url: URL) -> UIImage? {
+        let asset = AVAsset(url: url)
+        let imageGenerator = AVAssetImageGenerator(asset: asset)
+        imageGenerator.appliesPreferredTrackTransform = true
+        
+        do {
+            let thumbnail = try imageGenerator.copyCGImage(at: CMTimeMake(value: 0, timescale: 1), actualTime: nil)
+            let imageWithCorrectOrientation = UIImage(cgImage: thumbnail).fixOrientation()
+            return imageWithCorrectOrientation
+        } catch {
+            return nil
+        }
+        
     }
 }
 
@@ -337,17 +438,79 @@ extension TutorEditProfileVC: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let currentString: NSString = textField.text! as NSString
         let newString: NSString = currentString.replacingCharacters(in: range, with: string) as NSString
-        return newString.length <= 16
+        return newString.length <= 20
     }
 }
 
 extension TutorEditProfileVC: RangeSeekSliderDelegate {
     func rangeSeekSlider(_ slider: RangeSeekSlider, stringForMaxValue maxValue: CGFloat) -> String? {
-        return maxValue < 1 ? "6 months" : "\(Int(maxValue)) years"
+        return maxValue < 1 ? "6 mo." : "\(Int(maxValue)) years"
     }
     
     func rangeSeekSlider(_ slider: RangeSeekSlider, didChange minValue: CGFloat, maxValue: CGFloat) {
         experiencePeriod = maxValue < 1 ? 0.5 : Float(Int(maxValue))
+    }
+}
+
+extension TutorEditProfileVC: QTProfileVideoCollectionViewCellDelegate {
+    func collectionViewCell(_ cell: QTProfileVideoCollectionViewCell, didTapUpload video: TutorVideo?) {
+        selectedVideoIndex = videos.count
+        let actionSheet = UIAlertController (title: "Upload Video", message: nil, preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: "Take a video", style: .default, handler: { action in
+            if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                self.imagePicker.sourceType = .camera
+                self.imagePicker.videoQuality = .typeHigh
+                self.imagePicker.delegate = self
+                self.imagePicker.mediaTypes = [kUTTypeMovie as String]
+                self.present(self.imagePicker, animated: true, completion: nil)
+            }
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Choose a video", style: .default, handler: { action in
+            if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+                self.imagePicker.sourceType = .photoLibrary
+                self.imagePicker.delegate = self
+                self.imagePicker.mediaTypes = [kUTTypeMovie as String]
+                self.present(self.imagePicker, animated: true, completion: nil)
+            }
+        }))
+        present(actionSheet, animated: true, completion: nil)
+    }
+    
+    func collectionViewCell(_ cell: QTProfileVideoCollectionViewCell, didTapDelete video: TutorVideo?) {
+        guard let video = video, let index = videos.firstIndex(where: { $0.uid == video.uid }) else { return }
+        selectedVideoIndex = index
+        let alert = UIAlertController (title: "Delete Video", message: "Are you sure you want to delete this video?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { action in
+            FirebaseData.manager.deleteVideo(video: self.videos[index], { (error) in
+                if let error = error {
+                    AlertController.genericErrorAlert(self, title: "Error", message: error)
+                } else {
+                    guard let cell = self.contentView.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? QTEditProfileVideoTableViewCell else { return }
+                    self.videos.remove(at: self.selectedVideoIndex)
+                    cell.deleteVideo(self.selectedVideoIndex)
+                    self.selectedVideoIndex = -1
+                    
+                    // set tutor video
+                    guard let tutor = CurrentUser.shared.tutor else { return }
+                    tutor.videos = self.videos
+                }
+            })
+        }))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func collectionViewCell(_ cell: QTProfileVideoCollectionViewCell, didTapPlay video: TutorVideo?) {
+        if let videoUrl = video?.videoUrl {
+            let player = AVPlayer(url: URL(string: videoUrl)!)
+            let vc = QTChatVideoPlayerViewController()//AVPlayerViewController()
+            vc.videoUrl = URL(string: videoUrl)!
+            vc.player = player
+            present(vc, animated: true) {
+                vc.player?.play()
+            }
+        }
     }
 }
 
@@ -407,8 +570,6 @@ class LearnerEditProfileVC: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
         
-        hideTabBar(hidden: true)
-        
         updateLearner()
         setupName()
     }
@@ -416,7 +577,6 @@ class LearnerEditProfileVC: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         saveTempBio()
-        hideTabBar(hidden: false)
         delegate?.didUpdateLearnerProfile(learner: CurrentUser.shared.learner)
     }
     
@@ -436,7 +596,9 @@ class LearnerEditProfileVC: UIViewController {
     }
     
     func isBioCorrectLength(didTapSave: Bool = false) -> Bool {
-        guard let cell = contentView.tableView.cellForRow(at: IndexPath(row: 2, section: 1)) as? EditProfileBioCell, let bio = cell.textView.text else {
+        let section = AccountService.shared.currentUserType == .learner ? 1 : 2
+        let row = AccountService.shared.currentUserType == .learner ? 2 : 2
+        guard let cell = contentView.tableView.cellForRow(at: IndexPath(row: row, section: section)) as? EditProfileBioCell, let bio = cell.textView.text else {
             return false
         }
         
@@ -484,7 +646,7 @@ class LearnerEditProfileVC: UIViewController {
     }
     
      func displaySavedAlertController() {
-        let alertController = UIAlertController(title: "Saved!", message: "Your profile changes have been saved", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Saved!", message: "Your profile changes have been saved.", preferredStyle: .alert)
         
         present(alertController, animated: true, completion: nil)
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
@@ -513,6 +675,7 @@ class LearnerEditProfileVC: UIViewController {
     func uploadImageUrl(imageUrl _: String, number _: String) {
         if AccountService.shared.currentUserType == .learner {
             FirebaseData.manager.updateValue(node: "student-info", value: ["img": CurrentUser.shared.learner.images]) { error in
+                self.dismissOverlay()
                 if let error = error {
                     AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
                 }
@@ -520,6 +683,7 @@ class LearnerEditProfileVC: UIViewController {
             learner.images = CurrentUser.shared.learner.images
         } else {
             FirebaseData.manager.updateValue(node: "tutor-info", value: ["img": CurrentUser.shared.learner.images]) { error in
+                self.dismissOverlay()
                 if let error = error {
                     AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
                 }
@@ -575,6 +739,8 @@ class LearnerEditProfileVC: UIViewController {
     }
 
     @objc func saveChanges() {
+        view.endEditing(true)
+        
         if (firstName ?? "").isEmpty || (lastName ?? "").isEmpty {
             AlertController.genericErrorAlert(self, title: "Invalid Name", message: "Your first and last name must contain at least 1 character.")
             return
@@ -684,7 +850,7 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case 0:
-            return 115
+            return 118
         case 1:
             return indexPath.row == 2 ? 140 : 75
         case 2:
@@ -845,12 +1011,12 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = EditProfileHeaderTableViewCell()
-        view.label.text = sectionTitles[section - 1]
+        view.label.text = section == 0 ? "Photos" : sectionTitles[section - 1]
         return view
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return section == 0 ? 0 : 30
+        return section == 0 ? 60 : 30
     }
 }
 
@@ -895,7 +1061,7 @@ extension LearnerEditProfileVC: UIImagePickerControllerDelegate, UINavigationCon
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let image = info[.originalImage] as? UIImage else { return }
         
-        picker.dismiss(animated: false) {
+        picker.dismiss(animated: true) {
             let cropViewController = CropViewController(croppingStyle: .circular, image: image)
             cropViewController.delegate = self
             cropViewController.aspectRatioPreset = .presetSquare
@@ -939,12 +1105,19 @@ extension LearnerEditProfileVC: CropViewControllerDelegate {
         }*/
         
         let index = imageToChange
-        
+        displayLoadingOverlay()
         FirebaseData.manager.uploadImage(data: data, number: String(index)) { error, imageUrl in
             if let error = error {
+                self.dismissOverlay()
                 AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
             } else if let imageUrl = imageUrl {
-                self.learner.images["image\(index)"] = imageUrl
+                if AccountService.shared.currentUserType == .tutor {
+                    CurrentUser.shared.tutor.images["image\(index)"] = imageUrl
+                    self.learner.images["image\(index)"] = imageUrl
+                } else {
+                    self.learner.images["image\(index)"] = imageUrl
+                }
+                
                 self.uploadImageUrl(imageUrl: imageUrl, number: String(index))
             }
         }
@@ -964,7 +1137,13 @@ extension LearnerEditProfileVC: CropViewControllerDelegate {
             }
         }
         
-        cropViewController.dismiss(animated: true, completion: nil)
+        if #available(iOS 13.0, *),
+            let viewController = cropViewController.children.first {
+            viewController.modalTransitionStyle = .coverVertical
+            viewController.dismiss(animated: true)
+        } else {
+            cropViewController.dismiss(animated: true)
+        }
     }
 
 }

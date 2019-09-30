@@ -9,6 +9,7 @@
 import UIKit
 import PlaceholderTextView
 import FirebaseAuth
+import FacebookLogin
 
 class QTCloseAccountSubmitViewController: UIViewController {
 
@@ -153,6 +154,15 @@ class QTCloseAccountSubmitViewController: UIViewController {
     }
     
     private func removeUser() {
+        // Remove user shared object
+        CurrentUser.shared.logout()
+        AccountService.shared.logout()
+                
+        // Facebook Logout
+        try? Auth.auth().signOut()
+        // Firebase Logout
+        LoginManager().logOut()
+        
         if CurrentUser.shared.learner.hasTutor == false {
             self.removeLearner()
         } else {

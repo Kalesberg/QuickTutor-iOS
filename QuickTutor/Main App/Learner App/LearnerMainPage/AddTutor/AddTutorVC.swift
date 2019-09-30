@@ -155,6 +155,7 @@ extension AddTutorVC: CustomModalDelegate {
     func handleConfirm() {
         let next = CardManagerViewController()
         next.popBackTo = AddTutorVC()
+        next.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(next, animated: true)
     }
 }

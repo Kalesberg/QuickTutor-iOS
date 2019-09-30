@@ -186,7 +186,7 @@ class SignInVC: UIViewController {
 	
 	@objc func handleFacebookSignIn() {
 		let loginManager = LoginManager()
-		loginManager.logIn(readPermissions: [.publicProfile, .email], viewController: self) { (result) in
+		loginManager.logIn(permissions: [.publicProfile, .email], viewController: self) { (result) in
 			switch result {
 			case .failed(let error):
 				print(error)
@@ -200,20 +200,26 @@ class SignInVC: UIViewController {
 	}
 	
 	func completeFacebookSignIn() {
-		guard let accessToken = AccessToken.current?.authenticationToken else { return }
-		
+		displayLoadingOverlay()
+		guard let accessToken = AccessToken.current?.tokenString else { return }
 		let credential = FacebookAuthProvider.credential(withAccessToken: accessToken)
 		Auth.auth().signInAndRetrieveData(with: credential) { (authResult, error) in
 			guard error == nil else {
+				self.dismissOverlay()
 				self.showSignInError()
 				return
 			}
-			guard let uid = authResult?.user.uid else { return }
+			guard let uid = authResult?.user.uid else {
+				self.dismissOverlay()
+				return
+			}
+			self.displayLoadingOverlay()
 			Database.database().reference().child("student-info").child(uid).observeSingleEvent(of: .value) { (snapshot) in
 				if snapshot.exists() {
-					FirebaseData.manager.signInLearner(uid: uid) { successful in
+					FirebaseData.manager.signInLearner(uid: uid, isFacebookLogin: true) { successful in
 						if successful {
 							Database.database().reference().child("account").child(uid).observeSingleEvent(of: .value) { snapshot in
+								self.dismissOverlay()
 								guard let dicAccount = snapshot.value as? [String: Any] else { return }
 								
 								if nil == dicAccount["facebook"] as? [String: Any] {
@@ -228,10 +234,12 @@ class SignInVC: UIViewController {
 							Registration.setLearnerDefaults()
 							RootControllerManager.shared.setupLearnerTabBar(controller: LearnerMainPageVC())
 						} else {
+							self.dismissOverlay()
 							self.navigationController?.pushViewController(SignInVC(), animated: true)
 						}
 					}
 				} else {
+					self.dismissOverlay()
 					Registration.uid = uid
 					self.getFacebookProfile() { userData in
 						self.setupForRegistration(userData: userData)
@@ -284,15 +292,12 @@ class SignInVC: UIViewController {
 	func getFacebookProfile(completion: @escaping ([String: Any]?) -> ()) {
 		let params = ["fields": "id, name, first_name, last_name, email", "redirect": "false"]
 		let graphRequest = GraphRequest(graphPath: "me", parameters: params)
-		graphRequest.start {
-			_, requestResult in
-			
-			switch requestResult {
-			case .failed(let error):
+		graphRequest.start { _, response, error in
+			if let error = error {
 				print("error in graph request:", error)
 				completion(nil)
-			case .success(let graphResponse):
-				if let responseDictionary = graphResponse.dictionaryValue {
+			} else {
+				if let responseDictionary = response as? [String: Any] {
 					print("Facebook response dictionary", responseDictionary)
 					completion(responseDictionary)
 				}

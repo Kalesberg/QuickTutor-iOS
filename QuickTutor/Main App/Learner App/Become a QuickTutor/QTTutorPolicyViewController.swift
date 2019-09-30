@@ -65,7 +65,15 @@ class QTTutorPolicyViewController: UIViewController {
     
     // MARK: - Functions
     func createConnectAccount(_ completion: @escaping (Bool) -> Void) {
-        StripeService.createConnectAccountToken(ssn: TutorRegistration.ssn!, line1: TutorRegistration.line1, city: TutorRegistration.city, state: TutorRegistration.state, zipcode: TutorRegistration.zipcode) { token, error in
+        guard let ssn = TutorRegistration.ssn,
+            let line1 = TutorRegistration.line1,
+            let city = TutorRegistration.city,
+            let state = TutorRegistration.state,
+            let zipcode = TutorRegistration.zipcode else {
+            completion(false)
+            return
+        }
+        StripeService.createConnectAccountToken(ssn: ssn, line1: line1, city: city, state: state, zipcode: zipcode) { token, error in
             if let error = error {
                 AlertController.genericErrorAlert(self, title: "Error", message: error.localizedDescription)
             } else if let token = token {

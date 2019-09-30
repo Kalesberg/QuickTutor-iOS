@@ -94,7 +94,7 @@ class LearnerMainPageVCView: UIView {
     func setupScrollViewDidScrollAction() {
         collectionViewHelper.handleScrollViewScroll = { [weak self] offset in
             guard let self = self else { return }
-            
+
             let delta = offset + self.collectionViewTopInset
             
             let scrollUp = self.prevOffset >= delta
@@ -146,6 +146,7 @@ class LearnerMainPageVCView: UIView {
         super.init(frame: frame)
         setupViews()
         setupScrollViewDidScrollAction()
+        RecentSearchesManager.shared.fetchSearches()
     }
     
     required init?(coder aDecoder: NSCoder) {

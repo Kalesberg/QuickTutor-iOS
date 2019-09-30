@@ -24,23 +24,12 @@ class FeaturedSubjectVC: BaseRegistrationController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Featured Subject"
+        navigationItem.title = "Featured Topic"
         progressView.isHidden = true
         subjects = CurrentUser.shared.tutor.subjects ?? [String]()
         contentView.subjectsCV.delegate = self
         contentView.subjectsCV.dataSource = self
         loadFeatuedSubject()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        hideTabBar(hidden: true)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        hideTabBar(hidden: false)
     }
     
     override func setupNavBar() {
@@ -89,8 +78,8 @@ class FeaturedSubjectVCView: BaseRegistrationView {
     let infoLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = Fonts.createSize(12)
-        label.text = "Your featured subject resides on the top section of your profile, next to your name. Make sure you choose the subject you are most experienced in. You can change your featured subject at any time"
+        label.font = Fonts.createSize(14)
+        label.text = "Your featured topic resides on the top section of your profile, next to your name. Make sure you choose the topic you are most experienced in. You can change your featured topic at any time."
         label.numberOfLines = 0
         return label
     }()
@@ -98,7 +87,7 @@ class FeaturedSubjectVCView: BaseRegistrationView {
     var subjectsHeightAnchor: NSLayoutConstraint?
     
     override func updateTitleLabel() {
-        titleLabel.text = "Set Featured Subject"
+        titleLabel.text = "Set Featured Topic"
     }
     
     override func setupViews() {
@@ -109,14 +98,14 @@ class FeaturedSubjectVCView: BaseRegistrationView {
     
     func setupSubjectsCV() {
         addSubview(subjectsCV)
-        subjectsCV.anchor(top: titleLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
+        subjectsCV.anchor(top: titleLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: 0, height: 0)
         subjectsHeightAnchor = subjectsCV.heightAnchor.constraint(equalToConstant: 300)
         subjectsHeightAnchor?.isActive = true
     }
     
     func setupInfoLabel() {
         addSubview(infoLabel)
-        infoLabel.anchor(top: subjectsCV.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 30, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 60)
+        infoLabel.anchor(top: subjectsCV.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 30, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: 0, height: 0)
     }
     
     func updateHeight() {

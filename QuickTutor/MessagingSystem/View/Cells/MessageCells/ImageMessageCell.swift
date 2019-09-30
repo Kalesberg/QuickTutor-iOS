@@ -10,6 +10,7 @@ import UIKit
 
 protocol ImageMessageCellDelegate {
     func handleZoomFor(imageView: UIImageView, scrollDelegate: UIScrollViewDelegate, zoomableView: ((UIImageView) -> ())?)
+    func messageCell (_ cell: ImageMessageCell, didTapImage imageUrl: String?)
 }
 
 class ImageMessageCell: UserMessageCell {
@@ -32,9 +33,10 @@ class ImageMessageCell: UserMessageCell {
     override func updateUI(message: UserMessage) {
         super.updateUI(message: message)
         bubbleView.layer.borderWidth = 0
-        if let imageUrl = message.imageUrl {
+        if let imageUrl = message.imageUrl,
+            let url = URL(string: imageUrl) {
             imageView.isHidden = false
-            imageView.loadImage(urlString: imageUrl)
+            imageView.sd_setImage(with: url, placeholderImage: UIImage(named: "img_default"))
         } else {
             imageView.isHidden = true
         }
@@ -43,7 +45,11 @@ class ImageMessageCell: UserMessageCell {
     override func setupViews() {
         super.setupViews()
         setupImageView()
-        addZoomGestureRecognizer()
+        if self is VideoMessageCell {
+            addZoomGestureRecognizer()
+        } else {
+            addTapGestureRecognizer ()
+        }
     }
 
     override func setupBubbleViewAsSentMessage() {
@@ -66,10 +72,20 @@ class ImageMessageCell: UserMessageCell {
         imageView.addGestureRecognizer(tap)
     }
 
+    private func addTapGestureRecognizer() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(onTapImage))
+        imageView.addGestureRecognizer(tap)
+    }
+
     @objc func handleZoom() {
         delegate?.handleZoomFor(imageView: imageView, scrollDelegate: self, zoomableView: { (zoomableView) in
             self.zoomableView = zoomableView
         })
+    }
+    
+    @objc
+    private func onTapImage () {
+        delegate?.messageCell(self, didTapImage: userMessage?.imageUrl)
     }
 }
 

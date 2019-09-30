@@ -59,13 +59,6 @@ class QTRequestQuickCallViewController: UIViewController {
 
         initUserInfo()
         initSubjects()
-        hideTabBar(hidden: true)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        hideTabBar(hidden: false)
     }
     
     // MARK: - Actions
@@ -231,6 +224,7 @@ extension QTRequestQuickCallViewController: CustomModalDelegate {
     
     func handleConfirm() {
         let next = CardManagerViewController()
+        next.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(next, animated: true)
     }
     

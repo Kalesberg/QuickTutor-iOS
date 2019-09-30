@@ -13,27 +13,12 @@ import FirebaseStorage
 class QTRatingReviewCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var profileView: UIView!
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var hourlyRateLabel: UILabel!
     @IBOutlet weak var subjectLabel: UILabel!
     
-    @IBOutlet weak var profileStar1ImageView: UIImageView!
-    @IBOutlet weak var profileStar2ImageView: UIImageView!
-    @IBOutlet weak var profileStar3ImageView: UIImageView!
-    @IBOutlet weak var profileStar4ImageView: UIImageView!
-    @IBOutlet weak var profileStar5ImageView: UIImageView!
-    @IBOutlet weak var reviewNumberLabel: UILabel!
-    @IBOutlet weak var nameView: UIView!
-    @IBOutlet weak var subjectView: UIView!
-    @IBOutlet weak var profileRatingView: UIView!
-    
-    @IBOutlet weak var ratingCommentLabel: UILabel!
-    
-    @IBOutlet weak var ratingStarStackViewTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var avatarHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var avatarWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var ratingNumberLabel: UILabel!
     
     @IBOutlet weak var ratingStarStackView: UIStackView!
     @IBOutlet weak var ratingStar1ImageView: UIImageView!
@@ -45,6 +30,9 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var feedbackTextView: PlaceholderTextView!
     var isTutorProfile = false
     
+    @IBOutlet var ratingLineViews: [QTCustomView]!
+    
+    
     struct Dimension {
         static let stackViewTopConstraint = 57
         static let feedbackTextViewHeight = 100
@@ -55,7 +43,8 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
         static let profileInfoHeight = 65
     }
     
-    var ratingStars: [UIImageView]?
+    private var ratingStars: [UIImageView]?
+    
     let ratingDescriptions = ["Not good",
                               "Disappointing",
                               "Okay",
@@ -77,8 +66,8 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
         // Initialization code
-        profileView.superview?.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 4)
         feedbackTextView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 4)
         
         feedbackTextView.layer.cornerRadius = 3
@@ -124,8 +113,13 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
                 // overlay
                 delta = bottom - keyboardTop + CGFloat(Dimension.feedbackTextViewBottomDelta)
             }
+            
+            UIView.animate(withDuration: 1.5) {
+                self.scrollView.contentOffset = CGPoint(x: 0, y: delta)
+            }
         }
-        ratingCommentLabel.isHidden = true
+        
+        /*ratingCommentLabel.isHidden = true
         UIView.animate(withDuration: TimeInterval(1.5)) {
             if delta > 0 {
                 // Decrease the height of "please rate..." (57px)
@@ -147,12 +141,15 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
                 self.avatarWidthConstraint.constant = self.avatarHeightConstraint.constant * CGFloat(Dimension.avatarWidth / Dimension.avatarHeight)
             }
             self.layoutIfNeeded()
-        }
+        }*/
     }
     
     @objc
     func handleKeyboardHide(_ notification: Notification) {
-        UIView.animate(withDuration: TimeInterval(1.5)) {
+        UIView.animate(withDuration: 1.5) {
+            self.scrollView.contentOffset = CGPoint(x: 0, y: 0)
+        }
+        /*UIView.animate(withDuration: TimeInterval(1.5)) {
             if self.avatarWidthConstraint.constant < CGFloat(Dimension.avatarWidth) {
                 self.avatarWidthConstraint.constant = CGFloat(Dimension.avatarWidth)
                 self.avatarHeightConstraint.constant = CGFloat(Dimension.avatarHeight)
@@ -165,7 +162,7 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
             }
             self.profileRatingView.isHidden = false
             self.layoutIfNeeded()
-        }
+        }*/
     }
     
     @objc
@@ -173,7 +170,10 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
         guard let imageView = gesture.view as? UIImageView, let ratingStars = ratingStars else { return }
         let rating = imageView.tag - 10
         for i in 0 ..< 5 {
-            ratingStars[i].isHighlighted = rating > i ? true : false
+            ratingStars[i].isHighlighted = rating > i
+            if i < 4 {
+                ratingLineViews[i].backgroundColor = ratingStars[i].isHighlighted ? Colors.purple : UIColor(hex: "2C2C3A")
+            }
         }
         
         ratingDescriptionLabel.text = ratingDescriptions[rating - 1]
@@ -190,23 +190,23 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
         if let tutor = user as? AWTutor {
             let nameSplit = tutor.name.split(separator: " ")
             nameLabel.text = String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1) + ".")
-            avatarImageView.sd_setImage(with: storageRef.child("student-info").child(tutor.uid).child("student-profile-pic1"))
+            avatarImageView.sd_setImage(with: tutor.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
             if let rating = tutor.tRating {
                 setProfileRating(Int(rating))
             }
             
-            if let reviews = tutor.reviews {
+            /*if let reviews = tutor.reviews {
                 reviewNumberLabel.text = "\(reviews.count)"
                 reviewNumberLabel.isHidden = false
             } else {
                 reviewNumberLabel.isHidden = true
-            }
+            }*/
             
             if let subject = subject {
-                subjectView.isHidden = false
+                subjectLabel.superview?.isHidden = false
                 subjectLabel.text = subject
             } else {
-                subjectView.isHidden = true
+                subjectLabel.superview?.isHidden = true
             }
             
             if let hourlyRate = tutor.price {
@@ -220,19 +220,19 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
         } else if let learner = user as? AWLearner {
             let nameSplit = learner.name.split(separator: " ")
             nameLabel.text = String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1) + ".")
-            avatarImageView.sd_setImage(with: storageRef.child("student-info").child(learner.uid).child("student-profile-pic1"))
+            avatarImageView.sd_setImage(with: learner.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
             if let rating = learner.lRating {
                 setProfileRating(Int(rating))
             }
             
-            if let reviews = learner.lReviews {
+            /*if let reviews = learner.lReviews {
                 reviewNumberLabel.text = "\(reviews.count)"
                 reviewNumberLabel.isHidden = false
             } else {
                 reviewNumberLabel.isHidden = true
-            }
+            }*/
             
-            subjectView.isHidden = true
+            subjectLabel.superview?.isHidden = true
             hourlyRateLabel.isHidden = true
             isTutorProfile = false
         }
@@ -242,10 +242,11 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
     }
     
     private func setProfileRating(_ rating: Int) {
-        let stars = [profileStar1ImageView, profileStar2ImageView, profileStar3ImageView, profileStar4ImageView, profileStar5ImageView]
+        /*let stars = [profileStar1ImageView, profileStar2ImageView, profileStar3ImageView, profileStar4ImageView, profileStar5ImageView]
         for i in 0 ..< 5 {
             stars[i]?.isHighlighted = rating > i ? true : false
-        }
+        }*/
+        ratingNumberLabel.text = String(format: "%.1f", Float(rating))
     }
 }
 

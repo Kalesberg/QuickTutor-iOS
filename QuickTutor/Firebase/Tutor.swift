@@ -173,9 +173,11 @@ class Tutor {
         }
     }
     
-    public func geoFire(location: CLLocation) {
+    public func geoFire(location: CLLocation, completion: ((Bool) -> Void)? = nil) {
         let geoFire = GeoFire(firebaseRef: ref.child("tutor_loc"))
-        geoFire.setLocation(location, forKey: CurrentUser.shared.learner.uid!)
+        geoFire.setLocation(location, forKey: CurrentUser.shared.learner.uid!) { error in
+            completion?(error == nil)
+        }
     }
 }
 

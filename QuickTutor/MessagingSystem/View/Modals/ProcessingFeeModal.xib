@@ -25,24 +25,33 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DM5-kc-W0a" customClass="RoundedView" customModule="QuickTutor" customModuleProvider="target">
-                    <rect key="frame" x="20" y="373.5" width="374" height="149"/>
+                    <rect key="frame" x="20" y="332" width="374" height="232"/>
                     <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_payment_desc" translatesAutoresizingMaskIntoConstraints="NO" id="UIQ-Lz-aoC">
+                            <rect key="frame" x="151.5" y="20" width="71" height="65"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="71" id="cEc-Fk-eiH"/>
+                                <constraint firstAttribute="width" secondItem="UIQ-Lz-aoC" secondAttribute="height" multiplier="71:65" id="ny3-yh-ofZ"/>
+                            </constraints>
+                        </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BPY-vv-s2w">
-                            <rect key="frame" x="20" y="20" width="334" height="59"/>
-                            <string key="text">This processing fee helps QuickTutor gain more tutors offer 24-7 on-demand tutoring, and provide you with the best service possible. </string>
-                            <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="12"/>
+                            <rect key="frame" x="20" y="105" width="334" height="47"/>
+                            <string key="text">This processing fee helps QuickTutor gain more users
+who offer 24-7, on-demand teaching and provide
+you with the best service possible. </string>
+                            <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="13"/>
                             <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YF2-gX-p8m" userLabel="Line">
-                            <rect key="frame" x="20" y="89" width="334" height="1"/>
+                            <rect key="frame" x="20" y="172" width="334" height="1"/>
                             <color key="backgroundColor" red="0.17254901959999999" green="0.17254901959999999" blue="0.2274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="lP0-es-vzL"/>
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WdG-hQ-DZF">
-                            <rect key="frame" x="0.0" y="90" width="374" height="54"/>
+                            <rect key="frame" x="0.0" y="173" width="374" height="54"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="54" id="JQ1-3i-ygs"/>
                             </constraints>
@@ -58,13 +67,14 @@
                     <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstItem="WdG-hQ-DZF" firstAttribute="top" secondItem="YF2-gX-p8m" secondAttribute="bottom" id="2sK-ct-oPG"/>
+                        <constraint firstItem="UIQ-Lz-aoC" firstAttribute="centerX" secondItem="VY0-kE-gps" secondAttribute="centerX" id="6dF-xf-swK"/>
                         <constraint firstItem="BPY-vv-s2w" firstAttribute="leading" secondItem="DM5-kc-W0a" secondAttribute="leading" constant="20" id="8c0-u1-UPZ"/>
+                        <constraint firstItem="BPY-vv-s2w" firstAttribute="top" secondItem="UIQ-Lz-aoC" secondAttribute="bottom" constant="20" id="NZs-3a-eYh"/>
+                        <constraint firstItem="UIQ-Lz-aoC" firstAttribute="top" secondItem="VY0-kE-gps" secondAttribute="top" constant="20" id="Zjn-K7-6kN"/>
                         <constraint firstItem="VY0-kE-gps" firstAttribute="bottom" secondItem="WdG-hQ-DZF" secondAttribute="bottom" constant="5" id="bfi-5E-X0I"/>
                         <constraint firstAttribute="trailing" secondItem="WdG-hQ-DZF" secondAttribute="trailing" id="gUf-JI-2f1"/>
-                        <constraint firstAttribute="height" constant="149" id="gyp-Ec-nWs"/>
-                        <constraint firstItem="YF2-gX-p8m" firstAttribute="top" secondItem="BPY-vv-s2w" secondAttribute="bottom" constant="10" id="jCu-mx-uab"/>
+                        <constraint firstItem="YF2-gX-p8m" firstAttribute="top" secondItem="BPY-vv-s2w" secondAttribute="bottom" constant="20" id="jCu-mx-uab"/>
                         <constraint firstAttribute="trailing" secondItem="BPY-vv-s2w" secondAttribute="trailing" constant="20" id="kwS-eG-mJY"/>
-                        <constraint firstItem="BPY-vv-s2w" firstAttribute="top" secondItem="VY0-kE-gps" secondAttribute="top" constant="20" id="oBF-Dm-A0Z"/>
                         <constraint firstAttribute="trailing" secondItem="YF2-gX-p8m" secondAttribute="trailing" constant="20" id="sE9-DO-1yA"/>
                         <constraint firstItem="YF2-gX-p8m" firstAttribute="leading" secondItem="DM5-kc-W0a" secondAttribute="leading" constant="20" id="tHR-bv-atK"/>
                         <constraint firstItem="WdG-hQ-DZF" firstAttribute="leading" secondItem="DM5-kc-W0a" secondAttribute="leading" id="uyz-DG-v6m"/>
@@ -90,4 +100,7 @@
             </connections>
         </view>
     </objects>
+    <resources>
+        <image name="ic_payment_desc" width="71" height="65"/>
+    </resources>
 </document>

@@ -13,6 +13,7 @@ class TutorRegistrationService {
     static let shared = TutorRegistrationService()
     var shouldSaveSubjects = true
     
+    var featuredSubject: String?
     var subjects = [String]()
     
     func addSubject(_ subject: String) {
@@ -36,13 +37,20 @@ class TutorRegistrationService {
             }
         }
         subjects.append(subject)
-        NotificationCenter.default.post(name: Notifications.tutorDidAddSubject.name, object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: Notifications.tutorDidAddSubject.name, object: nil, userInfo: ["subject" : subject])
     }
     
     
     func removeSubject(_ subject: String) {
-        subjects = subjects.filter({ $0 != subject})
-        NotificationCenter.default.post(name: Notifications.tutorDidRemoveSubject.name, object: nil, userInfo: nil)
+        let filteredSubjects = subjects.filter({ $0 != subject})
+        guard !filteredSubjects.isEmpty else {
+            NotificationCenter.default.post(name: Notifications.tutorCannotRemoveSubject.name, object: nil)
+            return
+        }
+        let index = subjects.firstIndex(of: subject)
+        subjects = filteredSubjects
+        NotificationCenter.default.post(name: Notifications.tutorDidRemoveSubject.name, object: nil, userInfo: ["subject" : subject,
+                                                                                                                "index" : index ?? -1])
         if shouldSaveSubjects {
             guard let uid = Auth.auth().currentUser?.uid else { return }
             Database.database().reference().child("subjects").child(subject).child(uid).removeValue()
@@ -57,10 +65,16 @@ class TutorRegistrationService {
                 Database.database().reference().child("categories").child(subcategory.category).child(uid).removeValue()
             }
         }
+        
+        if subject == featuredSubject,
+            let newFeaturedSubject = subjects.first { // removed featured subject
+            setFeaturedSubject(newFeaturedSubject)
+        }
     }
     
     func setFeaturedSubject(_ subject: String) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
+        featuredSubject = subject
         Database.database().reference().child("tutor-info").child(uid).child("sbj").setValue(subject)
         
     }
@@ -89,9 +103,11 @@ class TutorRegistrationService {
     
     private init() {
         if CurrentUser.shared.learner.hasTutor {
-            subjects = CurrentUser.shared.tutor.subjects ?? [String]()
+            subjects = CurrentUser.shared.tutor?.subjects ?? [String]()
+            featuredSubject = CurrentUser.shared.tutor?.featuredSubject
         } else {
             subjects = [String]()
+            featuredSubject = nil
         }
     }
 }

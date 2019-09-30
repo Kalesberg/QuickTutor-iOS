@@ -7,6 +7,8 @@
 //
 import UIKit
 import EventKit
+import MobileCoreServices
+
 class AlertController : NSObject {
 	
 	class func cropImageAlert(_ viewController: UIViewController, imagePicker: UIImagePickerController, allowsEditing: Bool) {
@@ -15,6 +17,7 @@ class AlertController : NSObject {
 			if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
                 imagePicker.sourceType = .photoLibrary
 				imagePicker.allowsEditing = allowsEditing
+                imagePicker.mediaTypes = [kUTTypeImage as String]
 				viewController.present(imagePicker, animated: true, completion: nil)
 			} else {
 				AlertController.genericErrorAlert(viewController, title: "Oops", message: "Camera is not available at this time.")
@@ -23,7 +26,7 @@ class AlertController : NSObject {
         let chooseExisting = UIAlertAction(title: "Take a photo", style: .default) { _ in
             if UIImagePickerController.isSourceTypeAvailable(.camera) {
                 imagePicker.sourceType = .camera
-                imagePicker.cameraCaptureMode = .photo
+                imagePicker.mediaTypes = [kUTTypeImage as String]
                 viewController.present(imagePicker, animated: true, completion: nil)
             } else {
                 AlertController.genericErrorAlert(viewController, title: "Oops", message: "Photo Library is not available")
@@ -43,6 +46,7 @@ class AlertController : NSObject {
 			if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
 				imagePicker.sourceType = .photoLibrary
 				imagePicker.allowsEditing = false
+                imagePicker.mediaTypes = [kUTTypeImage as String]
 				viewController.present(imagePicker, animated: true, completion: nil)
 			} else {
 				AlertController.genericErrorAlert(viewController, title: "Oops", message: "Photo Library is not available")
@@ -52,7 +56,7 @@ class AlertController : NSObject {
 		let takePhoto = UIAlertAction(title: "Take Photo", style: .default) { (alert) in
 			if UIImagePickerController.isSourceTypeAvailable(.camera) {
 				imagePicker.sourceType = UIImagePickerController.SourceType.camera
-				imagePicker.cameraCaptureMode =  UIImagePickerController.CameraCaptureMode.photo
+                imagePicker.mediaTypes = [kUTTypeImage as String]
 				imagePicker.modalPresentationStyle = .custom
 				
 				viewController.present(imagePicker,animated: true, completion: nil)

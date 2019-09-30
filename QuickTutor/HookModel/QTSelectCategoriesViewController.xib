@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Lato-Bold.ttf">
+            <string>Lato-Bold</string>
+        </array>
+        <array key="Lato-Heavy.ttf">
+            <string>Lato-Heavy</string>
+        </array>
+        <array key="Lato-Regular.ttf">
+            <string>Lato-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QTSelectCategoriesViewController" customModule="QuickTutor" customModuleProvider="target">
+            <connections>
+                <outlet property="collectionView" destination="Hwa-eu-y0a" id="iUm-pd-KkS"/>
+                <outlet property="lblDescription" destination="rL5-BU-2pG" id="5uP-yR-2Uc"/>
+                <outlet property="lblSelectedCount" destination="GBt-qu-Qun" id="b2Z-4m-c4j"/>
+                <outlet property="magneticView" destination="uhr-FW-NHg" id="dou-38-gqM"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="b1I-dd-m9z">
+                    <rect key="frame" x="0.0" y="28" width="375" height="600"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N0I-jj-I7S">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="42"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What would you like to learn?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DRg-27-Nwe">
+                                    <rect key="frame" x="54.5" y="0.0" width="266" height="42"/>
+                                    <fontDescription key="fontDescription" name="Lato-Heavy" family="Lato" pointSize="20"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="DRg-27-Nwe" firstAttribute="height" secondItem="N0I-jj-I7S" secondAttribute="height" id="GzL-Lu-Kyx"/>
+                                <constraint firstItem="DRg-27-Nwe" firstAttribute="centerX" secondItem="N0I-jj-I7S" secondAttribute="centerX" id="edP-zJ-iYe"/>
+                                <constraint firstItem="DRg-27-Nwe" firstAttribute="centerY" secondItem="N0I-jj-I7S" secondAttribute="centerY" id="rZp-Cs-8hU"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CSc-Ba-4IY">
+                            <rect key="frame" x="0.0" y="46" width="375" height="4"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="4" id="iNa-1s-6lG"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lGD-oc-ZnX">
+                            <rect key="frame" x="0.0" y="54" width="375" height="40"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select 4 categories you’d like to learn." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rL5-BU-2pG">
+                                    <rect key="frame" x="74" y="0.0" width="227.5" height="40"/>
+                                    <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="rL5-BU-2pG" firstAttribute="centerX" secondItem="lGD-oc-ZnX" secondAttribute="centerX" id="bDc-Bf-0Wo"/>
+                                <constraint firstAttribute="height" constant="40" id="kjT-Wa-ene"/>
+                                <constraint firstItem="rL5-BU-2pG" firstAttribute="height" secondItem="lGD-oc-ZnX" secondAttribute="height" id="wtj-qG-Rq0"/>
+                                <constraint firstItem="rL5-BU-2pG" firstAttribute="centerY" secondItem="lGD-oc-ZnX" secondAttribute="centerY" id="y2W-bS-k2h"/>
+                            </constraints>
+                        </view>
+                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Hwa-eu-y0a">
+                            <rect key="frame" x="0.0" y="98" width="375" height="40"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="P3x-uD-0DI"/>
+                            </constraints>
+                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="8" minimumInteritemSpacing="8" id="KM1-02-haE">
+                                <size key="itemSize" width="50" height="50"/>
+                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                <inset key="sectionInset" minX="8" minY="2" maxX="8" maxY="2"/>
+                            </collectionViewFlowLayout>
+                            <connections>
+                                <outlet property="dataSource" destination="-1" id="Sq7-Ea-SF6"/>
+                                <outlet property="delegate" destination="-1" id="suZ-yY-piD"/>
+                            </connections>
+                        </collectionView>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uhr-FW-NHg" customClass="MagneticView" customModule="QuickTutor" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="142" width="375" height="458"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </view>
+                    </subviews>
+                </stackView>
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0/4" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GBt-qu-Qun">
+                    <rect key="frame" x="339" y="636" width="22" height="17"/>
+                    <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="GBt-qu-Qun" secondAttribute="trailing" constant="14" id="Avf-WD-hGZ"/>
+                <constraint firstItem="b1I-dd-m9z" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="8" id="Nod-Ga-rfS"/>
+                <constraint firstItem="b1I-dd-m9z" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="Tsp-It-OH6"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="GBt-qu-Qun" secondAttribute="bottom" constant="14" id="d3o-zy-UgI"/>
+                <constraint firstItem="b1I-dd-m9z" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="lyL-r5-Lue"/>
+                <constraint firstItem="GBt-qu-Qun" firstAttribute="top" secondItem="b1I-dd-m9z" secondAttribute="bottom" constant="8" id="n6c-rE-0cf"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="132" y="143.47826086956522"/>
+        </view>
+    </objects>
+</document>

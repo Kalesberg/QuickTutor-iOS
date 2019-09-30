@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina5_9" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -22,6 +20,7 @@
             <connections>
                 <outlet property="animationView" destination="1n3-wr-pGx" id="AQw-vg-hfE"/>
                 <outlet property="avatarImageView" destination="hdG-oQ-12s" id="gSO-Ra-Qdw"/>
+                <outlet property="bottomSheetMaskView" destination="lbC-i1-v75" id="40R-5I-HxL"/>
                 <outlet property="bottomSheetView" destination="w0y-pT-8Lp" id="GHb-hP-nl9"/>
                 <outlet property="bottomSheetViewBottom" destination="Qf6-Vj-PWQ" id="9Y7-Bp-IQE"/>
                 <outlet property="cameraPreview" destination="JjJ-Wa-KMJ" id="ee4-ca-w18"/>
@@ -281,6 +280,10 @@
                                 </view>
                             </subviews>
                         </stackView>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lbC-i1-v75">
+                            <rect key="frame" x="0.0" y="81" width="375" height="119"/>
+                            <color key="backgroundColor" red="0.10588235294117647" green="0.10588235294117647" blue="0.14901960784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" red="0.1058823529" green="0.1058823529" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
@@ -288,7 +291,9 @@
                         <constraint firstItem="wCc-iT-GKf" firstAttribute="top" secondItem="w0y-pT-8Lp" secondAttribute="top" constant="22" id="8MP-x7-5A9"/>
                         <constraint firstItem="XuZ-kD-9EC" firstAttribute="width" secondItem="w0y-pT-8Lp" secondAttribute="width" constant="-40" id="EoZ-k0-TZB"/>
                         <constraint firstItem="RXJ-22-kDQ" firstAttribute="leading" secondItem="w0y-pT-8Lp" secondAttribute="leading" constant="20" id="JEW-3z-yGW"/>
+                        <constraint firstItem="lbC-i1-v75" firstAttribute="top" secondItem="XuZ-kD-9EC" secondAttribute="bottom" id="JTx-Tq-nXh"/>
                         <constraint firstAttribute="trailing" secondItem="wCc-iT-GKf" secondAttribute="trailing" constant="20" id="Jke-Pr-UeX"/>
+                        <constraint firstItem="1Pc-su-FKm" firstAttribute="bottom" secondItem="lbC-i1-v75" secondAttribute="bottom" id="Knu-9w-UQT"/>
                         <constraint firstItem="ttm-Ef-1n3" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="p30-KP-NXc" secondAttribute="trailing" constant="8" id="Myf-vT-rlh"/>
                         <constraint firstAttribute="trailing" secondItem="RXJ-22-kDQ" secondAttribute="trailing" constant="20" id="PYZ-UL-ldQ"/>
                         <constraint firstItem="XuZ-kD-9EC" firstAttribute="centerX" secondItem="w0y-pT-8Lp" secondAttribute="centerX" id="dus-7t-7E3"/>
@@ -296,6 +301,7 @@
                         <constraint firstItem="wCc-iT-GKf" firstAttribute="leading" secondItem="ttm-Ef-1n3" secondAttribute="trailing" constant="20" id="irF-In-vY1"/>
                         <constraint firstItem="RXJ-22-kDQ" firstAttribute="top" secondItem="XuZ-kD-9EC" secondAttribute="bottom" constant="10" id="kjJ-nB-NKW"/>
                         <constraint firstItem="ttm-Ef-1n3" firstAttribute="centerY" secondItem="wCc-iT-GKf" secondAttribute="centerY" id="lgw-lF-Dil"/>
+                        <constraint firstItem="1Pc-su-FKm" firstAttribute="trailing" secondItem="lbC-i1-v75" secondAttribute="trailing" id="n3F-VU-zFB"/>
                         <constraint firstItem="kst-sj-y4U" firstAttribute="leading" secondItem="hdG-oQ-12s" secondAttribute="trailing" constant="15" id="nf8-6Z-qbr"/>
                         <constraint firstAttribute="height" relation="lessThanOrEqual" priority="750" constant="230" id="nn6-DS-95j"/>
                         <constraint firstItem="XuZ-kD-9EC" firstAttribute="top" secondItem="hdG-oQ-12s" secondAttribute="bottom" constant="15" id="ol0-AM-o1L"/>
@@ -304,6 +310,7 @@
                         <constraint firstItem="hdG-oQ-12s" firstAttribute="top" secondItem="w0y-pT-8Lp" secondAttribute="top" constant="15" id="wgi-FD-EXw"/>
                         <constraint firstItem="1Pc-su-FKm" firstAttribute="bottom" secondItem="RXJ-22-kDQ" secondAttribute="bottom" constant="7" id="xEb-8O-8Iz"/>
                         <constraint firstItem="kst-sj-y4U" firstAttribute="top" secondItem="xrS-cw-vtA" secondAttribute="bottom" constant="5" id="ySa-z0-Hzg"/>
+                        <constraint firstItem="lbC-i1-v75" firstAttribute="leading" secondItem="1Pc-su-FKm" secondAttribute="leading" id="yjz-7X-y1P"/>
                         <constraint firstItem="hdG-oQ-12s" firstAttribute="leading" secondItem="w0y-pT-8Lp" secondAttribute="leading" constant="20" id="zew-tZ-k5F"/>
                     </constraints>
                     <viewLayoutGuide key="safeArea" id="1Pc-su-FKm"/>
@@ -342,7 +349,7 @@
                 <constraint firstItem="ELr-eP-E9g" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="xJv-Hx-9ad"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <point key="canvasLocation" x="117.59999999999999" y="52.623688155922046"/>
+            <point key="canvasLocation" x="117.59999999999999" y="52.463054187192121"/>
         </view>
     </objects>
     <resources>

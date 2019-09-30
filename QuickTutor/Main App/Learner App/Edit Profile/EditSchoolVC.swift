@@ -58,12 +58,6 @@ class EditSchoolVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: false)
-        hideTabBar(hidden: true)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        hideTabBar(hidden: false)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -101,10 +95,6 @@ class EditSchoolVC: UIViewController {
         let when = DispatchTime.now() + 1
         DispatchQueue.main.asyncAfter(deadline: when) {
             alertController.dismiss(animated: true) {
-                if #available(iOS 11.0, *) {
-                    self.navigationItem.searchController = nil
-                    self.navigationItem.hidesSearchBarWhenScrolling = true
-                }
                 self.navigationController?.popViewController(animated: true)
             }
         }
@@ -124,12 +114,28 @@ class EditSchoolVC: UIViewController {
                 let school = try String(contentsOfFile: path, encoding: String.Encoding.utf8)
                 schoolArray = school.components(separatedBy: "\n") as [String]
                 schoolArray.removeLast() // There's a new line at the EOF which is causing an empty row.
-                schoolArray.sort()
+                schoolArray = self.sortSchools ()
                 schoolArray.insert("No School", at: 0)
             } catch {
                 schoolArray = []
             }
         }
+    }
+    
+    private func sortSchools () -> [String] {
+        var characters = [String] ()
+        var numbers = [String] ()
+        
+        schoolArray.sorted().forEach {
+            let prefix = $0.prefix(1)
+            if !prefix.isEmpty, prefix.rangeOfCharacter(from: NSCharacterSet.decimalDigits.inverted) == nil {
+                numbers.append($0)
+            } else {
+                characters.append($0)
+            }
+        }
+        
+        return characters + numbers
     }
     
     private func isFiltering() -> Bool {

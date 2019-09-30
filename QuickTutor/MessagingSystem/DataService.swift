@@ -20,7 +20,21 @@ class DataService {
                 return
             }
             let session = Session(dictionary: value, id: sessionId)
-            completion(session)
+            if session.isPast {
+                // get session rating
+                Database.database().reference().child("review")
+                    .child(session.senderId == AccountService.shared.currentUser.uid ? session.receiverId : session.senderId)
+                    .child(.learner == AccountService.shared.currentUserType ? "learner" : "tutor")
+                    .child(session.id).observeSingleEvent(of: .value) { snapshot in
+                    if let dicReview = snapshot.value as? [String: Any],
+                        let rating = dicReview["r"] as? Double {
+                        session.rating = rating
+                    }
+                    completion(session)
+                }
+            } else {
+                completion(session)
+            }
         }
     }
     

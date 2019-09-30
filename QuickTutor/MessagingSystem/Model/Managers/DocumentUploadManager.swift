@@ -19,12 +19,12 @@ class DocumentUploadManager: NSObject, QLPreviewControllerDataSource {
     func showDocumentBrowser(onViewController viewController: UIViewController) {
         let documentVC = UIDocumentPickerViewController(documentTypes: ["com.apple.iwork.pages.pages", "com.apple.iwork.numbers.numbers", "com.apple.iwork.keynote.key","public.image", "com.apple.application", "public.item","public.data", "public.content", "public.audiovisual-content", "public.movie", "public.audiovisual-content", "public.video", "public.audio", "public.text", "public.data", "public.zip-archive", "com.pkware.zip-archive", "public.composite-content", "public.text"], in: .open)
         documentVC.delegate = self
+        documentVC.modalPresentationStyle = .fullScreen
         viewController.present(documentVC, animated: true, completion: nil)
     }
     
     func displayFileAtUrl(_ url: URL, fromViewController viewController: UIViewController) {
         self.downloadfileAtUrl(url, completion: {(success, fileLocationURL) in
-            
             if success {
                 // Set the preview item to display======
                 self.previewItem = fileLocationURL! as NSURL
@@ -33,7 +33,11 @@ class DocumentUploadManager: NSObject, QLPreviewControllerDataSource {
                     let previewController = QLPreviewController()
                     previewController.navigationController?.view.backgroundColor = Colors.newScreenBackground
                     previewController.dataSource = self
-                    viewController.present(previewController, animated: true, completion: nil)
+                    if #available(iOS 13.0, *) {
+                        viewController.navigationController?.pushViewController(previewController, animated: true)
+                    } else {
+                        viewController.present(previewController, animated: true, completion: nil)
+                    }
                 }
             }else{
                 debugPrint("File can't be downloaded")

@@ -109,7 +109,7 @@ extension TutorFileReport: UITableViewDelegate, UITableViewDataSource {
             }
         }
 
-        cell.profilePic.sd_setImage(with: storageRef.child("student-info").child(datasource[indexPath.row].otherId).child("student-profile-pic1"), placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+        cell.profilePic.sd_setImage(with: storageRef.child("student-info").child(datasource[indexPath.row].otherId).child("student-profile-pic1"), placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
         cell.subjectLabel.text = datasource[indexPath.row].subject
         cell.monthLabel.text = String(date[1])
         cell.dayLabel.text = String(date[0])

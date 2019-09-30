@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Lato-Bold.ttf">
+            <string>Lato-Bold</string>
+        </array>
+        <array key="Lato-Heavy.ttf">
+            <string>Lato-Heavy</string>
+        </array>
+        <array key="Lato-Regular.ttf">
+            <string>Lato-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QTSelectInterestsViewController" customModule="QuickTutor" customModuleProvider="target">
+            <connections>
+                <outlet property="collectionView" destination="nrO-Y2-M15" id="NrB-gs-WaJ"/>
+                <outlet property="lblDescription" destination="khB-QO-UNx" id="g5S-bs-9gH"/>
+                <outlet property="lblSelectedCount" destination="e5I-m2-bGP" id="AaI-mL-AGA"/>
+                <outlet property="magneticView" destination="JJP-o1-V7g" id="MD9-a6-vxX"/>
+                <outlet property="view" destination="FOh-eu-Axq" id="CZW-E6-IRD"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="FOh-eu-Axq">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Huz-Si-RI3">
+                    <rect key="frame" x="0.0" y="52" width="414" height="771"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fhA-NI-7fl">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="42"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share your interests with us." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8GA-2J-S0E">
+                                    <rect key="frame" x="81" y="0.0" width="252" height="42"/>
+                                    <fontDescription key="fontDescription" name="Lato-Heavy" family="Lato" pointSize="20"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="8GA-2J-S0E" firstAttribute="height" secondItem="fhA-NI-7fl" secondAttribute="height" id="V4G-xU-NKA"/>
+                                <constraint firstItem="8GA-2J-S0E" firstAttribute="centerY" secondItem="fhA-NI-7fl" secondAttribute="centerY" id="rJf-b1-feA"/>
+                                <constraint firstItem="8GA-2J-S0E" firstAttribute="centerX" secondItem="fhA-NI-7fl" secondAttribute="centerX" id="wiq-gb-jMu"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bli-Ig-Cez">
+                            <rect key="frame" x="0.0" y="46" width="414" height="4"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="4" id="0yj-7d-tr0"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hI9-nP-w1t">
+                            <rect key="frame" x="0.0" y="54" width="414" height="40"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select 4 or more interests to add to your profile." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="khB-QO-UNx">
+                                    <rect key="frame" x="62" y="0.0" width="290" height="40"/>
+                                    <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="khB-QO-UNx" firstAttribute="centerX" secondItem="hI9-nP-w1t" secondAttribute="centerX" id="Twa-18-uR6"/>
+                                <constraint firstItem="khB-QO-UNx" firstAttribute="height" secondItem="hI9-nP-w1t" secondAttribute="height" id="VYH-hC-eR8"/>
+                                <constraint firstItem="khB-QO-UNx" firstAttribute="centerY" secondItem="hI9-nP-w1t" secondAttribute="centerY" id="a9j-N9-Xce"/>
+                                <constraint firstAttribute="height" constant="40" id="kdo-hR-Sva"/>
+                            </constraints>
+                        </view>
+                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="nrO-Y2-M15">
+                            <rect key="frame" x="0.0" y="98" width="414" height="40"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="au4-Go-tBB"/>
+                            </constraints>
+                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="8" minimumInteritemSpacing="8" id="KcL-R0-UFA">
+                                <size key="itemSize" width="50" height="50"/>
+                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                <inset key="sectionInset" minX="8" minY="2" maxX="8" maxY="2"/>
+                            </collectionViewFlowLayout>
+                            <connections>
+                                <outlet property="dataSource" destination="-1" id="Onc-KZ-2XS"/>
+                                <outlet property="delegate" destination="-1" id="p5G-ZN-9ES"/>
+                            </connections>
+                        </collectionView>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JJP-o1-V7g" customClass="MagneticView" customModule="QuickTutor" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="142" width="414" height="629"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </view>
+                    </subviews>
+                </stackView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0/12" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e5I-m2-bGP">
+                    <rect key="frame" x="370" y="831" width="30" height="17"/>
+                    <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="7hj-Fc-MlE" firstAttribute="trailing" secondItem="e5I-m2-bGP" secondAttribute="trailing" constant="14" id="5wI-19-eUg"/>
+                <constraint firstItem="e5I-m2-bGP" firstAttribute="top" secondItem="Huz-Si-RI3" secondAttribute="bottom" constant="8" id="Abd-23-ZGW"/>
+                <constraint firstItem="7hj-Fc-MlE" firstAttribute="bottom" secondItem="e5I-m2-bGP" secondAttribute="bottom" constant="14" id="BEU-to-9hH"/>
+                <constraint firstItem="Huz-Si-RI3" firstAttribute="top" secondItem="7hj-Fc-MlE" secondAttribute="top" constant="8" id="kZU-PJ-p5P"/>
+                <constraint firstItem="Huz-Si-RI3" firstAttribute="centerX" secondItem="7hj-Fc-MlE" secondAttribute="centerX" id="qlP-aH-DBI"/>
+                <constraint firstItem="Huz-Si-RI3" firstAttribute="width" secondItem="FOh-eu-Axq" secondAttribute="width" id="y6E-bn-1pe"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="7hj-Fc-MlE"/>
+            <point key="canvasLocation" x="132" y="143.47826086956522"/>
+        </view>
+    </objects>
+</document>

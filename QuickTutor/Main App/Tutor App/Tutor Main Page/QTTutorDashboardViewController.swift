@@ -86,6 +86,8 @@ class QTTutorDashboardViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        registerPushNotification()
+        
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         navigationController?.navigationBar.barTintColor = Colors.newScreenBackground
         navigationController?.navigationBar.backgroundColor = Colors.newScreenBackground
@@ -140,11 +142,17 @@ class QTTutorDashboardViewController: UIViewController {
         super.viewWillDisappear(animated)
         hideTabBar(hidden: false)
     }
+    
+    private func registerPushNotification() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        appDelegate.registerForPushNotifications(application: UIApplication.shared)
+    }
 
     // MARK: - Actions
     @IBAction func onClickTutorSettingsButton(_ sender: Any) {
         let controller = TutorEditProfileVC()
         controller.automaticScroll = true
+        controller.hidesBottomBarWhenPushed = true
         controller.delegate = self
         navigationController?.pushViewController(controller, animated: true)
     }
@@ -171,12 +179,11 @@ class QTTutorDashboardViewController: UIViewController {
     func initUserBasicInformation() {
         guard let tutor = self.tutor else { return }
         
-        let reference = storageRef.child("student-info").child(tutor.uid).child("student-profile-pic1")
         headerView.nameLabel.text = tutor.formattedName
         topSubject = tutor.featuredSubject
-        headerView.avatarImageView.sd_setImage(with: reference)
+        headerView.avatarImageView.sd_setImage(with: tutor.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
         headerView.hourlyRateLabel.text = "$\(String(describing: tutor.price ?? 5))/hr"
-        headerView.ratingLabel.text = "\(String(describing: tutor.tRating ?? 5.0))"
+        headerView.ratingLabel.text = "\(String(describing: tutor.tRating ?? 0))"
         headerView.subjectsLabel.text = "\(tutor.subjects?.count ?? 0)"
         headerView.sessionsLabel.text = "\(tutor.tNumSessions ?? 0)"
         headerView.learnersLabel.text = "\(tutor.learners.count)"
@@ -377,11 +384,14 @@ class QTTutorDashboardViewController: UIViewController {
         guard let tutor = self.tutor else { return [] }
         
         var images = [LightboxImage]()
-        tutor.images.forEach({ (arg) in
-            let (_, imageUrl) = arg
-            guard let url = URL(string: imageUrl) else { return }
-            images.append(LightboxImage(imageURL: url))
-        })
+        let existedImages = tutor.images.filter { (_, imageUrl) -> Bool in
+            return URL(string: imageUrl) != nil
+        }
+        let sorted = existedImages.sorted { (arg0, arg1) -> Bool in
+            return arg0.key.compare(arg1.key) == .orderedAscending
+        }
+        images.append(contentsOf: sorted.compactMap({LightboxImage(imageURL: URL(string: $1)!)}))
+        
         return images
     }
     
@@ -390,6 +400,7 @@ class QTTutorDashboardViewController: UIViewController {
         controller.dynamicBackground = true
         present(controller, animated: true, completion: nil)
     }
+    
 }
 
 // MARK: - UITableViewDelegate

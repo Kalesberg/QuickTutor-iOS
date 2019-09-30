@@ -56,6 +56,7 @@ class ConnectionCell: UICollectionViewCell {
     let profileImageView: UserImageView = {
         let iv = UserImageView()
         iv.imageView.contentMode = .scaleAspectFill
+        iv.clipsToBounds = true
         iv.imageView.layer.cornerRadius = 25
         iv.imageView.clipsToBounds = true
         iv.isSkeletonable = true
@@ -195,7 +196,7 @@ class ConnectionCell: UICollectionViewCell {
     
     func updateUI(user: User) {
         self.user = user
-        profileImageView.imageView.sd_setImage(with: user.profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
+        profileImageView.imageView.sd_setImage(with: user.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
         nameLabel.text = user.formattedName
         if let zfUser = user as? ZFTutor {
             let subject = zfUser.featuredSubject == "" ? zfUser.subjects?.first : zfUser.featuredSubject

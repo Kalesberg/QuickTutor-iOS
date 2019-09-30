@@ -124,6 +124,12 @@ class QTLearnerAddInterestsView: QuickSearchVCView {
     @objc func handleLearnerDidRemoveInterest(_ notification: Notification) {
         updateAccessoryViewTextLabel()
         selectedInterestsCV.reloadData()
+        
+        if LearnerRegistrationService.shared.interests.isEmpty {
+            selectedInterestsHeightAnchor?.constant = 0
+            collectionViewTopAnchor?.constant = 0
+            layoutIfNeeded()
+        }
     }
     
     func showSelectedInterestsCVIfNeeded(animated: Bool) {

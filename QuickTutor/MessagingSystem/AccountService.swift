@@ -23,11 +23,16 @@ class AccountService {
     private init() {
         loadUser()
     }
+    
+    func logout() {
+        currentUser = nil
+    }
 
-    func loadUser() {
+    func loadUser(isFacebookLogin: Bool = false) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         UserFetchService.shared.getUserWithUid(uid) { userIn in
             guard let user = userIn else { return }
+            user.isFacebookLogin = isFacebookLogin
             self.currentUser = user
         }
     }
@@ -38,7 +43,7 @@ class AccountService {
         }
     }
     
-    private func saveFCMToken(_ token: String) {
+    func saveFCMToken(_ token: String?) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         Database.database().reference().child("account").child(uid).child("fcmToken").setValue(token)
     }

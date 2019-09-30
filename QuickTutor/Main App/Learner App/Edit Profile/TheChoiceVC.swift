@@ -36,12 +36,15 @@ class TheChoiceVC: UIViewController {
     
     @objc func handleStartButton() {
         if contentView.userType == .learner {
+            displayLoadingOverlay()
             FirebaseData.manager.fetchLearner(Registration.uid) { learner in
+                self.dismissOverlay()
                 if let learner = learner {
                     CurrentUser.shared.learner = learner
+                    AccountService.shared.loadUser(isFacebookLogin: nil != Registration.facebookInfo)
                     AccountService.shared.currentUserType = .learner
-                    AccountService.shared.loadUser()
-                    RootControllerManager.shared.setupLearnerTabBar(controller: LearnerMainPageVC())
+                    
+                    RootControllerManager.shared.configureRootViewController(controller: LearnerMainPageVC())
                     let endIndex = self.navigationController?.viewControllers.endIndex
                     self.navigationController?.viewControllers.removeFirst(endIndex! - 1)
                 } else {
@@ -49,7 +52,9 @@ class TheChoiceVC: UIViewController {
                 }
             }
         } else {
+            displayLoadingOverlay()
             FirebaseData.manager.fetchLearner(Registration.uid) { learner in
+                self.dismissOverlay()
                 if let learner = learner {
                     CurrentUser.shared.learner = learner
                     let vc = QTBecomeTutorViewController.controller
