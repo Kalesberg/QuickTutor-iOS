@@ -57,8 +57,20 @@ class LearnerMainPageSuggestionController: UIViewController {
                 self.fetchDefaultTutors()
                 return
             }
+            
+            var uniqueTutors = [AWTutor]()
+            var addedTutors = [String]()
+            for tutor in tutors {
+                if addedTutors.contains(tutor.uid) {
+                    continue
+                }
+                
+                addedTutors.append(tutor.uid)
+                uniqueTutors.append(tutor)
+            }
+            
             self.view.hideSkeleton()
-            self.datasource.append(contentsOf: tutors)
+            self.datasource.append(contentsOf: uniqueTutors)
             self.collectionView.reloadData()
         }
     }

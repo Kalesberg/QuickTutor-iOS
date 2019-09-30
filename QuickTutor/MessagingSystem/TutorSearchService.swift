@@ -226,14 +226,16 @@ class TutorSearchService {
             }
             
             connections.keys.forEach { key in
-                group.enter()
-                UserFetchService.shared.getTutorWithId(uid: key
-                    , completion: { (tutor) in
-                        if let tutor = tutor {
-                            tutors.append(tutor)
-                        }
-                        group.leave()
-                })
+                if key.compare(uid) != .orderedSame {
+                    group.enter()
+                    UserFetchService.shared.getTutorWithId(uid: key
+                        , completion: { (tutor) in
+                            if let tutor = tutor {
+                                tutors.append(tutor)
+                            }
+                            group.leave()
+                    })
+                }
             }
             group.leave()
         }
@@ -241,19 +243,18 @@ class TutorSearchService {
         // Get recent searches and tapped users.
         let recentSearches = QTUtils.shared.getRecentTutors()
         if !recentSearches.isEmpty {
-            recentSearches.compactMap({$0.uid}).forEach { (uid) in
-                group.enter()
-                FirebaseData.manager.fetchTutor(uid, isQuery: false, { tutor in
-                    guard let tutor = tutor else {
-                        group.leave()
-                        return
-                    }
-                    
-                    if tutor.uid != Auth.auth().currentUser?.uid {
+            recentSearches.compactMap({$0.uid}).forEach { (userId) in
+                if userId.compare(uid) != .orderedSame {
+                    group.enter()
+                    FirebaseData.manager.fetchTutor(userId, isQuery: false, { tutor in
+                        guard let tutor = tutor else {
+                            group.leave()
+                            return
+                        }
                         tutors.append(tutor)
-                    }
-                    group.leave()
-                })
+                        group.leave()
+                    })
+                }
             }
         }
         
@@ -267,6 +268,12 @@ class TutorSearchService {
                         return
                     }
                     tutors += sessionTutors
+                    
+                    // Remove the tutor profile of the current user.
+                    if let index = tutors.firstIndex(where: {$0.uid.compare(uid) == .orderedSame}) {
+                        tutors.remove(at: index)
+                    }
+                    
                     group.leave()
                 })
             }
@@ -309,7 +316,7 @@ class TutorSearchService {
             uids.forEach({ (key,value) in
                 group.enter()
                 FirebaseData.manager.fetchTutor(key, isQuery: false, { (tutor) in
-                    guard let tutor = tutor, tutor.uid != uid else {
+                    guard let tutor = tutor, tutor.uid.compare(uid) != .orderedSame else {
                         group.leave()
                         return
                     }
