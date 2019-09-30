@@ -33,6 +33,7 @@ class QTTutorDiscoverNewsDetailDescTableViewCell: UITableViewCell {
         updatedAtLabel.text = formatter.string(from: updatedAt)
         
         descriptionLabel.text = news.description
+        descriptionLabel.isHidden = news.description.isEmpty
     }
     
     // MARK: - Actions
