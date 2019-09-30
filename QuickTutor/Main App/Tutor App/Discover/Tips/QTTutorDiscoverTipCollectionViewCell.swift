@@ -33,7 +33,7 @@ class QTTutorDiscoverTipCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = .white
         label.textAlignment = .left
-        label.font = Fonts.createBlackSize(12)
+        label.font = Fonts.createSemiBoldSize(17)
         label.adjustsFontSizeToFitWidth = true
         label.adjustsFontForContentSizeCategory = true
         
