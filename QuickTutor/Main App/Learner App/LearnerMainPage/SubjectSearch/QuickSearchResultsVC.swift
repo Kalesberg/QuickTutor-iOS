@@ -391,6 +391,7 @@ class TutorAddSubjectsResultsVC: UIViewController {
     var filteredSubjects = [String]()
     var inSearchMode = false
     var isBeingControlled = false
+    var isLearnerAddInterests = false
     var addSubjectsResultsType: QTAddSubjectsResultsType = .tutorSubjects
     
     var unknownSubject: String? {
