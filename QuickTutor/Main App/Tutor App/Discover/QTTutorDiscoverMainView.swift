@@ -43,8 +43,9 @@ class QTTutorDiscoverMainView: UIView {
     var prevOffset: CGFloat = 0
     var transitionStartOffset: CGFloat = -1
     let navigationViewHeight: CGFloat = 82
-    var hasOpportunities = true
+    var hasOpportunities = false
     var collectionViewTopInset: CGFloat = 0
+    let refreshControl = UIRefreshControl()
     
     // MARK: - Functions
     func setupViews() {
@@ -53,6 +54,17 @@ class QTTutorDiscoverMainView: UIView {
         setupCollectionView()
         setupBackgroundView()
         addObservers()
+        setupTargets()
+    }
+    
+    func setupTargets() {
+        refreshControl.tintColor = Colors.purple
+        if #available(iOS 10.0, *) {
+            self.collectionView.refreshControl = refreshControl
+        } else {
+            self.collectionView.addSubview(refreshControl)
+        }
+        refreshControl.addTarget(self, action: #selector(onRefersh), for: .valueChanged)
     }
     
     func setupBackgroundView() {
@@ -154,6 +166,18 @@ class QTTutorDiscoverMainView: UIView {
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
             }
+        }
+    }
+    
+    @objc
+    func onRefersh() {
+        collectionView.reloadData()
+        // Start the animation of refresh control
+        self.refreshControl.beginRefreshing()
+        
+        // End the animation of refersh control
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+            self.refreshControl.endRefreshing()
         }
     }
     

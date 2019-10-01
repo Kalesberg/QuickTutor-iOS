@@ -223,6 +223,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
             make.top.equalTo(priceLabel.snp.bottom).offset(9)
             make.left.equalToSuperview()
             make.bottom.equalToSuperview()
+            make.right.equalToSuperview()
         }
     }
     
@@ -260,7 +261,12 @@ class TutorCollectionViewCell: UICollectionViewCell {
             starView.isHidden = false
             starView.rating = rating
             
-            guard let reviewCount = tutor.reviews?.count else { return }
+            guard let reviewCount = tutor.reviews?.count else {
+                if let address = tutor.region {
+                    starLabel.text = address
+                }
+                return
+            }
             starLabel.text = "\(reviewCount)"
         } else {
             starView.isHidden = true

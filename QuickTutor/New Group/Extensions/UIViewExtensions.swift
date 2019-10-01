@@ -110,11 +110,33 @@ extension UIView {
         animation.duration = duration
         layer.add(animation, forKey: convertFromCATransitionType(CATransitionType.fade))
     }
-    func roundCorners(_ corners: UIRectCorner, radius: CGFloat) {
-        let path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-        let mask = CAShapeLayer()
-        mask.path = path.cgPath        
-        self.layer.mask = mask
+    
+    func cornerRadius(_ corners: UIRectCorner = .allCorners, radius: CGFloat) {
+        if #available(iOS 11.0, *) {
+            if corners.contains(.allCorners) {
+                layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMaxXMinYCorner]
+            } else {
+                layer.maskedCorners = []
+                if corners.contains(.topLeft) {
+                    layer.maskedCorners = layer.maskedCorners.union(.layerMinXMinYCorner)
+                }
+                if corners.contains(.topRight) {
+                    layer.maskedCorners = layer.maskedCorners.union(.layerMaxXMinYCorner)
+                }
+                if corners.contains(.bottomLeft) {
+                    layer.maskedCorners = layer.maskedCorners.union(.layerMinXMaxYCorner)
+                }
+                if corners.contains(.bottomRight) {
+                    layer.maskedCorners = layer.maskedCorners.union(.layerMaxXMaxYCorner)
+                }
+            }
+            layer.cornerRadius = radius
+        } else {
+            let path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+            let mask = CAShapeLayer()
+            mask.path = path.cgPath
+            self.layer.mask = mask
+        }
     }
 	
 	func growShrink() {

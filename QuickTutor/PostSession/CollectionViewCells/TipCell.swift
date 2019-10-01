@@ -147,7 +147,7 @@ class TipCell : BasePostSessionCell, CustomTipPresenter {
 	
 	override func layoutSubviews() {
 		super.layoutSubviews()
-		tipContainer.roundCorners([.bottomLeft, .bottomRight], radius: 4)
+		tipContainer.cornerRadius([.bottomLeft, .bottomRight], radius: 4)
 		buttons.forEach { $0.layer.cornerRadius = 5 }
 	}
 	

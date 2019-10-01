@@ -68,6 +68,6 @@ class BasePostSessionCell : UICollectionViewCell {
 	override func layoutSubviews() {
 		super.layoutSubviews()
 		sendSubviewToBack(titleView)
-		backgroundHeaderView.roundCorners([.topRight, .topLeft], radius: 4)
+		backgroundHeaderView.cornerRadius([.topRight, .topLeft], radius: 4)
 	}
 }

@@ -41,8 +41,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = 5
-        
+        imageView.cornerRadius([.topLeft, .topRight], radius: 5)
         return imageView
     }()
 
@@ -87,7 +86,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
                                 UIColor.black.withAlphaComponent(0.8)].map({$0.cgColor})
         gradientLayer.locations = [0, 1]
         maskBackgroundView.layer.insertSublayer(gradientLayer, at: 0)
-        maskBackgroundView.layer.cornerRadius = 5
+        maskBackgroundView.cornerRadius([.topLeft, .topRight], radius: 5)
         maskBackgroundView.clipsToBounds = true
     }
     

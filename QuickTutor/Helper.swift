@@ -171,7 +171,7 @@ class FeaturedTutorView: UIView {
     }
 	override func layoutSubviews() {
 		super.layoutSubviews()
-		imageView.roundCorners([.topRight, .topLeft], radius: 6)
+		imageView.cornerRadius([.topRight, .topLeft], radius: 6)
 	}
 }
 
