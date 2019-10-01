@@ -3,9 +3,9 @@ PODS:
   - ActiveLabel (1.0.1)
   - Alamofire (4.9.0)
   - BetterSegmentedControl (1.2.1)
-  - Branch (0.28.1):
-    - Branch/Core (= 0.28.1)
-  - Branch/Core (0.28.1)
+  - Branch (0.29.0):
+    - Branch/Core (= 0.29.0)
+  - Branch/Core (0.29.0)
   - Cache (5.2.0)
   - CardScan (1.0.4043):
     - CardScan/Core (= 1.0.4043)
@@ -15,7 +15,7 @@ PODS:
   - Charts (3.2.2):
     - Charts/Core (= 3.2.2)
   - Charts/Core (3.2.2)
-  - Cosmos (19.0.3)
+  - Cosmos (20.0.1)
   - Crashlytics (3.14.0):
     - Fabric (~> 1.10.2)
   - CropViewController (2.5.1)
@@ -305,11 +305,11 @@ SPEC CHECKSUMS:
   ActiveLabel: b8b2396fe25308d563601437d6605bf691c3b5db
   Alamofire: afc3e7c6db61476cb45cdd23fed06bad03bbc321
   BetterSegmentedControl: b27bddbdff29b6cae988678d6cd106858986cd03
-  Branch: edf6cab0cecb437d6a6abba3a25d0a0fa6f277ec
+  Branch: 6e7421e1f3c0adebdf80008a40a74969b2603cf8
   Cache: 807c5d86d01a177f06ede9865add3aea269bbfd4
   CardScan: badf82e2cfcfc7ee513836a60dbb71bdb2cf5196
   Charts: f69cf0518b6d1d62608ca504248f1bbe0b6ae77e
-  Cosmos: a6fb17284281fa12cf4c85c2efecd440a215ec44
+  Cosmos: b47fddf2102bb48580cd3025d9ce0a5c658a65da
   Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
   CropViewController: 10ba7af75e302f2db7eb913f8aa1156f95cfe88e
   ESTabBarController-swift: 4fb52ad03d94d0717ef97bc9eb09a5abfdded0a2
@@ -364,4 +364,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: cdda3543e6999567b63be8ac2c1836119f1ed923
 
-COCOAPODS: 1.8.0
+COCOAPODS: 1.8.1
