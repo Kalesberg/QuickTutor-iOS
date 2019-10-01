@@ -123,6 +123,8 @@ class AWTutor: AWLearner {
         self.savedTutorIds = learner.savedTutorIds
         self.interests = learner.interests
         self.images = learner.images
+        self.region = learner.region
+        self.location = learner.location
         return self
     }
     

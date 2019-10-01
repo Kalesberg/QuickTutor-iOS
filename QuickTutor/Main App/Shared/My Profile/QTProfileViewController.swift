@@ -488,7 +488,7 @@ class QTProfileViewController: UIViewController {
             addressView.isHidden = false
             distanceView.isHidden = true
             // Set address
-            addressLabel.text = user.region
+            addressLabel.text = user.region ?? "United States"
             
             updateDistanceLabel()
             
@@ -526,7 +526,7 @@ class QTProfileViewController: UIViewController {
             topSubjectLabel.superview?.isHidden = true
             ratingLabel.text = "\(String(describing: user.lRating ?? 0))"
             addressView.isHidden = false
-            addressLabel.text = "United States"
+            addressLabel.text = user.region ?? "United States"
             distanceView.isHidden = true
             experienceLabel.superview?.isHidden = true
             
@@ -556,7 +556,7 @@ class QTProfileViewController: UIViewController {
             ratingLabel.text = "\(String(describing: user.tRating ?? 0))"
             lblHourlyRate.text = "$\(user.price ?? 5)/hr"
             addressView.isHidden = false
-            addressLabel.text = user.region
+            addressLabel.text = user.region ?? "United States"
             distanceView.isHidden = false
             distanceLabel.text = "1 mile or 0 miles away"
             
@@ -587,7 +587,7 @@ class QTProfileViewController: UIViewController {
             topSubjectLabel.superview?.isHidden = true
             ratingLabel.text = "\(String(describing: user.lRating ?? 0))"
             addressView.isHidden = false
-            addressLabel.text = "United States"
+            addressLabel.text = user.region ?? "United States"
             distanceView.isHidden = false
             distanceLabel.text = "1 mile or 0 miles away"
             experienceLabel.superview?.isHidden = true

@@ -48,22 +48,49 @@ class MessagesVC: UIViewController {
         navigationItem.title = "Messages"
         edgesForExtendedLayout = []
 
+        navigationController?.view.backgroundColor = Colors.newNavigationBarBackground
         navigationController?.navigationBar.barTintColor = Colors.newNavigationBarBackground
         if #available(iOS 13.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
             
             let connectionButton = UIBarButtonItem(image: UIImage(named: "connectionsIcon"), style: .plain, target: self, action: #selector(showContacts))
             navigationItem.rightBarButtonItems = [connectionButton]
-            
         } else if #available(iOS 11.0, *) {
+            navigationController?.navigationBar.prefersLargeTitles = true
+            
             let connectionButton = UIBarButtonItem(image: UIImage(named: "connectionsIcon"), style: .plain, target: self, action: #selector(showContacts))
             let searchButton = UIBarButtonItem(image: UIImage(named: "ic_search"), style: .plain, target: self, action: #selector(onClickSearch))
             navigationItem.rightBarButtonItems = [connectionButton, searchButton]
-            
-            navigationController?.navigationBar.prefersLargeTitles = true
-            navigationController?.view.backgroundColor = Colors.newNavigationBarBackground
         }
     }
+    
+    func setupCollectionView() {
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        view.addSubview(collectionView)
+        collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+    }
+    
+    func setupEmptyBackground() {
+        emptyBackround.isHidden = true
+        view.addSubview(emptyBackround)
+        emptyBackround.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 250)
+        emptyBackround.setupForCurrentUserType()
+    }
+    
+    func setupRefreshControl() {
+        if #available(iOS 11.0, *) {
+            // Extend the view to the top of screen.
+            self.edgesForExtendedLayout = UIRectEdge.top
+            self.extendedLayoutIncludesOpaqueBars = true
+            self.navigationController?.navigationBar.isTranslucent = false
+        }
+        
+        refreshControl.tintColor = Colors.purple
+        collectionView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refreshMessages), for: .valueChanged)
+    }
+
     
     @objc func showContacts() {
         self.view.endEditing(true)
@@ -93,33 +120,6 @@ class MessagesVC: UIViewController {
         }
     }
     
-    func setupCollectionView() {
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        view.addSubview(collectionView)
-        collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-    }
-    
-    func setupEmptyBackground() {
-        emptyBackround.isHidden = true
-        view.addSubview(emptyBackround)
-        emptyBackround.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 250)
-        emptyBackround.setupForCurrentUserType()
-    }
-    
-    func setupRefreshControl() {
-        
-        if #available(iOS 11.0, *) {
-            // Extend the view to the top of screen.
-            self.edgesForExtendedLayout = UIRectEdge.top
-            self.extendedLayoutIncludesOpaqueBars = true
-            self.navigationController?.navigationBar.isTranslucent = false
-        }
-        
-        refreshControl.tintColor = Colors.purple
-        collectionView.refreshControl = refreshControl
-        refreshControl.addTarget(self, action: #selector(refreshMessages), for: .valueChanged)
-    }
     
     @objc func refreshMessages() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {

@@ -52,22 +52,20 @@ class LearnerMainPageVC: UIViewController {
     
     func setupRefreshControl() {
         refreshControl.tintColor = Colors.purple
-        if #available(iOS 10.0, *) {
-            contentView.collectionView.refreshControl = refreshControl
-        } else {
-            contentView.collectionView.addSubview(refreshControl)
-        }
+        contentView.collectionView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(refershData), for: .valueChanged)
     }
 
     @objc func refershData() {
-        contentView.collectionView.reloadData()
+        /*contentView.collectionView.reloadData()
         // Start the animation of refresh control
-        self.refreshControl.beginRefreshing()
+        self.refreshControl.beginRefreshing()*/
         
         // End the animation of refersh control
+        contentView.isRefreshing = true
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
             self.refreshControl.endRefreshing()
+            self.contentView.isRefreshing = false
         }
     }
     

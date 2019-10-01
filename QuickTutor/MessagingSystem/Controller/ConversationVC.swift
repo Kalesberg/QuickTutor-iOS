@@ -526,9 +526,9 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: false)
         setupKeyboardObservers()
         setupDocumentObserver()
-        navigationController?.setNavigationBarHidden(false, animated: false)
         CardService.shared.checkForPaymentMethod()
     }
     
@@ -979,10 +979,14 @@ extension ConversationVC: ConversationManagerDelegate {
             if self.messagesCollection.contentSize.height > self.messagesCollection.frame.height {
                 if #available(iOS 11.0, *) {
                     let bottom = (self.inputAccessoryView?.frame.height ?? 0) - (UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0)
-                    self.messagesCollection.contentOffset = CGPoint(x: 0, y: self.messagesCollection.contentSize.height - self.messagesCollection.frame.height + bottom)
+                    let y = self.messagesCollection.contentSize.height - self.messagesCollection.frame.height + bottom
+                    self.messagesCollection.contentOffset = CGPoint(x: 0, y: y - 300)
+                    self.messagesCollection.setContentOffset(CGPoint(x: 0, y: y), animated: true)
                 } else {
                     let bottom = self.inputAccessoryView?.frame.height ?? 0
-                    self.messagesCollection.contentOffset = CGPoint(x: 0, y: self.messagesCollection.contentSize.height - self.messagesCollection.frame.height + bottom)
+                    let y = self.messagesCollection.contentSize.height - self.messagesCollection.frame.height + bottom
+                    self.messagesCollection.contentOffset = CGPoint(x: 0, y: y - 300)
+                    self.messagesCollection.setContentOffset(CGPoint(x: 0, y: y), animated: true)
                 }
             }
         }
