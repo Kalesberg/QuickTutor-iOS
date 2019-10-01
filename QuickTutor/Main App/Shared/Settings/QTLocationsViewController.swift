@@ -143,6 +143,7 @@ extension QTLocationsViewController: MKLocalSearchCompleterDelegate {
 extension QTLocationsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        view.endEditing(true)
         
         let addressString = "\(searchResults[indexPath.row].title) \(searchResults[indexPath.row].subtitle)"
         
