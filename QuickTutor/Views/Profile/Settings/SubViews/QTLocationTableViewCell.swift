@@ -26,7 +26,10 @@ class QTLocationTableViewCell: UITableViewCell {
     // MARK: - lifecycle
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        let cellBackground = UIView()
+        cellBackground.backgroundColor = Colors.newScreenBackground.darker(by: 5)
+        selectedBackgroundView = cellBackground
     }
 
     // MARK: - actions
