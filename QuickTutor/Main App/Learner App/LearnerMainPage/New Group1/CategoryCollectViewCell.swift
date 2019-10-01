@@ -18,6 +18,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     
     let containerView: UIView = {
         let view = UIView()
+        view.clipsToBounds = true
         return view
     }()
     
@@ -80,15 +81,6 @@ class CategoryCollectionViewCell: UICollectionViewCell {
             make.bottom.equalToSuperview()
             make.height.equalTo(61)
         }
-        
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = CGRect(x: 0, y: 0, width: 122, height: 61)
-        gradientLayer.colors = [UIColor.clear,
-                                UIColor.black.withAlphaComponent(0.8)].map({$0.cgColor})
-        gradientLayer.locations = [0, 1]
-        maskBackgroundView.layer.insertSublayer(gradientLayer, at: 0)
-        maskBackgroundView.layer.cornerRadius = 5
-        maskBackgroundView.clipsToBounds = true
     }
     
     func setupLabel() {
@@ -110,6 +102,21 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         backgroundColor = .clear
         setupViews()
         addShadow()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        if let oldGradientLayer = maskBackgroundView.layer.sublayers?.first(where: { $0 is CAGradientLayer }) {
+            oldGradientLayer.removeFromSuperlayer()
+        }
+        
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = CGRect(origin: .zero, size: maskBackgroundView.frame.size)
+        gradientLayer.colors = [UIColor.clear,
+                                UIColor.black.withAlphaComponent(0.8)].map({$0.cgColor})
+        gradientLayer.locations = [0, 1]
+        maskBackgroundView.layer.insertSublayer(gradientLayer, at: 0)
     }
     
     required init?(coder _: NSCoder) {

@@ -12,10 +12,10 @@ import Firebase
 class TutorSearchService {
     static let shared = TutorSearchService()
     
-    func getTutorsByCategory(_ categoryName: String, lastKnownKey: String?, completion: @escaping ([AWTutor]?, Bool) -> Void) {
+    func getTutorsByCategory(_ categoryName: String, lastKnownKey: String?, limit: UInt = 60, completion: @escaping ([AWTutor]?, Bool) -> Void) {
         var tutors = [AWTutor]()
         let myGroup = DispatchGroup()
-        var ref = Database.database().reference().child("categories").child(categoryName).queryOrderedByKey().queryLimited(toFirst: 60)
+        var ref = Database.database().reference().child("categories").child(categoryName).queryOrderedByKey().queryLimited(toFirst: limit)
         if let key = lastKnownKey {
             ref = ref.queryStarting(atValue: key)
         }
@@ -46,16 +46,16 @@ class TutorSearchService {
                 if let _ = lastKnownKey {
                     tutors.removeFirst()
                 }
-                completion(tutors, tutorIds.count < 60)
+                completion(tutors, tutorIds.count < limit)
             }
         }
     }
     
-    func getTutorsBySubcategory(_ subcategoryName: String, lastKnownKey: String?, completion: @escaping ([AWTutor]?, Bool) -> Void) {
+    func getTutorsBySubcategory(_ subcategoryName: String, lastKnownKey: String?, limit: UInt = 60, completion: @escaping ([AWTutor]?, Bool) -> Void) {
         var tutors = [AWTutor]()
         let desiredSubjects = CategoryFactory.shared.getSubjectsFor(subcategoryName: subcategoryName)
         
-        var ref = Database.database().reference().child("subcategories").child(subcategoryName.lowercased()).queryOrderedByKey().queryLimited(toFirst: 60)
+        var ref = Database.database().reference().child("subcategories").child(subcategoryName.lowercased()).queryOrderedByKey().queryLimited(toFirst: limit)
         if let key = lastKnownKey {
             ref = ref.queryStarting(atValue: key)
         }
@@ -97,15 +97,15 @@ class TutorSearchService {
                 if let _ = lastKnownKey {
                     tutors.removeFirst()
                 }
-                completion(tutors, tutorIds.count < 60)
+                completion(tutors, tutorIds.count < limit)
             }
         }
     }
     
-    func getTutorsBySubject(_ subject: String, lastKnownKey: String?, completion: @escaping ([AWTutor]?, Bool) -> Void) {
+    func getTutorsBySubject(_ subject: String, lastKnownKey: String?, limit: UInt = 60, completion: @escaping ([AWTutor]?, Bool) -> Void) {
         var tutors = [AWTutor]()
         let myGroup = DispatchGroup()
-        var ref = Database.database().reference().child("subjects").child(subject).queryOrderedByKey().queryLimited(toFirst: 60)
+        var ref = Database.database().reference().child("subjects").child(subject).queryOrderedByKey().queryLimited(toFirst: limit)
         
         if let key = lastKnownKey {
             ref = ref.queryStarting(atValue: key)
@@ -134,7 +134,7 @@ class TutorSearchService {
                 if let _ = lastKnownKey {
                     tutors.removeFirst()
                 }
-                completion(tutors, tutorIds.count < 60)
+                completion(tutors, tutorIds.count < limit)
             }
         }
     }
@@ -181,8 +181,8 @@ class TutorSearchService {
         }
     }
     
-    func getTopTutors(completion: @escaping([AWTutor]) -> Void) {
-        Database.database().reference().child("tutor-info").queryOrdered(byChild: "nos").queryLimited(toLast: 25).observeSingleEvent(of: .value) { (snapshot) in
+    func getTopTutors(limit: UInt = 25, completion: @escaping([AWTutor]) -> Void) {
+        Database.database().reference().child("tutor-info").queryOrdered(byChild: "nos").queryLimited(toLast: limit).observeSingleEvent(of: .value) { (snapshot) in
             guard let tutorsDict = snapshot.value as? [String: Any] else { return }
             let group = DispatchGroup()
             var tutors = [AWTutor]()
@@ -201,9 +201,9 @@ class TutorSearchService {
                 })
             })
             
-            group.notify(queue: .main, execute: {
-                completion(tutors)
-            })
+            group.notify(queue: .main) {
+                completion(tutors.sorted(by: {$0.tNumSessions > $1.tNumSessions}))
+            }
         }
     }
     

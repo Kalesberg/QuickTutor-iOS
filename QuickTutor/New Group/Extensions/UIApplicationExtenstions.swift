@@ -20,7 +20,7 @@ extension UIApplication {
     
     var statusBarView: UIView? {
         if #available(iOS 13.0, *) {
-            let tag = 38482458385
+            let tag = 3848245
             if let statusBar = UIApplication.shared.keyWindow?.viewWithTag(tag) {
                 return statusBar
             } else {

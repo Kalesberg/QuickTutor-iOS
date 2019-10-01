@@ -71,19 +71,24 @@ class QTPageControl: UIPageControl {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.pageIndicatorTintColor = UIColor.clear
-        self.currentPageIndicatorTintColor = UIColor.clear
+        initSetup()
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.pageIndicatorTintColor = UIColor.clear
-        self.currentPageIndicatorTintColor = UIColor.clear
+        initSetup()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        
+        initSetup()
+    }
+    
+    private func initSetup() {
+        pageIndicatorTintColor = .clear
+        currentPageIndicatorTintColor = .clear
     }
 }
 

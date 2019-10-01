@@ -72,7 +72,8 @@ class CategorySectionController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
-        return CGSize(width: 130, height: 180)
+        let width = ceil((UIScreen.main.bounds.width - 50) / 2.5)
+        return CGSize(width: width, height: 180)
     }
     
 }
