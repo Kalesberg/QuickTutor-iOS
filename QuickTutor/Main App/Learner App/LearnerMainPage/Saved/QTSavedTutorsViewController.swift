@@ -21,6 +21,8 @@ class QTSavedTutorsViewController: UIViewController {
         cv.backgroundColor = Colors.newScreenBackground
         cv.allowsMultipleSelection = false
         cv.alwaysBounceVertical = true
+        cv.showsVerticalScrollIndicator = false
+        cv.showsHorizontalScrollIndicator = false
         cv.register(QTSavedTutorCollectionViewCell.nib, forCellWithReuseIdentifier: QTSavedTutorCollectionViewCell.reuseIdentifier)
         cv.register(EmptySavedTutorsBackgroundCollectionViewCell.self, forCellWithReuseIdentifier: "EmptySavedTutorsBackgroundCollectionViewCell")
         return cv
@@ -58,7 +60,11 @@ class QTSavedTutorsViewController: UIViewController {
         
         if #available(iOS 13.0, *) {
             // Extend the view to the top of screen.
-            self.edgesForExtendedLayout = UIRectEdge.top
+//            self.edgesForExtendedLayout = UIRectEdge.top
+//            collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 8, paddingLeft: 20, paddingBottom: 65, paddingRight: 20, width: 0, height: 0)
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+            view.setNeedsLayout()
+
         }
     }
     
@@ -66,7 +72,11 @@ class QTSavedTutorsViewController: UIViewController {
         super.viewDidDisappear(animated)
         if #available(iOS 13.0, *) {
             // Extend the view to the top of screen.
-            self.edgesForExtendedLayout = []
+//            self.edgesForExtendedLayout = []
+            collectionView.topAnchor.constraint(equalTo: view.getTopAnchor()).isActive = true
+            view.setNeedsLayout()
+//            collectionView.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 8, paddingLeft: 20, paddingBottom: 65, paddingRight: 20, width: 0, height: 0)
+            
         }
     }
     
@@ -145,7 +155,7 @@ class QTSavedTutorsViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         view.addSubview(collectionView)
-        collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 8, paddingLeft: 20, paddingBottom: 65, paddingRight: 20, width: 0, height: 0)
+        collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 8, paddingLeft: 20, paddingBottom: 65, paddingRight: 20, width: 0, height: 0)
     }
     
     private func setupRefreshControl() {
@@ -168,7 +178,7 @@ class QTSavedTutorsViewController: UIViewController {
     private func setupFindTutorView() {
         view.addSubview(btnFindTutor)
         btnFindTutor.translatesAutoresizingMaskIntoConstraints = false
-        btnFindTutor.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 65)
+        btnFindTutor.anchor(top: nil, left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 65)
         
         btnFindTutor.addTarget(self, action: #selector(onClickBtnFindTutor), for: .touchUpInside)
     }
