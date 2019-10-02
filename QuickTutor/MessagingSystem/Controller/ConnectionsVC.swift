@@ -12,9 +12,11 @@ import UIKit
 class ConnectionsVC: UIViewController, ConnectionCellDelegate {
     var connections = [User]()
     var filteredConnections = [User]()
-
+    
     var isTransitioning = false
-
+    
+    private var presentedSearchVC = false
+    
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -24,7 +26,7 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
         cv.alwaysBounceVertical = true
         return cv
     }()
-
+    
     func setupViews() {
         setupMainView()
         setupCollectionView()
@@ -42,7 +44,7 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
         collectionView.delegate = self
         collectionView.dataSource = self
     }
-
+    
     var searchController = UISearchController(searchResultsController: nil)
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,7 +61,7 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
     }
-
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         isTransitioning = false
@@ -90,9 +92,10 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
             searchController.dimsBackgroundDuringPresentation = false
             searchController.searchBar.tintColor = .white
             searchController.searchResultsUpdater = self
+            searchController.delegate = self
         }
     }
-
+    
     func fetchConnections() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
@@ -239,10 +242,6 @@ extension ConnectionsVC: UICollectionViewDelegate, UICollectionViewDataSource, U
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        searchController.resignFirstResponder()
-    }
 }
 
 
@@ -270,5 +269,23 @@ class SessionRequestViewConnectionsVC: ConnectionsVC {
 extension ConnectionsVC: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         filterUserForSearchText(searchController.searchBar.text!)
+    }
+}
+
+extension ConnectionsVC: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if presentedSearchVC {
+            searchController.searchBar.endEditing(true)
+        }
+    }
+}
+
+extension ConnectionsVC: UISearchControllerDelegate {
+    func didPresentSearchController(_ searchController: UISearchController) {
+        presentedSearchVC = true
+    }
+    
+    func didDismissSearchController(_ searchController: UISearchController) {
+        presentedSearchVC = false
     }
 }

@@ -38,15 +38,26 @@ class QTSavedTutorsViewController: UIViewController {
     }()
     
     private var searchController = UISearchController(searchResultsController: nil)
-
+    
     private var datasource = [AWTutor]()
     private var filteredTutors = [AWTutor] ()
     
     private var setTopLayout = false
-
+    private var presentedSearchVC = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        
+        // add notification observer
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow (_:)),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide (_:)),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -59,24 +70,16 @@ class QTSavedTutorsViewController: UIViewController {
         super.viewDidAppear(animated)
         
         if #available(iOS 13.0, *) {
-            // Extend the view to the top of screen.
-//            self.edgesForExtendedLayout = UIRectEdge.top
-//            collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 8, paddingLeft: 20, paddingBottom: 65, paddingRight: 20, width: 0, height: 0)
             collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
             view.setNeedsLayout()
-
         }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         if #available(iOS 13.0, *) {
-            // Extend the view to the top of screen.
-//            self.edgesForExtendedLayout = []
             collectionView.topAnchor.constraint(equalTo: view.getTopAnchor()).isActive = true
             view.setNeedsLayout()
-//            collectionView.anchor(top: view.getTopAnchor(), left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 8, paddingLeft: 20, paddingBottom: 65, paddingRight: 20, width: 0, height: 0)
-            
         }
     }
     
@@ -117,7 +120,19 @@ class QTSavedTutorsViewController: UIViewController {
         navigationController?.pushViewController(controller, animated: false)
     }
     
-
+    // MARK: - Notification Handlers
+    @objc
+    private func keyboardWillShow (_ notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            collectionView.contentInset = UIEdgeInsets (top: 0.0, left: 0.0, bottom: keyboardFrame.cgRectValue.height, right: 0.0)
+        }
+    }
+    
+    @objc
+    private func keyboardWillHide (_ notification: Notification) {
+        collectionView.contentInset = .zero
+    }
+    
     // MARK: - Initialize Handlers
     private func setupViews() {
         setupMainView()
@@ -128,17 +143,10 @@ class QTSavedTutorsViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(getSavedTutors), name: NotificationNames.SavedTutors.didUpdate, object: nil)
     }
-
+    
     private func setupMainView() {
         view.backgroundColor = Colors.newScreenBackground
         navigationItem.title = "Saved"
-        
-        /*if #available(iOS 11.0, *) {
-            // Extend the view to the top of screen.
-            self.edgesForExtendedLayout = UIRectEdge.top
-            self.extendedLayoutIncludesOpaqueBars = true
-            self.navigationController?.navigationBar.isTranslucent = false
-        }*/
         
         navigationController?.view.backgroundColor = Colors.newNavigationBarBackground
         navigationController?.navigationBar.barTintColor = Colors.newNavigationBarBackground
@@ -172,6 +180,7 @@ class QTSavedTutorsViewController: UIViewController {
             searchController.dimsBackgroundDuringPresentation = false
             searchController.searchBar.tintColor = .white
             searchController.searchResultsUpdater = self
+            searchController.delegate = self
         }
     }
     
@@ -182,13 +191,13 @@ class QTSavedTutorsViewController: UIViewController {
         
         btnFindTutor.addTarget(self, action: #selector(onClickBtnFindTutor), for: .touchUpInside)
     }
-
+    
     
     // MARK: - Get Saved Tutors Handlers
     @objc
     private func getSavedTutors() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-
+        
         let myGroup = DispatchGroup()
         var tutors = [AWTutor]()
         
@@ -342,5 +351,23 @@ extension QTSavedTutorsViewController: UISearchResultsUpdating {
         guard let query = searchController.searchBar.text else { return }
         filterTutorsForSearchText(query)
         collectionView.reloadData()
+    }
+}
+
+extension QTSavedTutorsViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if presentedSearchVC {
+            searchController.searchBar.endEditing(true)
+        }
+    }
+}
+
+extension QTSavedTutorsViewController: UISearchControllerDelegate {
+    func didPresentSearchController(_ searchController: UISearchController) {
+        presentedSearchVC = true
+    }
+    
+    func didDismissSearchController(_ searchController: UISearchController) {
+        presentedSearchVC = false
     }
 }
