@@ -561,6 +561,12 @@ extension QTRatingReviewViewController: UICollectionViewDataSource {
                         cell.didSelectPayment = {
                             self.selectPayment ()
                         }
+                        cell.didSelectCustomTip = {
+                            let vc = QTRatingReviewCustomTipViewController.controller
+                            vc.modalPresentationStyle = .overCurrentContext
+                            vc.delegate = cell
+                            self.present(vc, animated: true, completion: nil)
+                        }
                         cell.setProfileInfo(user: tutor, subject: subject, costOfSession: costOfSession, sessionType: sessionType)
                         
                         // stripe

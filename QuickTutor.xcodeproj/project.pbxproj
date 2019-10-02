@@ -1008,6 +1008,10 @@
 		C40CEEC2233BD7C60070A816 /* MimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40CEEC0233BD7C60070A816 /* MimeType.swift */; };
 		C41F17E1224D2D3A007758FC /* QTCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41F17E0224D2D3A007758FC /* QTCustomButton.swift */; };
 		C41F17E2224D30E0007758FC /* QTCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41F17E0224D2D3A007758FC /* QTCustomButton.swift */; };
+		C4205A1A2335DC98003B50C5 /* QTRatingReviewCustomTipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4205A182335DC98003B50C5 /* QTRatingReviewCustomTipViewController.swift */; };
+		C4205A1B2335DC98003B50C5 /* QTRatingReviewCustomTipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4205A182335DC98003B50C5 /* QTRatingReviewCustomTipViewController.swift */; };
+		C4205A1C2335DC98003B50C5 /* QTRatingReviewCustomTipViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4205A192335DC98003B50C5 /* QTRatingReviewCustomTipViewController.xib */; };
+		C4205A1D2335DC98003B50C5 /* QTRatingReviewCustomTipViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4205A192335DC98003B50C5 /* QTRatingReviewCustomTipViewController.xib */; };
 		C43F670B23418F33001BBD25 /* QTSavedTutorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43F670A23418F33001BBD25 /* QTSavedTutorsViewController.swift */; };
 		C43F670C23418F33001BBD25 /* QTSavedTutorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43F670A23418F33001BBD25 /* QTSavedTutorsViewController.swift */; };
 		C447C7C522F9176100818733 /* UserTextMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C447C7C422F9176100818733 /* UserTextMessageCell.swift */; };
@@ -1800,6 +1804,8 @@
 		C406D9E32307177B00D76129 /* QTEditSchoolTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTEditSchoolTableViewCell.xib; sourceTree = "<group>"; };
 		C40CEEC0233BD7C60070A816 /* MimeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MimeType.swift; sourceTree = "<group>"; };
 		C41F17E0224D2D3A007758FC /* QTCustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTCustomButton.swift; sourceTree = "<group>"; };
+		C4205A182335DC98003B50C5 /* QTRatingReviewCustomTipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTRatingReviewCustomTipViewController.swift; sourceTree = "<group>"; };
+		C4205A192335DC98003B50C5 /* QTRatingReviewCustomTipViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTRatingReviewCustomTipViewController.xib; sourceTree = "<group>"; };
 		C43F670A23418F33001BBD25 /* QTSavedTutorsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTSavedTutorsViewController.swift; sourceTree = "<group>"; };
 		C447C7C422F9176100818733 /* UserTextMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTextMessageCell.swift; sourceTree = "<group>"; };
 		C4498A61230F033800EE619A /* QTEditProfileVideoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTEditProfileVideoTableViewCell.swift; sourceTree = "<group>"; };
@@ -2693,9 +2699,11 @@
 		844CB54F213EDE3B00656F06 /* PostSession */ = {
 			isa = PBXGroup;
 			children = (
-				568B82D3222539C2004DF011 /* QTRatingReviewViewController.swift */,
 				844CB552213EDE5500656F06 /* CollectionViewCells */,
+				568B82D3222539C2004DF011 /* QTRatingReviewViewController.swift */,
 				844CB54D213ED7EB00656F06 /* SessionReview.swift */,
+				C4205A182335DC98003B50C5 /* QTRatingReviewCustomTipViewController.swift */,
+				C4205A192335DC98003B50C5 /* QTRatingReviewCustomTipViewController.xib */,
 			);
 			path = PostSession;
 			sourceTree = "<group>";
@@ -4182,6 +4190,7 @@
 				931C71E9227E4798003C86F8 /* AddCardHeaderView.xib in Resources */,
 				569F18CF223554FD00820A20 /* badwords.txt in Resources */,
 				569F18D0223554FD00820A20 /* QTTutorDashboardTableViewCell.xib in Resources */,
+				C4205A1D2335DC98003B50C5 /* QTRatingReviewCustomTipViewController.xib in Resources */,
 				569F18D1223554FD00820A20 /* languages.txt in Resources */,
 				C406D9E72307177B00D76129 /* QTEditSchoolTableViewCell.xib in Resources */,
 				561003BF2242D23600A4688F /* QTPastSessionsViewController.xib in Resources */,
@@ -4313,6 +4322,7 @@
 				931C71E8227E4798003C86F8 /* AddCardHeaderView.xib in Resources */,
 				8404F43B20EAE6EC00747C01 /* badwords.txt in Resources */,
 				569ECDB521F9B682005491CB /* QTTutorDashboardTableViewCell.xib in Resources */,
+				C4205A1C2335DC98003B50C5 /* QTRatingReviewCustomTipViewController.xib in Resources */,
 				8423F73F214B60E900B3E4D0 /* languages.txt in Resources */,
 				C406D9E62307177B00D76129 /* QTEditSchoolTableViewCell.xib in Resources */,
 				561003BE2242D23600A4688F /* QTPastSessionsViewController.xib in Resources */,
@@ -5425,6 +5435,7 @@
 				569F1873223554FD00820A20 /* PaymentMethodCell.swift in Sources */,
 				4DF3428423122376000C554D /* QTViewRecommendationsViewController.swift in Sources */,
 				569F1874223554FD00820A20 /* AccountPaymentsVC.swift in Sources */,
+				C4205A1B2335DC98003B50C5 /* QTRatingReviewCustomTipViewController.swift in Sources */,
 				569F1875223554FD00820A20 /* PriceInputView.swift in Sources */,
 				56BE7E6222CFCD500052BBE7 /* QTRecentSearchModel.swift in Sources */,
 				569F1877223554FD00820A20 /* BankList.swift in Sources */,
@@ -5960,6 +5971,7 @@
 				9359CECB227A7CAD008E9FB1 /* CardManagerViewController.swift in Sources */,
 				4DF3428323122376000C554D /* QTViewRecommendationsViewController.swift in Sources */,
 				84E4C7D2204E80E4009C2FC4 /* AccountPaymentsVC.swift in Sources */,
+				C4205A1A2335DC98003B50C5 /* QTRatingReviewCustomTipViewController.swift in Sources */,
 				CF6F58C8205EE68800ACBD32 /* PriceInputView.swift in Sources */,
 				56BE7E6122CFCD500052BBE7 /* QTRecentSearchModel.swift in Sources */,
 				843709CE20AA27220070FCDD /* BankList.swift in Sources */,
