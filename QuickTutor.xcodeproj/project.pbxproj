@@ -187,6 +187,8 @@
 		565BFADA230D0F970014AE20 /* QTQuickRequestSubmitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BFAD7230D0F970014AE20 /* QTQuickRequestSubmitViewController.swift */; };
 		565BFADB230D0F970014AE20 /* QTQuickRequestSubmitViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 565BFAD8230D0F970014AE20 /* QTQuickRequestSubmitViewController.xib */; };
 		565BFADC230D0F970014AE20 /* QTQuickRequestSubmitViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 565BFAD8230D0F970014AE20 /* QTQuickRequestSubmitViewController.xib */; };
+		565C252423453A59009200B9 /* QTCategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565C252323453A59009200B9 /* QTCategoryModel.swift */; };
+		565C252523453A59009200B9 /* QTCategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565C252323453A59009200B9 /* QTCategoryModel.swift */; };
 		5669A5CD229D8EE5007B3202 /* QTTutorPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5669A5CB229D8EE5007B3202 /* QTTutorPolicyViewController.swift */; };
 		5669A5CE229D8EE5007B3202 /* QTTutorPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5669A5CB229D8EE5007B3202 /* QTTutorPolicyViewController.swift */; };
 		5669A5CF229D8EE5007B3202 /* QTTutorPolicyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5669A5CC229D8EE5007B3202 /* QTTutorPolicyViewController.xib */; };
@@ -1589,6 +1591,7 @@
 		565BFAD4230CF2DD0014AE20 /* QTQuickRequestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTQuickRequestService.swift; sourceTree = "<group>"; };
 		565BFAD7230D0F970014AE20 /* QTQuickRequestSubmitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTQuickRequestSubmitViewController.swift; sourceTree = "<group>"; };
 		565BFAD8230D0F970014AE20 /* QTQuickRequestSubmitViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTQuickRequestSubmitViewController.xib; sourceTree = "<group>"; };
+		565C252323453A59009200B9 /* QTCategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTCategoryModel.swift; sourceTree = "<group>"; };
 		5669A5CB229D8EE5007B3202 /* QTTutorPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorPolicyViewController.swift; sourceTree = "<group>"; };
 		5669A5CC229D8EE5007B3202 /* QTTutorPolicyViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTTutorPolicyViewController.xib; sourceTree = "<group>"; };
 		567C56AF22F3365F00B06D40 /* Lato-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-BoldItalic.ttf"; sourceTree = "<group>"; };
@@ -3168,6 +3171,7 @@
 				84A6E46F218F68C700D03681 /* TutorSubjectSearch.swift */,
 				84A6E473218F697400D03681 /* FeaturedTutorCount.swift */,
 				4D3492C423112A8D004CEAEB /* QTTutorRecommendationModel.swift */,
+				565C252323453A59009200B9 /* QTCategoryModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -5781,6 +5785,7 @@
 				569F184B223554FD00820A20 /* FeaturedSubjectVC.swift in Sources */,
 				569F184C223554FD00820A20 /* TutorDidNotHelpVC.swift in Sources */,
 				569F184D223554FD00820A20 /* TipCell.swift in Sources */,
+				565C252523453A59009200B9 /* QTCategoryModel.swift in Sources */,
 				565BBEC02310DAEF00986490 /* QTQuickRequestModel.swift in Sources */,
 				569F184E223554FD00820A20 /* TypingIndicatorView.swift in Sources */,
 				569F184F223554FD00820A20 /* TutorPreferencesVC.swift in Sources */,
@@ -6352,6 +6357,7 @@
 				84F141A1207E490D003D3193 /* TutorPreferencesVC.swift in Sources */,
 				84F5774420C2B266008486AD /* UserSession.swift in Sources */,
 				84C96C0D1FCE34A900DBD3A6 /* EmailVC.swift in Sources */,
+				565C252423453A59009200B9 /* QTCategoryModel.swift in Sources */,
 				565BBEBF2310DAEF00986490 /* QTQuickRequestModel.swift in Sources */,
 				847463222068B97900B70AD9 /* TutorQTGuide.swift in Sources */,
 				CFB9B81221C627520022333F /* UserPolicyVCView.swift in Sources */,

@@ -80,7 +80,9 @@ class CategorySectionController: UIViewController, UICollectionViewDelegate, UIC
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCollectionViewCell.reuseIdentifier, for: indexPath) as! CategoryCollectionViewCell
         cell.label.text = categories[indexPath.row].mainPageData.displayName
-        cell.imageView.image = categories[indexPath.row].mainPageData.image
+        if let imagePath = QTGlobalData.shared.categories[categories[indexPath.row].mainPageData.name]?.imageUrl, let imageUrl = URL(string: imagePath)  {
+            cell.imageView.setImage(url: imageUrl)
+        }
         return cell
     }
     

@@ -70,7 +70,9 @@ class QTTutorDiscoverCategoryViewController: UIViewController {
             return atts
         }
         
-        categoryDescriptionLabel.text = category.mainPageData.description
+        if let categoryInfo = QTGlobalData.shared.categories[category.mainPageData.name] {
+            categoryDescriptionLabel.text = categoryInfo.description
+        }
         categoryDescriptionLabel.numberOfLines = 0
         
         subcategoriesCollectionView.register(PillCollectionViewCell.self,
@@ -95,9 +97,11 @@ class QTTutorDiscoverCategoryViewController: UIViewController {
         priceView.layer.cornerRadius = 5
         priceView.clipsToBounds = true
         
-        advancedPriceLabel.text = "$\(category.suggestedPrices[0])"
-        proPriceLabel.text = "$\(category.suggestedPrices[1])"
-        expertPriceLabel.text = "$\(category.suggestedPrices[2])"
+        if let categoryInfo = QTGlobalData.shared.categories[category.mainPageData.name] {
+            advancedPriceLabel.text = "$\(categoryInfo.priceClass[0])"
+            proPriceLabel.text = "$\(categoryInfo.priceClass[1])"
+            expertPriceLabel.text = "$\(categoryInfo.priceClass[2])"
+        }
     }
     
     func updateSubjectsHeight() {

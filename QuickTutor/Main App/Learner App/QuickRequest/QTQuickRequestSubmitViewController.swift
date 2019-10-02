@@ -50,16 +50,18 @@ class QTQuickRequestSubmitViewController: UIViewController {
                 searchSubjectView.isHidden = true
                 
                 // Find category with subject and set price class.
-                if let categoryName = SubjectStore.shared.findCategoryBy(subject: subject), let category = Category.category(for: categoryName) {
+                if let categoryName = SubjectStore.shared.findCategoryBy(subject: subject), let categoryInfo = QTGlobalData.shared.categories[categoryName] {
                     
-                    self.advancedPriceLabel.text = "$\(category.suggestedPrices[0])"
-                    self.proPriceLabel.text = "$\(category.suggestedPrices[1])"
-                    self.expertPriceLabel.text = "$\(category.suggestedPrices[2])"
-                    
-                    self.sessionPriceRangeSeekSlider.minValue = CGFloat(category.suggestedPrices[0])
-                    self.sessionPriceRangeSeekSlider.selectedMinValue = CGFloat(category.suggestedPrices[0])
-                    self.sessionPriceRangeSeekSlider.maxValue = CGFloat(category.suggestedPrices[2])
-                    self.sessionPriceRangeSeekSlider.selectedMaxValue = CGFloat(category.suggestedPrices[2])
+                    if let price = categoryInfo.priceClass {
+                        self.advancedPriceLabel.text = "$\(price[0])"
+                        self.proPriceLabel.text = "$\(price[1])"
+                        self.expertPriceLabel.text = "$\(price[2])"
+                        
+                        self.sessionPriceRangeSeekSlider.minValue = CGFloat(price[0])
+                        self.sessionPriceRangeSeekSlider.selectedMinValue = CGFloat(price[0])
+                        self.sessionPriceRangeSeekSlider.maxValue = CGFloat(price[2])
+                        self.sessionPriceRangeSeekSlider.selectedMaxValue = CGFloat(price[2])
+                    }
                 }
                 
             } else {
