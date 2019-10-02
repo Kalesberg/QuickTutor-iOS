@@ -120,14 +120,13 @@ class QTTutorDiscoverTipCollectionViewCell: UICollectionViewCell {
     }
     
     func setData(tip: QTNewsModel) {
+        if isSkeletonActive {
+            hideSkeleton()
+        }
         label.text = tip.title
         imageView.setImage(url: tip.image)
         label.isHidden = false
         imageView.isHidden = false
-        
-        if isSkeletonActive {
-            hideSkeleton()
-        }
     }
     
     

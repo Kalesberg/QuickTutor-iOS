@@ -51,16 +51,16 @@ class QTTutorDiscoverNewsCollectionViewCell: UICollectionViewCell {
     func setData(news: QTNewsModel) {
         self.news = news
         
+        if isSkeletonActive {
+            hideSkeleton()
+        }
+        
         titleLabel.text = news.title
         imageView.setImage(url: news.image)
         
         titleLabel.isHidden = false
         readButton.isHidden = false
         imageView.isHidden = false
-        
-        if isSkeletonActive {
-            hideSkeleton()
-        }
     }
     
     // MARK: - Actions

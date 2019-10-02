@@ -21,6 +21,8 @@ class QTTutorDiscoverOpportunitiesViewController: UIViewController {
     // MARK: - Functions
     func configureViews() {
         
+        view.isSkeletonable = true
+        
         // Register cells.
         collectionView.register(QTTutorDiscoverOpportunityCollectionViewCell.nib,
                                 forCellWithReuseIdentifier: QTTutorDiscoverOpportunityCollectionViewCell.reuseIdentifier)
@@ -28,13 +30,12 @@ class QTTutorDiscoverOpportunitiesViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.showsVerticalScrollIndicator = false
+        collectionView.isSkeletonable = true
     }
     
     func setupSkeletonView() {
-        self.view.isSkeletonable = true
-        
         collectionView.prepareSkeleton { (completed) in
-            self.collectionView.showAnimatedSkeleton(usingColor: Colors.gray)
+            self.view.showAnimatedSkeleton(usingColor: Colors.gray)
             QTQuickRequestService.shared.getOpportunities()
         }
     }
@@ -49,12 +50,8 @@ class QTTutorDiscoverOpportunitiesViewController: UIViewController {
         // Reload opportunities
         reloadTimer?.invalidate()
         reloadTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false, block: { _ in
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-                if self.collectionView.isSkeletonActive {
-                    self.collectionView.hideSkeleton()
-                }
-            }
+            self.view.hideSkeleton(transition: SkeletonTransitionStyle.crossDissolve(0.1))
+            self.collectionView.reloadData()
         })
         reloadTimer?.fire()
     }
@@ -84,6 +81,15 @@ class QTTutorDiscoverOpportunitiesViewController: UIViewController {
                                                selector: #selector(onReceivedAppliedToOpportunity(_:)),
                                                name: NotificationNames.TutorDiscoverPage.appliedToOpportunity,
                                                object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(onReceivedRefershDiscoverPage),
+                                               name: NotificationNames.TutorDiscoverPage.refreshDiscoverPage,
+                                               object: nil)
+    }
+    
+    func removeObservers() {
+        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: - Actions
@@ -135,6 +141,20 @@ class QTTutorDiscoverOpportunitiesViewController: UIViewController {
         }
     }
     
+    @objc
+    func onReceivedRefershDiscoverPage() {
+        noOpportunityCount = 0
+        quickRequests.removeAll()
+        let visibleCells = self.collectionView.visibleCells
+        for item in visibleCells {
+            if let cell = item as? QTTutorDiscoverOpportunityCollectionViewCell {
+                cell.setSkeletionViews()
+            }
+        }
+        self.view.showAnimatedSkeleton(usingColor: Colors.gray)
+        QTQuickRequestService.shared.getOpportunities()
+    }
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -146,9 +166,10 @@ class QTTutorDiscoverOpportunitiesViewController: UIViewController {
 
     override func didMove(toParent parent: UIViewController?) {
         if parent == nil {
-            NotificationCenter.default.removeObserver(self)
+            removeObservers()
             QTQuickRequestService.shared.removeOpportunityObservers()
         }
+        super.didMove(toParent: parent)
     }
 }
 
@@ -197,9 +218,5 @@ extension QTTutorDiscoverOpportunitiesViewController: UICollectionViewDelegateFl
 extension QTTutorDiscoverOpportunitiesViewController: SkeletonCollectionViewDataSource {
     func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
         return QTTutorDiscoverOpportunityCollectionViewCell.reuseIdentifier
-    }
-    
-    func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
     }
 }

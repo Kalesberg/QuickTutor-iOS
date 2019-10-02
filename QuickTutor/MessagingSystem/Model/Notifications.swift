@@ -70,6 +70,7 @@ struct NotificationNames {
         static let quickRequestRemoved = Notification.Name("com.quickTutor.TutorDiscoverPage.quickRequestRemoved")
         static let noQuickRequest = Notification.Name("com.quickTutor.TutorDiscoverPage.noQuickRequest")
         static let appliedToOpportunity = Notification.Name("com.quickTutor.TutorDiscoverPage.appliedToOpportunity")
+        static let refreshDiscoverPage = Notification.Name("com.quickTutor.TutorDiscoverPage.refreshDiscoverPage")
     }
 }
 

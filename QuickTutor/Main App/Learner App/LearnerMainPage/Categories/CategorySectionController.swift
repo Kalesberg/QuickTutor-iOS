@@ -26,10 +26,20 @@ class CategorySectionController: UIViewController, UICollectionViewDelegate, UIC
         return collectionView
     }()
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupCollectionView()
+        setupViews()
+        addObservers()
     }
+    
+    override func didMove(toParent parent: UIViewController?) {
+        if parent == nil {
+            removeObservers()
+        }
+        super.didMove(toParent: parent)
+    }
+    
     
     func setupViews() {
         setupCollectionView()
@@ -40,6 +50,27 @@ class CategorySectionController: UIViewController, UICollectionViewDelegate, UIC
         collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 180)
         collectionView.delegate = self
         collectionView.dataSource = self
+    }
+    
+    func addObservers() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(onReceivedRefershDiscoverPage),
+                                               name: NotificationNames.TutorDiscoverPage.refreshDiscoverPage,
+                                               object: nil)
+    }
+    
+    func removeObservers() {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    // MARK: - Actions
+    @objc
+    func onReceivedRefershDiscoverPage() {
+        DataService.shared.getCategoriesInfo {
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
     }
     
     func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {

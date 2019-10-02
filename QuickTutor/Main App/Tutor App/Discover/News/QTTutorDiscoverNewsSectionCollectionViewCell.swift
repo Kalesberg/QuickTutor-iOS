@@ -95,7 +95,7 @@ class QTTutorDiscoverNewsSectionCollectionViewCell: UICollectionViewCell {
         label.text = "News"
         label.textColor = .white
         label.textAlignment = .left
-        label.font = Fonts.createBlackSize(22)
+        label.font = Fonts.createBoldSize(20)
         return label
     }()
     

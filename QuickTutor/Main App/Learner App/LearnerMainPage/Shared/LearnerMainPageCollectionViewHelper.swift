@@ -10,8 +10,8 @@ import UIKit
 
 class LearnerMainPageCollectionViewHelper: NSObject, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    var hasPastSessions = false
-    var hasUpcomingSessions = false
+    var hasPastSessions = true
+    var hasUpcomingSessions = true
     
     var handleScrollViewScroll: ((CGFloat) -> ())?
     
@@ -63,13 +63,13 @@ class LearnerMainPageCollectionViewHelper: NSObject, UICollectionViewDelegate, U
             if hasPastSessions {
                 height = 231
             } else {
-                height = 0
+                height = CGFloat.leastNonzeroMagnitude
             }
         case 3:
             if hasUpcomingSessions {
                 height = 231
             } else {
-                height =  0
+                height = CGFloat.leastNonzeroMagnitude
             }
         case 4:
             height = 642

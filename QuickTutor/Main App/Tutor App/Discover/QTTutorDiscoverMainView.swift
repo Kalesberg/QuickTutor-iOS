@@ -43,7 +43,7 @@ class QTTutorDiscoverMainView: UIView {
     var prevOffset: CGFloat = 0
     var transitionStartOffset: CGFloat = -1
     let navigationViewHeight: CGFloat = 82
-    var hasOpportunities = false
+    var hasOpportunities = true
     var collectionViewTopInset: CGFloat = 0
     let refreshControl = UIRefreshControl()
     
@@ -175,6 +175,8 @@ class QTTutorDiscoverMainView: UIView {
         // Start the animation of refresh control
         self.refreshControl.beginRefreshing()
         
+        NotificationCenter.default.post(name: NotificationNames.TutorDiscoverPage.refreshDiscoverPage, object: nil)
+        
         // End the animation of refersh control
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
             self.refreshControl.endRefreshing()
@@ -262,7 +264,9 @@ extension QTTutorDiscoverMainView: UICollectionViewDelegateFlowLayout {
         case 0:
             return CGSize(width: width, height: 290)
         case 1:
-            return CGSize(width: width, height: width * 189 / 315 + 44)
+            return hasOpportunities
+                ? CGSize(width: width, height: width * 189 / 315 + 44)
+                : CGSize(width: width, height: CGFloat.leastNonzeroMagnitude)
         case 2:
             return CGSize(width: width, height: 230)
         case 3:

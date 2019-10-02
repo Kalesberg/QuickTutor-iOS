@@ -44,8 +44,25 @@ class QTTutorDiscoverTipsViewController: UIViewController {
         collectionView.showsVerticalScrollIndicator = false
     }
     
-    // MARK: - Actions
+    func addObservers() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(onReceivedRefershDiscoverPage),
+                                               name: NotificationNames.TutorDiscoverPage.refreshDiscoverPage,
+                                               object: nil)
+    }
     
+    func removeObservers() {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    // MARK: - Actions
+    @objc
+    func onReceivedRefershDiscoverPage() {
+        tips.removeAll()
+        collectionView.reloadData()
+        
+        setupSkeletonView()
+    }
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -53,6 +70,14 @@ class QTTutorDiscoverTipsViewController: UIViewController {
 
         configureViews()
         setupSkeletonView()
+        addObservers()
+    }
+    
+    override func didMove(toParent parent: UIViewController?) {
+        if parent == nil {
+            removeObservers()
+        }
+        super.didMove(toParent: parent)
     }
 }
 

@@ -43,13 +43,12 @@ class QTTutorDiscoverShareViewController: UIViewController {
         guard let userId = AccountService.shared.currentUser.uid else { return }
         
         UserFetchService.shared.getTutorWithId(uid: userId) { (tutor) in
-            self.user = tutor
-            self.avatarImageView.sd_setImage(with: tutor?.profilePicUrl)
-            self.shareUrlLabel.text = "https://quicktutor.com/\(self.user.username ?? "")"
-            
             if self.view.isSkeletonActive {
                 self.view.hideSkeleton()
             }
+            self.user = tutor
+            self.avatarImageView.sd_setImage(with: tutor?.profilePicUrl)
+            self.shareUrlLabel.text = "https://quicktutor.com/\(self.user.username ?? "")"
         }
     }
     

@@ -112,6 +112,9 @@ class LearnerMainPageFeaturedSubjectCell: UICollectionViewCell {
     }
     
     func updateUI(_ featuredSubject: MainPageFeaturedItem) {
+        if self.isSkeletonActive {
+            self.hideSkeleton()
+        }
         titleLabel.backgroundColor = .clear
         titleLabel.text = featuredSubject.title
         

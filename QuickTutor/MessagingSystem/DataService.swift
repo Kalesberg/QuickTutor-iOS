@@ -160,8 +160,9 @@ class DataService {
         }
     }
     
-    func getCategoriesInfo() {
+    func getCategoriesInfo(_ completion: (() -> ())? = nil) {
         
+        QTGlobalData.shared.categoriesPriceClasses.removeAll()
         Database.database().reference()
             .child("categoriesInfo")
             .observeSingleEvent(of: .value) { (snapshot) in
@@ -174,6 +175,10 @@ class DataService {
                                 QTGlobalData.shared.categoriesPriceClasses[category.mainPageData.name] = [advanced, pro, expert]
                             }
                         }
+                    }
+                    
+                    if let completion = completion {
+                        completion()
                     }
                 }
         }
