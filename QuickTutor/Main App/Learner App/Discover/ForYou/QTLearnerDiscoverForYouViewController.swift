@@ -11,6 +11,9 @@ import SkeletonView
 
 class QTLearnerDiscoverForYouViewController: UIViewController {
 
+    var category: Category?
+    var subcategory: String? = ""
+    
     var didClickTutor: ((_ tutor: AWTutor) -> ())?
     
     @IBOutlet weak var collectionView: UICollectionView!
@@ -30,14 +33,17 @@ class QTLearnerDiscoverForYouViewController: UIViewController {
         collectionView.prepareSkeleton { _ in
             self.collectionView.isUserInteractionEnabled = false
             self.collectionView.showAnimatedSkeleton(usingColor: Colors.gray)
-            self.loadLearnerRelativeTutorIds {
-                self.loadTutors()
-            }
         }
     }
 
-    private func loadLearnerRelativeTutorIds(completion: @escaping () -> Void) {
-        guard let interests = CurrentUser.shared.learner.interests else { return }
+    func loadLearnerRelativeTutorIds() {
+        guard var interests = CurrentUser.shared.learner.interests else { return }
+        
+        if let category = category {
+            interests = interests.filter({ category.mainPageData.name == SubjectStore.shared.findCategoryBy(subject: $0) })
+        } else if let subcategory = subcategory {
+            interests = interests.filter({ subcategory == SubjectStore.shared.findSubCategory(subject: $0) })
+        }
         
         // load same subjects tutors
         var categories: [String] = []
@@ -125,7 +131,7 @@ class QTLearnerDiscoverForYouViewController: UIViewController {
                     }
                 }
                 categoriesGroup.notify(queue: .main) {
-                    completion()
+                    self.loadTutors()
                 }
             }
         }

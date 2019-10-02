@@ -27,14 +27,14 @@ class QTLearnerDiscoverViewController: UIViewController {
         
         tableView.register(QTLearnerDiscoverTrendingTableViewCell.nib, forCellReuseIdentifier: QTLearnerDiscoverTrendingTableViewCell.reuseIdentifier)
         tableView.register(QTLearnerDiscoverCategoriesTableViewCell.nib, forCellReuseIdentifier: QTLearnerDiscoverCategoriesTableViewCell.reuseIdentifier)
-        tableView.register(QTLearnerDiscoverRisingTalentTableViewCell.nib, forCellReuseIdentifier: QTLearnerDiscoverRisingTalentTableViewCell.reuseIdentifier)
+        tableView.register(QTLearnerDiscoverTutorsTableViewCell.nib, forCellReuseIdentifier: QTLearnerDiscoverTutorsTableViewCell.reuseIdentifier)
         tableView.register(QTLearnerDiscoverForYouTableViewCell.nib, forCellReuseIdentifier: QTLearnerDiscoverForYouTableViewCell.reuseIdentifier)
         tableView.register(QTLearnerDiscoverRecentlyActiveTableViewCell.nib, forCellReuseIdentifier: QTLearnerDiscoverRecentlyActiveTableViewCell.reuseIdentifier)
         tableView.register(QTLearnerDiscoverTopTopicsTableViewCell.nib, forCellReuseIdentifier: "QTLearnerDiscoverInPersonTopicsTableViewCell")
         tableView.register(QTLearnerDiscoverTopTopicsTableViewCell.nib, forCellReuseIdentifier: "QTLearnerDiscoverRecommendedTopicsTableViewCell")
         tableView.register(QTLearnerDiscoverTopTopicsTableViewCell.nib, forCellReuseIdentifier: "QTLearnerDiscoverOnlineTopicsTableViewCell")
         for category in Category.categories {
-            tableView.register(QTLearnerDiscoverRisingTalentTableViewCell.nib, forCellReuseIdentifier: "QTLearnerDiscover\(category.mainPageData.name.capitalized)TableViewCell")
+            tableView.register(QTLearnerDiscoverTutorsTableViewCell.nib, forCellReuseIdentifier: "QTLearnerDiscover\(category.mainPageData.name.capitalized)TableViewCell")
         }
         
         itemSave = UIBarButtonItem(image: UIImage(named: "heartIcon"), style: .done, target: self, action: #selector(onTapItemSave))
@@ -48,6 +48,7 @@ class QTLearnerDiscoverViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        navigationController?.isNavigationBarHidden = false
         navigationController?.navigationBar.setBackgroundImage(UIImage(color: Colors.newNavigationBarBackground), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.tintColor = .white
@@ -84,42 +85,43 @@ extension QTLearnerDiscoverViewController: UITableViewDataSource {
         case 0: // News
             let cell = tableView.dequeueReusableCell(withIdentifier: QTLearnerDiscoverTrendingTableViewCell.reuseIdentifier, for: indexPath) as! QTLearnerDiscoverTrendingTableViewCell
             cell.didClickTrending = { trending in
-                let categoryVC = CategorySearchVC()
+                var title = ""
                 if let subject = trending.subject {
-                    categoryVC.subject = subject
-                    categoryVC.title = subject.capitalized
-                } else if let subcategoryTitle = trending.subcategoryTitle {
-                    categoryVC.subcategory = subcategoryTitle
-                    categoryVC.title = subcategoryTitle.capitalized
-                } else if let cateogryTitle = trending.categoryTitle {
-                    categoryVC.category = cateogryTitle
-                    categoryVC.title = cateogryTitle
+                    title = subject
+                } else if let subcategory = trending.subcategoryTitle {
+                    title = subcategory
+                } else if let category = trending.categoryTitle {
+                    title = category
                 }
-                categoryVC.hidesBottomBarWhenPushed = true
-                self.navigationController?.pushViewController(categoryVC, animated: true)
+                
+                self.openTutorsView(title: title, subject: trending.subject, subcategory: trending.subcategoryTitle, category: trending.categoryTitle, tutors: [], loadedAllTutors: false)
             }
             
             return cell
         case 1: // Categories
             let cell = tableView.dequeueReusableCell(withIdentifier: QTLearnerDiscoverCategoriesTableViewCell.reuseIdentifier, for: indexPath) as! QTLearnerDiscoverCategoriesTableViewCell
             cell.didSelectCategory = { category in
-                
+                let learnerDiscoverCategoryVC = QTLearnerDiscoverCategoryViewController(nibName: String(describing: QTLearnerDiscoverCategoryViewController.self), bundle: nil)
+                learnerDiscoverCategoryVC.category = category
+                learnerDiscoverCategoryVC.hidesBottomBarWhenPushed = true
+                self.navigationController?.pushViewController(learnerDiscoverCategoryVC, animated: true)
             }
             
             return cell
         case 2: // Rising Talent
-            let cell = tableView.dequeueReusableCell(withIdentifier: QTLearnerDiscoverRisingTalentTableViewCell.reuseIdentifier, for: indexPath) as! QTLearnerDiscoverRisingTalentTableViewCell
-            cell.setObject(nil)
+            let cell = tableView.dequeueReusableCell(withIdentifier: QTLearnerDiscoverTutorsTableViewCell.reuseIdentifier, for: indexPath) as! QTLearnerDiscoverTutorsTableViewCell
+            cell.setView(isRisingTalent: true)
             cell.didClickTutor = { tutor in
                 self.openTutorProfileView(tutor)
             }
-            cell.didClickViewAllTutors = { tutors, loadedAllTutors in
+            cell.didClickViewAllTutors = { subject, subcategory, category, tutors, loadedAllTutors in
                 self.openTutorsView(title: "Rising Talents", tutors: tutors, loadedAllTutors: loadedAllTutors)
             }
             
             return cell
         case 3: // For You
             let cell = tableView.dequeueReusableCell(withIdentifier: QTLearnerDiscoverForYouTableViewCell.reuseIdentifier, for: indexPath) as! QTLearnerDiscoverForYouTableViewCell
+            cell.setView()
             cell.didClickTutor = { tutor in
                 self.openTutorProfileView(tutor)
             }
@@ -127,6 +129,7 @@ extension QTLearnerDiscoverViewController: UITableViewDataSource {
             return cell
         case 4: // Recently Active
             let cell = tableView.dequeueReusableCell(withIdentifier: QTLearnerDiscoverRecentlyActiveTableViewCell.reuseIdentifier, for: indexPath) as! QTLearnerDiscoverRecentlyActiveTableViewCell
+            cell.setView()
             cell.didClickTutor = { tutor in
                 let vc = ConversationVC()
                 vc.receiverId = tutor.uid
@@ -138,37 +141,42 @@ extension QTLearnerDiscoverViewController: UITableViewDataSource {
             return cell
         case 5: // Top In-Person Topics
             let cell = tableView.dequeueReusableCell(withIdentifier: "QTLearnerDiscoverInPersonTopicsTableViewCell", for: indexPath) as! QTLearnerDiscoverTopTopicsTableViewCell
-            cell.type = .inperson
+            cell.aryTopics = QTLearnerDiscoverTopicType.inperson.topics
+            cell.topicSettings = QTLearnerDiscoverTopicType.inperson.settings
             cell.didClickTopic = { topic in
-                
+                self.openTutorsView(title: topic, subject: topic, tutors: [], loadedAllTutors: false)
             }
                         
             return cell
         case 6: // Recommended
             let cell = tableView.dequeueReusableCell(withIdentifier: "QTLearnerDiscoverRecommendedTopicsTableViewCell", for: indexPath) as! QTLearnerDiscoverTopTopicsTableViewCell
-            cell.type = .recommended
+            cell.aryTopics = QTLearnerDiscoverTopicType.recommended.topics
+            cell.topicSettings = QTLearnerDiscoverTopicType.recommended.settings
             cell.didClickTopic = { topic in
-                
+                self.openTutorsView(title: topic, subject: topic, tutors: [], loadedAllTutors: false)
             }
                     
         return cell
         case 7: // Top Online Topics
             let cell = tableView.dequeueReusableCell(withIdentifier: "QTLearnerDiscoverOnlineTopicsTableViewCell", for: indexPath) as! QTLearnerDiscoverTopTopicsTableViewCell
-            cell.type = .online
+            cell.aryTopics = QTLearnerDiscoverTopicType.online.topics
+            cell.topicSettings = QTLearnerDiscoverTopicType.online.settings
             cell.didClickTopic = { topic in
-                
+                self.openTutorsView(title: topic, subject: topic, tutors: [], loadedAllTutors: false)
             }
                         
             return cell
         default: // Category Tutors
             let category = Category.categories[indexPath.section - 8]
-            let cell = tableView.dequeueReusableCell(withIdentifier: "QTLearnerDiscover\(category.mainPageData.name.capitalized)TableViewCell", for: indexPath) as! QTLearnerDiscoverRisingTalentTableViewCell
-            cell.setObject(category)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "QTLearnerDiscover\(category.mainPageData.name.capitalized)TableViewCell", for: indexPath) as! QTLearnerDiscoverTutorsTableViewCell
+            cell.setView(category: category)
             cell.didClickTutor = { tutor in
                 self.openTutorProfileView(tutor)
             }
-            cell.didClickViewAllTutors = { tutors, loadedAllTutors in
-                self.openTutorsView(title: "Rising Talents", tutors: tutors, loadedAllTutors: loadedAllTutors)
+            
+            let categoryDisplayName = category.mainPageData.displayName
+            cell.didClickViewAllTutors = { subject, subcategory, category, tutors, loadedAllTutors in
+                self.openTutorsView(title: categoryDisplayName, subject: subject, subcategory: subcategory, category: category, tutors: tutors, loadedAllTutors: loadedAllTutors)
             }
             
             return cell
@@ -184,11 +192,14 @@ extension QTLearnerDiscoverViewController: UITableViewDataSource {
         navigationController?.pushViewController(controller, animated: true)
     }
     
-    private func openTutorsView(title: String, tutors: [AWTutor], loadedAllTutors: Bool) {
+    private func openTutorsView(title: String, subject: String? = nil, subcategory: String? = nil, category: String? = nil, tutors: [AWTutor], loadedAllTutors: Bool) {
         let categoryVC = CategorySearchVC()
         categoryVC.datasource = tutors
-        categoryVC.navigationItem.title = title
         categoryVC.loadedAllTutors = loadedAllTutors
+        categoryVC.navigationItem.title = title
+        categoryVC.subject = subject
+        categoryVC.subcategory = subcategory
+        categoryVC.category = category
         categoryVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(categoryVC, animated: true)
     }

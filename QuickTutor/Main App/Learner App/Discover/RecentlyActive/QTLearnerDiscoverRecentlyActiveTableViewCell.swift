@@ -35,4 +35,13 @@ class QTLearnerDiscoverRecentlyActiveTableViewCell: UITableViewCell {
         }
     }
     
+    func setView(category: Category? = nil, subcategory: String? = nil) {
+        if category == learnerDiscoverRecentlyActiveVC.category,
+            subcategory == learnerDiscoverRecentlyActiveVC.subcategory { return }
+        
+        learnerDiscoverRecentlyActiveVC.category = category
+        learnerDiscoverRecentlyActiveVC.subcategory = subcategory
+        learnerDiscoverRecentlyActiveVC.loadRecentlyActiveTutors()
+    }
+    
 }

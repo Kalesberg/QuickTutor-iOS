@@ -23,24 +23,51 @@ extension QTLearnerDiscoverTopicType {
             return ["Accounting", "Acting", "C++", "Calclus", "Chemistry", "Cosmetology", "Financial Accounting", "Fortnite", "Guitar", "Hair Styling", "HTML", "Life Motivation", "Makeup", "Mathematics", "Motivation", "Nutrition", "Physics", "Singing", "Spanish (Speaking)"].map({ QTLearnerDiscoverTopicInterface(topic: $0) })
         }
     }
+    
+    var settings: QTLearnerDiscoverTopicSettings {
+        switch self {
+        case .inperson, .online:
+            return QTLearnerDiscoverTopicSettings(font: .qtHeavyFont(size: 20),
+                                                  size: CGSize(width: ceil((UIScreen.main.bounds.width - 35) / 1.1), height: 180))
+        case .recommended:
+            return QTLearnerDiscoverTopicSettings(font: .qtHeavyFont(size: 17),
+                                                  size: CGSize(width: 180, height: 180))
+        }
+    }
 }
 
 class QTLearnerDiscoverTopicInterface {
     var topic: String!
     var image: UIImage!
     
-    init(topic: String) {
+    init(topic: String, image: UIImage? = nil) {
         self.topic = topic
-        self.image = UIImage(named: topic)
+        if let image = image {
+            self.image = image
+        } else {
+            self.image = UIImage(named: topic)
+        }
+    }
+}
+
+class QTLearnerDiscoverTopicSettings {
+    var font: UIFont!
+    var size: CGSize!
+    
+    init(font: UIFont, size: CGSize) {
+        self.font = font
+        self.size = size
     }
 }
 
 class QTLearnerDiscoverTopTopicsTableViewCell: UITableViewCell {
     
-    var type: QTLearnerDiscoverTopicType = .inperson
+    var topicSettings: QTLearnerDiscoverTopicSettings!
+    var aryTopics: [QTLearnerDiscoverTopicInterface] = []
     var didClickTopic: ((_ topic: String) -> ())?
     
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var constraintCollectionHeight: NSLayoutConstraint!
     
     static var nib: UINib {
         return UINib(nibName: String(describing: QTLearnerDiscoverTopTopicsTableViewCell.self), bundle: nil)
@@ -57,18 +84,14 @@ class QTLearnerDiscoverTopTopicsTableViewCell: UITableViewCell {
 
 extension QTLearnerDiscoverTopTopicsTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return type.topics.count
+        return aryTopics.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCollectionViewCell.reuseIdentifier, for: indexPath) as! CategoryCollectionViewCell
-        cell.label.text = type.topics[indexPath.row].topic
-        if .recommended == type {
-            cell.label.font = .qtHeavyFont(size: 17)
-        } else {
-            cell.label.font = .qtHeavyFont(size: 20)
-        }
-        cell.imageView.image = type.topics[indexPath.row].image
+        cell.label.text = aryTopics[indexPath.row].topic
+        cell.label.font = topicSettings.font
+        cell.imageView.image = aryTopics[indexPath.row].image
         
         return cell
     }
@@ -76,15 +99,7 @@ extension QTLearnerDiscoverTopTopicsTableViewCell: UICollectionViewDataSource {
 
 extension QTLearnerDiscoverTopTopicsTableViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
-        var width: CGFloat
-        switch type {
-        case .inperson, .online:
-            width = ceil((UIScreen.main.bounds.width - 35) / 1.1)
-        case .recommended:
-            width = 180
-        }
-        
-        return CGSize(width: width, height: 180)
+        return topicSettings.size
     }
 }
 
@@ -99,7 +114,7 @@ extension QTLearnerDiscoverTopTopicsTableViewCell: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? CategoryCollectionViewCell else { return }
         cell.growSemiShrink {
-            self.didClickTopic?(self.type.topics[indexPath.item].topic)
+            self.didClickTopic?(self.aryTopics[indexPath.item].topic)
         }
     }
 }

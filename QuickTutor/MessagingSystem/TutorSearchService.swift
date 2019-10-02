@@ -300,29 +300,119 @@ class TutorSearchService {
         }
     }
     
-    func getCurrentlyOnlineTutors(completion: @escaping ([AWTutor]) -> Void) {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        Database.database().reference().child("userStatus").queryOrdered(byChild: "status").queryEqual(toValue: 2).observeSingleEvent(of: .value) { (snapshot) in
-            guard let uids = snapshot.value as? [String: Any] else { return }
-            var tutors = [AWTutor]()
-            let group = DispatchGroup()
-            uids.forEach({ (key,value) in
-                group.enter()
-                FirebaseData.manager.fetchTutor(key, isQuery: false, { (tutor) in
-                    guard let tutor = tutor, tutor.uid != uid else {
-                        group.leave()
-                        return
+    func fetchLearnerRisingTalents(category: String? = nil, subcategory: String? = nil, limit: Int = 50, completion: @escaping ([AWTutor]) -> Void) {
+        
+        var accountIds: [String] = []
+        let lastCreateTime = Date().timeIntervalSince1970 - 60 * 24 * 3600
+        Database.database().reference().child("account").queryOrdered(byChild: "init").queryStarting(atValue: lastCreateTime).observeSingleEvent(of: .value) { snapshot in
+            guard let dicAccounts = snapshot.value as? [String: Any] else {
+                completion([])
+                return
+            }
+            
+            accountIds.append(contentsOf: dicAccounts.keys)
+            let lastActiveTime = Date().timeIntervalSince1970 - 90 * 24 * 3600
+            Database.database().reference().child("account").queryOrdered(byChild: "online").queryStarting(atValue: lastActiveTime).observeSingleEvent(of: .value) { snapshot in
+                guard let dicAccounts = snapshot.value as? [String: Any] else {
+                    completion([])
+                    return
+                }
+                dicAccounts.keys.forEach { accountId in
+                    if !accountIds.contains(accountId) {
+                        accountIds.append(accountId)
+                    }
+                }
+                
+                let accountIdsGroup = DispatchGroup()
+                if let category = category {
+                    accountIdsGroup.enter()
+                    TutorSearchService.shared.getTutorIdsByCategory(category) { tutorIds in
+                        accountIds = accountIds.filter({ true == tutorIds?.contains($0) })
+                        accountIdsGroup.leave()
+                    }
+                } else if let subcategory = subcategory {
+                    accountIdsGroup.enter()
+                    TutorSearchService.shared.getTutorIdsBySubcategory(subcategory) { tutorIds in
+                        accountIds = accountIds.filter({ true == tutorIds?.contains($0) })
+                        accountIdsGroup.leave()
+                    }
+                } else {
+                    accountIdsGroup.enter()
+                    Database.database().reference().child("tutor-info").queryOrderedByKey().observeSingleEvent(of: .value) { snapshot in
+                        if let dicTutors = snapshot.value as? [String: Any] {
+                            accountIds = accountIds.filter({ dicTutors.keys.contains($0) })
+                        } else {
+                            accountIds = []
+                        }
+                        accountIdsGroup.leave()
+                    }
+                }
+                accountIdsGroup.notify(queue: .main) {
+                    var aryTutors: [AWTutor] = []
+                    let tutorsGroup = DispatchGroup()
+                    for accountId in accountIds.suffix(limit) {
+                        if accountId == Auth.auth().currentUser?.uid { continue }
+                        
+                        tutorsGroup.enter()
+                        FirebaseData.manager.fetchTutor(accountId, isQuery: false) { tutor in
+                            if let tutor = tutor {
+                                aryTutors.append(tutor)
+                            }
+                            tutorsGroup.leave()
+                        }
                     }
                     
-                    tutors.append(tutor)
-                    group.leave()
-                })
-            })
+                    tutorsGroup.notify(queue: .main) {
+                        completion(aryTutors)
+                    }
+                }
+            }
+        }
+    }
+    
+    func fetchRecentlyActiveTutors(category: String? = nil, subcategory: String? = nil, completion: @escaping ([AWTutor]) -> Void) {
+        let lastActiveTime = Date().timeIntervalSince1970 - 72 * 3600
+        Database.database().reference().child("account").queryOrdered(byChild: "online").queryStarting(atValue: lastActiveTime).observeSingleEvent(of: .value) { snapshot in
+            guard let dicAccount = snapshot.value as? [String: Any] else {
+                completion([])
+                return
+            }
             
-            group.notify(queue: .main, execute: {
-                completion(tutors)
-            })
+            var accountIds = Array(dicAccount.keys)
             
+            let accountIdsGroup = DispatchGroup()
+            if let category = category {
+                accountIdsGroup.enter()
+                TutorSearchService.shared.getTutorIdsByCategory(category) { tutorIds in
+                    accountIds = accountIds.filter({ true == tutorIds?.contains($0) })
+                    accountIdsGroup.leave()
+                }
+            } else if let subcategory = subcategory {
+                accountIdsGroup.enter()
+                TutorSearchService.shared.getTutorIdsBySubcategory(subcategory) { tutorIds in
+                    accountIds = accountIds.filter({ true == tutorIds?.contains($0) })
+                    accountIdsGroup.leave()
+                }
+            }
+            accountIdsGroup.notify(queue: .main) {
+                var aryTutors: [AWTutor] = []
+                let tutorsGroup = DispatchGroup()
+                for accountId in accountIds {
+                    if accountId == Auth.auth().currentUser?.uid { continue }
+                    
+                    tutorsGroup.enter()
+                    FirebaseData.manager.fetchTutor(accountId, isQuery: false) { tutor in
+                        if let tutor = tutor {
+                            aryTutors.append(tutor)
+                        }
+                        tutorsGroup.leave()
+                    }
+                }
+                
+                tutorsGroup.notify(queue: .main) {
+                    completion(aryTutors)
+                }
+            }
         }
     }
     

@@ -32,8 +32,8 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         label.textColor = .white
         label.textAlignment = .left
         label.font = Fonts.createSemiBoldSize(17)
-        label.adjustsFontSizeToFitWidth = true
-        label.adjustsFontForContentSizeCategory = true
+//        label.adjustsFontSizeToFitWidth = true
+//        label.adjustsFontForContentSizeCategory = true
         
         return label
     }()
@@ -66,10 +66,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     func setupImageView() {
         containerView.addSubview(imageView)
         imageView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.width.equalToSuperview()
-            make.height.equalTo(172)
-            make.centerX.equalToSuperview()
+            make.edges.equalToSuperview()
         }
     }
     
@@ -81,6 +78,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
             make.bottom.equalToSuperview()
             make.height.equalTo(61)
         }
+        maskBackgroundView.layer.cornerRadius = 5
     }
     
     func setupLabel() {
@@ -112,7 +110,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         }
         
         let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = CGRect(origin: .zero, size: maskBackgroundView.frame.size)
+        gradientLayer.frame = CGRect(origin: .zero, size: CGSize(width: containerView.frame.size.width, height: 61))
         gradientLayer.colors = [UIColor.clear,
                                 UIColor.black.withAlphaComponent(0.8)].map({$0.cgColor})
         gradientLayer.locations = [0, 1]

@@ -35,4 +35,13 @@ class QTLearnerDiscoverForYouTableViewCell: UITableViewCell {
         }
     }
     
+    func setView(category: Category? = nil, subcategory: String? = nil) {
+        if category == learnerDiscoverForYouVC.category,
+            subcategory == learnerDiscoverForYouVC.subcategory { return }
+        
+        learnerDiscoverForYouVC.category = category
+        learnerDiscoverForYouVC.subcategory = subcategory
+        learnerDiscoverForYouVC.loadLearnerRelativeTutorIds()
+    }
+    
 }

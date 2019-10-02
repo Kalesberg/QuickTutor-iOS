@@ -1,5 +1,5 @@
 //
-//  QTLearnerDiscoverRisingTalentViewController.swift
+//  QTLearnerDiscoverTutorsViewController.swift
 //  QuickTutor
 //
 //  Created by Michael Burkard on 9/30/19.
@@ -9,22 +9,20 @@
 import UIKit
 import SkeletonView
 
-class QTLearnerDiscoverRisingTalentViewController: UIViewController {
+class QTLearnerDiscoverTutorsViewController: UIViewController {
 
-    var category: Category? {
-        didSet {
-            getTutors()
-        }
-    }
+    var category: Category?
+    var subcategory: String? = ""
+    var isRisingTalent: Bool = false
     
     var didClickTutor: ((_ tutor: AWTutor) -> ())?
-    var didClickViewAllTutors: ((_ tutors: [AWTutor], _ loadedAllTutors: Bool) -> ())?
+    var didClickViewAllTutors: ((_ subject: String?, _ subcategory: String?, _ category: String?, _ tutors: [AWTutor], _ loadedAllTutors: Bool) -> ())?
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var lblFooterTitle: UILabel!
     @IBOutlet weak var btnFooterAction: UIButton!
     
-    private let MAX_RISING_TALENTS: UInt = 50
+    private let MAX_RISING_TALENTS = 50
     private var aryTutors: [AWTutor] = []
     private var loadedAllTutors = false
     
@@ -44,20 +42,23 @@ class QTLearnerDiscoverRisingTalentViewController: UIViewController {
     }
     
     private func addShadows() {
-        if let bottomView = lblFooterTitle.superview {
-            bottomView.layer.shadowColor = Colors.purple.cgColor
-            bottomView.layer.shadowOffset = CGSize(width: 0, height: 0.5)
-            bottomView.layer.shadowRadius = 5
-            bottomView.layer.shadowOpacity = 0.1
-        }
-        btnFooterAction.layer.shadowColor = Colors.newNavigationBarBackground.cgColor
-        btnFooterAction.layer.shadowOffset = CGSize(width: 0, height: 1)
-        btnFooterAction.layer.shadowRadius = 5
-        btnFooterAction.layer.shadowOpacity = 0.5
+        lblFooterTitle.superview?.superview?.layer.applyShadow(color: Colors.purple.cgColor, opacity: 0.1, offset: CGSize(width: 0, height: 0.5), radius: 2)        
+        btnFooterAction.superview?.layer.applyShadow(color: Colors.darkGray.cgColor, opacity: 0.5, offset: CGSize(width: 0, height: 1), radius: 2)
     }
     
-    private func getTutors() {
-        if let category = category {
+    func getTutors() {
+        if isRisingTalent {
+            TutorSearchService.shared.fetchLearnerRisingTalents(category: category?.mainPageData.name, subcategory: subcategory, limit: MAX_RISING_TALENTS) { tutors in
+                self.sortAndShowTutors(tutors)
+                self.loadedAllTutors = true
+                
+                if self.lblFooterTitle.isSkeletonActive {
+                    self.lblFooterTitle.hideSkeleton()
+                }
+                self.lblFooterTitle.text = "\(self.aryTutors.count) people in the list"
+                self.btnFooterAction.superview?.isHidden = false
+            }
+        } else if let category = category {
             TutorSearchService.shared.getTutorsByCategory(category.mainPageData.name, lastKnownKey: nil) { tutors, loadedAllTutors  in
                 guard let tutors = tutors else {
                     if self.collectionView.isSkeletonActive {
@@ -84,18 +85,36 @@ class QTLearnerDiscoverRisingTalentViewController: UIViewController {
                     self.lblFooterTitle.hideSkeleton()
                 }
                 self.lblFooterTitle.text = "\(tutorIds.count) people in the list"
-                self.btnFooterAction.isHidden = false
+                self.btnFooterAction.superview?.isHidden = false
             }
-        } else {
-            TutorSearchService.shared.getTopTutors(limit: MAX_RISING_TALENTS) { tutors in
+        } else if let subcategory = subcategory {
+            TutorSearchService.shared.getTutorsBySubcategory(subcategory, lastKnownKey: nil) { tutors, loadedAllTutors  in
+                guard let tutors = tutors else {
+                    if self.collectionView.isSkeletonActive {
+                        self.collectionView.isUserInteractionEnabled = true
+                        self.collectionView.hideSkeleton()
+                    }
+                    return
+                }
+                
                 self.sortAndShowTutors(tutors)
-                self.loadedAllTutors = true
+                self.loadedAllTutors = loadedAllTutors
+            }
+            
+            TutorSearchService.shared.getTutorIdsBySubcategory(subcategory) { tutorIds in
+                guard let tutorIds = tutorIds else {
+                    if self.lblFooterTitle.isSkeletonActive {
+                        self.lblFooterTitle.hideSkeleton()
+                    }
+                    self.lblFooterTitle.text = "No people in the list"
+                    return
+                }
                 
                 if self.lblFooterTitle.isSkeletonActive {
                     self.lblFooterTitle.hideSkeleton()
                 }
-                self.lblFooterTitle.text = "\(self.aryTutors.count) people in the list"
-                self.btnFooterAction.isHidden = false
+                self.lblFooterTitle.text = "\(tutorIds.count) people in the list"
+                self.btnFooterAction.superview?.isHidden = false
             }
         }
     }
@@ -108,6 +127,12 @@ class QTLearnerDiscoverRisingTalentViewController: UIViewController {
                 return categoryReviews1 > categoryReviews2
                     || (categoryReviews1 == categoryReviews2 && (tutor1.reviews?.count ?? 0) > (tutor2.reviews?.count ?? 0))
                     || (categoryReviews1 == categoryReviews2 && tutor1.reviews?.count == tutor2.reviews?.count && (tutor1.rating ?? 0) > (tutor2.rating ?? 0))
+            } else if let subcategory = subcategory {
+                let subcategoryReviews1 = tutor1.reviews?.filter({ subcategory == SubjectStore.shared.findSubCategory(subject: $0.subject) }).count ?? 0
+                let subcategoryReviews2 = tutor2.reviews?.filter({ subcategory == SubjectStore.shared.findSubCategory(subject: $0.subject) }).count ?? 0
+                return subcategoryReviews1 > subcategoryReviews2
+                    || (subcategoryReviews1 == subcategoryReviews2 && (tutor1.reviews?.count ?? 0) > (tutor2.reviews?.count ?? 0))
+                    || (subcategoryReviews1 == subcategoryReviews2 && tutor1.reviews?.count == tutor2.reviews?.count && (tutor1.rating ?? 0) > (tutor2.rating ?? 0))
             } else {
                 return (tutor1.reviews?.count ?? 0) > (tutor2.reviews?.count ?? 0)
                     || (tutor1.reviews?.count == tutor2.reviews?.count && (tutor1.rating ?? 0) > (tutor2.rating ?? 0))
@@ -122,11 +147,11 @@ class QTLearnerDiscoverRisingTalentViewController: UIViewController {
     }
     
     @IBAction func onClickBtnViewAll(_ sender: Any) {
-        didClickViewAllTutors?(aryTutors, loadedAllTutors)
+        didClickViewAllTutors?(nil, nil, category?.mainPageData.name, aryTutors, loadedAllTutors)
     }
 }
 
-extension QTLearnerDiscoverRisingTalentViewController: SkeletonCollectionViewDataSource {
+extension QTLearnerDiscoverTutorsViewController: SkeletonCollectionViewDataSource {
     func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 4
     }
@@ -141,20 +166,20 @@ extension QTLearnerDiscoverRisingTalentViewController: SkeletonCollectionViewDat
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: QTLearnerDiscoverTutorCollectionViewCell.reuseIdentifier, for: indexPath) as! QTLearnerDiscoverTutorCollectionViewCell
-        cell.setView(aryTutors[indexPath.item], isRisingTalent: nil == category)
+        cell.setView(aryTutors[indexPath.item], isRisingTalent: isRisingTalent)
         
         return cell
     }
 }
 
-extension QTLearnerDiscoverRisingTalentViewController: UICollectionViewDelegateFlowLayout {
+extension QTLearnerDiscoverTutorsViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = (UIScreen.main.bounds.size.width - 55) / 2
         return CGSize(width: width, height: 254)
     }
 }
 
-extension QTLearnerDiscoverRisingTalentViewController: UICollectionViewDelegate {
+extension QTLearnerDiscoverTutorsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? QTLearnerDiscoverTutorCollectionViewCell else { return }
         UIView.animate(withDuration: 0.2) {

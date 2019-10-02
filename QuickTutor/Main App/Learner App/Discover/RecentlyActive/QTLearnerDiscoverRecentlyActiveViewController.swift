@@ -11,6 +11,9 @@ import SkeletonView
 
 class QTLearnerDiscoverRecentlyActiveViewController: UIViewController {
     
+    var category: Category?
+    var subcategory: String? = ""
+    
     var didClickTutor: ((_ tutor: AWTutor) -> ())?
     
     @IBOutlet weak var collectionView: UICollectionView!
@@ -26,23 +29,26 @@ class QTLearnerDiscoverRecentlyActiveViewController: UIViewController {
         collectionView.prepareSkeleton { _ in
             self.collectionView.isUserInteractionEnabled = false
             self.collectionView.showAnimatedSkeleton(usingColor: Colors.gray)
-            TutorSearchService.shared.getCurrentlyOnlineTutors { tutors in
-                let group = DispatchGroup()
-                tutors.forEach { tutor in
-                    group.enter()
-                    ConnectionService.shared.getConnectionStatus(partnerId: tutor.uid) { connected in
-                        tutor.isConnected = connected
-                        group.leave()
-                    }
+        }
+    }
+    
+    func loadRecentlyActiveTutors() {
+        TutorSearchService.shared.fetchRecentlyActiveTutors(category: category?.mainPageData.name, subcategory: subcategory) { tutors in
+            let group = DispatchGroup()
+            tutors.forEach { tutor in
+                group.enter()
+                ConnectionService.shared.getConnectionStatus(partnerId: tutor.uid) { connected in
+                    tutor.isConnected = connected
+                    group.leave()
                 }
-                group.notify(queue: .main) {
-                    if self.collectionView.isSkeletonActive {
-                        self.collectionView.hideSkeleton()
-                        self.collectionView.isUserInteractionEnabled = true
-                    }
-                    self.aryActiveTutors = tutors + tutors + tutors
-                    self.collectionView.reloadData()
+            }
+            group.notify(queue: .main) {
+                if self.collectionView.isSkeletonActive {
+                    self.collectionView.hideSkeleton()
+                    self.collectionView.isUserInteractionEnabled = true
                 }
+                self.aryActiveTutors = tutors
+                self.collectionView.reloadData()
             }
         }
     }

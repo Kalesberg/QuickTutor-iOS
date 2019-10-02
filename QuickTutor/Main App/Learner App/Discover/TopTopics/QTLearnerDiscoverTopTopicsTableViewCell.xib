@@ -46,6 +46,7 @@
             <viewLayoutGuide key="safeArea" id="rse-uD-cwJ"/>
             <connections>
                 <outlet property="collectionView" destination="MhF-v8-OZx" id="tOw-dR-55b"/>
+                <outlet property="constraintCollectionHeight" destination="aSJ-id-xl0" id="hpz-bP-feu"/>
             </connections>
             <point key="canvasLocation" x="131.8840579710145" y="103.79464285714285"/>
         </tableViewCell>

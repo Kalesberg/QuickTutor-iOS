@@ -979,4 +979,39 @@ class FirebaseData {
             }
         }
     }
+    
+    func getTrendingTopics(category: Category? = nil, subcategory: String? = nil, completion: @escaping([String]) -> Void) {
+        var subcategories: [String] = []
+        if let category = category {
+            subcategories = category.subcategory.subcategories.map({ $0.title })
+        } else if let subcategory = subcategory {
+            subcategories = [subcategory]
+        }
+        
+        var arySubjects: [String] = []
+        subcategories.forEach { subcategory in
+            if let subjects = CategoryFactory.shared.getSubjectsFor(subcategoryName: subcategory) {
+                arySubjects.append(contentsOf: subjects)
+            }
+        }
+        
+        var aryTutorSubjects: [[String: Any]] = []
+        let subjectsGroup = DispatchGroup()
+        for subject in arySubjects {
+            subjectsGroup.enter()
+            Database.database().reference().child("subjects").child(subject).observeSingleEvent(of: .value) { snapshot in
+                if let dicAccounts = snapshot.value as? [String: Any] {
+                    aryTutorSubjects.append([
+                        "topic": subject,
+                        "count": dicAccounts.keys.count
+                    ])
+                }
+                subjectsGroup.leave()
+            }
+        }
+        
+        subjectsGroup.notify(queue: .main) {
+            completion(aryTutorSubjects.sorted(by: { ($0["count"] as? Int ?? 0) > ($1["count"] as? Int ?? 0) }).map({ $0["topic"] as? String ?? "" }))
+        }
+    }
 }
