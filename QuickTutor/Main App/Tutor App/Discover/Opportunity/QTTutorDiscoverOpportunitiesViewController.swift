@@ -198,8 +198,8 @@ extension QTTutorDiscoverOpportunitiesViewController: UICollectionViewDataSource
 // MARK: - UICollectionViewDelegateFlowLayout
 extension QTTutorDiscoverOpportunitiesViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = UIScreen.main.bounds.width - 60
-        return CGSize(width: width, height: width * 189 / 315)
+        let width = UIScreen.main.bounds.width - (quickRequests.count == 1 ? 40 : 60)
+        return CGSize(width: width, height: 190)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {

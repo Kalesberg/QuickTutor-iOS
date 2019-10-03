@@ -42,6 +42,8 @@ class QTTutorDiscoverTipsViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.showsVerticalScrollIndicator = false
+        collectionView.isScrollEnabled = false
+        collectionView.bounces = false
     }
     
     func addObservers() {
@@ -96,12 +98,12 @@ extension QTTutorDiscoverTipsViewController: UICollectionViewDelegate {
 extension QTTutorDiscoverTipsViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let width = (UIScreen.main.bounds.size.width - 44) / 2
+        let width = (UIScreen.main.bounds.size.width - 54) / 2
         return CGSize(width: width, height: 222)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 20, bottom: 20, right: 20)
+        return UIEdgeInsets(top: 0, left: 18, bottom: 20, right: 18)
     }    
 }
 

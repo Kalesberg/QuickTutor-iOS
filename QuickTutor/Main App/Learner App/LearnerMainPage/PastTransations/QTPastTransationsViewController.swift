@@ -122,7 +122,12 @@ extension QTPastTransationsViewController: SkeletonCollectionViewDataSource {
 
 extension QTPastTransationsViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = UIScreen.main.bounds.width - 60
-        return CGSize(width: width, height: 181)
+        var width = UIScreen.main.bounds.width
+        if isPastTransactions {
+            width = width - (QTLearnerSessionsService.shared.pastSessions.count == 1 ? 40 : 60)
+        } else {
+            width = width - (QTLearnerSessionsService.shared.upcomingSessions.count == 1 ? 40 : 60)
+        }
+        return CGSize(width: width, height: 190)
     }
 }

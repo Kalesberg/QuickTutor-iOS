@@ -114,7 +114,7 @@ extension UIView {
     func cornerRadius(_ corners: UIRectCorner = .allCorners, radius: CGFloat) {
         if #available(iOS 11.0, *) {
             if corners.contains(.allCorners) {
-                layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMaxXMinYCorner]
+                layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner]
             } else {
                 layer.maskedCorners = []
                 if corners.contains(.topLeft) {
