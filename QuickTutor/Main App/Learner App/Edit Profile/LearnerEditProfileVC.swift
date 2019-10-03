@@ -521,7 +521,7 @@ protocol LearnerWasUpdatedCallBack {
 
 class LearnerEditProfileVC: UIViewController {
     
-    var sectionTitles = ["About me", "Interests", "Private information", "Optional information"]
+    var sectionTitles = ["About", "Interests", "Private information", "Optional information"]
     var delegate: QTProfileDelegate?
     var firstName: String!
     var lastName: String!
