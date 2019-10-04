@@ -443,7 +443,7 @@ enum Category {
             categoryInfo = "Snowboarding, video games, chess, fantasy sports, or skydiving — The Sports & Games category is where competitive adrenaline junkies and gamers thrive. Tutor anything."
         case .tech:
             displayName = "Technology"
-            name = "sports"
+            name = "tech"
             categoryInfo = "Programmers, engineers, gamers, and the creators of the future, come all — here’s where you can share your passion and knowledge with those in need. "
         case .trades:
             displayName = "Trades"
