@@ -31,7 +31,7 @@ class QTSavedTutorsViewController: UIViewController {
     let btnFindTutor: DimmableButton = {
         let button = DimmableButton()
         button.backgroundColor = Colors.purple
-        button.setTitle("Find tutors", for: .normal)
+        button.setTitle("Find People", for: .normal)
         button.titleLabel?.font = Fonts.createSemiBoldSize(16)
         
         return button
@@ -187,7 +187,7 @@ class QTSavedTutorsViewController: UIViewController {
     private func setupFindTutorView() {
         view.addSubview(btnFindTutor)
         btnFindTutor.translatesAutoresizingMaskIntoConstraints = false
-        btnFindTutor.anchor(top: nil, left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 65)
+        btnFindTutor.anchor(top: nil, left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 75)
         
         btnFindTutor.addTarget(self, action: #selector(onClickBtnFindTutor), for: .touchUpInside)
     }

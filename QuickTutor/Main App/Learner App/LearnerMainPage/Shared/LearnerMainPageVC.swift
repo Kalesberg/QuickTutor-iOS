@@ -59,10 +59,6 @@ class LearnerMainPageVC: UIViewController {
     }
 
     @objc func refershData() {
-        /*contentView.collectionView.reloadData()
-        // Start the animation of refresh control
-        self.refreshControl.beginRefreshing()*/
-        
         // End the animation of refersh control
         contentView.isRefreshing = true
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {

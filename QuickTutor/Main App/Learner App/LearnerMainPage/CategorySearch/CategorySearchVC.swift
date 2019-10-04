@@ -202,6 +202,11 @@ class QTSuggestionTableViewCell: UITableViewCell {
     
     func setupViews() {
         backgroundColor = Colors.newScreenBackground
+        
+        let cellBackground = UIView()
+        cellBackground.backgroundColor = Colors.newScreenBackground.darker(by: 5)
+        selectedBackgroundView = cellBackground
+        
         setupSearchIconImageView()
         setupNameLabel()
     }
@@ -821,7 +826,7 @@ extension CategorySearchVC: SkeletonTableViewDataSource {
 
 // MARK: - UITableViewDelegate
 extension CategorySearchVC: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+    /*func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
         cell?.shrink()
     }
@@ -831,10 +836,39 @@ extension CategorySearchVC: UITableViewDelegate {
         UIView.animate(withDuration: 0.2) {
             cell?.transform = CGAffineTransform.identity
         }
-    }
+    }*/
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath)
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        if tableView == self.tutorsTableView {
+            guard self.filteredDatasource.count > indexPath.item else { return }
+            
+            let featuredTutor = self.filteredDatasource[indexPath.item]
+            let uid = featuredTutor.uid
+            FirebaseData.manager.fetchTutor(uid!, isQuery: false, { (tutor) in
+                guard let tutor = tutor else { return }
+                DispatchQueue.main.async {
+                    let controller = QTProfileViewController.controller//TutorCardVC()
+                    controller.subject = featuredTutor.featuredSubject
+                    controller.profileViewType = .tutor
+                    controller.user = tutor
+                    self.navigationController?.pushViewController(controller, animated: true)
+                }
+            })
+        } else {
+            self.handleDidMaskViewTapped(UITapGestureRecognizer())
+            
+            // Load subject search screen again.
+            let vc = CategorySearchVC()
+            vc.subject = self.filteredSubjects[indexPath.row].0
+            vc.hasNoSubject = false
+            AnalyticsService.shared.logSubjectTapped(vc.subject)
+            vc.searchFilter = self.searchFilter
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        
+        /*let cell = tableView.cellForRow(at: indexPath)
         cell?.growSemiShrink {
             if tableView == self.tutorsTableView {
                 guard self.filteredDatasource.count > indexPath.item else { return }
@@ -862,7 +896,7 @@ extension CategorySearchVC: UITableViewDelegate {
                 vc.searchFilter = self.searchFilter
                 self.navigationController?.pushViewController(vc, animated: true)
             }
-        }
+        }*/
     }
 }
 
@@ -892,7 +926,6 @@ extension CategorySearchVC: UITableViewDataSource {
             } else {
                 let cell = tutorsTableView.dequeueReusableCell(withIdentifier: QTNewTutorInfoTableViewCell.reuseIdentifier, for: indexPath) as! QTNewTutorInfoTableViewCell
                 cell.updateUI(filteredDatasource[indexPath.item])
-                cell.selectionStyle = .none
                 if indexPath.row == filteredDatasource.count - 1 {
                     let width = UIScreen.main.bounds.width
                     cell.separatorInset = UIEdgeInsets(top: 0, left: width, bottom: 0, right: 0)
@@ -905,7 +938,7 @@ extension CategorySearchVC: UITableViewDataSource {
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: QTSuggestionTableViewCell.reuseIdentifier, for: indexPath) as! QTSuggestionTableViewCell
             cell.nameLabel.text = self.filteredSubjects[indexPath.row].0
-            cell.selectionStyle = .none
+//            cell.selectionStyle = .none
             return cell
         }
     }
