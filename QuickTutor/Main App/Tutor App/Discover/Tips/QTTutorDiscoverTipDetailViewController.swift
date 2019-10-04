@@ -119,7 +119,7 @@ extension QTTutorDiscoverTipDetailViewController: UIScrollViewDelegate {
                 navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
                 navigationController?.navigationBar.shadowImage = UIImage()
                 navigationController?.navigationBar.backgroundColor = .clear
-                navigationController?.navigationBar.alpha = 1
+                UIApplication.shared.statusBarView?.backgroundColor = .clear
                 title = ""
             }
         }

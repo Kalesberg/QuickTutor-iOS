@@ -32,10 +32,14 @@ extension UIApplication {
             }
 #else
             let tag = 38482458
-            let statusBar = UIView(frame: UIApplication.shared.statusBarFrame)
-            statusBar.tag = tag
-            UIApplication.shared.keyWindow?.addSubview(statusBar)
-            return statusBar
+            if let statusBar = UIApplication.shared.keyWindow?.viewWithTag(tag) {
+                return statusBar
+            } else {
+                let statusBar = UIView(frame: UIApplication.shared.statusBarFrame)
+                statusBar.tag = tag
+                UIApplication.shared.keyWindow?.addSubview(statusBar)
+                return statusBar
+            }
 #endif
         } else {
             return UIApplication.shared.value(forKey: "statusBar") as? UIView
