@@ -26,10 +26,8 @@ class QTQuickRequestSubmitViewController: UIViewController {
     @IBOutlet weak var proPriceLabel: UILabel!
     @IBOutlet weak var expertPriceLabel: UILabel!
     @IBOutlet weak var tutorPriceView: UIView!
-    @IBOutlet weak var tutorPerSessionTypeView: QTCustomView!
-    @IBOutlet weak var tutorPerHourTypeView: QTCustomView!
-    @IBOutlet weak var tutorPriceTextField: UITextField!
-    @IBOutlet weak var tutorTotalPriceLabel: UILabel!
+    @IBOutlet weak var tutorSuggestedPriceLabel: UILabel!
+    @IBOutlet weak var tutorRealPriceLabel: UILabel!
     @IBOutlet weak var sessionTypeLabel: UILabel!
     @IBOutlet weak var onlineTypeView: QTCustomView!
     @IBOutlet weak var inPersonTypeView: QTCustomView!
@@ -142,7 +140,7 @@ class QTQuickRequestSubmitViewController: UIViewController {
     @IBAction func OnBudgetInfoButtonClicked(_ sender: Any) {
         helpAlert = QTQuickRequestAlertModal(frame: .zero)
         helpAlert?.set("Budget Information",
-                       "Based on your subject selection we’ve complied /naverage industry prices for you so you can know what a reasonable budget looks like.")
+                       "Based on your subject selection we’ve complied \naverage industry prices for you so you can know what a reasonable budget looks like.")
         helpAlert?.show()
     }
     
