@@ -569,6 +569,7 @@ extension TutorAddSubjectsResultsVC: UICollectionViewDataSource, UICollectionVie
                 TutorRegistrationService.shared.removeSubject(currentSubjects[indexPath.item])
             }
         case .learnerQuickRequestSubject:
+            cell.selectionView.isHidden = false
             NotificationCenter.default.post(name: Notifications.learnerDidSelectQuickRequestSubject.name,
                                             object: nil,
                                             userInfo: ["quickRequestSubject": currentSubjects[indexPath.item]])
