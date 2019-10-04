@@ -11,6 +11,12 @@ import UIKit
 class QTTutorDiscoverOpportunityApplyViewController: QTQuickRequestSubmitViewController {
 
     // MARK: - Properties
+    var dateTimeInfoButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "ic_info_rect"), for: .normal)
+        return button
+    }()
+    
     var quickRequest: QTQuickRequestModel!
     var realPrice: Int!
     var minPrice: Double!
@@ -21,6 +27,12 @@ class QTTutorDiscoverOpportunityApplyViewController: QTQuickRequestSubmitViewCon
     }
         
     // MARK: - Functions
+    func setupDateTimeInfoButton() {
+        requestDateView.addSubview(dateTimeInfoButton)
+        dateTimeInfoButton.anchor(top: nil, left: requestDateView.titleLabel.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 12, paddingBottom: 0, paddingRight: 0, width: 40, height: 40)
+        dateTimeInfoButton.centerYAnchor.constraint(equalTo: requestDateView.titleLabel.centerYAnchor).isActive = true
+    }
+    
     override func configureViews() {
         title = "Submit Application"
         
@@ -86,6 +98,13 @@ class QTTutorDiscoverOpportunityApplyViewController: QTQuickRequestSubmitViewCon
         nextButton.setTitle("Submit Application", for: .normal)
     }
     
+    override func setupTargets() {
+        super.setupTargets()
+        
+        dateTimeInfoButton.isUserInteractionEnabled = true
+        dateTimeInfoButton.addTarget(self, action: #selector(handleDateTimeInfoButtonClicked), for: .touchUpInside)
+    }
+    
     // MARK: - Actions
     override func OnNextButtonClicked(_ sender: Any) {
         
@@ -103,14 +122,19 @@ class QTTutorDiscoverOpportunityApplyViewController: QTQuickRequestSubmitViewCon
     }
     
     @objc
-    func handlePerHourTypeViewTapped() {
-        paymentType = .hour
+    func handleDateTimeInfoButtonClicked() {
+        helpAlert = QTQuickRequestAlertModal(frame: .zero)
+        helpAlert?.set("Time & Date",
+                       "The time & date of the opportunity are editable up until its deadline.")
+        helpAlert?.show()
     }
+    
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupDateTimeInfoButton()
         configureViews()
         setupObservers()
         setupTargets()
