@@ -158,7 +158,6 @@ class QTAllSearchViewController: UIViewController {
         tableView.register(QTRecentSearchTableViewCell.nib, forCellReuseIdentifier: QTRecentSearchTableViewCell.reuseIdentifier)
         tableView.estimatedRowHeight = 66
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.separatorColor = .clear
         tableView.backgroundColor = Colors.newNavigationBarBackground
         tableView.separatorStyle = .none
         
@@ -331,8 +330,47 @@ class QTAllSearchViewController: UIViewController {
 // MARK: - UITableViewDelegate
 extension QTAllSearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath)
-        cell?.growSemiShrink {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        if self.isSearchMode {
+            if self.filteredSubjects.count > indexPath.row {
+                let subject = self.filteredSubjects[indexPath.row].0
+                
+                let item = QTRecentSearchModel()
+                item.type = .subject
+                item.name1 = SubjectStore.shared.findCategoryBy(subject: subject) ?? ""
+                item.name2 = subject
+                QTUtils.shared.saveRecentSearch(search: item)
+                
+                self.goToCategorySearchScreen(subject: subject)
+            } else {
+                let user = self.filteredUsers[indexPath.row - self.filteredSubjects.count]
+                
+                let item = QTRecentSearchModel()
+                item.uid = user.uid
+                item.type = .people
+                item.name1 = user.name
+                item.name2 = user.username
+                item.imageUrl = user.imageUrl
+                QTUtils.shared.saveRecentSearch(search: item)
+                
+                self.goToTutorProfileScreen(tutorId: user.uid)
+            }
+        } else {
+            let item = self.recentSearches[indexPath.row]
+            if item.type == QTRecentSearchType.subject {
+                if let subject = item.name2 {
+                    self.goToCategorySearchScreen(subject: subject)
+                }
+            } else {
+                if let uid = item.uid {
+                    self.goToTutorProfileScreen(tutorId: uid)
+                }
+            }
+            QTUtils.shared.saveRecentSearch(search: item)
+        }
+        
+        /*cell?.growSemiShrink {
             if self.isSearchMode {
                 if self.filteredSubjects.count > indexPath.row {
                     let subject = self.filteredSubjects[indexPath.row].0
@@ -371,7 +409,7 @@ extension QTAllSearchViewController: UITableViewDelegate {
                 QTUtils.shared.saveRecentSearch(search: item)
             }
             
-        }
+        }*/
     }
 }
 
@@ -433,7 +471,6 @@ extension QTAllSearchViewController: UITableViewDataSource {
             }
         }
         cell.setData(recentSearch: item)
-        cell.selectionStyle = .none
         return cell
     }
 }

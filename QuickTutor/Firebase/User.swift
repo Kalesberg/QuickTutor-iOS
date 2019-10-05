@@ -627,14 +627,12 @@ class FirebaseData {
 		}
 	}
 	
-	func fetchTutor(_ uid: String, isQuery: Bool, _ completion: @escaping (AWTutor?) -> Void) {
-		
+    func fetchTutor(_ uid: String, isQuery: Bool, queue: DispatchQueue = .main, _ completion: @escaping (AWTutor?) -> Void) {
 		let group = DispatchGroup()
-		
-		self.ref.child("account").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+		ref.child("account").child(uid).observeSingleEvent(of: .value) { snapshot in
 			guard let value = snapshot.value as? [String : Any] else { return completion(nil) }
 			
-			self.ref.child("tutor-info").child(uid).observeSingleEvent(of: .value, with: { (snapshot2) in
+			self.ref.child("tutor-info").child(uid).observeSingleEvent(of: .value) { snapshot2 in
 				guard let value2 = snapshot2.value as? [String : Any] else { return completion(nil) }
 				let tutorDict = value.merging(value2, uniquingKeysWith: { (first, last) -> Any in
 					return last
@@ -687,11 +685,11 @@ class FirebaseData {
                     group.leave()
                 }
                 
-				group.notify(queue: .main) {
+				group.notify(queue: queue) {
 					completion(tutor)
 				}
-			})
-		})
+			}
+		}
 	}
     
     func fetchConnectionStatus(uid: String, userType: UserType,  opponentId: String, completionHandler: ((Bool) -> ())?) {
@@ -977,6 +975,41 @@ class FirebaseData {
                 }
                 completion(news)
             }
+        }
+    }
+    
+    func getTrendingTopics(category: Category? = nil, subcategory: String? = nil, completion: @escaping([String]) -> Void) {
+        var subcategories: [String] = []
+        if let category = category {
+            subcategories = category.subcategory.subcategories.map({ $0.title })
+        } else if let subcategory = subcategory {
+            subcategories = [subcategory]
+        }
+        
+        var arySubjects: [String] = []
+        subcategories.forEach { subcategory in
+            if let subjects = CategoryFactory.shared.getSubjectsFor(subcategoryName: subcategory) {
+                arySubjects.append(contentsOf: subjects)
+            }
+        }
+        
+        var aryTutorSubjects: [[String: Any]] = []
+        let subjectsGroup = DispatchGroup()
+        for subject in arySubjects {
+            subjectsGroup.enter()
+            Database.database().reference().child("subjects").child(subject).observeSingleEvent(of: .value) { snapshot in
+                if let dicAccounts = snapshot.value as? [String: Any] {
+                    aryTutorSubjects.append([
+                        "topic": subject,
+                        "count": dicAccounts.keys.count
+                    ])
+                }
+                subjectsGroup.leave()
+            }
+        }
+        
+        subjectsGroup.notify(queue: .main) {
+            completion(aryTutorSubjects.sorted(by: { ($0["count"] as? Int ?? 0) > ($1["count"] as? Int ?? 0) }).map({ $0["topic"] as? String ?? "" }))
         }
     }
 }

@@ -14,8 +14,10 @@ class LearnerTabBarController: BaseTabBarController {
         super.viewDidLoad()
         let home = UINavigationController(rootViewController: LearnerMainPageVC())
         home.tabBarItem = ESTabBarItem(QTTabBarItemContentView(), image: UIImage(named: "homeTabBarIcon"), selectedImage: UIImage(named: "homeTabBarIcon"))
-        let saved = UINavigationController(rootViewController: SavedTutorsVC())
-        saved.tabBarItem = ESTabBarItem(QTTabBarItemContentView(), image: UIImage(named: "savedTabBarIcon"), selectedImage: UIImage(named: "savedTabBarIcon"))
+        let discover = UINavigationController(rootViewController: QTLearnerDiscoverViewController(nibName: String(describing: QTLearnerDiscoverViewController.self), bundle: nil))
+        discover.tabBarItem = ESTabBarItem(QTTabBarItemContentView(), image: UIImage(named: "discoverTabIcon"), selectedImage: UIImage(named: "discoverTabIcon"))
+        discover.navigationBar.barTintColor = Colors.newNavigationBarBackground
+        discover.navigationBar.backgroundColor = Colors.newNavigationBarBackground
         let sessions = UINavigationController(rootViewController: LearnerSessionsVC())
         sessions.tabBarItem = ESTabBarItem(QTTabBarItemContentView(), image: UIImage(named: "sessionsTabBarIcon"), selectedImage: UIImage(named: "sessionsTabBarIcon"))
         sessions.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
@@ -25,7 +27,7 @@ class LearnerTabBarController: BaseTabBarController {
         messages.navigationBar.backgroundColor = Colors.newNavigationBarBackground
         let profile = UINavigationController(rootViewController: ProfileVC())
         profile.tabBarItem = ESTabBarItem(QTTabBarItemContentView(), image: UIImage(named: "profileTabBarIcon"), selectedImage: UIImage(named: "profileTabBarIcon"))
-        let controllers = [home, saved, sessions, messages, profile]
+        let controllers = [home, discover, sessions, messages, profile]
 
         for vc in controllers {
             vc.navigationBar.barTintColor = Colors.newNavigationBarBackground
@@ -61,16 +63,9 @@ class LearnerTabBarController: BaseTabBarController {
     @objc
     func handleQuickSearchTapped(_ notification: Notification) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            // TODO: Uncomment the following statement when merge with learner discover scren.
-            /*
-            if let viewControllers = self.viewControllers, let controller = viewControllers[1] as? QTLearnerDiscoverViewController {
-                self.selectedViewController = controller
+            if let viewControllers = self.viewControllers, let nav = viewControllers[1] as? UINavigationController, let controller = nav.viewControllers[0] as? QTLearnerDiscoverViewController {
+                self.selectedViewController = nav
                 controller.onClickBtnSearch(controller.view)
-            }
-             */
-            
-            if let viewControllers = self.viewControllers {
-                self.selectedViewController = viewControllers[1]
             }
         }
     }

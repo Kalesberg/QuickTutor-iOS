@@ -57,7 +57,7 @@ class LearnerMainPageActiveTutorsSectionController: UIViewController {
     }
     
     func fetchTutors() {
-        TutorSearchService.shared.getCurrentlyOnlineTutors { (tutors) in
+        TutorSearchService.shared.fetchRecentlyActiveTutors() { tutors in
             
             if tutors.isEmpty {
                 self.view.hideSkeleton()

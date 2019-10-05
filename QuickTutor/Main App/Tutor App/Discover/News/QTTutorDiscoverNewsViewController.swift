@@ -113,6 +113,8 @@ extension QTTutorDiscoverNewsViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: QTTutorDiscoverNewsCollectionViewCell.reuseIdentifier, for: indexPath) as! QTTutorDiscoverNewsCollectionViewCell
         cell.setData(news: newses[indexPath.row])
         cell.didReadButtonClickedHandler = { news in
+            guard let news = news as? QTNewsModel else { return }
+            
             NotificationCenter.default.post(name: NotificationNames.TutorDiscoverPage.newsItemTapped, object: nil, userInfo: ["news" : news])
         }
         return cell

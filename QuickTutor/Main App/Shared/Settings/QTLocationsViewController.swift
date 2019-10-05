@@ -142,6 +142,9 @@ extension QTLocationsViewController: MKLocalSearchCompleterDelegate {
 // MARK: - UITableViewDelegate
 extension QTLocationsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        view.endEditing(true)
+        
         let addressString = "\(searchResults[indexPath.row].title) \(searchResults[indexPath.row].subtitle)"
         
         getCoordinate(addressString: addressString) { (location, error) in
@@ -210,7 +213,6 @@ extension QTLocationsViewController: UITableViewDataSource {
         if let cell: QTLocationTableViewCell = tableView.dequeueReusableCell(withIdentifier: QTLocationTableViewCell.resuableIdentifier,
                                                                               for: indexPath) as? QTLocationTableViewCell {
             cell.setData(landmark: searchResult.title, address: searchResult.subtitle)
-            cell.selectionStyle = .none
             return cell
         }
         

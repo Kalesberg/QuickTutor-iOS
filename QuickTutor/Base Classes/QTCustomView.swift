@@ -1,14 +1,14 @@
 //
-//  QTCustomView.swift
-//  QuickTutor
+//  CustomView.swift
 //
-//  Created by Michael Burkard on 1/24/19.
-//  Copyright © 2019 QuickTutor. All rights reserved.
+//  Created by JH Lee on 11/15/16.
+//  Copyright © 2016 developer. All rights reserved.
 //
 
 import UIKit
 
 @IBDesignable class QTCustomView: UIView {
+    
     @IBInspectable var borderColor: UIColor = UIColor.clear {
         didSet {
             layer.borderColor = borderColor.cgColor
@@ -26,4 +26,5 @@ import UIKit
             layer.cornerRadius = cornerRadius
         }
     }
+    
 }

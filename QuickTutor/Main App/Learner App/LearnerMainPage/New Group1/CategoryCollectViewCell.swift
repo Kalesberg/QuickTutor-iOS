@@ -16,8 +16,18 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         return String(describing: CategoryCollectionViewCell.self)
     }
     
+    let shadowView: UIView = {
+        let view = UIView()
+        view.clipsToBounds = true
+        view.backgroundColor = .clear
+        return view
+    }()
+    
     let containerView: UIView = {
         let view = UIView()
+        view.clipsToBounds = true
+        view.layer.masksToBounds = true
+        view.layer.cornerRadius = 5
         return view
     }()
     
@@ -31,8 +41,8 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         label.textColor = .white
         label.textAlignment = .left
         label.font = Fonts.createSemiBoldSize(17)
-        label.adjustsFontSizeToFitWidth = true
-        label.adjustsFontForContentSizeCategory = true
+//        label.adjustsFontSizeToFitWidth = true
+//        label.adjustsFontForContentSizeCategory = true
         
         return label
     }()
@@ -46,28 +56,33 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     }()
 
     func setupViews() {
+        setupShadowView()
         setupContainerView()
         setupImageView()
         setupMaskBackgroundView()
         setupLabel()
     }
     
-    func setupContainerView() {
-        addSubview(containerView)
-        containerView.snp.makeConstraints { make in
+    func setupShadowView() {
+        addSubview(shadowView)
+        shadowView.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.width.equalToSuperview()
-            make.height.equalToSuperview().offset(-8)
+            make.left.equalToSuperview()
+            make.top.equalToSuperview().offset(4)
+        }
+    }
+    
+    func setupContainerView() {
+        shadowView.addSubview(containerView)
+        containerView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
     
     func setupImageView() {
         containerView.addSubview(imageView)
         imageView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.width.equalToSuperview()
-            make.height.equalToSuperview()
-            make.centerX.equalToSuperview()
+            make.edges.equalToSuperview()
         }
     }
     
@@ -79,16 +94,6 @@ class CategoryCollectionViewCell: UICollectionViewCell {
             make.bottom.equalToSuperview()
             make.height.equalTo(61)
         }
-        
-        let width = (UIScreen.main.bounds.width - 50) / 2.5
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = CGRect(x: 0, y: 0, width: width, height: 61)
-        gradientLayer.colors = [UIColor.clear,
-                                UIColor.black.withAlphaComponent(0.8)].map({$0.cgColor})
-        gradientLayer.locations = [0, 1]
-        maskBackgroundView.layer.insertSublayer(gradientLayer, at: 0)
-        maskBackgroundView.cornerRadius(radius: 5)
-        maskBackgroundView.clipsToBounds = true
     }
     
     func setupLabel() {
@@ -101,9 +106,8 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     }
     
     private func addShadow() {
-        containerView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 4)
-        containerView.cornerRadius(radius: 5)
-        containerView.clipsToBounds = true
+        shadowView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 5)
+
     }
     
     override init(frame: CGRect) {
@@ -111,6 +115,21 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         backgroundColor = .clear
         setupViews()
         addShadow()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        if let oldGradientLayer = maskBackgroundView.layer.sublayers?.first(where: { $0 is CAGradientLayer }) {
+            oldGradientLayer.removeFromSuperlayer()
+        }
+        
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = CGRect(origin: .zero, size: CGSize(width: shadowView.frame.size.width, height: 61))
+        gradientLayer.colors = [UIColor.clear,
+                                UIColor.black.withAlphaComponent(0.8)].map({$0.cgColor})
+        gradientLayer.locations = [0, 1]
+        maskBackgroundView.layer.insertSublayer(gradientLayer, at: 0)
     }
     
     required init?(coder _: NSCoder) {

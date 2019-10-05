@@ -71,7 +71,7 @@ class AWLearner: User {
         lRating = dictionary["r"] as? Double ?? 0.0
         lHours = dictionary["hr"] as? Int ?? 0
         isApplePayDefault = dictionary["isApplePayDefault"] as? Bool ?? Stripe.deviceSupportsApplePay()
-        region = dictionary["rg"] as? String ?? ""
+        region = dictionary["rg"] as? String ?? "United States"
         
         if let interests = dictionary["interests"] as? [String: Any] {
             self.interests = interests.compactMap({$0.key}).sorted()

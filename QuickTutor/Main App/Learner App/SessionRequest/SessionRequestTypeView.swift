@@ -16,7 +16,7 @@ class SessionRequestTypeView: BaseSessionRequestViewSection {
     
     weak var delegate: SessionRequestTypeViewDelegate?
     
-    let sessionTypes = ["In-person", "Online"]
+    let sessionTypes = ["In-person", "Online(video call)"]
     
     let collectionView: SubjectsCollectionView = {
         let cv = SubjectsCollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
