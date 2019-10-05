@@ -37,6 +37,7 @@ class QTLearnerMainPageNavigationView: UIView {
     }()
     
     var didSearchIconButtonClicked: (() -> Void)?
+    var searchIconViewLeft: NSLayoutConstraint?
     
     // MARK: - Functions
     func setupLogoImageView() {
@@ -50,8 +51,9 @@ class QTLearnerMainPageNavigationView: UIView {
         addSubview(searchIconView)
         
         searchIconView.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 20, paddingRight: 20, width: 42, height: 42)
-        searchIconView.leftAnchor.constraint(greaterThanOrEqualTo: logoImageView.rightAnchor, constant: 20).isActive = true
-        
+        let width = UIScreen.main.bounds.width - 62
+        searchIconViewLeft = searchIconView.leftAnchor.constraint(equalTo: leftAnchor, constant: width)
+        searchIconViewLeft?.isActive = true
         searchIconView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleDidSearchIconTap)))
     }
     
@@ -60,7 +62,7 @@ class QTLearnerMainPageNavigationView: UIView {
         searchIconImageView.snp.makeConstraints { (make) in
             make.width.equalTo(21)
             make.height.equalTo(21)
-            make.centerX.equalToSuperview()
+            make.left.equalTo(searchIconView.snp.left).offset(10.5)
             make.centerY.equalToSuperview()
         }
     }

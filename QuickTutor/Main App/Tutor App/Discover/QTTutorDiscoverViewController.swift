@@ -103,7 +103,7 @@ class QTTutorDiscoverViewController: UIViewController {
                                           left: self.view.leftAnchor,
                                           bottom: self.view.bottomAnchor,
                                           right: self.view.rightAnchor,
-                                          paddingTop: 0,
+                                          paddingTop: -1000,
                                           paddingLeft: 0,
                                           paddingBottom: 0,
                                           paddingRight: 0,

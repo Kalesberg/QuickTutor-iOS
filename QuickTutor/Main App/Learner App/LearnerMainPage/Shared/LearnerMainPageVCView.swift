@@ -72,6 +72,19 @@ class LearnerMainPageVCView: UIView {
         navigationView.anchor(top: nil, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         navigationViewTopAnchor = navigationView.topAnchor.constraint(equalTo: getTopAnchor())
         navigationViewTopAnchor.isActive = true
+        navigationView.didSearchIconButtonClicked = {
+            let screenWidth = UIScreen.main.bounds.size.width
+            UIView.animate(withDuration: TimeInterval(0.3), animations: {
+                self.navigationView.searchIconViewLeft?.constant = 20
+                self.navigationView.logoImageView.alpha = 0
+                self.navigationView.layoutIfNeeded()
+            }) { (completed) in
+                self.navigationView.searchIconViewLeft?.constant = screenWidth - 62
+                self.navigationView.logoImageView.alpha = 1
+                self.navigationView.layoutIfNeeded()
+            }
+            NotificationCenter.default.post(name: NotificationNames.LearnerMainFeed.quickSearchTapped, object: nil)
+        }
     }
     
     func setupCollectionView() {
