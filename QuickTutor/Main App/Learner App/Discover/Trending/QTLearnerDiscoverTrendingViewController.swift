@@ -43,7 +43,7 @@ class QTLearnerDiscoverTrendingViewController: UIViewController {
                 self.collectionView.reloadData()
             }
         }
-        constraintCollectionViewHeight.constant = getCollectionViewHeight() + 10
+        constraintCollectionViewHeight.constant = getCollectionViewHeight()
     }
     
     private func getCollectionViewHeight() -> CGFloat {

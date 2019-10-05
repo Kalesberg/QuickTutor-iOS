@@ -25,7 +25,9 @@ class QTLearnerDiscoverForYouTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        
+     
+        learnerDiscoverForYouVC.category = QTLearnerDiscoverService.shared.category
+        learnerDiscoverForYouVC.subcategory = QTLearnerDiscoverService.shared.subcategory
         learnerDiscoverForYouVC.didClickTutor = { tutor in
             self.didClickTutor?(tutor)
         }
@@ -33,15 +35,6 @@ class QTLearnerDiscoverForYouTableViewCell: UITableViewCell {
         learnerDiscoverForYouVC.view.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-    }
-    
-    func setView(category: Category? = nil, subcategory: String? = nil) {
-        if category == learnerDiscoverForYouVC.category,
-            subcategory == learnerDiscoverForYouVC.subcategory { return }
-        
-        learnerDiscoverForYouVC.category = category
-        learnerDiscoverForYouVC.subcategory = subcategory
-        learnerDiscoverForYouVC.loadLearnerRelativeTutorIds()
     }
     
 }

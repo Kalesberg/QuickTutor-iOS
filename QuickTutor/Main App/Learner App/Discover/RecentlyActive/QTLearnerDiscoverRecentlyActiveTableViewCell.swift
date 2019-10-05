@@ -11,6 +11,7 @@ import UIKit
 class QTLearnerDiscoverRecentlyActiveTableViewCell: UITableViewCell {
 
     var didClickTutor: ((_ tutor: AWTutor) -> ())?
+    var didClickBtnMessage: ((_ tutor: AWTutor) -> ())?
     
     private let learnerDiscoverRecentlyActiveVC = QTLearnerDiscoverRecentlyActiveViewController(nibName: String(describing: QTLearnerDiscoverRecentlyActiveViewController.self), bundle: nil)
     
@@ -26,22 +27,18 @@ class QTLearnerDiscoverRecentlyActiveTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         
+        learnerDiscoverRecentlyActiveVC.category = QTLearnerDiscoverService.shared.category
+        learnerDiscoverRecentlyActiveVC.subcategory = QTLearnerDiscoverService.shared.subcategory
         learnerDiscoverRecentlyActiveVC.didClickTutor = { tutor in
             self.didClickTutor?(tutor)
+        }
+        learnerDiscoverRecentlyActiveVC.didClickBtnMessage = { tutor in
+            self.didClickBtnMessage?(tutor)
         }
         contentView.addSubview(learnerDiscoverRecentlyActiveVC.view)
         learnerDiscoverRecentlyActiveVC.view.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-    }
-    
-    func setView(category: Category? = nil, subcategory: String? = nil) {
-        if category == learnerDiscoverRecentlyActiveVC.category,
-            subcategory == learnerDiscoverRecentlyActiveVC.subcategory { return }
-        
-        learnerDiscoverRecentlyActiveVC.category = category
-        learnerDiscoverRecentlyActiveVC.subcategory = subcategory
-        learnerDiscoverRecentlyActiveVC.loadRecentlyActiveTutors()
     }
     
 }

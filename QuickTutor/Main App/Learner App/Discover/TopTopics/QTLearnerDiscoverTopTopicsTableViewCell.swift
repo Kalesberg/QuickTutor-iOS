@@ -31,7 +31,7 @@ extension QTLearnerDiscoverTopicType {
                                                   size: CGSize(width: ceil((UIScreen.main.bounds.width - 35) / 1.1), height: 180))
         case .recommended:
             return QTLearnerDiscoverTopicSettings(font: .qtHeavyFont(size: 17),
-                                                  size: CGSize(width: 180, height: 180))
+                                                  size: CGSize(width: ceil((UIScreen.main.bounds.width - 50) / 2.2), height: 180))
         }
     }
 }

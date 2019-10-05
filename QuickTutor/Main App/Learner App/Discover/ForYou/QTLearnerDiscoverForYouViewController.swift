@@ -33,10 +33,11 @@ class QTLearnerDiscoverForYouViewController: UIViewController {
         collectionView.prepareSkeleton { _ in
             self.collectionView.isUserInteractionEnabled = false
             self.collectionView.showAnimatedSkeleton(usingColor: Colors.gray)
+            self.loadLearnerRelativeTutorIds()
         }
     }
 
-    func loadLearnerRelativeTutorIds() {
+    private func loadLearnerRelativeTutorIds() {
         guard var interests = CurrentUser.shared.learner.interests else { return }
         
         if let category = category {
@@ -75,7 +76,7 @@ class QTLearnerDiscoverForYouViewController: UIViewController {
             }
         }
         
-        interestsGroup.notify(queue: .main) {
+        interestsGroup.notify(queue: .global(qos: .background)) {
             // load same subcategory tutors
             let subcategoriesGroup = DispatchGroup()
             for subcategory in subcategories {
@@ -99,7 +100,7 @@ class QTLearnerDiscoverForYouViewController: UIViewController {
                     subcategoriesGroup.leave()
                 }
             }
-            subcategoriesGroup.notify(queue: .main) {
+            subcategoriesGroup.notify(queue: .global(qos: .background)) {
                 // load same category tutors
                 let categoriesGroup = DispatchGroup()
                 for category in categories {
@@ -130,7 +131,7 @@ class QTLearnerDiscoverForYouViewController: UIViewController {
                         categoriesGroup.leave()
                     }
                 }
-                categoriesGroup.notify(queue: .main) {
+                categoriesGroup.notify(queue: .global(qos: .background)) {
                     self.loadTutors()
                 }
             }
@@ -145,7 +146,7 @@ class QTLearnerDiscoverForYouViewController: UIViewController {
         let realLimit = limit < aryTutorIds.count ? limit : aryTutorIds.count
         for index in 0 ..< realLimit {
             tutorsGroup.enter()
-            FirebaseData.manager.fetchTutor(aryTutorIds[index].tutorId, isQuery: false) { tutor in
+            FirebaseData.manager.fetchTutor(aryTutorIds[index].tutorId, isQuery: false, queue: .global(qos: .background)) { tutor in
                 guard let tutor = tutor else {
                     tutorsGroup.leave()
                     return

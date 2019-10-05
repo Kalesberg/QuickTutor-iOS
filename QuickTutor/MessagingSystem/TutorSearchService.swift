@@ -27,7 +27,7 @@ class TutorSearchService {
             
             tutorIds.keys.sorted(by: { $0 < $1 }).forEach { uid in
                 myGroup.enter()
-                FirebaseData.manager.fetchTutor(uid, isQuery: false, { tutor in
+                FirebaseData.manager.fetchTutor(uid, isQuery: false, queue: .global(qos: .background)) { tutor in
                     guard let tutor = tutor else {
                         myGroup.leave()
                         return
@@ -40,7 +40,7 @@ class TutorSearchService {
                         tutors.append(tutor)
                     }
                     myGroup.leave()
-                })
+                }
             }
             myGroup.notify(queue: .main) {
                 if let _ = lastKnownKey {
@@ -60,8 +60,6 @@ class TutorSearchService {
             ref = ref.queryStarting(atValue: key)
         }
         ref.observeSingleEvent(of: .value) { (snapshot) in
-            print("=== Get subcategories ids === ")
-            print(Date().description)
             guard let tutorIds = snapshot.value as? [String: Any] else {
                 completion(nil, false)
                 return
@@ -69,14 +67,7 @@ class TutorSearchService {
             let myGroup = DispatchGroup()
             tutorIds.keys.sorted(by: { $0 < $1 }).forEach { uid in
                 myGroup.enter()
-                
-                print("=== Fetch \(uid) tutor Start === ")
-                print(Date().description)
-                
-                FirebaseData.manager.fetchTutor(uid, isQuery: false, { tutor in
-                    print("=== Fetch \(tutor?.uid ?? "blank") tutor End === ")
-                    print(Date().description)
-                    
+                FirebaseData.manager.fetchTutor(uid, isQuery: false, queue: .global(qos: .background)) { tutor in
                     guard let tutor = tutor else {
                         myGroup.leave()
                         return
@@ -88,12 +79,9 @@ class TutorSearchService {
                         tutors.append(tutor)
                     }
                     myGroup.leave()
-                })
+                }
             }
             myGroup.notify(queue: .main) {
-                print("=== Fetch all tutor info === ")
-                print(Date().description)
-                
                 if let _ = lastKnownKey {
                     tutors.removeFirst()
                 }
@@ -118,7 +106,7 @@ class TutorSearchService {
             }
             tutorIds.keys.sorted(by: { $0 < $1 }).forEach { uid in
                 myGroup.enter()
-                FirebaseData.manager.fetchTutor(uid, isQuery: false, { tutor in
+                FirebaseData.manager.fetchTutor(uid, isQuery: false, queue: .global(qos: .background)) { tutor in
                     guard let tutor = tutor else {
                         myGroup.leave()
                         return
@@ -128,7 +116,7 @@ class TutorSearchService {
                         tutors.append(tutor)
                     }
                     myGroup.leave()
-                })
+                }
             }
             myGroup.notify(queue: .main) {
                 if let _ = lastKnownKey {
@@ -347,14 +335,14 @@ class TutorSearchService {
                         accountIdsGroup.leave()
                     }
                 }
-                accountIdsGroup.notify(queue: .main) {
+                accountIdsGroup.notify(queue: .global(qos: .background)) {
                     var aryTutors: [AWTutor] = []
                     let tutorsGroup = DispatchGroup()
                     for accountId in accountIds.suffix(limit) {
                         if accountId == Auth.auth().currentUser?.uid { continue }
                         
                         tutorsGroup.enter()
-                        FirebaseData.manager.fetchTutor(accountId, isQuery: false) { tutor in
+                        FirebaseData.manager.fetchTutor(accountId, isQuery: false, queue: .global(qos: .background)) { tutor in
                             if let tutor = tutor {
                                 aryTutors.append(tutor)
                             }
@@ -394,7 +382,7 @@ class TutorSearchService {
                     accountIdsGroup.leave()
                 }
             }
-            accountIdsGroup.notify(queue: .main) {
+            accountIdsGroup.notify(queue: .global(qos: .background)) {
                 var aryTutors: [AWTutor] = []
                 let tutorsGroup = DispatchGroup()
                 for accountId in accountIds {

@@ -16,9 +16,18 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         return String(describing: CategoryCollectionViewCell.self)
     }
     
+    let shadowView: UIView = {
+        let view = UIView()
+        view.clipsToBounds = true
+        view.backgroundColor = .clear
+        return view
+    }()
+    
     let containerView: UIView = {
         let view = UIView()
         view.clipsToBounds = true
+        view.layer.masksToBounds = true
+        view.layer.cornerRadius = 5
         return view
     }()
     
@@ -48,18 +57,26 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     }()
 
     func setupViews() {
+        setupShadowView()
         setupContainerView()
         setupImageView()
         setupMaskBackgroundView()
         setupLabel()
     }
     
-    func setupContainerView() {
-        addSubview(containerView)
-        containerView.snp.makeConstraints { make in
+    func setupShadowView() {
+        addSubview(shadowView)
+        shadowView.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.width.equalToSuperview().offset(-8)
-            make.height.equalToSuperview().offset(-8)
+            make.left.equalToSuperview().offset(4)
+            make.top.equalToSuperview().offset(4)
+        }
+    }
+    
+    func setupContainerView() {
+        shadowView.addSubview(containerView)
+        containerView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
     
@@ -78,7 +95,6 @@ class CategoryCollectionViewCell: UICollectionViewCell {
             make.bottom.equalToSuperview()
             make.height.equalTo(61)
         }
-        maskBackgroundView.layer.cornerRadius = 5
     }
     
     func setupLabel() {
@@ -91,8 +107,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     }
     
     private func addShadow() {
-        containerView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 5)
-        containerView.layer.cornerRadius = 5
+        shadowView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 5)
     }
     
     override init(frame: CGRect) {

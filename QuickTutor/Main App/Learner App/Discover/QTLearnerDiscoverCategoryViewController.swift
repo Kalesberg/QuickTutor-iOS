@@ -13,10 +13,15 @@ class QTLearnerDiscoverCategoryViewController: UIViewController {
 
     var category: Category!
     
-    @IBOutlet weak var btnBack: UIButton!
+    @IBOutlet weak var constraintTitleViewTop: NSLayoutConstraint!
+    @IBOutlet var viewTitle: UIView!
+    @IBOutlet weak var viewNavigationBar: UIView!    
+    @IBOutlet weak var btnTitle: UIButton!
     @IBOutlet weak var tableView: UITableView!
     
     private var aryTrendingTopics: [String] = []
+    private var arySubcategories: [String] = []
+    
     private let refreshCtrl = UIRefreshControl()
     
     override func viewDidLoad() {
@@ -31,18 +36,26 @@ class QTLearnerDiscoverCategoryViewController: UIViewController {
         tableView.estimatedSectionHeaderHeight = 100
         
         tableView.register(QTLearnerDiscoverTopTopicsTableViewCell.nib, forCellReuseIdentifier: "QTLearnerDiscoverTopSubcategoriesTableViewCell")
-        tableView.register(QTLearnerDiscoverTutorsTableViewCell.nib, forCellReuseIdentifier: "QTLearnerDiscoverCategoryTopExpertsTableViewCell")
+        tableView.register(QTLearnerDiscoverTutorsTableViewCell.nib, forCellReuseIdentifier: "QTLearnerDiscover\(category.mainPageData.name.capitalized)TableViewCell")
         tableView.register(QTLearnerDiscoverTrendingTopicsTableViewCell.nib, forCellReuseIdentifier: QTLearnerDiscoverTrendingTopicsTableViewCell.reuseIdentifier)
         tableView.register(QTLearnerDiscoverTutorsTableViewCell.nib, forCellReuseIdentifier: QTLearnerDiscoverTutorsTableViewCell.reuseIdentifier)
         tableView.register(QTLearnerDiscoverForYouTableViewCell.nib, forCellReuseIdentifier: QTLearnerDiscoverForYouTableViewCell.reuseIdentifier)
         tableView.register(QTLearnerDiscoverRecentlyActiveTableViewCell.nib, forCellReuseIdentifier: QTLearnerDiscoverRecentlyActiveTableViewCell.reuseIdentifier)
         
+        arySubcategories = category.subcategory.subcategories.map({ $0.title })
+        for subcategory in arySubcategories {
+            tableView.register(QTLearnerDiscoverTutorsTableViewCell.nib, forCellReuseIdentifier: "QTLearnerDiscover\(subcategory.replacingOccurrences(of: " ", with: ""))TableViewCell")
+        }
+        
         refreshCtrl.tintColor = Colors.purple
         refreshCtrl.addTarget(self, action: #selector(onRefreshDiscover), for: .valueChanged)
         tableView.refreshControl = refreshCtrl
         
-        btnBack.setTitle(category.mainPageData.displayName, for: .normal)
-        btnBack.superview?.superview?.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.5, offset: CGSize(width: 0, height: 1), radius: 2)
+        btnTitle.setTitle(category.mainPageData.displayName, for: .normal)
+        btnTitle.superview?.superview?.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.5, offset: CGSize(width: 0, height: 1), radius: 2)
+        viewNavigationBar.superview?.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.2, offset: CGSize(width: 0, height: 2), radius: 2)
+        
+        constraintTitleViewTop.constant = UIApplication.shared.statusBarFrame.height + 8
         
         setupParallaxHeader()
         getTrendingTopics()
@@ -52,11 +65,47 @@ class QTLearnerDiscoverCategoryViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        navigationController?.isNavigationBarHidden = true
+        navigationController?.isNavigationBarHidden = false
+        navigationItem.hidesBackButton = true
+        updateNavigationBar()
+        
+        tableView.addObserver(self, forKeyPath: "contentOffset", options: .new, context: nil)
+        
+        QTLearnerDiscoverService.shared.category = category
+        QTLearnerDiscoverService.shared.subcategory = nil
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        tableView.removeObserver(self, forKeyPath: "contentOffset")
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        
+        updateNavigationBar()
+    }
+    
+    private func updateNavigationBar() {
+        let imageHeight: CGFloat = 380
+        let alpha = (min(0, tableView.contentOffset.y) + imageHeight) / imageHeight
+        viewNavigationBar.backgroundColor = Colors.newNavigationBarBackground.withAlphaComponent(alpha)
+        
+        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.navigationBar.isUserInteractionEnabled = false
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.backgroundColor = .clear
+        navigationController?.navigationBar.shadowImage = UIImage()
     }
 
     @IBAction func onClickBtnBack(_ sender: Any) {
         navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func onClickBtnTitle(_ sender: Any) {
+        let controller = QTQuickSearchViewController.controller
+        controller.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(controller, animated: false)
     }
     
     @objc
@@ -107,7 +156,7 @@ class QTLearnerDiscoverCategoryViewController: UIViewController {
 
 extension QTLearnerDiscoverCategoryViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 6
+        return 6 + arySubcategories.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -115,6 +164,12 @@ extension QTLearnerDiscoverCategoryViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        QTLearnerDiscoverService.shared.subcategory = nil
+        QTLearnerDiscoverService.shared.isRisingTalent = false
+        
+        QTLearnerDiscoverService.shared.topTutorsLimit = nil
+        QTLearnerDiscoverService.shared.risingTalentLimit = 25
+        
         switch indexPath.section {
         case 0: // Subcategories
             let cell = tableView.dequeueReusableCell(withIdentifier: "QTLearnerDiscoverTopSubcategoriesTableViewCell", for: indexPath) as! QTLearnerDiscoverTopTopicsTableViewCell
@@ -132,8 +187,9 @@ extension QTLearnerDiscoverCategoryViewController: UITableViewDataSource {
             
             return cell
         case 1: // Top Experts
-            let cell = tableView.dequeueReusableCell(withIdentifier: "QTLearnerDiscoverCategoryTopExpertsTableViewCell", for: indexPath) as! QTLearnerDiscoverTutorsTableViewCell
-            cell.setView(category: category)
+            QTLearnerDiscoverService.shared.topTutorsLimit = 25
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "QTLearnerDiscover\(category.mainPageData.name.capitalized)TableViewCell", for: indexPath) as! QTLearnerDiscoverTutorsTableViewCell
             cell.didClickTutor = { tutor in
                 self.openTutorProfileView(tutor)
             }
@@ -152,8 +208,9 @@ extension QTLearnerDiscoverCategoryViewController: UITableViewDataSource {
             
             return cell
         case 3: // Rising Talent
+            QTLearnerDiscoverService.shared.isRisingTalent = true
+            
             let cell = tableView.dequeueReusableCell(withIdentifier: QTLearnerDiscoverTutorsTableViewCell.reuseIdentifier, for: indexPath) as! QTLearnerDiscoverTutorsTableViewCell
-            cell.setView(category: category, isRisingTalent: true)
             cell.didClickTutor = { tutor in
                 self.openTutorProfileView(tutor)
             }
@@ -164,7 +221,6 @@ extension QTLearnerDiscoverCategoryViewController: UITableViewDataSource {
             return cell
         case 4: // For You
             let cell = tableView.dequeueReusableCell(withIdentifier: QTLearnerDiscoverForYouTableViewCell.reuseIdentifier, for: indexPath) as! QTLearnerDiscoverForYouTableViewCell
-            cell.setView(category: category)
             cell.didClickTutor = { tutor in
                 self.openTutorProfileView(tutor)
             }
@@ -172,8 +228,10 @@ extension QTLearnerDiscoverCategoryViewController: UITableViewDataSource {
             return cell
         case 5: // Recently Active
             let cell = tableView.dequeueReusableCell(withIdentifier: QTLearnerDiscoverRecentlyActiveTableViewCell.reuseIdentifier, for: indexPath) as! QTLearnerDiscoverRecentlyActiveTableViewCell
-            cell.setView(category: category)
             cell.didClickTutor = { tutor in
+                self.openTutorProfileView(tutor)
+            }
+            cell.didClickBtnMessage = { tutor in
                 let vc = ConversationVC()
                 vc.receiverId = tutor.uid
                 vc.chatPartner = tutor
@@ -182,8 +240,19 @@ extension QTLearnerDiscoverCategoryViewController: UITableViewDataSource {
             }
                         
             return cell
-        default: // Category Tutors
-            return UITableViewCell(style: .default, reuseIdentifier: "EmptyTableViewCell")
+        default: // Subcategories
+            let subcategory = arySubcategories[indexPath.section - 6]
+            QTLearnerDiscoverService.shared.subcategory = subcategory
+            let cell = tableView.dequeueReusableCell(withIdentifier: "QTLearnerDiscover\(subcategory.replacingOccurrences(of: " ", with: ""))TableViewCell", for: indexPath) as! QTLearnerDiscoverTutorsTableViewCell
+            cell.didClickTutor = { tutor in
+                self.openTutorProfileView(tutor)
+            }
+            
+            cell.didClickViewAllTutors = { subject, subcategory, category, tutors, loadedAllTutors in
+                self.openTutorsView(title: subcategory ?? "", subject: subject, subcategory: subcategory, category: category, tutors: tutors, loadedAllTutors: loadedAllTutors)
+            }
+            
+            return cell
         }
     }
     
@@ -226,7 +295,7 @@ extension QTLearnerDiscoverCategoryViewController: UITableViewDelegate {
         case 5:
             headerView?.title = "Recently Active"
         default:
-            break
+            headerView?.title = arySubcategories[section - 6]
         }
         
         return headerView

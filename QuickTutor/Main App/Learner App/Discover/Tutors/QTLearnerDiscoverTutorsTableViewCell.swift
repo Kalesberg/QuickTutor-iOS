@@ -26,6 +26,9 @@ class QTLearnerDiscoverTutorsTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        learnerDiscoverTutorsVC.isRisingTalent = QTLearnerDiscoverService.shared.isRisingTalent
+        learnerDiscoverTutorsVC.category = QTLearnerDiscoverService.shared.category
+        learnerDiscoverTutorsVC.subcategory = QTLearnerDiscoverService.shared.subcategory
         learnerDiscoverTutorsVC.didClickTutor = { tutor in
             self.didClickTutor?(tutor)
         }
@@ -38,14 +41,4 @@ class QTLearnerDiscoverTutorsTableViewCell: UITableViewCell {
         }
     }
     
-    func setView(category: Category? = nil, subcategory: String? = nil, isRisingTalent: Bool = false) {
-        if category == learnerDiscoverTutorsVC.category,
-            subcategory == learnerDiscoverTutorsVC.subcategory,
-            isRisingTalent == learnerDiscoverTutorsVC.isRisingTalent { return }
-        
-        learnerDiscoverTutorsVC.category = category
-        learnerDiscoverTutorsVC.subcategory = subcategory
-        learnerDiscoverTutorsVC.isRisingTalent = isRisingTalent
-        learnerDiscoverTutorsVC.getTutors()
-    }
 }

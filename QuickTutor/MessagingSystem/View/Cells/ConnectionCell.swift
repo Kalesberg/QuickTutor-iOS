@@ -167,9 +167,18 @@ class ConnectionCell: UICollectionViewCell {
     }
         
     func setupMessageButton() {
-        stackView.addArrangedSubview(messageButton)
+        let messageButtonContainer = UIView(frame: .zero)
+        messageButtonContainer.backgroundColor = .clear
+        stackView.addArrangedSubview(messageButtonContainer)
+        messageButtonContainer.snp.makeConstraints { make in
+            make.height.equalTo(35)
+        }
+        messageButtonContainer.addSubview(messageButton)
         messageButton.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview()
             make.width.equalTo(35)
+            make.centerY.equalToSuperview()
             make.height.equalTo(35)
         }
         messageButton.addTarget(self, action: #selector(showConversation), for: .touchUpInside)

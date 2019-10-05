@@ -22,7 +22,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="6wb-fK-PHr">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="208"/>
+                    <rect key="frame" x="0.0" y="10" width="375" height="208"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="208" id="j6J-6J-V5H"/>
@@ -31,7 +31,7 @@
                         <size key="itemSize" width="50" height="50"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
                         <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                        <inset key="sectionInset" minX="20" minY="10" maxX="20" maxY="0.0"/>
+                        <inset key="sectionInset" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
                     </collectionViewFlowLayout>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
@@ -42,13 +42,13 @@
                     </connections>
                 </collectionView>
                 <pageControl hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" hidesForSinglePage="YES" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="SIs-HT-rWg">
-                    <rect key="frame" x="168" y="208" width="39" height="43"/>
+                    <rect key="frame" x="168" y="218" width="39" height="33"/>
                 </pageControl>
             </subviews>
             <color key="backgroundColor" red="0.08235294118" green="0.08235294118" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="6wb-fK-PHr" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="8tv-g0-hhV"/>
-                <constraint firstItem="6wb-fK-PHr" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="A8A-Np-lQp"/>
+                <constraint firstItem="6wb-fK-PHr" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="A8A-Np-lQp"/>
                 <constraint firstItem="SIs-HT-rWg" firstAttribute="centerX" secondItem="6wb-fK-PHr" secondAttribute="centerX" id="FEM-qw-Xes"/>
                 <constraint firstItem="6wb-fK-PHr" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="J8F-T0-gbi"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="SIs-HT-rWg" secondAttribute="bottom" id="NiT-cA-1EM"/>

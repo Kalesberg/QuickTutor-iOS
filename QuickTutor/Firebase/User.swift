@@ -627,14 +627,12 @@ class FirebaseData {
 		}
 	}
 	
-	func fetchTutor(_ uid: String, isQuery: Bool, _ completion: @escaping (AWTutor?) -> Void) {
-		
+    func fetchTutor(_ uid: String, isQuery: Bool, queue: DispatchQueue = .main, _ completion: @escaping (AWTutor?) -> Void) {
 		let group = DispatchGroup()
-		
-		self.ref.child("account").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+		ref.child("account").child(uid).observeSingleEvent(of: .value) { snapshot in
 			guard let value = snapshot.value as? [String : Any] else { return completion(nil) }
 			
-			self.ref.child("tutor-info").child(uid).observeSingleEvent(of: .value, with: { (snapshot2) in
+			self.ref.child("tutor-info").child(uid).observeSingleEvent(of: .value) { snapshot2 in
 				guard let value2 = snapshot2.value as? [String : Any] else { return completion(nil) }
 				let tutorDict = value.merging(value2, uniquingKeysWith: { (first, last) -> Any in
 					return last
@@ -687,11 +685,11 @@ class FirebaseData {
                     group.leave()
                 }
                 
-				group.notify(queue: .main) {
+				group.notify(queue: queue) {
 					completion(tutor)
 				}
-			})
-		})
+			}
+		}
 	}
     
     func fetchConnectionStatus(uid: String, userType: UserType,  opponentId: String, completionHandler: ((Bool) -> ())?) {
