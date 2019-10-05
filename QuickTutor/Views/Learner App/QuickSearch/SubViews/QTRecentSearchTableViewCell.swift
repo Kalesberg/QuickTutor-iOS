@@ -32,6 +32,10 @@ class QTRecentSearchTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         deleteIconImage = deleteButton.imageView?.image?.maskWithColor(color: Colors.gray)
+
+        let cellBackground = UIView()
+        cellBackground.backgroundColor = Colors.newScreenBackground.darker(by: 5)
+        selectedBackgroundView = cellBackground
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

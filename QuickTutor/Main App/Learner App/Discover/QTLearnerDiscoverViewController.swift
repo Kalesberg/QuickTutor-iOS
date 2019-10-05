@@ -76,24 +76,11 @@ class QTLearnerDiscoverViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        navigationController?.isNavigationBarHidden = false
-        navigationController?.navigationBar.isTranslucent = true
-        navigationController?.navigationBar.isUserInteractionEnabled = false
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.backgroundColor = .clear
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.tintColor = .white
-        
+        navigationController?.setNavigationBarHidden(true, animated: true)
         tableView.addObserver(self, forKeyPath: "contentOffset", options: [.new, .old], context: nil)
         
         QTLearnerDiscoverService.shared.category = nil
         QTLearnerDiscoverService.shared.subcategory = nil
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-//        navigationController?.isNavigationBarHidden = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -131,7 +118,7 @@ class QTLearnerDiscoverViewController: UIViewController {
     }
     
     @IBAction func onClickBtnSave() {
-        let savedVC = SavedTutorsVC()
+        let savedVC = QTSavedTutorsViewController()
         savedVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(savedVC, animated: true)
     }

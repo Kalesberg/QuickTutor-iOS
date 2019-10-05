@@ -65,8 +65,7 @@ class QTLearnerDiscoverCategoryViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        navigationController?.isNavigationBarHidden = false
-        navigationItem.hidesBackButton = true
+        navigationController?.setNavigationBarHidden(true, animated: true)
         updateNavigationBar()
         
         tableView.addObserver(self, forKeyPath: "contentOffset", options: .new, context: nil)
@@ -90,12 +89,6 @@ class QTLearnerDiscoverCategoryViewController: UIViewController {
         let imageHeight: CGFloat = 380
         let alpha = (min(0, tableView.contentOffset.y) + imageHeight) / imageHeight
         viewNavigationBar.backgroundColor = Colors.newNavigationBarBackground.withAlphaComponent(alpha)
-        
-        navigationController?.navigationBar.isTranslucent = true
-        navigationController?.navigationBar.isUserInteractionEnabled = false
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.backgroundColor = .clear
-        navigationController?.navigationBar.shadowImage = UIImage()
     }
 
     @IBAction func onClickBtnBack(_ sender: Any) {

@@ -64,7 +64,7 @@ class LearnerMainPageVC: UIViewController {
         contentView.collectionView.reloadData()
         // Start the animation of refresh control
         self.refreshControl.beginRefreshing()
-        
+    
         // End the animation of refersh control
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
             self.refreshControl.endRefreshing()

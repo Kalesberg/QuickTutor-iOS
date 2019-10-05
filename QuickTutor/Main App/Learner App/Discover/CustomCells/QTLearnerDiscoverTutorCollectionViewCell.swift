@@ -8,10 +8,12 @@
 
 import UIKit
 import Cosmos
+import Firebase
 
 class QTLearnerDiscoverTutorCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var imgTutor: UIImageView!
+    @IBOutlet weak var btnSave: UIButton!
     @IBOutlet weak var lblTutorName: UILabel!
     @IBOutlet weak var lblFeaturedTopic: UILabel!
     @IBOutlet weak var lblHourlyRate: UILabel!
@@ -20,6 +22,8 @@ class QTLearnerDiscoverTutorCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var lblReviewsCount: UILabel!    
     
     private let viewMask = UIView(frame: .zero)
+    
+    private var objTutor: AWTutor?
     
     static var nib: UINib {
         return UINib(nibName: QTLearnerDiscoverTutorCollectionViewCell.reuseIdentifier, bundle: nil)
@@ -58,9 +62,39 @@ class QTLearnerDiscoverTutorCollectionViewCell: UICollectionViewCell {
         viewMask.layer.insertSublayer(gradientLayer, at: 0)
     }
     
+    @IBAction func onClickBtnSave(_ sender: Any) {
+        guard let uid = Auth.auth().currentUser?.uid,
+            let tutorId = objTutor?.uid, uid != tutorId else { return }
+        
+        if !CurrentUser.shared.learner.savedTutorIds.isEmpty {
+            let savedTutorIds = CurrentUser.shared.learner.savedTutorIds
+            savedTutorIds.contains(tutorId) ? unsaveTutor() : saveTutor()
+        } else {
+            saveTutor()
+        }
+    }
+    
+    func saveTutor() {
+        guard let uid = Auth.auth().currentUser?.uid, let tutorId = objTutor?.uid else { return }
+        Database.database().reference().child("saved-tutors").child(uid).child(tutorId).setValue(1)
+        btnSave.isSelected = true
+        CurrentUser.shared.learner.savedTutorIds.append(tutorId)
+    }
+    
+    func unsaveTutor() {
+        guard let uid = Auth.auth().currentUser?.uid, let tutorId = objTutor?.uid else { return }
+        Database.database().reference().child("saved-tutors").child(uid).child(tutorId).removeValue()
+        btnSave.isSelected = false
+        CurrentUser.shared.learner.savedTutorIds.removeAll(where: { $0 == tutorId })
+    }
+    
     func setView(_ tutor: AWTutor, isRisingTalent: Bool = false) {
+        objTutor = tutor
+        
         imgTutor.sd_setImage(with: tutor.profilePicUrl, placeholderImage: UIImage(named: "ic_avatar_placeholder"))
         viewMask.isHidden = false
+        
+        btnSave.isSelected = CurrentUser.shared.learner.savedTutorIds.contains(tutor.uid)
         
         lblTutorName.isHidden = false
         lblTutorName.text = tutor.formattedName

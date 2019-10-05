@@ -35,6 +35,8 @@ class MessagesVC: UIViewController {
     private var aryConversationMetadata: [ConversationMetaData] = []
     private var aryFilteredConversationMetadata: [ConversationMetaData] = []
     
+    private var presentedSearchVC = false
+    
     func setupViews() {
         setupMainView()
         setupCollectionView()
@@ -137,6 +139,7 @@ class MessagesVC: UIViewController {
             searchController.dimsBackgroundDuringPresentation = false
             searchController.searchBar.tintColor = .white
             searchController.searchResultsUpdater = self
+            searchController.delegate = self
         }
     }
     
@@ -414,10 +417,6 @@ extension MessagesVC {
         vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
     }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        searchController.resignFirstResponder()
-    }
 }
 
 extension MessagesVC: SwipeCollectionViewCellDelegate {
@@ -503,5 +502,23 @@ extension MessagesVC: UISearchResultsUpdating {
         guard let query = searchController.searchBar.text else { return }
         filterMessageForSearchText(query)
         collectionView.reloadData()
+    }
+}
+
+extension MessagesVC: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if presentedSearchVC {
+            searchController.searchBar.endEditing(true)
+        }
+    }
+}
+
+extension MessagesVC: UISearchControllerDelegate {
+    func didPresentSearchController(_ searchController: UISearchController) {
+        presentedSearchVC = true
+    }
+    
+    func didDismissSearchController(_ searchController: UISearchController) {
+        presentedSearchVC = false
     }
 }

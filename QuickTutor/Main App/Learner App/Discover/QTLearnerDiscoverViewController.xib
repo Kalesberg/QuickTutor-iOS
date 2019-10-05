@@ -29,6 +29,13 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="caI-wU-NUl">
+                    <rect key="frame" x="0.0" y="77" width="375" height="0.0"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" id="HbI-2d-cD5"/>
+                    </constraints>
+                </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="ic3-5o-NYO">
                     <rect key="frame" x="0.0" y="77" width="375" height="590"/>
                     <color key="backgroundColor" red="0.08235294118" green="0.08235294118" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -109,7 +116,7 @@
                                                 <constraint firstAttribute="width" secondItem="VAL-Zo-yEY" secondAttribute="height" multiplier="1:1" id="ZLb-2h-QZN"/>
                                             </constraints>
                                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <state key="normal" image="heart" catalog="system"/>
+                                            <state key="normal" image="heartIcon"/>
                                             <connections>
                                                 <action selector="onClickBtnSave" destination="-1" eventType="touchUpInside" id="anv-bt-xYv"/>
                                             </connections>
@@ -151,19 +158,22 @@
             <color key="backgroundColor" red="0.082352941176470587" green="0.082352941176470587" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="SO9-j8-CMb" firstAttribute="centerX" secondItem="0rs-WR-BW5" secondAttribute="centerX" id="9rb-uj-3E8"/>
+                <constraint firstItem="caI-wU-NUl" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="Etw-cd-BT8"/>
                 <constraint firstAttribute="trailing" secondItem="ic3-5o-NYO" secondAttribute="trailing" id="ZnQ-sK-EmU"/>
                 <constraint firstItem="SO9-j8-CMb" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="aBq-gC-8qP"/>
                 <constraint firstItem="ic3-5o-NYO" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="aR6-CZ-kvW"/>
                 <constraint firstItem="SO9-j8-CMb" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="d7T-sz-Nqx"/>
+                <constraint firstItem="caI-wU-NUl" firstAttribute="top" secondItem="SO9-j8-CMb" secondAttribute="bottom" id="dgZ-Qc-ePr"/>
                 <constraint firstAttribute="bottom" secondItem="ic3-5o-NYO" secondAttribute="bottom" id="iDF-zi-lRN"/>
                 <constraint firstItem="ic3-5o-NYO" firstAttribute="top" secondItem="SO9-j8-CMb" secondAttribute="bottom" id="raA-AT-mnJ"/>
+                <constraint firstItem="caI-wU-NUl" firstAttribute="centerX" secondItem="0rs-WR-BW5" secondAttribute="centerX" id="zgb-UZ-i4T"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="0rs-WR-BW5"/>
             <point key="canvasLocation" x="132" y="143.47826086956522"/>
         </view>
     </objects>
     <resources>
-        <image name="heart" catalog="system" width="64" height="58"/>
+        <image name="heartIcon" width="20" height="18"/>
         <image name="ic_search" width="20" height="20"/>
     </resources>
 </document>

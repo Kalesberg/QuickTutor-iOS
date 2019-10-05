@@ -40,11 +40,25 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V5g-Gd-Vtf">
+                                <rect key="frame" x="133" y="5" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="V5g-Gd-Vtf" secondAttribute="height" multiplier="1:1" id="2uI-NG-q6h"/>
+                                    <constraint firstAttribute="width" constant="30" id="d42-Lf-p4w"/>
+                                </constraints>
+                                <state key="normal" image="heartIcon"/>
+                                <state key="selected" image="heartIconFilled"/>
+                                <connections>
+                                    <action selector="onClickBtnSave:" destination="gTV-IL-0wX" eventType="touchUpInside" id="nDB-U1-KSb"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="xIf-14-w9N" firstAttribute="centerY" secondItem="xGf-4z-3z3" secondAttribute="centerY" id="182-fN-MFP"/>
+                            <constraint firstItem="V5g-Gd-Vtf" firstAttribute="top" secondItem="xGf-4z-3z3" secondAttribute="top" constant="5" id="QmR-md-yEy"/>
                             <constraint firstItem="xIf-14-w9N" firstAttribute="height" secondItem="xGf-4z-3z3" secondAttribute="height" id="XJq-KA-Mol"/>
+                            <constraint firstAttribute="trailing" secondItem="V5g-Gd-Vtf" secondAttribute="trailing" constant="5" id="dhF-tj-Dm2"/>
                             <constraint firstItem="xIf-14-w9N" firstAttribute="centerX" secondItem="xGf-4z-3z3" secondAttribute="centerX" id="l6B-QU-pAS"/>
                             <constraint firstItem="xIf-14-w9N" firstAttribute="width" secondItem="xGf-4z-3z3" secondAttribute="width" id="weP-Tp-jRe"/>
                         </constraints>
@@ -230,6 +244,7 @@
                 <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
             </userDefinedRuntimeAttributes>
             <connections>
+                <outlet property="btnSave" destination="V5g-Gd-Vtf" id="Ihc-oW-cal"/>
                 <outlet property="imgTutor" destination="xIf-14-w9N" id="w5k-fm-RhN"/>
                 <outlet property="lblFeaturedTopic" destination="a5h-Kv-IzO" id="H1Q-SD-7yo"/>
                 <outlet property="lblHourlyRate" destination="SGZ-iR-ZiY" id="QnC-LP-65G"/>
@@ -242,6 +257,8 @@
         </collectionViewCell>
     </objects>
     <resources>
+        <image name="heartIcon" width="20" height="18"/>
+        <image name="heartIconFilled" width="20" height="18"/>
         <image name="ic_rising_talent" width="38" height="38"/>
         <image name="ic_star_empty" width="24" height="24"/>
         <image name="ic_star_filled" width="24" height="24"/>

@@ -125,7 +125,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         }
         
         let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = CGRect(origin: .zero, size: CGSize(width: containerView.frame.size.width, height: 61))
+        gradientLayer.frame = CGRect(origin: .zero, size: CGSize(width: shadowView.frame.size.width, height: 61))
         gradientLayer.colors = [UIColor.clear,
                                 UIColor.black.withAlphaComponent(0.8)].map({$0.cgColor})
         gradientLayer.locations = [0, 1]

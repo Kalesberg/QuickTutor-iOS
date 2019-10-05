@@ -18,7 +18,7 @@ extension QTLearnerDiscoverTopicType {
         case .inperson:
             return ["Astronomy", "Baking", "Bartending", "Behavioral Management", "Card Games", "Cooking", "Dancing", "Drawing", "Fishing", "Fitness", "Hiking", "Hunting", "Painting", "Public Speaking", "Resistance Training", "Travel Help", "Wrestling"].map({ QTLearnerDiscoverTopicInterface(topic: $0) })
         case .recommended:
-            return ["Advertising", "Algebra", "Break Pads", "Communications", "Computer Programming", "Dating Advice", "ESL", "Essays", "Fortnite", "Poetry", "Self-Care"].map({ QTLearnerDiscoverTopicInterface(topic: $0) })
+            return ["Advertising", "Algebra", "Break Pads", "Communications", "Dating Advice", "ESL", "Essays", "Fortnite", "Poetry", "Self-Care"].map({ QTLearnerDiscoverTopicInterface(topic: $0) })
         case .online:
             return ["Accounting", "Acting", "C++", "Calclus", "Chemistry", "Cosmetology", "Financial Accounting", "Fortnite", "Guitar", "Hair Styling", "HTML", "Life Motivation", "Makeup", "Mathematics", "Motivation", "Nutrition", "Physics", "Singing", "Spanish (Speaking)"].map({ QTLearnerDiscoverTopicInterface(topic: $0) })
         }

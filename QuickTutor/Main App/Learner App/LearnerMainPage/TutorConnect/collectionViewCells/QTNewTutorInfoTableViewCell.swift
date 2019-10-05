@@ -165,7 +165,10 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
     }
     
     func setupViews() {
-        contentView.backgroundColor = Colors.newScreenBackground
+        let cellBackground = UIView()
+        cellBackground.backgroundColor = Colors.newScreenBackground.darker(by: 5)
+        selectedBackgroundView = cellBackground
+
         backgroundColor = Colors.newScreenBackground
         
         setupProfileImageView()
