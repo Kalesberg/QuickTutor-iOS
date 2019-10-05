@@ -56,7 +56,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         addSubview(containerView)
         containerView.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.width.equalToSuperview().offset(-8)
+            make.width.equalToSuperview()
             make.height.equalToSuperview().offset(-8)
         }
     }
@@ -80,8 +80,9 @@ class CategoryCollectionViewCell: UICollectionViewCell {
             make.height.equalTo(61)
         }
         
+        let width = (UIScreen.main.bounds.width - 50) / 2.5
         let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = CGRect(x: 0, y: 0, width: 122, height: 61)
+        gradientLayer.frame = CGRect(x: 0, y: 0, width: width, height: 61)
         gradientLayer.colors = [UIColor.clear,
                                 UIColor.black.withAlphaComponent(0.8)].map({$0.cgColor})
         gradientLayer.locations = [0, 1]
@@ -102,6 +103,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     private func addShadow() {
         containerView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 4)
         containerView.cornerRadius(radius: 5)
+        containerView.clipsToBounds = true
     }
     
     override init(frame: CGRect) {

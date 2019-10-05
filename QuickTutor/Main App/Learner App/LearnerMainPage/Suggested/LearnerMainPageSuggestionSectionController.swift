@@ -17,7 +17,7 @@ class LearnerMainPageSuggestionController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 15
-        layout.minimumInteritemSpacing = 0
+        layout.minimumInteritemSpacing = 15
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
@@ -107,7 +107,8 @@ extension LearnerMainPageSuggestionController: SkeletonCollectionViewDataSource 
 
 extension LearnerMainPageSuggestionController: UICollectionViewDelegateFlowLayout {
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
-        return CGSize(width: 134, height: 254)
+        let width = (UIScreen.main.bounds.width - 50) / 2.5
+        return CGSize(width: width, height: 254)
     }
 }
 

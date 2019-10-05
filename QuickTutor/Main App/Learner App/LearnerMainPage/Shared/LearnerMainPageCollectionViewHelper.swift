@@ -54,9 +54,10 @@ class LearnerMainPageCollectionViewHelper: NSObject, UICollectionViewDelegate, U
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var height: CGFloat = 0
+        let width = UIScreen.main.bounds.width
         switch indexPath.section {
         case 0:
-            height = 230
+            height = ((width - 50) / 2.5) * 18 / 13 + 58
         case 1:
             height = 108
         case 2:

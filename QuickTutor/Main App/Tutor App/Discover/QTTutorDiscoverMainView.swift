@@ -262,15 +262,15 @@ extension QTTutorDiscoverMainView: UICollectionViewDelegateFlowLayout {
         
         switch indexPath.section {
         case 0:
-            return CGSize(width: width, height: 290)
+            return CGSize(width: width, height: 258)
         case 1:
             return hasOpportunities
                 ? CGSize(width: width, height: 234)
                 : CGSize(width: width, height: CGFloat.leastNonzeroMagnitude)
         case 2:
-            return CGSize(width: width, height: 230)
+            return CGSize(width: width, height: (width - 50) / 2.5 * 18 / 13 + 50)
         case 3:
-            return CGSize(width: width, height: 527)
+            return CGSize(width: width, height: 494)
         case 4:
             return CGSize(width: width, height: 197)
         default:

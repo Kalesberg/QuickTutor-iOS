@@ -47,7 +47,8 @@ class CategorySectionController: UIViewController, UICollectionViewDelegate, UIC
     
     func setupCollectionView() {
         view.addSubview(collectionView)
-        collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 180)
+        let height = (UIScreen.main.bounds.width - 50) / 2.5 * 18 / 13 + 8
+        collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: height)
         collectionView.delegate = self
         collectionView.dataSource = self
     }
@@ -105,7 +106,8 @@ class CategorySectionController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
-        return CGSize(width: 130, height: 180)
+        let width = (UIScreen.main.bounds.width - 50) / 2.5
+        return CGSize(width: width, height: width * 18 / 13 + 8)
     }
     
 }
