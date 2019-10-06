@@ -94,6 +94,7 @@ class QTLearnerDiscoverTutorCollectionViewCell: UICollectionViewCell {
         imgTutor.sd_setImage(with: tutor.profilePicUrl, placeholderImage: UIImage(named: "ic_avatar_placeholder"))
         viewMask.isHidden = false
         
+        btnSave.isHidden = false
         btnSave.isSelected = CurrentUser.shared.learner.savedTutorIds.contains(tutor.uid)
         
         lblTutorName.isHidden = false

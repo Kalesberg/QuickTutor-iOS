@@ -41,4 +41,10 @@ class QTLearnerDiscoverTutorsTableViewCell: UITableViewCell {
         }
     }
     
+    func updateDatasource() {
+        if !QTLearnerDiscoverService.shared.isRisingTalent {
+            learnerDiscoverTutorsVC.getTutors()
+        }
+    }
+    
 }

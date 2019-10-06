@@ -12,7 +12,7 @@ import Firebase
 class TutorSearchService {
     static let shared = TutorSearchService()
     
-    func getTutorsByCategory(_ categoryName: String, lastKnownKey: String?, limit: UInt = 60, completion: @escaping ([AWTutor]?, Bool) -> Void) {
+    func getTutorsByCategory(_ categoryName: String, lastKnownKey: String?, limit: UInt = 60, queue: DispatchQueue = .main, completion: @escaping ([AWTutor]?, Bool) -> Void) {
         var tutors = [AWTutor]()
         let myGroup = DispatchGroup()
         var ref = Database.database().reference().child("categories").child(categoryName).queryOrderedByKey().queryLimited(toFirst: limit)
@@ -27,7 +27,7 @@ class TutorSearchService {
             
             tutorIds.keys.sorted(by: { $0 < $1 }).forEach { uid in
                 myGroup.enter()
-                FirebaseData.manager.fetchTutor(uid, isQuery: false, queue: .global(qos: .background)) { tutor in
+                FirebaseData.manager.fetchTutor(uid, isQuery: false, queue: .global(qos: .userInitiated)) { tutor in
                     guard let tutor = tutor else {
                         myGroup.leave()
                         return
@@ -42,7 +42,7 @@ class TutorSearchService {
                     myGroup.leave()
                 }
             }
-            myGroup.notify(queue: .main) {
+            myGroup.notify(queue: queue) {
                 if let _ = lastKnownKey {
                     tutors.removeFirst()
                 }
@@ -51,7 +51,7 @@ class TutorSearchService {
         }
     }
     
-    func getTutorsBySubcategory(_ subcategoryName: String, lastKnownKey: String?, limit: UInt = 60, completion: @escaping ([AWTutor]?, Bool) -> Void) {
+    func getTutorsBySubcategory(_ subcategoryName: String, lastKnownKey: String?, limit: UInt = 60, queue: DispatchQueue = .main, completion: @escaping ([AWTutor]?, Bool) -> Void) {
         var tutors = [AWTutor]()
         let desiredSubjects = CategoryFactory.shared.getSubjectsFor(subcategoryName: subcategoryName)
         
@@ -67,7 +67,7 @@ class TutorSearchService {
             let myGroup = DispatchGroup()
             tutorIds.keys.sorted(by: { $0 < $1 }).forEach { uid in
                 myGroup.enter()
-                FirebaseData.manager.fetchTutor(uid, isQuery: false, queue: .global(qos: .background)) { tutor in
+                FirebaseData.manager.fetchTutor(uid, isQuery: false, queue: .global(qos: .userInitiated)) { tutor in
                     guard let tutor = tutor else {
                         myGroup.leave()
                         return
@@ -81,7 +81,7 @@ class TutorSearchService {
                     myGroup.leave()
                 }
             }
-            myGroup.notify(queue: .main) {
+            myGroup.notify(queue: queue) {
                 if let _ = lastKnownKey {
                     tutors.removeFirst()
                 }
@@ -90,7 +90,7 @@ class TutorSearchService {
         }
     }
     
-    func getTutorsBySubject(_ subject: String, lastKnownKey: String?, limit: UInt = 60, completion: @escaping ([AWTutor]?, Bool) -> Void) {
+    func getTutorsBySubject(_ subject: String, lastKnownKey: String?, limit: UInt = 60, queue: DispatchQueue = .main, completion: @escaping ([AWTutor]?, Bool) -> Void) {
         var tutors = [AWTutor]()
         let myGroup = DispatchGroup()
         var ref = Database.database().reference().child("subjects").child(subject).queryOrderedByKey().queryLimited(toFirst: limit)
@@ -106,7 +106,7 @@ class TutorSearchService {
             }
             tutorIds.keys.sorted(by: { $0 < $1 }).forEach { uid in
                 myGroup.enter()
-                FirebaseData.manager.fetchTutor(uid, isQuery: false, queue: .global(qos: .background)) { tutor in
+                FirebaseData.manager.fetchTutor(uid, isQuery: false, queue: .global(qos: .userInitiated)) { tutor in
                     guard let tutor = tutor else {
                         myGroup.leave()
                         return
@@ -118,7 +118,7 @@ class TutorSearchService {
                     myGroup.leave()
                 }
             }
-            myGroup.notify(queue: .main) {
+            myGroup.notify(queue: queue) {
                 if let _ = lastKnownKey {
                     tutors.removeFirst()
                 }
@@ -335,14 +335,14 @@ class TutorSearchService {
                         accountIdsGroup.leave()
                     }
                 }
-                accountIdsGroup.notify(queue: .global(qos: .background)) {
+                accountIdsGroup.notify(queue: .global(qos: .userInitiated)) {
                     var aryTutors: [AWTutor] = []
                     let tutorsGroup = DispatchGroup()
                     for accountId in accountIds.suffix(limit) {
                         if accountId == Auth.auth().currentUser?.uid { continue }
                         
                         tutorsGroup.enter()
-                        FirebaseData.manager.fetchTutor(accountId, isQuery: false, queue: .global(qos: .background)) { tutor in
+                        FirebaseData.manager.fetchTutor(accountId, isQuery: false, queue: .global(qos: .userInitiated)) { tutor in
                             if let tutor = tutor {
                                 aryTutors.append(tutor)
                             }
@@ -382,7 +382,7 @@ class TutorSearchService {
                     accountIdsGroup.leave()
                 }
             }
-            accountIdsGroup.notify(queue: .global(qos: .background)) {
+            accountIdsGroup.notify(queue: .global(qos: .userInitiated)) {
                 var aryTutors: [AWTutor] = []
                 let tutorsGroup = DispatchGroup()
                 for accountId in accountIds {

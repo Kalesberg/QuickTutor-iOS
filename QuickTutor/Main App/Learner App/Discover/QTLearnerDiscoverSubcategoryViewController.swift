@@ -165,6 +165,7 @@ extension QTLearnerDiscoverSubcategoryViewController: UITableViewDataSource {
             return cell
         case 1: // Top Experts
             let cell = tableView.dequeueReusableCell(withIdentifier: "QTLearnerDiscover\(category.mainPageData.name.capitalized)TableViewCell", for: indexPath) as! QTLearnerDiscoverTutorsTableViewCell
+            cell.updateDatasource()
             cell.didClickTutor = { tutor in
                 self.openTutorProfileView(tutor)
             }

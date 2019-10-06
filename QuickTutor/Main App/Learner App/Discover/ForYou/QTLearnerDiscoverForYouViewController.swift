@@ -76,7 +76,7 @@ class QTLearnerDiscoverForYouViewController: UIViewController {
             }
         }
         
-        interestsGroup.notify(queue: .global(qos: .background)) {
+        interestsGroup.notify(queue: .global(qos: .userInitiated)) {
             // load same subcategory tutors
             let subcategoriesGroup = DispatchGroup()
             for subcategory in subcategories {
@@ -100,7 +100,7 @@ class QTLearnerDiscoverForYouViewController: UIViewController {
                     subcategoriesGroup.leave()
                 }
             }
-            subcategoriesGroup.notify(queue: .global(qos: .background)) {
+            subcategoriesGroup.notify(queue: .global(qos: .userInitiated)) {
                 // load same category tutors
                 let categoriesGroup = DispatchGroup()
                 for category in categories {
@@ -131,7 +131,7 @@ class QTLearnerDiscoverForYouViewController: UIViewController {
                         categoriesGroup.leave()
                     }
                 }
-                categoriesGroup.notify(queue: .global(qos: .background)) {
+                categoriesGroup.notify(queue: .global(qos: .userInitiated)) {
                     self.loadTutors()
                 }
             }
@@ -146,7 +146,7 @@ class QTLearnerDiscoverForYouViewController: UIViewController {
         let realLimit = limit < aryTutorIds.count ? limit : aryTutorIds.count
         for index in 0 ..< realLimit {
             tutorsGroup.enter()
-            FirebaseData.manager.fetchTutor(aryTutorIds[index].tutorId, isQuery: false, queue: .global(qos: .background)) { tutor in
+            FirebaseData.manager.fetchTutor(aryTutorIds[index].tutorId, isQuery: false, queue: .global(qos: .userInitiated)) { tutor in
                 guard let tutor = tutor else {
                     tutorsGroup.leave()
                     return
