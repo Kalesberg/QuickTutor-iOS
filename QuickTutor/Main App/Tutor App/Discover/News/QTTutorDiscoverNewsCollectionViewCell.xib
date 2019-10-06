@@ -28,6 +28,7 @@
                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                 <real key="value" value="5"/>
                             </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
                         </userDefinedRuntimeAttributes>
                     </imageView>
                     <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jG1-bj-OUc">
@@ -76,6 +77,9 @@
                             <constraint firstAttribute="height" constant="50" id="Fte-Yl-OKj"/>
                         </constraints>
                         <blurEffect style="regular"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                        </userDefinedRuntimeAttributes>
                     </visualEffectView>
                 </subviews>
             </view>
@@ -91,6 +95,9 @@
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="312" height="237"/>
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+            </userDefinedRuntimeAttributes>
             <connections>
                 <outlet property="imageView" destination="fVF-eC-f3V" id="S9m-1Z-N5T"/>
                 <outlet property="readButton" destination="AQ9-VC-BiC" id="p6F-ag-91L"/>

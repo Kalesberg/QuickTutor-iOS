@@ -107,7 +107,7 @@ class QTLearnerDiscoverViewController: UIViewController {
             
             let diff = old.y - new.y
             
-            if 20 < abs(diff) || 0 > new.y || new.y + tableView.frame.size.height > tableView.contentSize.height { return }
+            if 10 < abs(diff) || 0 > new.y || new.y + tableView.frame.size.height > tableView.contentSize.height { return }
             
             if 0 < diff {
                 if 0 == constraintRecentSearchCollectionTop.constant { return }

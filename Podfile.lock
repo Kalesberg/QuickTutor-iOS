@@ -3,9 +3,9 @@ PODS:
   - ActiveLabel (1.0.1)
   - Alamofire (4.9.0)
   - BetterSegmentedControl (1.2.1)
-  - Branch (0.29.0):
-    - Branch/Core (= 0.29.0)
-  - Branch/Core (0.29.0)
+  - Branch (0.29.1):
+    - Branch/Core (= 0.29.1)
+  - Branch/Core (0.29.1)
   - Cache (5.2.0)
   - CardScan (1.0.4043):
     - CardScan/Core (= 1.0.4043)
@@ -27,15 +27,15 @@ PODS:
     - FacebookCore (~> 0.9.0)
     - FBSDKCoreKit (~> 5.0)
     - FBSDKLoginKit (~> 5.0)
-  - FBSDKCoreKit (5.6.0):
-    - FBSDKCoreKit/Basics (= 5.6.0)
-    - FBSDKCoreKit/Core (= 5.6.0)
-  - FBSDKCoreKit/Basics (5.6.0)
-  - FBSDKCoreKit/Core (5.6.0):
+  - FBSDKCoreKit (5.7.0):
+    - FBSDKCoreKit/Basics (= 5.7.0)
+    - FBSDKCoreKit/Core (= 5.7.0)
+  - FBSDKCoreKit/Basics (5.7.0)
+  - FBSDKCoreKit/Core (5.7.0):
     - FBSDKCoreKit/Basics
-  - FBSDKLoginKit (5.6.0):
-    - FBSDKLoginKit/Login (= 5.6.0)
-  - FBSDKLoginKit/Login (5.6.0):
+  - FBSDKLoginKit (5.7.0):
+    - FBSDKLoginKit/Login (= 5.7.0)
+  - FBSDKLoginKit/Login (5.7.0):
     - FBSDKCoreKit (~> 5.0)
   - Firebase/Auth (5.20.2):
     - Firebase/CoreOnly
@@ -174,7 +174,7 @@ PODS:
   - nanopb/encode (0.3.901)
   - ObjectMapper (3.5.1)
   - PlaceholderTextView (0.3.0)
-  - Protobuf (3.9.2)
+  - Protobuf (3.10.0)
   - RangeSeekSlider (1.8.0)
   - SDWebImage (4.4.7):
     - SDWebImage/Core (= 4.4.7)
@@ -308,7 +308,7 @@ SPEC CHECKSUMS:
   ActiveLabel: b8b2396fe25308d563601437d6605bf691c3b5db
   Alamofire: afc3e7c6db61476cb45cdd23fed06bad03bbc321
   BetterSegmentedControl: b27bddbdff29b6cae988678d6cd106858986cd03
-  Branch: 6e7421e1f3c0adebdf80008a40a74969b2603cf8
+  Branch: 3833f9691b0c874c81233362c929239c452f2ff0
   Cache: 807c5d86d01a177f06ede9865add3aea269bbfd4
   CardScan: badf82e2cfcfc7ee513836a60dbb71bdb2cf5196
   Charts: f69cf0518b6d1d62608ca504248f1bbe0b6ae77e
@@ -319,8 +319,8 @@ SPEC CHECKSUMS:
   Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
   FacebookCore: ba86524b66cfa86d0f8e65d08faa8504a9f732dd
   FacebookLogin: 6cee9fd6e1fe976fe8f7eec199e27b28b14f5d63
-  FBSDKCoreKit: d6655a343868d4bb5c29a60859bab07c3be14a0b
-  FBSDKLoginKit: c5a623de88a6b0cda35b35582921f6cec2efcc36
+  FBSDKCoreKit: 0d2d450fe9447e204fa6e912e0df76dd36693699
+  FBSDKLoginKit: 4127e8260b96e0e4cc8ba0c10c95ee63941aa24a
   Firebase: 0c8cf33f266410c61ab3e2265cfa412200351d9c
   FirebaseABTesting: 1f50b8d50f5e3469eea54e7463a7b7fe221d1f5e
   FirebaseAnalytics: ece1aa57a4f43c64d53a648b5a5e05151aae947b
@@ -350,7 +350,7 @@ SPEC CHECKSUMS:
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   ObjectMapper: 70187b8941977c62ccfb423caf6b50be405cabf0
   PlaceholderTextView: ffca9f176be00ab3090e2191e6908dabf3dbdada
-  Protobuf: 67fb42ba613def994e61854de2b3164f13790cc4
+  Protobuf: a4dc852ad69c027ca2166ed287b856697814375b
   RangeSeekSlider: 650b11fa1edcb92e1e0ede797669d98622570fb5
   SDWebImage: c10d14a8883ebd89664f02a422006f66a85c0c5d
   SkeletonView: c0717eaa2423d6fe1d684fad17b157ea7800f443
@@ -368,4 +368,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 70a649752260622e2e8e0601d7da485df9d36644
 
-COCOAPODS: 1.8.0
+COCOAPODS: 1.8.1
