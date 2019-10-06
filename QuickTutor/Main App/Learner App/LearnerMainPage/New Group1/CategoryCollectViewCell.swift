@@ -51,8 +51,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = 5
-        
+        imageView.cornerRadius(radius: 5)
         return imageView
     }()
 
@@ -68,7 +67,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         addSubview(shadowView)
         shadowView.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.left.equalToSuperview().offset(4)
+            make.left.equalToSuperview()
             make.top.equalToSuperview().offset(4)
         }
     }
@@ -108,6 +107,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     
     private func addShadow() {
         shadowView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 5)
+
     }
     
     override init(frame: CGRect) {

@@ -24,7 +24,9 @@ class QTTutorDiscoverCategoryParallaxHeaderView: UIView {
     // MARK: - Functions
     func setData(category: Category) {
         categoryNameLabel.text = category.mainPageData.displayName
-        bannerImageView.image = category.mainPageData.image
+        if let imagePath = QTGlobalData.shared.categories[category.mainPageData.name]?.imageUrl, let imageUrl = URL(string: imagePath) {
+            bannerImageView.setImage(url: imageUrl)
+        }
     }
     
     // MARK: - Actions

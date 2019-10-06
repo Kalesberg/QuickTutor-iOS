@@ -42,7 +42,7 @@ class FeaturedSectionController: UIViewController {
         setupPageControl()
         
         collectionView.prepareSkeleton { _ in
-            self.view.showAnimatedSkeleton(usingColor: Colors.gray)
+            self.collectionView.showAnimatedSkeleton(usingColor: Colors.gray)
             self.loadFeaturedSubjects()
         }
     }
@@ -78,7 +78,10 @@ class FeaturedSectionController: UIViewController {
     
     func loadFeaturedSubjects() {
         DataService.shared.featchMainPageFeaturedSubject { items in
-            self.view.hideSkeleton()
+            if self.collectionView.isSkeletonActive {
+                self.collectionView.hideSkeleton()
+            }
+            
             self.featuredItems = items
             self.pageCtrl.numberOfPages = items.count
             self.collectionView.reloadData()

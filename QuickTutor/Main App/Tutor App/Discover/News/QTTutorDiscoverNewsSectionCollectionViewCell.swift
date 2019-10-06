@@ -100,14 +100,14 @@ class QTTutorDiscoverNewsSectionCollectionViewCell: UICollectionViewCell {
         label.text = "News"
         label.textColor = .white
         label.textAlignment = .left
-        label.font = Fonts.createBlackSize(22)
+        label.font = Fonts.createBoldSize(20)
         return label
     }()
     
     let controller = QTTutorDiscoverNewsViewController()
     
-    let pageControl: QTPageControl = {
-        let pageControl = QTPageControl()
+    let pageControl: UIPageControl = {
+        let pageControl = UIPageControl()
         return pageControl
     }()
     
@@ -137,7 +137,7 @@ class QTTutorDiscoverNewsSectionCollectionViewCell: UICollectionViewCell {
     func setupPageControl() {
         contentView.addSubview(pageControl)
         pageControl.anchor(top: controller.view.bottomAnchor, left: nil, bottom: contentView.bottomAnchor, right: nil,
-                           paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0,
+                           paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0,
                            width: 0, height: 8)
         pageControlWidthAnchor = pageControl.widthAnchor.constraint(equalToConstant: 63)
         pageControlWidthAnchor?.isActive = true

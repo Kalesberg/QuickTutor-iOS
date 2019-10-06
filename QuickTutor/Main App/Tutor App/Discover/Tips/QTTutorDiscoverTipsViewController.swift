@@ -42,10 +42,29 @@ class QTTutorDiscoverTipsViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.showsVerticalScrollIndicator = false
+        collectionView.isScrollEnabled = false
+        collectionView.bounces = false
+    }
+    
+    func addObservers() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(onReceivedRefershDiscoverPage),
+                                               name: NotificationNames.TutorDiscoverPage.refreshDiscoverPage,
+                                               object: nil)
+    }
+    
+    func removeObservers() {
+        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: - Actions
-    
+    @objc
+    func onReceivedRefershDiscoverPage() {
+        tips.removeAll()
+        collectionView.reloadData()
+        
+        setupSkeletonView()
+    }
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -53,6 +72,14 @@ class QTTutorDiscoverTipsViewController: UIViewController {
 
         configureViews()
         setupSkeletonView()
+        addObservers()
+    }
+    
+    override func didMove(toParent parent: UIViewController?) {
+        if parent == nil {
+            removeObservers()
+        }
+        super.didMove(toParent: parent)
     }
 }
 
@@ -71,13 +98,21 @@ extension QTTutorDiscoverTipsViewController: UICollectionViewDelegate {
 extension QTTutorDiscoverTipsViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let width = (UIScreen.main.bounds.size.width - 44) / 2
+        let width = (UIScreen.main.bounds.size.width - 55) / 2
         return CGSize(width: width, height: 222)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 20, bottom: 20, right: 20)
-    }    
+        return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 15
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
 }
 
 

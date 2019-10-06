@@ -17,7 +17,7 @@ class LearnerMainPageTopTutorsController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 15
-        layout.minimumInteritemSpacing = 0
+        layout.minimumInteritemSpacing = 15
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         collectionView.showsVerticalScrollIndicator = false
@@ -84,18 +84,9 @@ extension LearnerMainPageTopTutorsController: SkeletonCollectionViewDataSource {
 
 extension LearnerMainPageTopTutorsController: UICollectionViewDelegateFlowLayout {
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
-        let width = (UIScreen.main.bounds.size.width - 60) / 2
+        let width = (UIScreen.main.bounds.size.width - 55) / 2
         return CGSize(width: width, height: 254)
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 20
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 20
-    }
-    
 }
 
 extension LearnerMainPageTopTutorsController: UICollectionViewDelegate {

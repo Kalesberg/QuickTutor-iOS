@@ -42,6 +42,7 @@ struct NotificationNames {
         static let quickRequestCellTapped = Notification.Name("com.quickTutor.quickRequestCellTapped")
         static let reloadSessions = Notification.Name("com.quickTutor.reloadSessions")
         static let requestSession = Notification.Name("com.quickTutor.requestSession")
+        static let quickSearchTapped = Notification.Name("com.quickTutor.LearnerMainFeed.quickSearchTapped")
     }
     struct QuickSearch {
         static let updatedFilters = Notification.Name("com.quickTutor.updatedFilters")
@@ -70,6 +71,7 @@ struct NotificationNames {
         static let quickRequestRemoved = Notification.Name("com.quickTutor.TutorDiscoverPage.quickRequestRemoved")
         static let noQuickRequest = Notification.Name("com.quickTutor.TutorDiscoverPage.noQuickRequest")
         static let appliedToOpportunity = Notification.Name("com.quickTutor.TutorDiscoverPage.appliedToOpportunity")
+        static let refreshDiscoverPage = Notification.Name("com.quickTutor.TutorDiscoverPage.refreshDiscoverPage")
     }
 }
 

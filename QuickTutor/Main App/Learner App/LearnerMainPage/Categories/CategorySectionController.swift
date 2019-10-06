@@ -26,10 +26,20 @@ class CategorySectionController: UIViewController, UICollectionViewDelegate, UIC
         return collectionView
     }()
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupCollectionView()
+        setupViews()
+        addObservers()
     }
+    
+    override func didMove(toParent parent: UIViewController?) {
+        if parent == nil {
+            removeObservers()
+        }
+        super.didMove(toParent: parent)
+    }
+    
     
     func setupViews() {
         setupCollectionView()
@@ -37,9 +47,31 @@ class CategorySectionController: UIViewController, UICollectionViewDelegate, UIC
     
     func setupCollectionView() {
         view.addSubview(collectionView)
-        collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 180)
+        let height = (UIScreen.main.bounds.width - 50) / 2.5 * 18 / 13 + 8
+        collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: height)
         collectionView.delegate = self
         collectionView.dataSource = self
+    }
+    
+    func addObservers() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(onReceivedRefershDiscoverPage),
+                                               name: NotificationNames.TutorDiscoverPage.refreshDiscoverPage,
+                                               object: nil)
+    }
+    
+    func removeObservers() {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    // MARK: - Actions
+    @objc
+    func onReceivedRefershDiscoverPage() {
+        DataService.shared.getCategoriesInfo {
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
     }
     
     func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
@@ -49,7 +81,9 @@ class CategorySectionController: UIViewController, UICollectionViewDelegate, UIC
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCollectionViewCell.reuseIdentifier, for: indexPath) as! CategoryCollectionViewCell
         cell.label.text = categories[indexPath.row].mainPageData.displayName
-        cell.imageView.image = categories[indexPath.row].mainPageData.image
+        if let imagePath = QTGlobalData.shared.categories[categories[indexPath.row].mainPageData.name]?.imageUrl, let imageUrl = URL(string: imagePath)  {
+            cell.imageView.setImage(url: imageUrl)
+        }
         return cell
     }
     
@@ -72,8 +106,8 @@ class CategorySectionController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
-        let width = ceil((UIScreen.main.bounds.width - 50) / 2.5)
-        return CGSize(width: width, height: 180)
+        let width = (UIScreen.main.bounds.width - 50) / 2.5
+        return CGSize(width: width, height: width * 18 / 13 + 8)
     }
     
 }

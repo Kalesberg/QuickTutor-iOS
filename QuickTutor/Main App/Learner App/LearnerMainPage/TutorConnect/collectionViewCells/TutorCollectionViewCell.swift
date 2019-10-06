@@ -26,6 +26,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
         let view = UIView()
         view.layer.cornerRadius = 5
         view.isSkeletonable = true
+        view.clipsToBounds = true
         return view
     }()
     
@@ -132,7 +133,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
         setupProfileImageView()
         setupMaskBackgroundView()
         
-//        setupSaveButton()
+        setupSaveButton()
         setupNameLabel()
         setupSubjectLabel()
         setupPriceLabel()
@@ -145,7 +146,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(containerView)
         containerView.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.width.equalToSuperview().offset(-4)
+            make.width.equalToSuperview()
             make.height.equalToSuperview().offset(-8)
         }
     }
@@ -169,8 +170,10 @@ class TutorCollectionViewCell: UICollectionViewCell {
             make.height.equalTo(50)
         }
         
+        let width = (UIScreen.main.bounds.width - 55) / 2
+        
         let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = CGRect(x: 0, y: 0, width: 130, height: 50)
+        gradientLayer.frame = CGRect(x: 0, y: 0, width: width, height: 50)
         gradientLayer.colors = [UIColor.clear,
                                 UIColor.black.withAlphaComponent(0.8)].map({$0.cgColor})
         gradientLayer.locations = [0, 1]
@@ -223,6 +226,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
             make.top.equalTo(priceLabel.snp.bottom).offset(9)
             make.left.equalToSuperview()
             make.bottom.equalToSuperview()
+            make.right.equalToSuperview()
         }
     }
     
@@ -260,7 +264,12 @@ class TutorCollectionViewCell: UICollectionViewCell {
             starView.isHidden = false
             starView.rating = rating
             
-            guard let reviewCount = tutor.reviews?.count else { return }
+            guard let reviewCount = tutor.reviews?.count else {
+                if let address = tutor.region {
+                    starLabel.text = address
+                }
+                return
+            }
             starLabel.text = "\(reviewCount)"
         } else {
             starView.isHidden = true
@@ -337,7 +346,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
 
 class QTWideTutorCollectionViewCell: TutorCollectionViewCell {
     
-    var cellWidth = 0
+    var cellWidth: CGFloat = 0
     
     override func setupMaskBackgroundView() {
         containerView.addSubview(maskBackgroundView)
@@ -359,7 +368,7 @@ class QTWideTutorCollectionViewCell: TutorCollectionViewCell {
     }
     
     override init(frame: CGRect) {
-        cellWidth = Int(UIScreen.main.bounds.size.width - 60) / 2
+        cellWidth = (UIScreen.main.bounds.size.width - 55) / 2
         super.init(frame: frame)
     }
     

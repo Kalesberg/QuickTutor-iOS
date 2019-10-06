@@ -53,9 +53,24 @@ class QTTutorDiscoverNewsViewController: UIViewController {
         }
     }
     
+    func addObservers() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(onReceivedRefershDiscoverPage),
+                                               name: NotificationNames.TutorDiscoverPage.refreshDiscoverPage,
+                                               object: nil)
+    }
     
+    func removeObservers() {
+        NotificationCenter.default.removeObserver(self)
+    }
     
     // MARK: - Actions
+    @objc
+    func onReceivedRefershDiscoverPage() {
+        newses.removeAll()
+        collectionView.reloadData()
+        setupSkeletonView()
+    }
     
     // MARK: - Lifeyclce
     
@@ -65,6 +80,14 @@ class QTTutorDiscoverNewsViewController: UIViewController {
         // Do any additional setup after loading the view.
         configureViews()
         setupSkeletonView()
+        addObservers()
+    }
+    
+    override func didMove(toParent parent: UIViewController?) {
+        if parent == nil {
+            removeObservers()
+        }
+        super.didMove(toParent: parent)
     }
 }
 
@@ -101,7 +124,7 @@ extension QTTutorDiscoverNewsViewController: UICollectionViewDataSource {
 extension QTTutorDiscoverNewsViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = UIScreen.main.bounds.width - 40
-        return CGSize(width: width, height: width * 110 / 167.5)
+        return CGSize(width: width, height: 190)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {

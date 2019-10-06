@@ -48,6 +48,25 @@ class LearnerTabBarController: BaseTabBarController {
                 let _ = $0.view.description
             }
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleQuickSearchTapped(_:)), name: NotificationNames.LearnerMainFeed.quickSearchTapped, object: nil)
+        
     }
     
+    override func didMove(toParent parent: UIViewController?) {
+        if parent == nil {
+            NotificationCenter.default.removeObserver(self)
+        }
+        super.didMove(toParent: parent)
+    }
+    
+    @objc
+    func handleQuickSearchTapped(_ notification: Notification) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            if let viewControllers = self.viewControllers, let nav = viewControllers[1] as? UINavigationController, let controller = nav.viewControllers[0] as? QTLearnerDiscoverViewController {
+                self.selectedViewController = nav
+                controller.onClickBtnSearch(controller.view)
+            }
+        }
+    }
 }

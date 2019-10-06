@@ -72,10 +72,6 @@ class QTTutorDiscoverOpportunityCollectionViewCell: UICollectionViewCell {
         separatorView.isHidden = false
         asapMarkView.isHidden = false
         durationLabel.isHidden = false
-        
-        if isSkeletonActive {
-            hideSkeleton()
-        }
     }
     
     // MARK: - Actions

@@ -299,6 +299,10 @@ class QTQuickRequestService {
             return
         }
         
+        guard let userId = CurrentUser.shared.tutor.uid else {
+            return
+        }
+        
         // Initialize handles and refs for quickRequestsSubjects
         if tutorQuickRequestsSubjectsRefs == nil {
             tutorQuickRequestsSubjectsRefs = []
@@ -332,7 +336,8 @@ class QTQuickRequestService {
                             let quickRequest = QTQuickRequestModel(data: dictionary)
                             
                             // Check the tutor has already applied this quickRequest or not.
-                            if !self.appliedQuickRequestIds.contains(quickRequest.id) {
+                            // Also the request has posted by my learner profile
+                            if !self.appliedQuickRequestIds.contains(quickRequest.id) && quickRequest.senderId.compare(userId) != .orderedSame {
                                 FirebaseData.manager.fetchLearner(quickRequest.senderId, { (learner) in
                                     quickRequest.profileImageUrl = learner?.profilePicUrl
                                     quickRequest.userName = learner?.formattedName
@@ -363,7 +368,8 @@ class QTQuickRequestService {
                                 let quickRequest = QTQuickRequestModel(data: dictionary)
                                 
                                 // Check the tutor has already applied this quickRequest or not.
-                                if self.appliedQuickRequestIds.contains(quickRequest.id) {
+                                // Also the request has posted by my learner profile
+                                if self.appliedQuickRequestIds.contains(quickRequest.id) || quickRequest.senderId.compare(userId) == .orderedSame {
                                     emptySubjects += 1
                                     if emptySubjects == subjects.count {
                                         NotificationCenter.default.post(name: NotificationNames.TutorDiscoverPage.noQuickRequest, object: nil, userInfo: nil)
@@ -393,6 +399,10 @@ class QTQuickRequestService {
     func getOpportunitiesBySubcategories() {
         
         guard let subjects = CurrentUser.shared.tutor.subjects else {
+            return
+        }
+        
+        guard let userId = CurrentUser.shared.tutor.uid else {
             return
         }
         
@@ -436,7 +446,8 @@ class QTQuickRequestService {
                             let quickRequest = QTQuickRequestModel(data: dictionary)
                             
                             // Check the tutor has already applied this quickRequest or not.
-                            if !self.appliedQuickRequestIds.contains(quickRequest.id) {
+                            // Also the request has posted by my learner profile
+                            if !self.appliedQuickRequestIds.contains(quickRequest.id) && quickRequest.senderId.compare(userId) != .orderedSame {
                                 FirebaseData.manager.fetchLearner(quickRequest.senderId, { (learner) in
                                     quickRequest.profileImageUrl = learner?.profilePicUrl
                                     quickRequest.userName = learner?.formattedName
@@ -467,7 +478,8 @@ class QTQuickRequestService {
                                 let quickRequest = QTQuickRequestModel(data: dictionary)
                                 
                                 // Check the tutor has already applied this quickRequest or not.
-                                if self.appliedQuickRequestIds.contains(quickRequest.id) {
+                                // Also the request has posted by my learner profile
+                                if self.appliedQuickRequestIds.contains(quickRequest.id) || quickRequest.senderId.compare(userId) == .orderedSame {
                                     emptySubcategories += 1
                                     if emptySubcategories == subcategoryNames.count {
                                         NotificationCenter.default.post(name: NotificationNames.TutorDiscoverPage.noQuickRequest, object: nil, userInfo: nil)
@@ -495,6 +507,10 @@ class QTQuickRequestService {
     
     func getOpportunitiesByCategories() {
         guard let subjects = CurrentUser.shared.tutor.subjects else {
+            return
+        }
+        
+        guard let userId = CurrentUser.shared.tutor.uid else {
             return
         }
         
@@ -539,7 +555,8 @@ class QTQuickRequestService {
                             let quickRequest = QTQuickRequestModel(data: dictionary)
                             
                             // Check the tutor has already applied this quickRequest or not.
-                            if !self.appliedQuickRequestIds.contains(quickRequest.id) {
+                            // Also the request has posted by my learner profile
+                            if !self.appliedQuickRequestIds.contains(quickRequest.id) && quickRequest.senderId.compare(userId) != .orderedSame {
                                 FirebaseData.manager.fetchLearner(quickRequest.senderId, { (learner) in
                                     quickRequest.profileImageUrl = learner?.profilePicUrl
                                     quickRequest.userName = learner?.formattedName
@@ -570,7 +587,8 @@ class QTQuickRequestService {
                                 let quickRequest = QTQuickRequestModel(data: dictionary)
                                 
                                 // Check the tutor has already applied this quickRequest or not.
-                                if self.appliedQuickRequestIds.contains(quickRequest.id) {
+                                // Also the request has posted by my learner profile
+                                if self.appliedQuickRequestIds.contains(quickRequest.id) || quickRequest.senderId.compare(userId) == .orderedSame {
                                     emptyCategories += 1
                                     if emptyCategories == categoryNames.count {
                                         NotificationCenter.default.post(name: NotificationNames.TutorDiscoverPage.noQuickRequest, object: nil, userInfo: nil)

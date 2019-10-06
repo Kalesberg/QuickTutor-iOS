@@ -92,7 +92,6 @@ class TutorSearchService {
     
     func getTutorsBySubject(_ subject: String, lastKnownKey: String?, limit: UInt = 60, queue: DispatchQueue = .main, completion: @escaping ([AWTutor]?, Bool) -> Void) {
         var tutors = [AWTutor]()
-        let myGroup = DispatchGroup()
         var ref = Database.database().reference().child("subjects").child(subject).queryOrderedByKey().queryLimited(toFirst: limit)
         
         if let key = lastKnownKey {
@@ -104,6 +103,7 @@ class TutorSearchService {
                 return
                 
             }
+            let myGroup = DispatchGroup()
             tutorIds.keys.sorted(by: { $0 < $1 }).forEach { uid in
                 myGroup.enter()
                 FirebaseData.manager.fetchTutor(uid, isQuery: false, queue: .global(qos: .userInitiated)) { tutor in

@@ -12,7 +12,7 @@ class QTTutorDiscoverTipCollectionViewCell: UICollectionViewCell {
 
     // MARK: - Properties
     var tip: QTNewsModel!
-    var cellWidth = 0
+    var cellWidth: CGFloat = 0
     
     static var reuseIdentifier: String {
         return String(describing: QTTutorDiscoverTipCollectionViewCell.self)
@@ -33,7 +33,7 @@ class QTTutorDiscoverTipCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = .white
         label.textAlignment = .left
-        label.font = Fonts.createBlackSize(12)
+        label.font = Fonts.createSemiBoldSize(17)
         label.adjustsFontSizeToFitWidth = true
         label.adjustsFontForContentSizeCategory = true
         
@@ -60,7 +60,7 @@ class QTTutorDiscoverTipCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(containerView)
         containerView.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.width.equalToSuperview().offset(-8)
+            make.width.equalToSuperview()
             make.height.equalToSuperview().offset(-8)
         }
     }
@@ -120,14 +120,13 @@ class QTTutorDiscoverTipCollectionViewCell: UICollectionViewCell {
     }
     
     func setData(tip: QTNewsModel) {
+        if isSkeletonActive {
+            hideSkeleton()
+        }
         label.text = tip.title
         imageView.setImage(url: tip.image)
         label.isHidden = false
         imageView.isHidden = false
-        
-        if isSkeletonActive {
-            hideSkeleton()
-        }
     }
     
     
@@ -143,7 +142,7 @@ class QTTutorDiscoverTipCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .clear
-        cellWidth = Int(UIScreen.main.bounds.size.width - 60) / 2
+        cellWidth = (UIScreen.main.bounds.size.width - 55) / 2
         setupViews()
         setSkeletonView()
         

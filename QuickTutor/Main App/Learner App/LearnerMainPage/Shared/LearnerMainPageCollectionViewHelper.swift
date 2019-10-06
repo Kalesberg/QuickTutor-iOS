@@ -10,8 +10,8 @@ import UIKit
 
 class LearnerMainPageCollectionViewHelper: NSObject, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    var hasPastSessions = false
-    var hasUpcomingSessions = false
+    var hasPastSessions = true
+    var hasUpcomingSessions = true
     
     var handleScrollViewScroll: ((CGFloat) -> ())?
     
@@ -54,22 +54,23 @@ class LearnerMainPageCollectionViewHelper: NSObject, UICollectionViewDelegate, U
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var height: CGFloat = 0
+        let width = UIScreen.main.bounds.width
         switch indexPath.section {
         case 0:
-            height = 230
+            height = ((width - 50) / 2.5) * 18 / 13 + 58
         case 1:
             height = 108
         case 2:
             if hasPastSessions {
-                height = 231
+                height = 234
             } else {
-                height = 0
+                height = CGFloat.leastNonzeroMagnitude
             }
         case 3:
             if hasUpcomingSessions {
-                height = 231
+                height = 234
             } else {
-                height =  0
+                height = CGFloat.leastNonzeroMagnitude
             }
         case 4:
             height = 642

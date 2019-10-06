@@ -122,7 +122,7 @@ class QTTutorDashboardViewController: UIViewController {
         // Set table header view
         tableView.tableHeaderView = headerView
         
-        tutorSettingsButton.cornerRadius(corners: [.topLeft, .topRight], radius: 3)
+        tutorSettingsButton.cornerRadius([.topLeft, .topRight], radius: 3)
         tutorSettingsButton.clipsToBounds = true
         tutorSettingsButton.setupTargets()
     }

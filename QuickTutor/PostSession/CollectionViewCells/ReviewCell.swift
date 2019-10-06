@@ -83,7 +83,7 @@ class ReviewCell : BasePostSessionCell {
 	
 	override func layoutSubviews() {
 		super.layoutSubviews()
-		textViewContainer.roundCorners([.bottomLeft, .bottomRight], radius: 4)
+		textViewContainer.cornerRadius([.bottomLeft, .bottomRight], radius: 4)
 	}
 	private func adjustTextViewToFitKeyboard() {
 		self.backgroundHeaderView.snp.remakeConstraints({ (make) in

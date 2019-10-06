@@ -45,6 +45,7 @@ class QTTutorDiscoverMainView: UIView {
     let navigationViewHeight: CGFloat = 82
     var hasOpportunities = true
     var collectionViewTopInset: CGFloat = 0
+    let refreshControl = UIRefreshControl()
     
     // MARK: - Functions
     func setupViews() {
@@ -53,6 +54,17 @@ class QTTutorDiscoverMainView: UIView {
         setupCollectionView()
         setupBackgroundView()
         addObservers()
+        setupTargets()
+    }
+    
+    func setupTargets() {
+        refreshControl.tintColor = Colors.purple
+        if #available(iOS 10.0, *) {
+            self.collectionView.refreshControl = refreshControl
+        } else {
+            self.collectionView.addSubview(refreshControl)
+        }
+        refreshControl.addTarget(self, action: #selector(onRefersh), for: .valueChanged)
     }
     
     func setupBackgroundView() {
@@ -157,6 +169,20 @@ class QTTutorDiscoverMainView: UIView {
         }
     }
     
+    @objc
+    func onRefersh() {
+        collectionView.reloadData()
+        // Start the animation of refresh control
+        self.refreshControl.beginRefreshing()
+        
+        NotificationCenter.default.post(name: NotificationNames.TutorDiscoverPage.refreshDiscoverPage, object: nil)
+        
+        // End the animation of refersh control
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+            self.refreshControl.endRefreshing()
+        }
+    }
+    
     // MARK: - Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -236,13 +262,15 @@ extension QTTutorDiscoverMainView: UICollectionViewDelegateFlowLayout {
         
         switch indexPath.section {
         case 0:
-            return CGSize(width: width, height: width  * 110 / 165.5 + 57)
+            return CGSize(width: width, height: 258)
         case 1:
-            return CGSize(width: width, height: width * 189 / 315 + 44)
+            return hasOpportunities
+                ? CGSize(width: width, height: 234)
+                : CGSize(width: width, height: CGFloat.leastNonzeroMagnitude)
         case 2:
-            return CGSize(width: width, height: 230)
+            return CGSize(width: width, height: (width - 50) / 2.5 * 18 / 13 + 50)
         case 3:
-            return CGSize(width: width, height: 527)
+            return CGSize(width: width, height: 494)
         case 4:
             return CGSize(width: width, height: 197)
         default:

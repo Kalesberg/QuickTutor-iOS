@@ -31,12 +31,6 @@ class LearnerMainPageVC: UIViewController {
         registerPushNotification()
         setupRefreshControl()
         setupObservers()
-        
-        // Past transactions and upcoming sessions are existed or not for a learner.
-        // So if there is no data, the certain section should not display on the main screen.
-        // That's why we call the following statement in here instead of their view controllers.
-        QTLearnerSessionsService.shared.fetchSessions()
-        QTLearnerSessionsService.shared.listenForSessionUpdates()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -88,6 +82,7 @@ class LearnerMainPageVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleRecentSearchCellTapped(_:)), name: NotificationNames.LearnerMainFeed.recentSearchCellTapped, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleQuickRequestTapped(_:)), name: NotificationNames.LearnerMainFeed.quickRequestCellTapped, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleRequestSession(_:)), name: NotificationNames.LearnerMainFeed.requestSession, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleQuickSearchTapped(_:)), name: NotificationNames.LearnerMainFeed.quickSearchTapped, object: nil)
     }
     
     @objc func handleFeatuedSectionTap(_ notification: Notification) {
@@ -195,6 +190,11 @@ class LearnerMainPageVC: UIViewController {
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
+    
+    @objc func handleQuickSearchTapped(_ notification: Notification) {
+        
+    }
+    
     
     func listenForSessionUpdates() {
         guard let uid = Auth.auth().currentUser?.uid else { return }

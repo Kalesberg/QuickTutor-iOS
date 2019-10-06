@@ -26,6 +26,7 @@ class QTTutorDiscoverNewsDetailContentTableViewCell: UITableViewCell {
     func setData(content: QTNewsContentModel) {
         titleLabel.text = content.title
         descriptionLabel.text = content.description
+        descriptionLabel.isHidden = content.description.isEmpty
     }
     
     // MARK: - Actions

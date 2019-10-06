@@ -28,7 +28,6 @@
                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                 <real key="value" value="5"/>
                             </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
                         </userDefinedRuntimeAttributes>
                     </imageView>
                     <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jG1-bj-OUc">
@@ -37,7 +36,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="292" height="50"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AQ9-VC-BiC" customClass="DimmableButton" customModule="QuickTutor" customModuleProvider="target">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AQ9-VC-BiC" customClass="DimmableButton" customModule="QuickTutor" customModuleProvider="target">
                                     <rect key="frame" x="217" y="10" width="60" height="30"/>
                                     <color key="backgroundColor" red="0.39215686274509803" green="0.38431372549019605" blue="0.78823529411764703" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
@@ -57,8 +56,8 @@
                                         <action selector="onReadButtonClicked:" destination="gTV-IL-0wX" eventType="touchUpInside" id="Aya-ae-EcT"/>
                                     </connections>
                                 </button>
-                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4qu-pq-iDo">
-                                    <rect key="frame" x="15" y="16.5" width="34" height="17"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4qu-pq-iDo">
+                                    <rect key="frame" x="15" y="16.5" width="192" height="17"/>
                                     <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
@@ -68,7 +67,7 @@
                                 <constraint firstItem="AQ9-VC-BiC" firstAttribute="centerY" secondItem="cX7-zN-KiS" secondAttribute="centerY" id="2QN-Mh-TNB"/>
                                 <constraint firstItem="AQ9-VC-BiC" firstAttribute="top" secondItem="cX7-zN-KiS" secondAttribute="top" constant="10" id="dC9-il-eJu"/>
                                 <constraint firstAttribute="trailing" secondItem="AQ9-VC-BiC" secondAttribute="trailing" constant="15" id="fsF-dx-bJ4"/>
-                                <constraint firstItem="AQ9-VC-BiC" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="4qu-pq-iDo" secondAttribute="trailing" constant="10" id="p6k-BG-ZC0"/>
+                                <constraint firstItem="AQ9-VC-BiC" firstAttribute="leading" secondItem="4qu-pq-iDo" secondAttribute="trailing" constant="10" id="p6k-BG-ZC0"/>
                                 <constraint firstItem="4qu-pq-iDo" firstAttribute="leading" secondItem="cX7-zN-KiS" secondAttribute="leading" constant="15" id="vgr-CR-Nmb"/>
                                 <constraint firstItem="4qu-pq-iDo" firstAttribute="centerY" secondItem="cX7-zN-KiS" secondAttribute="centerY" id="whR-VY-hoA"/>
                             </constraints>
@@ -88,12 +87,10 @@
                 <constraint firstItem="fVF-eC-f3V" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="ZbV-Rh-wmv"/>
                 <constraint firstItem="jG1-bj-OUc" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="hD8-na-lWb"/>
                 <constraint firstItem="fVF-eC-f3V" firstAttribute="width" secondItem="gTV-IL-0wX" secondAttribute="width" id="hI0-50-ppf"/>
+                <constraint firstAttribute="trailing" secondItem="jG1-bj-OUc" secondAttribute="trailing" constant="10" id="uPh-KF-Pz8"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="312" height="237"/>
-            <userDefinedRuntimeAttributes>
-                <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
-            </userDefinedRuntimeAttributes>
             <connections>
                 <outlet property="imageView" destination="fVF-eC-f3V" id="S9m-1Z-N5T"/>
                 <outlet property="readButton" destination="AQ9-VC-BiC" id="p6F-ag-91L"/>

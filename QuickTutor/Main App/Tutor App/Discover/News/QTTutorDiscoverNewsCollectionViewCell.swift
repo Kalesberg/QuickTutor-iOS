@@ -44,11 +44,17 @@ class QTTutorDiscoverNewsCollectionViewCell: UICollectionViewCell {
     func setData(news: QTNewsModel) {
         self.news = news
         
+        if isSkeletonActive {
+            hideSkeleton()
+        }
+        
         titleLabel.text = news.title
         imageView.sd_setImage(with: news.image, placeholderImage: UIImage(color: Colors.gray))
         
         titleLabel.isHidden = false
         readButton.isHidden = false
+
+        imageView.isHidden = false
     }
     
     func setTrending(trending: MainPageFeaturedItem) {

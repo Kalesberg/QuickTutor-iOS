@@ -63,7 +63,7 @@ class QTQuickRequestTypeViewController: UIViewController {
     
     // MARK: - Functions
     func configureViews() {
-        title = "Quick Request"
+        title = "QuickRequest"
         
         // Set the drop shadow of quick request help view.
         helpView.applyDefaultShadow()

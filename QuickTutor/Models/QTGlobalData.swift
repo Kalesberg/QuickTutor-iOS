@@ -11,5 +11,5 @@ import UIKit
 class QTGlobalData {
     static let shared = QTGlobalData()
     
-    var categoriesPriceClasses = [String: [Int]]()
+    var categories = [String: QTCategoryModel]()
 }

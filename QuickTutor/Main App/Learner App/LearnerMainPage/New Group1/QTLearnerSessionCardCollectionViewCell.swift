@@ -86,6 +86,20 @@ class QTLearnerSessionCardCollectionViewCell: UICollectionViewCell {
         containerView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 5)
         containerView.layer.cornerRadius = 5
         
+        self.isSkeletonable = true
+        containerView.isSkeletonable = true
+        avatarImageView.isSkeletonable = true
+        nameLabel.isSkeletonable = true
+        nameLabel.linesCornerRadius = 5
+        subjectLabel.isSkeletonable = true
+        subjectLabel.linesCornerRadius = 5
+        durationLabel.isSkeletonable = true
+        durationLabel.linesCornerRadius = 5
+        experienceLabel.isSkeletonable = true
+        experienceLabel.linesCornerRadius = 5
+        experienceLabel.superview?.isSkeletonable = true
+        actionButton.isSkeletonable = true
+        
         ratingSeparatorView.isHidden = true
         priceLabel.isHidden = true
         sessionTypeImageView.isHidden = true
@@ -94,7 +108,6 @@ class QTLearnerSessionCardCollectionViewCell: UICollectionViewCell {
     }
     
     func setData(session: Session) {
-        self.showSkeleton(usingColor: Colors.gray)
         self.session = session
         self.sessionStatusType = QTSessionStatusType(rawValue: session.status)
         
@@ -110,6 +123,7 @@ class QTLearnerSessionCardCollectionViewCell: UICollectionViewCell {
             self.updateUI()
             return
         }
+        showSkeleton(usingColor: Colors.gray)
         UserFetchService.shared.getTutorWithId(uid: partnerId) { tutor in
             self.tutor = tutor
             self.updateUI()
@@ -117,6 +131,11 @@ class QTLearnerSessionCardCollectionViewCell: UICollectionViewCell {
     }
     
     func updateUI() {
+        
+        if isSkeletonActive {
+            hideSkeleton(transition: .crossDissolve(0.1))
+        }
+        
         if let username = tutor?.formattedName.capitalized, let profilePicUrl = tutor?.profilePicUrl {
             self.nameLabel.text = username
             self.avatarImageView.sd_setImage(with: profilePicUrl, placeholderImage: #imageLiteral(resourceName: "registration-image-placeholder"))
@@ -146,14 +165,12 @@ class QTLearnerSessionCardCollectionViewCell: UICollectionViewCell {
         
         timer?.invalidate()
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(handleUpdateSessionStatus), userInfo: nil, repeats: false)
-        if self.isSkeletonActive {
-            hideSkeleton()
-        }
         
         ratingSeparatorView.isHidden = false
         priceLabel.isHidden = false
         sessionTypeImageView.isHidden = false
         sessionTypeLabel.isHidden = false
+        actionButton.isHidden = false
     }
     
     func updateRatingLabel() {

@@ -160,20 +160,35 @@ class DataService {
         }
     }
     
-    func getCategoriesInfo() {
+    func getCategoriesInfo(_ completion: (() -> ())? = nil) {
         
+        QTGlobalData.shared.categories.removeAll()
         Database.database().reference()
             .child("categoriesInfo")
             .observeSingleEvent(of: .value) { (snapshot) in
                 if let children = snapshot.value as? [String: Any] {
                     Category.categories.forEach { (category) in
-                        if let info = children[category.mainPageData.name] as? [String: Any], let priceClass = info["price-class"] as? [String: Int] {
+                        if let info = children[category.mainPageData.name] as? [String: Any],
+                            let priceClass = info["price-class"] as? [String: Int],
+                            let image = info["image"] as? String,
+                            let description = info["description"] as? String {
+                            
+                            let item = QTCategoryModel()
+                            
                             if let advanced = priceClass["advanced"],
                                 let pro = priceClass["pro"],
                                 let expert = priceClass["expert"] {
-                                QTGlobalData.shared.categoriesPriceClasses[category.mainPageData.name] = [advanced, pro, expert]
+                                item.priceClass = [advanced, pro, expert]
                             }
+                            
+                            item.imageUrl = image
+                            item.description = description
+                            QTGlobalData.shared.categories[category.mainPageData.name] = item
                         }
+                    }
+                    
+                    if let completion = completion {
+                        completion()
                     }
                 }
         }
