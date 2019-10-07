@@ -178,6 +178,7 @@ PODS:
   - SDWebImage (4.4.7):
     - SDWebImage/Core (= 4.4.7)
   - SDWebImage/Core (4.4.7)
+  - Sheet (0.6.0)
   - SkeletonView (1.8)
   - SKPhotoBrowser (6.1.0)
   - SnapKit (4.0.1)
@@ -225,6 +226,7 @@ DEPENDENCIES:
   - PlaceholderTextView
   - RangeSeekSlider
   - SDWebImage
+  - Sheet
   - SkeletonView (= 1.8)
   - SKPhotoBrowser
   - SnapKit (~> 4.0.1)
@@ -287,6 +289,7 @@ SPEC REPOS:
     - Protobuf
     - RangeSeekSlider
     - SDWebImage
+    - Sheet
     - SkeletonView
     - SKPhotoBrowser
     - SnapKit
@@ -349,6 +352,7 @@ SPEC CHECKSUMS:
   Protobuf: 67fb42ba613def994e61854de2b3164f13790cc4
   RangeSeekSlider: 650b11fa1edcb92e1e0ede797669d98622570fb5
   SDWebImage: c10d14a8883ebd89664f02a422006f66a85c0c5d
+  Sheet: bec66f7272a24eedf28166cc95f783f971a6cfe5
   SkeletonView: c0717eaa2423d6fe1d684fad17b157ea7800f443
   SKPhotoBrowser: 343de95d89dc7913763c5dda243cc6e606e4a168
   SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
@@ -362,6 +366,6 @@ SPEC CHECKSUMS:
   TYPagerController: 262556ecef99986d26ed77fb1288a198ed42f4af
   "UITextView+Placeholder": c407b27599ea23cca425946fee3cf1db5d547008
 
-PODFILE CHECKSUM: cdda3543e6999567b63be8ac2c1836119f1ed923
+PODFILE CHECKSUM: 54decbfa1823a139c8504afa3e6b014efd2cdde0
 
 COCOAPODS: 1.8.1
