@@ -144,7 +144,7 @@ class TutorEditProfileVC: LearnerEditProfileVC {
         case 2:
             return indexPath.row == 2 ? 140 : 75
         case 6:
-            return indexPath.row == 1 ? 117 : 75
+            return indexPath.row == 1 ? 140 : 75
         default:
             return 75
         }
