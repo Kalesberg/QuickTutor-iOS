@@ -59,17 +59,17 @@ class BasePastSessionCell: BaseSessionCell {
 
     override func cellActionView(_ actionView: SessionCellActionView, didSelectButtonAt position: Int) {
         super.cellActionView(actionView, didSelectButtonAt: position)
-        toggleStarViewHidden()
+        toggleStarView(isShow: true)
     }
 
     override func cellActionViewDidSelectBackground(_ actionView: SessionCellActionView) {
         super.cellActionViewDidSelectBackground(actionView)
-        toggleStarViewHidden()
+        toggleStarView(isShow: true)
     }
 
-    func toggleStarViewHidden() {
+    func toggleStarView(isShow: Bool) {
         UIViewPropertyAnimator(duration: 0.2, curve: .easeOut) {
-            self.starView.alpha = self.starView.alpha == 0 ? 1 : 0
+            self.starView.alpha = isShow ? 1 : 0
         }.startAnimation()
     }
 }

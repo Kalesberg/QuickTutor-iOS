@@ -410,12 +410,12 @@ class BaseSessionsVC: UIViewController {
         
         guard !isLoading, indexPath.item < sessions.count, let cell = collectionView.cellForItem(at: indexPath) as? BaseSessionCell else { return }
         selectedCell?.actionView.hideActionContainerView()
-        selectedPastCell?.toggleStarViewHidden()
+        selectedPastCell?.toggleStarView(isShow: true)
         selectedCell = cell
         cell.actionView.showActionContainerView()
         if let pastCell = cell as? BasePastSessionCell {
             selectedPastCell = pastCell
-            pastCell.toggleStarViewHidden()
+            pastCell.toggleStarView(isShow: false)
         }
     }
     
