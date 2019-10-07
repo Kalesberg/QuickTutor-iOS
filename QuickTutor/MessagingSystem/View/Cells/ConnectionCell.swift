@@ -213,8 +213,10 @@ class ConnectionCell: UICollectionViewCell {
         } else if let awUser = user as? AWTutor {
             let subject = awUser.featuredSubject == "" ? awUser.subjects?.first : awUser.featuredSubject
             featuredSubject.text = subject
-            if let isConnected = awUser.isConnected, isConnected {
+            if true == awUser.isConnected {
                 messageButton.setTitle("Message", for: .normal)
+            } else if true == awUser.isPending {
+                messageButton.setTitle("Pending", for: .normal)
             } else {
                 messageButton.setTitle("Connect", for: .normal)
             }

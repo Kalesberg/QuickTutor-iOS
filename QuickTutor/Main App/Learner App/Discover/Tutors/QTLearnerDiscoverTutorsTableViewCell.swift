@@ -27,6 +27,7 @@ class QTLearnerDiscoverTutorsTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         learnerDiscoverTutorsVC.isRisingTalent = QTLearnerDiscoverService.shared.isRisingTalent
+        learnerDiscoverTutorsVC.isFirstTop = QTLearnerDiscoverService.shared.isFirstTop
         learnerDiscoverTutorsVC.category = QTLearnerDiscoverService.shared.category
         learnerDiscoverTutorsVC.subcategory = QTLearnerDiscoverService.shared.subcategory
         learnerDiscoverTutorsVC.didClickTutor = { tutor in

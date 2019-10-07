@@ -33,6 +33,7 @@ class QTLearnerDiscoverService {
     
     var category: Category?
     var subcategory: String?
+    var isFirstTop = true
     var isRisingTalent = false
     
     var topTutorsLimit: Int?

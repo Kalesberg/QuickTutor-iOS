@@ -120,8 +120,11 @@ class CardService {
 class ConnectionService {
     static let shared = ConnectionService()
     
-    func getConnectionStatus(partnerId: String, completion: (@escaping (Bool) -> Void)) {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+    func getConnectionStatus(partnerId: String, completion: @escaping (Bool) -> Void) {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            completion(false)
+            return
+        }
         let userTypeString = AccountService.shared.currentUserType.rawValue
         Database.database().reference().child("connections").child(uid).child(userTypeString).child(partnerId).observeSingleEvent(of: .value) { snapshot in
             if let _ = snapshot.value as? Int {
@@ -130,5 +133,48 @@ class ConnectionService {
             }
             completion(false)
         }
+    }
+    
+    func checkConnectionRequestStatus(partnerId: String, completion: ((String?) -> ())?) {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            return
+        }
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        
+        Database.database().reference()
+            .child("conversations")
+            .child(uid)
+            .child(userTypeString)
+            .child(partnerId)
+            .queryLimited(toLast: 1)
+            .observeSingleEvent(of: .value) { snapshot1 in
+                guard let children = snapshot1.children.allObjects as? [DataSnapshot], let child = children.first else {
+                    completion?(nil)
+                    return
+                }
+                
+                MessageService.shared.getMessageById(child.key) { message in
+                    guard let requestId = message.connectionRequestId, message.type == .connectionRequest else {
+                        completion?(nil)
+                        return
+                    }
+                    
+                    // Check connection request.
+                    Database.database().reference().child("connectionRequests").child(requestId).observeSingleEvent(of: .value) { snapshot in
+                        guard let value = snapshot.value as? [String: Any] else {
+                            completion?(nil)
+                            return
+                        }
+                        guard let status = value["status"] as? String else {
+                            completion?(nil)
+                            return
+                        }
+                        
+                        if let completion = completion {
+                            completion(status)
+                        }
+                    }
+                }
+            }
     }
 }
