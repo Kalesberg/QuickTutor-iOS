@@ -12,7 +12,7 @@ class LearnerMainPageActiveTutorsSectionContainerCell: UICollectionViewCell {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Active Now"
+        label.text = "Recently Active"
         label.textColor = .white
         label.textAlignment = .left
         label.font = Fonts.createBoldSize(20)

@@ -29,10 +29,8 @@ class LearnerMainPageVC: UIViewController {
         super.viewDidLoad()
         
         registerPushNotification()
-        configureView()
         setupRefreshControl()
         setupObservers()
-        contentView.handleSearchesLoaded()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -46,24 +44,24 @@ class LearnerMainPageVC: UIViewController {
         appDelegate.registerForPushNotifications(application: UIApplication.shared)
     }
     
-    private func configureView() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(handleSearchTap))
-        contentView.searchBarContainer.searchBarView.addGestureRecognizer(tap)
-        contentView.searchBarContainer.parentVC = self
-    }
-    
     func setupRefreshControl() {
         refreshControl.tintColor = Colors.purple
-        contentView.collectionView.refreshControl = refreshControl
+        if #available(iOS 10.0, *) {
+            contentView.collectionView.refreshControl = refreshControl
+        } else {
+            contentView.collectionView.addSubview(refreshControl)
+        }
         refreshControl.addTarget(self, action: #selector(refershData), for: .valueChanged)
     }
 
     @objc func refershData() {
+        contentView.collectionView.reloadData()
+        // Start the animation of refresh control
+        self.refreshControl.beginRefreshing()
+    
         // End the animation of refersh control
-        contentView.isRefreshing = true
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
             self.refreshControl.endRefreshing()
-            self.contentView.isRefreshing = false
         }
     }
     
@@ -82,6 +80,9 @@ class LearnerMainPageVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleActiveTutorCellTapped(_:)), name: NotificationNames.LearnerMainFeed.activeTutorCellTapped, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleActiveTutorMessageButtonTapped(_:)), name: NotificationNames.LearnerMainFeed.activeTutorMessageButtonTapped, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleRecentSearchCellTapped(_:)), name: NotificationNames.LearnerMainFeed.recentSearchCellTapped, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleQuickRequestTapped(_:)), name: NotificationNames.LearnerMainFeed.quickRequestCellTapped, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleRequestSession(_:)), name: NotificationNames.LearnerMainFeed.requestSession, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleQuickSearchTapped(_:)), name: NotificationNames.LearnerMainFeed.quickSearchTapped, object: nil)
     }
     
     @objc func handleFeatuedSectionTap(_ notification: Notification) {
@@ -123,7 +124,7 @@ class LearnerMainPageVC: UIViewController {
         guard let userInfo = notification.userInfo, let tutors = userInfo["tutors"] as? [AWTutor] else { return }
         let next = CategorySearchVC()
         next.datasource = tutors
-        next.navigationItem.title = "Rising Talent"
+        next.navigationItem.title = "Rising Talents"
         next.loadedAllTutors = true
         next.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(next, animated: true)
@@ -146,6 +147,13 @@ class LearnerMainPageVC: UIViewController {
             vc.connectionRequestAccepted = true
             self.navigationController?.pushViewController(vc, animated: true)
         }
+    }
+    
+    @objc func handleQuickRequestTapped(_ notification: Notification) {
+        // Go to quick request screen
+        let vc = QTQuickRequestTypeViewController.controller
+        vc.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     private func showTutorProfileFromNotification(_ notification: Notification) {
@@ -171,6 +179,51 @@ class LearnerMainPageVC: UIViewController {
         vc.navigationItem.title = subject.capitalized
         vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc func handleRequestSession(_ notification: Notification) {
+        guard let userInfo = notification.userInfo, let uid = userInfo["uid"] as? String else { return }
+        FirebaseData.manager.fetchTutor(uid, isQuery: false) { (tutor) in
+            guard let tutor = tutor else { return }
+            let vc = SessionRequestVC()
+            vc.tutor = tutor
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+    @objc func handleQuickSearchTapped(_ notification: Notification) {
+        
+    }
+    
+    
+    func listenForSessionUpdates() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        Database.database().reference().child("userSessions").child(uid).child(userTypeString).observe(.childChanged) { snapshot in
+            print("Data needs reload")
+            self.reloadSessionWithId(snapshot.ref.key!)
+            snapshot.ref.setValue(1)
+        }
+    }
+    
+    func reloadSessionWithId(_ id: String) {
+        DataService.shared.getSessionById(id) { session in
+            if let fooOffset = QTLearnerSessionsService.shared.pendingSessions.firstIndex(where: { $0.id == id }) {
+                // do something with fooOffset
+                QTLearnerSessionsService.shared.pendingSessions.remove(at: fooOffset)
+                if session.status == "accepted" {
+                    QTLearnerSessionsService.shared.upcomingSessions.append(session)
+                } else if "cancelled" == session.status {
+                    
+                }
+                self.contentView.handleReloadSessions()
+            } else if let index = QTLearnerSessionsService.shared.upcomingSessions.firstIndex(where: { $0.id == id }) {
+                if "cancelled" == session.status {
+                    QTLearnerSessionsService.shared.upcomingSessions.remove(at: index)
+                    self.contentView.handleReloadSessions()
+                }
+            }
+        }
     }
     
     deinit {

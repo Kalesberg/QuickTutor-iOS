@@ -733,17 +733,13 @@ class CategorySearchVC: UIViewController {
                 self.tutorsTableView.reloadData()
             }
         } else {
-            print("=== Prepare Skeleton Start === ")
-            print(Date().description)
             if 0 == datasource.count {
                 self.tutorsTableView.isUserInteractionEnabled = false
                 self.tutorsTableView.showAnimatedSkeleton(usingColor: Colors.gray)
-                print("=== Prepare Skeleton End === ")
-                print(Date().description)
                 queryNeededTutors(lastKnownKey: nil)
             } else {
                 filteredDatasource = datasource
-                queryNeededTutors(lastKnownKey: nil)
+                queryNeededTutors(lastKnownKey: datasource.last?.uid)
             }
         }
         
@@ -878,6 +874,15 @@ extension CategorySearchVC: UITableViewDelegate {
                 FirebaseData.manager.fetchTutor(uid!, isQuery: false, { (tutor) in
                     guard let tutor = tutor else { return }
                     DispatchQueue.main.async {
+                        
+                        let item = QTRecentSearchModel()
+                        item.uid = tutor.uid
+                        item.type = .people
+                        item.name1 = tutor.name
+                        item.name2 = tutor.username
+                        item.imageUrl = tutor.profilePicUrl.absoluteString
+                        QTUtils.shared.saveRecentSearch(search: item)
+                        
                         let controller = QTProfileViewController.controller//TutorCardVC()
                         controller.subject = featuredTutor.featuredSubject
                         controller.profileViewType = .tutor

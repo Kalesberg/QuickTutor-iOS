@@ -29,7 +29,7 @@ extension Double {
 
 enum QTTutorDashboardChartType: String {
     case earnings = "Earnings"
-    case sessions = "Sessions"
+    case sessions = "Transactions"
     case hours = "Hours"
 }
 

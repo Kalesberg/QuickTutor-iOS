@@ -22,11 +22,18 @@ class TutorCollectionViewCell: UICollectionViewCell {
     
     var tutor: AWTutor?
     
-    let shadowView: UIView = {
+    let containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .clear
+        view.layer.cornerRadius = 5
         view.isSkeletonable = true
-        
+        view.clipsToBounds = true
+        return view
+    }()
+    
+    let maskBackgroundView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 5
+        view.isSkeletonable = true
         return view
     }()
     
@@ -34,6 +41,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
         let iv = UIImageView()
         iv.clipsToBounds = true
         iv.contentMode = .scaleAspectFill
+        iv.layer.cornerRadius = 5
         iv.isHidden = true
         
         return iv
@@ -51,20 +59,10 @@ class TutorCollectionViewCell: UICollectionViewCell {
         return button
     }()
     
-    let infoContainerView: UIView = {
-        let view = UIView()
-        view.clipsToBounds = true
-        view.backgroundColor = Colors.newScreenBackground
-        view.layer.cornerRadius = 4
-        view.isSkeletonable = true
-        
-        return view
-    }()
-    
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = Fonts.createBoldSize(10)
-        label.textColor = UIColor.white.withAlphaComponent(0.5)
+        label.font = Fonts.createSemiBoldSize(14)
+        label.textColor = UIColor.white
         label.isSkeletonable = true
         label.linesCornerRadius = 4
         
@@ -74,8 +72,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
     let priceLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = Fonts.createBoldSize(10)
-        label.textAlignment = .right
+        label.font = Fonts.createMediumSize(12)
         label.text = "$60/hr"
         label.isHidden = true
         
@@ -87,13 +84,22 @@ class TutorCollectionViewCell: UICollectionViewCell {
         label.text = "Math"
         label.textColor = .white
         label.adjustsFontSizeToFitWidth = true
-        label.font = Fonts.createBlackSize(12)
+        label.font = Fonts.createBoldSize(14)
         label.isSkeletonable = true
         label.linesCornerRadius = 4
         
         return label
     }()
 
+    let ratingStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.spacing = 3
+        
+        return stackView
+    }()
+    
     let starView: CosmosView = {
         let view = CosmosView()
         view.isHidden = true
@@ -101,10 +107,10 @@ class TutorCollectionViewCell: UICollectionViewCell {
         view.settings.emptyImage = UIImage(named: "ic_star_empty")
         view.settings.filledImage = UIImage(named: "ic_star_filled")
         view.settings.totalStars = 5
-        view.settings.starMargin = 1
+        view.settings.starMargin = 3
         view.settings.fillMode = .precise
         view.settings.updateOnTouch = false
-        view.settings.starSize = 11
+        view.settings.starSize = 10
         
         return view
     }()
@@ -114,7 +120,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
         label.textColor = Colors.purple
         label.text = "0"
         label.textAlignment = .left
-        label.font = Fonts.createBoldSize(12)
+        label.font = Fonts.createSemiBoldSize(12)
         label.isHidden = true
         
         return label
@@ -123,41 +129,57 @@ class TutorCollectionViewCell: UICollectionViewCell {
     var profileImageViewHeightAnchor: NSLayoutConstraint?
     
     func setupViews() {
-        setupShadowView()
-        setupInfoContainerView()
+        setupContainerView()
         setupProfileImageView()
+        setupMaskBackgroundView()
+        
         setupSaveButton()
         setupNameLabel()
-        setupPriceLabel()
         setupSubjectLabel()
+        setupPriceLabel()
+        setupRatingStackView()
         setupStarView()
         setupStarLabel()
     }
     
-    func setupShadowView() {
-        contentView.addSubview(shadowView)
-        shadowView.snp.makeConstraints { make in
+    func setupContainerView() {
+        contentView.addSubview(containerView)
+        containerView.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.width.equalToSuperview().offset(-4)
+            make.width.equalToSuperview()
             make.height.equalToSuperview().offset(-8)
         }
     }
     
-    func setupInfoContainerView() {
-        shadowView.addSubview(infoContainerView)
-        infoContainerView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-    }
-    
     func setupProfileImageView() {
-        infoContainerView.addSubview(profileImageView)
+        containerView.addSubview(profileImageView)
         profileImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.width.equalToSuperview()
             make.top.equalToSuperview()
-            make.height.equalTo(150)
+            make.height.equalTo(183)
         }
+    }
+    
+    func setupMaskBackgroundView() {
+        containerView.addSubview(maskBackgroundView)
+        maskBackgroundView.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(profileImageView.snp.bottom)
+            make.height.equalTo(50)
+        }
+        
+        let width = (UIScreen.main.bounds.width - 55) / 2
+        
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = CGRect(x: 0, y: 0, width: width, height: 50)
+        gradientLayer.colors = [UIColor.clear,
+                                UIColor.black.withAlphaComponent(0.8)].map({$0.cgColor})
+        gradientLayer.locations = [0, 1]
+        maskBackgroundView.layer.insertSublayer(gradientLayer, at: 0)
+        maskBackgroundView.layer.cornerRadius = 5
+        maskBackgroundView.clipsToBounds = true
     }
     
     func setupSaveButton() {
@@ -172,48 +194,51 @@ class TutorCollectionViewCell: UICollectionViewCell {
     }
     
     func setupNameLabel() {
-        infoContainerView.addSubview(nameLabel)
+        containerView.addSubview(nameLabel)
         nameLabel.snp.makeConstraints { make in
-            make.top.equalTo(profileImageView.snp.bottom).offset(10)
-            make.left.equalToSuperview().offset(10)
-            make.height.equalTo(13)
-        }
-    }
-    
-    func setupPriceLabel() {
-        infoContainerView.addSubview(priceLabel)
-        priceLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(nameLabel.snp.centerY)
-            make.right.equalToSuperview().offset(-10)
-            make.height.equalTo(nameLabel.snp.height)
+            make.left.equalToSuperview().offset(15)
+            make.bottom.equalTo(profileImageView.snp.bottom).offset(-10)
+            make.right.equalToSuperview().offset(-8)
         }
     }
     
     func setupSubjectLabel() {
-        infoContainerView.addSubview(subjectLabel)
+        containerView.addSubview(subjectLabel)
         subjectLabel.snp.makeConstraints { make in
-            make.top.equalTo(nameLabel.snp.bottom).offset(5)
-            make.left.equalTo(nameLabel.snp.left)
+            make.top.equalTo(maskBackgroundView.snp.bottom).offset(7)
+            make.width.equalToSuperview()
             make.centerX.equalToSuperview()
-            make.height.equalTo(15)
+        }
+    }
+    
+    func setupPriceLabel() {
+        containerView.addSubview(priceLabel)
+        priceLabel.snp.makeConstraints { make in
+            make.top.equalTo(subjectLabel.snp.bottom).offset(4)
+            make.width.equalToSuperview()
+            make.centerX.equalToSuperview()
+        }
+    }
+    
+    func setupRatingStackView() {
+        containerView.addSubview(ratingStackView)
+        ratingStackView.snp.makeConstraints { make in
+            make.top.equalTo(priceLabel.snp.bottom).offset(9)
+            make.left.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.right.equalToSuperview()
         }
     }
     
     func setupStarView() {
-        infoContainerView.addSubview(starView)
+        ratingStackView.addArrangedSubview(starView)
         starView.snp.makeConstraints { make in
-            make.top.equalTo(subjectLabel.snp.bottom).offset(6)
-            make.left.equalTo(subjectLabel.snp.left)
-            make.width.equalTo(59)
+            make.width.equalTo(61)
         }
     }
     
     func setupStarLabel() {
-        infoContainerView.addSubview(starLabel)
-        starLabel.snp.makeConstraints { make in
-            make.left.equalTo(starView.snp.right).offset(5)
-            make.centerY.equalTo(starView.snp.centerY)
-        }
+        ratingStackView.addArrangedSubview(starLabel)
     }
     
     func updateUI(_ tutor: AWTutor) {
@@ -222,10 +247,11 @@ class TutorCollectionViewCell: UICollectionViewCell {
         subjectLabel.text = tutor.featuredSubject
         
         priceLabel.isHidden = false
-        priceLabel.text = "$\(tutor.price ?? 5)/hr"
+        priceLabel.text = "$\(tutor.price ?? 5) per hour"
         
         profileImageView.isHidden = false
-        profileImageView.sd_setImage(with: URL(string: tutor.profilePicUrl.absoluteString)!, completed: nil)
+        profileImageView.sd_setImage(with: URL(string: tutor.profilePicUrl.absoluteString)!,
+                                     placeholderImage: UIImage(named: "ic_avatar_placeholder"))
         
         saveButton.isHidden = false
         if !CurrentUser.shared.learner.savedTutorIds.isEmpty {
@@ -233,16 +259,32 @@ class TutorCollectionViewCell: UICollectionViewCell {
             saveButton.isSelected = savedTutorIds.contains(tutor.uid)
         }
         
-        starView.isHidden = false
-        if let rating = tutor.tRating {
-            starView.rating = rating
-        } else {
-            starView.rating = 0
-        }
-        
         starLabel.isHidden = false
-        guard let reviewCount = tutor.reviews?.count else { return }
-        starLabel.text = "\(reviewCount)"
+        if let rating = tutor.tRating, rating > 0 {
+            starView.isHidden = false
+            starView.rating = rating
+            
+            guard let reviewCount = tutor.reviews?.count else {
+                if let address = tutor.region {
+                    starLabel.text = address
+                }
+                return
+            }
+            starLabel.text = "\(reviewCount)"
+        } else {
+            starView.isHidden = true
+            starView.rating = 0
+            
+            if let experienceSubject = tutor.experienceSubject, let experiencePeriod = tutor.experiencePeriod, !experienceSubject.isEmpty {
+                if experiencePeriod == 0.5 {
+                    starLabel.text = "6 Months Experience in \(experienceSubject)"
+                } else {
+                    starLabel.text = "\(Int(experiencePeriod)) Years Experience in \(experienceSubject)"
+                }
+            } else if let address = tutor.region {
+                starLabel.text = address
+            }
+        }
     }
     
     @objc func handleSaveButton() {
@@ -280,7 +322,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
     }
     
     private func addShadow() {
-        shadowView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 4)
+        containerView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 5)
     }
     
     override init(frame: CGRect) {
@@ -289,12 +331,49 @@ class TutorCollectionViewCell: UICollectionViewCell {
         isSkeletonable = true
         
         setupViews()
-        addShadow()
+//        addShadow()
     }
     
     override func willMove(toWindow newWindow: UIWindow?) {
         super.willMove(toWindow: newWindow)
         updateSaveButton()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+class QTWideTutorCollectionViewCell: TutorCollectionViewCell {
+    
+    var cellWidth: CGFloat = 0
+    
+    override func setupMaskBackgroundView() {
+        containerView.addSubview(maskBackgroundView)
+        maskBackgroundView.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(profileImageView.snp.bottom)
+            make.height.equalTo(50)
+        }
+        
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = CGRect(x: 0, y: 0, width: cellWidth, height: 50)
+        gradientLayer.colors = [UIColor.clear,
+                                UIColor.black.withAlphaComponent(0.8)].map({$0.cgColor})
+        gradientLayer.locations = [0, 1]
+        maskBackgroundView.layer.insertSublayer(gradientLayer, at: 0)
+        maskBackgroundView.layer.cornerRadius = 5
+        maskBackgroundView.clipsToBounds = true
+    }
+    
+    override init(frame: CGRect) {
+        cellWidth = (UIScreen.main.bounds.size.width - 55) / 2
+        super.init(frame: frame)
+    }
+    
+    override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
     }
     
     required init?(coder aDecoder: NSCoder) {

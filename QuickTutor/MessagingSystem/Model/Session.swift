@@ -90,6 +90,11 @@ class Session: Codable {
         return startTime < Date().timeIntervalSince1970 && status == "completed"
     }
 
+    func isNeededToStartNow() -> Bool {
+        guard status == QTSessionStatusType.accepted.rawValue else { return false}
+        return startTime > Date().timeIntervalSince1970 && startTime + 3600 <= Date().timeIntervalSince1970
+    }
+    
     func cancel() {}
     
     var sessionPrice: Double {

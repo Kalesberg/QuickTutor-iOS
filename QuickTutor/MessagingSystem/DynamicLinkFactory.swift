@@ -24,8 +24,8 @@ class DynamicLinkFactory {
     var longLink: URL?
     var shortLink: URL?
 
-    func createLink(userId: String, username: String, subject: String, profilePreviewUrl: String?, completion: @escaping (URL?) -> Void) {
-        dictionary[.link] = "https://quickTutor.com/\(userId)"
+    func createLink(userId: String?, userName: String?, subject: String?, profilePreviewUrl: String?, completion: @escaping (URL?) -> Void) {
+        dictionary[.link] = "https://quickTutor.com/\(userId ?? "")"
         // Initialize the sections array
         sections = [
             Section(name: .iOS, items: [.bundleID, .fallbackURL, .minimumAppVersion, .customScheme,
@@ -46,21 +46,25 @@ class DynamicLinkFactory {
             return
         }
         
-        let currentUserType = AccountService.shared.currentUserType
-        
-        guard let currentUser = AccountService.shared.currentUser,
-            let currentUserId = currentUser.uid else {
-                completion(nil)
-                return
-        }
-        
         let components = DynamicLinkComponents(link: link, domainURIPrefix: domain)
+
         let socialParams = DynamicLinkSocialMetaTagParameters()
-        
-        if currentUserType == UserType.tutor && userId.compare(currentUserId) == .orderedSame {
-            socialParams.title = "I teach \(subject) on QuickTutor. Connect with me, my username is \(username)!"
+        if let subject = subject {
+            if let userId = userId, AccountService.shared.currentUserType == UserType.tutor && userId.compare(AccountService.shared.currentUser.uid) == .orderedSame {
+                socialParams.title = "I teach \(subject) on QuickTutor. Check me out!"
+            } else {
+                if let userName = userName {
+                    socialParams.title = "\(userName) teaches \(subject) on QuickTutor. Check them out! "
+                }
+            }
         } else {
-            socialParams.title = "\(username) teaches \(subject) on QuickTutor. Connect with them to learn."
+            if let userId = userId, AccountService.shared.currentUserType == UserType.tutor && userId.compare(AccountService.shared.currentUser.uid) == .orderedSame {
+                socialParams.title = "I am an awesome tutor on QuickTutor. Check me out!"
+            } else {
+                if let userName = userName {
+                    socialParams.title = "\(userName) is an awesome tutor on QuickTutor. Check them out! "
+                }
+            }
         }
         socialParams.descriptionText = "Check out this QuickTutor!"
 

@@ -62,6 +62,10 @@ class QTSavedTutorsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        if #available(iOS 11.0, *) {
+            navigationItem.largeTitleDisplayMode = .always
+        }
         navigationController?.setNavigationBarHidden(false, animated: true)
         view.setNeedsLayout()
     }

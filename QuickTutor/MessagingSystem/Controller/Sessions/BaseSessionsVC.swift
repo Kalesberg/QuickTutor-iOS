@@ -207,7 +207,6 @@ class BaseSessionsVC: UIViewController {
         }
     }
     
-    
     fileprivate func attemptReloadOfTable() {
         timer?.invalidate()
         timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(handleReloadTable), userInfo: nil, repeats: false)

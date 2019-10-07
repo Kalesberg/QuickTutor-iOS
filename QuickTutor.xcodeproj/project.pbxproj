@@ -50,10 +50,80 @@
 		4D853D71230A9BDA00DAC323 /* ChoosePaymentMethodViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D853D6D230A9BDA00DAC323 /* ChoosePaymentMethodViewController.xib */; };
 		4D853D74230A9CE100DAC323 /* QTBaseCustomDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D853D73230A9CE100DAC323 /* QTBaseCustomDialog.swift */; };
 		4D853D75230A9CE100DAC323 /* QTBaseCustomDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D853D73230A9CE100DAC323 /* QTBaseCustomDialog.swift */; };
+		4D8B6AD123423D4E00C105F0 /* QTLearnerDiscoverTutorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8B6ACF23423D4D00C105F0 /* QTLearnerDiscoverTutorCollectionViewCell.swift */; };
+		4D8B6AD223423D4E00C105F0 /* QTLearnerDiscoverTutorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8B6ACF23423D4D00C105F0 /* QTLearnerDiscoverTutorCollectionViewCell.swift */; };
+		4D8B6AD323423D4E00C105F0 /* QTLearnerDiscoverTutorCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D8B6AD023423D4E00C105F0 /* QTLearnerDiscoverTutorCollectionViewCell.xib */; };
+		4D8B6AD423423D4E00C105F0 /* QTLearnerDiscoverTutorCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D8B6AD023423D4E00C105F0 /* QTLearnerDiscoverTutorCollectionViewCell.xib */; };
+		4D8B6AE223424CF900C105F0 /* QTLearnerDiscoverTutorsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8B6AD623424CF700C105F0 /* QTLearnerDiscoverTutorsTableViewCell.swift */; };
+		4D8B6AE323424CF900C105F0 /* QTLearnerDiscoverTutorsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8B6AD623424CF700C105F0 /* QTLearnerDiscoverTutorsTableViewCell.swift */; };
+		4D8B6AE423424CF900C105F0 /* QTLearnerDiscoverTutorsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D8B6AD723424CF700C105F0 /* QTLearnerDiscoverTutorsTableViewCell.xib */; };
+		4D8B6AE523424CF900C105F0 /* QTLearnerDiscoverTutorsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D8B6AD723424CF700C105F0 /* QTLearnerDiscoverTutorsTableViewCell.xib */; };
+		4D8B6AE623424CF900C105F0 /* QTLearnerDiscoverTutorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8B6AD823424CF700C105F0 /* QTLearnerDiscoverTutorsViewController.swift */; };
+		4D8B6AE723424CF900C105F0 /* QTLearnerDiscoverTutorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8B6AD823424CF700C105F0 /* QTLearnerDiscoverTutorsViewController.swift */; };
+		4D8B6AE823424CF900C105F0 /* QTLearnerDiscoverTutorsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D8B6AD923424CF700C105F0 /* QTLearnerDiscoverTutorsViewController.xib */; };
+		4D8B6AE923424CF900C105F0 /* QTLearnerDiscoverTutorsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D8B6AD923424CF700C105F0 /* QTLearnerDiscoverTutorsViewController.xib */; };
+		4D8B6AEA23424CF900C105F0 /* QTLearnerDiscoverTrendingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8B6ADB23424CF800C105F0 /* QTLearnerDiscoverTrendingTableViewCell.swift */; };
+		4D8B6AEB23424CF900C105F0 /* QTLearnerDiscoverTrendingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8B6ADB23424CF800C105F0 /* QTLearnerDiscoverTrendingTableViewCell.swift */; };
+		4D8B6AEC23424CF900C105F0 /* QTLearnerDiscoverTrendingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D8B6ADC23424CF800C105F0 /* QTLearnerDiscoverTrendingTableViewCell.xib */; };
+		4D8B6AED23424CF900C105F0 /* QTLearnerDiscoverTrendingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D8B6ADC23424CF800C105F0 /* QTLearnerDiscoverTrendingTableViewCell.xib */; };
+		4D8B6AEE23424CF900C105F0 /* QTLearnerDiscoverTrendingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8B6ADD23424CF800C105F0 /* QTLearnerDiscoverTrendingViewController.swift */; };
+		4D8B6AEF23424CF900C105F0 /* QTLearnerDiscoverTrendingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8B6ADD23424CF800C105F0 /* QTLearnerDiscoverTrendingViewController.swift */; };
+		4D8B6AF023424CF900C105F0 /* QTLearnerDiscoverTrendingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D8B6ADE23424CF800C105F0 /* QTLearnerDiscoverTrendingViewController.xib */; };
+		4D8B6AF123424CF900C105F0 /* QTLearnerDiscoverTrendingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D8B6ADE23424CF800C105F0 /* QTLearnerDiscoverTrendingViewController.xib */; };
+		4D8B6AF223424CF900C105F0 /* QTLearnerDiscoverCategoriesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8B6AE023424CF800C105F0 /* QTLearnerDiscoverCategoriesTableViewCell.swift */; };
+		4D8B6AF323424CF900C105F0 /* QTLearnerDiscoverCategoriesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8B6AE023424CF800C105F0 /* QTLearnerDiscoverCategoriesTableViewCell.swift */; };
+		4D8B6AF423424CF900C105F0 /* QTLearnerDiscoverCategoriesTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D8B6AE123424CF800C105F0 /* QTLearnerDiscoverCategoriesTableViewCell.xib */; };
+		4D8B6AF523424CF900C105F0 /* QTLearnerDiscoverCategoriesTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D8B6AE123424CF800C105F0 /* QTLearnerDiscoverCategoriesTableViewCell.xib */; };
+		4D8B6AF923424D2B00C105F0 /* QTLearnerDiscoverForYouTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8B6AF723424D2B00C105F0 /* QTLearnerDiscoverForYouTableViewCell.swift */; };
+		4D8B6AFA23424D2B00C105F0 /* QTLearnerDiscoverForYouTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8B6AF723424D2B00C105F0 /* QTLearnerDiscoverForYouTableViewCell.swift */; };
+		4D8B6AFB23424D2B00C105F0 /* QTLearnerDiscoverForYouTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D8B6AF823424D2B00C105F0 /* QTLearnerDiscoverForYouTableViewCell.xib */; };
+		4D8B6AFC23424D2B00C105F0 /* QTLearnerDiscoverForYouTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D8B6AF823424D2B00C105F0 /* QTLearnerDiscoverForYouTableViewCell.xib */; };
+		4D8B6AFF23424D5C00C105F0 /* QTLearnerDiscoverForYouViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8B6AFD23424D5C00C105F0 /* QTLearnerDiscoverForYouViewController.swift */; };
+		4D8B6B0023424D5C00C105F0 /* QTLearnerDiscoverForYouViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8B6AFD23424D5C00C105F0 /* QTLearnerDiscoverForYouViewController.swift */; };
+		4D8B6B0123424D5C00C105F0 /* QTLearnerDiscoverForYouViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D8B6AFE23424D5C00C105F0 /* QTLearnerDiscoverForYouViewController.xib */; };
+		4D8B6B0223424D5C00C105F0 /* QTLearnerDiscoverForYouViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D8B6AFE23424D5C00C105F0 /* QTLearnerDiscoverForYouViewController.xib */; };
+		4D8B6B062342812600C105F0 /* QTLearnerDiscoverRecentlyActiveTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8B6B042342812600C105F0 /* QTLearnerDiscoverRecentlyActiveTableViewCell.swift */; };
+		4D8B6B072342812600C105F0 /* QTLearnerDiscoverRecentlyActiveTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8B6B042342812600C105F0 /* QTLearnerDiscoverRecentlyActiveTableViewCell.swift */; };
+		4D8B6B082342812600C105F0 /* QTLearnerDiscoverRecentlyActiveTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D8B6B052342812600C105F0 /* QTLearnerDiscoverRecentlyActiveTableViewCell.xib */; };
+		4D8B6B092342812600C105F0 /* QTLearnerDiscoverRecentlyActiveTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D8B6B052342812600C105F0 /* QTLearnerDiscoverRecentlyActiveTableViewCell.xib */; };
+		4D8B6B0C234283A600C105F0 /* QTLearnerDiscoverRecentlyActiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8B6B0A234283A600C105F0 /* QTLearnerDiscoverRecentlyActiveViewController.swift */; };
+		4D8B6B0D234283A600C105F0 /* QTLearnerDiscoverRecentlyActiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8B6B0A234283A600C105F0 /* QTLearnerDiscoverRecentlyActiveViewController.swift */; };
+		4D8B6B0E234283A600C105F0 /* QTLearnerDiscoverRecentlyActiveViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D8B6B0B234283A600C105F0 /* QTLearnerDiscoverRecentlyActiveViewController.xib */; };
+		4D8B6B0F234283A600C105F0 /* QTLearnerDiscoverRecentlyActiveViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D8B6B0B234283A600C105F0 /* QTLearnerDiscoverRecentlyActiveViewController.xib */; };
+		4D8B6B202342BCB900C105F0 /* QTLearnerDiscoverTopTopicsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8B6B1E2342BCB900C105F0 /* QTLearnerDiscoverTopTopicsTableViewCell.swift */; };
+		4D8B6B212342BCB900C105F0 /* QTLearnerDiscoverTopTopicsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8B6B1E2342BCB900C105F0 /* QTLearnerDiscoverTopTopicsTableViewCell.swift */; };
+		4D8B6B222342BCB900C105F0 /* QTLearnerDiscoverTopTopicsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D8B6B1F2342BCB900C105F0 /* QTLearnerDiscoverTopTopicsTableViewCell.xib */; };
+		4D8B6B232342BCB900C105F0 /* QTLearnerDiscoverTopTopicsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D8B6B1F2342BCB900C105F0 /* QTLearnerDiscoverTopTopicsTableViewCell.xib */; };
+		4D9CD39A2341B8E40002EADF /* QTLearnerDiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9CD3982341B8E40002EADF /* QTLearnerDiscoverViewController.swift */; };
+		4D9CD39B2341B8E40002EADF /* QTLearnerDiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9CD3982341B8E40002EADF /* QTLearnerDiscoverViewController.swift */; };
+		4D9CD39C2341B8E40002EADF /* QTLearnerDiscoverViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D9CD3992341B8E40002EADF /* QTLearnerDiscoverViewController.xib */; };
+		4D9CD39D2341B8E40002EADF /* QTLearnerDiscoverViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D9CD3992341B8E40002EADF /* QTLearnerDiscoverViewController.xib */; };
+		4D9CD3A12341E9B10002EADF /* QTLearnerDiscoverTableSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9CD3A02341E9B00002EADF /* QTLearnerDiscoverTableSectionHeaderView.swift */; };
+		4D9CD3A22341E9B10002EADF /* QTLearnerDiscoverTableSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9CD3A02341E9B00002EADF /* QTLearnerDiscoverTableSectionHeaderView.swift */; };
+		4D9CD3A42341E9C00002EADF /* QTLearnerDiscoverTableSectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D9CD3A32341E9C00002EADF /* QTLearnerDiscoverTableSectionHeaderView.xib */; };
+		4D9CD3A52341E9C10002EADF /* QTLearnerDiscoverTableSectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D9CD3A32341E9C00002EADF /* QTLearnerDiscoverTableSectionHeaderView.xib */; };
 		4DD841932323EA8800E172C5 /* QTLoadMoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD841912323EA8800E172C5 /* QTLoadMoreTableViewCell.swift */; };
 		4DD841942323EA8800E172C5 /* QTLoadMoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD841912323EA8800E172C5 /* QTLoadMoreTableViewCell.swift */; };
 		4DD841952323EA8800E172C5 /* QTLoadMoreTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD841922323EA8800E172C5 /* QTLoadMoreTableViewCell.xib */; };
 		4DD841962323EA8800E172C5 /* QTLoadMoreTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD841922323EA8800E172C5 /* QTLoadMoreTableViewCell.xib */; };
+		4DE24CEE23450D8400D23576 /* QTLearnerDiscoverCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE24CEC23450D8400D23576 /* QTLearnerDiscoverCategoryViewController.swift */; };
+		4DE24CEF23450D8400D23576 /* QTLearnerDiscoverCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE24CEC23450D8400D23576 /* QTLearnerDiscoverCategoryViewController.swift */; };
+		4DE24CF023450D8400D23576 /* QTLearnerDiscoverCategoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DE24CED23450D8400D23576 /* QTLearnerDiscoverCategoryViewController.xib */; };
+		4DE24CF123450D8400D23576 /* QTLearnerDiscoverCategoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DE24CED23450D8400D23576 /* QTLearnerDiscoverCategoryViewController.xib */; };
+		4DE24CF52345239F00D23576 /* QTLearnerDiscoverTrendingTopicsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE24CF32345239F00D23576 /* QTLearnerDiscoverTrendingTopicsTableViewCell.swift */; };
+		4DE24CF62345239F00D23576 /* QTLearnerDiscoverTrendingTopicsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE24CF32345239F00D23576 /* QTLearnerDiscoverTrendingTopicsTableViewCell.swift */; };
+		4DE24CF72345239F00D23576 /* QTLearnerDiscoverTrendingTopicsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DE24CF42345239F00D23576 /* QTLearnerDiscoverTrendingTopicsTableViewCell.xib */; };
+		4DE24CF82345239F00D23576 /* QTLearnerDiscoverTrendingTopicsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DE24CF42345239F00D23576 /* QTLearnerDiscoverTrendingTopicsTableViewCell.xib */; };
+		4DE24CFB2345248F00D23576 /* QTLearnerDiscoverTrendingTopicCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE24CF92345248F00D23576 /* QTLearnerDiscoverTrendingTopicCollectionViewCell.swift */; };
+		4DE24CFC2345248F00D23576 /* QTLearnerDiscoverTrendingTopicCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE24CF92345248F00D23576 /* QTLearnerDiscoverTrendingTopicCollectionViewCell.swift */; };
+		4DE24CFD2345248F00D23576 /* QTLearnerDiscoverTrendingTopicCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DE24CFA2345248F00D23576 /* QTLearnerDiscoverTrendingTopicCollectionViewCell.xib */; };
+		4DE24CFE2345248F00D23576 /* QTLearnerDiscoverTrendingTopicCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DE24CFA2345248F00D23576 /* QTLearnerDiscoverTrendingTopicCollectionViewCell.xib */; };
+		4DE24D0123453D5400D23576 /* QTLearnerDiscoverSubcategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE24CFF23453D5400D23576 /* QTLearnerDiscoverSubcategoryViewController.swift */; };
+		4DE24D0223453D5400D23576 /* QTLearnerDiscoverSubcategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE24CFF23453D5400D23576 /* QTLearnerDiscoverSubcategoryViewController.swift */; };
+		4DE24D0323453D5400D23576 /* QTLearnerDiscoverSubcategoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DE24D0023453D5400D23576 /* QTLearnerDiscoverSubcategoryViewController.xib */; };
+		4DE24D0423453D5400D23576 /* QTLearnerDiscoverSubcategoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DE24D0023453D5400D23576 /* QTLearnerDiscoverSubcategoryViewController.xib */; };
+		4DE24D062346574500D23576 /* QTLearnerDiscoverService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE24D052346574500D23576 /* QTLearnerDiscoverService.swift */; };
+		4DE24D072346574500D23576 /* QTLearnerDiscoverService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE24D052346574500D23576 /* QTLearnerDiscoverService.swift */; };
 		4DE359EE2334BD6000D5E74B /* QTSavedTutorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE359EC2334BD5F00D5E74B /* QTSavedTutorCollectionViewCell.swift */; };
 		4DE359EF2334BD6000D5E74B /* QTSavedTutorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE359EC2334BD5F00D5E74B /* QTSavedTutorCollectionViewCell.swift */; };
 		4DE359F02334BD6000D5E74B /* QTSavedTutorCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DE359ED2334BD5F00D5E74B /* QTSavedTutorCollectionViewCell.xib */; };
@@ -105,6 +175,14 @@
 		561003C42243163600A4688F /* QTPastSessionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561003C12243163600A4688F /* QTPastSessionTableViewCell.swift */; };
 		561003C52243163600A4688F /* QTPastSessionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 561003C22243163600A4688F /* QTPastSessionTableViewCell.xib */; };
 		561003C62243163600A4688F /* QTPastSessionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 561003C22243163600A4688F /* QTPastSessionTableViewCell.xib */; };
+		561D33072329EF000022D0DC /* QTTutorDiscoverCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561D33052329EF000022D0DC /* QTTutorDiscoverCategoryViewController.swift */; };
+		561D33082329EF000022D0DC /* QTTutorDiscoverCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561D33052329EF000022D0DC /* QTTutorDiscoverCategoryViewController.swift */; };
+		561D33092329EF000022D0DC /* QTTutorDiscoverCategoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 561D33062329EF000022D0DC /* QTTutorDiscoverCategoryViewController.xib */; };
+		561D330A2329EF000022D0DC /* QTTutorDiscoverCategoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 561D33062329EF000022D0DC /* QTTutorDiscoverCategoryViewController.xib */; };
+		561D330C232A22AD0022D0DC /* QTTutorDiscoverCategoryParallaxHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561D330B232A22AD0022D0DC /* QTTutorDiscoverCategoryParallaxHeaderView.swift */; };
+		561D330D232A22AD0022D0DC /* QTTutorDiscoverCategoryParallaxHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561D330B232A22AD0022D0DC /* QTTutorDiscoverCategoryParallaxHeaderView.swift */; };
+		561D330F232A22E60022D0DC /* QTTutorDiscoverCategoryParallaxHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 561D330E232A22E60022D0DC /* QTTutorDiscoverCategoryParallaxHeaderView.xib */; };
+		561D3310232A22E60022D0DC /* QTTutorDiscoverCategoryParallaxHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 561D330E232A22E60022D0DC /* QTTutorDiscoverCategoryParallaxHeaderView.xib */; };
 		562B0157230A879C000146E9 /* QTLearnerAddInterestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 562B0156230A879C000146E9 /* QTLearnerAddInterestsView.swift */; };
 		562B0158230A879C000146E9 /* QTLearnerAddInterestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 562B0156230A879C000146E9 /* QTLearnerAddInterestsView.swift */; };
 		562B015A230A887B000146E9 /* LearnerRegistrationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 562B0159230A887B000146E9 /* LearnerRegistrationService.swift */; };
@@ -113,6 +191,10 @@
 		562B015E230A9652000146E9 /* QTLearnerAddInterestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 562B015C230A9652000146E9 /* QTLearnerAddInterestsViewController.swift */; };
 		562B0160230AE2AE000146E9 /* QTNewTutorInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 562B015F230AE2AE000146E9 /* QTNewTutorInfoTableViewCell.swift */; };
 		562B0161230AE2AE000146E9 /* QTNewTutorInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 562B015F230AE2AE000146E9 /* QTNewTutorInfoTableViewCell.swift */; };
+		562B0166230C3760000146E9 /* QTQuickRequestTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 562B0164230C3760000146E9 /* QTQuickRequestTypeViewController.swift */; };
+		562B0167230C3760000146E9 /* QTQuickRequestTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 562B0164230C3760000146E9 /* QTQuickRequestTypeViewController.swift */; };
+		562B0168230C3760000146E9 /* QTQuickRequestTypeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 562B0165230C3760000146E9 /* QTQuickRequestTypeViewController.xib */; };
+		562B0169230C3760000146E9 /* QTQuickRequestTypeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 562B0165230C3760000146E9 /* QTQuickRequestTypeViewController.xib */; };
 		5630F9592278357A0038E060 /* CustomSwitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5630F9582278357A0038E060 /* CustomSwitchView.swift */; };
 		5630F95A2278357A0038E060 /* CustomSwitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5630F9582278357A0038E060 /* CustomSwitchView.swift */; };
 		5647A778222CB59000E8A26F /* QTSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5647A776222CB59000E8A26F /* QTSettingsViewController.swift */; };
@@ -131,6 +213,52 @@
 		564DD5BF2285C53F00912E36 /* QTRequestQuickCallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564DD5BC2285C53F00912E36 /* QTRequestQuickCallViewController.swift */; };
 		564DD5C02285C53F00912E36 /* QTRequestQuickCallViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 564DD5BD2285C53F00912E36 /* QTRequestQuickCallViewController.xib */; };
 		564DD5C12285C53F00912E36 /* QTRequestQuickCallViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 564DD5BD2285C53F00912E36 /* QTRequestQuickCallViewController.xib */; };
+		5657BDAA231DEFAF00EBD94A /* QTTutorDiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5657BDA9231DEFAF00EBD94A /* QTTutorDiscoverViewController.swift */; };
+		5657BDAB231DEFAF00EBD94A /* QTTutorDiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5657BDA9231DEFAF00EBD94A /* QTTutorDiscoverViewController.swift */; };
+		5657BDB0231DFBB000EBD94A /* QTTutorDiscoverMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5657BDAF231DFBB000EBD94A /* QTTutorDiscoverMainView.swift */; };
+		5657BDB1231DFBB000EBD94A /* QTTutorDiscoverMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5657BDAF231DFBB000EBD94A /* QTTutorDiscoverMainView.swift */; };
+		5657BDB4231E177700EBD94A /* QTTutorDiscoverNewsSectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5657BDB3231E177700EBD94A /* QTTutorDiscoverNewsSectionCollectionViewCell.swift */; };
+		5657BDB5231E177700EBD94A /* QTTutorDiscoverNewsSectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5657BDB3231E177700EBD94A /* QTTutorDiscoverNewsSectionCollectionViewCell.swift */; };
+		5657BDB8231E1BDE00EBD94A /* QTTutorDiscoverNewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5657BDB6231E1BDE00EBD94A /* QTTutorDiscoverNewsViewController.swift */; };
+		5657BDB9231E1BDE00EBD94A /* QTTutorDiscoverNewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5657BDB6231E1BDE00EBD94A /* QTTutorDiscoverNewsViewController.swift */; };
+		5657BDBA231E1BDE00EBD94A /* QTTutorDiscoverNewsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5657BDB7231E1BDE00EBD94A /* QTTutorDiscoverNewsViewController.xib */; };
+		5657BDBB231E1BDE00EBD94A /* QTTutorDiscoverNewsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5657BDB7231E1BDE00EBD94A /* QTTutorDiscoverNewsViewController.xib */; };
+		5657BDBE231E21B400EBD94A /* QTTutorDiscoverNewsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5657BDBC231E21B400EBD94A /* QTTutorDiscoverNewsCollectionViewCell.swift */; };
+		5657BDBF231E21B400EBD94A /* QTTutorDiscoverNewsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5657BDBC231E21B400EBD94A /* QTTutorDiscoverNewsCollectionViewCell.swift */; };
+		5657BDC0231E21B400EBD94A /* QTTutorDiscoverNewsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5657BDBD231E21B400EBD94A /* QTTutorDiscoverNewsCollectionViewCell.xib */; };
+		5657BDC1231E21B400EBD94A /* QTTutorDiscoverNewsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5657BDBD231E21B400EBD94A /* QTTutorDiscoverNewsCollectionViewCell.xib */; };
+		565BBEB92310D17600986490 /* QTQuickRequestDoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BBEB72310D17500986490 /* QTQuickRequestDoneViewController.swift */; };
+		565BBEBA2310D17600986490 /* QTQuickRequestDoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BBEB72310D17500986490 /* QTQuickRequestDoneViewController.swift */; };
+		565BBEBB2310D17600986490 /* QTQuickRequestDoneViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 565BBEB82310D17600986490 /* QTQuickRequestDoneViewController.xib */; };
+		565BBEBC2310D17600986490 /* QTQuickRequestDoneViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 565BBEB82310D17600986490 /* QTQuickRequestDoneViewController.xib */; };
+		565BBEBF2310DAEF00986490 /* QTQuickRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BBEBE2310DAEF00986490 /* QTQuickRequestModel.swift */; };
+		565BBEC02310DAEF00986490 /* QTQuickRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BBEBE2310DAEF00986490 /* QTQuickRequestModel.swift */; };
+		565BBEC2231114E200986490 /* QTLearnerMainPageNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BBEC1231114E100986490 /* QTLearnerMainPageNavigationView.swift */; };
+		565BBEC3231114E200986490 /* QTLearnerMainPageNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BBEC1231114E100986490 /* QTLearnerMainPageNavigationView.swift */; };
+		565BBEC62312DE5600986490 /* QTQuickActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BBEC52312DE5600986490 /* QTQuickActionViewController.swift */; };
+		565BBEC72312DE5600986490 /* QTQuickActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BBEC52312DE5600986490 /* QTQuickActionViewController.swift */; };
+		565BBECA2312E59500986490 /* QTQAQuickRequestCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BBEC82312E59500986490 /* QTQAQuickRequestCollectionViewCell.swift */; };
+		565BBECB2312E59500986490 /* QTQAQuickRequestCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BBEC82312E59500986490 /* QTQAQuickRequestCollectionViewCell.swift */; };
+		565BBECC2312E59500986490 /* QTQAQuickRequestCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 565BBEC92312E59500986490 /* QTQAQuickRequestCollectionViewCell.xib */; };
+		565BBECD2312E59500986490 /* QTQAQuickRequestCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 565BBEC92312E59500986490 /* QTQAQuickRequestCollectionViewCell.xib */; };
+		565BBED02313050400986490 /* QTPastTransationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BBECF2313050400986490 /* QTPastTransationsViewController.swift */; };
+		565BBED12313050400986490 /* QTPastTransationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BBECF2313050400986490 /* QTPastTransationsViewController.swift */; };
+		565BBED72313079D00986490 /* QTLearnerSessionCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BBED52313079D00986490 /* QTLearnerSessionCardCollectionViewCell.swift */; };
+		565BBED82313079D00986490 /* QTLearnerSessionCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BBED52313079D00986490 /* QTLearnerSessionCardCollectionViewCell.swift */; };
+		565BBED92313079D00986490 /* QTLearnerSessionCardCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 565BBED62313079D00986490 /* QTLearnerSessionCardCollectionViewCell.xib */; };
+		565BBEDA2313079D00986490 /* QTLearnerSessionCardCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 565BBED62313079D00986490 /* QTLearnerSessionCardCollectionViewCell.xib */; };
+		565BBEDD23135D8800986490 /* QTLearnerSessionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BBEDC23135D8800986490 /* QTLearnerSessionsService.swift */; };
+		565BBEDE23135D8800986490 /* QTLearnerSessionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BBEDC23135D8800986490 /* QTLearnerSessionsService.swift */; };
+		565BFAD2230CDEE40014AE20 /* QTQuickRequestAlertModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BFAD1230CDEE40014AE20 /* QTQuickRequestAlertModal.swift */; };
+		565BFAD3230CDEE40014AE20 /* QTQuickRequestAlertModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BFAD1230CDEE40014AE20 /* QTQuickRequestAlertModal.swift */; };
+		565BFAD5230CF2DD0014AE20 /* QTQuickRequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BFAD4230CF2DD0014AE20 /* QTQuickRequestService.swift */; };
+		565BFAD6230CF2DD0014AE20 /* QTQuickRequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BFAD4230CF2DD0014AE20 /* QTQuickRequestService.swift */; };
+		565BFAD9230D0F970014AE20 /* QTQuickRequestSubmitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BFAD7230D0F970014AE20 /* QTQuickRequestSubmitViewController.swift */; };
+		565BFADA230D0F970014AE20 /* QTQuickRequestSubmitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BFAD7230D0F970014AE20 /* QTQuickRequestSubmitViewController.swift */; };
+		565BFADB230D0F970014AE20 /* QTQuickRequestSubmitViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 565BFAD8230D0F970014AE20 /* QTQuickRequestSubmitViewController.xib */; };
+		565BFADC230D0F970014AE20 /* QTQuickRequestSubmitViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 565BFAD8230D0F970014AE20 /* QTQuickRequestSubmitViewController.xib */; };
+		565C252423453A59009200B9 /* QTCategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565C252323453A59009200B9 /* QTCategoryModel.swift */; };
+		565C252523453A59009200B9 /* QTCategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565C252323453A59009200B9 /* QTCategoryModel.swift */; };
 		5669A5CD229D8EE5007B3202 /* QTTutorPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5669A5CB229D8EE5007B3202 /* QTTutorPolicyViewController.swift */; };
 		5669A5CE229D8EE5007B3202 /* QTTutorPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5669A5CB229D8EE5007B3202 /* QTTutorPolicyViewController.swift */; };
 		5669A5CF229D8EE5007B3202 /* QTTutorPolicyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5669A5CC229D8EE5007B3202 /* QTTutorPolicyViewController.xib */; };
@@ -153,6 +281,8 @@
 		56842BE3229C3EE600D1DA2C /* QTBecomeTutorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56842BE0229C3EE600D1DA2C /* QTBecomeTutorViewController.swift */; };
 		56842BE4229C3EE600D1DA2C /* QTBecomeTutorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56842BE1229C3EE600D1DA2C /* QTBecomeTutorViewController.xib */; };
 		56842BE5229C3EE600D1DA2C /* QTBecomeTutorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56842BE1229C3EE600D1DA2C /* QTBecomeTutorViewController.xib */; };
+		568B5340231E53E4002776B5 /* QTNewsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568B533F231E53E4002776B5 /* QTNewsModel.swift */; };
+		568B5341231E53E4002776B5 /* QTNewsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568B533F231E53E4002776B5 /* QTNewsModel.swift */; };
 		568B82D5222539C2004DF011 /* QTRatingReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568B82D3222539C2004DF011 /* QTRatingReviewViewController.swift */; };
 		568B82D6222539C2004DF011 /* QTRatingReviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 568B82D4222539C2004DF011 /* QTRatingReviewViewController.xib */; };
 		568B82DA222540AE004DF011 /* QTRatingReviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568B82D8222540AE004DF011 /* QTRatingReviewCollectionViewCell.swift */; };
@@ -170,6 +300,16 @@
 		568E57182270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 568E57152270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.xib */; };
 		568E57192270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 568E57152270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.xib */; };
 		568E571A22713AD900E18BD4 /* TimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93205D292270B70200A11509 /* TimeHelper.swift */; };
+		56952483231FA62D00251CFB /* QTTutorDiscoverOpportunitiesSectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56952482231FA62D00251CFB /* QTTutorDiscoverOpportunitiesSectionCollectionViewCell.swift */; };
+		56952484231FA62D00251CFB /* QTTutorDiscoverOpportunitiesSectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56952482231FA62D00251CFB /* QTTutorDiscoverOpportunitiesSectionCollectionViewCell.swift */; };
+		56952487231FA9ED00251CFB /* QTTutorDiscoverOpportunitiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56952485231FA9ED00251CFB /* QTTutorDiscoverOpportunitiesViewController.swift */; };
+		56952488231FA9ED00251CFB /* QTTutorDiscoverOpportunitiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56952485231FA9ED00251CFB /* QTTutorDiscoverOpportunitiesViewController.swift */; };
+		56952489231FA9ED00251CFB /* QTTutorDiscoverOpportunitiesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56952486231FA9ED00251CFB /* QTTutorDiscoverOpportunitiesViewController.xib */; };
+		5695248A231FA9ED00251CFB /* QTTutorDiscoverOpportunitiesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56952486231FA9ED00251CFB /* QTTutorDiscoverOpportunitiesViewController.xib */; };
+		5695248D231FB0B600251CFB /* QTTutorDiscoverOpportunityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5695248B231FB0B500251CFB /* QTTutorDiscoverOpportunityCollectionViewCell.swift */; };
+		5695248E231FB0B600251CFB /* QTTutorDiscoverOpportunityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5695248B231FB0B500251CFB /* QTTutorDiscoverOpportunityCollectionViewCell.swift */; };
+		5695248F231FB0B600251CFB /* QTTutorDiscoverOpportunityCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5695248C231FB0B600251CFB /* QTTutorDiscoverOpportunityCollectionViewCell.xib */; };
+		56952490231FB0B600251CFB /* QTTutorDiscoverOpportunityCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5695248C231FB0B600251CFB /* QTTutorDiscoverOpportunityCollectionViewCell.xib */; };
 		56961DFB229F639500D32ACA /* QTSessionBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56961DFA229F639500D32ACA /* QTSessionBaseViewController.swift */; };
 		56961DFC229F639500D32ACA /* QTSessionBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56961DFA229F639500D32ACA /* QTSessionBaseViewController.swift */; };
 		5697DD15226F857000AC9775 /* QTInviteOthersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5697DD14226F857000AC9775 /* QTInviteOthersViewController.swift */; };
@@ -719,6 +859,10 @@
 		56C889E0228E4C51008D155D /* QTStartQuickCallViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56C889DE228E4C51008D155D /* QTStartQuickCallViewController.xib */; };
 		56C889E4228E5FDB008D155D /* QTStartQuickCallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C889DD228E4C51008D155D /* QTStartQuickCallViewController.swift */; };
 		56C889E5228E5FE0008D155D /* QTStartQuickCallViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56C889DE228E4C51008D155D /* QTStartQuickCallViewController.xib */; };
+		56D206AA233EF1EA0078ACDC /* QTGlobalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D206A9233EF1EA0078ACDC /* QTGlobalData.swift */; };
+		56D206AB233EF1EA0078ACDC /* QTGlobalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D206A9233EF1EA0078ACDC /* QTGlobalData.swift */; };
+		56D938FE2320A06400A3754C /* QTTutorDiscoverOpportunityApplyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D938FD2320A06400A3754C /* QTTutorDiscoverOpportunityApplyViewController.swift */; };
+		56D938FF2320A06400A3754C /* QTTutorDiscoverOpportunityApplyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D938FD2320A06400A3754C /* QTTutorDiscoverOpportunityApplyViewController.swift */; };
 		56DC6D9A220BD7DF00935F47 /* Lato-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56DC6D8C220BD7DF00935F47 /* Lato-Black.ttf */; };
 		56DC6D9B220BD7DF00935F47 /* Lato-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56DC6D8D220BD7DF00935F47 /* Lato-BlackItalic.ttf */; };
 		56DC6D9C220BD7DF00935F47 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56DC6D8E220BD7DF00935F47 /* Lato-Bold.ttf */; };
@@ -732,6 +876,48 @@
 		56DC6DA5220BD7DF00935F47 /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56DC6D97220BD7DF00935F47 /* Lato-Regular.ttf */; };
 		56DC6DA6220BD7DF00935F47 /* Lato-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56DC6D98220BD7DF00935F47 /* Lato-Semibold.ttf */; };
 		56DC6DA7220BD7DF00935F47 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 56DC6D99220BD7DF00935F47 /* OFL.txt */; };
+		56E669E0232C6DB00051CC1F /* QTTutorDiscoverTipsSectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E669DF232C6DB00051CC1F /* QTTutorDiscoverTipsSectionCollectionViewCell.swift */; };
+		56E669E1232C6DB00051CC1F /* QTTutorDiscoverTipsSectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E669DF232C6DB00051CC1F /* QTTutorDiscoverTipsSectionCollectionViewCell.swift */; };
+		56E669E4232C6E240051CC1F /* QTTutorDiscoverTipsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E669E2232C6E240051CC1F /* QTTutorDiscoverTipsViewController.swift */; };
+		56E669E5232C6E240051CC1F /* QTTutorDiscoverTipsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E669E2232C6E240051CC1F /* QTTutorDiscoverTipsViewController.swift */; };
+		56E669E6232C6E240051CC1F /* QTTutorDiscoverTipsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56E669E3232C6E240051CC1F /* QTTutorDiscoverTipsViewController.xib */; };
+		56E669E7232C6E240051CC1F /* QTTutorDiscoverTipsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56E669E3232C6E240051CC1F /* QTTutorDiscoverTipsViewController.xib */; };
+		56E669EA232C74CF0051CC1F /* QTTutorDiscoverTipCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E669E8232C74CF0051CC1F /* QTTutorDiscoverTipCollectionViewCell.swift */; };
+		56E669EB232C74CF0051CC1F /* QTTutorDiscoverTipCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E669E8232C74CF0051CC1F /* QTTutorDiscoverTipCollectionViewCell.swift */; };
+		56E669F0232C97D50051CC1F /* QTTutorDiscoverNewsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E669EE232C97D50051CC1F /* QTTutorDiscoverNewsDetailViewController.swift */; };
+		56E669F1232C97D50051CC1F /* QTTutorDiscoverNewsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E669EE232C97D50051CC1F /* QTTutorDiscoverNewsDetailViewController.swift */; };
+		56E669F2232C97D50051CC1F /* QTTutorDiscoverNewsDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56E669EF232C97D50051CC1F /* QTTutorDiscoverNewsDetailViewController.xib */; };
+		56E669F3232C97D50051CC1F /* QTTutorDiscoverNewsDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56E669EF232C97D50051CC1F /* QTTutorDiscoverNewsDetailViewController.xib */; };
+		56E669F5232C99B70051CC1F /* QTTutorDiscoverNewsDetailParallaxHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E669F4232C99B70051CC1F /* QTTutorDiscoverNewsDetailParallaxHeaderView.swift */; };
+		56E669F6232C99B70051CC1F /* QTTutorDiscoverNewsDetailParallaxHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E669F4232C99B70051CC1F /* QTTutorDiscoverNewsDetailParallaxHeaderView.swift */; };
+		56E669F8232C9C5E0051CC1F /* QTTutorDiscoverNewsDetailParallaxHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56E669F7232C9C5E0051CC1F /* QTTutorDiscoverNewsDetailParallaxHeaderView.xib */; };
+		56E669F9232C9C5E0051CC1F /* QTTutorDiscoverNewsDetailParallaxHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56E669F7232C9C5E0051CC1F /* QTTutorDiscoverNewsDetailParallaxHeaderView.xib */; };
+		56E669FC232C9EAF0051CC1F /* QTTutorDiscoverNewsDetailDescTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E669FA232C9EAF0051CC1F /* QTTutorDiscoverNewsDetailDescTableViewCell.swift */; };
+		56E669FD232C9EAF0051CC1F /* QTTutorDiscoverNewsDetailDescTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E669FA232C9EAF0051CC1F /* QTTutorDiscoverNewsDetailDescTableViewCell.swift */; };
+		56E669FE232C9EAF0051CC1F /* QTTutorDiscoverNewsDetailDescTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56E669FB232C9EAF0051CC1F /* QTTutorDiscoverNewsDetailDescTableViewCell.xib */; };
+		56E669FF232C9EAF0051CC1F /* QTTutorDiscoverNewsDetailDescTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56E669FB232C9EAF0051CC1F /* QTTutorDiscoverNewsDetailDescTableViewCell.xib */; };
+		56E66A02232C9ECD0051CC1F /* QTTutorDiscoverNewsDetailContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E66A00232C9ECD0051CC1F /* QTTutorDiscoverNewsDetailContentTableViewCell.swift */; };
+		56E66A03232C9ECD0051CC1F /* QTTutorDiscoverNewsDetailContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E66A00232C9ECD0051CC1F /* QTTutorDiscoverNewsDetailContentTableViewCell.swift */; };
+		56E66A04232C9ECD0051CC1F /* QTTutorDiscoverNewsDetailContentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56E66A01232C9ECD0051CC1F /* QTTutorDiscoverNewsDetailContentTableViewCell.xib */; };
+		56E66A05232C9ECD0051CC1F /* QTTutorDiscoverNewsDetailContentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56E66A01232C9ECD0051CC1F /* QTTutorDiscoverNewsDetailContentTableViewCell.xib */; };
+		56E66A08232CAD5B0051CC1F /* QTTutorDiscoverTipDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E66A06232CAD5B0051CC1F /* QTTutorDiscoverTipDetailViewController.swift */; };
+		56E66A09232CAD5B0051CC1F /* QTTutorDiscoverTipDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E66A06232CAD5B0051CC1F /* QTTutorDiscoverTipDetailViewController.swift */; };
+		56E66A0A232CAD5B0051CC1F /* QTTutorDiscoverTipDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56E66A07232CAD5B0051CC1F /* QTTutorDiscoverTipDetailViewController.xib */; };
+		56E66A0B232CAD5B0051CC1F /* QTTutorDiscoverTipDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56E66A07232CAD5B0051CC1F /* QTTutorDiscoverTipDetailViewController.xib */; };
+		56E66A0D232CAE110051CC1F /* QTTutorDiscoverTipDetailParallaxHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E66A0C232CAE110051CC1F /* QTTutorDiscoverTipDetailParallaxHeaderView.swift */; };
+		56E66A0E232CAE110051CC1F /* QTTutorDiscoverTipDetailParallaxHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E66A0C232CAE110051CC1F /* QTTutorDiscoverTipDetailParallaxHeaderView.swift */; };
+		56E66A10232CAE2B0051CC1F /* QTTutorDiscoverTipDetailParallaxHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56E66A0F232CAE2B0051CC1F /* QTTutorDiscoverTipDetailParallaxHeaderView.xib */; };
+		56E66A11232CAE2B0051CC1F /* QTTutorDiscoverTipDetailParallaxHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56E66A0F232CAE2B0051CC1F /* QTTutorDiscoverTipDetailParallaxHeaderView.xib */; };
+		56E66A14232CAF690051CC1F /* QTTutorDiscoverTipDetailTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E66A12232CAF690051CC1F /* QTTutorDiscoverTipDetailTitleTableViewCell.swift */; };
+		56E66A15232CAF690051CC1F /* QTTutorDiscoverTipDetailTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E66A12232CAF690051CC1F /* QTTutorDiscoverTipDetailTitleTableViewCell.swift */; };
+		56E66A16232CAF690051CC1F /* QTTutorDiscoverTipDetailTitleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56E66A13232CAF690051CC1F /* QTTutorDiscoverTipDetailTitleTableViewCell.xib */; };
+		56E66A17232CAF690051CC1F /* QTTutorDiscoverTipDetailTitleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56E66A13232CAF690051CC1F /* QTTutorDiscoverTipDetailTitleTableViewCell.xib */; };
+		56E66A1A232CC7570051CC1F /* QTTutorDiscoverShareSectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E66A19232CC7570051CC1F /* QTTutorDiscoverShareSectionCollectionViewCell.swift */; };
+		56E66A1B232CC7570051CC1F /* QTTutorDiscoverShareSectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E66A19232CC7570051CC1F /* QTTutorDiscoverShareSectionCollectionViewCell.swift */; };
+		56E66A1E232CC80A0051CC1F /* QTTutorDiscoverShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E66A1C232CC80A0051CC1F /* QTTutorDiscoverShareViewController.swift */; };
+		56E66A1F232CC80A0051CC1F /* QTTutorDiscoverShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E66A1C232CC80A0051CC1F /* QTTutorDiscoverShareViewController.swift */; };
+		56E66A20232CC80A0051CC1F /* QTTutorDiscoverShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56E66A1D232CC80A0051CC1F /* QTTutorDiscoverShareViewController.xib */; };
+		56E66A21232CC80A0051CC1F /* QTTutorDiscoverShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56E66A1D232CC80A0051CC1F /* QTTutorDiscoverShareViewController.xib */; };
 		62336B8022B759410060797D /* GetStartedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62336B7F22B759410060797D /* GetStartedViewController.swift */; };
 		6678231FF480F2441B6774FE /* Pods_QuickTutorApp_QuickTutorDev.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CF0EA42A8F41C9B5B75E778 /* Pods_QuickTutorApp_QuickTutorDev.framework */; };
 		84000D2E21246B5E0023355B /* ProfileImageViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84000D2D21246B5E0023355B /* ProfileImageViewer.swift */; };
@@ -1426,8 +1612,43 @@
 		4D853D6C230A9BDA00DAC323 /* ChoosePaymentMethodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosePaymentMethodViewController.swift; sourceTree = "<group>"; };
 		4D853D6D230A9BDA00DAC323 /* ChoosePaymentMethodViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChoosePaymentMethodViewController.xib; sourceTree = "<group>"; };
 		4D853D73230A9CE100DAC323 /* QTBaseCustomDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTBaseCustomDialog.swift; sourceTree = "<group>"; };
+		4D8B6ACF23423D4D00C105F0 /* QTLearnerDiscoverTutorCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QTLearnerDiscoverTutorCollectionViewCell.swift; sourceTree = "<group>"; };
+		4D8B6AD023423D4E00C105F0 /* QTLearnerDiscoverTutorCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QTLearnerDiscoverTutorCollectionViewCell.xib; sourceTree = "<group>"; };
+		4D8B6AD623424CF700C105F0 /* QTLearnerDiscoverTutorsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QTLearnerDiscoverTutorsTableViewCell.swift; sourceTree = "<group>"; };
+		4D8B6AD723424CF700C105F0 /* QTLearnerDiscoverTutorsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QTLearnerDiscoverTutorsTableViewCell.xib; sourceTree = "<group>"; };
+		4D8B6AD823424CF700C105F0 /* QTLearnerDiscoverTutorsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QTLearnerDiscoverTutorsViewController.swift; sourceTree = "<group>"; };
+		4D8B6AD923424CF700C105F0 /* QTLearnerDiscoverTutorsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QTLearnerDiscoverTutorsViewController.xib; sourceTree = "<group>"; };
+		4D8B6ADB23424CF800C105F0 /* QTLearnerDiscoverTrendingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QTLearnerDiscoverTrendingTableViewCell.swift; sourceTree = "<group>"; };
+		4D8B6ADC23424CF800C105F0 /* QTLearnerDiscoverTrendingTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QTLearnerDiscoverTrendingTableViewCell.xib; sourceTree = "<group>"; };
+		4D8B6ADD23424CF800C105F0 /* QTLearnerDiscoverTrendingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QTLearnerDiscoverTrendingViewController.swift; sourceTree = "<group>"; };
+		4D8B6ADE23424CF800C105F0 /* QTLearnerDiscoverTrendingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QTLearnerDiscoverTrendingViewController.xib; sourceTree = "<group>"; };
+		4D8B6AE023424CF800C105F0 /* QTLearnerDiscoverCategoriesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QTLearnerDiscoverCategoriesTableViewCell.swift; sourceTree = "<group>"; };
+		4D8B6AE123424CF800C105F0 /* QTLearnerDiscoverCategoriesTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QTLearnerDiscoverCategoriesTableViewCell.xib; sourceTree = "<group>"; };
+		4D8B6AF723424D2B00C105F0 /* QTLearnerDiscoverForYouTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTLearnerDiscoverForYouTableViewCell.swift; sourceTree = "<group>"; };
+		4D8B6AF823424D2B00C105F0 /* QTLearnerDiscoverForYouTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTLearnerDiscoverForYouTableViewCell.xib; sourceTree = "<group>"; };
+		4D8B6AFD23424D5C00C105F0 /* QTLearnerDiscoverForYouViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTLearnerDiscoverForYouViewController.swift; sourceTree = "<group>"; };
+		4D8B6AFE23424D5C00C105F0 /* QTLearnerDiscoverForYouViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTLearnerDiscoverForYouViewController.xib; sourceTree = "<group>"; };
+		4D8B6B042342812600C105F0 /* QTLearnerDiscoverRecentlyActiveTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTLearnerDiscoverRecentlyActiveTableViewCell.swift; sourceTree = "<group>"; };
+		4D8B6B052342812600C105F0 /* QTLearnerDiscoverRecentlyActiveTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTLearnerDiscoverRecentlyActiveTableViewCell.xib; sourceTree = "<group>"; };
+		4D8B6B0A234283A600C105F0 /* QTLearnerDiscoverRecentlyActiveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTLearnerDiscoverRecentlyActiveViewController.swift; sourceTree = "<group>"; };
+		4D8B6B0B234283A600C105F0 /* QTLearnerDiscoverRecentlyActiveViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTLearnerDiscoverRecentlyActiveViewController.xib; sourceTree = "<group>"; };
+		4D8B6B1E2342BCB900C105F0 /* QTLearnerDiscoverTopTopicsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTLearnerDiscoverTopTopicsTableViewCell.swift; sourceTree = "<group>"; };
+		4D8B6B1F2342BCB900C105F0 /* QTLearnerDiscoverTopTopicsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTLearnerDiscoverTopTopicsTableViewCell.xib; sourceTree = "<group>"; };
+		4D9CD3982341B8E40002EADF /* QTLearnerDiscoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTLearnerDiscoverViewController.swift; sourceTree = "<group>"; };
+		4D9CD3992341B8E40002EADF /* QTLearnerDiscoverViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTLearnerDiscoverViewController.xib; sourceTree = "<group>"; };
+		4D9CD3A02341E9B00002EADF /* QTLearnerDiscoverTableSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTLearnerDiscoverTableSectionHeaderView.swift; sourceTree = "<group>"; };
+		4D9CD3A32341E9C00002EADF /* QTLearnerDiscoverTableSectionHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTLearnerDiscoverTableSectionHeaderView.xib; sourceTree = "<group>"; };
 		4DD841912323EA8800E172C5 /* QTLoadMoreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTLoadMoreTableViewCell.swift; sourceTree = "<group>"; };
 		4DD841922323EA8800E172C5 /* QTLoadMoreTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTLoadMoreTableViewCell.xib; sourceTree = "<group>"; };
+		4DE24CEC23450D8400D23576 /* QTLearnerDiscoverCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTLearnerDiscoverCategoryViewController.swift; sourceTree = "<group>"; };
+		4DE24CED23450D8400D23576 /* QTLearnerDiscoverCategoryViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTLearnerDiscoverCategoryViewController.xib; sourceTree = "<group>"; };
+		4DE24CF32345239F00D23576 /* QTLearnerDiscoverTrendingTopicsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTLearnerDiscoverTrendingTopicsTableViewCell.swift; sourceTree = "<group>"; };
+		4DE24CF42345239F00D23576 /* QTLearnerDiscoverTrendingTopicsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTLearnerDiscoverTrendingTopicsTableViewCell.xib; sourceTree = "<group>"; };
+		4DE24CF92345248F00D23576 /* QTLearnerDiscoverTrendingTopicCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTLearnerDiscoverTrendingTopicCollectionViewCell.swift; sourceTree = "<group>"; };
+		4DE24CFA2345248F00D23576 /* QTLearnerDiscoverTrendingTopicCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTLearnerDiscoverTrendingTopicCollectionViewCell.xib; sourceTree = "<group>"; };
+		4DE24CFF23453D5400D23576 /* QTLearnerDiscoverSubcategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTLearnerDiscoverSubcategoryViewController.swift; sourceTree = "<group>"; };
+		4DE24D0023453D5400D23576 /* QTLearnerDiscoverSubcategoryViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTLearnerDiscoverSubcategoryViewController.xib; sourceTree = "<group>"; };
+		4DE24D052346574500D23576 /* QTLearnerDiscoverService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTLearnerDiscoverService.swift; sourceTree = "<group>"; };
 		4DE359EC2334BD5F00D5E74B /* QTSavedTutorCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QTSavedTutorCollectionViewCell.swift; sourceTree = "<group>"; };
 		4DE359ED2334BD5F00D5E74B /* QTSavedTutorCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QTSavedTutorCollectionViewCell.xib; sourceTree = "<group>"; };
 		4DE3668F2239F06C00A94C37 /* QTProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTProfileViewController.swift; sourceTree = "<group>"; };
@@ -1449,10 +1670,16 @@
 		561003BB2242D23600A4688F /* QTPastSessionsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTPastSessionsViewController.xib; sourceTree = "<group>"; };
 		561003C12243163600A4688F /* QTPastSessionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTPastSessionTableViewCell.swift; sourceTree = "<group>"; };
 		561003C22243163600A4688F /* QTPastSessionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTPastSessionTableViewCell.xib; sourceTree = "<group>"; };
+		561D33052329EF000022D0DC /* QTTutorDiscoverCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorDiscoverCategoryViewController.swift; sourceTree = "<group>"; };
+		561D33062329EF000022D0DC /* QTTutorDiscoverCategoryViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTTutorDiscoverCategoryViewController.xib; sourceTree = "<group>"; };
+		561D330B232A22AD0022D0DC /* QTTutorDiscoverCategoryParallaxHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorDiscoverCategoryParallaxHeaderView.swift; sourceTree = "<group>"; };
+		561D330E232A22E60022D0DC /* QTTutorDiscoverCategoryParallaxHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTTutorDiscoverCategoryParallaxHeaderView.xib; sourceTree = "<group>"; };
 		562B0156230A879C000146E9 /* QTLearnerAddInterestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTLearnerAddInterestsView.swift; sourceTree = "<group>"; };
 		562B0159230A887B000146E9 /* LearnerRegistrationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnerRegistrationService.swift; sourceTree = "<group>"; };
 		562B015C230A9652000146E9 /* QTLearnerAddInterestsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTLearnerAddInterestsViewController.swift; sourceTree = "<group>"; };
 		562B015F230AE2AE000146E9 /* QTNewTutorInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTNewTutorInfoTableViewCell.swift; sourceTree = "<group>"; };
+		562B0164230C3760000146E9 /* QTQuickRequestTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTQuickRequestTypeViewController.swift; sourceTree = "<group>"; };
+		562B0165230C3760000146E9 /* QTQuickRequestTypeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTQuickRequestTypeViewController.xib; sourceTree = "<group>"; };
 		5630F9582278357A0038E060 /* CustomSwitchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSwitchView.swift; sourceTree = "<group>"; };
 		5647A776222CB59000E8A26F /* QTSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTSettingsViewController.swift; sourceTree = "<group>"; };
 		5647A777222CB59000E8A26F /* QTSettingsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTSettingsViewController.xib; sourceTree = "<group>"; };
@@ -1465,6 +1692,29 @@
 		564C429522A03F6400FC8AE1 /* SessionUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionUserInfo.swift; sourceTree = "<group>"; };
 		564DD5BC2285C53F00912E36 /* QTRequestQuickCallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTRequestQuickCallViewController.swift; sourceTree = "<group>"; };
 		564DD5BD2285C53F00912E36 /* QTRequestQuickCallViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTRequestQuickCallViewController.xib; sourceTree = "<group>"; };
+		5657BDA9231DEFAF00EBD94A /* QTTutorDiscoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QTTutorDiscoverViewController.swift; sourceTree = "<group>"; };
+		5657BDAF231DFBB000EBD94A /* QTTutorDiscoverMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorDiscoverMainView.swift; sourceTree = "<group>"; };
+		5657BDB3231E177700EBD94A /* QTTutorDiscoverNewsSectionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorDiscoverNewsSectionCollectionViewCell.swift; sourceTree = "<group>"; };
+		5657BDB6231E1BDE00EBD94A /* QTTutorDiscoverNewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorDiscoverNewsViewController.swift; sourceTree = "<group>"; };
+		5657BDB7231E1BDE00EBD94A /* QTTutorDiscoverNewsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTTutorDiscoverNewsViewController.xib; sourceTree = "<group>"; };
+		5657BDBC231E21B400EBD94A /* QTTutorDiscoverNewsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorDiscoverNewsCollectionViewCell.swift; sourceTree = "<group>"; };
+		5657BDBD231E21B400EBD94A /* QTTutorDiscoverNewsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTTutorDiscoverNewsCollectionViewCell.xib; sourceTree = "<group>"; };
+		565BBEB72310D17500986490 /* QTQuickRequestDoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTQuickRequestDoneViewController.swift; sourceTree = "<group>"; };
+		565BBEB82310D17600986490 /* QTQuickRequestDoneViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTQuickRequestDoneViewController.xib; sourceTree = "<group>"; };
+		565BBEBE2310DAEF00986490 /* QTQuickRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTQuickRequestModel.swift; sourceTree = "<group>"; };
+		565BBEC1231114E100986490 /* QTLearnerMainPageNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTLearnerMainPageNavigationView.swift; sourceTree = "<group>"; };
+		565BBEC52312DE5600986490 /* QTQuickActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTQuickActionViewController.swift; sourceTree = "<group>"; };
+		565BBEC82312E59500986490 /* QTQAQuickRequestCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTQAQuickRequestCollectionViewCell.swift; sourceTree = "<group>"; };
+		565BBEC92312E59500986490 /* QTQAQuickRequestCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTQAQuickRequestCollectionViewCell.xib; sourceTree = "<group>"; };
+		565BBECF2313050400986490 /* QTPastTransationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTPastTransationsViewController.swift; sourceTree = "<group>"; };
+		565BBED52313079D00986490 /* QTLearnerSessionCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTLearnerSessionCardCollectionViewCell.swift; sourceTree = "<group>"; };
+		565BBED62313079D00986490 /* QTLearnerSessionCardCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTLearnerSessionCardCollectionViewCell.xib; sourceTree = "<group>"; };
+		565BBEDC23135D8800986490 /* QTLearnerSessionsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTLearnerSessionsService.swift; sourceTree = "<group>"; };
+		565BFAD1230CDEE40014AE20 /* QTQuickRequestAlertModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTQuickRequestAlertModal.swift; sourceTree = "<group>"; };
+		565BFAD4230CF2DD0014AE20 /* QTQuickRequestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTQuickRequestService.swift; sourceTree = "<group>"; };
+		565BFAD7230D0F970014AE20 /* QTQuickRequestSubmitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTQuickRequestSubmitViewController.swift; sourceTree = "<group>"; };
+		565BFAD8230D0F970014AE20 /* QTQuickRequestSubmitViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTQuickRequestSubmitViewController.xib; sourceTree = "<group>"; };
+		565C252323453A59009200B9 /* QTCategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTCategoryModel.swift; sourceTree = "<group>"; };
 		5669A5CB229D8EE5007B3202 /* QTTutorPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorPolicyViewController.swift; sourceTree = "<group>"; };
 		5669A5CC229D8EE5007B3202 /* QTTutorPolicyViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTTutorPolicyViewController.xib; sourceTree = "<group>"; };
 		567C56AF22F3365F00B06D40 /* Lato-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-BoldItalic.ttf"; sourceTree = "<group>"; };
@@ -1476,6 +1726,7 @@
 		567E1A152270C46B0094E371 /* QTCloseAccountInfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTCloseAccountInfoViewController.xib; sourceTree = "<group>"; };
 		56842BE0229C3EE600D1DA2C /* QTBecomeTutorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTBecomeTutorViewController.swift; sourceTree = "<group>"; };
 		56842BE1229C3EE600D1DA2C /* QTBecomeTutorViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = QTBecomeTutorViewController.xib; path = "../../../Main App/Learner App/Become a QuickTutor/QTBecomeTutorViewController.xib"; sourceTree = "<group>"; };
+		568B533F231E53E4002776B5 /* QTNewsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTNewsModel.swift; sourceTree = "<group>"; };
 		568B82D3222539C2004DF011 /* QTRatingReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTRatingReviewViewController.swift; sourceTree = "<group>"; };
 		568B82D4222539C2004DF011 /* QTRatingReviewViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTRatingReviewViewController.xib; sourceTree = "<group>"; };
 		568B82D8222540AE004DF011 /* QTRatingReviewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTRatingReviewCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -1488,6 +1739,11 @@
 		568E570F2270CA7700E18BD4 /* QTCloseAccountTypeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTCloseAccountTypeViewController.xib; sourceTree = "<group>"; };
 		568E57142270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTCloseAccountSubmitViewController.swift; sourceTree = "<group>"; };
 		568E57152270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTCloseAccountSubmitViewController.xib; sourceTree = "<group>"; };
+		56952482231FA62D00251CFB /* QTTutorDiscoverOpportunitiesSectionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorDiscoverOpportunitiesSectionCollectionViewCell.swift; sourceTree = "<group>"; };
+		56952485231FA9ED00251CFB /* QTTutorDiscoverOpportunitiesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorDiscoverOpportunitiesViewController.swift; sourceTree = "<group>"; };
+		56952486231FA9ED00251CFB /* QTTutorDiscoverOpportunitiesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTTutorDiscoverOpportunitiesViewController.xib; sourceTree = "<group>"; };
+		5695248B231FB0B500251CFB /* QTTutorDiscoverOpportunityCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorDiscoverOpportunityCollectionViewCell.swift; sourceTree = "<group>"; };
+		5695248C231FB0B600251CFB /* QTTutorDiscoverOpportunityCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTTutorDiscoverOpportunityCollectionViewCell.xib; sourceTree = "<group>"; };
 		56961DFA229F639500D32ACA /* QTSessionBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTSessionBaseViewController.swift; sourceTree = "<group>"; };
 		5697DD14226F857000AC9775 /* QTInviteOthersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QTInviteOthersViewController.swift; sourceTree = "<group>"; };
 		5697DD18226F859300AC9775 /* QTInviteOthersViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QTInviteOthersViewController.xib; sourceTree = "<group>"; };
@@ -1539,6 +1795,8 @@
 		56BE7E7B22D067FB0052BBE7 /* QTTutorSearchTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTTutorSearchTableViewCell.xib; sourceTree = "<group>"; };
 		56C889DD228E4C51008D155D /* QTStartQuickCallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTStartQuickCallViewController.swift; sourceTree = "<group>"; };
 		56C889DE228E4C51008D155D /* QTStartQuickCallViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTStartQuickCallViewController.xib; sourceTree = "<group>"; };
+		56D206A9233EF1EA0078ACDC /* QTGlobalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTGlobalData.swift; sourceTree = "<group>"; };
+		56D938FD2320A06400A3754C /* QTTutorDiscoverOpportunityApplyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorDiscoverOpportunityApplyViewController.swift; sourceTree = "<group>"; };
 		56DC6D8C220BD7DF00935F47 /* Lato-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Black.ttf"; sourceTree = "<group>"; };
 		56DC6D8D220BD7DF00935F47 /* Lato-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-BlackItalic.ttf"; sourceTree = "<group>"; };
 		56DC6D8E220BD7DF00935F47 /* Lato-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Bold.ttf"; sourceTree = "<group>"; };
@@ -1552,6 +1810,27 @@
 		56DC6D97220BD7DF00935F47 /* Lato-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Regular.ttf"; sourceTree = "<group>"; };
 		56DC6D98220BD7DF00935F47 /* Lato-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Semibold.ttf"; sourceTree = "<group>"; };
 		56DC6D99220BD7DF00935F47 /* OFL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
+		56E669DF232C6DB00051CC1F /* QTTutorDiscoverTipsSectionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorDiscoverTipsSectionCollectionViewCell.swift; sourceTree = "<group>"; };
+		56E669E2232C6E240051CC1F /* QTTutorDiscoverTipsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorDiscoverTipsViewController.swift; sourceTree = "<group>"; };
+		56E669E3232C6E240051CC1F /* QTTutorDiscoverTipsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTTutorDiscoverTipsViewController.xib; sourceTree = "<group>"; };
+		56E669E8232C74CF0051CC1F /* QTTutorDiscoverTipCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorDiscoverTipCollectionViewCell.swift; sourceTree = "<group>"; };
+		56E669EE232C97D50051CC1F /* QTTutorDiscoverNewsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorDiscoverNewsDetailViewController.swift; sourceTree = "<group>"; };
+		56E669EF232C97D50051CC1F /* QTTutorDiscoverNewsDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTTutorDiscoverNewsDetailViewController.xib; sourceTree = "<group>"; };
+		56E669F4232C99B70051CC1F /* QTTutorDiscoverNewsDetailParallaxHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorDiscoverNewsDetailParallaxHeaderView.swift; sourceTree = "<group>"; };
+		56E669F7232C9C5E0051CC1F /* QTTutorDiscoverNewsDetailParallaxHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTTutorDiscoverNewsDetailParallaxHeaderView.xib; sourceTree = "<group>"; };
+		56E669FA232C9EAF0051CC1F /* QTTutorDiscoverNewsDetailDescTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorDiscoverNewsDetailDescTableViewCell.swift; sourceTree = "<group>"; };
+		56E669FB232C9EAF0051CC1F /* QTTutorDiscoverNewsDetailDescTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTTutorDiscoverNewsDetailDescTableViewCell.xib; sourceTree = "<group>"; };
+		56E66A00232C9ECD0051CC1F /* QTTutorDiscoverNewsDetailContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorDiscoverNewsDetailContentTableViewCell.swift; sourceTree = "<group>"; };
+		56E66A01232C9ECD0051CC1F /* QTTutorDiscoverNewsDetailContentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTTutorDiscoverNewsDetailContentTableViewCell.xib; sourceTree = "<group>"; };
+		56E66A06232CAD5B0051CC1F /* QTTutorDiscoverTipDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorDiscoverTipDetailViewController.swift; sourceTree = "<group>"; };
+		56E66A07232CAD5B0051CC1F /* QTTutorDiscoverTipDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTTutorDiscoverTipDetailViewController.xib; sourceTree = "<group>"; };
+		56E66A0C232CAE110051CC1F /* QTTutorDiscoverTipDetailParallaxHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorDiscoverTipDetailParallaxHeaderView.swift; sourceTree = "<group>"; };
+		56E66A0F232CAE2B0051CC1F /* QTTutorDiscoverTipDetailParallaxHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTTutorDiscoverTipDetailParallaxHeaderView.xib; sourceTree = "<group>"; };
+		56E66A12232CAF690051CC1F /* QTTutorDiscoverTipDetailTitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorDiscoverTipDetailTitleTableViewCell.swift; sourceTree = "<group>"; };
+		56E66A13232CAF690051CC1F /* QTTutorDiscoverTipDetailTitleTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTTutorDiscoverTipDetailTitleTableViewCell.xib; sourceTree = "<group>"; };
+		56E66A19232CC7570051CC1F /* QTTutorDiscoverShareSectionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorDiscoverShareSectionCollectionViewCell.swift; sourceTree = "<group>"; };
+		56E66A1C232CC80A0051CC1F /* QTTutorDiscoverShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorDiscoverShareViewController.swift; sourceTree = "<group>"; };
+		56E66A1D232CC80A0051CC1F /* QTTutorDiscoverShareViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTTutorDiscoverShareViewController.xib; sourceTree = "<group>"; };
 		62336B7F22B759410060797D /* GetStartedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStartedViewController.swift; sourceTree = "<group>"; };
 		84000D2D21246B5E0023355B /* ProfileImageViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageViewer.swift; sourceTree = "<group>"; };
 		8404F43A20EAE6EB00747C01 /* badwords.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = badwords.txt; sourceTree = "<group>"; };
@@ -2223,6 +2502,120 @@
 			path = CustomDialogs;
 			sourceTree = "<group>";
 		};
+		4D8B6AD523424CF700C105F0 /* Tutors */ = {
+			isa = PBXGroup;
+			children = (
+				4D8B6AD623424CF700C105F0 /* QTLearnerDiscoverTutorsTableViewCell.swift */,
+				4D8B6AD723424CF700C105F0 /* QTLearnerDiscoverTutorsTableViewCell.xib */,
+				4D8B6AD823424CF700C105F0 /* QTLearnerDiscoverTutorsViewController.swift */,
+				4D8B6AD923424CF700C105F0 /* QTLearnerDiscoverTutorsViewController.xib */,
+			);
+			path = Tutors;
+			sourceTree = "<group>";
+		};
+		4D8B6ADA23424CF800C105F0 /* Trending */ = {
+			isa = PBXGroup;
+			children = (
+				4D8B6ADB23424CF800C105F0 /* QTLearnerDiscoverTrendingTableViewCell.swift */,
+				4D8B6ADC23424CF800C105F0 /* QTLearnerDiscoverTrendingTableViewCell.xib */,
+				4D8B6ADD23424CF800C105F0 /* QTLearnerDiscoverTrendingViewController.swift */,
+				4D8B6ADE23424CF800C105F0 /* QTLearnerDiscoverTrendingViewController.xib */,
+			);
+			path = Trending;
+			sourceTree = "<group>";
+		};
+		4D8B6ADF23424CF800C105F0 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				4D8B6AE023424CF800C105F0 /* QTLearnerDiscoverCategoriesTableViewCell.swift */,
+				4D8B6AE123424CF800C105F0 /* QTLearnerDiscoverCategoriesTableViewCell.xib */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
+		4D8B6AF623424D0600C105F0 /* ForYou */ = {
+			isa = PBXGroup;
+			children = (
+				4D8B6AF723424D2B00C105F0 /* QTLearnerDiscoverForYouTableViewCell.swift */,
+				4D8B6AF823424D2B00C105F0 /* QTLearnerDiscoverForYouTableViewCell.xib */,
+				4D8B6AFD23424D5C00C105F0 /* QTLearnerDiscoverForYouViewController.swift */,
+				4D8B6AFE23424D5C00C105F0 /* QTLearnerDiscoverForYouViewController.xib */,
+			);
+			path = ForYou;
+			sourceTree = "<group>";
+		};
+		4D8B6B03234280FF00C105F0 /* RecentlyActive */ = {
+			isa = PBXGroup;
+			children = (
+				4D8B6B042342812600C105F0 /* QTLearnerDiscoverRecentlyActiveTableViewCell.swift */,
+				4D8B6B052342812600C105F0 /* QTLearnerDiscoverRecentlyActiveTableViewCell.xib */,
+				4D8B6B0A234283A600C105F0 /* QTLearnerDiscoverRecentlyActiveViewController.swift */,
+				4D8B6B0B234283A600C105F0 /* QTLearnerDiscoverRecentlyActiveViewController.xib */,
+			);
+			path = RecentlyActive;
+			sourceTree = "<group>";
+		};
+		4D8B6B172342AA3E00C105F0 /* TopTopics */ = {
+			isa = PBXGroup;
+			children = (
+				4D8B6B1E2342BCB900C105F0 /* QTLearnerDiscoverTopTopicsTableViewCell.swift */,
+				4D8B6B1F2342BCB900C105F0 /* QTLearnerDiscoverTopTopicsTableViewCell.xib */,
+			);
+			path = TopTopics;
+			sourceTree = "<group>";
+		};
+		4D9CD3972341B8A60002EADF /* Discover */ = {
+			isa = PBXGroup;
+			children = (
+				4DE24CF22345236200D23576 /* TrendingTopics */,
+				4D8B6ADA23424CF800C105F0 /* Trending */,
+				4D8B6ADF23424CF800C105F0 /* Categories */,
+				4D8B6AD523424CF700C105F0 /* Tutors */,
+				4D8B6AF623424D0600C105F0 /* ForYou */,
+				4D8B6B03234280FF00C105F0 /* RecentlyActive */,
+				4D8B6B172342AA3E00C105F0 /* TopTopics */,
+				4D9CD39F2341E98E0002EADF /* CustomViews */,
+				4D9CD39E2341E7620002EADF /* CustomCells */,
+				4D9CD3982341B8E40002EADF /* QTLearnerDiscoverViewController.swift */,
+				4D9CD3992341B8E40002EADF /* QTLearnerDiscoverViewController.xib */,
+				4DE24CEC23450D8400D23576 /* QTLearnerDiscoverCategoryViewController.swift */,
+				4DE24CED23450D8400D23576 /* QTLearnerDiscoverCategoryViewController.xib */,
+				4DE24CFF23453D5400D23576 /* QTLearnerDiscoverSubcategoryViewController.swift */,
+				4DE24D0023453D5400D23576 /* QTLearnerDiscoverSubcategoryViewController.xib */,
+				4DE24D052346574500D23576 /* QTLearnerDiscoverService.swift */,
+			);
+			path = Discover;
+			sourceTree = "<group>";
+		};
+		4D9CD39E2341E7620002EADF /* CustomCells */ = {
+			isa = PBXGroup;
+			children = (
+				4D8B6ACF23423D4D00C105F0 /* QTLearnerDiscoverTutorCollectionViewCell.swift */,
+				4D8B6AD023423D4E00C105F0 /* QTLearnerDiscoverTutorCollectionViewCell.xib */,
+			);
+			path = CustomCells;
+			sourceTree = "<group>";
+		};
+		4D9CD39F2341E98E0002EADF /* CustomViews */ = {
+			isa = PBXGroup;
+			children = (
+				4D9CD3A02341E9B00002EADF /* QTLearnerDiscoverTableSectionHeaderView.swift */,
+				4D9CD3A32341E9C00002EADF /* QTLearnerDiscoverTableSectionHeaderView.xib */,
+			);
+			path = CustomViews;
+			sourceTree = "<group>";
+		};
+		4DE24CF22345236200D23576 /* TrendingTopics */ = {
+			isa = PBXGroup;
+			children = (
+				4DE24CF32345239F00D23576 /* QTLearnerDiscoverTrendingTopicsTableViewCell.swift */,
+				4DE24CF42345239F00D23576 /* QTLearnerDiscoverTrendingTopicsTableViewCell.xib */,
+				4DE24CF92345248F00D23576 /* QTLearnerDiscoverTrendingTopicCollectionViewCell.swift */,
+				4DE24CFA2345248F00D23576 /* QTLearnerDiscoverTrendingTopicCollectionViewCell.xib */,
+			);
+			path = TrendingTopics;
+			sourceTree = "<group>";
+		};
 		4DE3668E2239F03C00A94C37 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
@@ -2256,6 +2649,40 @@
 			path = SubViews;
 			sourceTree = "<group>";
 		};
+		561D33042329EEA90022D0DC /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				561D33052329EF000022D0DC /* QTTutorDiscoverCategoryViewController.swift */,
+				561D33062329EF000022D0DC /* QTTutorDiscoverCategoryViewController.xib */,
+				561D330B232A22AD0022D0DC /* QTTutorDiscoverCategoryParallaxHeaderView.swift */,
+				561D330E232A22E60022D0DC /* QTTutorDiscoverCategoryParallaxHeaderView.xib */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		562B0163230C370D000146E9 /* QuickRequest */ = {
+			isa = PBXGroup;
+			children = (
+				562B016B230CDDD6000146E9 /* Modals */,
+				565BBEBD2310DAA400986490 /* Model */,
+				562B0164230C3760000146E9 /* QTQuickRequestTypeViewController.swift */,
+				562B0165230C3760000146E9 /* QTQuickRequestTypeViewController.xib */,
+				565BFAD7230D0F970014AE20 /* QTQuickRequestSubmitViewController.swift */,
+				565BFAD8230D0F970014AE20 /* QTQuickRequestSubmitViewController.xib */,
+				565BBEB72310D17500986490 /* QTQuickRequestDoneViewController.swift */,
+				565BBEB82310D17600986490 /* QTQuickRequestDoneViewController.xib */,
+			);
+			path = QuickRequest;
+			sourceTree = "<group>";
+		};
+		562B016B230CDDD6000146E9 /* Modals */ = {
+			isa = PBXGroup;
+			children = (
+				565BFAD1230CDEE40014AE20 /* QTQuickRequestAlertModal.swift */,
+			);
+			path = Modals;
+			sourceTree = "<group>";
+		};
 		5647A775222CB06100E8A26F /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -2273,6 +2700,75 @@
 				564B6C21222D8891004A9EB7 /* QTLocationTableViewCell.xib */,
 			);
 			path = SubViews;
+			sourceTree = "<group>";
+		};
+		5657BDA8231DEFAF00EBD94A /* Discover */ = {
+			isa = PBXGroup;
+			children = (
+				56E66A18232CC7210051CC1F /* ShareUserName */,
+				56E669DE232C6D050051CC1F /* Tips */,
+				561D33042329EEA90022D0DC /* Category */,
+				56952481231FA5DE00251CFB /* Opportunity */,
+				5657BDB2231E15D800EBD94A /* News */,
+				5657BDA9231DEFAF00EBD94A /* QTTutorDiscoverViewController.swift */,
+				5657BDAF231DFBB000EBD94A /* QTTutorDiscoverMainView.swift */,
+			);
+			path = Discover;
+			sourceTree = "<group>";
+		};
+		5657BDB2231E15D800EBD94A /* News */ = {
+			isa = PBXGroup;
+			children = (
+				568B5342231E542B002776B5 /* Model */,
+				5657BDB3231E177700EBD94A /* QTTutorDiscoverNewsSectionCollectionViewCell.swift */,
+				5657BDB6231E1BDE00EBD94A /* QTTutorDiscoverNewsViewController.swift */,
+				5657BDB7231E1BDE00EBD94A /* QTTutorDiscoverNewsViewController.xib */,
+				5657BDBC231E21B400EBD94A /* QTTutorDiscoverNewsCollectionViewCell.swift */,
+				5657BDBD231E21B400EBD94A /* QTTutorDiscoverNewsCollectionViewCell.xib */,
+				56E669EE232C97D50051CC1F /* QTTutorDiscoverNewsDetailViewController.swift */,
+				56E669EF232C97D50051CC1F /* QTTutorDiscoverNewsDetailViewController.xib */,
+				56E669F4232C99B70051CC1F /* QTTutorDiscoverNewsDetailParallaxHeaderView.swift */,
+				56E669F7232C9C5E0051CC1F /* QTTutorDiscoverNewsDetailParallaxHeaderView.xib */,
+				56E669FA232C9EAF0051CC1F /* QTTutorDiscoverNewsDetailDescTableViewCell.swift */,
+				56E669FB232C9EAF0051CC1F /* QTTutorDiscoverNewsDetailDescTableViewCell.xib */,
+				56E66A00232C9ECD0051CC1F /* QTTutorDiscoverNewsDetailContentTableViewCell.swift */,
+				56E66A01232C9ECD0051CC1F /* QTTutorDiscoverNewsDetailContentTableViewCell.xib */,
+			);
+			path = News;
+			sourceTree = "<group>";
+		};
+		565BBEBD2310DAA400986490 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				565BFAD4230CF2DD0014AE20 /* QTQuickRequestService.swift */,
+				565BBEBE2310DAEF00986490 /* QTQuickRequestModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		565BBEC42312DDFD00986490 /* QuickAction */ = {
+			isa = PBXGroup;
+			children = (
+				565BBEC52312DE5600986490 /* QTQuickActionViewController.swift */,
+			);
+			path = QuickAction;
+			sourceTree = "<group>";
+		};
+		565BBECE2313047000986490 /* PastTransations */ = {
+			isa = PBXGroup;
+			children = (
+				565BBEDB23135D6A00986490 /* Model */,
+				565BBECF2313050400986490 /* QTPastTransationsViewController.swift */,
+			);
+			path = PastTransations;
+			sourceTree = "<group>";
+		};
+		565BBEDB23135D6A00986490 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				565BBEDC23135D8800986490 /* QTLearnerSessionsService.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		567E1A052270BDF90094E371 /* CloseAccount */ = {
@@ -2314,6 +2810,14 @@
 			path = BecomeTutor;
 			sourceTree = "<group>";
 		};
+		568B5342231E542B002776B5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				568B533F231E53E4002776B5 /* QTNewsModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		568B82D2222537F3004DF011 /* RatingReviews */ = {
 			isa = PBXGroup;
 			children = (
@@ -2334,6 +2838,19 @@
 				568B82E1222540DF004DF011 /* QTRatingReceiptCollectionViewCell.xib */,
 			);
 			path = SubViews;
+			sourceTree = "<group>";
+		};
+		56952481231FA5DE00251CFB /* Opportunity */ = {
+			isa = PBXGroup;
+			children = (
+				56952482231FA62D00251CFB /* QTTutorDiscoverOpportunitiesSectionCollectionViewCell.swift */,
+				56952485231FA9ED00251CFB /* QTTutorDiscoverOpportunitiesViewController.swift */,
+				56952486231FA9ED00251CFB /* QTTutorDiscoverOpportunitiesViewController.xib */,
+				5695248B231FB0B500251CFB /* QTTutorDiscoverOpportunityCollectionViewCell.swift */,
+				5695248C231FB0B600251CFB /* QTTutorDiscoverOpportunityCollectionViewCell.xib */,
+				56D938FD2320A06400A3754C /* QTTutorDiscoverOpportunityApplyViewController.swift */,
+			);
+			path = Opportunity;
 			sourceTree = "<group>";
 		};
 		5697DD17226F859300AC9775 /* InviteOthers */ = {
@@ -2465,6 +2982,7 @@
 				56BE7E5D22CFCC390052BBE7 /* QTUtils.swift */,
 				56BE7E6022CFCD500052BBE7 /* QTRecentSearchModel.swift */,
 				56BE7E6322CFCF5B0052BBE7 /* QTEnumerations.swift */,
+				56D206A9233EF1EA0078ACDC /* QTGlobalData.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -2499,6 +3017,33 @@
 				56DC6D99220BD7DF00935F47 /* OFL.txt */,
 			);
 			path = Lato;
+			sourceTree = "<group>";
+		};
+		56E669DE232C6D050051CC1F /* Tips */ = {
+			isa = PBXGroup;
+			children = (
+				56E669DF232C6DB00051CC1F /* QTTutorDiscoverTipsSectionCollectionViewCell.swift */,
+				56E669E2232C6E240051CC1F /* QTTutorDiscoverTipsViewController.swift */,
+				56E669E3232C6E240051CC1F /* QTTutorDiscoverTipsViewController.xib */,
+				56E669E8232C74CF0051CC1F /* QTTutorDiscoverTipCollectionViewCell.swift */,
+				56E66A06232CAD5B0051CC1F /* QTTutorDiscoverTipDetailViewController.swift */,
+				56E66A07232CAD5B0051CC1F /* QTTutorDiscoverTipDetailViewController.xib */,
+				56E66A0C232CAE110051CC1F /* QTTutorDiscoverTipDetailParallaxHeaderView.swift */,
+				56E66A0F232CAE2B0051CC1F /* QTTutorDiscoverTipDetailParallaxHeaderView.xib */,
+				56E66A12232CAF690051CC1F /* QTTutorDiscoverTipDetailTitleTableViewCell.swift */,
+				56E66A13232CAF690051CC1F /* QTTutorDiscoverTipDetailTitleTableViewCell.xib */,
+			);
+			path = Tips;
+			sourceTree = "<group>";
+		};
+		56E66A18232CC7210051CC1F /* ShareUserName */ = {
+			isa = PBXGroup;
+			children = (
+				56E66A19232CC7570051CC1F /* QTTutorDiscoverShareSectionCollectionViewCell.swift */,
+				56E66A1C232CC80A0051CC1F /* QTTutorDiscoverShareViewController.swift */,
+				56E66A1D232CC80A0051CC1F /* QTTutorDiscoverShareViewController.xib */,
+			);
+			path = ShareUserName;
 			sourceTree = "<group>";
 		};
 		840E4DF32136F56E0045CD35 /* Animations */ = {
@@ -2777,6 +3322,10 @@
 				846D9B422069E3A500302773 /* CustomLayouts */,
 				842A557F209DF55700F6870A /* AdjustFiltersCollectViewCell.swift */,
 				845B3B9F2069E81B009F8E04 /* CategoryCollectViewCell.swift */,
+				565BBEC82312E59500986490 /* QTQAQuickRequestCollectionViewCell.swift */,
+				565BBEC92312E59500986490 /* QTQAQuickRequestCollectionViewCell.xib */,
+				565BBED52313079D00986490 /* QTLearnerSessionCardCollectionViewCell.swift */,
+				565BBED62313079D00986490 /* QTLearnerSessionCardCollectionViewCell.xib */,
 			);
 			name = CollectionViewCells;
 			path = "New Group1";
@@ -2870,6 +3419,7 @@
 				84A6E46F218F68C700D03681 /* TutorSubjectSearch.swift */,
 				84A6E473218F697400D03681 /* FeaturedTutorCount.swift */,
 				4D3492C423112A8D004CEAEB /* QTTutorRecommendationModel.swift */,
+				565C252323453A59009200B9 /* QTCategoryModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -3187,6 +3737,8 @@
 		84D8C9262066A8AE003C3AEA /* LearnerMainPage */ = {
 			isa = PBXGroup;
 			children = (
+				565BBECE2313047000986490 /* PastTransations */,
+				565BBEC42312DDFD00986490 /* QuickAction */,
 				CF9F94EC228A3BF2002041CF /* RecentSearches */,
 				CF51958821A60F64007EEC37 /* Saved */,
 				CF4C789B2260830500478D83 /* Shared */,
@@ -3319,6 +3871,8 @@
 		84F245211FDA11C6006447A8 /* Learner App */ = {
 			isa = PBXGroup;
 			children = (
+				4D9CD3972341B8A60002EADF /* Discover */,
+				562B0163230C370D000146E9 /* QuickRequest */,
 				CFB9B7E621C23E290022333F /* TutorCard */,
 				CFB9B7CB21C18A070022333F /* SessionRequest */,
 				84D8C9262066A8AE003C3AEA /* LearnerMainPage */,
@@ -3334,11 +3888,12 @@
 		84F245221FDA11D3006447A8 /* Tutor App */ = {
 			isa = PBXGroup;
 			children = (
+				5657BDA8231DEFAF00EBD94A /* Discover */,
 				84CFDDEE2073578E001CA9BF /* Tutor Main Page */,
 				846252E820637ED6001DD330 /* My Profile */,
 				846252E920637EE6001DD330 /* Edit Profile */,
-				846252EA20637EF3001DD330 /* Payment */,
 				846252ED20637F26001DD330 /* File Report */,
+				846252EA20637EF3001DD330 /* Payment */,
 				846252EE20637F38001DD330 /* Help */,
 				846252EF20637F44001DD330 /* Tax Information */,
 			);
@@ -3530,6 +4085,7 @@
 				CF9F94EA228A3BA0002041CF /* LearnerMainPageSearchBarContainer.swift */,
 				846252E620637CF8001DD330 /* LearnerMainPageVC.swift */,
 				CF671AD0225DA48000CF4F0A /* LearnerMainPageCollectionViewHelper.swift */,
+				565BBEC1231114E100986490 /* QTLearnerMainPageNavigationView.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -4195,6 +4751,7 @@
 			files = (
 				9359CECE227A7CAD008E9FB1 /* CardManagerViewController.xib in Resources */,
 				5697DD23226F859300AC9775 /* QTInviteOthersViewController.xib in Resources */,
+				4D8B6AE923424CF900C105F0 /* QTLearnerDiscoverTutorsViewController.xib in Resources */,
 				5669A5D0229D8EE5007B3202 /* QTTutorPolicyViewController.xib in Resources */,
 				569F18BE223554FD00820A20 /* Lato-Light.ttf in Resources */,
 				56BE7E5822CFA3A60052BBE7 /* QTSubjectSearchViewController.xib in Resources */,
@@ -4202,8 +4759,10 @@
 				4DE366942239F06C00A94C37 /* QTProfileViewController.xib in Resources */,
 				569F18BF223554FD00820A20 /* loading10.json in Resources */,
 				BE817222229C724A0089FA1E /* session_ringtone.mp3 in Resources */,
+				5657BDBB231E1BDE00EBD94A /* QTTutorDiscoverNewsViewController.xib in Resources */,
 				569F18C0223554FD00820A20 /* loading3.json in Resources */,
 				567E1A132270C0350094E371 /* QTCloseAccountReasonTableViewCell.xib in Resources */,
+				56E669E7232C6E240051CC1F /* QTTutorDiscoverTipsViewController.xib in Resources */,
 				569F18C1223554FD00820A20 /* Lato-HairlineItalic.ttf in Resources */,
 				569F18C2223554FD00820A20 /* trades.json in Resources */,
 				93F61E3C2275479C00298B77 /* RoutingAndAccountModal.xib in Resources */,
@@ -4213,11 +4772,13 @@
 				569F18C6223554FD00820A20 /* loading7.json in Resources */,
 				4D348102223A31E70004C29A /* QTReviewTableViewCell.xib in Resources */,
 				93F61E4B2277DA1E00298B77 /* TutorSSNViewController.xib in Resources */,
+				4D8B6B092342812600C105F0 /* QTLearnerDiscoverRecentlyActiveTableViewCell.xib in Resources */,
 				569F18C7223554FD00820A20 /* typing.json in Resources */,
 				56BE7E7F22D067FB0052BBE7 /* QTTutorSearchTableViewCell.xib in Resources */,
 				569F18C8223554FD00820A20 /* academics.json in Resources */,
 				569F18C9223554FD00820A20 /* loading8.json in Resources */,
 				569F18CA223554FD00820A20 /* QTTutorDashboardDurationView.xib in Resources */,
+				4D8B6AD423423D4E00C105F0 /* QTLearnerDiscoverTutorCollectionViewCell.xib in Resources */,
 				569F18CB223554FD00820A20 /* qtRingtone.aiff in Resources */,
 				568E57192270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.xib in Resources */,
 				569F18CC223554FD00820A20 /* health.json in Resources */,
@@ -4225,6 +4786,7 @@
 				5697DD2F226F859300AC9775 /* QTInviteOthersHeaderView.xib in Resources */,
 				569F18CD223554FD00820A20 /* OFL.txt in Resources */,
 				567E1A0B2270BE310094E371 /* QTCloseAccountReasonViewController.xib in Resources */,
+				5695248A231FA9ED00251CFB /* QTTutorDiscoverOpportunitiesViewController.xib in Resources */,
 				C4498A6C230F063200EE619A /* QTProfileVideoCollectionViewCell.xib in Resources */,
 				56BE7E5222CF09220052BBE7 /* QTTutorSearchViewController.xib in Resources */,
 				569F18CE223554FD00820A20 /* loading4.json in Resources */,
@@ -4244,51 +4806,80 @@
 				931C71EF227E4E1C003C86F8 /* PaymentCardTableViewCell.xib in Resources */,
 				569F18D4223554FD00820A20 /* tech.json in Resources */,
 				5697DD33226F859300AC9775 /* QTInviteOthersSectionHeaderView.xib in Resources */,
+				561D330A2329EF000022D0DC /* QTTutorDiscoverCategoryViewController.xib in Resources */,
+				56E669F3232C97D50051CC1F /* QTTutorDiscoverNewsDetailViewController.xib in Resources */,
+				4DE24CF82345239F00D23576 /* QTLearnerDiscoverTrendingTopicsTableViewCell.xib in Resources */,
 				569F18D6223554FD00820A20 /* schools.txt in Resources */,
 				4DFA17D12322FDFD00A685AD /* QTConnectTutorsViewController.xib in Resources */,
 				569F18D7223554FD00820A20 /* QTLocationsViewController.xib in Resources */,
 				56A8D0B52240A4AB00866AD7 /* QTStartSessionViewController.xib in Resources */,
 				569F18D8223554FD00820A20 /* quickTutorNotification.aiff in Resources */,
 				4D4E2BAB23239EC5003DF5E2 /* QTSelectedNodeCollectionViewCell.xib in Resources */,
+				4D9CD3A52341E9C10002EADF /* QTLearnerDiscoverTableSectionHeaderView.xib in Resources */,
+				4D8B6AED23424CF900C105F0 /* QTLearnerDiscoverTrendingTableViewCell.xib in Resources */,
 				56842BE5229C3EE600D1DA2C /* QTBecomeTutorViewController.xib in Resources */,
+				561D3310232A22E60022D0DC /* QTTutorDiscoverCategoryParallaxHeaderView.xib in Resources */,
+				56E66A11232CAE2B0051CC1F /* QTTutorDiscoverTipDetailParallaxHeaderView.xib in Resources */,
 				4D68F79A23200A8200282920 /* QTSelectInterestsViewController.xib in Resources */,
 				5697DD27226F859300AC9775 /* QTInviteOthersConnectTableViewCell.xib in Resources */,
 				56BE7E4C22CF088C0052BBE7 /* QTAllSearchViewController.xib in Resources */,
+				4DE24D0423453D5400D23576 /* QTLearnerDiscoverSubcategoryViewController.xib in Resources */,
 				BEAB1016229E495700CCCCD6 /* ExpirationDateModal.xib in Resources */,
+				4D8B6AE523424CF900C105F0 /* QTLearnerDiscoverTutorsTableViewCell.xib in Resources */,
 				5697DD2B226F859300AC9775 /* QTInviteOthersContactTableViewCell.xib in Resources */,
 				569F18D9223554FD00820A20 /* QTTutorDashboardMarkerView.xib in Resources */,
+				4D8B6AFC23424D2B00C105F0 /* QTLearnerDiscoverForYouTableViewCell.xib in Resources */,
 				BE817238229E21980089FA1E /* AddCardViewController.xib in Resources */,
 				569F18DA223554FD00820A20 /* Lato-Medium.ttf in Resources */,
 				4DE359F12334BD6000D5E74B /* QTSavedTutorCollectionViewCell.xib in Resources */,
+				4D8B6B232342BCB900C105F0 /* QTLearnerDiscoverTopTopicsTableViewCell.xib in Resources */,
 				569F18DB223554FD00820A20 /* connecting.json in Resources */,
 				561003C62243163600A4688F /* QTPastSessionTableViewCell.xib in Resources */,
 				569F18DC223554FD00820A20 /* LaunchScreen.storyboard in Resources */,
 				569F18DD223554FD00820A20 /* business.json in Resources */,
+				565BBECD2312E59500986490 /* QTQAQuickRequestCollectionViewCell.xib in Resources */,
+				4D8B6B0F234283A600C105F0 /* QTLearnerDiscoverRecentlyActiveViewController.xib in Resources */,
 				569F18DE223554FD00820A20 /* lifestyle.json in Resources */,
 				C41564B6234851EA00C8DF01 /* QTProfileSheetContentViewController.xib in Resources */,
+				56E66A17232CAF690051CC1F /* QTTutorDiscoverTipDetailTitleTableViewCell.xib in Resources */,
 				564DD5C12285C53F00912E36 /* QTRequestQuickCallViewController.xib in Resources */,
+				562B0169230C3760000146E9 /* QTQuickRequestTypeViewController.xib in Resources */,
 				4DF3428623122376000C554D /* QTViewRecommendationsViewController.xib in Resources */,
 				569F18DF223554FD00820A20 /* qtNotificationPop.aiff in Resources */,
 				BE17EA2022A9D9B50044E934 /* EditSchoolVC.xib in Resources */,
+				565BBEBC2310D17600986490 /* QTQuickRequestDoneViewController.xib in Resources */,
 				569F18E0223554FD00820A20 /* QTRatingReceiptCollectionViewCell.xib in Resources */,
+				4D8B6AF523424CF900C105F0 /* QTLearnerDiscoverCategoriesTableViewCell.xib in Resources */,
+				565BFADC230D0F970014AE20 /* QTQuickRequestSubmitViewController.xib in Resources */,
 				569F18E1223554FD00820A20 /* QTRatingTipCollectionViewCell.xib in Resources */,
 				569F18E2223554FD00820A20 /* Lato-Regular.ttf in Resources */,
+				56952490231FB0B600251CFB /* QTTutorDiscoverOpportunityCollectionViewCell.xib in Resources */,
+				4DE24CF123450D8400D23576 /* QTLearnerDiscoverCategoryViewController.xib in Resources */,
 				569F18E3223554FD00820A20 /* auto.json in Resources */,
 				56C889E5228E5FE0008D155D /* QTStartQuickCallViewController.xib in Resources */,
 				4DF3428C23122EFB000C554D /* QTRecommendationTableViewCell.xib in Resources */,
 				569F18E4223554FD00820A20 /* arts.json in Resources */,
+				565BBEDA2313079D00986490 /* QTLearnerSessionCardCollectionViewCell.xib in Resources */,
 				CFE43E17223AD56F00BF1F71 /* loadingNew.json in Resources */,
+				56E669FF232C9EAF0051CC1F /* QTTutorDiscoverNewsDetailDescTableViewCell.xib in Resources */,
 				9359CED7227BEF92008E9FB1 /* ProcessingFeeModal.xib in Resources */,
 				569F18E5223554FD00820A20 /* QTRatingReviewCollectionViewCell.xib in Resources */,
+				4D8B6B0223424D5C00C105F0 /* QTLearnerDiscoverForYouViewController.xib in Resources */,
+				4D8B6AF123424CF900C105F0 /* QTLearnerDiscoverTrendingViewController.xib in Resources */,
 				567C56B122F3365F00B06D40 /* Lato-BoldItalic.ttf in Resources */,
 				56BE7E7722CFD88C0052BBE7 /* QTRecentSearchTableViewCell.xib in Resources */,
+				4DE24CFE2345248F00D23576 /* QTLearnerDiscoverTrendingTopicCollectionViewCell.xib in Resources */,
 				569F18E6223554FD00820A20 /* loading6.json in Resources */,
+				56E669F9232C9C5E0051CC1F /* QTTutorDiscoverNewsDetailParallaxHeaderView.xib in Resources */,
 				569F18E7223554FD00820A20 /* Lato-Semibold.ttf in Resources */,
+				56E66A0B232CAD5B0051CC1F /* QTTutorDiscoverTipDetailViewController.xib in Resources */,
 				4DD841962323EA8800E172C5 /* QTLoadMoreTableViewCell.xib in Resources */,
 				567E1A192270C46B0094E371 /* QTCloseAccountInfoViewController.xib in Resources */,
 				C41564BE234852D200C8DF01 /* QTProfileSheetContentViewCell.xib in Resources */,
+				5657BDC1231E21B400EBD94A /* QTTutorDiscoverNewsCollectionViewCell.xib in Resources */,
 				56A8D0C522421F6100866AD7 /* QTConfirmMeetUpViewController.xib in Resources */,
 				569F18E8223554FD00820A20 /* loading11.json in Resources */,
+				4D9CD39D2341B8E40002EADF /* QTLearnerDiscoverViewController.xib in Resources */,
 				569F18E9223554FD00820A20 /* Lato-Hairline.ttf in Resources */,
 				56A8D0BB2240DA9900866AD7 /* QTVideoSessionViewController.xib in Resources */,
 				569F18EA223554FD00820A20 /* Lato-Black.ttf in Resources */,
@@ -4309,12 +4900,14 @@
 				568E57132270CA7700E18BD4 /* QTCloseAccountTypeViewController.xib in Resources */,
 				569F18F1223554FD00820A20 /* QTRatingReviewViewController.xib in Resources */,
 				569F18F2223554FD00820A20 /* QTSettingsViewController.xib in Resources */,
+				56E66A21232CC80A0051CC1F /* QTTutorDiscoverShareViewController.xib in Resources */,
 				569F18F3223554FD00820A20 /* loading12.json in Resources */,
 				569F18F4223554FD00820A20 /* QTTutorDashboardViewController.xib in Resources */,
 				569F18F5223554FD00820A20 /* outdoors.json in Resources */,
 				569F18F6223554FD00820A20 /* loading9.json in Resources */,
 				C4FB93212308E2D90070017B /* QTEditProfileExperienceTableViewCell.xib in Resources */,
 				569F18F7223554FD00820A20 /* sports.json in Resources */,
+				56E66A05232C9ECD0051CC1F /* QTTutorDiscoverNewsDetailContentTableViewCell.xib in Resources */,
 				4D4E2BA523239E9D003DF5E2 /* QTConnectTutorTableViewCell.xib in Resources */,
 				569F18F8223554FD00820A20 /* loading1.json in Resources */,
 				569F18F9223554FD00820A20 /* loading5.json in Resources */,
@@ -4330,6 +4923,7 @@
 			files = (
 				9359CECD227A7CAD008E9FB1 /* CardManagerViewController.xib in Resources */,
 				5697DD22226F859300AC9775 /* QTInviteOthersViewController.xib in Resources */,
+				4D8B6AE823424CF900C105F0 /* QTLearnerDiscoverTutorsViewController.xib in Resources */,
 				5669A5CF229D8EE5007B3202 /* QTTutorPolicyViewController.xib in Resources */,
 				56DC6DA2220BD7DF00935F47 /* Lato-Light.ttf in Resources */,
 				56BE7E5722CFA3A60052BBE7 /* QTSubjectSearchViewController.xib in Resources */,
@@ -4337,8 +4931,10 @@
 				4DE366932239F06C00A94C37 /* QTProfileViewController.xib in Resources */,
 				840E4E07213761C10045CD35 /* loading10.json in Resources */,
 				BE817221229C724A0089FA1E /* session_ringtone.mp3 in Resources */,
+				5657BDBA231E1BDE00EBD94A /* QTTutorDiscoverNewsViewController.xib in Resources */,
 				840E4E01213761C10045CD35 /* loading3.json in Resources */,
 				567E1A122270C0350094E371 /* QTCloseAccountReasonTableViewCell.xib in Resources */,
+				56E669E6232C6E240051CC1F /* QTTutorDiscoverTipsViewController.xib in Resources */,
 				56DC6D9F220BD7DF00935F47 /* Lato-HairlineItalic.ttf in Resources */,
 				8425767A2071339500FD295B /* trades.json in Resources */,
 				93F61E3B2275479C00298B77 /* RoutingAndAccountModal.xib in Resources */,
@@ -4348,11 +4944,13 @@
 				840E4E05213761C10045CD35 /* loading7.json in Resources */,
 				4D348101223A31E70004C29A /* QTReviewTableViewCell.xib in Resources */,
 				93F61E4A2277DA1E00298B77 /* TutorSSNViewController.xib in Resources */,
+				4D8B6B082342812600C105F0 /* QTLearnerDiscoverRecentlyActiveTableViewCell.xib in Resources */,
 				CF507FA321804D05007FE441 /* typing.json in Resources */,
 				56BE7E7E22D067FB0052BBE7 /* QTTutorSearchTableViewCell.xib in Resources */,
 				842576642070773D00FD295B /* academics.json in Resources */,
 				840E4E06213761C10045CD35 /* loading8.json in Resources */,
 				569ECDB721F9C39D005491CB /* QTTutorDashboardDurationView.xib in Resources */,
+				4D8B6AD323423D4E00C105F0 /* QTLearnerDiscoverTutorCollectionViewCell.xib in Resources */,
 				CFB40E49216D1A9F00828E72 /* qtRingtone.aiff in Resources */,
 				568E57182270CDCA00E18BD4 /* QTCloseAccountSubmitViewController.xib in Resources */,
 				8425766E20712E6C00FD295B /* health.json in Resources */,
@@ -4360,6 +4958,7 @@
 				5697DD2E226F859300AC9775 /* QTInviteOthersHeaderView.xib in Resources */,
 				56DC6DA7220BD7DF00935F47 /* OFL.txt in Resources */,
 				567E1A0A2270BE310094E371 /* QTCloseAccountReasonViewController.xib in Resources */,
+				56952489231FA9ED00251CFB /* QTTutorDiscoverOpportunitiesViewController.xib in Resources */,
 				C4498A6B230F063200EE619A /* QTProfileVideoCollectionViewCell.xib in Resources */,
 				56BE7E5122CF09220052BBE7 /* QTTutorSearchViewController.xib in Resources */,
 				840E4E09213761C10045CD35 /* loading4.json in Resources */,
@@ -4379,51 +4978,80 @@
 				931C71EE227E4E1C003C86F8 /* PaymentCardTableViewCell.xib in Resources */,
 				CFB0283E210C241600B29972 /* GoogleService-Info.plist in Resources */,
 				5697DD32226F859300AC9775 /* QTInviteOthersSectionHeaderView.xib in Resources */,
+				561D33092329EF000022D0DC /* QTTutorDiscoverCategoryViewController.xib in Resources */,
+				56E669F2232C97D50051CC1F /* QTTutorDiscoverNewsDetailViewController.xib in Resources */,
+				4DE24CF72345239F00D23576 /* QTLearnerDiscoverTrendingTopicsTableViewCell.xib in Resources */,
 				84681FA0204B63DC00F45DFC /* schools.txt in Resources */,
 				4DFA17D02322FDFD00A685AD /* QTConnectTutorsViewController.xib in Resources */,
 				564B6C1E222D83D5004A9EB7 /* QTLocationsViewController.xib in Resources */,
 				56A8D0B42240A4AB00866AD7 /* QTStartSessionViewController.xib in Resources */,
 				CFE18FA12119645E000816C4 /* quickTutorNotification.aiff in Resources */,
 				4D4E2BAA23239EC5003DF5E2 /* QTSelectedNodeCollectionViewCell.xib in Resources */,
+				4D9CD3A42341E9C00002EADF /* QTLearnerDiscoverTableSectionHeaderView.xib in Resources */,
+				4D8B6AEC23424CF900C105F0 /* QTLearnerDiscoverTrendingTableViewCell.xib in Resources */,
 				56842BE4229C3EE600D1DA2C /* QTBecomeTutorViewController.xib in Resources */,
+				561D330F232A22E60022D0DC /* QTTutorDiscoverCategoryParallaxHeaderView.xib in Resources */,
+				56E66A10232CAE2B0051CC1F /* QTTutorDiscoverTipDetailParallaxHeaderView.xib in Resources */,
 				4D68F79923200A8200282920 /* QTSelectInterestsViewController.xib in Resources */,
 				5697DD26226F859300AC9775 /* QTInviteOthersConnectTableViewCell.xib in Resources */,
 				56BE7E4A22CF08790052BBE7 /* QTAllSearchViewController.xib in Resources */,
+				4DE24D0323453D5400D23576 /* QTLearnerDiscoverSubcategoryViewController.xib in Resources */,
 				BEAB1015229E495700CCCCD6 /* ExpirationDateModal.xib in Resources */,
+				4D8B6AE423424CF900C105F0 /* QTLearnerDiscoverTutorsTableViewCell.xib in Resources */,
 				5697DD2A226F859300AC9775 /* QTInviteOthersContactTableViewCell.xib in Resources */,
 				569ECDCB21FB1049005491CB /* QTTutorDashboardMarkerView.xib in Resources */,
+				4D8B6AFB23424D2B00C105F0 /* QTLearnerDiscoverForYouTableViewCell.xib in Resources */,
 				BE817237229E21980089FA1E /* AddCardViewController.xib in Resources */,
 				56DC6DA4220BD7DF00935F47 /* Lato-Medium.ttf in Resources */,
 				4DE359F02334BD6000D5E74B /* QTSavedTutorCollectionViewCell.xib in Resources */,
+				4D8B6B222342BCB900C105F0 /* QTLearnerDiscoverTopTopicsTableViewCell.xib in Resources */,
 				CFB40E45216BFE2100828E72 /* connecting.json in Resources */,
 				561003C52243163600A4688F /* QTPastSessionTableViewCell.xib in Resources */,
 				8491C2A81FBE62350036FC12 /* LaunchScreen.storyboard in Resources */,
 				8425766A20712D0300FD295B /* business.json in Resources */,
+				565BBECC2312E59500986490 /* QTQAQuickRequestCollectionViewCell.xib in Resources */,
+				4D8B6B0E234283A600C105F0 /* QTLearnerDiscoverRecentlyActiveViewController.xib in Resources */,
 				8425766C20712D9E00FD295B /* lifestyle.json in Resources */,
 				C41564B5234851EA00C8DF01 /* QTProfileSheetContentViewController.xib in Resources */,
+				56E66A16232CAF690051CC1F /* QTTutorDiscoverTipDetailTitleTableViewCell.xib in Resources */,
 				564DD5C02285C53F00912E36 /* QTRequestQuickCallViewController.xib in Resources */,
+				562B0168230C3760000146E9 /* QTQuickRequestTypeViewController.xib in Resources */,
 				4DF3428523122376000C554D /* QTViewRecommendationsViewController.xib in Resources */,
 				CFE18FA321196790000816C4 /* qtNotificationPop.aiff in Resources */,
 				BE17EA1F22A9D9B50044E934 /* EditSchoolVC.xib in Resources */,
+				565BBEBB2310D17600986490 /* QTQuickRequestDoneViewController.xib in Resources */,
 				568B82E3222540DF004DF011 /* QTRatingReceiptCollectionViewCell.xib in Resources */,
+				4D8B6AF423424CF900C105F0 /* QTLearnerDiscoverCategoriesTableViewCell.xib in Resources */,
+				565BFADB230D0F970014AE20 /* QTQuickRequestSubmitViewController.xib in Resources */,
 				568B82DF222540CD004DF011 /* QTRatingTipCollectionViewCell.xib in Resources */,
 				56DC6DA5220BD7DF00935F47 /* Lato-Regular.ttf in Resources */,
+				5695248F231FB0B600251CFB /* QTTutorDiscoverOpportunityCollectionViewCell.xib in Resources */,
+				4DE24CF023450D8400D23576 /* QTLearnerDiscoverCategoryViewController.xib in Resources */,
 				8425766820712C3600FD295B /* auto.json in Resources */,
 				56C889E0228E4C51008D155D /* QTStartQuickCallViewController.xib in Resources */,
 				4DF3428B23122EFB000C554D /* QTRecommendationTableViewCell.xib in Resources */,
 				8425766620712B2A00FD295B /* arts.json in Resources */,
+				565BBED92313079D00986490 /* QTLearnerSessionCardCollectionViewCell.xib in Resources */,
 				CFE43E16223AD56F00BF1F71 /* loadingNew.json in Resources */,
+				56E669FE232C9EAF0051CC1F /* QTTutorDiscoverNewsDetailDescTableViewCell.xib in Resources */,
 				9359CED6227BEF92008E9FB1 /* ProcessingFeeModal.xib in Resources */,
 				568B82DB222540AE004DF011 /* QTRatingReviewCollectionViewCell.xib in Resources */,
+				4D8B6B0123424D5C00C105F0 /* QTLearnerDiscoverForYouViewController.xib in Resources */,
+				4D8B6AF023424CF900C105F0 /* QTLearnerDiscoverTrendingViewController.xib in Resources */,
 				567C56B022F3365F00B06D40 /* Lato-BoldItalic.ttf in Resources */,
 				56BE7E7622CFD88C0052BBE7 /* QTRecentSearchTableViewCell.xib in Resources */,
+				4DE24CFD2345248F00D23576 /* QTLearnerDiscoverTrendingTopicCollectionViewCell.xib in Resources */,
 				840E4E04213761C10045CD35 /* loading6.json in Resources */,
+				56E669F8232C9C5E0051CC1F /* QTTutorDiscoverNewsDetailParallaxHeaderView.xib in Resources */,
 				56DC6DA6220BD7DF00935F47 /* Lato-Semibold.ttf in Resources */,
+				56E66A0A232CAD5B0051CC1F /* QTTutorDiscoverTipDetailViewController.xib in Resources */,
 				4DD841952323EA8800E172C5 /* QTLoadMoreTableViewCell.xib in Resources */,
 				567E1A182270C46B0094E371 /* QTCloseAccountInfoViewController.xib in Resources */,
 				C41564BD234852D200C8DF01 /* QTProfileSheetContentViewCell.xib in Resources */,
+				5657BDC0231E21B400EBD94A /* QTTutorDiscoverNewsCollectionViewCell.xib in Resources */,
 				56A8D0C422421F6100866AD7 /* QTConfirmMeetUpViewController.xib in Resources */,
 				840E4E08213761C10045CD35 /* loading11.json in Resources */,
+				4D9CD39C2341B8E40002EADF /* QTLearnerDiscoverViewController.xib in Resources */,
 				56DC6D9E220BD7DF00935F47 /* Lato-Hairline.ttf in Resources */,
 				56A8D0BA2240DA9900866AD7 /* QTVideoSessionViewController.xib in Resources */,
 				56DC6D9A220BD7DF00935F47 /* Lato-Black.ttf in Resources */,
@@ -4444,12 +5072,14 @@
 				568E57122270CA7700E18BD4 /* QTCloseAccountTypeViewController.xib in Resources */,
 				568B82D6222539C2004DF011 /* QTRatingReviewViewController.xib in Resources */,
 				5647A779222CB59000E8A26F /* QTSettingsViewController.xib in Resources */,
+				56E66A20232CC80A0051CC1F /* QTTutorDiscoverShareViewController.xib in Resources */,
 				CF3CE5F42141A5A300DE8FF0 /* loading12.json in Resources */,
 				569ECDA421F9A1E6005491CB /* QTTutorDashboardViewController.xib in Resources */,
 				842576722071310A00FD295B /* outdoors.json in Resources */,
 				840E4E00213761C10045CD35 /* loading9.json in Resources */,
 				C4FB93202308E2D90070017B /* QTEditProfileExperienceTableViewCell.xib in Resources */,
 				842576762071325400FD295B /* sports.json in Resources */,
+				56E66A04232C9ECD0051CC1F /* QTTutorDiscoverNewsDetailContentTableViewCell.xib in Resources */,
 				4D4E2BA423239E9D003DF5E2 /* QTConnectTutorTableViewCell.xib in Resources */,
 				840E4DF52136F58E0045CD35 /* loading1.json in Resources */,
 				840E4E02213761C10045CD35 /* loading5.json in Resources */,
@@ -4509,9 +5139,10 @@
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManager/IQKeyboardManager.framework",
 				"${BUILT_PRODUCTS_DIR}/Imaginary/Imaginary.framework",
+				"${BUILT_PRODUCTS_DIR}/MXParallaxHeader/MXParallaxHeader.framework",
 				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
 				"${BUILT_PRODUCTS_DIR}/PlaceholderTextView/PlaceholderTextView.framework",
-				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/RangeSeekSlider/RangeSeekSlider.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SKPhotoBrowser/SKPhotoBrowser.framework",
@@ -4552,9 +5183,10 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManager.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Imaginary.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MXParallaxHeader.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PlaceholderTextView.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RangeSeekSlider.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SKPhotoBrowser.framework",
@@ -4939,9 +5571,10 @@
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManager/IQKeyboardManager.framework",
 				"${BUILT_PRODUCTS_DIR}/Imaginary/Imaginary.framework",
+				"${BUILT_PRODUCTS_DIR}/MXParallaxHeader/MXParallaxHeader.framework",
 				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
 				"${BUILT_PRODUCTS_DIR}/PlaceholderTextView/PlaceholderTextView.framework",
-				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/RangeSeekSlider/RangeSeekSlider.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SKPhotoBrowser/SKPhotoBrowser.framework",
@@ -4982,9 +5615,10 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManager.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Imaginary.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MXParallaxHeader.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PlaceholderTextView.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RangeSeekSlider.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SKPhotoBrowser.framework",
@@ -5038,8 +5672,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4DE24CFC2345248F00D23576 /* QTLearnerDiscoverTrendingTopicCollectionViewCell.swift in Sources */,
 				569F16D4223554FD00820A20 /* CategorySearchCollectionViewLayout.swift in Sources */,
 				569F16D5223554FD00820A20 /* SessionRequestPaymentInputView.swift in Sources */,
+				565BBEBA2310D17600986490 /* QTQuickRequestDoneViewController.swift in Sources */,
 				569F16D6223554FD00820A20 /* TutorCardHeaderView.swift in Sources */,
 				569F16D7223554FD00820A20 /* SubjectSearchCollectionViewLayout.swift in Sources */,
 				569F16D9223554FD00820A20 /* UploadImageVCView.swift in Sources */,
@@ -5060,6 +5696,7 @@
 				4DE3668D2238BC5F00A94C37 /* TheChoiceVCView.swift in Sources */,
 				569F16E4223554FD00820A20 /* SessionReview.swift in Sources */,
 				569F16E5223554FD00820A20 /* LightboxImageStub.swift in Sources */,
+				5657BDB5231E177700EBD94A /* QTTutorDiscoverNewsSectionCollectionViewCell.swift in Sources */,
 				569F16E6223554FD00820A20 /* Notifications.swift in Sources */,
 				569F16E8223554FD00820A20 /* LearnerEditProfileVC.swift in Sources */,
 				C4498A6A230F063200EE619A /* QTProfileVideoCollectionViewCell.swift in Sources */,
@@ -5090,14 +5727,18 @@
 				569F16FF223554FD00820A20 /* AlignedCollectionViewFlowLayout.swift in Sources */,
 				569F1700223554FD00820A20 /* FeaturedTutorTableViewCell.swift in Sources */,
 				569F1701223554FD00820A20 /* CategoryCollectViewCell.swift in Sources */,
+				56E66A0E232CAE110051CC1F /* QTTutorDiscoverTipDetailParallaxHeaderView.swift in Sources */,
 				569F1702223554FD00820A20 /* TutorPaymentEarnings.swift in Sources */,
 				569F1703223554FD00820A20 /* QTCustomView.swift in Sources */,
+				565BBED12313050400986490 /* QTPastTransationsViewController.swift in Sources */,
 				569F1706223554FD00820A20 /* PaymentOptionsVC.swift in Sources */,
 				569F1708223554FD00820A20 /* SessionRequestSendView.swift in Sources */,
 				567E1A172270C46B0094E371 /* QTCloseAccountInfoViewController.swift in Sources */,
+				4D8B6AEF23424CF900C105F0 /* QTLearnerDiscoverTrendingViewController.swift in Sources */,
 				569F170B223554FD00820A20 /* MeetupTableCell.swift in Sources */,
 				569F170C223554FD00820A20 /* LightboxTransition.swift in Sources */,
 				5602379D2267641B005653D5 /* CategorySectionController.swift in Sources */,
+				4D9CD3A22341E9B10002EADF /* QTLearnerDiscoverTableSectionHeaderView.swift in Sources */,
 				561003C42243163600A4688F /* QTPastSessionTableViewCell.swift in Sources */,
 				569F170E223554FD00820A20 /* TutorUnsafeVC.swift in Sources */,
 				569F170F223554FD00820A20 /* SearchBar.swift in Sources */,
@@ -5117,6 +5758,7 @@
 				569F171E223554FD00820A20 /* AccountService.swift in Sources */,
 				569F171F223554FD00820A20 /* TutorCancelledVC.swift in Sources */,
 				569F1720223554FD00820A20 /* BaseSessionCell.swift in Sources */,
+				4D9CD39B2341B8E40002EADF /* QTLearnerDiscoverViewController.swift in Sources */,
 				4D68F79823200A8200282920 /* QTSelectInterestsViewController.swift in Sources */,
 				569F1721223554FD00820A20 /* TutorExtendedReviewsVC.swift in Sources */,
 				569F1723223554FD00820A20 /* RatingCell.swift in Sources */,
@@ -5170,6 +5812,7 @@
 				4D68F7A223200BF300282920 /* MagneticView.swift in Sources */,
 				569F174F223554FD00820A20 /* SystemMessageCell.swift in Sources */,
 				569F1750223554FD00820A20 /* TutorHarassmentVC.swift in Sources */,
+				5657BDB9231E1BDE00EBD94A /* QTTutorDiscoverNewsViewController.swift in Sources */,
 				560237A2226764C6005653D5 /* FeaturedSectionController.swift in Sources */,
 				9C90ED9722B9D25A00C3E616 /* GetStartedViewController.swift in Sources */,
 				569F1751223554FD00820A20 /* LearnerMainPageCategorySectionContainerCell.swift in Sources */,
@@ -5181,23 +5824,31 @@
 				569F1757223554FD00820A20 /* AddTimeModal.swift in Sources */,
 				4DFA17C82322A24800A685AD /* QTHookModelNavigationController.swift in Sources */,
 				569F1759223554FD00820A20 /* TutorSubjectSearch.swift in Sources */,
+				4D8B6B072342812600C105F0 /* QTLearnerDiscoverRecentlyActiveTableViewCell.swift in Sources */,
 				569F175A223554FD00820A20 /* BaseSessionRequestViewSection.swift in Sources */,
+				56E66A1B232CC7570051CC1F /* QTTutorDiscoverShareSectionCollectionViewCell.swift in Sources */,
 				569F175B223554FD00820A20 /* TutorCardReviewsView.swift in Sources */,
 				569F175C223554FD00820A20 /* MessagingSystemToggleCell.swift in Sources */,
+				5657BDB1231DFBB000EBD94A /* QTTutorDiscoverMainView.swift in Sources */,
 				BEC6987B229E4C9A00F970EE /* CVVModal.swift in Sources */,
+				565BBECB2312E59500986490 /* QTQAQuickRequestCollectionViewCell.swift in Sources */,
 				569F175D223554FD00820A20 /* UIFontExtensions.swift in Sources */,
 				569F175E223554FD00820A20 /* EventManager.swift in Sources */,
+				5657BDBF231E21B400EBD94A /* QTTutorDiscoverNewsCollectionViewCell.swift in Sources */,
 				569F175F223554FD00820A20 /* TutorSubcategory.swift in Sources */,
 				569F1760223554FD00820A20 /* HeaderView.swift in Sources */,
+				56E66A03232C9ECD0051CC1F /* QTTutorDiscoverNewsDetailContentTableViewCell.swift in Sources */,
 				569F1761223554FD00820A20 /* InAppNotificationView.swift in Sources */,
 				569F1762223554FD00820A20 /* QuickChatViewCell.swift in Sources */,
 				569F1763223554FD00820A20 /* TeacherKeyboardAccessory.swift in Sources */,
 				569F1765223554FD00820A20 /* LightboxController.swift in Sources */,
 				569F1766223554FD00820A20 /* SignInView.swift in Sources */,
+				4D8B6B0023424D5C00C105F0 /* QTLearnerDiscoverForYouViewController.swift in Sources */,
 				569F1768223554FD00820A20 /* LearnerReview.swift in Sources */,
 				569F1769223554FD00820A20 /* ConversationPaginationHeader.swift in Sources */,
 				569F176A223554FD00820A20 /* MeetupTypeCell.swift in Sources */,
 				569F176B223554FD00820A20 /* PinterestSegment.swift in Sources */,
+				4DE24CF62345239F00D23576 /* QTLearnerDiscoverTrendingTopicsTableViewCell.swift in Sources */,
 				569F176C223554FD00820A20 /* QTRatingReviewViewController.swift in Sources */,
 				569F176D223554FD00820A20 /* AccountInfoVC.swift in Sources */,
 				569F176E223554FD00820A20 /* SavedTutorsVC.swift in Sources */,
@@ -5211,6 +5862,7 @@
 				CFB767D122991BA6001206DA /* BankManagerCollectionViewCell.swift in Sources */,
 				569F1777223554FD00820A20 /* TutorAddUsernameVC.swift in Sources */,
 				569F1778223554FD00820A20 /* UIImageViewExtensions.swift in Sources */,
+				565BBED82313079D00986490 /* QTLearnerSessionCardCollectionViewCell.swift in Sources */,
 				569F1779223554FD00820A20 /* TutorAddressVCView.swift in Sources */,
 				569F177A223554FD00820A20 /* LearnerFileReportVC.swift in Sources */,
 				569F177D223554FD00820A20 /* TutorUpdatePayment.swift in Sources */,
@@ -5218,11 +5870,14 @@
 				569F177E223554FD00820A20 /* TaxInformation.swift in Sources */,
 				569F177F223554FD00820A20 /* EditBillingAddressVC.swift in Sources */,
 				569F1780223554FD00820A20 /* SessionOnHoldModal.swift in Sources */,
+				561D330D232A22AD0022D0DC /* QTTutorDiscoverCategoryParallaxHeaderView.swift in Sources */,
 				569F1782223554FD00820A20 /* CloseAccountChoiceVC.swift in Sources */,
 				CF740B462271AAE9004F498B /* DocumentMessageCell.swift in Sources */,
 				569F1783223554FD00820A20 /* SessionRequestSubjectView.swift in Sources */,
+				4D8B6AE723424CF900C105F0 /* QTLearnerDiscoverTutorsViewController.swift in Sources */,
 				569F1784223554FD00820A20 /* TutorProfilePicsVC.swift in Sources */,
 				569F1785223554FD00820A20 /* NotificationManager.swift in Sources */,
+				565BBEC72312DE5600986490 /* QTQuickActionViewController.swift in Sources */,
 				4DF3428A23122EFB000C554D /* QTRecommendationTableViewCell.swift in Sources */,
 				569F1786223554FD00820A20 /* ProfileItemView.swift in Sources */,
 				56BE7E7922CFD88C0052BBE7 /* QTRecentSearchTableViewCell.swift in Sources */,
@@ -5233,10 +5888,12 @@
 				569F1789223554FD00820A20 /* BankManager.swift in Sources */,
 				4D4E2BA323239E9D003DF5E2 /* QTConnectTutorTableViewCell.swift in Sources */,
 				569F178A223554FD00820A20 /* LearnerPaymentVC.swift in Sources */,
+				4DE24D072346574500D23576 /* QTLearnerDiscoverService.swift in Sources */,
 				569F178B223554FD00820A20 /* User.swift in Sources */,
 				CFB767CB22991B37001206DA /* BankManagerVCView.swift in Sources */,
 				569F178C223554FD00820A20 /* BaseViewController.swift in Sources */,
 				569F178D223554FD00820A20 /* NoPasteTextField.swift in Sources */,
+				56E66A15232CAF690051CC1F /* QTTutorDiscoverTipDetailTitleTableViewCell.swift in Sources */,
 				569F178E223554FD00820A20 /* KeyboardAccessoryViewDelegate.swift in Sources */,
 				569F178F223554FD00820A20 /* QTRatingTipCollectionViewCell.swift in Sources */,
 				569F1791223554FD00820A20 /* UIColorExtensions.swift in Sources */,
@@ -5255,6 +5912,7 @@
 				569F179F223554FD00820A20 /* NameVC.swift in Sources */,
 				569F17A1223554FD00820A20 /* AcceptAddTimeModal.swift in Sources */,
 				569F17A2223554FD00820A20 /* ReadReceiptManager.swift in Sources */,
+				4D8B6AF323424CF900C105F0 /* QTLearnerDiscoverCategoriesTableViewCell.swift in Sources */,
 				9359CECC227A7CAD008E9FB1 /* CardManagerViewController.swift in Sources */,
 				CFCE90AF226524DC00CBB1AD /* LearnerMainPageSuggestionsSectionContainerCell.swift in Sources */,
 				569F17A3223554FD00820A20 /* CardFooterView.swift in Sources */,
@@ -5263,10 +5921,14 @@
 				BE817236229E21980089FA1E /* AddCardViewController.swift in Sources */,
 				CFB767CE22991B7A001206DA /* EarningsHistoryCell.swift in Sources */,
 				569F17A5223554FD00820A20 /* SessionsVC.swift in Sources */,
+				565BFAD6230CF2DD0014AE20 /* QTQuickRequestService.swift in Sources */,
+				568B5341231E53E4002776B5 /* QTNewsModel.swift in Sources */,
+				4D8B6AFA23424D2B00C105F0 /* QTLearnerDiscoverForYouTableViewCell.swift in Sources */,
 				569F17A6223554FD00820A20 /* PillCollectionViewCell.swift in Sources */,
 				4D3492C623112A8D004CEAEB /* QTTutorRecommendationModel.swift in Sources */,
 				569F17A7223554FD00820A20 /* TutorUnprofessionalVC.swift in Sources */,
 				569F17A9223554FD00820A20 /* ExternalAccounts.swift in Sources */,
+				56E669E1232C6DB00051CC1F /* QTTutorDiscoverTipsSectionCollectionViewCell.swift in Sources */,
 				569F17AA223554FD00820A20 /* SessionRequestError.swift in Sources */,
 				569F17AB223554FD00820A20 /* RegistrationDigitTextField.swift in Sources */,
 				569F17AC223554FD00820A20 /* DataService.swift in Sources */,
@@ -5286,10 +5948,12 @@
 				4D348100223A31E70004C29A /* QTReviewTableViewCell.swift in Sources */,
 				569F17BA223554FD00820A20 /* TutorAddSubjectsVCView.swift in Sources */,
 				569F17BB223554FD00820A20 /* NewTutorAddSubjects.swift in Sources */,
+				4D8B6AEB23424CF900C105F0 /* QTLearnerDiscoverTrendingTableViewCell.swift in Sources */,
 				569F17BC223554FD00820A20 /* QuickTutor.xcdatamodeld in Sources */,
 				569F17BE223554FD00820A20 /* InProgressSessionManager.swift in Sources */,
 				569F17C0223554FD00820A20 /* HandlesSessionStartData.swift in Sources */,
 				569F17C1223554FD00820A20 /* TutorPreferencesVCView.swift in Sources */,
+				56D938FF2320A06400A3754C /* QTTutorDiscoverOpportunityApplyViewController.swift in Sources */,
 				CF9F94F1228A3C98002041CF /* RecentSearchCell.swift in Sources */,
 				569F17C3223554FD00820A20 /* ConversationVC.swift in Sources */,
 				569F17C4223554FD00820A20 /* TutorCollectionViewCell.swift in Sources */,
@@ -5305,7 +5969,9 @@
 				569F17CF223554FD00820A20 /* LearnerCancelled.swift in Sources */,
 				569F17D0223554FD00820A20 /* UIScrollViewExtensions.swift in Sources */,
 				569F17D1223554FD00820A20 /* MeetupTimePicker.swift in Sources */,
+				56E669FD232C9EAF0051CC1F /* QTTutorDiscoverNewsDetailDescTableViewCell.swift in Sources */,
 				569F17D2223554FD00820A20 /* TutorTipsVC.swift in Sources */,
+				4D8B6AD223423D4E00C105F0 /* QTLearnerDiscoverTutorCollectionViewCell.swift in Sources */,
 				4D68F79223200A6A00282920 /* QTSelectSubcategoriesViewController.swift in Sources */,
 				4DE366922239F06C00A94C37 /* QTProfileViewController.swift in Sources */,
 				93F4F8D1227F4AD900809432 /* CollectionExtensions.swift in Sources */,
@@ -5363,6 +6029,7 @@
 				569F17FE223554FD00820A20 /* SessionCellActionView.swift in Sources */,
 				569F17FF223554FD00820A20 /* UIView+Gradient.swift in Sources */,
 				CFCE90B2226524E600CBB1AD /* LearnerMainPageActiveTutorsSectionContainerCell.swift in Sources */,
+				565BBEC3231114E200986490 /* QTLearnerMainPageNavigationView.swift in Sources */,
 				569F1801223554FD00820A20 /* QTSettingsViewController.swift in Sources */,
 				569F1803223554FD00820A20 /* ReceiptCell.swift in Sources */,
 				569F1804223554FD00820A20 /* EditSchoolVC.swift in Sources */,
@@ -5370,16 +6037,20 @@
 				569F1805223554FD00820A20 /* Connections.swift in Sources */,
 				569F1806223554FD00820A20 /* DisconnectModal.swift in Sources */,
 				569F1807223554FD00820A20 /* InfoLabel.swift in Sources */,
+				56E669F6232C99B70051CC1F /* QTTutorDiscoverNewsDetailParallaxHeaderView.swift in Sources */,
 				569F1808223554FD00820A20 /* EndSessionProfileBox.swift in Sources */,
 				569F1809223554FD00820A20 /* ProfileToggleView.swift in Sources */,
 				56A8D0B32240A4AB00866AD7 /* QTStartSessionViewController.swift in Sources */,
+				4DE24D0223453D5400D23576 /* QTLearnerDiscoverSubcategoryViewController.swift in Sources */,
 				569F180A223554FD00820A20 /* EditPhoneVerificationVC.swift in Sources */,
 				569F180B223554FD00820A20 /* KeyboardAccessory.swift in Sources */,
+				56E669E5232C6E240051CC1F /* QTTutorDiscoverTipsViewController.swift in Sources */,
 				569F180D223554FD00820A20 /* LearnerEditProfileVCView.swift in Sources */,
 				569F180E223554FD00820A20 /* Interactables.swift in Sources */,
 				569F180F223554FD00820A20 /* AddTutorVCView.swift in Sources */,
 				569F1810223554FD00820A20 /* BirthdayVC.swift in Sources */,
 				569F1811223554FD00820A20 /* LearnerUnprofessional.swift in Sources */,
+				56E669F1232C97D50051CC1F /* QTTutorDiscoverNewsDetailViewController.swift in Sources */,
 				569F1812223554FD00820A20 /* LegalEntity.swift in Sources */,
 				4DF3427E23122364000C554D /* QTWriteRecommendationViewController.swift in Sources */,
 				569F1813223554FD00820A20 /* LearnerUpcomingSessionCell.swift in Sources */,
@@ -5419,12 +6090,14 @@
 				569F1832223554FD00820A20 /* TheChoiceVC.swift in Sources */,
 				569F1833223554FD00820A20 /* QuickChatViewDelegate.swift in Sources */,
 				569F1834223554FD00820A20 /* FileReportActionsheet.swift in Sources */,
+				4D8B6B0D234283A600C105F0 /* QTLearnerDiscoverRecentlyActiveViewController.swift in Sources */,
 				569F1835223554FD00820A20 /* FileReportActionsheetCell.swift in Sources */,
 				569F1836223554FD00820A20 /* TutorCardInfoView.swift in Sources */,
 				569F1837223554FD00820A20 /* ZFUser.swift in Sources */,
 				569F1838223554FD00820A20 /* BaseSessionsVC.swift in Sources */,
 				569F1839223554FD00820A20 /* ConversationManager.swift in Sources */,
 				569F183A223554FD00820A20 /* QuickSearchSectionHeader.swift in Sources */,
+				56952484231FA62D00251CFB /* QTTutorDiscoverOpportunitiesSectionCollectionViewCell.swift in Sources */,
 				569F183B223554FD00820A20 /* CustomSearchBarContainer.swift in Sources */,
 				569F183C223554FD00820A20 /* KeyboardActionView.swift in Sources */,
 				569F183D223554FD00820A20 /* ContactCell.swift in Sources */,
@@ -5432,6 +6105,7 @@
 				569F183E223554FD00820A20 /* AlertController.swift in Sources */,
 				562B015E230A9652000146E9 /* QTLearnerAddInterestsViewController.swift in Sources */,
 				569F183F223554FD00820A20 /* ConversationCollectionView.swift in Sources */,
+				56952488231FA9ED00251CFB /* QTTutorDiscoverOpportunitiesViewController.swift in Sources */,
 				562B0158230A879C000146E9 /* QTLearnerAddInterestsView.swift in Sources */,
 				569F1840223554FD00820A20 /* SessionDetailsVC.swift in Sources */,
 				569F1841223554FD00820A20 /* QTTutorDashboardDurationView.swift in Sources */,
@@ -5446,11 +6120,14 @@
 				569F184B223554FD00820A20 /* FeaturedSubjectVC.swift in Sources */,
 				569F184C223554FD00820A20 /* TutorDidNotHelpVC.swift in Sources */,
 				569F184D223554FD00820A20 /* TipCell.swift in Sources */,
+				565C252523453A59009200B9 /* QTCategoryModel.swift in Sources */,
+				565BBEC02310DAEF00986490 /* QTQuickRequestModel.swift in Sources */,
 				569F184E223554FD00820A20 /* TypingIndicatorView.swift in Sources */,
 				569F184F223554FD00820A20 /* TutorPreferencesVC.swift in Sources */,
 				569F1850223554FD00820A20 /* UserSession.swift in Sources */,
 				C41564BC234852D200C8DF01 /* QTProfileSheetContentViewCell.swift in Sources */,
 				569F1851223554FD00820A20 /* EmailVC.swift in Sources */,
+				4D8B6AE323424CF900C105F0 /* QTLearnerDiscoverTutorsTableViewCell.swift in Sources */,
 				569F1852223554FD00820A20 /* TutorQTGuide.swift in Sources */,
 				569F1853223554FD00820A20 /* UserPolicyVCView.swift in Sources */,
 				569F1854223554FD00820A20 /* BaseUpcomingSessionCell.swift in Sources */,
@@ -5466,6 +6143,7 @@
 				4D7DD55222832FCC0027B687 /* UITabBarExtensions.swift in Sources */,
 				569F185C223554FD00820A20 /* ConversationMetaData.swift in Sources */,
 				569F185D223554FD00820A20 /* FooterView.swift in Sources */,
+				5695248E231FB0B600251CFB /* QTTutorDiscoverOpportunityCollectionViewCell.swift in Sources */,
 				561003BD2242D23600A4688F /* QTPastSessionsViewController.swift in Sources */,
 				569F185F223554FD00820A20 /* MessageSystemToggle.swift in Sources */,
 				569F1860223554FD00820A20 /* SearchTutorVC.swift in Sources */,
@@ -5475,6 +6153,7 @@
 				569F1865223554FD00820A20 /* BaseRegistrationView.swift in Sources */,
 				569F1867223554FD00820A20 /* BasePastSessionCell.swift in Sources */,
 				569F1868223554FD00820A20 /* RatingStarView.swift in Sources */,
+				562B0167230C3760000146E9 /* QTQuickRequestTypeViewController.swift in Sources */,
 				569F1869223554FD00820A20 /* ImageMessageCell.swift in Sources */,
 				569F186A223554FD00820A20 /* CloseAccountSubmissionVC.swift in Sources */,
 				569F186B223554FD00820A20 /* QTTutorDashboardHeaderView.swift in Sources */,
@@ -5497,7 +6176,9 @@
 				569F1879223554FD00820A20 /* SignInVC.swift in Sources */,
 				CF17F22D226BC8A800ABD07D /* TutorPreferenceData.swift in Sources */,
 				569F187B223554FD00820A20 /* LearnerRude.swift in Sources */,
+				56E669EB232C74CF0051CC1F /* QTTutorDiscoverTipCollectionViewCell.swift in Sources */,
 				569F187C223554FD00820A20 /* BaseScrollView.swift in Sources */,
+				4D8B6B212342BCB900C105F0 /* QTLearnerDiscoverTopTopicsTableViewCell.swift in Sources */,
 				569F187D223554FD00820A20 /* NewMessageHeader.swift in Sources */,
 				5697DD34226F865F00AC9775 /* VideoMessageCell.swift in Sources */,
 				569F187E223554FD00820A20 /* Tutor.swift in Sources */,
@@ -5506,10 +6187,12 @@
 				569F1881223554FD00820A20 /* TutorOtherVC.swift in Sources */,
 				569F1883223554FD00820A20 /* QuickSearchVCView.swift in Sources */,
 				56BE7E7D22D067FB0052BBE7 /* QTTutorSearchTableViewCell.swift in Sources */,
+				565BBEDE23135D8800986490 /* QTLearnerSessionsService.swift in Sources */,
 				569F1884223554FD00820A20 /* Helper.swift in Sources */,
 				CF17F22E226EA35200ABD07D /* UILabelExtensions.swift in Sources */,
 				5697DD25226F859300AC9775 /* QTInviteOthersConnectTableViewCell.swift in Sources */,
 				569F1885223554FD00820A20 /* ProfileVC.swift in Sources */,
+				4DE24CEF23450D8400D23576 /* QTLearnerDiscoverCategoryViewController.swift in Sources */,
 				569F1886223554FD00820A20 /* EditBillingAddressView.swift in Sources */,
 				4D853D6F230A9BDA00DAC323 /* ChoosePaymentMethodViewController.swift in Sources */,
 				569F1888223554FD00820A20 /* SessionRequestView.swift in Sources */,
@@ -5525,7 +6208,10 @@
 				569F1892223554FD00820A20 /* TutorCardPoliciesView.swift in Sources */,
 				569F1893223554FD00820A20 /* MeetupRequest.swift in Sources */,
 				569F1895223554FD00820A20 /* Extensions.swift in Sources */,
+				56E66A09232CAD5B0051CC1F /* QTTutorDiscoverTipDetailViewController.swift in Sources */,
 				93F61E332274FB2600298B77 /* BankInfoModal.swift in Sources */,
+				565BFAD3230CDEE40014AE20 /* QTQuickRequestAlertModal.swift in Sources */,
+				565BFADA230D0F970014AE20 /* QTQuickRequestSubmitViewController.swift in Sources */,
 				569F1896223554FD00820A20 /* CALayerExtensions.swift in Sources */,
 				56BE7E6522CFCF5B0052BBE7 /* QTEnumerations.swift in Sources */,
 				569F1897223554FD00820A20 /* QuickSearchVC.swift in Sources */,
@@ -5549,16 +6235,20 @@
 				569F18A7223554FD00820A20 /* NewMessageVC.swift in Sources */,
 				569F18A8223554FD00820A20 /* FeaturedTutorCount.swift in Sources */,
 				931C71ED227E4E1C003C86F8 /* PaymentCardTableViewCell.swift in Sources */,
+				56D206AB233EF1EA0078ACDC /* QTGlobalData.swift in Sources */,
 				569F18AA223554FD00820A20 /* Constants.swift in Sources */,
 				569F18AB223554FD00820A20 /* TutorSessionDetails.swift in Sources */,
 				569F18AC223554FD00820A20 /* LearnerHarassment.swift in Sources */,
 				569F18AD223554FD00820A20 /* LearnerPastSessionCell.swift in Sources */,
 				569F18AE223554FD00820A20 /* EmptyMessagesBackground.swift in Sources */,
 				CF6202762287F76000B925B9 /* DatabaseCleaner.swift in Sources */,
+				5657BDAB231DEFAF00EBD94A /* QTTutorDiscoverViewController.swift in Sources */,
 				56BE7E5C22CFCC160052BBE7 /* QTConstants.swift in Sources */,
 				569F18B0223554FD00820A20 /* TutorPreferencesNextButton.swift in Sources */,
 				569F18B1223554FD00820A20 /* UserMessage.swift in Sources */,
+				56E66A1F232CC80A0051CC1F /* QTTutorDiscoverShareViewController.swift in Sources */,
 				569F18B2223554FD00820A20 /* CustomError.swift in Sources */,
+				561D33082329EF000022D0DC /* QTTutorDiscoverCategoryViewController.swift in Sources */,
 				569F18B3223554FD00820A20 /* BaseMessageCell.swift in Sources */,
 				569F18B4223554FD00820A20 /* SessionRequestDurationView.swift in Sources */,
 				93179FA4228FC52100768BBB /* EmptySavedTutorsBackground.swift in Sources */,
@@ -5577,8 +6267,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4DE24CFB2345248F00D23576 /* QTLearnerDiscoverTrendingTopicCollectionViewCell.swift in Sources */,
 				845B3B9B2069E6CF009F8E04 /* CategorySearchCollectionViewLayout.swift in Sources */,
 				CFB9B7DD21C18B590022333F /* SessionRequestPaymentInputView.swift in Sources */,
+				565BBEB92310D17600986490 /* QTQuickRequestDoneViewController.swift in Sources */,
 				CFB9B7EA21C23E690022333F /* TutorCardHeaderView.swift in Sources */,
 				5630F9592278357A0038E060 /* CustomSwitchView.swift in Sources */,
 				845B3B9C2069E6CF009F8E04 /* SubjectSearchCollectionViewLayout.swift in Sources */,
@@ -5599,6 +6291,7 @@
 				CFD92A65222F24B200704531 /* LightboxImageStub.swift in Sources */,
 				CF387EBD2088314B00087449 /* Notifications.swift in Sources */,
 				CFF50178206990060085B0E9 /* LearnerEditProfileVC.swift in Sources */,
+				5657BDB4231E177700EBD94A /* QTTutorDiscoverNewsSectionCollectionViewCell.swift in Sources */,
 				CFB9B7D721C18B080022333F /* SessionRequestDateView.swift in Sources */,
 				CFB9B81A21C842C80022333F /* TutorBioVCView.swift in Sources */,
 				C4498A69230F063200EE619A /* QTProfileVideoCollectionViewCell.swift in Sources */,
@@ -5629,14 +6322,18 @@
 				845B3BA02069E81B009F8E04 /* CategoryCollectViewCell.swift in Sources */,
 				841DD5BE206557DB00A70D65 /* TutorPaymentEarnings.swift in Sources */,
 				569ECDA821F9A7FD005491CB /* QTCustomView.swift in Sources */,
+				56E66A0D232CAE110051CC1F /* QTTutorDiscoverTipDetailParallaxHeaderView.swift in Sources */,
 				84E4C7DD204E92AD009C2FC4 /* PaymentOptionsVC.swift in Sources */,
 				CFB9B7E321C18B970022333F /* SessionRequestSendView.swift in Sources */,
+				565BBED02313050400986490 /* QTPastTransationsViewController.swift in Sources */,
 				CF6F58C7205EE68800ACBD32 /* MeetupTableCell.swift in Sources */,
 				CFD92A63222F24B200704531 /* LightboxTransition.swift in Sources */,
 				561003C32243163600A4688F /* QTPastSessionTableViewCell.swift in Sources */,
+				4D8B6AEE23424CF900C105F0 /* QTLearnerDiscoverTrendingViewController.swift in Sources */,
 				848809F92057827F00F204A0 /* TutorUnsafeVC.swift in Sources */,
 				CFA1716F21741B05003F195A /* SearchBar.swift in Sources */,
 				CFB40E4B216D4AEB00828E72 /* VideoSessionViewManager.swift in Sources */,
+				4D9CD3A12341E9B10002EADF /* QTLearnerDiscoverTableSectionHeaderView.swift in Sources */,
 				844FECF8210F9D9300C1797B /* SubjectSearchCategoryCell.swift in Sources */,
 				8434B82B20468D6F00E16170 /* EditLanguages.swift in Sources */,
 				93F61E382275471B00298B77 /* RoutingAndAccountModal.swift in Sources */,
@@ -5656,6 +6353,7 @@
 				8451FB54213EF14E00F86DC5 /* RatingCell.swift in Sources */,
 				CF4C7895226080F700478D83 /* LeanerMainPageNavigationHelper.swift in Sources */,
 				849029881FF70F4600A4A1D7 /* StripeService.swift in Sources */,
+				4D9CD39A2341B8E40002EADF /* QTLearnerDiscoverViewController.swift in Sources */,
 				4D68F79723200A8200282920 /* QTSelectInterestsViewController.swift in Sources */,
 				CF3FF6F020B0F60B00E2928C /* ConversationCell.swift in Sources */,
 				CF360D3A208D48DB0096617C /* PauseSessionModal.swift in Sources */,
@@ -5709,6 +6407,7 @@
 				4D68F7A123200BF300282920 /* MagneticView.swift in Sources */,
 				CF1C6113209EA6F4009B7B0E /* AddTimeModal.swift in Sources */,
 				567E1A162270C46B0094E371 /* QTCloseAccountInfoViewController.swift in Sources */,
+				5657BDB8231E1BDE00EBD94A /* QTTutorDiscoverNewsViewController.swift in Sources */,
 				84A6E470218F68C700D03681 /* TutorSubjectSearch.swift in Sources */,
 				62336B8022B759410060797D /* GetStartedViewController.swift in Sources */,
 				CFB9B7D121C18A690022333F /* BaseSessionRequestViewSection.swift in Sources */,
@@ -5720,23 +6419,31 @@
 				569ECDC521FA9476005491CB /* UIFontExtensions.swift in Sources */,
 				4DFA17C72322A24800A685AD /* QTHookModelNavigationController.swift in Sources */,
 				CF0711072117B09A0035A6FF /* EventManager.swift in Sources */,
+				4D8B6B062342812600C105F0 /* QTLearnerDiscoverRecentlyActiveTableViewCell.swift in Sources */,
 				84A6E46E218F68B600D03681 /* TutorSubcategory.swift in Sources */,
+				56E66A1A232CC7570051CC1F /* QTTutorDiscoverShareSectionCollectionViewCell.swift in Sources */,
 				CFD92A6B222F24B200704531 /* HeaderView.swift in Sources */,
 				CF5BFB052155B19100FB8DD6 /* InAppNotificationView.swift in Sources */,
+				5657BDB0231DFBB000EBD94A /* QTTutorDiscoverMainView.swift in Sources */,
 				BEC6987A229E4C9A00F970EE /* CVVModal.swift in Sources */,
+				565BBECA2312E59500986490 /* QTQAQuickRequestCollectionViewCell.swift in Sources */,
 				CF6F58C4205EE68800ACBD32 /* QuickChatViewCell.swift in Sources */,
 				CF6F58D7205EE68800ACBD32 /* TeacherKeyboardAccessory.swift in Sources */,
+				5657BDBE231E21B400EBD94A /* QTTutorDiscoverNewsCollectionViewCell.swift in Sources */,
 				CFD92A60222F24B200704531 /* LightboxController.swift in Sources */,
 				84C88E712168E2050023A338 /* SignInView.swift in Sources */,
+				56E66A02232C9ECD0051CC1F /* QTTutorDiscoverNewsDetailContentTableViewCell.swift in Sources */,
 				84A6E46A218F689D00D03681 /* LearnerReview.swift in Sources */,
 				CF0711012117AE6F0035A6FF /* ConversationPaginationHeader.swift in Sources */,
 				CF6F58C9205EE68800ACBD32 /* MeetupTypeCell.swift in Sources */,
 				569ECDBB21FA0C1E005491CB /* PinterestSegment.swift in Sources */,
 				568B82D5222539C2004DF011 /* QTRatingReviewViewController.swift in Sources */,
+				4D8B6AFF23424D5C00C105F0 /* QTLearnerDiscoverForYouViewController.swift in Sources */,
 				84E4C7D9204E9088009C2FC4 /* AccountInfoVC.swift in Sources */,
 				CF51958A21A60F72007EEC37 /* SavedTutorsVC.swift in Sources */,
 				CFB9B80621C5C2330022333F /* BaseRegistrationController.swift in Sources */,
 				848E04EA205C8CF10094A6E9 /* BecomeTutorData.swift in Sources */,
+				4DE24CF52345239F00D23576 /* QTLearnerDiscoverTrendingTopicsTableViewCell.swift in Sources */,
 				CF7D8ABA21995FA300463B0E /* ProfileVCFooterCell.swift in Sources */,
 				CF04A28B2279713F00967725 /* DocumentUploadManager.swift in Sources */,
 				84DFD899204C5AE600BA8A3F /* UIViewControllerExtensions.swift in Sources */,
@@ -5750,6 +6457,7 @@
 				CFB767D022991B97001206DA /* BankManagerCollectionViewCell.swift in Sources */,
 				841DD5BC206552D500A70D65 /* TutorUpdatePayment.swift in Sources */,
 				846252FB206381BD001DD330 /* TaxInformation.swift in Sources */,
+				565BBED72313079D00986490 /* QTLearnerSessionCardCollectionViewCell.swift in Sources */,
 				841C506C216ED42D0035C6C9 /* EditBillingAddressVC.swift in Sources */,
 				93C102822278F772004B9F0D /* RegistrationSSNModal.swift in Sources */,
 				CF8E88A020C5A1FB0044344D /* SessionOnHoldModal.swift in Sources */,
@@ -5757,11 +6465,14 @@
 				84C44F5620AE9704009AA5F1 /* CloseAccountChoiceVC.swift in Sources */,
 				CFB9B7D321C18AAC0022333F /* SessionRequestSubjectView.swift in Sources */,
 				848809FF20585C3A00F204A0 /* TutorProfilePicsVC.swift in Sources */,
+				561D330C232A22AD0022D0DC /* QTTutorDiscoverCategoryParallaxHeaderView.swift in Sources */,
 				CFA1716D21730548003F195A /* NotificationManager.swift in Sources */,
 				84D6A7DE215B1FE2000C0010 /* ProfileItemView.swift in Sources */,
 				CFD112C4215ACB45000F61F2 /* CategorySearchVCView.swift in Sources */,
+				4D8B6AE623424CF900C105F0 /* QTLearnerDiscoverTutorsViewController.swift in Sources */,
 				84000D2E21246B5E0023355B /* ProfileImageViewer.swift in Sources */,
 				846252F320637FA7001DD330 /* BankManager.swift in Sources */,
+				565BBEC62312DE5600986490 /* QTQuickActionViewController.swift in Sources */,
 				4DF3428923122EFB000C554D /* QTRecommendationTableViewCell.swift in Sources */,
 				840E75BA201E7DF6006FC580 /* LearnerPaymentVC.swift in Sources */,
 				56BE7E7822CFD88C0052BBE7 /* QTRecentSearchTableViewCell.swift in Sources */,
@@ -5772,10 +6483,12 @@
 				5697DD24226F859300AC9775 /* QTInviteOthersConnectTableViewCell.swift in Sources */,
 				4D4E2BA223239E9D003DF5E2 /* QTConnectTutorTableViewCell.swift in Sources */,
 				8423940F1FF4CA1D00827C7D /* NoPasteTextField.swift in Sources */,
+				4DE24D062346574500D23576 /* QTLearnerDiscoverService.swift in Sources */,
 				CF6F58E7205EE68800ACBD32 /* KeyboardAccessoryViewDelegate.swift in Sources */,
 				CFB767CA22991B28001206DA /* BankManagerVCView.swift in Sources */,
 				568B82DE222540CD004DF011 /* QTRatingTipCollectionViewCell.swift in Sources */,
 				843BA324205513F4000C7054 /* UIColorExtensions.swift in Sources */,
+				56E66A14232CAF690051CC1F /* QTTutorDiscoverTipDetailTitleTableViewCell.swift in Sources */,
 				CFB9B81C21C843430022333F /* TutorAddUsernameVCView.swift in Sources */,
 				84CB7AD720CF97FE00274473 /* ArrayExtensions.swift in Sources */,
 				CF2D9778207B354F00914B27 /* CustomSearchBar.swift in Sources */,
@@ -5794,6 +6507,7 @@
 				CF740B452271AAE9004F498B /* DocumentMessageCell.swift in Sources */,
 				CF8E88A620C72BFD0044344D /* AcceptAddTimeModal.swift in Sources */,
 				CF07110E211810C10035A6FF /* ReadReceiptManager.swift in Sources */,
+				4D8B6AF223424CF900C105F0 /* QTLearnerDiscoverCategoriesTableViewCell.swift in Sources */,
 				CFB9B7FC21C23FBF0022333F /* CardFooterView.swift in Sources */,
 				847463282069482D00B70AD9 /* TutorHandbook.swift in Sources */,
 				84E4C7EC204E9829009C2FC4 /* SessionsVC.swift in Sources */,
@@ -5802,10 +6516,14 @@
 				BE817235229E21980089FA1E /* AddCardViewController.swift in Sources */,
 				CFB767CD22991B77001206DA /* EarningsHistoryCell.swift in Sources */,
 				848809F7205770D000F204A0 /* TutorUnprofessionalVC.swift in Sources */,
+				565BFAD5230CF2DD0014AE20 /* QTQuickRequestService.swift in Sources */,
+				568B5340231E53E4002776B5 /* QTNewsModel.swift in Sources */,
+				4D8B6AF923424D2B00C105F0 /* QTLearnerDiscoverForYouTableViewCell.swift in Sources */,
 				84BDE2B920AB2CAB003E66D5 /* ExternalAccounts.swift in Sources */,
 				4D3492C523112A8D004CEAEB /* QTTutorRecommendationModel.swift in Sources */,
 				CFB9B7CD21C18A240022333F /* SessionRequestError.swift in Sources */,
 				84C8F5E21FF83DC600737A59 /* RegistrationDigitTextField.swift in Sources */,
+				56E669E0232C6DB00051CC1F /* QTTutorDiscoverTipsSectionCollectionViewCell.swift in Sources */,
 				CF6F58F0205EE6B300ACBD32 /* DataService.swift in Sources */,
 				84DF1E5A216D68E100AEBD76 /* EditBirthdateVC.swift in Sources */,
 				CFB9B80821C5C2490022333F /* NameVCView.swift in Sources */,
@@ -5825,10 +6543,12 @@
 				CFD92A73222F507A00704531 /* TutorAddSubjectsVCView.swift in Sources */,
 				CFD92A75222F50A900704531 /* NewTutorAddSubjects.swift in Sources */,
 				5697DD15226F857000AC9775 /* QTInviteOthersViewController.swift in Sources */,
+				4D8B6AEA23424CF900C105F0 /* QTLearnerDiscoverTrendingTableViewCell.swift in Sources */,
 				8491C2A31FBE62350036FC12 /* QuickTutor.xcdatamodeld in Sources */,
 				CFA0096C213898C900F81EE4 /* InProgressSessionManager.swift in Sources */,
 				CF387EC32088EE4A00087449 /* HandlesSessionStartData.swift in Sources */,
 				CFB9B82421C8C5370022333F /* TutorPreferencesVCView.swift in Sources */,
+				56D938FE2320A06400A3754C /* QTTutorDiscoverOpportunityApplyViewController.swift in Sources */,
 				CF9F94EE228A3C01002041CF /* RecentSearchCell.swift in Sources */,
 				CF6F58E2205EE68800ACBD32 /* ConversationVC.swift in Sources */,
 				846D9B502069E57300302773 /* TutorCollectionViewCell.swift in Sources */,
@@ -5844,7 +6564,9 @@
 				84052F0E206BCC03007B1248 /* LearnerCancelled.swift in Sources */,
 				847CF8E8202A7738003BB4FA /* UIScrollViewExtensions.swift in Sources */,
 				CF6F58CD205EE68800ACBD32 /* MeetupTimePicker.swift in Sources */,
+				56E669FC232C9EAF0051CC1F /* QTTutorDiscoverNewsDetailDescTableViewCell.swift in Sources */,
 				848809FD2057875700F204A0 /* TutorTipsVC.swift in Sources */,
+				4D8B6AD123423D4E00C105F0 /* QTLearnerDiscoverTutorCollectionViewCell.swift in Sources */,
 				4D68F79123200A6A00282920 /* QTSelectSubcategoriesViewController.swift in Sources */,
 				93F4F8D0227F4AD900809432 /* CollectionExtensions.swift in Sources */,
 				4DE366912239F06C00A94C37 /* QTProfileViewController.swift in Sources */,
@@ -5902,6 +6624,7 @@
 				CFD92A62222F24B200704531 /* UIView+Gradient.swift in Sources */,
 				5647A778222CB59000E8A26F /* QTSettingsViewController.swift in Sources */,
 				843BAC962143F51400449EE7 /* ReceiptCell.swift in Sources */,
+				565BBEC2231114E200986490 /* QTLearnerMainPageNavigationView.swift in Sources */,
 				843A1D192047C5BF00299D27 /* EditSchoolVC.swift in Sources */,
 				84E4C7EA204E97E5009C2FC4 /* Connections.swift in Sources */,
 				CFB6061B207FD6300029CFE4 /* DisconnectModal.swift in Sources */,
@@ -5909,16 +6632,20 @@
 				CFD92A6A222F24B200704531 /* InfoLabel.swift in Sources */,
 				CF177BCD208FB94B006DD50B /* EndSessionProfileBox.swift in Sources */,
 				CF7D8AB821995F8200463B0E /* ProfileToggleView.swift in Sources */,
+				56E669F5232C99B70051CC1F /* QTTutorDiscoverNewsDetailParallaxHeaderView.swift in Sources */,
 				56A8D0B22240A4AB00866AD7 /* QTStartSessionViewController.swift in Sources */,
 				84D55E9A204F638D00BB899C /* EditPhoneVerificationVC.swift in Sources */,
 				CF6F58D8205EE68800ACBD32 /* KeyboardAccessory.swift in Sources */,
+				4DE24D0123453D5400D23576 /* QTLearnerDiscoverSubcategoryViewController.swift in Sources */,
 				CFB1475321E807D200C49BA5 /* LearnerEditProfileVCView.swift in Sources */,
 				8426A16D2055C0D900EAF1A8 /* Interactables.swift in Sources */,
+				56E669E4232C6E240051CC1F /* QTTutorDiscoverTipsViewController.swift in Sources */,
 				84A090A9218624B100DBD48F /* AddTutorVCView.swift in Sources */,
 				84C255691FC2563A0012C0AA /* BirthdayVC.swift in Sources */,
 				84C4E93E206B61C2000C7A2F /* LearnerUnprofessional.swift in Sources */,
 				84BDE2B720AB1991003E66D5 /* LegalEntity.swift in Sources */,
 				CF833B7C207C4BB300323242 /* LearnerUpcomingSessionCell.swift in Sources */,
+				56E669F0232C97D50051CC1F /* QTTutorDiscoverNewsDetailViewController.swift in Sources */,
 				CFA4BB1020B76F18009BC28D /* DimmableButton.swift in Sources */,
 				4DF3427D23122364000C554D /* QTWriteRecommendationViewController.swift in Sources */,
 				84DAF6FC2044615A005687F6 /* SocialMedia.swift in Sources */,
@@ -5958,12 +6685,14 @@
 				CFB9B7EE21C23EBA0022333F /* TutorCardInfoView.swift in Sources */,
 				CF6F58E6205EE68800ACBD32 /* ZFUser.swift in Sources */,
 				CF7D8AAE2198ACBA00463B0E /* BaseSessionsVC.swift in Sources */,
+				4D8B6B0C234283A600C105F0 /* QTLearnerDiscoverRecentlyActiveViewController.swift in Sources */,
 				CFEF944120B35BA500413727 /* ConversationManager.swift in Sources */,
 				CFB1475921F3AA1600C49BA5 /* QuickSearchSectionHeader.swift in Sources */,
 				CFD92A6F222F4FEA00704531 /* CustomSearchBarContainer.swift in Sources */,
 				CF6F58D5205EE68800ACBD32 /* KeyboardActionView.swift in Sources */,
 				CF6F58C5205EE68800ACBD32 /* ContactCell.swift in Sources */,
 				84D433B3204EF2DB00A3EAD2 /* AlertController.swift in Sources */,
+				56952483231FA62D00251CFB /* QTTutorDiscoverOpportunitiesSectionCollectionViewCell.swift in Sources */,
 				CF0711052117AF640035A6FF /* ConversationCollectionView.swift in Sources */,
 				84E91B5C20573E5100D1F613 /* SessionDetailsVC.swift in Sources */,
 				569ECDB921F9C3BA005491CB /* QTTutorDashboardDurationView.swift in Sources */,
@@ -5971,6 +6700,7 @@
 				CF12D93B20642236004BE148 /* Session.swift in Sources */,
 				562B015D230A9652000146E9 /* QTLearnerAddInterestsViewController.swift in Sources */,
 				CF833B70207C4B1500323242 /* LearnerSessionsVC.swift in Sources */,
+				56952487231FA9ED00251CFB /* QTTutorDiscoverOpportunitiesViewController.swift in Sources */,
 				562B0157230A879C000146E9 /* QTLearnerAddInterestsView.swift in Sources */,
 				CF833B90207C949D00323242 /* RequestSessionButtonDelegate.swift in Sources */,
 				8491C29B1FBE62350036FC12 /* AppDelegate.swift in Sources */,
@@ -5985,11 +6715,14 @@
 				84F141A1207E490D003D3193 /* TutorPreferencesVC.swift in Sources */,
 				84F5774420C2B266008486AD /* UserSession.swift in Sources */,
 				84C96C0D1FCE34A900DBD3A6 /* EmailVC.swift in Sources */,
+				565C252423453A59009200B9 /* QTCategoryModel.swift in Sources */,
+				565BBEBF2310DAEF00986490 /* QTQuickRequestModel.swift in Sources */,
 				847463222068B97900B70AD9 /* TutorQTGuide.swift in Sources */,
 				CFB9B81221C627520022333F /* UserPolicyVCView.swift in Sources */,
 				CF833B7A207C4B9D00323242 /* BaseUpcomingSessionCell.swift in Sources */,
 				C41564BB234852D200C8DF01 /* QTProfileSheetContentViewCell.swift in Sources */,
 				8454890220D987D300932D8D /* AddTutorVC.swift in Sources */,
+				4D8B6AE223424CF900C105F0 /* QTLearnerDiscoverTutorsTableViewCell.swift in Sources */,
 				84D433B7204F409F00A3EAD2 /* UIApplicationExtenstions.swift in Sources */,
 				CFEF943B20B32B7C00413727 /* ConnectionCell.swift in Sources */,
 				CF17F230226EA4C400ABD07D /* VideoMessageCell.swift in Sources */,
@@ -6005,6 +6738,7 @@
 				CFA05792205FA21D000185B1 /* MessageSystemToggle.swift in Sources */,
 				4D7DD55122832FCC0027B687 /* UITabBarExtensions.swift in Sources */,
 				84E4C7E8204E9774009C2FC4 /* SearchTutorVC.swift in Sources */,
+				5695248D231FB0B600251CFB /* QTTutorDiscoverOpportunityCollectionViewCell.swift in Sources */,
 				CFB9B7D521C18AE60022333F /* SessionRequestTutorView.swift in Sources */,
 				8448C574204BC87100C3247D /* EditPhoneVC.swift in Sources */,
 				CF671AC8225D92FD00CF4F0A /* CategorySectionController.swift in Sources */,
@@ -6014,6 +6748,7 @@
 				CF833B81207C4C0100323242 /* BasePastSessionCell.swift in Sources */,
 				CF177BCB208FB8E0006DD50B /* RatingStarView.swift in Sources */,
 				CF6F58C1205EE68800ACBD32 /* ImageMessageCell.swift in Sources */,
+				562B0166230C3760000146E9 /* QTQuickRequestTypeViewController.swift in Sources */,
 				848E91FC20A60C13002D22AA /* CloseAccountSubmissionVC.swift in Sources */,
 				569ECDAD21F9AF92005491CB /* QTTutorDashboardHeaderView.swift in Sources */,
 				568B82DA222540AE004DF011 /* QTRatingReviewCollectionViewCell.swift in Sources */,
@@ -6036,7 +6771,9 @@
 				84C4E93D206B61C2000C7A2F /* LearnerRude.swift in Sources */,
 				848E87E22043DC75007935BE /* BaseScrollView.swift in Sources */,
 				CF6F58D3205EE68800ACBD32 /* NewMessageHeader.swift in Sources */,
+				56E669EA232C74CF0051CC1F /* QTTutorDiscoverTipCollectionViewCell.swift in Sources */,
 				84A7E5D01FCE4FDE002EABD5 /* Tutor.swift in Sources */,
+				4D8B6B202342BCB900C105F0 /* QTLearnerDiscoverTopTopicsTableViewCell.swift in Sources */,
 				848809F52057692600F204A0 /* TutorRudeVC.swift in Sources */,
 				84DA9F242019138100D53D78 /* NavbarButtons.swift in Sources */,
 				84880A042058643800F204A0 /* TutorOtherVC.swift in Sources */,
@@ -6045,10 +6782,12 @@
 				CF7D8AB221995EF400463B0E /* ProfileVC.swift in Sources */,
 				841C506E216ED4380035C6C9 /* EditBillingAddressView.swift in Sources */,
 				56BE7E7C22D067FB0052BBE7 /* QTTutorSearchTableViewCell.swift in Sources */,
+				565BBEDD23135D8800986490 /* QTLearnerSessionsService.swift in Sources */,
 				CF6F58CC205EE68800ACBD32 /* SessionRequestView.swift in Sources */,
 				CFB9B82B21C8CE4F0022333F /* WalkthroughVC.swift in Sources */,
 				CF671AD3225EA06800CF4F0A /* LearnerMainPageSuggestionsSectionContainerCell.swift in Sources */,
 				CF2D9774207A828F00914B27 /* AddTutorCell.swift in Sources */,
+				4DE24CEE23450D8400D23576 /* QTLearnerDiscoverCategoryViewController.swift in Sources */,
 				CFEF943F20B3583800413727 /* ImageMessageSender.swift in Sources */,
 				4D853D6E230A9BDA00DAC323 /* ChoosePaymentMethodViewController.swift in Sources */,
 				84C8F5E41FF8997400737A59 /* TextLabel.swift in Sources */,
@@ -6064,7 +6803,10 @@
 				CF6F58F3205EE6D100ACBD32 /* Extensions.swift in Sources */,
 				8449DDEA1FFDD40600FC38CB /* CALayerExtensions.swift in Sources */,
 				84D8C9302066E8CC003C3AEA /* QuickSearchVC.swift in Sources */,
+				56E66A08232CAD5B0051CC1F /* QTTutorDiscoverTipDetailViewController.swift in Sources */,
 				CF528CE2216489D600D81D03 /* AnalyticsService.swift in Sources */,
+				565BFAD2230CDEE40014AE20 /* QTQuickRequestAlertModal.swift in Sources */,
+				565BFAD9230D0F970014AE20 /* QTQuickRequestSubmitViewController.swift in Sources */,
 				CFB9B82221C8C5040022333F /* CustomSliderView.swift in Sources */,
 				56BE7E6422CFCF5B0052BBE7 /* QTEnumerations.swift in Sources */,
 				CF671AC2225D8C8B00CF4F0A /* FeaturedSectionController.swift in Sources */,
@@ -6088,16 +6830,20 @@
 				CF6F58DF205EE68800ACBD32 /* NewMessageVC.swift in Sources */,
 				84A6E474218F697400D03681 /* FeaturedTutorCount.swift in Sources */,
 				931C71EC227E4E1C003C86F8 /* PaymentCardTableViewCell.swift in Sources */,
+				56D206AA233EF1EA0078ACDC /* QTGlobalData.swift in Sources */,
 				8426A16B2055BC3200EAF1A8 /* Constants.swift in Sources */,
 				84052F16206BCCD7007B1248 /* TutorSessionDetails.swift in Sources */,
 				84052F10206BCC3D007B1248 /* LearnerHarassment.swift in Sources */,
 				CF833B83207C4C2600323242 /* LearnerPastSessionCell.swift in Sources */,
 				CF8578BE2060650F0089B6F0 /* EmptyMessagesBackground.swift in Sources */,
 				CF6202752287F76000B925B9 /* DatabaseCleaner.swift in Sources */,
+				5657BDAA231DEFAF00EBD94A /* QTTutorDiscoverViewController.swift in Sources */,
 				56BE7E5B22CFCC160052BBE7 /* QTConstants.swift in Sources */,
 				CFB9B82821C8C5890022333F /* TutorPreferencesNextButton.swift in Sources */,
 				CF6F58E5205EE68800ACBD32 /* UserMessage.swift in Sources */,
+				56E66A1E232CC80A0051CC1F /* QTTutorDiscoverShareViewController.swift in Sources */,
 				8404F43D20EBB3AE00747C01 /* CustomError.swift in Sources */,
+				561D33072329EF000022D0DC /* QTTutorDiscoverCategoryViewController.swift in Sources */,
 				CF6F58C3205EE68800ACBD32 /* BaseMessageCell.swift in Sources */,
 				CFB9B7D921C18B280022333F /* SessionRequestDurationView.swift in Sources */,
 				93179FA3228FC52100768BBB /* EmptySavedTutorsBackground.swift in Sources */,
@@ -6191,7 +6937,7 @@
 				CODE_SIGN_ENTITLEMENTS = "QuickTutor/New Group/QuickTutor.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QYG3ENEK3P;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -6208,7 +6954,7 @@
 				INFOPLIST_FILE = "QuickTutor/New Group/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 2.7.10;
+				MARKETING_VERSION = 2.8.0;
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" \"-D\" \"DEVELOPMENT\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.quicktutor1.quicktutor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -6232,7 +6978,7 @@
 				CODE_SIGN_ENTITLEMENTS = "QuickTutor/New Group/QuickTutor.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QYG3ENEK3P;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -6249,7 +6995,7 @@
 				INFOPLIST_FILE = "QuickTutor/New Group/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 2.7.10;
+				MARKETING_VERSION = 2.8.0;
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" \"-D\" \"DEVELOPMENT\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.quicktutor1.quicktutor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -6389,7 +7135,7 @@
 				CODE_SIGN_ENTITLEMENTS = "QuickTutor/New Group/QuickTutor.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = QYG3ENEK3P;
@@ -6417,7 +7163,7 @@
 				INFOPLIST_FILE = "QuickTutor/New Group/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 2.7.10;
+				MARKETING_VERSION = 2.8.0;
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.quicktutor1.quicktutor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -6441,7 +7187,7 @@
 				CODE_SIGN_ENTITLEMENTS = "QuickTutor/New Group/QuickTutor.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = QYG3ENEK3P;
@@ -6469,7 +7215,7 @@
 				INFOPLIST_FILE = "QuickTutor/New Group/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 2.7.10;
+				MARKETING_VERSION = 2.8.0;
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.quicktutor1.quicktutor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -6585,12 +7331,12 @@
 				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = QYG3ENEK3P;
 				INFOPLIST_FILE = NotificationService/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				MARKETING_VERSION = 2.7.10;
+				MARKETING_VERSION = 2.8.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.quicktutor1.quicktutor.NotificationService;
@@ -6610,12 +7356,12 @@
 				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = QYG3ENEK3P;
 				INFOPLIST_FILE = NotificationService/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				MARKETING_VERSION = 2.7.10;
+				MARKETING_VERSION = 2.8.0;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.quicktutor1.quicktutor.NotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";

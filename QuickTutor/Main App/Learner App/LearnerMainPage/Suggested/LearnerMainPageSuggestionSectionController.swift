@@ -16,8 +16,8 @@ class LearnerMainPageSuggestionController: UIViewController {
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 20
-        layout.minimumInteritemSpacing = 20
+        layout.minimumLineSpacing = 15
+        layout.minimumInteritemSpacing = 15
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
@@ -52,13 +52,25 @@ class LearnerMainPageSuggestionController: UIViewController {
     }
     
     func fetchTutors() {
-        TutorSearchService.shared.getRecommendedTutors { (tutors) in
+        TutorSearchService.shared.getNewRecommentedTutors { (tutors) in
             guard tutors.count > 0 else {
                 self.fetchDefaultTutors()
                 return
             }
+            
+            var uniqueTutors = [AWTutor]()
+            var addedTutors = [String]()
+            for tutor in tutors {
+                if addedTutors.contains(tutor.uid) {
+                    continue
+                }
+                
+                addedTutors.append(tutor.uid)
+                uniqueTutors.append(tutor)
+            }
+            
             self.view.hideSkeleton()
-            self.datasource.append(contentsOf: tutors)
+            self.datasource.append(contentsOf: uniqueTutors)
             self.collectionView.reloadData()
         }
     }
@@ -95,18 +107,9 @@ extension LearnerMainPageSuggestionController: SkeletonCollectionViewDataSource 
 
 extension LearnerMainPageSuggestionController: UICollectionViewDelegateFlowLayout {
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
-        let screen = UIScreen.main.bounds
-        return CGSize(width: (screen.width - 60) / 2, height: 225)
+        let width = (UIScreen.main.bounds.width - 50) / 2.5
+        return CGSize(width: width, height: 254)
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 20
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 20
-    }
-    
 }
 
 extension LearnerMainPageSuggestionController: UICollectionViewDelegate {

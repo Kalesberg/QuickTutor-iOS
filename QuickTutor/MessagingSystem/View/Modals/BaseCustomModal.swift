@@ -44,7 +44,7 @@ class BaseCustomModal: UIView {
     var backgroundHeightAnchor: NSLayoutConstraint?
 
     func setupViews() {
-        layer.zPosition = CGFloat(Float.greatestFiniteMagnitude)
+//        layer.zPosition = CGFloat(Float.greatestFiniteMagnitude)
         setupBackgroundBlurView()
         setupBackground()
         setupTitleLabel()

@@ -167,9 +167,18 @@ class ConnectionCell: UICollectionViewCell {
     }
         
     func setupMessageButton() {
-        stackView.addArrangedSubview(messageButton)
+        let messageButtonContainer = UIView(frame: .zero)
+        messageButtonContainer.backgroundColor = .clear
+        stackView.addArrangedSubview(messageButtonContainer)
+        messageButtonContainer.snp.makeConstraints { make in
+            make.height.equalTo(35)
+        }
+        messageButtonContainer.addSubview(messageButton)
         messageButton.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview()
             make.width.equalTo(35)
+            make.centerY.equalToSuperview()
             make.height.equalTo(35)
         }
         messageButton.addTarget(self, action: #selector(showConversation), for: .touchUpInside)
@@ -204,6 +213,11 @@ class ConnectionCell: UICollectionViewCell {
         } else if let awUser = user as? AWTutor {
             let subject = awUser.featuredSubject == "" ? awUser.subjects?.first : awUser.featuredSubject
             featuredSubject.text = subject
+            if let isConnected = awUser.isConnected, isConnected {
+                messageButton.setTitle("Message", for: .normal)
+            } else {
+                messageButton.setTitle("Connect", for: .normal)
+            }
         }
         messageButton.isHidden = false
         updateOnlineStatusIndicator()
@@ -233,7 +247,6 @@ class ConnectionCell: UICollectionViewCell {
             make.width.equalTo(70)
             make.height.equalTo(30)
         }
-        messageButton.setTitle("Message", for: .normal)
         messageButton.backgroundColor = Colors.purple
         messageButton.layer.cornerRadius = 4
         separatorLine.isHidden = true
@@ -261,6 +274,28 @@ class ConnectionCell: UICollectionViewCell {
         
         isSkeletonable = true
         setupViews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+class QTRecentlyActiveCollectionViewCell: ConnectionCell {
+    
+    override func setupProfileImageView() {
+        contentView.addSubview(profileImageView)
+        profileImageView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(5)
+            make.centerY.equalToSuperview()
+            make.left.equalToSuperview().offset(20)
+            make.height.equalTo(50)
+            make.width.equalTo(50)
+        }
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
     }
     
     required init?(coder aDecoder: NSCoder) {

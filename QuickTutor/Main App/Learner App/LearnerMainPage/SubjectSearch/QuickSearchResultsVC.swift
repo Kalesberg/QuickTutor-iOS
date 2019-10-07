@@ -379,6 +379,11 @@ class QuickSearchResultsCell: UICollectionViewCell {
     }
 }
 
+enum QTAddSubjectsResultsType {
+    case tutorSubjects
+    case learnerInterests
+    case learnerQuickRequestSubject
+}
 
 class TutorAddSubjectsResultsVC: UIViewController {
     
@@ -386,7 +391,7 @@ class TutorAddSubjectsResultsVC: UIViewController {
     var filteredSubjects = [String]()
     var inSearchMode = false
     var isBeingControlled = false
-    var isLearnerAddInterests = false
+    var addSubjectsResultsType: QTAddSubjectsResultsType = .tutorSubjects
     
     var unknownSubject: String? {
         didSet {
@@ -469,18 +474,20 @@ class TutorAddSubjectsResultsVC: UIViewController {
     }
     
     func setupObserers() {
-        if isLearnerAddInterests {
+        switch addSubjectsResultsType {
+        case .learnerInterests:
             NotificationCenter.default.addObserver(self, selector: #selector(showAlert), name: Notifications.learnerTooManyInterests.name, object: nil)
-        } else {
+        case .tutorSubjects:
             NotificationCenter.default.addObserver(self, selector: #selector(showAlert), name: NSNotification.Name(rawValue: "com.qt.tooManySubjects"), object: nil)
+        case .learnerQuickRequestSubject:
+            break
         }
     }
     
     @objc func showAlert() {
-        
         var title = "Too many topics"
         var message = "We currently only allow users to choose 20 topics"
-        if isLearnerAddInterests {
+        if addSubjectsResultsType == .learnerInterests {
             title = "Too many interests"
             message = "We currently only allow users to choose \(QTConstants.learnerMaxInterests) interests"
         }
@@ -524,12 +531,17 @@ extension TutorAddSubjectsResultsVC: UICollectionViewDataSource, UICollectionVie
         cell.imageView.image = Category.imageFor(category: category)
         cell.imageView.layer.borderColor = category.color.cgColor
                 
-        if isLearnerAddInterests {
+        switch addSubjectsResultsType {
+        case .learnerInterests:
             cell.selectionView.isHidden = !LearnerRegistrationService.shared.interests.contains(currentSubjects[indexPath.item])
             cell.titleLabel.textColor = LearnerRegistrationService.shared.interests.contains(currentSubjects[indexPath.item]) ? category.color : .white
-        } else {
+        case .tutorSubjects:
             cell.selectionView.isHidden = !TutorRegistrationService.shared.subjects.contains(currentSubjects[indexPath.item])
             cell.titleLabel.textColor = TutorRegistrationService.shared.subjects.contains(currentSubjects[indexPath.item]) ? category.color : .white
+        default:
+            cell.selectionView.isHidden = true
+            cell.titleLabel.textColor = .white
+
         }
         cell.selectionView.backgroundColor = category.color
         
@@ -543,18 +555,25 @@ extension TutorAddSubjectsResultsVC: UICollectionViewDataSource, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? TutorAddSubjectsResultsCell else { return }
         
-        if isLearnerAddInterests {
+        switch addSubjectsResultsType {
+        case .learnerInterests:
             if cell.selectionView.isHidden {
                 LearnerRegistrationService.shared.addInterest(currentSubjects[indexPath.item])
             } else {
                 LearnerRegistrationService.shared.removeInterest(currentSubjects[indexPath.item])
             }
-        } else {
+        case .tutorSubjects:
             if cell.selectionView.isHidden {
                 TutorRegistrationService.shared.addSubject(currentSubjects[indexPath.item])
             } else {
                 TutorRegistrationService.shared.removeSubject(currentSubjects[indexPath.item])
             }
+        case .learnerQuickRequestSubject:
+            cell.selectionView.isHidden = false
+            NotificationCenter.default.post(name: Notifications.learnerDidSelectQuickRequestSubject.name,
+                                            object: nil,
+                                            userInfo: ["quickRequestSubject": currentSubjects[indexPath.item]])
+            break
         }
         
         collectionView.reloadItems(at: [indexPath])

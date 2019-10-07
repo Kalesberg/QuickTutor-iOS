@@ -981,6 +981,8 @@ extension LearnerEditProfileVC: UITableViewDelegate, UITableViewDataSource {
         case 2:
             let vc = QTLearnerAddInterestsViewController()
             vc.isViewing = true
+            vc.isForQuickRequest = false
+            vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
         case 3:
             switch indexPath.item {

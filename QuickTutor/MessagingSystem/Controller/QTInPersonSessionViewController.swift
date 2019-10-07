@@ -92,7 +92,7 @@ class QTInPersonSessionViewController: QTSessionBaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        bottomSheetView.cornerRadius(corners: [.topLeft, .topRight], radius: 5)
+        bottomSheetView.cornerRadius([.topLeft, .topRight], radius: 5)
     }
     
     override func viewWillDisappear(_ animated: Bool) {

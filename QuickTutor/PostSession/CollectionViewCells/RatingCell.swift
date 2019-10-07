@@ -62,7 +62,7 @@ class RatingCell : BasePostSessionCell {
 	
 	override func layoutSubviews() {
 		super.layoutSubviews()
-		ratingView.roundCorners([.bottomLeft, .bottomRight], radius: 4)
+		ratingView.cornerRadius([.bottomLeft, .bottomRight], radius: 4)
 	}
 }
 

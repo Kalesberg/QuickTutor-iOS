@@ -21,12 +21,17 @@ class LearnerMainPageActiveTutorsSectionController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.isPagingEnabled = true
-        collectionView.register(ConnectionCell.self, forCellWithReuseIdentifier: ConnectionCell.reuseIdentifier)
+        collectionView.isPagingEnabled = false
+        collectionView.register(QTRecentlyActiveCollectionViewCell.self, forCellWithReuseIdentifier: QTRecentlyActiveCollectionViewCell.reuseIdentifier)
         collectionView.isSkeletonable = true
-        
+        collectionView.clipsToBounds = false
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 40)
         return collectionView
     }()
+    
+    var currentScrollOffset: CGPoint!
+    var itemWidth: CGFloat = 0
+    let cellSpacing: CGFloat = 20
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,10 +57,30 @@ class LearnerMainPageActiveTutorsSectionController: UIViewController {
     }
     
     func fetchTutors() {
-        TutorSearchService.shared.getCurrentlyOnlineTutors { (tutors) in
-            self.view.hideSkeleton()
-            self.datasource.append(contentsOf: tutors)
-            self.collectionView.reloadData()
+        TutorSearchService.shared.fetchRecentlyActiveTutors() { tutors in
+            
+            if tutors.isEmpty {
+                self.view.hideSkeleton()
+                self.datasource.append(contentsOf: tutors)
+                self.collectionView.reloadData()
+                return
+            }
+            
+            let group = DispatchGroup()
+            
+            tutors.forEach({ (tutor) in
+                group.enter()
+                ConnectionService.shared.getConnectionStatus(partnerId: tutor.uid, completion: { (connected) in
+                    tutor.isConnected = connected
+                    group.leave()
+                })
+            })
+            
+            group.notify(queue: DispatchQueue.main, execute: {
+                self.view.hideSkeleton()
+                self.datasource.append(contentsOf: tutors)
+                self.collectionView.reloadData()
+            })
         }
     }
 }
@@ -83,8 +108,8 @@ extension LearnerMainPageActiveTutorsSectionController: SkeletonCollectionViewDa
 
 extension LearnerMainPageActiveTutorsSectionController: UICollectionViewDelegateFlowLayout {
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
-        let screen = UIScreen.main.bounds
-        return CGSize(width: screen.width, height: 60)
+        itemWidth = UIScreen.main.bounds.width - 2 * cellSpacing
+        return CGSize(width: itemWidth, height: 60)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -112,5 +137,24 @@ extension LearnerMainPageActiveTutorsSectionController: UICollectionViewDelegate
             
             NotificationCenter.default.post(name: NotificationNames.LearnerMainFeed.activeTutorCellTapped, object: nil, userInfo: ["uid": uid])
         }
+    }
+}
+
+extension LearnerMainPageActiveTutorsSectionController: UIScrollViewDelegate {
+    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        currentScrollOffset = scrollView.contentOffset
+    }
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        let target = targetContentOffset.pointee
+        //Current scroll distance is the distance between where the user tapped and the destination for the scrolling (If the velocity is high, this might be of big magnitude)
+        let currentScrollDistance = target.x - currentScrollOffset.x
+        //Make the value an integer between -1 and 1 (Because we don't want to scroll more than one item at a time)
+        let coefficent = Int(max(-1, min(currentScrollDistance / 1, 1)))
+        let currentIndex = Int(round(currentScrollOffset.x / itemWidth))
+        let adjacentItemIndex = currentIndex + coefficent
+        let adjacentItemIndexFloat = CGFloat(adjacentItemIndex)
+        let adjacentItemOffsetX = adjacentItemIndexFloat * itemWidth
+        targetContentOffset.pointee = CGPoint(x: adjacentItemOffsetX, y: target.y)
     }
 }

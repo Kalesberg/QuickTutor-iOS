@@ -16,3 +16,16 @@ enum QTRecentSearchType: Int {
     case subject = 1
     case people = 2
 }
+
+enum QTSessionStatusType: String {
+    case accepted = "accepted"
+    case declined = "declined"
+    case cancelled = "cancelled"
+    case pending = "pending"
+    case completed = "completed"
+}
+
+enum QTNewsType: String {
+    case news = "news"
+    case tip = "tip"
+}

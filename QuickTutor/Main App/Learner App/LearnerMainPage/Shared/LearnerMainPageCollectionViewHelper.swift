@@ -10,6 +10,9 @@ import UIKit
 
 class LearnerMainPageCollectionViewHelper: NSObject, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
+    var hasPastSessions = true
+    var hasUpcomingSessions = true
+    
     var handleScrollViewScroll: ((CGFloat) -> ())?
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -17,25 +20,30 @@ class LearnerMainPageCollectionViewHelper: NSObject, UICollectionViewDelegate, U
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 5
+        return 7
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch indexPath.section {
         case 0:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredCell", for: indexPath) as! LearnerMainPageFeaturedSectionContainerCell
-            cell.updateData()
-            return cell
-        case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryCell", for: indexPath) as! LearnerMainPageCategorySectionContainerCell
             return cell
+        case 1:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: QTLearnerMainPageQuickActionSectionContainerCell.reuseIdentifier, for: indexPath) as! QTLearnerMainPageQuickActionSectionContainerCell
+            return cell
         case 2:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "topTutors", for: indexPath) as! LearnerMainPageTopTutorsSectionContainerCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: QTLearnerMainPagePastTransactionContainerCell.reuseIdentifier, for: indexPath) as! QTLearnerMainPagePastTransactionContainerCell
             return cell
         case 3:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "suggestionCell", for: indexPath) as! LearnerMainPageSuggestionSectionContainerCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: QTLearnerMainPageUpcomingSessionContainerCell.reuseIdentifier, for: indexPath)
             return cell
         case 4:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "topTutors", for: indexPath) as! LearnerMainPageTopTutorsSectionContainerCell
+            return cell
+        case 5:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "suggestionCell", for: indexPath) as! LearnerMainPageSuggestionSectionContainerCell
+            return cell
+        case 6:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "activeCell", for: indexPath) as! LearnerMainPageActiveTutorsSectionContainerCell
             return cell
         default:
@@ -46,16 +54,29 @@ class LearnerMainPageCollectionViewHelper: NSObject, UICollectionViewDelegate, U
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var height: CGFloat = 0
+        let width = UIScreen.main.bounds.width
         switch indexPath.section {
         case 0:
-            height = 290
+            height = ((width - 50) / 2.5) * 18 / 13 + 58
         case 1:
-            height = 230
+            height = 108
         case 2:
-            height = 585
+            if hasPastSessions {
+                height = 234
+            } else {
+                height = CGFloat.leastNonzeroMagnitude
+            }
         case 3:
-            height = 275
+            if hasUpcomingSessions {
+                height = 234
+            } else {
+                height = CGFloat.leastNonzeroMagnitude
+            }
         case 4:
+            height = 642
+        case 5:
+            height = 298
+        case 6:
             height = 230
         default:
             break
@@ -65,14 +86,17 @@ class LearnerMainPageCollectionViewHelper: NSObject, UICollectionViewDelegate, U
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         
-        var topPadding: CGFloat = 0
+        var topPadding = CGFloat.leastNonzeroMagnitude
         if 0 == section {
-            topPadding = 10
-        } else if 1 == section {
             topPadding = 20
+        } else if section == 2 {
+            topPadding = hasPastSessions ? 40 : CGFloat.leastNonzeroMagnitude
+        } else if section == 3 {
+            topPadding = hasUpcomingSessions ? 40 : CGFloat.leastNonzeroMagnitude
         } else {
             topPadding = 40
         }
+        
         return UIEdgeInsets(top: topPadding, left: 0, bottom: 0, right: 0)
     }
     

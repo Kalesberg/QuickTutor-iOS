@@ -149,7 +149,7 @@ class QTProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         initData()
-        
+    
         navigationController?.setNavigationBarHidden(false, animated: true)
         
         if #available(iOS 11.0, *) {
@@ -363,7 +363,7 @@ class QTProfileViewController: UIViewController {
             }
             
             
-            DynamicLinkFactory.shared.createLink(userId: id, username: username, subject: subject, profilePreviewUrl: url) { shareUrl in
+            DynamicLinkFactory.shared.createLink(userId: id, userName: username, subject: subject, profilePreviewUrl: url) { shareUrl in
                 guard let shareUrlString = shareUrl?.absoluteString else {
                     DispatchQueue.main.async {
                         self.dismissOverlay()
@@ -1147,7 +1147,7 @@ class QTProfileViewController: UIViewController {
                                           left: self.view.leftAnchor,
                                           bottom: nil,
                                           right: self.view.rightAnchor,
-                                          paddingTop: 0,
+                                          paddingTop: -1000,
                                           paddingLeft: 0,
                                           paddingBottom: 0,
                                           paddingRight: 0,

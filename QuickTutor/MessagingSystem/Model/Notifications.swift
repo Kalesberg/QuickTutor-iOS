@@ -24,7 +24,7 @@ struct Notifications {
     static let learnerDidAddInterest = Notification(name: Notification.Name("com.quickTutor.learnerDidAddInterest"))
     static let learnerDidRemoveInterest = Notification(name: Notification.Name("com.quickTutor.learnerDidRemoveInterest"))
     static let learnerTooManyInterests = Notification(name: Notification.Name("com.quickTutor.learnerTooManyInterests"))
-    
+    static let learnerDidSelectQuickRequestSubject = Notification(name: Notification.Name("com.quickTutor.learnerDidSelectQuickRequestSubject"))
     static let didUpatePaymentCustomer = Notification(name: Notification.Name("com.quickTutor.didUpatePaymentCustomer"))
 }
 
@@ -39,6 +39,10 @@ struct NotificationNames {
         static let activeTutorMessageButtonTapped = Notification.Name("com.quickTutor.activeTutorMessageButtonTapped")
         static let searchesLoaded = Notification.Name("com.quickTutor.searchesLoaded")
         static let recentSearchCellTapped = Notification.Name("com.quickTutor.recentSearchCellTapped")
+        static let quickRequestCellTapped = Notification.Name("com.quickTutor.quickRequestCellTapped")
+        static let reloadSessions = Notification.Name("com.quickTutor.reloadSessions")
+        static let requestSession = Notification.Name("com.quickTutor.requestSession")
+        static let quickSearchTapped = Notification.Name("com.quickTutor.LearnerMainFeed.quickSearchTapped")
     }
     struct QuickSearch {
         static let updatedFilters = Notification.Name("com.quickTutor.updatedFilters")
@@ -51,6 +55,23 @@ struct NotificationNames {
     struct Documents {
         static let didStartUpload = Notification.Name(rawValue: "com.qt.documentUploadStarted")
         static let didFinishUpload = Notification.Name(rawValue: "com.qt.documentUploadFinished")
+    }
+    
+    struct TutorDiscoverPage {
+        static let newsItemTapped = Notification.Name("com.quickTutor.TutorDiscoverPage.newsItemTapped")
+        static let applyToOpportunity = Notification.Name("com.quickTutor.TutorDiscoverPage.applyToOpportunity")
+        static let tutorCategoryTapped = Notification.Name("com.quickTutor.TutorDiscoverPage.tutorCategoryTapped")
+        static let tipTapped = Notification.Name("com.quickTutor.TutorDiscoverPage.tipTapped")
+        static let tutorShareUrlCopied = Notification.Name("com.quickTutor.TutorDiscoverPage.tutorShareUrlCopied")
+        static let tutorShareProfileTapped = Notification.Name("com.quickTutor.TutorDiscoverPage.tutorShareProfileTapped")
+        
+        static let reloadOpportinity = Notification.Name("com.quickTutor.TutorDiscoverPage.reloadOpportinity")
+        static let opportunityExistenceStatus = Notification.Name("com.quickTutor.TutorDiscoverPage.opportunityExistenceStatus")
+        static let quickRequestAdded = Notification.Name("com.quickTutor.TutorDiscoverPage.quickRequestAdded")
+        static let quickRequestRemoved = Notification.Name("com.quickTutor.TutorDiscoverPage.quickRequestRemoved")
+        static let noQuickRequest = Notification.Name("com.quickTutor.TutorDiscoverPage.noQuickRequest")
+        static let appliedToOpportunity = Notification.Name("com.quickTutor.TutorDiscoverPage.appliedToOpportunity")
+        static let refreshDiscoverPage = Notification.Name("com.quickTutor.TutorDiscoverPage.refreshDiscoverPage")
     }
 }
 

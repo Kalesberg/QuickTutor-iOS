@@ -166,7 +166,7 @@ class QTVideoSessionViewController: QTSessionBaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        bottomSheetView.cornerRadius(corners: [UIRectCorner.topLeft, UIRectCorner.topRight], radius: 5.0)
+        bottomSheetView.cornerRadius([UIRectCorner.topLeft, UIRectCorner.topRight], radius: 5.0)
     }
     
     override func viewWillDisappear(_ animated: Bool) {

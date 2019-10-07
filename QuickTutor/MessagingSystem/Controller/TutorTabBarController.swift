@@ -55,6 +55,12 @@ class TutorTabBarController: BaseTabBarController {
         home.tabBarItem = ESTabBarItem(QTTabBarItemContentView(), image: UIImage(named: "dashboardTabIcon"), selectedImage: UIImage(named: "dashboardTabIcon"))
         home.navigationBar.barTintColor = Colors.newNavigationBarBackground
         home.navigationBar.backgroundColor = Colors.newNavigationBarBackground
+        
+        let discover = UINavigationController(rootViewController: QTTutorDiscoverViewController())
+        discover.tabBarItem = ESTabBarItem(QTTabBarItemContentView(), image: UIImage(named: "discoverTabIcon"), selectedImage: UIImage(named: "discoverTabIcon"))
+        discover.navigationBar.barTintColor = Colors.newNavigationBarBackground
+        discover.navigationBar.backgroundColor = Colors.newNavigationBarBackground
+        
         let sessions = UINavigationController(rootViewController: TutorSessionsVC())
         sessions.tabBarItem = ESTabBarItem(QTTabBarItemContentView(), image: UIImage(named: "sessionsTabBarIcon"), selectedImage: UIImage(named: "sessionsTabBarIcon"))
         let messages = UINavigationController(rootViewController: MessagesVC())
@@ -63,7 +69,7 @@ class TutorTabBarController: BaseTabBarController {
         messages.navigationBar.backgroundColor = Colors.newNavigationBarBackground
         let profile = UINavigationController(rootViewController: ProfileVC())
         profile.tabBarItem = ESTabBarItem(QTTabBarItemContentView(), image: UIImage(named: "profileTabBarIcon"), selectedImage: UIImage(named: "profileTabBarIcon"))
-        let controllers = [home, sessions, messages, profile]
+        let controllers = [home, discover, sessions, messages, profile]
         
         for vc in controllers {
             vc.navigationBar.barTintColor = Colors.newNavigationBarBackground

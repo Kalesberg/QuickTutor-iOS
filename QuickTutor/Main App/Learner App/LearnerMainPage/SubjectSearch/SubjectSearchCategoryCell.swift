@@ -77,7 +77,7 @@ class SubjectSearchCategoryCell: UITableViewCell {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        container.roundCorners([.topRight, .bottomRight], radius: 4)
+        container.cornerRadius([.topRight, .bottomRight], radius: 4)
     }
 
     required init?(coder aDecoder: NSCoder) {

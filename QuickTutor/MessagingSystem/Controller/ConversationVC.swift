@@ -1165,7 +1165,7 @@ extension ConversationVC: KeyboardAccessoryViewDelegate {
                 return
             }
             
-            DynamicLinkFactory.shared.createLink(userId: self.receiverId, username: username, subject: subject, profilePreviewUrl: url) { shareUrl in
+            DynamicLinkFactory.shared.createLink(userId: self.receiverId, userName: username, subject: subject, profilePreviewUrl: url) { shareUrl in
                 guard let shareUrlString = shareUrl?.absoluteString else {
                     DispatchQueue.main.async {
                         self.dismissOverlay()

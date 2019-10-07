@@ -32,6 +32,7 @@ class SessionRequestDateView: BaseSessionRequestViewSection {
     
     override func setupViews() {
         super.setupViews()
+        
         setupDatePicker()
         titleLabel.text = "What time would you like to start?"
     }
@@ -45,5 +46,17 @@ class SessionRequestDateView: BaseSessionRequestViewSection {
     
     @objc func dateChanged(_ sender: UIDatePicker) {
         delegate?.sessionRequestDateView(self, didSelect: sender.date)
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
+    
+    required override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
 }

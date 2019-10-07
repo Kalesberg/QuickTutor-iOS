@@ -116,3 +116,19 @@ class CardService {
         }
     }
 }
+
+class ConnectionService {
+    static let shared = ConnectionService()
+    
+    func getConnectionStatus(partnerId: String, completion: (@escaping (Bool) -> Void)) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let userTypeString = AccountService.shared.currentUserType.rawValue
+        Database.database().reference().child("connections").child(uid).child(userTypeString).child(partnerId).observeSingleEvent(of: .value) { snapshot in
+            if let _ = snapshot.value as? Int {
+                completion(true)
+                return
+            }
+            completion(false)
+        }
+    }
+}

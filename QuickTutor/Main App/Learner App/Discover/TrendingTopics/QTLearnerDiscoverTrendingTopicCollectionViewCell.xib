@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Lato-Medium.ttf">
+            <string>Lato-Medium</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="QTLearnerDiscoverTrendingTopicCollectionViewCell" customModule="QuickTutor" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="199" height="50"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="199" height="50"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eER-ur-0E9">
+                        <rect key="frame" x="0.0" y="0.0" width="197" height="48"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jp5-4c-sOK" customClass="QTCustomView" customModule="QuickTutor" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="197" height="48"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="11d-DE-9rM">
+                                        <rect key="frame" x="84.5" y="17" width="28.5" height="14.5"/>
+                                        <fontDescription key="fontDescription" name="Lato-Medium" family="Lato" pointSize="12"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.22745098039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="11d-DE-9rM" firstAttribute="centerY" secondItem="jp5-4c-sOK" secondAttribute="centerY" id="DjU-1y-9oZ"/>
+                                    <constraint firstItem="11d-DE-9rM" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="jp5-4c-sOK" secondAttribute="leading" constant="8" id="Emf-7N-jK5"/>
+                                    <constraint firstItem="11d-DE-9rM" firstAttribute="centerX" secondItem="jp5-4c-sOK" secondAttribute="centerX" id="OZE-lj-VpL"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="jp5-4c-sOK" firstAttribute="top" secondItem="eER-ur-0E9" secondAttribute="top" id="2IB-rs-53x"/>
+                            <constraint firstAttribute="trailing" secondItem="jp5-4c-sOK" secondAttribute="trailing" id="6pX-AY-C4v"/>
+                            <constraint firstItem="jp5-4c-sOK" firstAttribute="leading" secondItem="eER-ur-0E9" secondAttribute="leading" id="7ii-JE-dr8"/>
+                            <constraint firstAttribute="bottom" secondItem="jp5-4c-sOK" secondAttribute="bottom" id="Rm8-HC-yqa"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="eER-ur-0E9" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="DiE-mM-hIs"/>
+                <constraint firstAttribute="trailing" secondItem="eER-ur-0E9" secondAttribute="trailing" constant="2" id="W1v-ag-Z5Z"/>
+                <constraint firstItem="eER-ur-0E9" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="eaZ-4T-mwb"/>
+                <constraint firstAttribute="bottom" secondItem="eER-ur-0E9" secondAttribute="bottom" constant="2" id="uFs-PB-yrF"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <size key="customSize" width="199" height="50"/>
+            <connections>
+                <outlet property="containerView" destination="jp5-4c-sOK" id="DJk-ey-h2P"/>
+                <outlet property="lblTopic" destination="11d-DE-9rM" id="4zR-nc-727"/>
+            </connections>
+            <point key="canvasLocation" x="3.6231884057971016" y="138.61607142857142"/>
+        </collectionViewCell>
+    </objects>
+</document>

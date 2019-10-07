@@ -61,6 +61,7 @@ class SessionRequestDurationView: BaseSessionRequestViewSection {
     
     override func setupViews() {
         super.setupViews()
+        
         setupCollectionView()
         setupSelectionView()
         setupSelectionLabel()
@@ -84,6 +85,38 @@ class SessionRequestDurationView: BaseSessionRequestViewSection {
     func setupSelectionLabel() {
         addSubview(selectionLabel)
         selectionLabel.anchor(top: selectionView.bottomAnchor, left: selectionView.leftAnchor, bottom: nil, right: selectionView.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 14)
+    }
+    
+    func setDuration(duration: Int, animated: Bool = true) {
+        var incrementIndex = 6
+        for (index, increment) in timeIncrements.enumerated() {
+            if let item = increment as? Int {
+                if item == duration {
+                    incrementIndex = index
+                    break
+                }
+            }
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.25) {
+            if self.collectionView.cellForItem(at: IndexPath(item: incrementIndex, section: 0)) != nil {
+                self.collectionView.scrollToItem(at: IndexPath(item: incrementIndex, section: 0),
+                                            at: .centeredHorizontally,
+                                            animated: animated)
+            }
+        }
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
+    
+    required override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
 }
 

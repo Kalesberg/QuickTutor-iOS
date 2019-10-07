@@ -171,7 +171,7 @@ class FeaturedTutorView: UIView {
     }
 	override func layoutSubviews() {
 		super.layoutSubviews()
-		imageView.roundCorners([.topRight, .topLeft], radius: 6)
+		imageView.cornerRadius([.topRight, .topLeft], radius: 6)
 	}
 }
 
@@ -233,7 +233,7 @@ let categoryIcons = [UIImage(named: "academicsIcon"), UIImage(named: "businessIc
 enum Category {
     
     case academics, arts, auto, business, lifestyle, health, language, outdoors, remedial, sports, tech, trades
-    static let categories: [Category] = [.academics, .business, .lifestyle, .language,  .arts,  .sports, .health, .tech, .outdoors, .auto, .trades, .remedial]
+    static var categories: [Category] = [.academics, .business, .lifestyle, .language,  .arts,  .sports, .health, .tech, .outdoors, .auto, .trades, .remedial]
     
     var color: UIColor {
         switch self {
@@ -397,72 +397,60 @@ enum Category {
     var mainPageData: MainPageData {
         
         let displayName: String
-        let image: UIImage
         let categoryInfo: String
-        let suggestedPrices: [Int]
+        let name: String
         
         switch self {
-        case .academics: displayName = "Academics"
-            image = #imageLiteral(resourceName: "academics")
-            categoryInfo = "The classics. Whether you’re a master of mechanical engineering or a math wiz — we have a topic you can tutor. These are the core topics that have been around since the beginning of time."
-            suggestedPrices = [12, 40, 100]
-            
-        case .arts: displayName = "The Arts"
-            image = #imageLiteral(resourceName: "arts")
+        case .academics:
+            displayName = "Academics"
+            name = "academics"
+            categoryInfo = "The classics. Whether you’re a master of mechanical engineering or a math wiz — we have a subject you can tutor. These are the core subjects that have been around since the beginning of time."
+        case .arts:
+            displayName = "The Arts"
+            name = "arts"
             categoryInfo = "Does the renaissance sing out of your soul? Whether you're a dancer, singer or poet — you now have the ability to tutor others in poetry, drama, painting or phantom of the opera — this is where we get the creative juices flowin’."
-            suggestedPrices = [10, 32, 65]
-            
-        case .auto: displayName = "Auto"
-            image = #imageLiteral(resourceName: "auto")
+        case .auto:
+            displayName = "Auto"
+            name = "auto"
             categoryInfo = "Interested in teaching others a thing or two about being a gear-head? Are you a skilled repairman or designer? In this category, you’ll be able to teach others anything about auto!"
-            suggestedPrices = [12, 20, 45]
-            
-        case .business: displayName = "Business"
-            image = #imageLiteral(resourceName: "business")
+        case .business:
+            displayName = "Business"
+            name = "business"
             categoryInfo = "Are you an entrepreneur, lawyer, accountant, marketer, or economist? Maybe the neighborhood excel expert? Let's talk business. "
-            suggestedPrices = [16, 50, 100]
-            
-        case .lifestyle: displayName = "Lifestyle"
-            image = #imageLiteral(resourceName: "experiences")
+        case .lifestyle:
+            displayName = "Lifestyle"
+            name = "lifestyle"
             categoryInfo = "The smell of baked lasagna coming out of the oven, the feel of clay between one’s fingers — music, yoga, travel, arts & crafts, and motivation are all found here. Lifestyle is where all can tutor the things that warm our hearts and drive our souls."
-            suggestedPrices = [12, 25, 50]
-            
-        case .health: displayName = "Health"
-            image = #imageLiteral(resourceName: "health")
-            categoryInfo = "Ever been told you’re a health nut? Well, whether you’re a doctor, dentist, gym-rat, nutritionist, or fitness model — you can tutor any topic in our health category."
-            suggestedPrices = [18, 45, 90]
-            
-        case .language: displayName = "Language"
-            image = #imageLiteral(resourceName: "languages")
+        case .health:
+            displayName = "Health"
+            name = "health"
+            categoryInfo = "Ever been told you’re a health nut? Well, whether you’re a doctor, dentist, gym-rat, nutritionist, or fitness model — you can tutor any subject in our health category."
+        case .language:
+            displayName = "Language"
+            name = "language"
             categoryInfo = "Run a tutoring business teaching others your native language or even a language you’ve adopted! Nearly every language in existence — available to tutor with just the tap of a button."
-            suggestedPrices = [12, 20, 26]
-            
-        case .outdoors: displayName = "Outdoors"
-            image = #imageLiteral(resourceName: "outdoors")
+        case .outdoors:
+            displayName = "Outdoors"
+            name = "outdoors"
             categoryInfo = "Tutors, it’s time to take your learners outside of the classroom and office. Are you a survivalist? Expert in your neck of the woods? Dad of the year? If so, this is the category for you. "
-            suggestedPrices = [7, 22, 45]
-            
-        case .remedial: displayName = "Remedial"
-            image = #imageLiteral(resourceName: "remedial")
+        case .remedial:
+            displayName = "Remedial"
+            name = "remedial"
             categoryInfo = "QuickTutor is a learning and teaching community built for everyone. Remedial is provided and intended for people who experience learning difficulties, or who would like to teach others about special education."
-            suggestedPrices = [16, 28, 65]
-            
-        case .sports: displayName = "Sports & Games"
-            image = #imageLiteral(resourceName: "sports")
+        case .sports:
+            displayName = "Sports & Games"
+            name = "sports"
             categoryInfo = "Snowboarding, video games, chess, fantasy sports, or skydiving — The Sports & Games category is where competitive adrenaline junkies and gamers thrive. Tutor anything."
-            suggestedPrices = [8, 19, 40]
-            
-        case .tech: displayName = "Technology"
-            image = #imageLiteral(resourceName: "tech")
+        case .tech:
+            displayName = "Technology"
+            name = "tech"
             categoryInfo = "Programmers, engineers, gamers, and the creators of the future, come all — here’s where you can share your passion and knowledge with those in need. "
-            suggestedPrices = [15, 45, 90]
-            
-        case .trades: displayName = "Trades"
-            image = #imageLiteral(resourceName: "trades")
+        case .trades:
+            displayName = "Trades"
+            name = "trades"
             categoryInfo = "Time to become a hands-on tutor in construction, industrial, motive-power, services, home, or anything! Turn your everyday skills into a tutoring business."
-            suggestedPrices = [15, 20, 40]
         }
-        return MainPageData(displayName: displayName, image: image, categoryInfo: categoryInfo, suggestedPrices: suggestedPrices)
+        return MainPageData(displayName: displayName, categoryInfo: categoryInfo, name: name)
     }
 	
 	static func category(for string: String) -> Category? {
@@ -506,9 +494,8 @@ extension Category {
     
     struct MainPageData {
         let displayName: String
-        let image: UIImage
         let categoryInfo: String
-        let suggestedPrices: [Int]
+        let name: String
     }
     
     struct Subcategory {
