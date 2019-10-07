@@ -51,7 +51,7 @@ extension QTLearnerDiscoverCategoriesTableViewCell: UICollectionViewDataSource {
 extension QTLearnerDiscoverCategoriesTableViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
         let width = ceil((UIScreen.main.bounds.width - 50) / 2.5)
-        return CGSize(width: width, height: 180)
+        return CGSize(width: width, height: width * 18 / 13 + 8)
     }
 }
 
