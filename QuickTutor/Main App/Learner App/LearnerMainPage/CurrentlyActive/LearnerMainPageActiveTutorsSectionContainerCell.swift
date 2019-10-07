@@ -19,7 +19,7 @@ class LearnerMainPageActiveTutorsSectionContainerCell: UICollectionViewCell {
         return label
     }()
     
-    let topTutorsController = LearnerMainPageActiveTutorsSectionController()
+    let topTutorsController = QTLearnerDiscoverRecentlyActiveViewController(nibName: String(describing: QTLearnerDiscoverRecentlyActiveViewController.self), bundle: nil)
     
     func setupViews() {
         setupMainView()
@@ -38,7 +38,10 @@ class LearnerMainPageActiveTutorsSectionContainerCell: UICollectionViewCell {
     
     func setupCollectionViewController() {
         addSubview(topTutorsController.view)
-        topTutorsController.view.anchor(top: titleLabel.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        QTLearnerDiscoverService.shared.category = nil
+        QTLearnerDiscoverService.shared.subcategory = nil
+        
+        topTutorsController.view.anchor(top: titleLabel.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
     
     override init(frame: CGRect) {

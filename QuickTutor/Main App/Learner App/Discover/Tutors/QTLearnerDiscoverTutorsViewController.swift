@@ -31,14 +31,10 @@ class QTLearnerDiscoverTutorsViewController: UIViewController {
         // Do any additional setup after loading the view.
         collectionView.register(QTLearnerDiscoverTutorCollectionViewCell.nib, forCellWithReuseIdentifier: QTLearnerDiscoverTutorCollectionViewCell.reuseIdentifier)
         
-        if isRisingTalent {
-            lblFooterTitle.showAnimatedSkeleton(usingColor: Colors.gray)
-            collectionView.prepareSkeleton { _ in
-                self.collectionView.isUserInteractionEnabled = false
-                self.collectionView.showAnimatedSkeleton(usingColor: Colors.gray)
-                self.getTutors()
-            }
-        } else {
+        lblFooterTitle.showAnimatedSkeleton(usingColor: Colors.gray)
+        collectionView.prepareSkeleton { _ in
+            self.collectionView.isUserInteractionEnabled = false
+            self.collectionView.showAnimatedSkeleton(usingColor: Colors.gray)
             self.getTutors()
         }
         
@@ -65,6 +61,13 @@ class QTLearnerDiscoverTutorsViewController: UIViewController {
         } else if let subcategory = subcategory {
             if let section = QTLearnerDiscoverService.shared.sectionTutors.first(where: { .subcategory == $0.type && subcategory == $0.key }),
                 let tutors = section.tutors, let totalTutorIds = section.totalTutorIds {
+                if self.lblFooterTitle.isSkeletonActive {
+                    self.lblFooterTitle.hideSkeleton()
+                }
+                if collectionView.isSkeletonActive {
+                    collectionView.isUserInteractionEnabled = true
+                    collectionView.hideSkeleton()
+                }
                 if let topTutorsLimit = QTLearnerDiscoverService.shared.topTutorsLimit,
                     topTutorsLimit < totalTutorIds.count {
                     self.lblFooterTitle.text = "\(topTutorsLimit) people in the list"
@@ -83,6 +86,13 @@ class QTLearnerDiscoverTutorsViewController: UIViewController {
         } else if let category = category {
             if let section = QTLearnerDiscoverService.shared.sectionTutors.first(where: { .category == $0.type && category.mainPageData.name == $0.key }),
                 let tutors = section.tutors, let totalTutorIds = section.totalTutorIds {
+                if self.lblFooterTitle.isSkeletonActive {
+                    self.lblFooterTitle.hideSkeleton()
+                }
+                if collectionView.isSkeletonActive {
+                    collectionView.isUserInteractionEnabled = true
+                    collectionView.hideSkeleton()
+                }
                 if let topTutorsLimit = QTLearnerDiscoverService.shared.topTutorsLimit,
                     topTutorsLimit < totalTutorIds.count {
                     self.lblFooterTitle.text = "\(topTutorsLimit) people in the list"
@@ -134,7 +144,7 @@ class QTLearnerDiscoverTutorsViewController: UIViewController {
     }
     
     @IBAction func onClickBtnViewAll(_ sender: Any) {
-        didClickViewAllTutors?(nil, nil, category?.mainPageData.name, aryTutors, loadedAllTutors)
+        didClickViewAllTutors?(nil, subcategory, category?.mainPageData.name, aryTutors, loadedAllTutors)
     }
 }
 

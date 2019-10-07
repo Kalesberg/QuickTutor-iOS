@@ -21,6 +21,7 @@ class QTLearnerDiscoverCategoryViewController: UIViewController {
     
     private var aryTrendingTopics: [String] = []
     private var arySubcategories: [String] = []
+    private var shouldHideRecentlyActive = false
     
     private let refreshCtrl = UIRefreshControl()
     
@@ -37,9 +38,7 @@ class QTLearnerDiscoverCategoryViewController: UIViewController {
         
         // Do any additional setup after loading the view.
         
-        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 500
-        
         tableView.estimatedSectionHeaderHeight = 100
         
         tableView.register(QTLearnerDiscoverTopTopicsTableViewCell.nib, forCellReuseIdentifier: "QTLearnerDiscoverTopSubcategoriesTableViewCell")
@@ -66,6 +65,8 @@ class QTLearnerDiscoverCategoryViewController: UIViewController {
         constraintTitleViewTop.constant = UIApplication.shared.statusBarFrame.height + 8
         
         setupParallaxHeader()
+        
+        getTopExperts()
         getTrendingTopics()
     }
     
@@ -96,6 +97,54 @@ class QTLearnerDiscoverCategoryViewController: UIViewController {
         let imageHeight: CGFloat = 380
         let alpha = (min(0, tableView.contentOffset.y) + imageHeight) / imageHeight
         viewNavigationBar.backgroundColor = Colors.newNavigationBarBackground.withAlphaComponent(alpha)
+    }
+    
+    private func getTopExperts() {
+        if QTLearnerDiscoverService.shared.sectionTutors.contains(where: { .category == $0.type && category.mainPageData.name == $0.key }) { return }
+        
+        TutorSearchService.shared.getTutorIdsByCategory(category.mainPageData.name) { tutorIds in
+            TutorSearchService.shared.getTutorsByCategory(self.category.mainPageData.name, lastKnownKey: nil, queue: .global(qos: .userInitiated)) { tutors, loadedAllTutors  in
+                
+                let aryTutors = tutors?.sorted() { tutor1, tutor2 in
+                    let categoryReviews1 = tutor1.categoryReviews(self.category.mainPageData.name).count
+                    let categoryReviews2 = tutor2.categoryReviews(self.category.mainPageData.name).count
+                    return categoryReviews1 > categoryReviews2
+                        || (categoryReviews1 == categoryReviews2 && (tutor1.reviews?.count ?? 0) > (tutor2.reviews?.count ?? 0))
+                        || (categoryReviews1 == categoryReviews2 && tutor1.reviews?.count == tutor2.reviews?.count && (tutor1.rating ?? 0) > (tutor2.rating ?? 0))
+                }
+                QTLearnerDiscoverService.shared.sectionTutors.append(QTLearnerDiscoverTutorSectionInterface(type: .category, key: self.category.mainPageData.name, tutors: aryTutors, totalTutorIds: tutorIds))
+                DispatchQueue.main.async {
+                    self.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
+                }
+            }
+        }
+    }
+    
+    private func getTrendingTopics() {
+        FirebaseData.manager.getTrendingTopics(category: category) { topics in
+            self.aryTrendingTopics = topics
+            
+            // get user category topics
+            if let interests = CurrentUser.shared.learner.interests {
+                self.aryTrendingTopics.append(contentsOf: interests.filter({ self.category.mainPageData.name == SubjectStore.shared.findCategoryBy(subject: $0) && !self.aryTrendingTopics.contains($0) }))
+            }
+            
+            if 10 > self.aryTrendingTopics.count {
+                let subcategories = self.category.subcategory.subcategories.map({ $0.title })
+                while 10 == self.aryTrendingTopics.count {
+                    let rndSubcategoryIndex = Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(subcategories.count))
+                    if let subjects = CategoryFactory.shared.getSubjectsFor(subcategoryName: subcategories[rndSubcategoryIndex]) {
+                        let rndIndex = Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(subjects.count))
+                        let rndSubject = subjects[rndIndex]
+                        if !self.aryTrendingTopics.contains(rndSubject) {
+                            self.aryTrendingTopics.append(rndSubject)
+                        }
+                    }
+                }
+            }
+            
+            self.tableView.reloadSections(IndexSet(integer: 2), with: .none)
+        }
     }
     
     private func getTopTutors() {
@@ -161,33 +210,6 @@ class QTLearnerDiscoverCategoryViewController: UIViewController {
         
         headerView.setData(category: category)
     }
-    
-    private func getTrendingTopics() {
-        FirebaseData.manager.getTrendingTopics(category: category) { topics in
-            self.aryTrendingTopics = topics
-            
-            // get user category topics
-            if let interests = CurrentUser.shared.learner.interests {
-                self.aryTrendingTopics.append(contentsOf: interests.filter({ self.category.mainPageData.name == SubjectStore.shared.findCategoryBy(subject: $0) && !self.aryTrendingTopics.contains($0) }))
-            }
-            
-            if 10 > self.aryTrendingTopics.count {
-                let subcategories = self.category.subcategory.subcategories.map({ $0.title })
-                while 10 == self.aryTrendingTopics.count {
-                    let rndSubcategoryIndex = Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(subcategories.count))
-                    if let subjects = CategoryFactory.shared.getSubjectsFor(subcategoryName: subcategories[rndSubcategoryIndex]) {
-                        let rndIndex = Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(subjects.count))
-                        let rndSubject = subjects[rndIndex]
-                        if !self.aryTrendingTopics.contains(rndSubject) {
-                            self.aryTrendingTopics.append(rndSubject)
-                        }
-                    }
-                }
-            }
-            
-            self.tableView.reloadSections(IndexSet(integer: 2), with: .none)
-        }
-    }
 }
 
 extension QTLearnerDiscoverCategoryViewController: UITableViewDataSource {
@@ -205,10 +227,6 @@ extension QTLearnerDiscoverCategoryViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         QTLearnerDiscoverService.shared.subcategory = nil
-        QTLearnerDiscoverService.shared.isRisingTalent = false
-        
-        QTLearnerDiscoverService.shared.topTutorsLimit = nil
-        QTLearnerDiscoverService.shared.risingTalentLimit = 25
         
         if shouldLoadMore,
             indexPath.section == tableView.numberOfSections - 1 {
@@ -238,6 +256,7 @@ extension QTLearnerDiscoverCategoryViewController: UITableViewDataSource {
                 
                 return cell
             case 1: // Top Experts
+                QTLearnerDiscoverService.shared.isRisingTalent = false
                 QTLearnerDiscoverService.shared.topTutorsLimit = 25
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "QTLearnerDiscover\(category.mainPageData.name.capitalized)TableViewCell", for: indexPath) as! QTLearnerDiscoverTutorsTableViewCell
@@ -261,6 +280,7 @@ extension QTLearnerDiscoverCategoryViewController: UITableViewDataSource {
                 return cell
             case 3: // Rising Talent
                 QTLearnerDiscoverService.shared.isRisingTalent = true
+                QTLearnerDiscoverService.shared.risingTalentLimit = 25
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: QTLearnerDiscoverTutorsTableViewCell.reuseIdentifier, for: indexPath) as! QTLearnerDiscoverTutorsTableViewCell
                 cell.didClickTutor = { tutor in
@@ -280,6 +300,7 @@ extension QTLearnerDiscoverCategoryViewController: UITableViewDataSource {
                 return cell
             case 5: // Recently Active
                 let cell = tableView.dequeueReusableCell(withIdentifier: QTLearnerDiscoverRecentlyActiveTableViewCell.reuseIdentifier, for: indexPath) as! QTLearnerDiscoverRecentlyActiveTableViewCell
+                cell.delegate = self
                 cell.didClickTutor = { tutor in
                     self.openTutorProfileView(tutor)
                 }
@@ -293,6 +314,9 @@ extension QTLearnerDiscoverCategoryViewController: UITableViewDataSource {
                 
                 return cell
             default: // Subcategories
+                QTLearnerDiscoverService.shared.isRisingTalent = false
+                QTLearnerDiscoverService.shared.topTutorsLimit = nil
+                
                 let subcategory = arySubcategories[indexPath.section - 6]
                 QTLearnerDiscoverService.shared.subcategory = subcategory
                 let cell = tableView.dequeueReusableCell(withIdentifier: "QTLearnerDiscover\(subcategory.replacingOccurrences(of: " ", with: ""))TableViewCell", for: indexPath) as! QTLearnerDiscoverTutorsTableViewCell
@@ -333,11 +357,19 @@ extension QTLearnerDiscoverCategoryViewController: UITableViewDataSource {
 }
 
 extension QTLearnerDiscoverCategoryViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if 5 == indexPath.section, shouldHideRecentlyActive {
+            return 0.1
+        } else {
+            return UITableView.automaticDimension
+        }
+    }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if shouldLoadMore,
             section == tableView.numberOfSections - 1 { return nil }
         
-        let headerView = Bundle.main.loadNibNamed(String(describing: QTLearnerDiscoverTableSectionHeaderView.self), owner: self, options: nil)?.first as? QTLearnerDiscoverTableSectionHeaderView
+        var headerView = Bundle.main.loadNibNamed(String(describing: QTLearnerDiscoverTableSectionHeaderView.self), owner: self, options: nil)?.first as? QTLearnerDiscoverTableSectionHeaderView
         switch section {
         case 0:
             headerView?.title = "Subcategories"
@@ -350,7 +382,11 @@ extension QTLearnerDiscoverCategoryViewController: UITableViewDelegate {
         case 4:
             headerView?.title = "For You"
         case 5:
-            headerView?.title = "Recently Active"
+            if shouldHideRecentlyActive {
+                headerView = nil
+            } else {
+                headerView?.title = "Recently Active"
+            }
         default:
             headerView?.title = arySubcategories[section - 6]
         }
@@ -362,7 +398,11 @@ extension QTLearnerDiscoverCategoryViewController: UITableViewDelegate {
         if shouldLoadMore, currentSectionCount == section {
             return 0.1
         } else {
-            return UITableView.automaticDimension
+            if 5 == section, shouldHideRecentlyActive {
+                return 0.1
+            } else {
+                return UITableView.automaticDimension
+            }
         }
     }
     
@@ -370,4 +410,13 @@ extension QTLearnerDiscoverCategoryViewController: UITableViewDelegate {
         return 0.1
     }
     
+}
+
+extension QTLearnerDiscoverCategoryViewController: QTLearnerDiscoverRecentlyActiveDelegate {
+    func onDidUpdateRecentlyActive(_ tutors: [AWTutor]) {
+        if tutors.isEmpty {
+            shouldHideRecentlyActive = true
+            tableView.reloadSections(IndexSet(integer: 5), with: .automatic)
+        }
+    }
 }
