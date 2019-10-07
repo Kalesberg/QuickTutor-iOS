@@ -435,7 +435,7 @@ enum Category {
             categoryInfo = "Tutors, it’s time to take your learners outside of the classroom and office. Are you a survivalist? Expert in your neck of the woods? Dad of the year? If so, this is the category for you. "
         case .remedial:
             displayName = "Remedial"
-            name = "outdoors"
+            name = "remedial"
             categoryInfo = "QuickTutor is a learning and teaching community built for everyone. Remedial is provided and intended for people who experience learning difficulties, or who would like to teach others about special education."
         case .sports:
             displayName = "Sports & Games"
