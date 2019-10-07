@@ -26,6 +26,8 @@ class QTCollectionViewFlowLayout: UICollectionViewFlowLayout {
     @IBInspectable open var sideItemScale: CGFloat = 0.6
     @IBInspectable open var sideItemAlpha: CGFloat = 0.6
     @IBInspectable open var sideItemShift: CGFloat = 0.0
+    @IBInspectable open var swipeVelocityThreshold: CGFloat = 0.2
+    
     open var spacingMode = QTCarouselFlowLayoutSpacingMode.fixed(spacing: 40)
     
     fileprivate var state = LayoutState(size: CGSize.zero, direction: .horizontal)
@@ -116,6 +118,7 @@ class QTCollectionViewFlowLayout: UICollectionViewFlowLayout {
         
         let isHorizontal = scrollDirection == .horizontal
         
+        let hasEnoughVelocity = abs(isHorizontal ? velocity.x : velocity.y) > swipeVelocityThreshold
         let midSide = (isHorizontal ? collectionView.bounds.size.width : collectionView.bounds.size.height) / 2
         let proposedContentOffsetCenterOrigin = (isHorizontal ? proposedContentOffset.x : proposedContentOffset.y) + midSide
         
@@ -123,9 +126,33 @@ class QTCollectionViewFlowLayout: UICollectionViewFlowLayout {
         if isHorizontal {
             let closest = layoutAttributes.sorted { abs($0.center.x - proposedContentOffsetCenterOrigin) < abs($1.center.x - proposedContentOffsetCenterOrigin) }.first ?? UICollectionViewLayoutAttributes()
             targetContentOffset = CGPoint(x: floor(closest.center.x - midSide), y: proposedContentOffset.y)
+            if hasEnoughVelocity {
+                if 0 < velocity.x {
+                    if targetContentOffset.x < proposedContentOffset.x,
+                        targetContentOffset.x + closest.bounds.size.width < collectionView.contentSize.width {
+                        targetContentOffset.x += closest.bounds.size.width
+                    }
+                } else {
+                    if targetContentOffset.x > proposedContentOffset.x,
+                        targetContentOffset.x > closest.bounds.size.width {
+                        targetContentOffset.x -= closest.bounds.size.width
+                    }
+                }
+            }
         } else {
             let closest = layoutAttributes.sorted { abs($0.center.y - proposedContentOffsetCenterOrigin) < abs($1.center.y - proposedContentOffsetCenterOrigin) }.first ?? UICollectionViewLayoutAttributes()
             targetContentOffset = CGPoint(x: proposedContentOffset.x, y: floor(closest.center.y - midSide))
+            if 0 < velocity.y {
+                if targetContentOffset.y < proposedContentOffset.y,
+                    targetContentOffset.y + closest.bounds.size.height < collectionView.contentSize.height {
+                    targetContentOffset.y += closest.bounds.size.height
+                }
+            } else {
+                if targetContentOffset.y > proposedContentOffset.y,
+                    targetContentOffset.y > closest.bounds.size.height {
+                    targetContentOffset.y -= closest.bounds.size.height
+                }
+            }
         }
         
         return targetContentOffset
@@ -134,9 +161,10 @@ class QTCollectionViewFlowLayout: UICollectionViewFlowLayout {
 
 class QTLearnerDiscoverRecentlyActiveViewController: UIViewController {
     
+    var delegate: QTLearnerDiscoverRecentlyActiveDelegate?
     var category: Category?
     var subcategory: String?
-    
+        
     var didClickTutor: ((_ tutor: AWTutor) -> ())?
     var didClickBtnMessage: ((_ tutor: AWTutor) -> ())?
     
@@ -178,6 +206,7 @@ class QTLearnerDiscoverRecentlyActiveViewController: UIViewController {
                     self.collectionView.isUserInteractionEnabled = true
                 }
                 self.aryActiveTutors = tutors
+                self.delegate?.onDidUpdateRecentlyActive(tutors)
                 self.collectionView.reloadData()
             }
         }
