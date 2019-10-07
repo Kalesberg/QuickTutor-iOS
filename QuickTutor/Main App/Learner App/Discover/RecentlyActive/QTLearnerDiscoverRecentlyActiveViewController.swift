@@ -197,7 +197,15 @@ class QTLearnerDiscoverRecentlyActiveViewController: UIViewController {
                 group.enter()
                 ConnectionService.shared.getConnectionStatus(partnerId: tutor.uid) { connected in
                     tutor.isConnected = connected
-                    group.leave()
+                    tutor.isPending = false
+                    if !connected {
+                        ConnectionService.shared.checkConnectionRequestStatus(partnerId: tutor.uid) { status in
+                            tutor.isPending = status == "pending"
+                            group.leave()
+                        }
+                    } else {
+                        group.leave()
+                    }
                 }
             }
             group.notify(queue: .main) {
