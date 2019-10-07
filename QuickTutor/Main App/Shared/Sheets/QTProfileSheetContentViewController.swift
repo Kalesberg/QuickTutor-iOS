@@ -58,7 +58,7 @@ class QTProfileSheetContentViewController: SheetContentsViewController {
             }
             return CGSize(width: UIScreen.main.bounds.width, height: 50)
         }
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
     }
     
     // MARK: UICollectionViewDataSource
@@ -143,7 +143,7 @@ class QTProfileSheetContentViewController: SheetContentsViewController {
                 return
             }
             
-            DynamicLinkFactory.shared.createLink(userId: id, username: username, subject: subject, profilePreviewUrl: url) { shareUrl in
+            DynamicLinkFactory.shared.createLink(userId: id, userName: username, subject: subject, profilePreviewUrl: url) { shareUrl in
                 guard let shareUrlString = shareUrl?.absoluteString else {
                     DispatchQueue.main.async {
                         self.parentVC?.dismissOverlay()
