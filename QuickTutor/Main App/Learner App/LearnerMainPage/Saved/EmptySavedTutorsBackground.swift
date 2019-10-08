@@ -14,7 +14,7 @@ class EmptySavedTutorsBackgroundCollectionViewCell: UICollectionViewCell {
         label.textColor = Colors.border
         label.numberOfLines = 0
         label.font = Fonts.createSize(15)
-        label.text = "Maybe you’re not planning on learning today, but you can always start prepping for tomorrow. Tap the heart on your favorite tutors to save them here."
+        label.text = "Maybe you’re not planning on learning today, but you can always start prepping for tomorrow. Tap the heart on your favorite QuickTutors to save them here."
         return label
     }()
     
