@@ -104,16 +104,12 @@ class LearnerMainPageVC: UIViewController {
     
     @objc func handleCategorySectionTap(_ notification: Notification) {
         guard let userInfo = notification.userInfo,
-            let category = userInfo["category"] as? String else { return }
-        let next = CategorySearchVC()
-        next.category = category
-        if let categoryType = CategoryType(rawValue: category) {
-            next.navigationItem.title = categoryType.title.capitalizingFirstLetter()
-        } else {
-            next.navigationItem.title = category.capitalizingFirstLetter()
-        }
-        next.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(next, animated: true)
+            let category = userInfo["category"] as? String,
+            let objCategory = Category.category(for: category) else { return }
+        let learnerDiscoverCategoryVC = QTLearnerDiscoverCategoryViewController(nibName: String(describing: QTLearnerDiscoverCategoryViewController.self), bundle: nil)
+        learnerDiscoverCategoryVC.category = objCategory
+        learnerDiscoverCategoryVC.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(learnerDiscoverCategoryVC, animated: true)
     }
     
     @objc func handleTopTutorTapped(_ notification: Notification) {

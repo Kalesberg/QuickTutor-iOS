@@ -50,6 +50,7 @@ class AWTutor: AWLearner {
 	
     // Used for active tutors section
     var isConnected: Bool?
+    var isPending: Bool?
     
     override init(dictionary: [String: Any]) {
         super.init(dictionary: dictionary)

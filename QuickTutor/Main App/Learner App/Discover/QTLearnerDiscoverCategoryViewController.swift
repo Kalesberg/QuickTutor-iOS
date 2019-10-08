@@ -50,7 +50,8 @@ class QTLearnerDiscoverCategoryViewController: UIViewController {
         
         arySubcategories = category.subcategory.subcategories.map({ $0.title })
         for subcategory in arySubcategories {
-            tableView.register(QTLearnerDiscoverTutorsTableViewCell.nib, forCellReuseIdentifier: "QTLearnerDiscover\(subcategory.replacingOccurrences(of: " ", with: ""))TableViewCell")
+            tableView.register(QTLearnerDiscoverTutorsTableViewCell.nib, forCellReuseIdentifier: "QTLearnerDiscover\(subcategory.replacingOccurrences(of: " ", with: ""))1TableViewCell")
+            tableView.register(QTLearnerDiscoverTutorsTableViewCell.nib, forCellReuseIdentifier: "QTLearnerDiscover\(subcategory.replacingOccurrences(of: " ", with: ""))2TableViewCell")
         }
         tableView.register(QTLoadMoreTableViewCell.nib, forCellReuseIdentifier: QTLoadMoreTableViewCell.reuseIdentifier)
         
@@ -178,7 +179,7 @@ class QTLearnerDiscoverCategoryViewController: UIViewController {
         tutorsGroup.notify(queue: .main) {
             self._observing = false
             self.page += 1
-            self.shouldLoadMore = subcategoryPageCount > self.page
+            self.shouldLoadMore = subcategoryPageCount * 2 > self.page
             self.tableView.reloadData()
         }
     }
@@ -313,13 +314,32 @@ extension QTLearnerDiscoverCategoryViewController: UITableViewDataSource {
                 }
                 
                 return cell
-            default: // Subcategories
+            case 6 ..< 6 + arySubcategories.count: // Subcategories
+                QTLearnerDiscoverService.shared.isFirstTop = true
                 QTLearnerDiscoverService.shared.isRisingTalent = false
                 QTLearnerDiscoverService.shared.topTutorsLimit = nil
                 
                 let subcategory = arySubcategories[indexPath.section - 6]
                 QTLearnerDiscoverService.shared.subcategory = subcategory
-                let cell = tableView.dequeueReusableCell(withIdentifier: "QTLearnerDiscover\(subcategory.replacingOccurrences(of: " ", with: ""))TableViewCell", for: indexPath) as! QTLearnerDiscoverTutorsTableViewCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "QTLearnerDiscover\(subcategory.replacingOccurrences(of: " ", with: ""))1TableViewCell", for: indexPath) as! QTLearnerDiscoverTutorsTableViewCell
+                cell.updateDatasource()
+                cell.didClickTutor = { tutor in
+                    self.openTutorProfileView(tutor)
+                }
+                
+                cell.didClickViewAllTutors = { subject, subcategory, category, tutors, loadedAllTutors in
+                    self.openTutorsView(title: subcategory ?? "", subject: subject, subcategory: subcategory, category: category, tutors: tutors, loadedAllTutors: loadedAllTutors)
+                }
+                
+                return cell
+            default:
+                QTLearnerDiscoverService.shared.isFirstTop = false
+                QTLearnerDiscoverService.shared.isRisingTalent = false
+                QTLearnerDiscoverService.shared.topTutorsLimit = nil
+                
+                let subcategory = arySubcategories[indexPath.section - (6 + arySubcategories.count)]
+                QTLearnerDiscoverService.shared.subcategory = subcategory
+                let cell = tableView.dequeueReusableCell(withIdentifier: "QTLearnerDiscover\(subcategory.replacingOccurrences(of: " ", with: ""))2TableViewCell", for: indexPath) as! QTLearnerDiscoverTutorsTableViewCell
                 cell.updateDatasource()
                 cell.didClickTutor = { tutor in
                     self.openTutorProfileView(tutor)
@@ -387,8 +407,10 @@ extension QTLearnerDiscoverCategoryViewController: UITableViewDelegate {
             } else {
                 headerView?.title = "Recently Active"
             }
-        default:
+        case 6 ..< 6 + arySubcategories.count:
             headerView?.title = arySubcategories[section - 6]
+        default:
+            headerView?.title = arySubcategories[section - (6 + arySubcategories.count)]
         }
         
         return headerView
