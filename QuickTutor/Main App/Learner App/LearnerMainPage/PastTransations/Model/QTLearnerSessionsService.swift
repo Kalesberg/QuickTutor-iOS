@@ -42,13 +42,17 @@ class QTLearnerSessionsService {
                     self.userSessionsHandle = nil
                 }
                 
+                if snapshot.childrenCount == 0 {
+                    self.attemptReloadOfTable()
+                }
+                    
+                
                 self.userSessionsRef = Database.database().reference().child("userSessions").child(uid).child(userTypeString)
                 self.userSessionsHandle = self.userSessionsRef?.observe(.childAdded) { snapshot in
                     
                     if !snapshot.exists() {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            // TODO: end of loading
-                        }
+                        // TODO: end of loading
+                        self.attemptReloadOfTable()
                     }
                     
                     DataService.shared.getSessionById(snapshot.key, completion: { session in
