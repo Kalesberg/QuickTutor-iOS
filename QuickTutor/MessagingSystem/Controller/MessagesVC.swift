@@ -384,7 +384,7 @@ extension MessagesVC: UICollectionViewDelegate, SkeletonCollectionViewDataSource
         return inSearchMode() ? aryFilteredConversationMetadata.count : aryConversationMetadata.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+    /*func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? ConversationCell else { return }
         cell.contentView.backgroundColor = cell.contentView.backgroundColor?.darker(by: 15)
     }
@@ -392,7 +392,7 @@ extension MessagesVC: UICollectionViewDelegate, SkeletonCollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? ConversationCell else { return }
         cell.contentView.backgroundColor = cell.contentView.backgroundColor?.lighter(by: 15)
-    }
+    }*/
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.width, height: 80)
