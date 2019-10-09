@@ -23,6 +23,8 @@ class QTLearnerDiscoverSubcategoryViewController: UIViewController {
     private var aryTrendingTopics: [String] = []
     private var shouldHideRecentlyActive = false
     
+    private var popRecognizer: QTInteractivePopRecognizer?
+    
     private let refreshCtrl = UIRefreshControl()
     
     override func viewDidLoad() {
@@ -51,7 +53,8 @@ class QTLearnerDiscoverSubcategoryViewController: UIViewController {
         setupParallaxHeader()
         
         getTrendingTopics()
-        getTopExperts()        
+        getTopExperts()
+        setInteractiveRecognizer()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -75,6 +78,12 @@ class QTLearnerDiscoverSubcategoryViewController: UIViewController {
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         
         updateNavigationBar()
+    }
+    
+    private func setInteractiveRecognizer() {
+        guard let controller = navigationController else { return }
+        popRecognizer = QTInteractivePopRecognizer(controller: controller)
+        controller.interactivePopGestureRecognizer?.delegate = popRecognizer
     }
     
     private func updateNavigationBar() {

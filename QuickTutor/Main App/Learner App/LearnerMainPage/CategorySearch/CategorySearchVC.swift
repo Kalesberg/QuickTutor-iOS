@@ -636,7 +636,7 @@ class CategorySearchVC: UIViewController {
         _observing = false
         loadedAllTutors = false
         
-        if navigationItem.title == "Rising Talent" {
+        if navigationItem.title == "Rising Talents" {
             fetchRisingTalents()
             return
         }

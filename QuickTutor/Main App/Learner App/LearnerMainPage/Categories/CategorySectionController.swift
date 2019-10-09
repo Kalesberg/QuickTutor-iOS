@@ -69,6 +69,7 @@ class CategorySectionController: UIViewController, UICollectionViewDelegate, UIC
     func onReceivedRefershDiscoverPage() {
         DataService.shared.getCategoriesInfo {
             DispatchQueue.main.async {
+                self.collectionView.setContentOffset(CGPoint(x: -20, y: 0), animated: true)
                 self.collectionView.reloadData()
             }
         }
@@ -83,6 +84,8 @@ class CategorySectionController: UIViewController, UICollectionViewDelegate, UIC
         cell.label.text = categories[indexPath.row].mainPageData.displayName
         if let imagePath = QTGlobalData.shared.categories[categories[indexPath.row].mainPageData.name]?.imageUrl, let imageUrl = URL(string: imagePath)  {
             cell.imageView.setImage(url: imageUrl)
+        } else {
+            cell.imageView.image = UIImage(color: Colors.gray)
         }
         return cell
     }

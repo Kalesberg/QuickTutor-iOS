@@ -23,11 +23,13 @@ class QTLearnerDiscoverCategoryViewController: UIViewController {
     private var arySubcategories: [String] = []
     private var shouldHideRecentlyActive = false
     
-    private let refreshCtrl = UIRefreshControl()
-    
     private var page = 0
     private var _observing = false
     private var shouldLoadMore: Bool = true
+    
+    private var popRecognizer: QTInteractivePopRecognizer?
+    
+    private let refreshCtrl = UIRefreshControl()
     
     private var currentSectionCount: Int {
         return 6 + page * QTLearnerDiscoverService.shared.MAX_API_LIMIT
@@ -69,6 +71,7 @@ class QTLearnerDiscoverCategoryViewController: UIViewController {
         
         getTopExperts()
         getTrendingTopics()
+        setInteractiveRecognizer()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -92,6 +95,12 @@ class QTLearnerDiscoverCategoryViewController: UIViewController {
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         
         updateNavigationBar()
+    }
+    
+    private func setInteractiveRecognizer() {
+        guard let controller = navigationController else { return }
+        popRecognizer = QTInteractivePopRecognizer(controller: controller)
+        controller.interactivePopGestureRecognizer?.delegate = popRecognizer
     }
     
     private func updateNavigationBar() {
