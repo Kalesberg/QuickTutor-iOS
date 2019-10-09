@@ -49,9 +49,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
     
     let saveButton: UIButton = {
         let button = UIButton()
-        button.imageView?.contentMode = .scaleAspectFit
-        button.contentHorizontalAlignment = .fill
-        button.contentVerticalAlignment = .fill
+        button.imageView?.contentMode = .center
         button.setImage(UIImage(named: "heartIcon"), for: .normal)
         button.setImage(UIImage(named:"heartIconFilled"), for: .selected)
         button.isHidden = true
@@ -185,10 +183,10 @@ class TutorCollectionViewCell: UICollectionViewCell {
     func setupSaveButton() {
         contentView.addSubview(saveButton)
         saveButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(10)
-            make.right.equalToSuperview().offset(-10)
-            make.width.equalTo(20)
-            make.height.equalTo(20)
+            make.top.equalToSuperview().offset(9)
+            make.right.equalToSuperview().offset(-5)
+            make.width.equalTo(40)
+            make.height.equalTo(40)
         }
         saveButton.addTarget(self, action: #selector(handleSaveButton), for: .touchUpInside)
     }
