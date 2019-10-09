@@ -137,9 +137,11 @@ class LearnerMainPageVC: UIViewController {
     @objc func handleActiveTutorMessageButtonTapped(_ notification: Notification) {
         guard let userInfo = notification.userInfo, let uid = userInfo["uid"] as? String else { return }
         UserFetchService.shared.getTutorWithId(uid) { tutor in
+            guard let tutor = tutor else { return }
+            
             let vc = ConversationVC()
             vc.receiverId = uid
-            vc.chatPartner = tutor!
+            vc.chatPartner = tutor
             vc.connectionRequestAccepted = true
             self.navigationController?.pushViewController(vc, animated: true)
         }
