@@ -13,6 +13,7 @@ class QTLearnerDiscoverCategoriesTableViewCell: UITableViewCell {
     var didSelectCategory: ((_ category: Category) -> ())?
     
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var constraintCollectionViewHeight: NSLayoutConstraint!
     
     static var nib: UINib {
         return UINib(nibName: reuseIdentifier, bundle: nil)
@@ -27,8 +28,15 @@ class QTLearnerDiscoverCategoriesTableViewCell: UITableViewCell {
         // Initialization code
         
         collectionView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: CategoryCollectionViewCell.reuseIdentifier)
+        
+        constraintCollectionViewHeight.constant = getCategoryCellHeight()
     }
 
+    private func getCategoryCellHeight() -> CGFloat {
+        let width = ceil((UIScreen.main.bounds.width - 50) / 2.5)
+        return width * 18 / 13 + 8
+    }
+    
 }
 
 extension QTLearnerDiscoverCategoriesTableViewCell: UICollectionViewDataSource {
@@ -51,7 +59,7 @@ extension QTLearnerDiscoverCategoriesTableViewCell: UICollectionViewDataSource {
 extension QTLearnerDiscoverCategoriesTableViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
         let width = ceil((UIScreen.main.bounds.width - 50) / 2.5)
-        return CGSize(width: width, height: 180)
+        return CGSize(width: width, height: getCategoryCellHeight())
     }
 }
 

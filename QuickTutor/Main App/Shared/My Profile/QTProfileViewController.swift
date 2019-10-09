@@ -13,6 +13,7 @@ import FirebaseDatabase
 import CoreLocation
 import Cosmos
 import AVKit
+import Sheet
 
 enum QTProfileViewType {
     case tutor, learner, myTutor, myLearner
@@ -310,7 +311,7 @@ class QTProfileViewController: UIViewController {
     
     @objc
     func handleMoreButtonClicked() {
-        if #available(iOS 11.0, *) {
+        /*if #available(iOS 11.0, *) {
             actionSheet = FileReportActionsheet(bottomLayoutMargin: view.safeAreaInsets.bottom, name: String(user?.formattedName ?? "User"))
         } else {
             actionSheet = FileReportActionsheet(bottomLayoutMargin: 0, name: String(user?.formattedName ?? "User"))
@@ -320,7 +321,27 @@ class QTProfileViewController: UIViewController {
         actionSheet?.isTutorSheet = AccountService.shared.currentUserType == .tutor
         actionSheet?.parentViewController = self
         actionSheet?.subject = subject
-        actionSheet?.show()
+        actionSheet?.show()*/
+        
+        SheetManager.shared.options.cornerRadius = 15
+        SheetManager.shared.options.isToolBarHidden = true
+        SheetManager.shared.options.sheetBackgroundColor = Colors.newScreenBackground
+        
+        let vc = QTProfileSheetContentViewController.controller
+        vc.partnerId = user?.uid
+        vc.isConnected = connectionStatus == .connected
+        vc.isTutorSheet = AccountService.shared.currentUserType == .tutor
+        vc.parentVC = self
+        vc.subject = subject
+        
+        if #available(iOS 11.0, *) {
+            SheetManager.shared.options.defaultVisibleContentHeight = vc.panelHeight + view.safeAreaInsets.bottom
+        } else {
+            SheetManager.shared.options.defaultVisibleContentHeight = vc.panelHeight
+        }
+        
+        let navigation = SheetNavigationController(rootViewController: vc)
+        present(navigation, animated: false, completion: nil)
     }
     
     @objc

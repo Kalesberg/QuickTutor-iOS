@@ -12,8 +12,9 @@ import SkeletonView
 class QTLearnerDiscoverTutorsViewController: UIViewController {
     
     var category: Category?
-    var subcategory: String? = ""
+    var subcategory: String?
     var isRisingTalent: Bool = false
+    var isFirstTop: Bool = false
     
     var didClickTutor: ((_ tutor: AWTutor) -> ())?
     var didClickViewAllTutors: ((_ subject: String?, _ subcategory: String?, _ category: String?, _ tutors: [AWTutor], _ loadedAllTutors: Bool) -> ())?
@@ -31,14 +32,10 @@ class QTLearnerDiscoverTutorsViewController: UIViewController {
         // Do any additional setup after loading the view.
         collectionView.register(QTLearnerDiscoverTutorCollectionViewCell.nib, forCellWithReuseIdentifier: QTLearnerDiscoverTutorCollectionViewCell.reuseIdentifier)
         
-        if isRisingTalent {
-            lblFooterTitle.showAnimatedSkeleton(usingColor: Colors.gray)
-            collectionView.prepareSkeleton { _ in
-                self.collectionView.isUserInteractionEnabled = false
-                self.collectionView.showAnimatedSkeleton(usingColor: Colors.gray)
-                self.getTutors()
-            }
-        } else {
+        lblFooterTitle.showAnimatedSkeleton(usingColor: Colors.gray)
+        collectionView.prepareSkeleton { _ in
+            self.collectionView.isUserInteractionEnabled = false
+            self.collectionView.showAnimatedSkeleton(usingColor: Colors.gray)
             self.getTutors()
         }
         
@@ -65,6 +62,13 @@ class QTLearnerDiscoverTutorsViewController: UIViewController {
         } else if let subcategory = subcategory {
             if let section = QTLearnerDiscoverService.shared.sectionTutors.first(where: { .subcategory == $0.type && subcategory == $0.key }),
                 let tutors = section.tutors, let totalTutorIds = section.totalTutorIds {
+                if self.lblFooterTitle.isSkeletonActive {
+                    self.lblFooterTitle.hideSkeleton()
+                }
+                if collectionView.isSkeletonActive {
+                    collectionView.isUserInteractionEnabled = true
+                    collectionView.hideSkeleton()
+                }
                 if let topTutorsLimit = QTLearnerDiscoverService.shared.topTutorsLimit,
                     topTutorsLimit < totalTutorIds.count {
                     self.lblFooterTitle.text = "\(topTutorsLimit) people in the list"
@@ -83,6 +87,13 @@ class QTLearnerDiscoverTutorsViewController: UIViewController {
         } else if let category = category {
             if let section = QTLearnerDiscoverService.shared.sectionTutors.first(where: { .category == $0.type && category.mainPageData.name == $0.key }),
                 let tutors = section.tutors, let totalTutorIds = section.totalTutorIds {
+                if self.lblFooterTitle.isSkeletonActive {
+                    self.lblFooterTitle.hideSkeleton()
+                }
+                if collectionView.isSkeletonActive {
+                    collectionView.isUserInteractionEnabled = true
+                    collectionView.hideSkeleton()
+                }
                 if let topTutorsLimit = QTLearnerDiscoverService.shared.topTutorsLimit,
                     topTutorsLimit < totalTutorIds.count {
                     self.lblFooterTitle.text = "\(topTutorsLimit) people in the list"
@@ -134,7 +145,7 @@ class QTLearnerDiscoverTutorsViewController: UIViewController {
     }
     
     @IBAction func onClickBtnViewAll(_ sender: Any) {
-        didClickViewAllTutors?(nil, nil, category?.mainPageData.name, aryTutors, loadedAllTutors)
+        didClickViewAllTutors?(nil, subcategory, category?.mainPageData.name, aryTutors, loadedAllTutors)
     }
 }
 
@@ -148,12 +159,20 @@ extension QTLearnerDiscoverTutorsViewController: SkeletonCollectionViewDataSourc
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return aryTutors.suffix(4).count
+        if isRisingTalent || isFirstTop {
+            return aryTutors.prefix(4).count
+        } else {
+            return aryTutors.prefix(8).count - 4
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: QTLearnerDiscoverTutorCollectionViewCell.reuseIdentifier, for: indexPath) as! QTLearnerDiscoverTutorCollectionViewCell
-        cell.setView(aryTutors[indexPath.item], isRisingTalent: isRisingTalent)
+        if isRisingTalent || isFirstTop {
+            cell.setView(aryTutors[indexPath.item], isRisingTalent: isRisingTalent)
+        } else {
+            cell.setView(aryTutors[indexPath.item + 4], isRisingTalent: isRisingTalent)
+        }
         
         return cell
     }
@@ -177,7 +196,11 @@ extension QTLearnerDiscoverTutorsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? QTLearnerDiscoverTutorCollectionViewCell else { return }
         cell.growSemiShrink {
-            self.didClickTutor?(self.aryTutors[indexPath.item])
+            if self.isRisingTalent || self.isFirstTop {
+                self.didClickTutor?(self.aryTutors[indexPath.item])
+            } else {
+                self.didClickTutor?(self.aryTutors[indexPath.item + 4])
+            }
         }
     }
 }

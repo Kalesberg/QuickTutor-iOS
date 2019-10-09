@@ -38,7 +38,7 @@
                     </constraints>
                     <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <state key="normal" title="Tutor"/>
+                    <state key="normal" title="Settings"/>
                     <connections>
                         <action selector="onClickTutorSettingsButton:" destination="-1" eventType="touchUpInside" id="zLF-bB-cX8"/>
                     </connections>

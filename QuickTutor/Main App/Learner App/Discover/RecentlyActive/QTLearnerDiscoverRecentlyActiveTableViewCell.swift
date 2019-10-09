@@ -8,8 +8,18 @@
 
 import UIKit
 
+protocol QTLearnerDiscoverRecentlyActiveDelegate {
+    func onDidUpdateRecentlyActive(_ tutors: [AWTutor])
+}
+
 class QTLearnerDiscoverRecentlyActiveTableViewCell: UITableViewCell {
 
+    var delegate: QTLearnerDiscoverRecentlyActiveDelegate? {
+        didSet {
+            learnerDiscoverRecentlyActiveVC.delegate = delegate
+        }
+    }
+    
     var didClickTutor: ((_ tutor: AWTutor) -> ())?
     var didClickBtnMessage: ((_ tutor: AWTutor) -> ())?
     

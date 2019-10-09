@@ -33,6 +33,7 @@ class QTLearnerDiscoverService {
     
     var category: Category?
     var subcategory: String?
+    var isFirstTop = true
     var isRisingTalent = false
     
     var topTutorsLimit: Int?
@@ -40,4 +41,21 @@ class QTLearnerDiscoverService {
     
     var sectionTutors: [QTLearnerDiscoverTutorSectionInterface] = []
     
+}
+
+class QTInteractivePopRecognizer: NSObject, UIGestureRecognizerDelegate {
+
+    var navigationController: UINavigationController
+
+    init(controller: UINavigationController) {
+        navigationController = controller
+    }
+
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return navigationController.viewControllers.count > 1
+    }
+
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
 }

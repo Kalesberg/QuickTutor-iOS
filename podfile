@@ -64,6 +64,8 @@ abstract_target 'QuickTutorApp' do
         pod 'SKPhotoBrowser'
         pod 'UITextView+Placeholder'
         pod 'BetterSegmentedControl'
+        
+        pod 'Sheet'
     end
     
     target 'QuickTutor' do
