@@ -55,7 +55,4 @@ class QTInteractivePopRecognizer: NSObject, UIGestureRecognizerDelegate {
         return navigationController.viewControllers.count > 1
     }
 
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
-    }
 }
