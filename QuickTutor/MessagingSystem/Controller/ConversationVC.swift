@@ -192,6 +192,8 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     var metaData: ConversationMetaData?
     var addPaymentModal: AddPaymentModal?
     
+    var isRecentAcitivy = false
+    
     var receiverId: String!
     var chatPartner: User! {
         didSet {
@@ -272,11 +274,13 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     private func setupEmptyBackground() {
         view.addSubview(emptyCellBackground)
         
+        var offset = isRecentAcitivy ? 120 - (navigationController?.navigationBar.frame.height ?? 0) : 120
+        
         if #available(iOS 11, *) {
             let bottom = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
-            emptyCellBackground.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: bottom + 120, paddingRight: 0, width: 0, height: 0)
+            emptyCellBackground.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: bottom + offset, paddingRight: 0, width: 0, height: 0)
         } else {
-            emptyCellBackground.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 120, paddingRight: 0, width: 0, height: 0)
+            emptyCellBackground.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: offset, paddingRight: 0, width: 0, height: 0)
         }
     }
 
@@ -405,6 +409,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.setNavigationBarHidden(false, animated: false)
         setupViews()
         messagesCollection.layoutTypingLabelIfNeeded()
         studentKeyboardAccessory.chatView.delegate = self
@@ -425,7 +430,6 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
                 self.enterConnectionRequestMode()
             }
         }
-        navigationController?.setNavigationBarHidden(false, animated: true)
         if #available(iOS 11.0, *) {
             navigationItem.largeTitleDisplayMode = .never
         }

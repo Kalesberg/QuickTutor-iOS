@@ -143,6 +143,7 @@ class LearnerMainPageVC: UIViewController {
             vc.receiverId = uid
             vc.chatPartner = tutor
             vc.connectionRequestAccepted = true
+            vc.isRecentAcitivy = true
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
