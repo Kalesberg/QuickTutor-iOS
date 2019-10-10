@@ -327,18 +327,35 @@ class QTProfileViewController: UIViewController {
         SheetManager.shared.options.isToolBarHidden = true
         SheetManager.shared.options.sheetBackgroundColor = Colors.newScreenBackground
         
+        var panelHeight: CGFloat = 300
+        let isTutorSheet = AccountService.shared.currentUserType == .tutor
+        let isConnected = connectionStatus == .connected
+        if isTutorSheet {
+            if isConnected {
+                panelHeight = 200
+            } else {
+                panelHeight = 150
+            }
+        } else {
+            if isConnected {
+                panelHeight = 300
+            } else {
+                panelHeight = 200
+            }
+        }
+        
+        if #available(iOS 11.0, *) {
+            SheetManager.shared.options.defaultVisibleContentHeight = panelHeight + view.safeAreaInsets.bottom
+        } else {
+            SheetManager.shared.options.defaultVisibleContentHeight = panelHeight
+        }
+        
         let vc = QTProfileSheetContentViewController.controller
         vc.partnerId = user?.uid
         vc.isConnected = connectionStatus == .connected
         vc.isTutorSheet = AccountService.shared.currentUserType == .tutor
         vc.parentVC = self
         vc.subject = subject
-        
-        if #available(iOS 11.0, *) {
-            SheetManager.shared.options.defaultVisibleContentHeight = vc.panelHeight + view.safeAreaInsets.bottom
-        } else {
-            SheetManager.shared.options.defaultVisibleContentHeight = vc.panelHeight
-        }
         
         let navigation = SheetNavigationController(rootViewController: vc)
         present(navigation, animated: false, completion: nil)

@@ -91,6 +91,13 @@ class QTProfileSheetContentViewController: SheetContentsViewController {
         }
     }
     
+    override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        let velocity = scrollView.panGestureRecognizer.velocity(in: nil)
+        if scrollView.contentOffset.y <= -10/* && velocity.y >= 100*/ {
+            dismiss()
+        }
+    }
+    
     // MARK: - Event Handlers
     private func dismiss () {
         dismiss(animated: true, completion: nil)
@@ -179,16 +186,16 @@ class QTProfileSheetContentViewController: SheetContentsViewController {
         if isTutorSheet {
             if isConnected {
                 guard tutorTitles.count == 1 && tutorImages.count == 1 else {
-                    panelHeight = 160
+                    panelHeight = 180
                     return
                 }
                 tutorTitles.insert("Disconnect", at: 0)
                 tutorImages.insert(UIImage(named: "fileReportDisconnectIcon"), at: 0)
-                panelHeight = 160
+                panelHeight = 180
                 collectionView.reloadData()
             } else {
                 guard tutorTitles.count == 2 && tutorImages.count == 2 else {
-                    panelHeight = 110
+                    panelHeight = 130
                     return
                 }
                 tutorTitles.remove(at: 0)
@@ -202,7 +209,7 @@ class QTProfileSheetContentViewController: SheetContentsViewController {
                 titles.insert("Request Session", at: 2)
                 images.insert(UIImage(named: "fileReportDisconnectIcon"), at: 1)
                 images.insert(UIImage(named: "sessionsTabBarIcon"), at: 2)
-                panelHeight = 260
+                panelHeight = 280
                 collectionView.reloadData()
             } else {
                 guard titles.count == 4 && images.count == 4 else { return }
@@ -210,7 +217,7 @@ class QTProfileSheetContentViewController: SheetContentsViewController {
                 titles.remove(at: 1)
                 images.remove(at: 1)
                 images.remove(at: 1)
-                panelHeight = 160
+                panelHeight = 180
                 collectionView.reloadData()
             }
         }
