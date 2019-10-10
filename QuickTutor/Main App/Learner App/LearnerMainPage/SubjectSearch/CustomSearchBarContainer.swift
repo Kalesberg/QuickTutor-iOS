@@ -51,6 +51,7 @@ class CustomSearchBarContainer: UIView {
         field.tintColor = Colors.purple
         field.autocorrectionType = .no
         field.autocapitalizationType = .words
+        field.backgroundColor = .black
         return field
     }()
     
