@@ -242,8 +242,13 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
 
         let timeString = "\(startTimeString) - \(endTimeString)"
         
-        let formattedPrice = String(format: "%.2f", session.sessionPrice)
+        var cost = session.sessionPrice
+        if session.isPast {
+            cost = (session.cost + 0.3) / 0.971
+        }
+        let formattedPrice = String(format: "%.2f", cost)
         let priceString = "$\(formattedPrice)"
+        
         
         self.timeAndPriceLabel.text = "\(timeString), \(priceString)"
     }
