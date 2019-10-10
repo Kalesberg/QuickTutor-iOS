@@ -99,7 +99,7 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
         
         tipLabel.text = tip.currencyFormat(precision: 2, divider: 1)
         totalSessionNumberLabel.text = AccountService.shared.currentUserType == .learner ?
-            "\(CurrentUser.shared.learner.lNumSessions ?? 0)" : "\(CurrentUser.shared.tutor.tNumSessions ?? 0)"
+            "\((CurrentUser.shared.learner.lNumSessions ?? 0) + 1)" : "\((CurrentUser.shared.tutor.tNumSessions ?? 0) + 1)"
         partnerSessionNumberLabel.text = "\(partnerSessionNumber)"
     }
 
