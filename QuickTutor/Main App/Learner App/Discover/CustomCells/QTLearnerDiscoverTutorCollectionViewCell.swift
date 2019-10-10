@@ -104,15 +104,13 @@ class QTLearnerDiscoverTutorCollectionViewCell: UICollectionViewCell {
         lblHourlyRate.text = "$\(tutor.price ?? 5) per hour"
         
         viewRisingTalent.isHidden = !isRisingTalent
-        
         viewRating.superview?.superview?.isHidden = isRisingTalent
-        viewRating.rating = tutor.tRating ?? 0
-        lblReviewsCount.text = "\(tutor.reviews?.count ?? 0)"
         
-        if let rating = tutor.tRating, 0 < rating {
+        if let rating = tutor.tRating, 0 < rating,
+            let reviews = tutor.reviews, !reviews.isEmpty {
             viewRating.superview?.isHidden = false
             viewRating.rating = rating
-            lblReviewsCount.text = "\(tutor.reviews?.count ?? 0)"
+            lblReviewsCount.text = "\(reviews.count)"
         } else {
             viewRating.superview?.isHidden = true
             if let experienceSubject = tutor.experienceSubject,
