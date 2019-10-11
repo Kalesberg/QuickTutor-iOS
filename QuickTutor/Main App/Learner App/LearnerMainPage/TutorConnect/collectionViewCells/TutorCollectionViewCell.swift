@@ -262,7 +262,12 @@ class TutorCollectionViewCell: UICollectionViewCell {
             starView.isHidden = false
             starView.rating = rating
             
-            starLabel.text = "\(tutor.reviews?.count ?? 0)"
+            if let totalReviews = tutor.reviews?.count {
+                starLabel.text = "\(totalReviews)"
+                starLabel.isHidden = false
+            } else {
+                starLabel.isHidden = true
+            }
         } else {
             starView.isHidden = true
             starView.rating = 0
