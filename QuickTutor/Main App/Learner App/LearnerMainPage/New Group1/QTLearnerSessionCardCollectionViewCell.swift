@@ -26,6 +26,8 @@ class QTLearnerSessionCardCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var ratingView: CosmosView!
     @IBOutlet weak var experienceLabel: UILabel!
     @IBOutlet weak var actionButton: QTCustomButton!
+    @IBOutlet weak var sessionTypeLabelBottom: NSLayoutConstraint!
+    @IBOutlet weak var ratingStackViewBottom: NSLayoutConstraint!
     
     static var reuseIdentifier: String {
         return String(describing: QTLearnerSessionCardCollectionViewCell.self)
@@ -179,9 +181,11 @@ class QTLearnerSessionCardCollectionViewCell: UICollectionViewCell {
             ratingView.isHidden = false
             ratingView.rating = rating
             experienceLabel.isHidden = true
+            sessionTypeLabelBottom.constant = 148
         } else {
             ratingView.isHidden = true
             experienceLabel.isHidden = false
+            sessionTypeLabelBottom.constant = 22
             if let experienceSubject = tutor?.experienceSubject, let experiencePeriod = tutor?.experiencePeriod, !experienceSubject.isEmpty {
                 if experiencePeriod == 0.5 {
                     experienceLabel.text = "6 Months Exp in \(experienceSubject)"

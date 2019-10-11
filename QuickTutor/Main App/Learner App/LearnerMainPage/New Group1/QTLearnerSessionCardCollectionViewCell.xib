@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -48,7 +48,7 @@
                                 </userDefinedRuntimeAttributes>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="                            " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mi2-Ld-L2b">
-                                <rect key="frame" x="95" y="19" width="298" height="20.5"/>
+                                <rect key="frame" x="95" y="30" width="298" height="20.5"/>
                                 <fontDescription key="fontDescription" name="Lato-Heavy" family="Lato" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -63,7 +63,7 @@
                                 </userDefinedRuntimeAttributes>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="                            " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2hV-fX-Frd">
-                                <rect key="frame" x="95" y="44.5" width="298" height="17"/>
+                                <rect key="frame" x="95" y="55.5" width="298" height="17"/>
                                 <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
                                 <color key="textColor" red="0.3921568627" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -74,59 +74,6 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Mw4-9g-ptS">
-                                <rect key="frame" x="95" y="66.5" width="80" height="17"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="                            " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="epj-Rt-Ym3">
-                                        <rect key="frame" x="0.0" y="0.0" width="80" height="17"/>
-                                        <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="linesCornerRadius">
-                                                <integer key="value" value="4"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </label>
-                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LUJ-S6-qmI" customClass="CosmosView" customModule="Cosmos">
-                                        <rect key="frame" x="0.0" y="0.0" width="80" height="12"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="80" id="5CH-PE-alB"/>
-                                            <constraint firstAttribute="height" constant="12" id="ryy-af-UBC"/>
-                                        </constraints>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="totalStars">
-                                                <integer key="value" value="5"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="filledColor">
-                                                <color key="value" red="0.3921568627" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="emptyBorderColor">
-                                                <color key="value" red="0.3921568627" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="filledBorderColor">
-                                                <color key="value" red="0.3921568627" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="image" keyPath="filledImage" value="ic_star_filled"/>
-                                            <userDefinedRuntimeAttribute type="image" keyPath="emptyImage" value="ic_star_empty"/>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="fillMode">
-                                                <integer key="value" value="2"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="starMargin">
-                                                <real key="value" value="5"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="starSize">
-                                                <real key="value" value="12"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="rating">
-                                                <real key="value" value="5"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </view>
-                                </subviews>
-                            </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="                            " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2mJ-59-JpG">
                                 <rect key="frame" x="20" y="95" width="76" height="24"/>
                                 <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
@@ -180,18 +127,71 @@
                                 </connections>
                             </button>
                             <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="videoCameraIcon" translatesAutoresizingMaskIntoConstraints="NO" id="ktL-dw-qAa">
-                                <rect key="frame" x="331" y="137" width="19" height="19"/>
+                                <rect key="frame" x="331" y="9" width="19" height="19"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="19" id="JOW-r6-NiU"/>
                                     <constraint firstAttribute="height" constant="19" id="bY4-wo-DGr"/>
                                 </constraints>
                             </imageView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JyQ-tz-Tiq">
-                                <rect key="frame" x="355" y="138" width="33" height="17"/>
+                                <rect key="frame" x="355" y="10" width="33" height="17"/>
                                 <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Mw4-9g-ptS">
+                                <rect key="frame" x="308" y="136" width="80" height="17"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="                            " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="epj-Rt-Ym3">
+                                        <rect key="frame" x="0.0" y="0.0" width="80" height="17"/>
+                                        <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="linesCornerRadius">
+                                                <integer key="value" value="4"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </label>
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LUJ-S6-qmI" customClass="CosmosView" customModule="Cosmos">
+                                        <rect key="frame" x="0.0" y="0.0" width="80" height="12"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="80" id="5CH-PE-alB"/>
+                                            <constraint firstAttribute="height" constant="12" id="ryy-af-UBC"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="totalStars">
+                                                <integer key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="filledColor">
+                                                <color key="value" red="0.3921568627" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="emptyBorderColor">
+                                                <color key="value" red="0.3921568627" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="filledBorderColor">
+                                                <color key="value" red="0.3921568627" green="0.38431372549999998" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="image" keyPath="filledImage" value="ic_star_filled"/>
+                                            <userDefinedRuntimeAttribute type="image" keyPath="emptyImage" value="ic_star_empty"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="fillMode">
+                                                <integer key="value" value="2"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="starMargin">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="starSize">
+                                                <real key="value" value="12"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="rating">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="0.08235294118" green="0.08235294118" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -199,18 +199,17 @@
                             <constraint firstItem="2mJ-59-JpG" firstAttribute="top" secondItem="nYC-Or-ACw" secondAttribute="bottom" constant="15" id="7Va-7Q-lSs"/>
                             <constraint firstItem="2hV-fX-Frd" firstAttribute="leading" secondItem="nYC-Or-ACw" secondAttribute="trailing" constant="15" id="8ha-wE-RUd"/>
                             <constraint firstItem="ktL-dw-qAa" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="4Ui-HC-OXL" secondAttribute="trailing" constant="10" id="8k3-yQ-Upd"/>
-                            <constraint firstAttribute="bottom" secondItem="JyQ-tz-Tiq" secondAttribute="bottom" constant="20" id="9b4-bg-UUG"/>
+                            <constraint firstAttribute="bottom" secondItem="JyQ-tz-Tiq" secondAttribute="bottom" constant="148" id="9b4-bg-UUG"/>
                             <constraint firstAttribute="trailing" secondItem="b0g-e3-DgC" secondAttribute="trailing" constant="16" id="DIH-ab-Wha"/>
                             <constraint firstItem="0ZK-ew-asj" firstAttribute="leading" secondItem="2mJ-59-JpG" secondAttribute="trailing" constant="10" id="Dle-Bl-Da2"/>
                             <constraint firstAttribute="trailing" secondItem="2hV-fX-Frd" secondAttribute="trailing" constant="15" id="F7Q-zq-Cj3"/>
                             <constraint firstItem="4Ui-HC-OXL" firstAttribute="top" secondItem="2mJ-59-JpG" secondAttribute="bottom" constant="15" id="FUt-J5-cL9"/>
                             <constraint firstItem="mi2-Ld-L2b" firstAttribute="leading" secondItem="nYC-Or-ACw" secondAttribute="trailing" constant="15" id="HsD-KZ-lRD"/>
-                            <constraint firstItem="Mw4-9g-ptS" firstAttribute="top" secondItem="2hV-fX-Frd" secondAttribute="bottom" constant="5" id="IeW-dh-FeX"/>
                             <constraint firstItem="0ZK-ew-asj" firstAttribute="centerY" secondItem="2mJ-59-JpG" secondAttribute="centerY" id="Kmm-Xm-ce9"/>
                             <constraint firstItem="b0g-e3-DgC" firstAttribute="centerY" secondItem="0ZK-ew-asj" secondAttribute="centerY" id="LPb-AH-GOs"/>
                             <constraint firstItem="ktL-dw-qAa" firstAttribute="centerY" secondItem="JyQ-tz-Tiq" secondAttribute="centerY" id="OCq-kb-tet"/>
                             <constraint firstAttribute="trailing" secondItem="mi2-Ld-L2b" secondAttribute="trailing" constant="15" id="QZb-ro-sqX"/>
-                            <constraint firstItem="Mw4-9g-ptS" firstAttribute="leading" secondItem="nYC-Or-ACw" secondAttribute="trailing" constant="15" id="YGX-Dl-UhJ"/>
+                            <constraint firstAttribute="bottom" secondItem="Mw4-9g-ptS" secondAttribute="bottom" constant="22" id="Tvm-ds-AAQ"/>
                             <constraint firstItem="b0g-e3-DgC" firstAttribute="leading" secondItem="0ZK-ew-asj" secondAttribute="trailing" constant="10" id="Zht-BT-Kp7"/>
                             <constraint firstItem="nYC-Or-ACw" firstAttribute="top" secondItem="mhs-ex-utn" secondAttribute="top" constant="20" id="je0-Yk-Hyd"/>
                             <constraint firstItem="4Ui-HC-OXL" firstAttribute="leading" secondItem="mhs-ex-utn" secondAttribute="leading" constant="20" id="jgM-vi-zxr"/>
@@ -218,8 +217,9 @@
                             <constraint firstAttribute="trailing" secondItem="JyQ-tz-Tiq" secondAttribute="trailing" constant="20" id="kLh-sG-7Vy"/>
                             <constraint firstItem="2mJ-59-JpG" firstAttribute="leading" secondItem="mhs-ex-utn" secondAttribute="leading" constant="20" id="nC0-Rs-S01"/>
                             <constraint firstItem="2hV-fX-Frd" firstAttribute="top" secondItem="mi2-Ld-L2b" secondAttribute="bottom" constant="5" id="ngS-L8-5L9"/>
+                            <constraint firstAttribute="trailing" secondItem="Mw4-9g-ptS" secondAttribute="trailing" constant="20" id="pID-fe-a8i"/>
                             <constraint firstAttribute="bottom" secondItem="4Ui-HC-OXL" secondAttribute="bottom" constant="15" id="sHX-Ll-qpF"/>
-                            <constraint firstItem="mi2-Ld-L2b" firstAttribute="top" secondItem="mhs-ex-utn" secondAttribute="top" constant="19" id="x67-QY-td8"/>
+                            <constraint firstItem="mi2-Ld-L2b" firstAttribute="top" secondItem="mhs-ex-utn" secondAttribute="top" constant="30" id="x67-QY-td8"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
@@ -244,9 +244,11 @@
                 <outlet property="nameLabel" destination="mi2-Ld-L2b" id="TUx-gr-wsB"/>
                 <outlet property="priceLabel" destination="b0g-e3-DgC" id="U8q-Yn-LGW"/>
                 <outlet property="ratingSeparatorView" destination="0ZK-ew-asj" id="n81-Xv-szd"/>
+                <outlet property="ratingStackViewBottom" destination="Tvm-ds-AAQ" id="aZa-uU-LwP"/>
                 <outlet property="ratingView" destination="LUJ-S6-qmI" id="0Fg-eA-SEN"/>
                 <outlet property="sessionTypeImageView" destination="ktL-dw-qAa" id="TaI-le-orM"/>
                 <outlet property="sessionTypeLabel" destination="JyQ-tz-Tiq" id="bhv-U7-s3G"/>
+                <outlet property="sessionTypeLabelBottom" destination="9b4-bg-UUG" id="KYt-tQ-LEz"/>
                 <outlet property="subjectLabel" destination="2hV-fX-Frd" id="yQt-Sf-wZl"/>
             </connections>
             <point key="canvasLocation" x="397.10144927536237" y="148.99553571428569"/>
