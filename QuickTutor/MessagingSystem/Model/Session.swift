@@ -97,6 +97,14 @@ class Session: Codable {
     
     func cancel() {}
     
+    var sessionCost: Double {
+        if .learner == AccountService.shared.currentUserType {
+            return (cost + 0.3) / 0.971
+        }
+        
+        return cost
+    }
+    
     var sessionPrice: Double {
         if .learner == AccountService.shared.currentUserType {
             return (price + 0.3) / 0.971

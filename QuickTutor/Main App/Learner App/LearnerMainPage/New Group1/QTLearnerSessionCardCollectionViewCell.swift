@@ -208,7 +208,13 @@ class QTLearnerSessionCardCollectionViewCell: UICollectionViewCell {
         let timeString = "\(startTimeString) - \(endTimeString)"
         self.durationLabel.text = timeString
         
-        let formattedPrice = String(format: "%.2f", session.sessionPrice)
+        var formattedPrice = ""
+        if sessionStatusType == .completed {
+            formattedPrice = String(format: "%.2f", session.sessionCost)
+        } else {
+            formattedPrice = String(format: "%.2f", session.sessionPrice)
+        }
+        
         self.priceLabel.text = "$\(formattedPrice)"
     }
 }
