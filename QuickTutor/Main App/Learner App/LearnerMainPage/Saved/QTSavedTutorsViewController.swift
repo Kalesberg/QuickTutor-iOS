@@ -45,6 +45,8 @@ class QTSavedTutorsViewController: UIViewController {
     private var setTopLayout = false
     private var presentedSearchVC = false
     
+    private var popRecognizer: QTInteractivePopRecognizer?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -73,16 +75,20 @@ class QTSavedTutorsViewController: UIViewController {
         super.viewDidAppear(animated)
         
         if #available(iOS 13.0, *) {
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-            view.setNeedsLayout()
+            if !collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive {
+                collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+                view.setNeedsLayout()
+            }
         }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         if #available(iOS 13.0, *) {
-            collectionView.topAnchor.constraint(equalTo: view.getTopAnchor()).isActive = true
-            view.setNeedsLayout()
+            if !collectionView.topAnchor.constraint(equalTo: view.getTopAnchor()).isActive {
+                collectionView.topAnchor.constraint(equalTo: view.getTopAnchor()).isActive = true
+                view.setNeedsLayout()
+            }
         }
     }
     
@@ -106,6 +112,11 @@ class QTSavedTutorsViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    @objc
+    private func onClickBack () {
+        navigationController?.popViewController(animated: true)
     }
     
     @objc
@@ -160,6 +171,16 @@ class QTSavedTutorsViewController: UIViewController {
             
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_search"), style: .plain, target: self, action: #selector(onClickSearch))
         }
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_back_arrow"), style: .plain, target: self, action: #selector(onClickBack))
+        
+        setInteractiveRecognizer()
+    }
+    
+    private func setInteractiveRecognizer() {
+        guard let controller = navigationController else { return }
+        popRecognizer = QTInteractivePopRecognizer(controller: controller)
+        controller.interactivePopGestureRecognizer?.delegate = popRecognizer
     }
     
     private func setupCollectionView() {
@@ -167,6 +188,7 @@ class QTSavedTutorsViewController: UIViewController {
         collectionView.dataSource = self
         view.addSubview(collectionView)
         collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 8, paddingLeft: 20, paddingBottom: 65, paddingRight: 20, width: 0, height: 0)
+        collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
     }
     
     private func setupRefreshControl() {

@@ -409,7 +409,7 @@ extension SessionRequestView: UITableViewDelegate, UITableViewDataSource {
     }
 
     @objc func sendRequest() {
-        var sessionData = [String: Any]()
+        let sessionData = [String: Any]()
 
         //        guard let type = RequestSessionData.isOnline else { print("Please choose a session Type."); return }
         //        guard let subject = RequestSessionData.subject else { print("Please choose a subject"); return }

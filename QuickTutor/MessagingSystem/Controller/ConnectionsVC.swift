@@ -17,6 +17,8 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
     
     private var presentedSearchVC = false
     
+    private var popRecognizer: QTInteractivePopRecognizer?
+    
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -32,10 +34,24 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
         setupCollectionView()
     }
     
+    @objc
+    private func onClickBack () {
+        navigationController?.popViewController(animated: true)
+    }
+    
     func setupMainView() {
         navigationItem.title = "Connections"
         guard AccountService.shared.currentUserType == .learner else { return }
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "addTutor"), style: .plain, target: self, action: #selector(handleRightViewTapped))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_back_arrow"), style: .plain, target: self, action: #selector(onClickBack))
+        
+        setInteractiveRecognizer()
+    }
+    
+    private func setInteractiveRecognizer() {
+        guard let controller = navigationController else { return }
+        popRecognizer = QTInteractivePopRecognizer(controller: controller)
+        controller.interactivePopGestureRecognizer?.delegate = popRecognizer
     }
     
     func setupCollectionView() {
@@ -144,7 +160,6 @@ class ConnectionsVC: UIViewController, ConnectionCellDelegate {
         vc.receiverId = user.uid
         vc.chatPartner = user
         vc.connectionRequestAccepted = true
-        navigationController?.setNavigationBarHidden(false, animated: false)
         navigationController?.pushViewController(vc, animated: true)
     }
     
