@@ -274,7 +274,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     private func setupEmptyBackground() {
         view.addSubview(emptyCellBackground)
         
-        var offset = isRecentAcitivy ? 120 - (navigationController?.navigationBar.frame.height ?? 0) : 120
+        let offset = isRecentAcitivy ? 120 - (navigationController?.navigationBar.frame.height ?? 0) : 120
         
         if #available(iOS 11, *) {
             let bottom = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0

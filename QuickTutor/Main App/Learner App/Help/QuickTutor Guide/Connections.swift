@@ -46,7 +46,7 @@ class ConnectionsView: MainLayoutHeaderScroll {
         let fullAttributedText = NSMutableAttributedString(string: "Once you’re connected with a tutor, you can send messages, documents, photos, and videos back and forth. In addition to this, your ", attributes: attributesDictionary)
         fullAttributedText.append(NSAttributedString(string: "connect", attributes: [.font: UIFont.qtBoldItalicFont(size: 14)]))
         fullAttributedText.append(NSAttributedString(string: " button will turn into a ", attributes: attributesDictionary))
-        fullAttributedText.append(NSAttributedString(string: "request session", attributes: [.font: UIFont.qtBoldItalicFont(size: 14)]))
+        fullAttributedText.append(NSAttributedString(string: "schedule session", attributes: [.font: UIFont.qtBoldItalicFont(size: 14)]))
         fullAttributedText.append(NSAttributedString(string: " button. You will now have the capability to schedule in-person and online learning sessions by tapping the “request session” button.", attributes: attributesDictionary))
         
         onceConnectedBody.attributedText = fullAttributedText

@@ -62,7 +62,7 @@ class SessionsView: MainLayoutHeaderScroll {
         var fullAttributedText = NSMutableAttributedString(string: "Once you’re connected with a tutor, you can message them, as well as send 30+ different forms of documents/files, photos, and videos.\n\nYour ", attributes: attributesDictionary)
         fullAttributedText.append(NSAttributedString(string: "connect", attributes: [.font: UIFont.qtBoldItalicFont(size: 14)]))
         fullAttributedText.append(NSAttributedString(string: " button will turn into a ", attributes: attributesDictionary))
-        fullAttributedText.append(NSAttributedString(string: "request session", attributes: [.font: UIFont.qtBoldItalicFont(size: 14)]))
+        fullAttributedText.append(NSAttributedString(string: "schedule session", attributes: [.font: UIFont.qtBoldItalicFont(size: 14)]))
         fullAttributedText.append(NSAttributedString(string: " button and you’ll now have the capability to schedule in-person and online learning sessions by tapping the “request session” button on their profile footer.\n\nYou can also request a session by tapping on the big, violet block button located in your sessions tab that says \"request session\" (center, flame icon) and then filling out all of the required information.", attributes: attributesDictionary))
         requestingSessionBody.attributedText = fullAttributedText
         
