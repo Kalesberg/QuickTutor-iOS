@@ -128,7 +128,7 @@ class QTLearnerDiscoverSubcategoryViewController: UIViewController {
                         || (subcategoryReviews1 == subcategoryReviews2 && (tutor1.reviews?.count ?? 0) > (tutor2.reviews?.count ?? 0))
                         || (subcategoryReviews1 == subcategoryReviews2 && tutor1.reviews?.count == tutor2.reviews?.count && (tutor1.rating ?? 0) > (tutor2.rating ?? 0))
                 }
-                QTLearnerDiscoverService.shared.sectionTutors.append(QTLearnerDiscoverTutorSectionInterface(type: .subcategory, key: self.subcategory, tutors: aryTutors, totalTutorIds: tutorIds))
+                QTLearnerDiscoverService.shared.sectionTutors.append(QTLearnerDiscoverTutorSectionInterface(type: .subcategory, key: self.subcategory, tutors: aryTutors, loadedAllTutors: loadedAllTutors, totalTutorIds: tutorIds))
                 DispatchQueue.main.async {
                     self.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
                 }

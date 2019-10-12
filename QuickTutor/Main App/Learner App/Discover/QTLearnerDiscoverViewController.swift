@@ -146,7 +146,7 @@ class QTLearnerDiscoverViewController: UIViewController {
                                 || (subcategoryReviews1 == subcategoryReviews2 && (tutor1.reviews?.count ?? 0) > (tutor2.reviews?.count ?? 0))
                                 || (subcategoryReviews1 == subcategoryReviews2 && tutor1.reviews?.count == tutor2.reviews?.count && (tutor1.rating ?? 0) > (tutor2.rating ?? 0))
                         }
-                        QTLearnerDiscoverService.shared.sectionTutors.append(QTLearnerDiscoverTutorSectionInterface(type: .subcategory, key: subcategory, tutors: aryTutors, totalTutorIds: tutorIds))
+                        QTLearnerDiscoverService.shared.sectionTutors.append(QTLearnerDiscoverTutorSectionInterface(type: .subcategory, key: subcategory, tutors: aryTutors, loadedAllTutors: loadedAllTutors, totalTutorIds: tutorIds))
                         tutorsGroup.leave()
                     }
                 }
@@ -171,7 +171,7 @@ class QTLearnerDiscoverViewController: UIViewController {
                                 || (categoryReviews1 == categoryReviews2 && (tutor1.reviews?.count ?? 0) > (tutor2.reviews?.count ?? 0))
                                 || (categoryReviews1 == categoryReviews2 && tutor1.reviews?.count == tutor2.reviews?.count && (tutor1.rating ?? 0) > (tutor2.rating ?? 0))
                         }
-                        QTLearnerDiscoverService.shared.sectionTutors.append(QTLearnerDiscoverTutorSectionInterface(type: .category, key: category.mainPageData.name, tutors: aryTutors, totalTutorIds: tutorIds))
+                        QTLearnerDiscoverService.shared.sectionTutors.append(QTLearnerDiscoverTutorSectionInterface(type: .category, key: category.mainPageData.name, tutors: aryTutors, loadedAllTutors: loadedAllTutors, totalTutorIds: tutorIds))
                         tutorsGroup.leave()
                     }
                 }

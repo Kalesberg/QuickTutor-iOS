@@ -76,11 +76,15 @@ class QTLearnerDiscoverTutorsViewController: UIViewController {
                     self.lblFooterTitle.text = "\(totalTutorIds.count) people in the list"
                 }
                 self.aryTutors = tutors
-                if let topTutorsLimit = QTLearnerDiscoverService.shared.topTutorsLimit,
-                    topTutorsLimit < self.aryTutors.count {
+                if true == section.loadedAllTutors {
                     self.loadedAllTutors = true
                 } else {
-                    self.loadedAllTutors = false
+                    if let topTutorsLimit = QTLearnerDiscoverService.shared.topTutorsLimit,
+                        topTutorsLimit < self.aryTutors.count {
+                        self.loadedAllTutors = true
+                    } else {
+                        self.loadedAllTutors = false
+                    }
                 }
                 self.btnFooterAction.superview?.isHidden = false
             }
@@ -101,11 +105,15 @@ class QTLearnerDiscoverTutorsViewController: UIViewController {
                     self.lblFooterTitle.text = "\(totalTutorIds.count) people in the list"
                 }
                 self.aryTutors = tutors
-                if let topTutorsLimit = QTLearnerDiscoverService.shared.topTutorsLimit,
-                    topTutorsLimit < self.aryTutors.count {
+                if true == section.loadedAllTutors {
                     self.loadedAllTutors = true
                 } else {
-                    self.loadedAllTutors = false
+                    if let topTutorsLimit = QTLearnerDiscoverService.shared.topTutorsLimit,
+                        topTutorsLimit < self.aryTutors.count {
+                        self.loadedAllTutors = true
+                    } else {
+                        self.loadedAllTutors = false
+                    }
                 }
                 self.btnFooterAction.superview?.isHidden = false
             }
