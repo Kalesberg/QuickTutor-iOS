@@ -73,16 +73,20 @@ class QTSavedTutorsViewController: UIViewController {
         super.viewDidAppear(animated)
         
         if #available(iOS 13.0, *) {
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-            view.setNeedsLayout()
+            if !collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive {
+                collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+                view.setNeedsLayout()
+            }
         }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         if #available(iOS 13.0, *) {
-            collectionView.topAnchor.constraint(equalTo: view.getTopAnchor()).isActive = true
-            view.setNeedsLayout()
+            if !collectionView.topAnchor.constraint(equalTo: view.getTopAnchor()).isActive {
+                collectionView.topAnchor.constraint(equalTo: view.getTopAnchor()).isActive = true
+                view.setNeedsLayout()
+            }
         }
     }
     
@@ -167,6 +171,7 @@ class QTSavedTutorsViewController: UIViewController {
         collectionView.dataSource = self
         view.addSubview(collectionView)
         collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 8, paddingLeft: 20, paddingBottom: 65, paddingRight: 20, width: 0, height: 0)
+        collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
     }
     
     private func setupRefreshControl() {
