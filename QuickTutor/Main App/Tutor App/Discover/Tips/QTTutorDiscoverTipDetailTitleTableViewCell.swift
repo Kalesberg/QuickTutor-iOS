@@ -11,7 +11,6 @@ import UIKit
 class QTTutorDiscoverTipDetailTitleTableViewCell: UITableViewCell {
 
     // MARK: - Properties
-    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     
     static var reuseIdentifier: String {
@@ -24,7 +23,6 @@ class QTTutorDiscoverTipDetailTitleTableViewCell: UITableViewCell {
     
     // MARK: - Functions
     func setData(tip: QTNewsModel) {
-        titleLabel.text = tip.title
         descriptionLabel.text = tip.description
     }
     
