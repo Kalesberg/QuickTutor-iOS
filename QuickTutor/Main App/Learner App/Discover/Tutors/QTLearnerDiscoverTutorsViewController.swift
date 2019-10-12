@@ -30,7 +30,8 @@ class QTLearnerDiscoverTutorsViewController: UIViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        collectionView.register(QTLearnerDiscoverTutorCollectionViewCell.nib, forCellWithReuseIdentifier: QTLearnerDiscoverTutorCollectionViewCell.reuseIdentifier)
+        collectionView.register(QTWideTutorCollectionViewCell.self, forCellWithReuseIdentifier: QTWideTutorCollectionViewCell.reuseIdentifier)
+//        collectionView.register(QTLearnerDiscoverTutorCollectionViewCell.nib, forCellWithReuseIdentifier: QTLearnerDiscoverTutorCollectionViewCell.reuseIdentifier)
         
         lblFooterTitle.showAnimatedSkeleton(usingColor: Colors.gray)
         collectionView.prepareSkeleton { _ in
@@ -163,7 +164,7 @@ extension QTLearnerDiscoverTutorsViewController: SkeletonCollectionViewDataSourc
     }
     
     func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
-        return QTLearnerDiscoverTutorCollectionViewCell.reuseIdentifier
+        return QTWideTutorCollectionViewCell.reuseIdentifier
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -175,11 +176,13 @@ extension QTLearnerDiscoverTutorsViewController: SkeletonCollectionViewDataSourc
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: QTLearnerDiscoverTutorCollectionViewCell.reuseIdentifier, for: indexPath) as! QTLearnerDiscoverTutorCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: QTWideTutorCollectionViewCell.reuseIdentifier, for: indexPath) as! QTWideTutorCollectionViewCell
         if isRisingTalent || isFirstTop {
-            cell.setView(aryTutors[indexPath.item], isRisingTalent: isRisingTalent)
+            cell.updateUI(aryTutors[indexPath.item])
+//            cell.setView(aryTutors[indexPath.item], isRisingTalent: isRisingTalent)
         } else {
-            cell.setView(aryTutors[indexPath.item + 4], isRisingTalent: isRisingTalent)
+            cell.updateUI(aryTutors[indexPath.item + 4])
+//            cell.setView(aryTutors[indexPath.item + 4], isRisingTalent: isRisingTalent)
         }
         
         return cell
@@ -195,14 +198,14 @@ extension QTLearnerDiscoverTutorsViewController: UICollectionViewDelegateFlowLay
 
 extension QTLearnerDiscoverTutorsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? QTLearnerDiscoverTutorCollectionViewCell else { return }
+        guard let cell = collectionView.cellForItem(at: indexPath) as? QTWideTutorCollectionViewCell else { return }
         UIView.animate(withDuration: 0.2) {
             cell.transform = .identity
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? QTLearnerDiscoverTutorCollectionViewCell else { return }
+        guard let cell = collectionView.cellForItem(at: indexPath) as? QTWideTutorCollectionViewCell else { return }
         cell.growSemiShrink {
             if self.isRisingTalent || self.isFirstTop {
                 self.didClickTutor?(self.aryTutors[indexPath.item])
