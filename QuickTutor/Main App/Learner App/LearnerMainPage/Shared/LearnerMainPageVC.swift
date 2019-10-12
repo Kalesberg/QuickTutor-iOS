@@ -53,7 +53,7 @@ class LearnerMainPageVC: UIViewController {
         }
         refreshControl.addTarget(self, action: #selector(refershData), for: .valueChanged)
     }
-
+    
     @objc func refershData() {
         contentView.collectionView.reloadData()
         // Start the animation of refresh control
@@ -139,12 +139,14 @@ class LearnerMainPageVC: UIViewController {
         UserFetchService.shared.getTutorWithId(uid) { tutor in
             guard let tutor = tutor else { return }
             
-            let vc = ConversationVC()
-            vc.receiverId = uid
-            vc.chatPartner = tutor
-            vc.connectionRequestAccepted = true
-            vc.isRecentAcitivy = true
-            self.navigationController?.pushViewController(vc, animated: true)
+            DispatchQueue.main.async {
+                let vc = ConversationVC()
+                vc.receiverId = uid
+                vc.chatPartner = tutor
+                vc.connectionRequestAccepted = true
+                vc.isRecentAcitivy = true
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         }
     }
     
