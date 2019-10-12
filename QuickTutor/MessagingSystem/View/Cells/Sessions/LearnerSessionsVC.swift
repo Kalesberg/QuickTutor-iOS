@@ -13,7 +13,7 @@ class LearnerSessionsVC: BaseSessionsVC {
     
     let requestSessionButton: DimmableButton = {
         let button = DimmableButton()
-        button.setTitle("Request session", for: .normal)
+        button.setTitle("Schedule session", for: .normal)
         button.titleLabel?.font = Fonts.createBoldSize(16)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = Colors.purple
@@ -78,7 +78,7 @@ class LearnerSessionsVC: BaseSessionsVC {
     override func toggleEmptyState(on: Bool) {
         super.toggleEmptyState(on: on)
         collectionView.isHidden = on
-        requestSessionButton.setTitle(on ? "Start learning" : "Request session", for: .normal)
+        requestSessionButton.setTitle(on ? "Start learning" : "Schedule session", for: .normal)
         emptyStateImageView.isHidden = !on
         emptyStateLabel.isHidden = !on
     }

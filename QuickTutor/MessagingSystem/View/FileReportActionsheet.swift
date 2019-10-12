@@ -10,7 +10,7 @@ import UIKit
 
 class FileReportActionsheet: UIView {
     
-    var titles = ["Share profile", "Request Session", "Disconnect", "Report"]
+    var titles = ["Share profile", "Schedule Session", "Disconnect", "Report"]
     var images = [UIImage(named: "fileReportShareIcon"), UIImage(named: "sessionsTabBarIcon"), UIImage(named: "fileReportDisconnectIcon"), UIImage(named: "fileReportFlag")]
     var tutorTitles = ["Disconnect", "Report"]
     var tutorImages = [UIImage(named: "fileReportDisconnectIcon"), UIImage(named: "fileReportFlag")]
@@ -105,7 +105,7 @@ class FileReportActionsheet: UIView {
             if isConnected {
                 guard titles.count == 2 && images.count == 2 else { return }
                 titles.insert("Disconnect", at: 1)
-                titles.insert("Request Session", at: 2)
+                titles.insert("Schedule Session", at: 2)
                 images.insert(UIImage(named: "fileReportDisconnectIcon"), at: 1)
                 images.insert(UIImage(named: "sessionsTabBarIcon"), at: 2)
                 panelHeight = 250

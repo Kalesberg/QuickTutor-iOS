@@ -37,7 +37,7 @@ class SessionRequestView: UIView {
 
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Request Session"
+        label.text = "Schedule Session"
         label.textColor = .white
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 20)
