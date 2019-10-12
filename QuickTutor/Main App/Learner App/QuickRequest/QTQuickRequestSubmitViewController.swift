@@ -112,7 +112,7 @@ class QTQuickRequestSubmitViewController: UIViewController {
     // MARK: - Actions
     @IBAction func OnNextButtonClicked(_ sender: Any) {
         if subject == nil {
-            showError(error: "Please select a subject")
+            showError(error: "Please select a topic")
             return
         }
         
