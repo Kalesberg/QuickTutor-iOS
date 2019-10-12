@@ -9,9 +9,14 @@
 import UIKit
 import SkeletonView
 
+protocol LearnerMainPageTopTutorsControllerDelegate {
+    func learnerMainPageTopTutorsFetched(tutors: [AWTutor])
+}
+
 class LearnerMainPageTopTutorsController: UIViewController {
     
     var datasource = [AWTutor]()
+    var delegate: LearnerMainPageTopTutorsControllerDelegate?
     
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -56,6 +61,7 @@ class LearnerMainPageTopTutorsController: UIViewController {
     func fetchTutors() {
         TutorSearchService.shared.getTopTutors { tutors in
             self.view.hideSkeleton()
+            self.delegate?.learnerMainPageTopTutorsFetched(tutors: tutors)
             self.datasource.append(contentsOf: tutors.sorted(by: {$0.tNumSessions > $1.tNumSessions}))
             self.collectionView.reloadData()
         }

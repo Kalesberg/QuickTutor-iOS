@@ -30,8 +30,10 @@ class LearnerMainPageTopTutorsSectionContainerCell: UICollectionViewCell {
     
     let seeAllBox: MockCollectionViewCell = {
         let cell = MockCollectionViewCell()
-        cell.titleLabel.text = "View new tutors"
-        cell.primaryButton.setTitle("View", for: .normal)
+        cell.titleLabel.text = "0 people in the list"
+        cell.titleLabel.font = Fonts.createBlackSize(12)
+        cell.primaryButton.setTitle("View all", for: .normal)
+        cell.primaryButton.titleLabel?.font = Fonts.createSemiBoldSize(12)
         return cell
     }()
     
@@ -69,6 +71,7 @@ class LearnerMainPageTopTutorsSectionContainerCell: UICollectionViewCell {
     }
     
     func setupCollectionViewController() {
+        topTutorsController.delegate = self
         addSubview(topTutorsController.view)
         topTutorsController.view.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(20)
@@ -81,12 +84,23 @@ class LearnerMainPageTopTutorsSectionContainerCell: UICollectionViewCell {
     func setupSeeAllBox() {
         addSubview(seeAllBox)
         seeAllBox.snp.makeConstraints { make in
-            make.top.equalTo(topTutorsController.view.snp.bottom).offset(16)
+            make.top.equalTo(topTutorsController.view.snp.bottom).offset(20)
             make.left.equalToSuperview().offset(20)
             make.centerX.equalToSuperview()
-            make.height.equalTo(50)
+            make.height.equalTo(44)
         }
         seeAllBox.profileDelegate = self
+        seeAllBox.layer.cornerRadius = 5
+        seeAllBox.layer.borderColor = Colors.purple.cgColor
+        
+        seeAllBox.primaryButton.snp.remakeConstraints { make in
+            make.right.equalToSuperview().offset(-15)
+            make.width.equalTo(64)
+            make.height.equalTo(26)
+            make.centerY.equalToSuperview()
+        }
+        seeAllBox.primaryButton.layer.cornerRadius = 5
+        seeAllBox.primaryButton.layer.borderColor = Colors.purple.cgColor
     }
     
     func handleSeeAllButton() {
@@ -107,5 +121,13 @@ class LearnerMainPageTopTutorsSectionContainerCell: UICollectionViewCell {
 extension LearnerMainPageTopTutorsSectionContainerCell: ProfileModeToggleViewDelegate {
     func profleModeToggleView(_ profileModeToggleView: MockCollectionViewCell, shouldSwitchTo side: UserType) {
         handleSeeAllButton()
+    }
+}
+
+// MARK: - LearnerMainPageTopTutorsControllerDelegate
+extension LearnerMainPageTopTutorsSectionContainerCell: LearnerMainPageTopTutorsControllerDelegate {
+    
+    func learnerMainPageTopTutorsFetched(tutors: [AWTutor]) {
+        seeAllBox.titleLabel.text = "\(tutors.count) people in the list"
     }
 }
