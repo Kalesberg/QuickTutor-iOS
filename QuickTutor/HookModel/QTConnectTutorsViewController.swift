@@ -11,9 +11,9 @@ import SkeletonView
 
 class QTTutorSubjectInterface {
     var tutorId: String!
-    var subject: String!
+    var subject: String?
     
-    init(tutorId: String, subject: String) {
+    init(tutorId: String, subject: String?) {
         self.tutorId = tutorId
         self.subject = subject
     }
@@ -196,7 +196,9 @@ class QTConnectTutorsViewController: UIViewController {
                     tutorsGroup.leave()
                     return
                 }
-                tutor.featuredSubject = self.aryTutorIds[index].subject
+                if let subject = self.aryTutorIds[index].subject {
+                    tutor.featuredSubject = subject
+                }
                 tutors.append(tutor)
                 tutorsGroup.leave()
             }

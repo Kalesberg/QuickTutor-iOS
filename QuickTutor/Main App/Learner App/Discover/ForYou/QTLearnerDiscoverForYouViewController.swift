@@ -132,9 +132,20 @@ class QTLearnerDiscoverForYouViewController: UIViewController {
                     }
                 }
                 categoriesGroup.notify(queue: .global(qos: .userInitiated)) {
-                    self.loadTutors()
+                    if self.aryTutorIds.isEmpty {
+                        self.loadRandomTutors()
+                    } else {
+                        self.loadTutors()
+                    }
                 }
             }
+        }
+    }
+    
+    private func loadRandomTutors() {
+        TutorSearchService.shared.loadRandongTutorIds(category: category?.mainPageData.name, subcategory: subcategory) { tutorIds in
+            self.aryTutorIds = tutorIds.map({ QTTutorSubjectInterface(tutorId: $0, subject: nil) })
+            self.loadTutors()
         }
     }
     
@@ -151,7 +162,9 @@ class QTLearnerDiscoverForYouViewController: UIViewController {
                     tutorsGroup.leave()
                     return
                 }
-                tutor.featuredSubject = self.aryTutorIds[index].subject
+                if let subject = self.aryTutorIds[index].subject {
+                    tutor.featuredSubject = subject
+                }
                 tutors.append(tutor)
                 tutorsGroup.leave()
             }

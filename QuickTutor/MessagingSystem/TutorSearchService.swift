@@ -404,6 +404,42 @@ class TutorSearchService {
         }
     }
     
+    func loadRandongTutorIds(category: String? = nil, subcategory: String? = nil, completion: @escaping ([String]) -> Void) {
+        var aryTutorIds: [String] = []
+        let tutorIdsGroup = DispatchGroup()
+        if let category = category {
+            tutorIdsGroup.enter()
+            TutorSearchService.shared.getTutorIdsByCategory(category) { tutorIds in
+                if let tutorIds = tutorIds {
+                    aryTutorIds = tutorIds
+                }
+                tutorIdsGroup.leave()
+            }
+        } else if let subcategory = subcategory {
+            tutorIdsGroup.enter()
+            TutorSearchService.shared.getTutorIdsBySubcategory(subcategory) { tutorIds in
+                if let tutorIds = tutorIds {
+                    aryTutorIds = tutorIds
+                }
+                tutorIdsGroup.leave()
+            }
+        } else {
+            tutorIdsGroup.enter()
+            Database.database().reference().child("tutor-info").queryOrderedByKey().observeSingleEvent(of: .value) { snapshot in
+                guard let dicAccount = snapshot.value as? [String: Any] else {
+                    tutorIdsGroup.leave()
+                    return
+                }
+                
+                aryTutorIds = Array(dicAccount.keys)
+                tutorIdsGroup.leave()
+            }
+        }
+        tutorIdsGroup.notify(queue: .global(qos: .userInitiated)) {
+            completion(aryTutorIds)
+        }
+    }
+    
     func fetchSessions(completion: @escaping ([Session]) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let userTypeString = AccountService.shared.currentUserType.rawValue
