@@ -45,6 +45,8 @@ class QTSavedTutorsViewController: UIViewController {
     private var setTopLayout = false
     private var presentedSearchVC = false
     
+    private var popRecognizer: QTInteractivePopRecognizer?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -113,6 +115,11 @@ class QTSavedTutorsViewController: UIViewController {
     }
     
     @objc
+    private func onClickBack () {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @objc
     private func onRefreshSavedTutors () {
         getSavedTutors()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -164,6 +171,16 @@ class QTSavedTutorsViewController: UIViewController {
             
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_search"), style: .plain, target: self, action: #selector(onClickSearch))
         }
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_back_arrow"), style: .plain, target: self, action: #selector(onClickBack))
+        
+        setInteractiveRecognizer()
+    }
+    
+    private func setInteractiveRecognizer() {
+        guard let controller = navigationController else { return }
+        popRecognizer = QTInteractivePopRecognizer(controller: controller)
+        controller.interactivePopGestureRecognizer?.delegate = popRecognizer
     }
     
     private func setupCollectionView() {

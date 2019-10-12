@@ -11,7 +11,7 @@ import Sheet
 
 class QTProfileSheetContentViewController: SheetContentsViewController {
     
-    private var titles = ["Share profile", "Schedule Session", "Disconnect", "Report"]
+    private var titles = ["Share profile", "Request Session", "Disconnect", "Report"]
     private var images = [UIImage(named: "fileReportShareIcon"), UIImage(named: "sessionsTabBarIcon"), UIImage(named: "fileReportDisconnectIcon"), UIImage(named: "fileReportFlag")]
     private var tutorTitles = ["Disconnect", "Report"]
     private var tutorImages = [UIImage(named: "fileReportDisconnectIcon"), UIImage(named: "fileReportFlag")]
@@ -92,6 +92,7 @@ class QTProfileSheetContentViewController: SheetContentsViewController {
     }
     
     override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+//        let velocity = scrollView.panGestureRecognizer.velocity(in: nil)
         if scrollView.contentOffset.y <= -10/* && velocity.y >= 100*/ {
             dismiss()
         }
@@ -205,7 +206,7 @@ class QTProfileSheetContentViewController: SheetContentsViewController {
             if isConnected {
                 guard titles.count == 2 && images.count == 2 else { return }
                 titles.insert("Disconnect", at: 1)
-                titles.insert("Schedule Session", at: 2)
+                titles.insert("Request Session", at: 2)
                 images.insert(UIImage(named: "fileReportDisconnectIcon"), at: 1)
                 images.insert(UIImage(named: "sessionsTabBarIcon"), at: 2)
                 panelHeight = 280
