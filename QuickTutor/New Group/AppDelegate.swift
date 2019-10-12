@@ -60,10 +60,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         STPPaymentConfiguration.shared().appleMerchantIdentifier = Constants.APPLE_PAY_MERCHANT_ID
         
         UITextField.appearance().keyboardAppearance = .dark
+        
         let backImage = UIImage(named: "ic_back_arrow")
         UINavigationBar.appearance().backIndicatorImage = backImage
         UINavigationBar.appearance().backIndicatorTransitionMaskImage = backImage
-        UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffset(horizontal: -500, vertical: 0), for: .default)
+        UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffset(horizontal: -500, vertical: 0), for: .default)        
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
 
         IQKeyboardManager.shared().isEnabled = true
