@@ -187,7 +187,7 @@ class QTSavedTutorsViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         view.addSubview(collectionView)
-        collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 8, paddingLeft: 20, paddingBottom: 65, paddingRight: 20, width: 0, height: 0)
+        collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.getBottomAnchor(), right: view.rightAnchor, paddingTop: 8, paddingLeft: 20, paddingBottom: 80, paddingRight: 20, width: 0, height: 0)
         collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
     }
     
