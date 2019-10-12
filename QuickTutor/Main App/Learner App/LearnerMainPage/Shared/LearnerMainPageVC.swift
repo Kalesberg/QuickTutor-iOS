@@ -21,8 +21,6 @@ class LearnerMainPageVC: UIViewController {
         return view
     }()
     
-    private var popRecognizer: QTInteractivePopRecognizer?
-    
     override func loadView() {
         view = contentView
     }
@@ -33,7 +31,6 @@ class LearnerMainPageVC: UIViewController {
         registerPushNotification()
         setupRefreshControl()
         setupObservers()
-        setInteractiveRecognizer()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -57,12 +54,6 @@ class LearnerMainPageVC: UIViewController {
         refreshControl.addTarget(self, action: #selector(refershData), for: .valueChanged)
     }
     
-    private func setInteractiveRecognizer() {
-        guard let controller = navigationController else { return }
-        popRecognizer = QTInteractivePopRecognizer(controller: controller)
-        controller.interactivePopGestureRecognizer?.delegate = popRecognizer
-    }
-
     @objc func refershData() {
         contentView.collectionView.reloadData()
         // Start the animation of refresh control
@@ -148,12 +139,14 @@ class LearnerMainPageVC: UIViewController {
         UserFetchService.shared.getTutorWithId(uid) { tutor in
             guard let tutor = tutor else { return }
             
-            let vc = ConversationVC()
-            vc.receiverId = uid
-            vc.chatPartner = tutor
-            vc.connectionRequestAccepted = true
-            vc.isRecentAcitivy = true
-            self.navigationController?.pushViewController(vc, animated: true)
+            DispatchQueue.main.async {
+                let vc = ConversationVC()
+                vc.receiverId = uid
+                vc.chatPartner = tutor
+                vc.connectionRequestAccepted = true
+                vc.isRecentAcitivy = true
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         }
     }
     
