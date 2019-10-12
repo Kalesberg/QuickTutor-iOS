@@ -21,6 +21,8 @@ class LearnerMainPageVC: UIViewController {
         return view
     }()
     
+    private var popRecognizer: QTInteractivePopRecognizer?
+    
     override func loadView() {
         view = contentView
     }
@@ -31,6 +33,7 @@ class LearnerMainPageVC: UIViewController {
         registerPushNotification()
         setupRefreshControl()
         setupObservers()
+        setInteractiveRecognizer()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -52,6 +55,12 @@ class LearnerMainPageVC: UIViewController {
             contentView.collectionView.addSubview(refreshControl)
         }
         refreshControl.addTarget(self, action: #selector(refershData), for: .valueChanged)
+    }
+    
+    private func setInteractiveRecognizer() {
+        guard let controller = navigationController else { return }
+        popRecognizer = QTInteractivePopRecognizer(controller: controller)
+        controller.interactivePopGestureRecognizer?.delegate = popRecognizer
     }
 
     @objc func refershData() {
