@@ -159,7 +159,7 @@ class QTLearnerSessionCardCollectionViewCell: UICollectionViewCell {
             if session.type == QTSessionType.quickCalls.rawValue {
                 actionButton.setTitle("Call Again", for: .normal)
             } else {
-                actionButton.setTitle("Repeat session", for: .normal)
+                actionButton.setTitle("Reschedule Session", for: .normal)
             }
         } else { // it will be upcomming session.
             actionButton.setTitle("Start early", for: .normal)

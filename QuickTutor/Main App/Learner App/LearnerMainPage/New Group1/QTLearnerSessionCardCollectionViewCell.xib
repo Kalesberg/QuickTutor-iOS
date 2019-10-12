@@ -113,7 +113,7 @@
                                     <constraint firstAttribute="height" constant="26" id="H12-F0-HF9"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="12"/>
-                                <state key="normal" title="Repeat session">
+                                <state key="normal" title="Reschedule Session">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
