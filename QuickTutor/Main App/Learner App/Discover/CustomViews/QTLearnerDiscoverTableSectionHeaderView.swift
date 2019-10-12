@@ -16,6 +16,7 @@ class QTLearnerDiscoverTableSectionHeaderView: UIView {
         }
     }
     
+    @IBOutlet weak var iconRisingTalent: UIImageView!
     @IBOutlet weak var lblTitle: UILabel!
     
 }
