@@ -445,6 +445,7 @@ extension QTLearnerDiscoverViewController: UITableViewDelegate {
             section == tableView.numberOfSections - 1 { return nil }
         
         var headerView = Bundle.main.loadNibNamed(String(describing: QTLearnerDiscoverTableSectionHeaderView.self), owner: self, options: nil)?.first as? QTLearnerDiscoverTableSectionHeaderView
+        headerView?.iconRisingTalent.superview?.isHidden = true
         switch section {
         case 0:
             headerView?.lblTitle.font = .qtBlackFont(size: 24)
@@ -453,6 +454,7 @@ extension QTLearnerDiscoverViewController: UITableViewDelegate {
             headerView?.title = "Categories"
         case 2:
             headerView?.title = "Rising Talent"
+            headerView?.iconRisingTalent.superview?.isHidden = false
         case 3:
             headerView?.title = "For You"
         case 4:
