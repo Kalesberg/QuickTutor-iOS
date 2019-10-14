@@ -20,6 +20,7 @@ import QuickLook
 import Cosmos
 import SnapKit
 import SKPhotoBrowser
+import Sheet
 
 
 enum QTConnectionStatus: String {
@@ -384,10 +385,9 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
 
     @objc func showReportSheet() {
-        becomeFirstResponder()
         resignFirstResponder()
 
-        let name = chatPartner.formattedName
+        /*let name = chatPartner.formattedName
         if #available(iOS 11.0, *) {
             actionSheet = FileReportActionsheet(bottomLayoutMargin: UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0, name: String(name))
         } else {
@@ -398,7 +398,47 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         actionSheet?.parentViewController = self
         actionSheet?.partnerId = chatPartner.uid
         actionSheet?.subject = subject
-        actionSheet?.show()
+        actionSheet?.show()*/
+        SheetManager.shared.options.cornerRadius = 15
+        SheetManager.shared.options.isToolBarHidden = true
+        SheetManager.shared.options.sheetBackgroundColor = Colors.newScreenBackground
+        
+        var panelHeight: CGFloat = 300
+        let isTutorSheet = AccountService.shared.currentUserType == .tutor
+        let isConnected = connectionRequestAccepted
+        if isTutorSheet {
+            if isConnected {
+                panelHeight = 200
+            } else {
+                panelHeight = 150
+            }
+        } else {
+            if isConnected {
+                panelHeight = 300
+            } else {
+                panelHeight = 200
+            }
+        }
+        
+        if #available(iOS 11.0, *) {
+            SheetManager.shared.options.defaultVisibleContentHeight = panelHeight + view.safeAreaInsets.bottom
+        } else {
+            SheetManager.shared.options.defaultVisibleContentHeight = panelHeight
+        }
+        
+        let vc = QTProfileSheetContentViewController.controller
+        vc.partnerId = chatPartner.uid
+        vc.isConnected = isConnected
+        vc.isTutorSheet = isTutorSheet
+        vc.parentVC = self
+        vc.subject = subject
+        vc.name = String(chatPartner.formattedName)
+        vc.dismissHandler = {
+            self.becomeFirstResponder()
+        }
+        
+        let navigation = SheetNavigationController(rootViewController: vc)
+        present(navigation, animated: false, completion: nil)
     }
 
     @objc func paginateMessages() {

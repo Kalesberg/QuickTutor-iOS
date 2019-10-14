@@ -37,6 +37,8 @@ class QTProfileSheetContentViewController: SheetContentsViewController {
         }
     }
     
+    var dismissHandler: (() -> ())?
+    
     static var controller: QTProfileSheetContentViewController {
         return QTProfileSheetContentViewController(nibName: String(describing: QTProfileSheetContentViewController.self), bundle: nil)
     }
@@ -100,7 +102,7 @@ class QTProfileSheetContentViewController: SheetContentsViewController {
     
     // MARK: - Event Handlers
     private func dismiss () {
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: dismissHandler)
     }
     
     private func onClickDisconnectButton() {

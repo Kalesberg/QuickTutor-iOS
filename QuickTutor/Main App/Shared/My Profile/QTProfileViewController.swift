@@ -352,10 +352,11 @@ class QTProfileViewController: UIViewController {
         
         let vc = QTProfileSheetContentViewController.controller
         vc.partnerId = user?.uid
-        vc.isConnected = connectionStatus == .connected
-        vc.isTutorSheet = AccountService.shared.currentUserType == .tutor
+        vc.isConnected = isConnected
+        vc.isTutorSheet = isTutorSheet
         vc.parentVC = self
         vc.subject = subject
+        vc.name = String(user?.formattedName ?? "User")
         
         let navigation = SheetNavigationController(rootViewController: vc)
         present(navigation, animated: false, completion: nil)
