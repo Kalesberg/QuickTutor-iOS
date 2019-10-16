@@ -1150,7 +1150,15 @@ extension ConversationVC: ConversationManagerDelegate {
                     UserDefaults.standard.set(sendMessages + 1, forKey: QTUserDefaultsKey.tutorFirstMessages)
                     UserDefaults.standard.synchronize()
                 } else if !UserDefaults.standard.bool(forKey: QTUserDefaultsKey.tutorAppRateForFiveMessages) {
+                    resignFirstResponder()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.inputAccessoryView?.isUserInteractionEnabled = false
+                    }
                     showReviewController(QTUserDefaultsKey.tutorAppRateForFiveMessages)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                        self.inputAccessoryView?.isUserInteractionEnabled = true
+                    }
                 }
             } else {
                 sendMessages = UserDefaults.standard.integer(forKey: QTUserDefaultsKey.learnerFirstMessages)
@@ -1158,7 +1166,15 @@ extension ConversationVC: ConversationManagerDelegate {
                     UserDefaults.standard.set(sendMessages + 1, forKey: QTUserDefaultsKey.learnerFirstMessages)
                     UserDefaults.standard.synchronize()
                 } else if !UserDefaults.standard.bool(forKey: QTUserDefaultsKey.learnerAppRateForFiveMessages) {
+                    resignFirstResponder()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.inputAccessoryView?.isUserInteractionEnabled = false
+                    }
                     showReviewController(QTUserDefaultsKey.learnerAppRateForFiveMessages)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                        self.inputAccessoryView?.isUserInteractionEnabled = true
+                    }
                 }
             }
         }
