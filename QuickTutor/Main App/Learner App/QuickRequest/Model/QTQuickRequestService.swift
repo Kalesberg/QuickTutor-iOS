@@ -335,6 +335,15 @@ class QTQuickRequestService {
                         if let dictionary = requestSnapshot.value as? [String: Any] {
                             let quickRequest = QTQuickRequestModel(data: dictionary)
                             
+                            // If a quickrequest has been already expired, just skip it.
+                            if quickRequest.isExpired() {
+                                emptySubjects += 1
+                                if emptySubjects == subjects.count {
+                                    NotificationCenter.default.post(name: NotificationNames.TutorDiscoverPage.noQuickRequest, object: nil, userInfo: nil)
+                                }
+                                return
+                            }
+                            
                             // Check the tutor has already applied this quickRequest or not.
                             // Also the request has posted by my learner profile
                             if !self.appliedQuickRequestIds.contains(quickRequest.id) && quickRequest.senderId.compare(userId) != .orderedSame {
@@ -366,6 +375,15 @@ class QTQuickRequestService {
                         Database.database().reference().child("quickRequests").child(child.key).observeSingleEvent(of: .value, with: { (requestSnapshot) in
                             if let dictionary = requestSnapshot.value as? [String: Any] {
                                 let quickRequest = QTQuickRequestModel(data: dictionary)
+                                
+                                // If a quickrequest has been already expired, just skip it.
+                                if quickRequest.isExpired() {
+                                    emptySubjects += 1
+                                    if emptySubjects == subjects.count {
+                                        NotificationCenter.default.post(name: NotificationNames.TutorDiscoverPage.noQuickRequest, object: nil, userInfo: nil)
+                                    }
+                                    return
+                                }
                                 
                                 // Check the tutor has already applied this quickRequest or not.
                                 // Also the request has posted by my learner profile
@@ -445,6 +463,15 @@ class QTQuickRequestService {
                         if let dictionary = requestSnapshot.value as? [String: Any] {
                             let quickRequest = QTQuickRequestModel(data: dictionary)
                             
+                            // If a quickrequest has been already expired, just skip it.
+                            if quickRequest.isExpired() {
+                                emptySubcategories += 1
+                                if emptySubcategories == subcategoryNames.count {
+                                    NotificationCenter.default.post(name: NotificationNames.TutorDiscoverPage.noQuickRequest, object: nil, userInfo: nil)
+                                }
+                                return
+                            }
+                            
                             // Check the tutor has already applied this quickRequest or not.
                             // Also the request has posted by my learner profile
                             if !self.appliedQuickRequestIds.contains(quickRequest.id) && quickRequest.senderId.compare(userId) != .orderedSame {
@@ -476,6 +503,15 @@ class QTQuickRequestService {
                         Database.database().reference().child("quickRequests").child(child.key).observeSingleEvent(of: .value, with: { (requestSnapshot) in
                             if let dictionary = requestSnapshot.value as? [String: Any] {
                                 let quickRequest = QTQuickRequestModel(data: dictionary)
+                                
+                                // If a quickrequest has been already expired, just skip it.
+                                if quickRequest.isExpired() {
+                                    emptySubcategories += 1
+                                    if emptySubcategories == subcategoryNames.count {
+                                        NotificationCenter.default.post(name: NotificationNames.TutorDiscoverPage.noQuickRequest, object: nil, userInfo: nil)
+                                    }
+                                    return
+                                }
                                 
                                 // Check the tutor has already applied this quickRequest or not.
                                 // Also the request has posted by my learner profile
@@ -554,6 +590,15 @@ class QTQuickRequestService {
                         if let dictionary = requestSnapshot.value as? [String: Any] {
                             let quickRequest = QTQuickRequestModel(data: dictionary)
                             
+                            // If a quickrequest has been already expired, just skip it.
+                            if quickRequest.isExpired() {
+                                emptyCategories += 1
+                                if emptyCategories == categoryNames.count {
+                                    NotificationCenter.default.post(name: NotificationNames.TutorDiscoverPage.noQuickRequest, object: nil, userInfo: nil)
+                                }
+                                return
+                            }
+                            
                             // Check the tutor has already applied this quickRequest or not.
                             // Also the request has posted by my learner profile
                             if !self.appliedQuickRequestIds.contains(quickRequest.id) && quickRequest.senderId.compare(userId) != .orderedSame {
@@ -585,6 +630,15 @@ class QTQuickRequestService {
                         Database.database().reference().child("quickRequests").child(child.key).observeSingleEvent(of: .value, with: { (requestSnapshot) in
                             if let dictionary = requestSnapshot.value as? [String: Any] {
                                 let quickRequest = QTQuickRequestModel(data: dictionary)
+                                
+                                // If a quickrequest has been already expired, just skip it.
+                                if quickRequest.isExpired() {
+                                    emptyCategories += 1
+                                    if emptyCategories == categoryNames.count {
+                                        NotificationCenter.default.post(name: NotificationNames.TutorDiscoverPage.noQuickRequest, object: nil, userInfo: nil)
+                                    }
+                                    return
+                                }
                                 
                                 // Check the tutor has already applied this quickRequest or not.
                                 // Also the request has posted by my learner profile
