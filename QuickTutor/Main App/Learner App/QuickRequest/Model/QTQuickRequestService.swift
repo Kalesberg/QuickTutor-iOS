@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import ObjectMapper
 
 class QTQuickRequestService {
     static let shared = QTQuickRequestService()
@@ -40,9 +41,42 @@ class QTQuickRequestService {
         maxPrice = nil
     }
     
+    func canSendQuickRequest(senderId: String, completion: @escaping (Bool) -> Void) {
+        Database.database().reference()
+            .child("quickRequestsMetaData")
+            .child(senderId)
+            .observeSingleEvent(of: .value) { (snapshot) in
+                if !snapshot.exists() || snapshot.childrenCount == 0 {
+                    return completion(true)
+                }
+                
+                guard let children = snapshot.children.allObjects as? [DataSnapshot] else {
+                    return completion(true)
+                }
+                
+                if children.count < 3 {
+                    return completion(true)
+                }
+                
+                var index = 0
+                for child in children {
+                    if let data = child.value as? [String: Any], let metaData = Mapper<QTQuickRequestMetaDataModel>().map(JSON: data) {
+                        if (metaData.createdAt + 24 * 3600) >= Date().timeIntervalSince1970 {
+                            index += 1
+                            if index == 3 {
+                                return completion(false)
+                            }
+                        }
+                    }
+                }
+                
+                return completion(true)
+        }
+    }
+    
     func sendQuickRequest(_ completion: ((Bool?, String?) -> Void)?) {
         
-        guard let uid = CurrentUser.shared.learner.uid else {
+        guard let learnerId = CurrentUser.shared.learner.uid else {
             if let completion = completion {
                 completion(false, "You can't submit the request.")
             }
@@ -58,7 +92,7 @@ class QTQuickRequestService {
         requestData["minPrice"] = minPrice
         requestData["maxPrice"] = maxPrice
         requestData["expired"] = false
-        requestData["senderId"] = uid
+        requestData["senderId"] = learnerId
         requestData["duration"] = duration * 60
         let expiration = (endTime - Date().timeIntervalSince1970) / 2
         let expirationDate = Date().addingTimeInterval(expiration).timeIntervalSince1970
@@ -81,6 +115,13 @@ class QTQuickRequestService {
             
             if let uid = ref.key {
                 ref.updateChildValues(["uid": uid])
+                
+                // Add meta data to restrict to send 3 quick requests per day.
+                var metaData = [String: Any]()
+                metaData["createdAt"] = Date().timeIntervalSince1970
+                metaData["senderId"] = learnerId
+                metaData["quickRequestId"] = uid
+                Database.database().reference().child("quickRequestsMetaData").child(learnerId).child(uid).setValue(metaData)
                 
                 // Register the id of quickrequest in quickRequestsSubjects table with the subject as an index
                 // in order to search opportunities by the subject simply

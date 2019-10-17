@@ -332,6 +332,8 @@
 		5697DD32226F859300AC9775 /* QTInviteOthersSectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5697DD21226F859300AC9775 /* QTInviteOthersSectionHeaderView.xib */; };
 		5697DD33226F859300AC9775 /* QTInviteOthersSectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5697DD21226F859300AC9775 /* QTInviteOthersSectionHeaderView.xib */; };
 		5697DD34226F865F00AC9775 /* VideoMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF17F22F226EA4C400ABD07D /* VideoMessageCell.swift */; };
+		5699261F235805BD00BB36EC /* QTQuickRequestMetaDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5699261E235805BD00BB36EC /* QTQuickRequestMetaDataModel.swift */; };
+		56992620235805BD00BB36EC /* QTQuickRequestMetaDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5699261E235805BD00BB36EC /* QTQuickRequestMetaDataModel.swift */; };
 		569ECDA421F9A1E6005491CB /* QTTutorDashboardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 569ECDA321F9A1E6005491CB /* QTTutorDashboardViewController.xib */; };
 		569ECDA621F9A235005491CB /* QTTutorDashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569ECDA521F9A235005491CB /* QTTutorDashboardViewController.swift */; };
 		569ECDA821F9A7FD005491CB /* QTCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569ECDA721F9A7FC005491CB /* QTCustomView.swift */; };
@@ -1753,6 +1755,7 @@
 		5697DD1F226F859300AC9775 /* QTInviteOthersHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QTInviteOthersHeaderView.xib; sourceTree = "<group>"; };
 		5697DD20226F859300AC9775 /* QTInviteOthersSectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QTInviteOthersSectionHeaderView.swift; sourceTree = "<group>"; };
 		5697DD21226F859300AC9775 /* QTInviteOthersSectionHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QTInviteOthersSectionHeaderView.xib; sourceTree = "<group>"; };
+		5699261E235805BD00BB36EC /* QTQuickRequestMetaDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTQuickRequestMetaDataModel.swift; sourceTree = "<group>"; };
 		569ECDA321F9A1E6005491CB /* QTTutorDashboardViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QTTutorDashboardViewController.xib; sourceTree = "<group>"; };
 		569ECDA521F9A235005491CB /* QTTutorDashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTTutorDashboardViewController.swift; sourceTree = "<group>"; };
 		569ECDA721F9A7FC005491CB /* QTCustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTCustomView.swift; sourceTree = "<group>"; };
@@ -2739,6 +2742,7 @@
 			children = (
 				565BFAD4230CF2DD0014AE20 /* QTQuickRequestService.swift */,
 				565BBEBE2310DAEF00986490 /* QTQuickRequestModel.swift */,
+				5699261E235805BD00BB36EC /* QTQuickRequestMetaDataModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -6111,6 +6115,7 @@
 				569F1846223554FD00820A20 /* AppDelegate.swift in Sources */,
 				569F1847223554FD00820A20 /* TutorCardVC.swift in Sources */,
 				569F1848223554FD00820A20 /* TutorMyProfileCells.swift in Sources */,
+				56992620235805BD00BB36EC /* QTQuickRequestMetaDataModel.swift in Sources */,
 				569F1849223554FD00820A20 /* LearnerSettingsVC.swift in Sources */,
 				569F184B223554FD00820A20 /* FeaturedSubjectVC.swift in Sources */,
 				569F184C223554FD00820A20 /* TutorDidNotHelpVC.swift in Sources */,
@@ -6705,6 +6710,7 @@
 				CF5A3FB6221B5BEE0016C332 /* FeaturedSubjectVC.swift in Sources */,
 				848809FB2057835E00F204A0 /* TutorDidNotHelpVC.swift in Sources */,
 				8451FB5A213EF17C00F86DC5 /* TipCell.swift in Sources */,
+				5699261F235805BD00BB36EC /* QTQuickRequestMetaDataModel.swift in Sources */,
 				CF507FA52181376D007FE441 /* TypingIndicatorView.swift in Sources */,
 				84F141A1207E490D003D3193 /* TutorPreferencesVC.swift in Sources */,
 				84F5774420C2B266008486AD /* UserSession.swift in Sources */,
