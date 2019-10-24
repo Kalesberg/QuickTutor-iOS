@@ -28,6 +28,7 @@ class QTQuickRequestSubmitViewController: UIViewController {
     @IBOutlet weak var tutorPriceView: UIView!
     @IBOutlet weak var tutorSuggestedPriceLabel: UILabel!
     @IBOutlet weak var tutorRealPriceLabel: UILabel!
+    @IBOutlet weak var tutorServiceFeeLabel: UILabel!
     @IBOutlet weak var sessionTypeLabel: UILabel!
     @IBOutlet weak var onlineTypeView: QTCustomView!
     @IBOutlet weak var inPersonTypeView: QTCustomView!

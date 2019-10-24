@@ -18,7 +18,7 @@ class QTTutorDiscoverOpportunityApplyViewController: QTQuickRequestSubmitViewCon
     }()
     
     var quickRequest: QTQuickRequestModel!
-    var realPrice: Int!
+    var realPrice: Double!
     var minPrice: Double!
     var maxPrice: Double!
     
@@ -74,10 +74,13 @@ class QTTutorDiscoverOpportunityApplyViewController: QTQuickRequestSubmitViewCon
         
         var price = (maxPrice - minPrice) / 2
         price = (maxPrice - price) / 2
-        realPrice = Int(maxPrice - price)
+        realPrice = maxPrice - price // Tutor budget
         
-        tutorSuggestedPriceLabel.text = String(format: "%0.2d", realPrice)
-        tutorRealPriceLabel.text = String(format: "%0.2d", realPrice - 5)
+        let serviceFee = realPrice * 0.1 + 2 // QuickTutor Fee
+        let tutoringCost = realPrice - serviceFee // Real cost to be received
+        tutorSuggestedPriceLabel.text = String(format: "$%0.2f", realPrice)
+        tutorServiceFeeLabel.text = String(format: "$%0.2f", serviceFee)
+        tutorRealPriceLabel.text = String(format: "$%0.2f", tutoringCost)
         
         // Set price type
         tutorPriceView.isHidden = false
@@ -108,7 +111,7 @@ class QTTutorDiscoverOpportunityApplyViewController: QTQuickRequestSubmitViewCon
     // MARK: - Actions
     override func OnNextButtonClicked(_ sender: Any) {
         
-        quickRequest.paymentType = .hour
+        quickRequest.paymentType = .session
         quickRequest.price = Double(realPrice)
         
         QTQuickRequestService.shared.applyOpportunity(request: quickRequest)
