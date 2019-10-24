@@ -153,7 +153,7 @@ class QTChatVideoPlayerViewController: AVPlayerViewController {
     // MARK: - Save Video Handler
     private func saveVideo () {
         displayLoadingOverlay()
-        DispatchQueue.global(qos: .userInitiated).async {
+        DispatchQueue.global().async {
             if let urlData = NSData(contentsOf: self.videoUrl),
                 let cacheDir = self.getCacheDir(),
                 let path = (cacheDir as NSString).strings(byAppendingPaths: ["tmp-video.mp4"]).first {

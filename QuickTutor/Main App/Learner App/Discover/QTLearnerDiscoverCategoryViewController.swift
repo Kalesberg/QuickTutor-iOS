@@ -113,7 +113,7 @@ class QTLearnerDiscoverCategoryViewController: UIViewController {
         if QTLearnerDiscoverService.shared.sectionTutors.contains(where: { .category == $0.type && category.mainPageData.name == $0.key }) { return }
         
         TutorSearchService.shared.getTutorIdsByCategory(category.mainPageData.name) { tutorIds in
-            TutorSearchService.shared.getTutorsByCategory(self.category.mainPageData.name, lastKnownKey: nil, queue: .global(qos: .userInitiated)) { tutors, loadedAllTutors  in
+            TutorSearchService.shared.getTutorsByCategory(self.category.mainPageData.name, lastKnownKey: nil) { tutors, loadedAllTutors  in
                 
                 let aryTutors = tutors?.sorted() { tutor1, tutor2 in
                     let categoryReviews1 = tutor1.categoryReviews(self.category.mainPageData.name).count
@@ -172,7 +172,7 @@ class QTLearnerDiscoverCategoryViewController: UIViewController {
             
             tutorsGroup.enter()
             TutorSearchService.shared.getTutorIdsBySubcategory(subcategory) { tutorIds in
-                TutorSearchService.shared.getTutorsBySubcategory(subcategory, lastKnownKey: nil, queue: .global(qos: .userInitiated)) { tutors, loadedAllTutors  in
+                TutorSearchService.shared.getTutorsBySubcategory(subcategory, lastKnownKey: nil) { tutors, loadedAllTutors  in
                     let aryTutors = tutors?.sorted() { tutor1, tutor2 in
                         let subcategoryReviews1 = tutor1.reviews?.filter({ subcategory == SubjectStore.shared.findSubCategory(subject: $0.subject) }).count ?? 0
                         let subcategoryReviews2 = tutor2.reviews?.filter({ subcategory == SubjectStore.shared.findSubCategory(subject: $0.subject) }).count ?? 0

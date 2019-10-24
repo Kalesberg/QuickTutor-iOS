@@ -154,15 +154,6 @@ class QTCloseAccountSubmitViewController: UIViewController {
     }
     
     private func removeUser() {
-        // Remove user shared object
-        CurrentUser.shared.logout()
-        AccountService.shared.logout()
-                
-        // Facebook Logout
-        try? Auth.auth().signOut()
-        // Firebase Logout
-        LoginManager().logOut()
-        
         if CurrentUser.shared.learner.hasTutor == false {
             self.removeLearner()
         } else {
@@ -190,6 +181,15 @@ class QTCloseAccountSubmitViewController: UIViewController {
                             self.getUserCredentialsAlert()
                         }
                     } else {
+                        // Remove user shared object
+                        CurrentUser.shared.logout()
+                        AccountService.shared.logout()
+                                
+                        // Facebook Logout
+                        try? Auth.auth().signOut()
+                        // Firebase Logout
+                        LoginManager().logOut()
+                        
                         RootControllerManager.shared.configureRootViewController(controller: GetStartedViewController())
                     }
                 }
@@ -229,7 +229,16 @@ class QTCloseAccountSubmitViewController: UIViewController {
                                 self.getUserCredentialsAlert()
                             }
                         } else {
-                            self.navigationController?.pushViewController(GetStartedViewController(), animated: false)
+                            // Remove user shared object
+                            CurrentUser.shared.logout()
+                            AccountService.shared.logout()
+                                    
+                            // Facebook Logout
+                            try? Auth.auth().signOut()
+                            // Firebase Logout
+                            LoginManager().logOut()
+                            
+                            RootControllerManager.shared.configureRootViewController(controller: GetStartedViewController())
                         }
                     }
                 }

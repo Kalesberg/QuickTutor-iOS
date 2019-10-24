@@ -93,7 +93,7 @@ class QTTutorDiscoverViewController: UIViewController {
     
     func setupShareProfileView() {
         // Get tutor info
-        guard let userId = AccountService.shared.currentUser.uid else { return }
+        guard let userId = AccountService.shared.currentUser?.uid else { return }
         FirebaseData.manager.fetchTutor(userId, isQuery: false) { (tutor) in
             guard let tutor = tutor else { return }
             self.tutor = tutor

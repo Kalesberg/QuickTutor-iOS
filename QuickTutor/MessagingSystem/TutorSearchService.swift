@@ -27,7 +27,7 @@ class TutorSearchService {
             
             tutorIds.keys.sorted(by: { $0 < $1 }).forEach { uid in
                 myGroup.enter()
-                FirebaseData.manager.fetchTutor(uid, isQuery: false, queue: .global(qos: .userInitiated)) { tutor in
+                FirebaseData.manager.fetchTutor(uid, isQuery: false, queue: .global()) { tutor in
                     guard let tutor = tutor else {
                         myGroup.leave()
                         return
@@ -67,7 +67,7 @@ class TutorSearchService {
             let myGroup = DispatchGroup()
             tutorIds.keys.sorted(by: { $0 < $1 }).forEach { uid in
                 myGroup.enter()
-                FirebaseData.manager.fetchTutor(uid, isQuery: false, queue: .global(qos: .userInitiated)) { tutor in
+                FirebaseData.manager.fetchTutor(uid, isQuery: false, queue: .global()) { tutor in
                     guard let tutor = tutor else {
                         myGroup.leave()
                         return
@@ -106,7 +106,7 @@ class TutorSearchService {
             let myGroup = DispatchGroup()
             tutorIds.keys.sorted(by: { $0 < $1 }).forEach { uid in
                 myGroup.enter()
-                FirebaseData.manager.fetchTutor(uid, isQuery: false, queue: .global(qos: .userInitiated)) { tutor in
+                FirebaseData.manager.fetchTutor(uid, isQuery: false, queue: queue) { tutor in
                     guard let tutor = tutor else {
                         myGroup.leave()
                         return
@@ -335,14 +335,14 @@ class TutorSearchService {
                         accountIdsGroup.leave()
                     }
                 }
-                accountIdsGroup.notify(queue: .global(qos: .userInitiated)) {
+                accountIdsGroup.notify(queue: .global()) {
                     var aryTutors: [AWTutor] = []
                     let tutorsGroup = DispatchGroup()
                     for accountId in accountIds.suffix(limit) {
                         if accountId == Auth.auth().currentUser?.uid { continue }
                         
                         tutorsGroup.enter()
-                        FirebaseData.manager.fetchTutor(accountId, isQuery: false, queue: .global(qos: .userInitiated)) { tutor in
+                        FirebaseData.manager.fetchTutor(accountId, isQuery: false, queue: .global()) { tutor in
                             if let tutor = tutor {
                                 aryTutors.append(tutor)
                             }
@@ -382,14 +382,14 @@ class TutorSearchService {
                     accountIdsGroup.leave()
                 }
             }
-            accountIdsGroup.notify(queue: .global(qos: .userInitiated)) {
+            accountIdsGroup.notify(queue: .global()) {
                 var aryTutors: [AWTutor] = []
                 let tutorsGroup = DispatchGroup()
                 for accountId in accountIds {
                     if accountId == Auth.auth().currentUser?.uid { continue }
                     
                     tutorsGroup.enter()
-                    FirebaseData.manager.fetchTutor(accountId, isQuery: false) { tutor in
+                    FirebaseData.manager.fetchTutor(accountId, isQuery: false, queue: .global()) { tutor in
                         if let tutor = tutor {
                             aryTutors.append(tutor)
                         }
@@ -404,7 +404,7 @@ class TutorSearchService {
         }
     }
     
-    func loadRandongTutorIds(category: String? = nil, subcategory: String? = nil, completion: @escaping ([String]) -> Void) {
+    func loadRandongTutorIds(category: String? = nil, subcategory: String? = nil, queue: DispatchQueue = .main, completion: @escaping ([String]) -> Void) {
         var aryTutorIds: [String] = []
         let tutorIdsGroup = DispatchGroup()
         if let category = category {
@@ -435,7 +435,7 @@ class TutorSearchService {
                 tutorIdsGroup.leave()
             }
         }
-        tutorIdsGroup.notify(queue: .global(qos: .userInitiated)) {
+        tutorIdsGroup.notify(queue: queue) {
             completion(aryTutorIds)
         }
     }
