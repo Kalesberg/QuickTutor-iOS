@@ -34,6 +34,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
         let view = UIView()
         view.layer.cornerRadius = 5
         view.isHidden = true
+
         return view
     }()
     
@@ -84,7 +85,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
         label.font = Fonts.createBoldSize(14)
         label.isSkeletonable = true
         label.linesCornerRadius = 4
-        
+                
         return label
     }()
 
@@ -246,12 +247,12 @@ class TutorCollectionViewCell: UICollectionViewCell {
         nameLabel.text = tutor.formattedName
         subjectLabel.text = tutor.featuredSubject
         
-        priceLabel.isHidden = false
         priceLabel.text = "$\(tutor.price ?? 5) per hour"
         
-        profileImageView.isHidden = false
         profileImageView.sd_setImage(with: URL(string: tutor.profilePicUrl.absoluteString)!,
                                      placeholderImage: UIImage(named: "ic_avatar_placeholder"))
+        
+        maskBackgroundView.isHidden = false
         
         saveButton.isHidden = false
         if !CurrentUser.shared.learner.savedTutorIds.isEmpty {

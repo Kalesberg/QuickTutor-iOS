@@ -1156,6 +1156,10 @@ class QTProfileViewController: UIViewController {
     
     private func setupSharedProfileView() {
         
+        if user == nil || user.uid == nil {
+            return
+        }
+        
         // Get tutor info
         FirebaseData.manager.fetchTutor(user.uid, isQuery: false) { (tutor) in
             guard let tutor = tutor else { return }
