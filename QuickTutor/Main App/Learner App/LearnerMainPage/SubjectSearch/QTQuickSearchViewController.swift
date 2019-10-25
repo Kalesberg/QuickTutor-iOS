@@ -61,7 +61,11 @@ class QTQuickSearchViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        searchBarContainer.searchBar.becomeFirstResponder()
+        
+        DispatchQueue.main.async {
+            self.searchBarContainer.searchBar.becomeFirstResponder()
+        }
+        
     }
 
     override func viewWillLayoutSubviews() {

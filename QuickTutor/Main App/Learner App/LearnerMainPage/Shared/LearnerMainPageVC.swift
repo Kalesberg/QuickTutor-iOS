@@ -21,6 +21,8 @@ class LearnerMainPageVC: UIViewController {
         return view
     }()
     
+    var helpAlert: QTQuickRequestAlertModal?
+    
     override func loadView() {
         view = contentView
     }
@@ -151,10 +153,25 @@ class LearnerMainPageVC: UIViewController {
     }
     
     @objc func handleQuickRequestTapped(_ notification: Notification) {
-        // Go to quick request screen
-        let vc = QTQuickRequestTypeViewController.controller
-        vc.hidesBottomBarWhenPushed = true
-        self.navigationController?.pushViewController(vc, animated: true)
+        // Check whether or not this learner has already posted 3 quickrequests in 24 hours.
+        guard let learnerId = CurrentUser.shared.learner.uid else { return }
+        QTQuickRequestService.shared.canSendQuickRequest(senderId: learnerId) { (available) in
+            if available {
+                DispatchQueue.main.async {
+                    // Go to quick request screen
+                    let vc = QTQuickRequestTypeViewController.controller
+                    vc.hidesBottomBarWhenPushed = true
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.helpAlert = QTQuickRequestAlertModal(frame: .zero)
+                    self.helpAlert?.set("QuickRequest",
+                                   "Daily Maximum Reached.")
+                    self.helpAlert?.show()
+                }
+            }
+        }
     }
     
     private func showTutorProfileFromNotification(_ notification: Notification) {

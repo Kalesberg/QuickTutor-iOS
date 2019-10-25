@@ -120,7 +120,7 @@ class QTLearnerDiscoverSubcategoryViewController: UIViewController {
         if QTLearnerDiscoverService.shared.sectionTutors.contains(where: { .subcategory == $0.type && subcategory == $0.key }) { return }
         
         TutorSearchService.shared.getTutorIdsBySubcategory(subcategory) { tutorIds in
-            TutorSearchService.shared.getTutorsBySubcategory(self.subcategory, lastKnownKey: nil, queue: .global(qos: .userInitiated)) { tutors, loadedAllTutors  in
+            TutorSearchService.shared.getTutorsBySubcategory(self.subcategory, lastKnownKey: nil) { tutors, loadedAllTutors  in
                 let aryTutors = tutors?.sorted() { tutor1, tutor2 in
                     let subcategoryReviews1 = tutor1.reviews?.filter({ self.subcategory == SubjectStore.shared.findSubCategory(subject: $0.subject) }).count ?? 0
                     let subcategoryReviews2 = tutor2.reviews?.filter({ self.subcategory == SubjectStore.shared.findSubCategory(subject: $0.subject) }).count ?? 0
@@ -169,7 +169,11 @@ class QTLearnerDiscoverSubcategoryViewController: UIViewController {
 
 extension QTLearnerDiscoverSubcategoryViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 5
+        if shouldHideRecentlyActive {
+            return 4
+        } else {
+            return 5
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -265,15 +269,11 @@ extension QTLearnerDiscoverSubcategoryViewController: UITableViewDataSource {
 
 extension QTLearnerDiscoverSubcategoryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if 4 == indexPath.section, shouldHideRecentlyActive {
-            return 0.1
-        } else {
-            return UITableView.automaticDimension
-        }
+        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        var headerView = Bundle.main.loadNibNamed(String(describing: QTLearnerDiscoverTableSectionHeaderView.self), owner: self, options: nil)?.first as? QTLearnerDiscoverTableSectionHeaderView
+        let headerView = Bundle.main.loadNibNamed(String(describing: QTLearnerDiscoverTableSectionHeaderView.self), owner: self, options: nil)?.first as? QTLearnerDiscoverTableSectionHeaderView
         headerView?.iconRisingTalent.superview?.isHidden = true
         switch section {
         case 0:
@@ -286,11 +286,7 @@ extension QTLearnerDiscoverSubcategoryViewController: UITableViewDelegate {
         case 3:
             headerView?.title = "For You"
         case 4:
-            if shouldHideRecentlyActive {
-                headerView = nil
-            } else {
-                headerView?.title = "Recently Active"
-            }
+            headerView?.title = "Recently Active"
         default:
             break
         }
@@ -299,11 +295,7 @@ extension QTLearnerDiscoverSubcategoryViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if 4 == section, shouldHideRecentlyActive {
-            return 0.1
-        } else {
-            return UITableView.automaticDimension
-        }
+        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -316,7 +308,7 @@ extension QTLearnerDiscoverSubcategoryViewController: QTLearnerDiscoverRecentlyA
     func onDidUpdateRecentlyActive(_ tutors: [AWTutor]) {
         if tutors.isEmpty {
             shouldHideRecentlyActive = true
-            tableView.reloadSections(IndexSet(integer: 4), with: .automatic)
+            tableView.reloadData()
         }
     }
 }

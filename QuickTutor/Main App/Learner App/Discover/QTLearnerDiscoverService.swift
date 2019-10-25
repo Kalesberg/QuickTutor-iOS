@@ -41,8 +41,7 @@ class QTLearnerDiscoverService {
     var topTutorsLimit: Int?
     var risingTalentLimit = 50
     
-    var sectionTutors: [QTLearnerDiscoverTutorSectionInterface] = []
-    
+    var sectionTutors: [QTLearnerDiscoverTutorSectionInterface] = []    
 }
 
 class QTInteractivePopRecognizer: NSObject, UIGestureRecognizerDelegate {

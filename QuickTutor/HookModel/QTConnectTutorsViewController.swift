@@ -119,7 +119,7 @@ class QTConnectTutorsViewController: UIViewController {
             }
         }
         
-        interestsGroup.notify(queue: .global(qos: .userInitiated)) {
+        interestsGroup.notify(queue: .main) {
             // load same subcategory tutors
             let subcategoriesGroup = DispatchGroup()
             for subcategory in subcategories {
@@ -144,7 +144,7 @@ class QTConnectTutorsViewController: UIViewController {
                     subcategoriesGroup.leave()
                 }
             }
-            subcategoriesGroup.notify(queue: .global(qos: .userInitiated)) {
+            subcategoriesGroup.notify(queue: .main) {
                 // load same category tutors
                 let categoriesGroup = DispatchGroup()
                 for category in categories {
@@ -191,7 +191,7 @@ class QTConnectTutorsViewController: UIViewController {
         let realLimit = limit < aryTutorIds.count ? limit : aryTutorIds.count
         for index in 0 ..< realLimit {
             tutorsGroup.enter()
-            FirebaseData.manager.fetchTutor(aryTutorIds[index].tutorId, isQuery: false, queue: .global(qos: .userInitiated)) { tutor in
+            FirebaseData.manager.fetchTutor(aryTutorIds[index].tutorId, isQuery: false) { tutor in
                 guard let tutor = tutor else {
                     tutorsGroup.leave()
                     return

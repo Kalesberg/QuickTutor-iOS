@@ -105,12 +105,12 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
             locationView.isHidden = false
             showMeView.isHidden = true
             locationTextField.text = CurrentUser.shared.learner.region ?? "United States"
-        } else {
+        } else if let tutor = CurrentUser.shared.tutor {
             locationView.isHidden = false
             showMeView.isHidden = false
-            isShowMe = CurrentUser.shared.tutor.isVisible
+            isShowMe = tutor.isVisible
             showMeSwitchOn(isShowMe)
-            locationTextField.text = CurrentUser.shared.tutor.region ?? "United States"
+            locationTextField.text = tutor.region ?? "United States"
         }
         
         updateFacebookInfoView()
