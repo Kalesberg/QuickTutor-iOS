@@ -119,14 +119,14 @@ class AlertController : NSObject {
     
     class func genericAlertWithoutCancel(_ viewController: UIViewController, title: String, message: String?) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let remove = UIAlertAction(title: "Ok", style: .default) { (_) in }
+        let remove = UIAlertAction(title: "Ok", style: .default, handler: nil)
         alertController.addAction(remove)
         viewController.present(alertController, animated: true, completion: nil)
     }
 	
 	class func genericErrorAlertWithoutCancel(_ viewController: UIViewController, title: String = "Error", message: String?) {
 		let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-		let remove = UIAlertAction(title: "Ok", style: .default) { (_) in }		
+		let remove = UIAlertAction(title: "Ok", style: .default, handler: nil)
 		alertController.addAction(remove)
 		viewController.present(alertController, animated: true, completion: nil)
 	}

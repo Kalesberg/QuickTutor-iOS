@@ -119,7 +119,7 @@ class StripeService {
                 case .failure(let error):
                     if let data = response.data,
                         let dicData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
-                        let dicError = dicData,
+                        let dicError = dicData?["raw"] as? [String: Any],
                         let objStripeError = Mapper<QTStripeError>().map(JSON: dicError) {
                         objStripeError.error = error
                         completion(objStripeError, nil)
@@ -148,7 +148,7 @@ class StripeService {
                 case .failure(let error):
                     if let data = response.data,
                         let dicData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
-                        let dicError = dicData,
+                        let dicError = dicData?["raw"] as? [String: Any],
                         let objStripeError = Mapper<QTStripeError>().map(JSON: dicError) {
                         objStripeError.error = error
                         completion(objStripeError, nil)
@@ -180,7 +180,7 @@ class StripeService {
                 case .failure(let error):
                     if let data = response.data,
                         let dicData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
-                        let dicError = dicData,
+                        let dicError = dicData?["raw"] as? [String: Any],
                         let objStripeError = Mapper<QTStripeError>().map(JSON: dicError) {
                         objStripeError.error = error
                         completion(objStripeError)
@@ -212,7 +212,7 @@ class StripeService {
                 case .failure(let error):
                     if let data = response.data,
                         let dicData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
-                        let dicError = dicData,
+                        let dicError = dicData?["raw"] as? [String: Any],
                         let objStripeError = Mapper<QTStripeError>().map(JSON: dicError) {
                         objStripeError.error = error
                         completion(objStripeError)
@@ -241,7 +241,7 @@ class StripeService {
                 case .failure(let error):
                     if let data = response.data,
                         let dicData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
-                        let dicError = dicData,
+                        let dicError = dicData?["raw"] as? [String: Any],
                         let objStripeError = Mapper<QTStripeError>().map(JSON: dicError) {
                         objStripeError.error = error
                         completion(objStripeError, nil)
@@ -270,7 +270,7 @@ class StripeService {
                 case .failure(let error):
                     if let data = response.data,
                         let dicData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
-                        let dicError = dicData,
+                        let dicError = dicData?["raw"] as? [String: Any],
                         let objStripeError = Mapper<QTStripeError>().map(JSON: dicError) {
                         objStripeError.error = error
                         completion(objStripeError, nil)
@@ -306,7 +306,7 @@ class StripeService {
                 case .failure(let error):
                     if let data = response.data,
                         let dicData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
-                        let dicError = dicData,
+                        let dicError = dicData?["raw"] as? [String: Any],
                         let objStripeError = Mapper<QTStripeError>().map(JSON: dicError) {
                         objStripeError.error = error
                         completion(nil, objStripeError)
@@ -337,7 +337,7 @@ class StripeService {
                         case .failure(let error):
                             if let data = response.data,
                                 let dicData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
-                                let dicError = dicData,
+                                let dicError = dicData?["raw"] as? [String: Any],
                                 let objStripeError = Mapper<QTStripeError>().map(JSON: dicError) {
                                 completion(objStripeError.message)
                             } else {
@@ -363,7 +363,7 @@ class StripeService {
                 case .failure(let error):
                     if let data = response.data,
                         let dicData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
-                        let dicError = dicData,
+                        let dicError = dicData?["raw"] as? [String: Any],
                         let objStripeError = Mapper<QTStripeError>().map(JSON: dicError) {
                         completion(objStripeError.message)
                     } else {
@@ -392,7 +392,7 @@ class StripeService {
                 case .failure(let error):
                     if let data = response.data,
                         let dicData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
-                        let dicError = dicData,
+                        let dicError = dicData?["raw"] as? [String: Any],
                         let objStripeError = Mapper<QTStripeError>().map(JSON: dicError) {
                         objStripeError.error = error
                         completion(objStripeError, nil)
@@ -422,7 +422,7 @@ class StripeService {
                 case .failure(let error):
                     if let data = response.data,
                         let dicData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
-                        let dicError = dicData,
+                        let dicError = dicData?["raw"] as? [String: Any],
                         let objStripeError = Mapper<QTStripeError>().map(JSON: dicError) {
                         objStripeError.error = error
                         completion(objStripeError, nil)
@@ -458,7 +458,7 @@ class StripeService {
                 case .failure(let error):
                     if let data = response.data,
                         let dicData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
-                        let dicError = dicData,
+                        let dicError = dicData?["raw"] as? [String: Any],
                         let objStripeError = Mapper<QTStripeError>().map(JSON: dicError) {
                         objStripeError.error = error
                         completion(nil, objStripeError)
@@ -495,7 +495,7 @@ class StripeService {
                 case .failure(let error):
                     if let data = response.data,
                         let dicData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
-                        let dicError = dicData,
+                        let dicError = dicData?["raw"] as? [String: Any],
                         let objStripeError = Mapper<QTStripeError>().map(JSON: dicError) {
                         objStripeError.error = error
                         completion(nil, objStripeError)
@@ -520,7 +520,7 @@ class StripeService {
                 case .failure(let error):
                     if let data = response.data,
                         let dicData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
-                        let dicError = dicData,
+                        let dicError = dicData?["raw"] as? [String: Any],
                         let objStripeError = Mapper<QTStripeError>().map(JSON: dicError) {
                         objStripeError.error = error
                         completion(objStripeError)
@@ -543,7 +543,7 @@ class StripeService {
                 case .failure(let error):
                     if let data = response.data,
                         let dicData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
-                        let dicError = dicData,
+                        let dicError = dicData?["raw"] as? [String: Any],
                         let objStripeError = Mapper<QTStripeError>().map(JSON: dicError) {
                         objStripeError.error = error
                         completion(objStripeError)
