@@ -25,7 +25,10 @@ class QTLearnerSessionsService {
         upcomingSessions.removeAll()
         pastSessions.removeAll()
         
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let uid = Auth.auth().currentUser?.uid else {
+            self.attemptReloadOfTable()
+            return
+        }
         let userTypeString = AccountService.shared.currentUserType.rawValue
         
         Database
@@ -53,10 +56,12 @@ class QTLearnerSessionsService {
                     if !snapshot.exists() {
                         // TODO: end of loading
                         self.attemptReloadOfTable()
+                        return
                     }
                     
                     DataService.shared.getSessionById(snapshot.key, completion: { session in
                         if session.type.compare(QTSessionType.quickCalls.rawValue) == .orderedSame {
+                            self.attemptReloadOfTable()
                             return
                         }
                         
