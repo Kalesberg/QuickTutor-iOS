@@ -421,7 +421,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         }
         
         if #available(iOS 11.0, *) {
-            SheetManager.shared.options.defaultVisibleContentHeight = panelHeight + view.safeAreaInsets.bottom
+            SheetManager.shared.options.defaultVisibleContentHeight = panelHeight + (UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0)
         } else {
             SheetManager.shared.options.defaultVisibleContentHeight = panelHeight
         }

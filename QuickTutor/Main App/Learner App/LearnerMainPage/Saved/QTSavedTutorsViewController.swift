@@ -46,6 +46,7 @@ class QTSavedTutorsViewController: UIViewController {
     private var presentedSearchVC = false
     
     private var popRecognizer: QTInteractivePopRecognizer?
+    private var previousRecognizer: UIGestureRecognizerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -180,6 +181,7 @@ class QTSavedTutorsViewController: UIViewController {
     private func setInteractiveRecognizer() {
         guard let controller = navigationController else { return }
         popRecognizer = QTInteractivePopRecognizer(controller: controller)
+        previousRecognizer = controller.interactivePopGestureRecognizer?.delegate
         controller.interactivePopGestureRecognizer?.delegate = popRecognizer
     }
     

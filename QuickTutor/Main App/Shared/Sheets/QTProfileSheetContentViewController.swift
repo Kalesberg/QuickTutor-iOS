@@ -45,7 +45,11 @@ class QTProfileSheetContentViewController: SheetContentsViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        dismissHandler?()
     }
     
     override func registCollectionElement() {
@@ -100,9 +104,11 @@ class QTProfileSheetContentViewController: SheetContentsViewController {
         }
     }
     
+    
+    
     // MARK: - Event Handlers
     private func dismiss () {
-        dismiss(animated: true, completion: dismissHandler)
+        dismiss(animated: true, completion: nil)
     }
     
     private func onClickDisconnectButton() {
