@@ -318,7 +318,8 @@ extension ProfileVC: ProfileModeToggleViewDelegate {
             let vc = QTBecomeTutorViewController.controller
             vc.isRegistration = false
             let becomeTutorNav = CustomNavVC(rootViewController: vc)
-            navigationController?.present(becomeTutorNav, animated: true, completion: nil)
+            becomeTutorNav.modalPresentationStyle = .fullScreen
+            present(becomeTutorNav, animated: true, completion: nil)
         }
     }
     

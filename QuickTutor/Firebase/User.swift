@@ -557,7 +557,7 @@ class FirebaseData {
 				learner.uid = uid
 				
 				group.enter()
-				self.ref.child("tutor-info").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+				self.ref.child("tutor-info").child(uid).observeSingleEvent(of: .value, with: { snapshot in
 					learner.hasTutor = snapshot.exists()
 					group.leave()
 				})
@@ -644,7 +644,7 @@ class FirebaseData {
 				if isQuery && (tutorDict["h"] as? Int == 1) {
 					return completion(nil)
 				}
-				
+                
                 group.enter()
 				self.fetchTutorLocation(uid: uid) { (location) in
 					if let location = location {
@@ -686,6 +686,11 @@ class FirebaseData {
                 }
                 
 				group.notify(queue: queue) {
+                    if tutor.images.keys.isEmpty
+                        || nil == tutor.subjects {
+                        return completion(nil)
+                    }
+                    
 					completion(tutor)
 				}
 			}

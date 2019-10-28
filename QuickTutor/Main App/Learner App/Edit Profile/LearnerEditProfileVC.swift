@@ -750,10 +750,16 @@ class LearnerEditProfileVC: UIViewController {
         
         var newNodes: [String: Any]
         if AccountService.shared.currentUserType == .learner {
-            newNodes = [
-                "/tutor-info/\(learnerId)/nm": firstName + " " + lastName,
-                "/student-info/\(learnerId)/nm": firstName + " " + lastName
-            ]
+            if CurrentUser.shared.learner.hasTutor {
+                newNodes = [
+                    "/tutor-info/\(learnerId)/nm": firstName + " " + lastName,
+                    "/student-info/\(learnerId)/nm": firstName + " " + lastName
+                ]
+            } else {
+                newNodes = [
+                    "/student-info/\(learnerId)/nm": firstName + " " + lastName
+                ]
+            }
         } else {
             newNodes = [
                 "/student-info/\(learnerId)/nm": firstName + " " + lastName

@@ -12,10 +12,14 @@ import SkeletonView
 class QTTutorSubjectInterface {
     var tutorId: String!
     var subject: String?
+    var subcategory: String?
+    var category: String?
     
-    init(tutorId: String, subject: String?) {
+    init(tutorId: String, subject: String? = nil, subcategory: String? = nil, category: String? = nil) {
         self.tutorId = tutorId
         self.subject = subject
+        self.subcategory = subcategory
+        self.category = category
     }
 }
 
@@ -133,12 +137,7 @@ class QTConnectTutorsViewController: UIViewController {
                         if CurrentUser.shared.learner.uid != tutorId,
                             !self.aryConnectedTutorIds.contains(tutorId),
                             !self.aryTutorIds.contains(where: { $0.tutorId == tutorId }) {
-                            // get any subject of this subcategory
-                            if let subjects = CategoryFactory.shared.getSubjectsFor(subcategoryName: subcategory) {
-                                // get random subject
-                                let rndIndex = Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(subjects.count))
-                                self.aryTutorIds.append(QTTutorSubjectInterface(tutorId: tutorId, subject: subjects[rndIndex]))
-                            }
+                            self.aryTutorIds.append(QTTutorSubjectInterface(tutorId: tutorId, subcategory: subcategory))
                         }
                     }
                     subcategoriesGroup.leave()
@@ -158,19 +157,7 @@ class QTConnectTutorsViewController: UIViewController {
                             if CurrentUser.shared.learner.uid != tutorId,
                                 !self.aryConnectedTutorIds.contains(tutorId),
                                 !self.aryTutorIds.contains(where: { $0.tutorId == tutorId }) {
-                                
-                                // get any subcategory of this category
-                                if let category = Category.category(for: category) {
-                                    let rndIndex = Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(category.subcategory.subcategories.count))
-                                    let rndSubcategoryName = category.subcategory.subcategories[rndIndex].title
-                                    
-                                    // get any subject of subcategory
-                                    if let subjects = CategoryFactory.shared.getSubjectsFor(subcategoryName: rndSubcategoryName) {
-                                        // get random subject
-                                        let rndIndex = Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(subjects.count))
-                                        self.aryTutorIds.append(QTTutorSubjectInterface(tutorId: tutorId, subject: subjects[rndIndex]))
-                                    }
-                                }
+                                self.aryTutorIds.append(QTTutorSubjectInterface(tutorId: tutorId, category: category))
                             }
                         }
                         categoriesGroup.leave()
@@ -198,6 +185,28 @@ class QTConnectTutorsViewController: UIViewController {
                 }
                 if let subject = self.aryTutorIds[index].subject {
                     tutor.featuredSubject = subject
+                } else {
+                    if let subcategory = self.aryTutorIds[index].subcategory {
+                        if let subcategorySubjects = CategoryFactory.shared.getSubjectsFor(subcategoryName: subcategory),
+                            let tutorSubjects = tutor.subjects?.filter({ subcategorySubjects.contains($0) }), !tutorSubjects.isEmpty {
+                            let rndIndex = Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(tutorSubjects.count))
+                            tutor.featuredSubject = tutorSubjects[rndIndex]
+                        }
+                    } else if let category = self.aryTutorIds[index].category {
+                        if let category = Category.category(for: category) {
+                            let subcategories = category.subcategory.subcategories.map({ $0.title })
+                            var categorySubjects: [String] = []
+                            for subcategory in subcategories {
+                                if let subcategorySubjects = CategoryFactory.shared.getSubjectsFor(subcategoryName: subcategory),
+                                    let tutorSubjects = tutor.subjects?.filter({ subcategorySubjects.contains($0) }), !tutorSubjects.isEmpty {
+                                    categorySubjects.append(contentsOf: tutorSubjects)
+                                }
+                            }
+                            // get random subject
+                            let rndIndex = Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(categorySubjects.count))
+                            tutor.featuredSubject = categorySubjects[rndIndex]
+                        }
+                    }
                 }
                 tutors.append(tutor)
                 tutorsGroup.leave()
