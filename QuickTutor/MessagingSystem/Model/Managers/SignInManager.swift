@@ -13,6 +13,10 @@ class SignInManager {
     static let shared = SignInManager()
     
     func handleSignIn(completion: @escaping () -> Void) {
+        
+        // Get the information of categories. i.e. suggested price classes for now.
+        DataService.shared.getCategoriesInfo()
+        
         guard let user = Auth.auth().currentUser else {
             completion()
             return
@@ -20,9 +24,6 @@ class SignInManager {
         
         let typeOfUser: UserType = UserDefaults.standard.bool(forKey: "showHomePage") ? .learner : .tutor
         let vc = typeOfUser == .learner ? LearnerMainPageVC() : QTTutorDashboardViewController.controller
-        
-        // Get the information of categories. i.e. suggested price classes for now.
-        DataService.shared.getCategoriesInfo()
         
         FirebaseData.manager.signInUserOfType(typeOfUser, uid: user.uid) { (successful) in
             guard successful else {
