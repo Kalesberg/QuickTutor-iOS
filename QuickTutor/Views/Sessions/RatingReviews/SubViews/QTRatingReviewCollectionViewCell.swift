@@ -214,6 +214,7 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
                 hourlyRateLabel.text = "$\(hourlyRate)/hr"
                 hourlyRateLabel.isHidden = false
             } else {
+                hourlyRateLabel.text = ""
                 hourlyRateLabel.isHidden = true
             }
             
@@ -234,6 +235,7 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
             }*/
             
             subjectLabel.superview?.isHidden = true
+            hourlyRateLabel.text = ""
             hourlyRateLabel.isHidden = true
             isTutorProfile = false
         }
