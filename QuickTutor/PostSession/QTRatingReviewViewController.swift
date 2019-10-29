@@ -92,7 +92,7 @@ class QTRatingReviewViewController: UIViewController {
         
         displayLoadingOverlay()
         
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleViewTap)))
+//        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleViewTap)))
         nextButton.layer.cornerRadius = 3
         nextButton.clipsToBounds = true
         

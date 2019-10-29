@@ -66,6 +66,8 @@ abstract_target 'QuickTutorApp' do
         pod 'BetterSegmentedControl'
         
         pod 'Sheet'
+        
+        pod 'TPKeyboardAvoiding'
     end
     
     target 'QuickTutor' do

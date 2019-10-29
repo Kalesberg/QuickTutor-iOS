@@ -9,10 +9,11 @@
 import UIKit
 import PlaceholderTextView
 import FirebaseStorage
+import TPKeyboardAvoiding
 
 class QTRatingReviewCollectionViewCell: UICollectionViewCell {
 
-    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var scrollView: TPKeyboardAvoidingScrollView!
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var hourlyRateLabel: UILabel!
@@ -68,7 +69,7 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         
         // Initialization code
-        feedbackTextView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 4)
+//        feedbackTextView.layer.applyShadow(color: UIColor.black.cgColor, opacity: 0.3, offset: .zero, radius: 4)
         
         feedbackTextView.layer.cornerRadius = 3
         feedbackTextView.layer.borderColor = Colors.gray.cgColor
@@ -78,7 +79,7 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
         feedbackTextView.delegate = self
         feedbackTextView.textContainerInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
         
-        NotificationCenter.default.removeObserver(self)
+        /*NotificationCenter.default.removeObserver(self)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(handleKeyboardShow(_:)),
                                                name: UIResponder.keyboardWillChangeFrameNotification,
@@ -86,7 +87,7 @@ class QTRatingReviewCollectionViewCell: UICollectionViewCell {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(handleKeyboardHide(_:)),
                                                name: UIResponder.keyboardWillHideNotification,
-                                               object: nil)
+                                               object: nil)*/
         
         ratingStars = [ratingStar1ImageView,
                        ratingStar2ImageView,
