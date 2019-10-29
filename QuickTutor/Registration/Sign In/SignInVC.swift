@@ -13,6 +13,7 @@ import FacebookLogin
 import FacebookCore
 import Alamofire
 import SwiftyJSON
+import IQKeyboardManager
 
 class PhoneTextFieldView: InteractableView, Interactable {
 	
@@ -167,6 +168,8 @@ class SignInVC: UIViewController {
 		super.viewWillAppear(animated)
 		navigationController?.setNavigationBarHidden(true, animated: false)
 		hideTabBar(hidden: true)
+				
+		IQKeyboardManager.shared().isEnabled = true
 	}
 	
 	@objc func keyboardWillShow(_ notification: Notification) {

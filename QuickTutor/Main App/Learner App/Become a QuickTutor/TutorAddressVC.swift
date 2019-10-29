@@ -30,17 +30,8 @@ class TutorAddressVC: BaseRegistrationController {
         setupTextFields()
         progressView.setProgress(5/6)
         accessoryView.nextButton.setTitle("NEXT", for: .normal)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        
         IQKeyboardManager.shared().isEnabled = true
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        IQKeyboardManager.shared().isEnabled = false
-        contentView.resignFirstResponder()
     }
     
     func setupTargets() {
@@ -56,7 +47,6 @@ class TutorAddressVC: BaseRegistrationController {
             textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
             textField.inputAccessoryView = accessoryView
         }
-        textFields[0].becomeFirstResponder()
     }
     
     @objc private func textFieldDidChange(_: UITextField) {
@@ -147,7 +137,10 @@ class TutorAddressVC: BaseRegistrationController {
     }
     
     func continueToNextScreen() {
+        view.endEditing(true)
+        
         guard validData else { return }
+                
         displayLoadingOverlay()
         TutorLocationFormatter.convertAddressToLatLong(addressString: addressString) { error in
             if error != nil {
