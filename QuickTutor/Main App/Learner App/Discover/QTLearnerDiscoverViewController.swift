@@ -139,13 +139,7 @@ class QTLearnerDiscoverViewController: UIViewController {
                 tutorsGroup.enter()
                 TutorSearchService.shared.getTutorIdsBySubcategory(subcategory) { tutorIds in
                     TutorSearchService.shared.getTutorsBySubcategory(subcategory, lastKnownKey: nil) { tutors, loadedAllTutors  in
-                        let aryTutors = tutors?.sorted() { tutor1, tutor2 in
-                            let subcategoryReviews1 = tutor1.reviews?.filter({ subcategory == SubjectStore.shared.findSubCategory(subject: $0.subject) }).count ?? 0
-                            let subcategoryReviews2 = tutor2.reviews?.filter({ subcategory == SubjectStore.shared.findSubCategory(subject: $0.subject) }).count ?? 0
-                            return subcategoryReviews1 > subcategoryReviews2
-                                || (subcategoryReviews1 == subcategoryReviews2 && (tutor1.reviews?.count ?? 0) > (tutor2.reviews?.count ?? 0))
-                                || (subcategoryReviews1 == subcategoryReviews2 && tutor1.reviews?.count == tutor2.reviews?.count && (tutor1.rating ?? 0) > (tutor2.rating ?? 0))
-                        }
+                        let aryTutors = TutorSearchService.shared.sortTutors(tutors: tutors ?? [], category: nil, subcategory: subcategory)
                         QTLearnerDiscoverService.shared.sectionTutors.append(QTLearnerDiscoverTutorSectionInterface(type: .subcategory, key: subcategory, tutors: aryTutors, loadedAllTutors: loadedAllTutors, totalTutorIds: tutorIds))
                         tutorsGroup.leave()
                     }
@@ -163,14 +157,7 @@ class QTLearnerDiscoverViewController: UIViewController {
                 tutorsGroup.enter()
                 TutorSearchService.shared.getTutorIdsByCategory(category.mainPageData.name) { tutorIds in
                     TutorSearchService.shared.getTutorsByCategory(category.mainPageData.name, lastKnownKey: nil) { tutors, loadedAllTutors  in
-                        
-                        let aryTutors = tutors?.sorted() { tutor1, tutor2 in
-                            let categoryReviews1 = tutor1.categoryReviews(category.mainPageData.name).count
-                            let categoryReviews2 = tutor2.categoryReviews(category.mainPageData.name).count
-                            return categoryReviews1 > categoryReviews2
-                                || (categoryReviews1 == categoryReviews2 && (tutor1.reviews?.count ?? 0) > (tutor2.reviews?.count ?? 0))
-                                || (categoryReviews1 == categoryReviews2 && tutor1.reviews?.count == tutor2.reviews?.count && (tutor1.rating ?? 0) > (tutor2.rating ?? 0))
-                        }
+                        let aryTutors = TutorSearchService.shared.sortTutors(tutors: tutors ?? [], category: category.mainPageData.name, subcategory: nil)
                         QTLearnerDiscoverService.shared.sectionTutors.append(QTLearnerDiscoverTutorSectionInterface(type: .category, key: category.mainPageData.name, tutors: aryTutors, loadedAllTutors: loadedAllTutors, totalTutorIds: tutorIds))
                         tutorsGroup.leave()
                     }

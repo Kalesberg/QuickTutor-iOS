@@ -52,6 +52,7 @@ class QTReviewTableViewCell: UITableViewCell {
         }
         ratingView.rating = review.rating
         
+        avatarImageView.image = UIImage(named: "ic_avatar_placeholder")
         UserFetchService.shared.getStudentWithId(review.reviewerId) { (student) in
             guard let student = student else {
                 self.avatarImageView.image = UIImage(named: "ic_avatar_placeholder")

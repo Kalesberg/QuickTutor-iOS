@@ -51,7 +51,7 @@ class QTLearnerDiscoverTutorsViewController: UIViewController {
     func getTutors() {
         if isRisingTalent {
             TutorSearchService.shared.fetchLearnerRisingTalents(category: category?.mainPageData.name, subcategory: subcategory, limit: QTLearnerDiscoverService.shared.risingTalentLimit) { tutors in
-                self.sortAndShowTutors(tutors)
+                self.showTutors(tutors)
                 self.loadedAllTutors = true
                 
                 if self.lblFooterTitle.isSkeletonActive {
@@ -121,29 +121,12 @@ class QTLearnerDiscoverTutorsViewController: UIViewController {
         }
     }
     
-    private func sortAndShowTutors(_ tutors: [AWTutor]) {
-        aryTutors = tutors.sorted() { tutor1, tutor2 -> Bool in
-            if let category = category {
-                let categoryReviews1 = tutor1.categoryReviews(category.mainPageData.name).count
-                let categoryReviews2 = tutor2.categoryReviews(category.mainPageData.name).count
-                return categoryReviews1 > categoryReviews2
-                    || (categoryReviews1 == categoryReviews2 && (tutor1.reviews?.count ?? 0) > (tutor2.reviews?.count ?? 0))
-                    || (categoryReviews1 == categoryReviews2 && tutor1.reviews?.count == tutor2.reviews?.count && (tutor1.rating ?? 0) > (tutor2.rating ?? 0))
-            } else if let subcategory = subcategory {
-                let subcategoryReviews1 = tutor1.reviews?.filter({ subcategory == SubjectStore.shared.findSubCategory(subject: $0.subject) }).count ?? 0
-                let subcategoryReviews2 = tutor2.reviews?.filter({ subcategory == SubjectStore.shared.findSubCategory(subject: $0.subject) }).count ?? 0
-                return subcategoryReviews1 > subcategoryReviews2
-                    || (subcategoryReviews1 == subcategoryReviews2 && (tutor1.reviews?.count ?? 0) > (tutor2.reviews?.count ?? 0))
-                    || (subcategoryReviews1 == subcategoryReviews2 && tutor1.reviews?.count == tutor2.reviews?.count && (tutor1.rating ?? 0) > (tutor2.rating ?? 0))
-            } else {
-                return (tutor1.reviews?.count ?? 0) > (tutor2.reviews?.count ?? 0)
-                    || (tutor1.reviews?.count == tutor2.reviews?.count && (tutor1.rating ?? 0) > (tutor2.rating ?? 0))
-            }
-        }
-        
+    private func showTutors(_ tutors: [AWTutor]) {
         if let topTutorsLimit = QTLearnerDiscoverService.shared.topTutorsLimit,
             topTutorsLimit < aryTutors.count {
             aryTutors = aryTutors.suffix(topTutorsLimit)
+        } else {
+            aryTutors = tutors
         }
         
         if collectionView.isSkeletonActive {

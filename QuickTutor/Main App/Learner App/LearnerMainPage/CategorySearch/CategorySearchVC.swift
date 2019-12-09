@@ -463,13 +463,7 @@ class CategorySearchVC: UIViewController {
             self.lastKey = tutors.last?.uid
             self.loadedAllTutors = loadedAllTutors
             self.datasource.append(contentsOf: tutors)
-            self.datasource = self.datasource.sorted() { tutor1, tutor2 -> Bool in
-                let categoryReviews1 = tutor1.categoryReviews(self.category).count
-                let categoryReviews2 = tutor2.categoryReviews(self.category).count
-                return categoryReviews1 > categoryReviews2
-                    || (categoryReviews1 == categoryReviews2 && (tutor1.reviews?.count ?? 0) > (tutor2.reviews?.count ?? 0))
-                    || (categoryReviews1 == categoryReviews2 && tutor1.reviews?.count == tutor2.reviews?.count && (tutor1.rating ?? 0) > (tutor2.rating ?? 0))
-            }
+            self.datasource = TutorSearchService.shared.sortTutors(tutors: self.datasource, category: self.category, subcategory: nil)
             self.filteredDatasource = self.datasource
             if let filter = self.searchFilter, self.datasource.count > 0 {
                 self.applySearchFilterToDataSource(filter)
@@ -507,13 +501,7 @@ class CategorySearchVC: UIViewController {
             self.loadedAllTutors = loadedAllTutors
             self.datasource.append(contentsOf: tutors)
             
-            self.datasource = self.datasource.sorted() { tutor1, tutor2 -> Bool in
-                let subcategoryReviews1 = tutor1.reviews?.filter({ self.subcategory == SubjectStore.shared.findSubCategory(subject: $0.subject) }).count ?? 0
-                let subcategoryReviews2 = tutor2.reviews?.filter({ self.subcategory == SubjectStore.shared.findSubCategory(subject: $0.subject) }).count ?? 0
-                return subcategoryReviews1 > subcategoryReviews2
-                    || (subcategoryReviews1 == subcategoryReviews2 && (tutor1.reviews?.count ?? 0) > (tutor2.reviews?.count ?? 0))
-                    || (subcategoryReviews1 == subcategoryReviews2 && tutor1.reviews?.count == tutor2.reviews?.count && (tutor1.rating ?? 0) > (tutor2.rating ?? 0))
-            }
+            self.datasource = TutorSearchService.shared.sortTutors(tutors: self.datasource, category: nil, subcategory: self.subcategory)
             self.filteredDatasource = self.datasource
             if let filter = self.searchFilter, self.datasource.count > 0 {
                 self.applySearchFilterToDataSource(filter)

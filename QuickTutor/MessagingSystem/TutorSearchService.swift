@@ -338,7 +338,7 @@ class TutorSearchService {
                 accountIdsGroup.notify(queue: .global()) {
                     var aryTutors: [AWTutor] = []
                     let tutorsGroup = DispatchGroup()
-                    for accountId in accountIds.suffix(limit) {
+                    for accountId in accountIds.suffix(60) {
                         if accountId == Auth.auth().currentUser?.uid { continue }
                         
                         tutorsGroup.enter()
@@ -351,9 +351,30 @@ class TutorSearchService {
                     }
                     
                     tutorsGroup.notify(queue: .main) {
-                        completion(aryTutors)
+                        completion(self.sortTutors(tutors: aryTutors, category: category, subcategory: subcategory).suffix(limit))
                     }
                 }
+            }
+        }
+    }
+    
+    func sortTutors(tutors: [AWTutor], category: String?, subcategory: String?) -> [AWTutor] {
+        return tutors.sorted() { tutor1, tutor2 -> Bool in
+            if let category = category {
+                let categoryReviews1 = tutor1.categoryReviews(category).count
+                let categoryReviews2 = tutor2.categoryReviews(category).count
+                return categoryReviews1 > categoryReviews2
+                    || (categoryReviews1 == categoryReviews2 && (tutor1.reviews?.count ?? 0) > (tutor2.reviews?.count ?? 0))
+                    || (categoryReviews1 == categoryReviews2 && tutor1.reviews?.count == tutor2.reviews?.count && (tutor1.rating ?? 0) > (tutor2.rating ?? 0))
+            } else if let subcategory = subcategory {
+                let subcategoryReviews1 = tutor1.reviews?.filter({ subcategory == SubjectStore.shared.findSubCategory(subject: $0.subject) }).count ?? 0
+                let subcategoryReviews2 = tutor2.reviews?.filter({ subcategory == SubjectStore.shared.findSubCategory(subject: $0.subject) }).count ?? 0
+                return subcategoryReviews1 > subcategoryReviews2
+                    || (subcategoryReviews1 == subcategoryReviews2 && (tutor1.reviews?.count ?? 0) > (tutor2.reviews?.count ?? 0))
+                    || (subcategoryReviews1 == subcategoryReviews2 && tutor1.reviews?.count == tutor2.reviews?.count && (tutor1.rating ?? 0) > (tutor2.rating ?? 0))
+            } else {
+                return (tutor1.reviews?.count ?? 0) > (tutor2.reviews?.count ?? 0)
+                    || (tutor1.reviews?.count == tutor2.reviews?.count && (tutor1.rating ?? 0) > (tutor2.rating ?? 0))
             }
         }
     }
