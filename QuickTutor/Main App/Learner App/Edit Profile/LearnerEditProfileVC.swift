@@ -1128,8 +1128,8 @@ extension LearnerEditProfileVC: CropViewControllerDelegate {
             }
         }
         
-        SDImageCache.shared().removeImage(forKey: getKeyForCachedImage(number: String(index)), fromDisk: false) {
-            SDImageCache.shared().store(image, forKey: self.getKeyForCachedImage(number: String(index)), toDisk: false) {
+        SDImageCache.shared.removeImage(forKey: getKeyForCachedImage(number: String(index)), fromDisk: false) {
+            SDImageCache.shared.store(image, forKey: self.getKeyForCachedImage(number: String(index)), toDisk: false) {
                 print("Changin image at index", index)
                 guard let imagesContainerCell = self.contentView.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? EditProfileImagesCell else {
                     return

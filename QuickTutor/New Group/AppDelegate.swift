@@ -89,7 +89,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         }
         
         // listener for Branch Deep Link data
-        Branch.getInstance()?.initSession(launchOptions: launchOptions) { params, error in
+        Branch.getInstance().initSession(launchOptions: launchOptions) { params, error in
             // do stuff with deep link data (nav to page, display content, etc)
             print(params as? [String: AnyObject] ?? {})
         }
@@ -193,7 +193,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
         if let dynamicLink = DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: url) {
             self.handlIncomingDynamicLink(dynamicLink)
         }
-        Branch.getInstance()?.application(app, open: url, options: options)
+        Branch.getInstance().application(app, open: url, options: options)
         let handled = ApplicationDelegate.shared.application(app, open: url, options: options)
         return handled
     }
@@ -236,7 +236,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     }
     
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
-        Branch.getInstance()?.continue(userActivity)
+        Branch.getInstance().continue(userActivity)
         
         if let incomingUrl = userActivity.webpageURL {
             let linkHandled = DynamicLinks.dynamicLinks().handleUniversalLink(incomingUrl, completion: { [weak self] (link, erorr) in
@@ -322,7 +322,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         // handler for Push Notifications
-        Branch.getInstance()?.handlePushNotification(userInfo)
+        Branch.getInstance().handlePushNotification(userInfo)
     }
 }
 

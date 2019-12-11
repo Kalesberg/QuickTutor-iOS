@@ -242,18 +242,20 @@ class FirebaseData {
 		
 		func removeImages(imageURL: [String]) {
 			imageURL.forEach({
-				Storage.storage().reference(forURL: $0).delete(completion: { (error) in
-					if let error = error {
-						print(error.localizedDescription)
-					}
-				})
+                if let _ = URL(string: $0) {
+                    Storage.storage().reference(forURL: $0).delete(completion: { (error) in
+                        if let error = error {
+                            print(error.localizedDescription)
+                        }
+                    })
+                }
 			})
 		}
 		self.ref.updateChildValues(childNodes) { (error, _) in
 			if let error = error {
 				return completion(error)
 			}
-			removeImages(imageURL: CurrentUser.shared.learner.images.compactMap({$0.value}).filter({$0 != ""}))
+			removeImages(imageURL: CurrentUser.shared.learner.images.compactMap { $0.value }.filter{ $0 != "" })
 			return completion(nil)
 		}
 	}
@@ -272,7 +274,7 @@ class FirebaseData {
 			CurrentUser.shared.tutor.images["image\(number)"] = ""
 		}
 		let reference = self.storageRef.child("student-info").child(CurrentUser.shared.learner.uid).child("student-profile-pic" + number)
-		SDImageCache.shared().removeImage(forKey: reference.fullPath, fromDisk: true, withCompletion: nil)
+        SDImageCache.shared.removeImage(forKey: reference.fullPath, fromDisk: true, withCompletion: nil)
 		Storage.storage().reference().child("student-info/\(user.uid)/student-profile-pic\(number)").delete { (error) in
 			if let error = error {
 				print(error.localizedDescription)
