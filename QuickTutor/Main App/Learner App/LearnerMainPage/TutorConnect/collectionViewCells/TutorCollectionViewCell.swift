@@ -126,6 +126,17 @@ class TutorCollectionViewCell: UICollectionViewCell {
     
     var profileImageViewHeightAnchor: NSLayoutConstraint?
     
+    private func removeView (_ view: UIView, from: UIView) {
+        view.snp.removeConstraints()
+        
+        from.subviews.forEach { subView in
+            if view == subView {
+                view.removeFromSuperview()
+                return
+            }
+        }
+    }
+    
     func setupViews() {
         setupContainerView()
         setupProfileImageView()
@@ -141,6 +152,8 @@ class TutorCollectionViewCell: UICollectionViewCell {
     }
     
     func setupContainerView() {
+        removeView(containerView, from: contentView)
+        
         contentView.addSubview(containerView)
         containerView.snp.makeConstraints { make in
             make.center.equalToSuperview()
@@ -150,6 +163,8 @@ class TutorCollectionViewCell: UICollectionViewCell {
     }
     
     func setupProfileImageView() {
+        removeView(profileImageView, from: containerView)
+        
         containerView.addSubview(profileImageView)
         profileImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -160,6 +175,8 @@ class TutorCollectionViewCell: UICollectionViewCell {
     }
     
     func setupMaskBackgroundView() {
+        removeView(maskBackgroundView, from: containerView)
+        
         containerView.addSubview(maskBackgroundView)
         maskBackgroundView.snp.makeConstraints { make in
             make.width.equalToSuperview()
@@ -181,6 +198,8 @@ class TutorCollectionViewCell: UICollectionViewCell {
     }
     
     func setupSaveButton() {
+        removeView(saveButton, from: contentView)
+        
         contentView.addSubview(saveButton)
         saveButton.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(9)
@@ -192,6 +211,8 @@ class TutorCollectionViewCell: UICollectionViewCell {
     }
     
     func setupNameLabel() {
+        removeView(nameLabel, from: containerView)
+        
         containerView.addSubview(nameLabel)
         nameLabel.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(15)
@@ -201,6 +222,8 @@ class TutorCollectionViewCell: UICollectionViewCell {
     }
     
     func setupSubjectLabel() {
+        removeView(subjectLabel, from: containerView)
+        
         containerView.addSubview(subjectLabel)
         subjectLabel.snp.makeConstraints { make in
             make.top.equalTo(maskBackgroundView.snp.bottom).offset(7)
@@ -210,6 +233,8 @@ class TutorCollectionViewCell: UICollectionViewCell {
     }
     
     func setupPriceLabel() {
+        removeView(priceLabel, from: containerView)
+        
         containerView.addSubview(priceLabel)
         priceLabel.snp.makeConstraints { make in
             make.top.equalTo(subjectLabel.snp.bottom).offset(4)
@@ -219,6 +244,8 @@ class TutorCollectionViewCell: UICollectionViewCell {
     }
     
     func setupRatingStackView() {
+        removeView(ratingStackView, from: containerView)
+        
         containerView.addSubview(ratingStackView)
         ratingStackView.snp.makeConstraints { make in
             make.top.equalTo(priceLabel.snp.bottom).offset(9)
@@ -229,6 +256,8 @@ class TutorCollectionViewCell: UICollectionViewCell {
     }
     
     func setupStarView() {
+        removeView(starView, from: ratingStackView)
+        
         ratingStackView.addArrangedSubview(starView)
         starView.snp.makeConstraints { make in
             make.width.equalTo(61)
@@ -236,6 +265,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
     }
     
     func setupStarLabel() {
+        starLabel.removeFromSuperview()
         ratingStackView.addArrangedSubview(starLabel)
     }
     
