@@ -43,7 +43,7 @@ class VerificationVC: BaseRegistrationController {
         setupTargets()
         progressView.isHidden = true
     }
-
+    
     override func viewDidAppear(_ animated: Bool) {
         textFields[0].becomeFirstResponder()
     }
@@ -143,13 +143,16 @@ class VerificationVC: BaseRegistrationController {
     
     func signInRegisterWithCredential(_ credential: PhoneAuthCredential) {
         displayLoadingOverlay()
-        Auth.auth().signInAndRetrieveData(with: credential) { authResult, error in
+        Auth.auth().signIn(with: credential) { authResult, error in
             if error != nil {
                 self.contentView.vcDigit6.textField.isEnabled = true
                 self.displayCredentialError()
             } else {
                 self.view.endEditing(true)
-                guard let user = authResult?.user else { return }
+                guard let user = authResult?.user else {
+                    self.dismissOverlay()
+                    return
+                }
                 Database.database().reference().child("student-info").child(user.uid).observeSingleEvent(of: .value, with: { snapshot in
                     if snapshot.exists() {
                         UserDefaults.standard.set(true, forKey: "showHomePage")
@@ -175,7 +178,7 @@ class VerificationVC: BaseRegistrationController {
                     } else {
                         Registration.uid = user.uid
                         AccountService.shared.currentUserType = .lRegistration
-                        self.navigationController!.pushViewController(NameVC(), animated: true)
+                        self.navigationController?.pushViewController(NameVC(), animated: true)
                     }
                 })
             }
