@@ -534,9 +534,9 @@ class FirebaseData {
 	
     func fetchTutorConnections(uid: String, _ completion: @escaping ([String]?) -> Void) {
         var uids = [String]()
-        self.ref.child("connections").child(uid).child(UserType.tutor.rawValue).observeSingleEvent(of: .value) { (snapshot) in
-            if let snap = snapshot.children.allObjects as? [DataSnapshot] {
-                for child in snap {
+        self.ref.child("connections").child(uid).child(UserType.tutor.rawValue).observeSingleEvent(of: .value) { snapshot in
+            snapshot.children.forEach {
+                if let child = $0 as? DataSnapshot {
                     uids.append(child.key)
                 }
             }
