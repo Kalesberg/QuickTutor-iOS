@@ -137,6 +137,8 @@
 	<false/>
 	<key>branch_app_domain</key>
 	<string>quicktutor.app.link</string>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 	<key>branch_key</key>
 	<string>key_live_kmGCooWXBX1qKSwBOKNqYhjiFBbYRuT9</string>
 </dict>

@@ -30,9 +30,16 @@ class TutorCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    let maskBackgroundView: UIView = {
+    let imageContainerView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 5
+        view.isSkeletonable = true
+        view.clipsToBounds = true
+        return view
+    }()
+    
+    let maskBackgroundView: UIView = {
+        let view = UIView()
         view.isHidden = true
 
         return view
@@ -139,6 +146,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
     
     func setupViews() {
         setupContainerView()
+        setupImageContainerView()
         setupProfileImageView()
         setupMaskBackgroundView()
         
@@ -162,11 +170,11 @@ class TutorCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func setupProfileImageView() {
-        removeView(profileImageView, from: containerView)
+    func setupImageContainerView() {
+        removeView(imageContainerView, from: contentView)
         
-        containerView.addSubview(profileImageView)
-        profileImageView.snp.makeConstraints { make in
+        contentView.addSubview(imageContainerView)
+        imageContainerView.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
             make.width.equalToSuperview()
             make.top.equalToSuperview()
@@ -174,10 +182,19 @@ class TutorCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func setupMaskBackgroundView() {
-        removeView(maskBackgroundView, from: containerView)
+    func setupProfileImageView() {
+        removeView(profileImageView, from: imageContainerView)
         
-        containerView.addSubview(maskBackgroundView)
+        imageContainerView.addSubview(profileImageView)
+        profileImageView.snp.makeConstraints { make in
+            make.centerX.centerY.width.height.equalToSuperview()
+        }
+    }
+    
+    func setupMaskBackgroundView() {
+        removeView(maskBackgroundView, from: imageContainerView)
+        
+        imageContainerView.addSubview(maskBackgroundView)
         maskBackgroundView.snp.makeConstraints { make in
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
@@ -193,8 +210,6 @@ class TutorCollectionViewCell: UICollectionViewCell {
                                 UIColor.black.withAlphaComponent(0.8)].map({$0.cgColor})
         gradientLayer.locations = [0, 1]
         maskBackgroundView.layer.insertSublayer(gradientLayer, at: 0)
-        maskBackgroundView.layer.cornerRadius = 5
-        maskBackgroundView.clipsToBounds = true
     }
     
     func setupSaveButton() {
@@ -216,7 +231,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
         containerView.addSubview(nameLabel)
         nameLabel.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(15)
-            make.bottom.equalTo(profileImageView.snp.bottom).offset(-10)
+            make.bottom.equalTo(imageContainerView.snp.bottom).offset(-10)
             make.right.equalToSuperview().offset(-8)
         }
     }
@@ -226,7 +241,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
         
         containerView.addSubview(subjectLabel)
         subjectLabel.snp.makeConstraints { make in
-            make.top.equalTo(maskBackgroundView.snp.bottom).offset(7)
+            make.top.equalTo(imageContainerView.snp.bottom).offset(7)
             make.leading.equalToSuperview()
             make.trailing.lessThanOrEqualToSuperview()
         }
@@ -356,7 +371,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
         isSkeletonable = true
         
         setupViews()
-//        addShadow()
+        addShadow()
     }
     
     override func willMove(toWindow newWindow: UIWindow?) {
@@ -374,7 +389,7 @@ class QTWideTutorCollectionViewCell: TutorCollectionViewCell {
     var cellWidth: CGFloat = 0
     
     override func setupMaskBackgroundView() {
-        containerView.addSubview(maskBackgroundView)
+        imageContainerView.addSubview(maskBackgroundView)
         maskBackgroundView.snp.makeConstraints { make in
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
@@ -388,8 +403,6 @@ class QTWideTutorCollectionViewCell: TutorCollectionViewCell {
                                 UIColor.black.withAlphaComponent(0.8)].map({$0.cgColor})
         gradientLayer.locations = [0, 1]
         maskBackgroundView.layer.insertSublayer(gradientLayer, at: 0)
-        maskBackgroundView.layer.cornerRadius = 5
-        maskBackgroundView.clipsToBounds = true
     }
     
     override init(frame: CGRect) {

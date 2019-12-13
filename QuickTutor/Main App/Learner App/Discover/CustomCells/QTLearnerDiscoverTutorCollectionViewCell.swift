@@ -97,6 +97,7 @@ class QTLearnerDiscoverTutorCollectionViewCell: UICollectionViewCell {
         btnSave.isHidden = false
         btnSave.isSelected = CurrentUser.shared.learner.savedTutorIds.contains(tutor.uid)
         
+        [lblTutorName, lblFeaturedTopic, lblHourlyRate].forEach ({ $0.textColor = .white })
         lblTutorName.isHidden = false
         lblTutorName.text = tutor.formattedName
         lblFeaturedTopic.text = tutor.featuredSubject
