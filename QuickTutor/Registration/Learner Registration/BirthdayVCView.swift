@@ -133,7 +133,7 @@ class BirthdayVCView: BaseRegistrationView {
         }) { _ in
             UIView.animate(withDuration: 0.2, animations: {
                 self.birthdayLabel.textField.alpha = 1
-                self.birthdayLabel.textField.text! = date
+                self.birthdayLabel.textField.text = date
                 self.birthdayLabel.textField.transform = .identity
             })
         }
