@@ -14,7 +14,7 @@ class RootControllerManager {
     
     func configureRootViewController(controller: UIViewController) {
         if controller is LearnerMainPageVC {
-            if nil == CurrentUser.shared.learner.interests {
+            if nil == CurrentUser.shared.learner?.interests {
                 setupHookModel()
             } else {
                 setupLearnerTabBar(controller: controller)
