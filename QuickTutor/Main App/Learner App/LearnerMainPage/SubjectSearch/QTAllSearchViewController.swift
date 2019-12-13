@@ -323,6 +323,9 @@ class QTAllSearchViewController: UIViewController {
             present(mail, animated: true)
         } else {
             // show failure alert
+            let ac = UIAlertController(title: nil, message: "Sign into an email on the mail app to submit a topic.", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
+            self.present(ac, animated: true, completion: nil)
         }
     }
 }
