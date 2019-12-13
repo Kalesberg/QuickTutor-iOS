@@ -231,9 +231,7 @@ class BaseSessionsVC: UIViewController {
     }
     
     private func updateTabBarBadge() {
-        let sessionIndex = .learner == AccountService.shared.currentUserType ? 2 : 1
-        
-        guard let rootVC = tabBarController?.viewControllers?[sessionIndex] else { return }
+        guard let rootVC = tabBarController?.viewControllers?[2] else { return }
         
         let badgeCount = pendingSessions.count + upcomingSessions.count
         if 0 < badgeCount {
@@ -241,7 +239,7 @@ class BaseSessionsVC: UIViewController {
             rootVC.tabBarItem.badgeValue = 9 < badgeCount ? "9+" : "\(badgeCount)"
             // Update the badge position
             if let tabBarController = rootVC.tabBarController {
-                tabBarController.adjustBadgePosition(tabBarItemView: tabBarController.tabBar.subviews[sessionIndex + 1])
+                tabBarController.adjustBadgePosition(tabBarItemView: tabBarController.tabBar.subviews[3])
             }
         } else {
             rootVC.tabBarItem.badgeValue = nil

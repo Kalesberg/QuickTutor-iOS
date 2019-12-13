@@ -238,9 +238,7 @@ class MessagesVC: UIViewController {
     }
     
     private func updateTabBarBadge() {
-        let messageIndex = .learner == AccountService.shared.currentUserType ? 3 : 2
-        
-        guard let rootVC = tabBarController?.viewControllers?[messageIndex] else { return }
+        guard let rootVC = tabBarController?.viewControllers?[3] else { return }
         
         let badgeCount = aryConversationMetadata.filter({ false == $0.hasRead }).count
         if 0 < badgeCount {
@@ -248,7 +246,7 @@ class MessagesVC: UIViewController {
             rootVC.tabBarItem.badgeValue = 9 < badgeCount ? "9+" : "\(badgeCount)"
             // Update the badge position
             if let tabBarController = rootVC.tabBarController {
-                tabBarController.adjustBadgePosition(tabBarItemView: tabBarController.tabBar.subviews[messageIndex + 1])
+                tabBarController.adjustBadgePosition(tabBarItemView: tabBarController.tabBar.subviews[4])
             }
         } else {
             rootVC.tabBarItem.badgeValue = nil

@@ -165,7 +165,7 @@ class QTRatingReviewViewController: UIViewController {
                     } else {
                         self.hasPaid = true
                         Database.database().reference().child("sessions").child(self.sessionId).child("cost").setValue(self.costOfSession + tip)
-                        PostSessionManager.shared.setUnfinishedFlag(sessionId: (self.session?.id)!, status: .paymentCharged)
+                        PostSessionManager.shared.setUnfinishedFlag(sessionId: self.sessionId, status: .paymentCharged)
                         self.finishAndUpload()
                         self.currentStep = self.currentStep + 1
                         self.collectionView.scrollToItem(at: IndexPath(item: self.currentStep, section: 0), at: .centeredHorizontally, animated: true)
@@ -179,13 +179,13 @@ class QTRatingReviewViewController: UIViewController {
                 guard hasCompleted == false else { return }
                 finishAndUpload()
                 hasCompleted = true
-                PostSessionManager.shared.setUnfinishedFlag(sessionId: (session?.id)!, status: SessionStatus.reviewAdded)
+                PostSessionManager.shared.setUnfinishedFlag(sessionId: sessionId, status: .reviewAdded)
                 let vc = AccountService.shared.currentUserType == .learner ? LearnerMainPageVC() : QTTutorDashboardViewController.controller
                 RootControllerManager.shared.configureRootViewController(controller: vc)
             }
             break
         case 2:
-            PostSessionManager.shared.setUnfinishedFlag(sessionId: (session?.id)!, status: SessionStatus.complete)
+            PostSessionManager.shared.setUnfinishedFlag(sessionId: sessionId, status: .complete)
             let vc = AccountService.shared.currentUserType == .learner ? LearnerMainPageVC() : QTTutorDashboardViewController.controller
             RootControllerManager.shared.configureRootViewController(controller: vc)
             break
