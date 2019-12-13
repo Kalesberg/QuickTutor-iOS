@@ -34,7 +34,10 @@ class QTSelectInterestsViewController: QTBaseBubbleViewController {
             
             let count = min(categorySubjects.count, subjectsCount)
             for index in 0 ..< count {
-                let rndIndex = categorySubjects.count > subjectsCount ? Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(categorySubjects.count)) : index
+                var rndIndex = categorySubjects.count > subjectsCount ? Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(categorySubjects.count)) : index
+                if rndIndex >= categorySubjects.count {
+                    rndIndex = categorySubjects.count - 1
+                }
                 let rndSubject = categorySubjects[rndIndex]
                 
                 if subjects.contains(rndSubject) { continue }

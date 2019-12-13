@@ -135,9 +135,15 @@ class QTLearnerDiscoverCategoryViewController: UIViewController {
             if 10 > self.aryTrendingTopics.count {
                 let subcategories = self.category.subcategory.subcategories.map({ $0.title })
                 while 10 == self.aryTrendingTopics.count {
-                    let rndSubcategoryIndex = Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(subcategories.count))
+                    var rndSubcategoryIndex = Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(subcategories.count))
+                    if rndSubcategoryIndex >= subcategories.count {
+                        rndSubcategoryIndex = subcategories.count - 1
+                    }
                     if let subjects = CategoryFactory.shared.getSubjectsFor(subcategoryName: subcategories[rndSubcategoryIndex]) {
-                        let rndIndex = Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(subjects.count))
+                        var rndIndex = Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(subjects.count))
+                        if rndIndex >= subjects.count {
+                            rndIndex = subjects.count - 1
+                        }
                         let rndSubject = subjects[rndIndex]
                         if !self.aryTrendingTopics.contains(rndSubject) {
                             self.aryTrendingTopics.append(rndSubject)

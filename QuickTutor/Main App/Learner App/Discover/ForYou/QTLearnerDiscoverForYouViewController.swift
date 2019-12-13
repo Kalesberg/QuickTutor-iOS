@@ -92,7 +92,10 @@ class QTLearnerDiscoverForYouViewController: UIViewController {
                             // get any subject of this subcategory
                             if let subjects = CategoryFactory.shared.getSubjectsFor(subcategoryName: subcategory) {
                                 // get random subject
-                                let rndIndex = Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(subjects.count))
+                                var rndIndex = Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(subjects.count))
+                                if rndIndex >= subjects.count {
+                                    rndIndex = subjects.count - 1
+                                }
                                 self.aryTutorIds.append(QTTutorSubjectInterface(tutorId: tutorId, subject: subjects[rndIndex]))
                             }
                         }
@@ -116,13 +119,19 @@ class QTLearnerDiscoverForYouViewController: UIViewController {
                                 
                                 // get any subcategory of this category
                                 if let category = Category.category(for: category) {
-                                    let rndIndex = Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(category.subcategory.subcategories.count))
+                                    var rndIndex = Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(category.subcategory.subcategories.count))
+                                    if rndIndex >= category.subcategory.subcategories.count {
+                                       rndIndex = category.subcategory.subcategories.count - 1
+                                    }
                                     let rndSubcategoryName = category.subcategory.subcategories[rndIndex].title
                                     
                                     // get any subject of subcategory
                                     if let subjects = CategoryFactory.shared.getSubjectsFor(subcategoryName: rndSubcategoryName) {
                                         // get random subject
-                                        let rndIndex = Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(subjects.count))
+                                        var rndIndex = Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(subjects.count))
+                                        if rndIndex >= subjects.count {
+                                            rndIndex = subjects.count - 1
+                                        }
                                         self.aryTutorIds.append(QTTutorSubjectInterface(tutorId: tutorId, subject: subjects[rndIndex]))
                                     }
                                 }

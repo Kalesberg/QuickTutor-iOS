@@ -189,7 +189,10 @@ class QTConnectTutorsViewController: UIViewController {
                     if let subcategory = self.aryTutorIds[index].subcategory {
                         if let subcategorySubjects = CategoryFactory.shared.getSubjectsFor(subcategoryName: subcategory),
                             let tutorSubjects = tutor.subjects?.filter({ subcategorySubjects.contains($0) }), !tutorSubjects.isEmpty {
-                            let rndIndex = Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(tutorSubjects.count))
+                            var rndIndex = Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(tutorSubjects.count))
+                            if rndIndex >= tutorSubjects.count {
+                                rndIndex = tutorSubjects.count - 1
+                            }
                             tutor.featuredSubject = tutorSubjects[rndIndex]
                         }
                     } else if let category = self.aryTutorIds[index].category {
@@ -203,7 +206,10 @@ class QTConnectTutorsViewController: UIViewController {
                                 }
                             }
                             // get random subject
-                            let rndIndex = Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(categorySubjects.count))
+                            var rndIndex = Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(categorySubjects.count))
+                            if rndIndex >= categorySubjects.count {
+                                rndIndex = categorySubjects.count - 1
+                            }
                             tutor.featuredSubject = categorySubjects[rndIndex]
                         }
                     }
