@@ -40,6 +40,10 @@ class QTTutorDiscoverShareViewController: UIViewController {
     
     func setData() {
         
+        if AccountService.shared.currentUser == nil {
+            return
+        }
+        
         guard let userId = AccountService.shared.currentUser.uid else { return }
         
         UserFetchService.shared.getTutorWithId(uid: userId) { (tutor) in
