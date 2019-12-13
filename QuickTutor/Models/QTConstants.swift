@@ -39,3 +39,7 @@ struct QTNotificationName {
 }
 
 let AVATAR_PLACEHOLDER_IMAGE = UIImage(named: "ic_avatar_placeholder")
+
+struct QTDispatchQueueName {
+    static let getNewRecommentedTutors = "qt.dispatch.queue.getNewRecommentedTutors"
+}

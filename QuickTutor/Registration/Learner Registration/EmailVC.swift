@@ -37,7 +37,7 @@ class EmailVC: BaseRegistrationController {
         }
         
         displayLoadingOverlay()
-        Auth.auth().fetchProviders(forEmail: contentView.emailTextField.textField.text!, completion: { response, error in
+        Auth.auth().fetchSignInMethods(forEmail: contentView.emailTextField.textField.text!, completion: { response, error in
             guard error == nil else {
                 self.dismissOverlay()
                 return

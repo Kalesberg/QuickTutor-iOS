@@ -66,14 +66,14 @@ class UserPolicyVC: BaseRegistrationController {
     }
     
     func checkEmailIsInUse(_ completion: @escaping (Error?, String?) -> Void) {
-        Auth.auth().fetchProviders(forEmail: Registration.email!, completion: { response, error in
+        Auth.auth().fetchSignInMethods(forEmail: Registration.email!, completion: { response, error in
             if let error = error {
                 completion(error, nil)
             } else {
                 if response == nil {
                     // TODO: Should probably remove guard statement, just there so that it builds
                     guard let credential = Registration.emailCredential else { return }
-                    Auth.auth().currentUser?.linkAndRetrieveData(with: credential, completion: { _, error in
+                    Auth.auth().currentUser?.link(with: credential, completion: { _, error in
                         if let error = error {
                             completion(error, nil)
                         } else {

@@ -206,7 +206,7 @@ class SignInVC: UIViewController {
 		displayLoadingOverlay()
 		guard let accessToken = AccessToken.current?.tokenString else { return }
 		let credential = FacebookAuthProvider.credential(withAccessToken: accessToken)
-		Auth.auth().signInAndRetrieveData(with: credential) { (authResult, error) in
+		Auth.auth().signIn(with: credential) { (authResult, error) in
 			guard error == nil else {
 				self.dismissOverlay()
 				self.showSignInError()

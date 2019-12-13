@@ -282,7 +282,7 @@ class QTSettingsViewController: UIViewController, QTSettingsNavigation {
                     guard let accessToken = AccessToken.current?.tokenString else { break }
                     
                     let credential = FacebookAuthProvider.credential(withAccessToken: accessToken)
-                    Auth.auth().currentUser?.linkAndRetrieveData(with: credential) { authResult, error in
+                    Auth.auth().currentUser?.link(with: credential) { authResult, error in
                         if let error = error {
                             let alert = UIAlertController(title: "Link Facebook Error",
                                                           message: error.localizedDescription,

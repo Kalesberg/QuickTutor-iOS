@@ -268,7 +268,7 @@ class QTCloseAccountSubmitViewController: UIViewController {
         guard let id = self.verificationId else { return }
         let credential: PhoneAuthCredential = PhoneAuthProvider.provider().credential(withVerificationID: id, verificationCode: code)
         let currentUser = Auth.auth().currentUser
-        currentUser?.reauthenticateAndRetrieveData(with: credential, completion: { _, error in
+        currentUser?.reauthenticate(with: credential, completion: { _, error in
             if let error = error {
                 completion(error)
             } else {

@@ -199,6 +199,8 @@ class TutorSearchService {
         
         var tutors = [AWTutor]()
         
+        let concurrentQueue = DispatchQueue(label: QTDispatchQueueName.getNewRecommentedTutors, attributes: .concurrent)
+
         guard AccountService.shared.currentUserType == .learner, let uid = Auth.auth().currentUser?.uid else {
             completion(tutors)
             return
@@ -218,9 +220,15 @@ class TutorSearchService {
                 UserFetchService.shared.getTutorWithId(uid: key
                     , completion: { (tutor) in
                         if let tutor = tutor {
-                            tutors.append(tutor)
+//                            tutors.append(tutor)
+                            concurrentQueue.async(flags: .barrier) { [weak self] in
+                                if self != nil {
+                                    tutors.append(tutor)
+                                }
+                                group.leave()
+                            }
                         }
-                        group.leave()
+//                        group.leave()
                 })
             }
             group.leave()
@@ -238,9 +246,15 @@ class TutorSearchService {
                     }
                     
                     if tutor.uid != Auth.auth().currentUser?.uid {
-                        tutors.append(tutor)
+//                        tutors.append(tutor)
+                        concurrentQueue.async(flags: .barrier) { [weak self] in
+                            if self != nil {
+                                tutors.append(tutor)
+                            }
+                            group.leave()
+                        }
                     }
-                    group.leave()
+//                    group.leave()
                 })
             }
         }
@@ -254,8 +268,15 @@ class TutorSearchService {
                         group.leave()
                         return
                     }
-                    tutors += sessionTutors
-                    group.leave()
+                    
+                    concurrentQueue.async(flags: .barrier) { [weak self] in
+                        if self != nil {
+                            tutors += sessionTutors
+                        }
+                        group.leave()
+                    }
+//                    tutors += sessionTutors
+//                    group.leave()
                 })
             }
         }
