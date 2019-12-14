@@ -202,7 +202,7 @@ class TutorCollectionViewCell: UICollectionViewCell {
             make.height.equalTo(50)
         }
         
-        let width = (UIScreen.main.bounds.width - 55) / 2
+        let width = UIScreen.main.bounds.width / 2
         
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = CGRect(x: 0, y: 0, width: width, height: 50)
@@ -386,8 +386,6 @@ class TutorCollectionViewCell: UICollectionViewCell {
 
 class QTWideTutorCollectionViewCell: TutorCollectionViewCell {
     
-    var cellWidth: CGFloat = 0
-    
     override func setupMaskBackgroundView() {
         imageContainerView.addSubview(maskBackgroundView)
         maskBackgroundView.snp.makeConstraints { make in
@@ -398,7 +396,10 @@ class QTWideTutorCollectionViewCell: TutorCollectionViewCell {
         }
         
         let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = CGRect(x: 0, y: 0, width: cellWidth, height: 50)
+        gradientLayer.frame = CGRect(x: 0,
+                                     y: 0,
+                                     width: UIScreen.main.bounds.size.width / 2,
+                                     height: 50)
         gradientLayer.colors = [UIColor.clear,
                                 UIColor.black.withAlphaComponent(0.8)].map({$0.cgColor})
         gradientLayer.locations = [0, 1]
@@ -406,7 +407,6 @@ class QTWideTutorCollectionViewCell: TutorCollectionViewCell {
     }
     
     override init(frame: CGRect) {
-        cellWidth = (UIScreen.main.bounds.size.width - 55) / 2
         super.init(frame: frame)
     }
     
