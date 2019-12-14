@@ -47,6 +47,9 @@ class QTTutorDiscoverTipDetailViewController: UIViewController {
         tableView.parallaxHeader.mode = .fill
         tableView.parallaxHeader.minimumHeight = 0
         
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+        headerView.widthAnchor.constraint(equalTo: tableView.widthAnchor, multiplier: 1.0).isActive = true
+        
         headerView.setData(tip: tip)
     }
     
