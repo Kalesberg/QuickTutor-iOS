@@ -40,10 +40,10 @@ class LearnerMainPageTopTutorsController: UIViewController {
         
         view.isSkeletonable = true
         setupCollectionView()
-        fetchTutors()
         
         collectionView.prepareSkeleton { _ in
             self.view.showAnimatedSkeleton(usingColor: Colors.gray)
+            self.fetchTutors()
         }
     }
     
