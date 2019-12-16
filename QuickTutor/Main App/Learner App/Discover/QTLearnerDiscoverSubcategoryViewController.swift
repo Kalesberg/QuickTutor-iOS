@@ -122,19 +122,17 @@ class QTLearnerDiscoverSubcategoryViewController: UIViewController {
     private func getTopExperts() {
         if QTLearnerDiscoverService.shared.sectionTutors.contains(where: { .subcategory == $0.type && subcategory == $0.key }) { return }
         
-        TutorSearchService.shared.getTutorIdsBySubcategory(subcategory) { tutorIds in
-            TutorSearchService.shared.getTutorsBySubcategory(self.subcategory, lastKnownKey: nil) { tutors, loadedAllTutors  in
-                let aryTutors = tutors?.sorted() { tutor1, tutor2 in
-                    let subcategoryReviews1 = tutor1.reviews?.filter({ self.subcategory == SubjectStore.shared.findSubCategory(subject: $0.subject) }).count ?? 0
-                    let subcategoryReviews2 = tutor2.reviews?.filter({ self.subcategory == SubjectStore.shared.findSubCategory(subject: $0.subject) }).count ?? 0
-                    return subcategoryReviews1 > subcategoryReviews2
-                        || (subcategoryReviews1 == subcategoryReviews2 && (tutor1.reviews?.count ?? 0) > (tutor2.reviews?.count ?? 0))
-                        || (subcategoryReviews1 == subcategoryReviews2 && tutor1.reviews?.count == tutor2.reviews?.count && (tutor1.rating ?? 0) > (tutor2.rating ?? 0))
-                }
-                QTLearnerDiscoverService.shared.sectionTutors.append(QTLearnerDiscoverTutorSectionInterface(type: .subcategory, key: self.subcategory, tutors: aryTutors, loadedAllTutors: loadedAllTutors, totalTutorIds: tutorIds))
-                DispatchQueue.main.async {
-                    self.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
-                }
+        TutorSearchService.shared.getTutorsBySubcategory(self.subcategory, lastKnownKey: nil) { tutors, _  in
+            let aryTutors = tutors?.sorted() { tutor1, tutor2 in
+                let subcategoryReviews1 = tutor1.reviews?.filter({ self.subcategory == SubjectStore.shared.findSubCategory(subject: $0.subject) }).count ?? 0
+                let subcategoryReviews2 = tutor2.reviews?.filter({ self.subcategory == SubjectStore.shared.findSubCategory(subject: $0.subject) }).count ?? 0
+                return subcategoryReviews1 > subcategoryReviews2
+                    || (subcategoryReviews1 == subcategoryReviews2 && (tutor1.reviews?.count ?? 0) > (tutor2.reviews?.count ?? 0))
+                    || (subcategoryReviews1 == subcategoryReviews2 && tutor1.reviews?.count == tutor2.reviews?.count && (tutor1.rating ?? 0) > (tutor2.rating ?? 0))
+            } ?? []
+            QTLearnerDiscoverService.shared.sectionTutors.append(QTLearnerDiscoverTutorSectionInterface(type: .subcategory, key: self.subcategory, tutors: aryTutors, loadedAllTutors: aryTutors.count <= QTLearnerDiscoverService.shared.topTutorsLimit ?? 15))
+            DispatchQueue.main.async {
+                self.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
             }
         }
     }

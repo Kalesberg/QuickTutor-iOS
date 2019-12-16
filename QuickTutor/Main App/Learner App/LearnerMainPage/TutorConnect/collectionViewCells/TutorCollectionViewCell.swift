@@ -290,7 +290,11 @@ class TutorCollectionViewCell: UICollectionViewCell {
         maskBackgroundView.isHidden = false
         
         nameLabel.text = tutor.formattedName
-        subjectLabel.text = tutor.featuredSubject
+        if let featuredSubject = tutor.featuredSubject {
+            subjectLabel.text = featuredSubject
+        } else {
+            subjectLabel.text = tutor.subjects?.first
+        }
         
         priceLabel.text = "$\(tutor.price ?? 5) per hour"
         

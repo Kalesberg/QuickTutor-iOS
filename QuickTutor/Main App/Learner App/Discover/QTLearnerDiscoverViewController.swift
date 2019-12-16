@@ -137,12 +137,10 @@ class QTLearnerDiscoverViewController: UIViewController {
                 if QTLearnerDiscoverService.shared.sectionTutors.contains(where: { .subcategory == $0.type && subcategory == $0.key }) { continue }
                 
                 tutorsGroup.enter()
-                TutorSearchService.shared.getTutorIdsBySubcategory(subcategory) { tutorIds in
-                    TutorSearchService.shared.getTutorsBySubcategory(subcategory, lastKnownKey: nil) { tutors, loadedAllTutors  in
-                        let aryTutors = TutorSearchService.shared.sortTutors(tutors: tutors ?? [], category: nil, subcategory: subcategory)
-                        QTLearnerDiscoverService.shared.sectionTutors.append(QTLearnerDiscoverTutorSectionInterface(type: .subcategory, key: subcategory, tutors: aryTutors, loadedAllTutors: loadedAllTutors, totalTutorIds: tutorIds))
-                        tutorsGroup.leave()
-                    }
+                TutorSearchService.shared.getTutorsBySubcategory(subcategory, lastKnownKey: nil) { tutors, _  in
+                    let aryTutors = TutorSearchService.shared.sortTutors(tutors: tutors ?? [], category: nil, subcategory: subcategory)
+                    QTLearnerDiscoverService.shared.sectionTutors.append(QTLearnerDiscoverTutorSectionInterface(type: .subcategory, key: subcategory, tutors: aryTutors, loadedAllTutors: aryTutors.count <= QTLearnerDiscoverService.shared.topTutorsLimit ?? 50))
+                    tutorsGroup.leave()
                 }
             }
         } else {
@@ -155,12 +153,10 @@ class QTLearnerDiscoverViewController: UIViewController {
                 if QTLearnerDiscoverService.shared.sectionTutors.contains(where: { .category == $0.type && category.mainPageData.name == $0.key }) { continue }
                 
                 tutorsGroup.enter()
-                TutorSearchService.shared.getTutorIdsByCategory(category.mainPageData.name) { tutorIds in
-                    TutorSearchService.shared.getTutorsByCategory(category.mainPageData.name, lastKnownKey: nil) { tutors, loadedAllTutors  in
-                        let aryTutors = TutorSearchService.shared.sortTutors(tutors: tutors ?? [], category: category.mainPageData.name, subcategory: nil)
-                        QTLearnerDiscoverService.shared.sectionTutors.append(QTLearnerDiscoverTutorSectionInterface(type: .category, key: category.mainPageData.name, tutors: aryTutors, loadedAllTutors: loadedAllTutors, totalTutorIds: tutorIds))
-                        tutorsGroup.leave()
-                    }
+                TutorSearchService.shared.getTutorsByCategory(category.mainPageData.name, lastKnownKey: nil) { tutors, _  in
+                    let aryTutors = TutorSearchService.shared.sortTutors(tutors: tutors ?? [], category: category.mainPageData.name, subcategory: nil)
+                    QTLearnerDiscoverService.shared.sectionTutors.append(QTLearnerDiscoverTutorSectionInterface(type: .category, key: category.mainPageData.name, tutors: aryTutors, loadedAllTutors: aryTutors.count <= QTLearnerDiscoverService.shared.topTutorsLimit ?? 50))
+                    tutorsGroup.leave()
                 }
             }
         }

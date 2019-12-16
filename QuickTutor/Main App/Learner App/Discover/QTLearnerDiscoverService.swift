@@ -17,14 +17,12 @@ class QTLearnerDiscoverTutorSectionInterface {
     var key: String!
     var tutors: [AWTutor]?
     var loadedAllTutors: Bool?
-    var totalTutorIds: [String]?
         
-    init(type: QTLearnerDiscoverTutorSectionType = .category, key: String, tutors: [AWTutor]?, loadedAllTutors: Bool?,  totalTutorIds: [String]?) {
+    init(type: QTLearnerDiscoverTutorSectionType = .category, key: String, tutors: [AWTutor]?, loadedAllTutors: Bool?) {
         self.type = type
         self.key = key
         self.tutors = tutors
         self.loadedAllTutors = loadedAllTutors
-        self.totalTutorIds = totalTutorIds
     }
 }
 

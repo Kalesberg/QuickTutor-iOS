@@ -36,6 +36,7 @@ class QTLearnerDiscoverTutorsViewController: UIViewController {
         lblFooterTitle.showAnimatedSkeleton(usingColor: Colors.gray)
         collectionView.prepareSkeleton { _ in
             self.collectionView.isUserInteractionEnabled = false
+            self.collectionView.isScrollEnabled = false
             self.collectionView.showAnimatedSkeleton(usingColor: Colors.gray)
             self.getTutors()
         }
@@ -62,19 +63,20 @@ class QTLearnerDiscoverTutorsViewController: UIViewController {
             }
         } else if let subcategory = subcategory {
             if let section = QTLearnerDiscoverService.shared.sectionTutors.first(where: { .subcategory == $0.type && subcategory == $0.key }),
-                let tutors = section.tutors, let totalTutorIds = section.totalTutorIds {
+                let tutors = section.tutors {
                 if self.lblFooterTitle.isSkeletonActive {
                     self.lblFooterTitle.hideSkeleton()
                 }
                 if collectionView.isSkeletonActive {
-                    collectionView.isUserInteractionEnabled = true
                     collectionView.hideSkeleton()
+                    collectionView.isUserInteractionEnabled = true
+                    collectionView.isScrollEnabled = false
                 }
                 if let topTutorsLimit = QTLearnerDiscoverService.shared.topTutorsLimit,
-                    topTutorsLimit < totalTutorIds.count {
+                    topTutorsLimit < tutors.count {
                     self.lblFooterTitle.text = "\(topTutorsLimit) people in the list"
                 } else {
-                    self.lblFooterTitle.text = "\(totalTutorIds.count) people in the list"
+                    self.lblFooterTitle.text = "\(tutors.count) people in the list"
                 }
                 self.aryTutors = tutors
                 if true == section.loadedAllTutors {
@@ -91,19 +93,20 @@ class QTLearnerDiscoverTutorsViewController: UIViewController {
             }
         } else if let category = category {
             if let section = QTLearnerDiscoverService.shared.sectionTutors.first(where: { .category == $0.type && category.mainPageData.name == $0.key }),
-                let tutors = section.tutors, let totalTutorIds = section.totalTutorIds {
+                let tutors = section.tutors {
                 if self.lblFooterTitle.isSkeletonActive {
                     self.lblFooterTitle.hideSkeleton()
                 }
                 if collectionView.isSkeletonActive {
-                    collectionView.isUserInteractionEnabled = true
                     collectionView.hideSkeleton()
+                    collectionView.isUserInteractionEnabled = true
+                    collectionView.isScrollEnabled = false
                 }
                 if let topTutorsLimit = QTLearnerDiscoverService.shared.topTutorsLimit,
-                    topTutorsLimit < totalTutorIds.count {
+                    topTutorsLimit < tutors.count {
                     self.lblFooterTitle.text = "\(topTutorsLimit) people in the list"
                 } else {
-                    self.lblFooterTitle.text = "\(totalTutorIds.count) people in the list"
+                    self.lblFooterTitle.text = "\(tutors.count) people in the list"
                 }
                 self.aryTutors = tutors
                 if true == section.loadedAllTutors {
@@ -130,8 +133,9 @@ class QTLearnerDiscoverTutorsViewController: UIViewController {
         }
         
         if collectionView.isSkeletonActive {
-            collectionView.isUserInteractionEnabled = true
             collectionView.hideSkeleton()
+            collectionView.isUserInteractionEnabled = true
+            collectionView.isScrollEnabled = false
         }
         collectionView.reloadData()
     }
