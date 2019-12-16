@@ -179,7 +179,7 @@ class BaseSessionsVC: UIViewController {
                                 return
                         }
                         
-                        if session.status == "pending" && session.startTime > Date().timeIntervalSince1970 {
+                        if session.status == "pending" {
                             if !self.pendingSessions.contains(where: { $0.id == session.id }) {
                                 self.pendingSessions.append(session)
                             }

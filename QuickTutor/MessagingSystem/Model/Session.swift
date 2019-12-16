@@ -81,9 +81,7 @@ class Session: Codable {
     }
     
     func isExpired() -> Bool {
-        guard status == "pending" || status == "accepted" else { return false }
-        let isExpired = startTime + 3600 < Date().timeIntervalSince1970
-        return isExpired
+        return startTime + 3600 < Date().timeIntervalSince1970
     }
     
     var isPast: Bool {
