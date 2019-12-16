@@ -22,22 +22,31 @@ class QTWriteRecommendationViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        title = "Write Recommendation"
+        title = "Recommend \(objTutor.firstName ?? "")"
         
         btnSubmit.isEnabled = false
         btnSubmit.backgroundColor = Colors.gray
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if #available(iOS 11.0, *) {
+            navigationItem.largeTitleDisplayMode = .never
+        }
+        navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
         NotificationCenter.default.addObserver(self, selector: #selector(onKeyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        
         txtRecommendation.becomeFirstResponder()
     }
     
-    override func didMove(toParent parent: UIViewController?) {
-        super.didMove(toParent: parent)
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         
-        if nil == parent {
-            NotificationCenter.default.removeObserver(self)
-        }
+        txtRecommendation.resignFirstResponder()
     }
     
     @objc

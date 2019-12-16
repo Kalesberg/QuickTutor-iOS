@@ -150,11 +150,10 @@ class QTProfileViewController: UIViewController {
         super.viewWillAppear(animated)
         initData()
     
-        navigationController?.setNavigationBarHidden(false, animated: true)
-        
         if #available(iOS 11.0, *) {
             navigationItem.largeTitleDisplayMode = .never
         }
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
