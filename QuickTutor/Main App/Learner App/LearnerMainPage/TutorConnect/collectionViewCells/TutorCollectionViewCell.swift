@@ -226,9 +226,9 @@ class TutorCollectionViewCell: UICollectionViewCell {
     }
     
     func setupNameLabel() {
-        removeView(nameLabel, from: containerView)
+        removeView(nameLabel, from: imageContainerView)
         
-        containerView.addSubview(nameLabel)
+        imageContainerView.addSubview(nameLabel)
         nameLabel.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(15)
             make.bottom.equalTo(imageContainerView.snp.bottom).offset(-10)
