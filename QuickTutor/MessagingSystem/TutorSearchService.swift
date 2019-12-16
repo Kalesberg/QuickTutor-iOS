@@ -367,6 +367,17 @@ class TutorSearchService {
                         tutorsGroup.enter()
                         FirebaseData.manager.fetchTutor(accountId, isQuery: false, queue: .global()) { tutor in
                             if let tutor = tutor {
+                                if let category = category {
+                                    tutor.featuredSubject = tutor.subjects?.first(where: { (subject) -> Bool in
+                                        let subjectCategory = CategoryFactory.shared.getCategoryFor(subject: subject)
+                                        return subjectCategory?.name == category
+                                    })
+                                } else if let subcategory = subcategory {
+                                    tutor.featuredSubject = tutor.subjects?.first(where: { (subject) -> Bool in
+                                        let desiredSubjects = CategoryFactory.shared.getSubjectsFor(subcategoryName: subcategory)
+                                        return desiredSubjects?.contains(subject) ?? false
+                                    })
+                                }
                                 aryTutors.append(tutor)
                             }
                             tutorsGroup.leave()
