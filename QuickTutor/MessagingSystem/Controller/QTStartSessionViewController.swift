@@ -303,7 +303,10 @@ class QTStartSessionViewController: QTSessionBaseViewController {
             
             // Add "OK" Button to alert, pressing it will bring you to the settings app
             alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
-                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                if let settingsUrl = URL(string: UIApplication.openSettingsURLString),
+                    UIApplication.shared.canOpenURL(settingsUrl) {
+                    UIApplication.shared.open(settingsUrl)
+                }
             })
             // Show the alert with animation
             self.present(alert, animated: true)

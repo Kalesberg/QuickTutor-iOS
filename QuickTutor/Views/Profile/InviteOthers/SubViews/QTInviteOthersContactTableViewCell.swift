@@ -62,6 +62,8 @@ class QTInviteOthersContactTableViewCell: UITableViewCell {
         userNameLabel.text = contact.givenName + " " + contact.familyName
         if let imageData = contact.imageData {
             avatarImageView.image = UIImage(data: imageData)
+        } else {
+            avatarImageView.image = AVATAR_PLACEHOLDER_IMAGE
         }
         checkImageView.isHighlighted = checked
         self.checked = checked

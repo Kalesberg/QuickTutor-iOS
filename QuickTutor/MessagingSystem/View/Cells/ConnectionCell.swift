@@ -205,7 +205,10 @@ class ConnectionCell: UICollectionViewCell {
     
     func updateUI(user: User) {
         self.user = user
-        profileImageView.imageView.sd_setImage(with: user.profilePicUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
+        profileImageView.imageView.image = AVATAR_PLACEHOLDER_IMAGE
+        if let profileUrl = user.profilePicUrl {
+            profileImageView.imageView.sd_setImage(with: profileUrl, placeholderImage: AVATAR_PLACEHOLDER_IMAGE)
+        }
         nameLabel.text = user.formattedName
         if let zfUser = user as? ZFTutor {
             let subject = zfUser.featuredSubject == "" ? zfUser.subjects?.first : zfUser.featuredSubject
