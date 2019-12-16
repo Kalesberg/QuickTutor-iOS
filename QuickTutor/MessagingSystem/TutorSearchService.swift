@@ -227,8 +227,9 @@ class TutorSearchService {
                                 }
                                 group.leave()
                             }
+                        } else {
+                            group.leave()
                         }
-//                        group.leave()
                 })
             }
             group.leave()
@@ -253,8 +254,9 @@ class TutorSearchService {
                             }
                             group.leave()
                         }
+                    } else {
+                        group.leave()
                     }
-//                    group.leave()
                 })
             }
         }
