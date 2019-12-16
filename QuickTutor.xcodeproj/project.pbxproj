@@ -7137,7 +7137,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "QuickTutor/New Group/QuickTutor.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 5;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -7172,7 +7172,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.quicktutor1.quicktutor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "112ef941-c3f2-4d62-9f63-8ac046fcc7ea";
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.quicktutor1.quicktutor";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development com.quicktutor1.quicktutor";
 				SWIFT_OBJC_BRIDGING_HEADER = "QuickTutor/QuickTutor-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
@@ -7189,7 +7189,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "QuickTutor/New Group/QuickTutor.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 5;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -7224,7 +7224,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.quicktutor1.quicktutor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "4024852e-1476-4a89-8145-2a2e709f7205";
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.quicktutor1.quicktutor";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development com.quicktutor1.quicktutor";
 				SWIFT_OBJC_BRIDGING_HEADER = "QuickTutor/QuickTutor-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Osize";
 				SWIFT_VERSION = 4.2;
@@ -7241,7 +7241,7 @@
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = RB29K3LG45;
+				DEVELOPMENT_TEAM = QYG3ENEK3P;
 				INFOPLIST_FILE = QuickTutorUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

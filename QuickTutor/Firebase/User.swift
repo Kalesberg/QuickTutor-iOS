@@ -363,16 +363,30 @@ class FirebaseData {
                 return
             }
             
+            let learnerGroup = DispatchGroup()
             var aryRecommendations: [QTTutorRecommendationModel] = []
             for key in dicRecommendations.keys {
                 guard let dicValue = dicRecommendations[key] as? [String: Any],
                     let objRecommendation = Mapper<QTTutorRecommendationModel>().map(JSON: dicValue) else { continue }
          
                 objRecommendation.uid = key
-                aryRecommendations.insert(objRecommendation, at: 0)
+                if let learnerId = objRecommendation.learnerId {
+                    learnerGroup.enter()
+                    self.fetchLearner(learnerId) { learner in
+                        if let avatarUrl = learner?.profilePicUrl.absoluteString {
+                            objRecommendation.learnerAvatarUrl = avatarUrl
+                        }
+                        aryRecommendations.insert(objRecommendation, at: 0)
+                        learnerGroup.leave()
+                    }
+                } else {
+                    aryRecommendations.insert(objRecommendation, at: 0)
+                }
             }
             
-            completion(aryRecommendations)
+            learnerGroup.notify(queue: .main) {
+                completion(aryRecommendations)
+            }
         }
     }
     
