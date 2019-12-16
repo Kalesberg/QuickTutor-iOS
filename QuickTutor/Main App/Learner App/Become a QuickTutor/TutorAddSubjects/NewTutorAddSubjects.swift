@@ -103,6 +103,9 @@ class TutorAddSubjectsVC: UIViewController {
         }
         
         contentView.searchBarContainer.filtersButton.isHidden = true
+        
+        self.child.filteredSubjects.removeAll()
+        self.child.contentView.collectionView.reloadData()
         filterSubjects(text)
     }
     
