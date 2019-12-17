@@ -81,6 +81,7 @@ class Session: Codable {
     }
     
     func isExpired() -> Bool {
+        if "pending" == status { return false }
         return startTime + 3600 < Date().timeIntervalSince1970
     }
     

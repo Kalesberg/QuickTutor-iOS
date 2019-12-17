@@ -154,7 +154,7 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
     
     func setupMonthLabel() {
         addSubview(monthLabel)
-        monthLabel.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 17, paddingBottom: 0, paddingRight: 0, width: 25, height: 10)
+        monthLabel.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 17, paddingBottom: 0, paddingRight: 0, width: 25, height: 15)
     }
     
     func setupDayLabel() {
@@ -165,7 +165,7 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
     
     func setupWeekdayLabel() {
         addSubview(weekdayLabel)
-        weekdayLabel.anchor(top: dayLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 30, height: 10)
+        weekdayLabel.anchor(top: dayLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 30, height: 15)
         addConstraint(NSLayoutConstraint(item: weekdayLabel, attribute: .centerX, relatedBy: .equal, toItem: monthLabel, attribute: .centerX, multiplier: 1, constant: 0))
     }
     
