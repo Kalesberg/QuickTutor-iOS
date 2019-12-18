@@ -410,7 +410,7 @@ class SessionReview : BaseViewController {
 	}
 
     private func createCharge(tutorId: String, learnerId: String, cost: Int, completion: @escaping (QTStripeError?) -> Void) {
-		let fee = Int(Double(cost) * 0.1) + 200
+		let fee = Int(Double(cost) * 0.15) + 200
 		displayLoadingOverlay()
         
         checkSessionUsers(tutorId: tutorId, learnerId: learnerId) { learnerInfluencerId, tutorInfluencerId, error in

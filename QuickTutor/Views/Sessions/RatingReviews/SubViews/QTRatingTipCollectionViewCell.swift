@@ -131,7 +131,7 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
         
         // processing fee
         let cost = costOfSession + tip
-        let costWithFee = (cost + 0.3) / 0.971
+        let costWithFee = (cost + 0.57) / 0.968
         processingFeeLabel.text = (costWithFee - cost).currencyFormat(precision: 2, divider: 1)
         
         // tutor cost
@@ -152,7 +152,7 @@ class QTRatingTipCollectionViewCell: UICollectionViewCell {
         
         //processing fee
         let cost = costOfSession + tip
-        let costWithFee = (cost + 0.3) / 0.971
+        let costWithFee = (cost + 0.57) / 0.968
         processingFeeLabel.text = (costWithFee - cost).currencyFormat(precision: 2, divider: 1)
         
         // did select tip

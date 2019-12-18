@@ -139,7 +139,7 @@ class SessionRequestCell: UserMessageCell {
     func updateTextData() {
         guard let subject = sessionRequest?.subject, let price = sessionRequest?.price, let date = sessionRequest?.formattedDate(), let startTime = sessionRequest?.formattedStartTime(), let endTime = sessionRequest?.formattedEndTime(), let type = sessionRequest?.type else { return }
         subjectLabel.text = subject
-        let realPrice = .learner == AccountService.shared.currentUserType ? (price + 0.3) / 0.971 : price
+        let realPrice = .learner == AccountService.shared.currentUserType ? (price + 0.57) / 0.968 : price
         let priceString = String(format: "%.2f", realPrice)
         priceLabel.text = "$\(priceString)"
         sessionTypeLabel.text = type == "online" ? "Online" : "In-Person"

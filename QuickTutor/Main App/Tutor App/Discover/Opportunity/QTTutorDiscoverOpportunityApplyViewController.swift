@@ -76,7 +76,7 @@ class QTTutorDiscoverOpportunityApplyViewController: QTQuickRequestSubmitViewCon
         price = (maxPrice - price) / 2
         realPrice = maxPrice - price // Tutor budget
         
-        let serviceFee = realPrice * 0.1 + 2 // QuickTutor Fee
+        let serviceFee = realPrice * 0.15 + 2 // QuickTutor Fee
         let tutoringCost = realPrice - serviceFee // Real cost to be received
         tutorSuggestedPriceLabel.text = String(format: "$%0.2f", realPrice)
         tutorServiceFeeLabel.text = String(format: "$%0.2f", serviceFee)

@@ -6941,7 +6941,7 @@
 				CODE_SIGN_ENTITLEMENTS = "QuickTutor/New Group/QuickTutor.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QYG3ENEK3P;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -6958,7 +6958,7 @@
 				INFOPLIST_FILE = "QuickTutor/New Group/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 2.8.4;
+				MARKETING_VERSION = 2.8.5;
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" \"-D\" \"DEVELOPMENT\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.quicktutor1.quicktutor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -6982,7 +6982,7 @@
 				CODE_SIGN_ENTITLEMENTS = "QuickTutor/New Group/QuickTutor.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QYG3ENEK3P;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -6999,7 +6999,7 @@
 				INFOPLIST_FILE = "QuickTutor/New Group/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 2.8.4;
+				MARKETING_VERSION = 2.8.5;
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" \"-D\" \"DEVELOPMENT\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.quicktutor1.quicktutor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -7139,7 +7139,7 @@
 				CODE_SIGN_ENTITLEMENTS = "QuickTutor/New Group/QuickTutor.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = QYG3ENEK3P;
@@ -7167,7 +7167,7 @@
 				INFOPLIST_FILE = "QuickTutor/New Group/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 2.8.4;
+				MARKETING_VERSION = 2.8.5;
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.quicktutor1.quicktutor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -7191,7 +7191,7 @@
 				CODE_SIGN_ENTITLEMENTS = "QuickTutor/New Group/QuickTutor.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = QYG3ENEK3P;
@@ -7219,7 +7219,7 @@
 				INFOPLIST_FILE = "QuickTutor/New Group/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 2.8.4;
+				MARKETING_VERSION = 2.8.5;
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.quicktutor1.quicktutor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -7335,12 +7335,12 @@
 				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QYG3ENEK3P;
 				INFOPLIST_FILE = NotificationService/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				MARKETING_VERSION = 2.8.4;
+				MARKETING_VERSION = 2.8.5;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.quicktutor1.quicktutor.NotificationService;
@@ -7360,12 +7360,12 @@
 				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QYG3ENEK3P;
 				INFOPLIST_FILE = NotificationService/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				MARKETING_VERSION = 2.8.4;
+				MARKETING_VERSION = 2.8.5;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.quicktutor1.quicktutor.NotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";

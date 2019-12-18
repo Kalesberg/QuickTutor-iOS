@@ -154,7 +154,7 @@ class SessionRequestVC: UIViewController {
     }
     
     func isValidPriceRange(price: Double) -> Bool {
-        let realPrice = (price + 0.3) / 0.971
+        let realPrice = (price + 0.57) / 0.968
         guard realPrice >= 5 else {
             showPriceAlert(message: "There is a $5 minimum to every session.")
             return false
@@ -181,7 +181,7 @@ class SessionRequestVC: UIViewController {
             realPrice = calculatePrice(price, duration: duration)
         }
         self.price = realPrice
-        let fee = (realPrice + 0.3) / 0.971 - realPrice
+        let fee = (realPrice + 0.57) / 0.968 - realPrice
         
         // fee
         let strFee = NSMutableAttributedString(attributedString: NSAttributedString(string: "+Processing Fee: ",

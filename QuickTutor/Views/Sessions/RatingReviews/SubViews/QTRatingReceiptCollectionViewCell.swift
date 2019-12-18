@@ -68,8 +68,8 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
             tutoringCostTitleLabel.text = sessionType == .quickCalls ? "Call cost:" : "Session cost:" 
             tutoringCostLabel.text = bill.currencyFormat(precision: 2, divider: 1)
             
-            let cost = (bill + tip + 0.3) / 0.971
-            processingFeeLabel.text = Double(cost * 0.029 + 0.3).currencyFormat(precision: 2, divider: 1)
+            let cost = (bill + tip + 0.57) / 0.968
+            processingFeeLabel.text = Double(cost * 0.032 + 0.57).currencyFormat(precision: 2, divider: 1)
             billLabel.text = (cost - tip).currencyFormat(precision: 2, divider: 1)
             totalLabel.text = cost.currencyFormat(precision: 2, divider: 1)
         } else if let learner = user as? AWLearner {

@@ -244,7 +244,7 @@ class BaseSessionCell: UICollectionViewCell, SessionCellActionViewDelegate {
         
         var cost = session.sessionPrice
         if session.isPast {
-            cost = (session.cost + 0.3) / 0.971
+            cost = (session.cost + 0.57) / 0.968
         }
         let formattedPrice = String(format: "%.2f", cost)
         let priceString = "$\(formattedPrice)"

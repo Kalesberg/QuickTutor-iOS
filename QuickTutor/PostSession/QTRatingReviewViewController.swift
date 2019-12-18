@@ -279,7 +279,7 @@ class QTRatingReviewViewController: UIViewController {
     }
     
     func calculateFee(_ cost: Int) -> Int {
-        return Int(Double(cost) * 0.10 + 200)
+        return Int(Double(cost) * 0.15 + 200)
     }
     
     func costInDollars(_ cost: Double) -> Int {
@@ -337,7 +337,7 @@ class QTRatingReviewViewController: UIViewController {
     
     private func createCharge(tutorId: String, learnerId: String, cost: Int, tip: Int, completion: @escaping (QTStripeError?) -> Void) {
         let totalPrice = cost + tip
-        amount = Int(Double(totalPrice + 30) / 0.971 + 0.5)
+        amount = Int(Double(totalPrice + 57) / 0.968 + 0.5)
         
         let stripeFee = amount - totalPrice
         let applicationFee = calculateFee(totalPrice)

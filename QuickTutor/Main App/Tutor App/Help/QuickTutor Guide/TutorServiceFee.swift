@@ -18,7 +18,7 @@ class TutorServiceFeeView: MainLayoutHeaderScroll {
 
         header.label.text = "What is the service fee?"
 
-        serviceFeeBody.text = "There is a $2.00 + 10% service fee, which is deducted from every transaction you facilitate as a QuickTutor.\n\nThis fee helps us maintain the QuickTutor platform and make continuous investments to improve our technologies.\n\nThe service fee also helps us cover costs for marketing and payment processing for our users, as well as reporting system support and user safety."
+        serviceFeeBody.text = "There is a $2.00 + 15% service fee, which is deducted from every transaction you facilitate as a QuickTutor.\n\nThis fee helps us maintain the QuickTutor platform and make continuous investments to improve our technologies.\n\nThe service fee also helps us cover costs for marketing and payment processing for our users, as well as reporting system support and user safety."
     }
 
     override func applyConstraints() {

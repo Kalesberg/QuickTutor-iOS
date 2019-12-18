@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -72,7 +70,7 @@
                                     </constraints>
                                     <string key="text">To enter a session or call a tutor you must add a payment method. Your payment method won’t be charged until you enter a session or call.
 
-There are no subscription fees or upfront payments; and you will only be charged for the time you are in a session, at a minute-by-minute basis of the agreed hourly rate or session total of your choice. There is a $5.00 minimum to every Quick Call and Session.</string>
+There are no subscription fees or upfront payments; and you will only be charged for the time you are in a session, at a minute-by-minute basis of the agreed hourly rate or session total of your choice. There is a $5.00 minimum to every video call and Session.</string>
                                     <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
@@ -162,7 +160,7 @@ There are no subscription fees or upfront payments; and you will only be charged
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mFh-Au-kQx" userLabel="Fee Info Container">
                     <rect key="frame" x="0.0" y="804" width="414" height="58"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You will pay a 2.9% + $0.30 processing fee for every session or call you participate in." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UUu-JT-Gby">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You will pay a 3.2% + $0.57 processing fee for every session or call you participate in." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UUu-JT-Gby">
                             <rect key="frame" x="20" y="12" width="325" height="35"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="35" id="VQU-fY-tPb"/>

@@ -76,7 +76,7 @@ class EarningsHistoryCell: UICollectionViewCell {
         UserFetchService.shared.getStudentWithId(session.senderId) { user in
             guard let user = user else { return }
             self.updateTimestampLabel(session: session)
-            let cost = session.cost * 0.9 - 2
+            let cost = session.cost * 0.85 - 2
             self.amountLabel.text = "$\(String(format: "%.2f", cost))"
             self.usernameLabel.text = user.formattedName
             self.profilePicImageView.sd_setImage(with: user.profilePicUrl)

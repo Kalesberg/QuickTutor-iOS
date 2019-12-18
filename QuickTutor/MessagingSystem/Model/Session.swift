@@ -98,7 +98,7 @@ class Session: Codable {
     
     var sessionCost: Double {
         if .learner == AccountService.shared.currentUserType {
-            return (cost + 0.3) / 0.971
+            return (cost + 0.57) / 0.968
         }
         
         return cost
@@ -106,7 +106,7 @@ class Session: Codable {
     
     var sessionPrice: Double {
         if .learner == AccountService.shared.currentUserType {
-            return (price + 0.3) / 0.971
+            return (price + 0.57) / 0.968
         }
         
         return price
