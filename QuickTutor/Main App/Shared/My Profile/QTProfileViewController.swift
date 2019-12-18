@@ -556,10 +556,7 @@ class QTProfileViewController: UIViewController {
             //Update saved button
             let savedTutorIds = CurrentUser.shared.learner.savedTutorIds
             btnSave.isSelected = savedTutorIds.contains(user.uid)
-            
-            // Update Recommendations
-            updateRecommendataionView()
-            
+                        
         case .learner:
             topSubjectLabel.superview?.isHidden = true
             ratingLabel.text = "\(String(describing: user.lRating ?? 0))"
@@ -617,10 +614,7 @@ class QTProfileViewController: UIViewController {
                                 target: self,
                                 action: #selector(handleShareProfileButtonClicked))
             ]
-            
-            // Update Recommendations
-            updateRecommendataionView()
-            
+                        
         case .myLearner:
             topSubjectLabel.superview?.isHidden = true
             ratingLabel.text = "\(String(describing: user.lRating ?? 0))"
@@ -643,8 +637,6 @@ class QTProfileViewController: UIViewController {
     }
     
     private func initRecommendations() {
-        guard .myTutor == profileViewType else { return }
-            
         FirebaseData.manager.fetchTutorRecommendations(uid: user.uid) { recommendations in
             self.user.recommendations = recommendations
             self.updateRecommendataionView()
@@ -1074,10 +1066,6 @@ class QTProfileViewController: UIViewController {
                                                         self.connectButton.setTitle("Connect", for: .normal)
                                                     }
                 })
-            }
-            
-            if .tutor == self.profileViewType || .myTutor == self.profileViewType {
-                self.updateRecommendataionView()
             }
         }
     }

@@ -372,7 +372,7 @@ class FirebaseData {
                 objRecommendation.uid = key
                 if let learnerId = objRecommendation.learnerId {
                     learnerGroup.enter()
-                    self.fetchLearner(learnerId) { learner in
+                    self.fetchLearner(learnerId, isForImage: true) { learner in
                         if let avatarUrl = learner?.profilePicUrl.absoluteString {
                             objRecommendation.learnerAvatarUrl = avatarUrl
                         }
@@ -572,11 +572,10 @@ class FirebaseData {
         }
     }
     
-	func fetchLearner(_ uid : String,_ completion: @escaping (AWLearner?) -> Void) {
-		let group = DispatchGroup()
-		ref.child("account").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+    func fetchLearner(_ uid : String, isForImage: Bool = false, _ completion: @escaping (AWLearner?) -> Void) {
+		ref.child("account").child(uid).observeSingleEvent(of: .value) { (snapshot) in
 			guard let value = snapshot.value as? [String : Any] else { return completion(nil) }
-			self.ref.child("student-info").child(uid).observeSingleEvent(of: .value, with: { (snapshot2) in
+			self.ref.child("student-info").child(uid).observeSingleEvent(of: .value) { (snapshot2) in
 				guard let value2 = snapshot2.value as? [String : Any] else { return completion(nil) }
 				
 				let learnerData = value.merging(value2, uniquingKeysWith: { (first, last) -> Any in
@@ -586,6 +585,18 @@ class FirebaseData {
 				let learner = AWLearner(dictionary: learnerData)
 				learner.uid = uid
 				
+                if let images = learnerData["img"] as? [String : String] {
+                    images.forEach { (key, value) in
+                        learner.images[key] = value
+                    }
+                }
+                
+                if isForImage {
+                    completion(learner)
+                    return
+                }
+                
+                let group = DispatchGroup()
 				group.enter()
 				self.ref.child("tutor-info").child(uid).observeSingleEvent(of: .value, with: { snapshot in
 					learner.hasTutor = snapshot.exists()
@@ -623,18 +634,14 @@ class FirebaseData {
                     }
                     group.leave()
                 })
-				
-				guard let images = learnerData["img"] as? [String : String] else { return }
-                images.forEach({ (key, value) in
-                    learner.images[key] = value
-                })
                 
 				group.notify(queue: .main) {
 					completion(learner)
 				}
-			})
-		})
+			}
+		}
 	}
+    
 	func fetchPendingRequests(uid:  String,_ completion: @escaping ([String]?) -> Void) {
 		var conversationId = [String]()		
 		ref.child("conversations").child(uid).child("learner").observe(.value) { (snapshot) in
@@ -690,12 +697,6 @@ class FirebaseData {
 					}
 					group.leave()
 				}
-                
-                group.enter()
-                self.fetchTutorRecommendations(uid: uid) { recommendations in
-                    tutor.recommendations = recommendations
-                    group.leave()
-                }
                 
 				group.enter()
 				self.fetchTutorSubjects(uid: uid) { (subjects) in
