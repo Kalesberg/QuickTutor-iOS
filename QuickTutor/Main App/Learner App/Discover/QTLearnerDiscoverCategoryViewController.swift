@@ -112,9 +112,9 @@ class QTLearnerDiscoverCategoryViewController: UIViewController {
     private func getTopExperts() {
         if QTLearnerDiscoverService.shared.sectionTutors.contains(where: { .category == $0.type && category.mainPageData.name == $0.key }) { return }
         
-        TutorSearchService.shared.getTutorsByCategory(self.category.mainPageData.name, lastKnownKey: nil) { tutors, _  in
+        TutorSearchService.shared.getTutorsByCategory(self.category.mainPageData.name, lastKnownKey: nil) { tutors, loadedAllTutors  in
             let aryTutors = TutorSearchService.shared.sortTutors(tutors: tutors ?? [], category: self.category.mainPageData.name, subcategory: nil)
-            QTLearnerDiscoverService.shared.sectionTutors.append(QTLearnerDiscoverTutorSectionInterface(type: .category, key: self.category.mainPageData.name, tutors: aryTutors, loadedAllTutors: aryTutors.count <= QTLearnerDiscoverService.shared.topTutorsLimit ?? 25))
+            QTLearnerDiscoverService.shared.sectionTutors.append(QTLearnerDiscoverTutorSectionInterface(type: .category, key: self.category.mainPageData.name, tutors: aryTutors, loadedAllTutors: loadedAllTutors))
             DispatchQueue.main.async {
                 self.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
             }
@@ -168,9 +168,9 @@ class QTLearnerDiscoverCategoryViewController: UIViewController {
             if QTLearnerDiscoverService.shared.sectionTutors.contains(where: { .subcategory == $0.type && subcategory == $0.key }) { continue }
             
             tutorsGroup.enter()
-            TutorSearchService.shared.getTutorsBySubcategory(subcategory, lastKnownKey: nil) { tutors, _  in
+            TutorSearchService.shared.getTutorsBySubcategory(subcategory, lastKnownKey: nil) { tutors, loadedAllTutors  in
                 let aryTutors = TutorSearchService.shared.sortTutors(tutors: tutors ?? [], category: nil, subcategory: subcategory)
-                QTLearnerDiscoverService.shared.sectionTutors.append(QTLearnerDiscoverTutorSectionInterface(type: .subcategory, key: subcategory, tutors: aryTutors, loadedAllTutors: aryTutors.count <= QTLearnerDiscoverService.shared.topTutorsLimit ?? 25))
+                QTLearnerDiscoverService.shared.sectionTutors.append(QTLearnerDiscoverTutorSectionInterface(type: .subcategory, key: subcategory, tutors: aryTutors, loadedAllTutors: loadedAllTutors))
                 tutorsGroup.leave()
             }
         }
