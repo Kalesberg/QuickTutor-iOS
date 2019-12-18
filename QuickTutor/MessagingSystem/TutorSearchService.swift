@@ -171,7 +171,10 @@ class TutorSearchService {
     
     func getTopTutors(limit: UInt = 25, completion: @escaping([AWTutor]) -> Void) {
         Database.database().reference().child("tutor-info").queryOrdered(byChild: "nos").queryLimited(toLast: limit).observeSingleEvent(of: .value) { (snapshot) in
-            guard let tutorsDict = snapshot.value as? [String: Any] else { return }
+            guard let tutorsDict = snapshot.value as? [String: Any] else {
+                completion([])
+                return
+            }
             let group = DispatchGroup()
             var tutors = [AWTutor]()
             tutorsDict.forEach({ (key, value) in
