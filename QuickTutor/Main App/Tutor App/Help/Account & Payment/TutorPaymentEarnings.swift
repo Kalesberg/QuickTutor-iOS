@@ -27,7 +27,7 @@ class TutorPaymentEarningsView: PaymentOptionsView {
         cashBody.text = "QuickTutor is designed for cashless exchanges. After every transaction, your earnings will be direct deposited to you, your receipt is then emailed to you, and your sessions tab is updated under the \"past\" section with all the details regarding the transaction."
         
         gratuityTitle.label.text = "Gratuity"
-        gratuityBody.text = "You are allowed to ask for tips as a tutor. However, being tip is not required and any aggressive behavior regarding tipping will not be tolerated. Giving a tip is completely optional. Tips are added to the total of your earnings and are still subject to the QuickTutor service fee ($2.00 + 15% of the total)."
+        gratuityBody.text = "You are allowed to ask for tips as a tutor. However, being tipped is not required and any aggressive behavior regarding tipping will not be tolerated. Giving a tip is completely optional. Tips are added to the total of your earnings and are still subject to the QuickTutor service fee ($2.00 + 15% of the total)."
     }
 }
 
