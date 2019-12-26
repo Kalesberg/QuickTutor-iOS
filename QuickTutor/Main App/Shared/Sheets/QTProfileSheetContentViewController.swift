@@ -129,6 +129,7 @@ class QTProfileSheetContentViewController: SheetContentsViewController {
         reportTypeModal = ReportTypeModal()
         reportTypeModal?.chatPartnerId = id
         reportTypeModal?.show()
+        reportTypeModal?.parentVC = parentVC
         dismiss()
     }
     

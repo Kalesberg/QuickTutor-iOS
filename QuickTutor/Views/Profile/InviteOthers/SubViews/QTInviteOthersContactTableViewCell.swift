@@ -12,6 +12,8 @@ import Contacts
 class QTInviteOthersContactTableViewCell: UITableViewCell {
 
     // MARK: - Properties
+    
+    @IBOutlet weak var avatarInitialsLabel: UILabel!
     @IBOutlet weak var avatarImageView: QTCustomImageView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var checkView: QTCustomView!
@@ -44,7 +46,7 @@ class QTInviteOthersContactTableViewCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
-        avatarImageView.image = UIImage(named: "ic_avatar_placeholder")
+        avatarImageView.image = UIImage(named: "profileTabBarIcon")
         checkImageView.isHighlighted = false
     }
     
@@ -61,8 +63,10 @@ class QTInviteOthersContactTableViewCell: UITableViewCell {
     public func setData(_ contact: CNContact, checked: Bool) {
         userNameLabel.text = contact.givenName + " " + contact.familyName
         if let imageData = contact.imageData {
+            avatarInitialsLabel.text = ""
             avatarImageView.image = UIImage(data: imageData)
         } else {
+            avatarInitialsLabel.text = "\(contact.givenName[0])\(contact.familyName[0])"
             avatarImageView.image = AVATAR_PLACEHOLDER_IMAGE
         }
         checkImageView.isHighlighted = checked

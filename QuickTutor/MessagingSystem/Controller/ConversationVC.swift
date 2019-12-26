@@ -434,9 +434,10 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         vc.subject = subject
         vc.name = String(chatPartner.formattedName)
         vc.dismissHandler = {
-            self.becomeFirstResponder()
+//          self.becomeFirstResponder()
         }
         
+      
         let navigation = SheetNavigationController(rootViewController: vc)
         present(navigation, animated: false, completion: nil)
     }
@@ -1240,6 +1241,7 @@ extension ConversationVC: KeyboardAccessoryViewDelegate {
                 }
             }
         }
+        
     }
 
     func handleMessageSend(message: UserMessage) {
