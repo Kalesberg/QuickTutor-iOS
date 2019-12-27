@@ -51,23 +51,23 @@ class TutorTabBarController: BaseTabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let home = UINavigationController(rootViewController: QTTutorDashboardViewController.controller) // TutorMainPage()
+        let home = SwipeNavigationController(rootViewController: QTTutorDashboardViewController.controller) // TutorMainPage()
         home.tabBarItem = ESTabBarItem(QTTabBarItemContentView(), image: UIImage(named: "dashboardTabIcon"), selectedImage: UIImage(named: "dashboardTabIcon"))
         home.navigationBar.barTintColor = Colors.newNavigationBarBackground
         home.navigationBar.backgroundColor = Colors.newNavigationBarBackground
         
-        let discover = UINavigationController(rootViewController: QTTutorDiscoverViewController())
+        let discover = SwipeNavigationController(rootViewController: QTTutorDiscoverViewController())
         discover.tabBarItem = ESTabBarItem(QTTabBarItemContentView(), image: UIImage(named: "discoverTabIcon"), selectedImage: UIImage(named: "discoverTabIcon"))
         discover.navigationBar.barTintColor = Colors.newNavigationBarBackground
         discover.navigationBar.backgroundColor = Colors.newNavigationBarBackground
         
-        let sessions = UINavigationController(rootViewController: TutorSessionsVC())
+        let sessions = SwipeNavigationController(rootViewController: TutorSessionsVC())
         sessions.tabBarItem = ESTabBarItem(QTTabBarItemContentView(), image: UIImage(named: "sessionsTabBarIcon"), selectedImage: UIImage(named: "sessionsTabBarIcon"))
-        let messages = UINavigationController(rootViewController: MessagesVC())
+        let messages = SwipeNavigationController(rootViewController: MessagesVC())
         messages.tabBarItem = ESTabBarItem(QTTabBarItemContentView(), image: UIImage(named: "chatTabBarIcon"), selectedImage: UIImage(named: "chatTabBarIcon"))
         messages.navigationBar.barTintColor = Colors.newNavigationBarBackground
         messages.navigationBar.backgroundColor = Colors.newNavigationBarBackground
-        let profile = UINavigationController(rootViewController: ProfileVC())
+        let profile = SwipeNavigationController(rootViewController: ProfileVC())
         profile.tabBarItem = ESTabBarItem(QTTabBarItemContentView(), image: UIImage(named: "profileTabBarIcon"), selectedImage: UIImage(named: "profileTabBarIcon"))
         let controllers = [home, discover, sessions, messages, profile]
         
@@ -84,7 +84,7 @@ class TutorTabBarController: BaseTabBarController {
         }
         viewControllers = controllers
         viewControllers?.forEach {
-            if let navController = $0 as? UINavigationController {
+            if let navController = $0 as? SwipeNavigationController {
                 let _ = navController.topViewController?.view
             } else {
                 let _ = $0.view.description

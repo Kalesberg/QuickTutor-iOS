@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CustomNavVC: UINavigationController {
+class CustomNavVC: SwipeNavigationController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         setupViews()

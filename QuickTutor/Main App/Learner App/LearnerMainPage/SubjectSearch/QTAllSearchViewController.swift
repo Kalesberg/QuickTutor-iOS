@@ -119,6 +119,33 @@ class HLRecentSectionHeaderView: UIView {
     }
 }
 
+class HLSuggestedSectionHeaderView: UIView {
+    let suggestedLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Suggested"
+        label.font = Fonts.createMediumSize(19)
+        label.textColor = .white
+        return label
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureViews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    func configureViews() {
+        self.addSubview(suggestedLabel)
+        suggestedLabel.translatesAutoresizingMaskIntoConstraints = false
+        suggestedLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 25).isActive = true
+        suggestedLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 16).isActive = true
+        suggestedLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+    }
+}
+
 class QTAllSearchViewController: UIViewController {
 
     // MARK: - Properties
@@ -128,6 +155,7 @@ class QTAllSearchViewController: UIViewController {
     var allSubjects = [(String, String)]()
     var recentSearches: [QTRecentSearchModel] = []
     var filteredUsers = [UsernameQuery]()
+    var suggestedUsers = [UsernameQuery]()
     var resultUsers = [UsernameQuery]()
     var filteredSubjects = [(String, String)]()
     var isSearchMode: Bool = false
@@ -146,6 +174,8 @@ class QTAllSearchViewController: UIViewController {
     
     lazy var indicatorView: HLActivityIndicatorView = HLActivityIndicatorView()
     lazy var recentSectionHeaderView = HLRecentSectionHeaderView()
+    lazy var suggestedSectionHeaderView = HLSuggestedSectionHeaderView()
+
     
     static var controller: QTAllSearchViewController {
         return QTAllSearchViewController(nibName: String(describing: QTAllSearchViewController.self), bundle: nil)
@@ -418,15 +448,33 @@ extension QTAllSearchViewController: UITableViewDelegate {
 
 // MARK: - UITableViewDataSource
 extension QTAllSearchViewController: UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if isSearchMode || recentSearches.isEmpty {
+        if isSearchMode {
             return nil
         }
-        return recentSectionHeaderView
+        
+        if section == 0 {
+            if recentSearches.isEmpty {
+                return nil
+            }
+            
+            return recentSectionHeaderView
+
+        } else {
+            return suggestedSectionHeaderView
+        }
+        
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if isSearchMode || recentSearches.isEmpty {
+        if isSearchMode  {
+            return .leastNonzeroMagnitude
+        }
+        if section == 0 && recentSearches.isEmpty {
             return .leastNonzeroMagnitude
         }
         
@@ -439,8 +487,13 @@ extension QTAllSearchViewController: UITableViewDataSource {
                 indicatorView.stopAnimation()
             }
         }
+    
+        if section == 1 {
+            return suggestedUsers.count
+        }
         
-        return isSearchMode ? (filteredSubjects.count + filteredUsers.count) : recentSearches.count
+          return isSearchMode ? (filteredSubjects.count + filteredUsers.count) : recentSearches.count
+       
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

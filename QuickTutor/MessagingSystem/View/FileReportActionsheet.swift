@@ -210,7 +210,9 @@ class FileReportActionsheet: UIView {
     }
     
     func shareUsernameForUserId() {
+
         dismiss()
+        
         guard let id = partnerId else { return }
         guard let username = self.name, let subject = self.subject else {
             return
@@ -331,6 +333,7 @@ extension FileReportActionsheet: FileReportActionsheetCellDelegate {
     func fileReportActionSheetCellDidSelect(_ fileReportActionSheetCell: FileReportActionsheetCell) {
         
         if isTutorSheet {
+            
             if isConnected {
                 switch fileReportActionSheetCell.tag {
                 case 0:
@@ -343,15 +346,18 @@ extension FileReportActionsheet: FileReportActionsheetCellDelegate {
             } else {
                 switch fileReportActionSheetCell.tag {
                 case 0:
+                    
                     handleReportButton()
                 default:
                     break
                 }
             }
         } else {
+            
             if isConnected {
                 switch fileReportActionSheetCell.tag {
                 case 0:
+                    
                     shareUsernameForUserId()
                 case 1:
                     requestSession()
@@ -365,6 +371,7 @@ extension FileReportActionsheet: FileReportActionsheetCellDelegate {
             } else {
                 switch fileReportActionSheetCell.tag {
                 case 0:
+                    
                     shareUsernameForUserId()
                 case 1:
                     handleReportButton()
