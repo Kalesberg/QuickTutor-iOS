@@ -52,7 +52,7 @@ protocol QTHookModelNavigationControllerDelegate {
     func didFinishHookModel(_ viewController: UIViewController)
 }
 
-class QTHookModelNavigationController: UINavigationController {
+class QTHookModelNavigationController: SwipeNavigationController {
 
     var hookModelDelegate: QTHookModelNavigationControllerDelegate?
     
@@ -76,7 +76,7 @@ class QTHookModelNavigationController: UINavigationController {
 
 }
 
-extension QTHookModelNavigationController: UINavigationControllerDelegate {    
+extension QTHookModelNavigationController {
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if .push == operation {
             return FadeAnimationController(presenting: true)

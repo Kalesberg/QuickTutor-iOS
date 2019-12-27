@@ -129,11 +129,13 @@ class QTProfileSheetContentViewController: SheetContentsViewController {
         reportTypeModal = ReportTypeModal()
         reportTypeModal?.chatPartnerId = id
         reportTypeModal?.show()
+        reportTypeModal?.parentVC = parentVC
         dismiss()
     }
     
     private func shareUsernameForUserId() {
         dismiss()
+        
         guard let id = partnerId else { return }
         guard let username = self.name, let subject = self.subject else {
             return
@@ -141,6 +143,9 @@ class QTProfileSheetContentViewController: SheetContentsViewController {
         
         var image: UIImage?
         if let vc = self.parentVC as? QTProfileViewController {
+            image = vc.sharedProfileView.asImage()
+        }
+        if let vc = self.parentVC as? ConversationVC  {
             image = vc.sharedProfileView.asImage()
         }
         
@@ -151,6 +156,7 @@ class QTProfileSheetContentViewController: SheetContentsViewController {
             if let message = error?.localizedDescription {
                 DispatchQueue.main.async {
                     if let vc = self.parentVC {
+                        
                         vc.dismissOverlay()
                         AlertController.genericErrorAlert(vc, message: message)
                     }
@@ -161,6 +167,7 @@ class QTProfileSheetContentViewController: SheetContentsViewController {
             DynamicLinkFactory.shared.createLink(userId: id, userName: username, subject: subject, profilePreviewUrl: url) { shareUrl in
                 guard let shareUrlString = shareUrl?.absoluteString else {
                     DispatchQueue.main.async {
+                        
                         self.parentVC?.dismissOverlay()
                     }
                     return
@@ -234,8 +241,11 @@ class QTProfileSheetContentViewController: SheetContentsViewController {
 
 extension QTProfileSheetContentViewController: QTProfileSheetContentViewCellDelegate {
     func profileSheetContentViewDidSelect(_ contentViewCell: QTProfileSheetContentViewCell) {
+        
         guard let indexPath = collectionView.indexPath(for: contentViewCell) else { return }
+        
         if isTutorSheet {
+        
             if isConnected {
                 switch indexPath.item - 1 {
                 case 0:
@@ -254,6 +264,7 @@ extension QTProfileSheetContentViewController: QTProfileSheetContentViewCellDele
                 }
             }
         } else {
+            
             if isConnected {
                 switch indexPath.item - 1 {
                 case 0:
@@ -268,6 +279,7 @@ extension QTProfileSheetContentViewController: QTProfileSheetContentViewCellDele
                     break
                 }
             } else {
+                
                 switch indexPath.item - 1 {
                 case 0:
                     shareUsernameForUserId()

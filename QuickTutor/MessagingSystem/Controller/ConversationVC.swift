@@ -434,9 +434,9 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         vc.subject = subject
         vc.name = String(chatPartner.formattedName)
         vc.dismissHandler = {
-            self.becomeFirstResponder()
+//          self.becomeFirstResponder()
         }
-        
+      
         let navigation = SheetNavigationController(rootViewController: vc)
         present(navigation, animated: false, completion: nil)
     }
@@ -1211,6 +1211,7 @@ extension ConversationVC: KeyboardAccessoryViewDelegate {
     }
 
     func shareUsernameForUserId() {
+        
         studentKeyboardAccessory.toggleActionView()
         guard let username = self.chatPartner.username, let subject = self.subject else { return }
         displayLoadingOverlay()
@@ -1240,6 +1241,7 @@ extension ConversationVC: KeyboardAccessoryViewDelegate {
                 }
             }
         }
+        
     }
 
     func handleMessageSend(message: UserMessage) {

@@ -9,11 +9,15 @@
 import Firebase
 import UIKit
 
+
+
+
 class ReportTypeModal: BaseCustomModal {
     
     let reportTypeStrings = ["Inappropriate Language", "Inappropriate Action", "Harassment/Bullying", "Impersonation", "Cancel"]
     var reportSuccessfulModal: ReportSuccessfulModal?
     var chatPartnerId: String?
+    var parentVC: UIViewController?
 
     let tableView: UITableView = {
         let tv = UITableView()
@@ -80,6 +84,13 @@ extension ReportTypeModal: UITableViewDelegate, UITableViewDataSource {
         default:
             dismiss()
         }
+        
+        //set textfield back on
+        let vc = self.parentVC as? ConversationVC
+        if vc != nil {
+            parentVC!.becomeFirstResponder()
+        }
+        
         guard index != 4 else { return }
         dismiss()
         reportSuccessfulModal = ReportSuccessfulModal()

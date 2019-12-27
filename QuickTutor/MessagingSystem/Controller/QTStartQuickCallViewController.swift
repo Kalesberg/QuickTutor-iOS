@@ -232,7 +232,7 @@ class QTStartQuickCallViewController: QTSessionBaseViewController, QTStartQuickC
                          price: Double) {
         usernameLabel.text = partnerName
         if initiatorId == AccountService.shared.currentUser.uid {
-            reasonLabel.text = "\(price.currencyFormat(precision: 2, divider: 1)) for \(subject.capitalized)..."
+            reasonLabel.text = "\(subject.capitalized) for \(price.currencyFormat(precision: 2, divider: 1))"
         } else {
             reasonLabel.text = "is calling you for help \nwith \(subject.capitalized)..."
         }

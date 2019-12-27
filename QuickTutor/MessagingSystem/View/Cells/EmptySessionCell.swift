@@ -9,7 +9,7 @@
 import UIKit
 
 class EmptySessionCell: UICollectionViewCell {
-    let descriptions = ["You haven't sent any session requests.", "You have no upcoming sessions.", "Your previous sessions will appear here."]
+    let descriptions = ["You haven't sent any session requests.", "You have no upcoming sessions.", "Your past sessions will appear here."]
 
     let requestsDescription = "You haven't received any sessions requests. Try adjusting your preferences or policies to increase requests."
 

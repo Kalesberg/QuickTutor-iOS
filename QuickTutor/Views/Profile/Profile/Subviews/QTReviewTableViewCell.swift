@@ -10,8 +10,9 @@ import UIKit
 import Cosmos
 
 class QTReviewTableViewCell: UITableViewCell {
-
+    
     // MARK: - Properties
+    @IBOutlet weak var avatarInitialsLabel: UILabel!
     @IBOutlet weak var avatarImageView: QTCustomImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var reviewDateLabel: UILabel!
@@ -53,8 +54,11 @@ class QTReviewTableViewCell: UITableViewCell {
         ratingView.rating = review.rating
         
         avatarImageView.image = UIImage(named: "ic_avatar_placeholder")
+        
+        avatarInitialsLabel.text = "\(review.studentName[0].uppercased())"
         UserFetchService.shared.getStudentWithId(review.reviewerId) { (student) in
             guard let student = student else {
+                self.avatarInitialsLabel.text = ""
                 self.avatarImageView.image = UIImage(named: "ic_avatar_placeholder")
                 return
             }

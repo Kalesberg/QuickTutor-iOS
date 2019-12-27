@@ -12,20 +12,20 @@ import ESTabBarController_swift
 class LearnerTabBarController: BaseTabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        let home = UINavigationController(rootViewController: LearnerMainPageVC())
+        let home = SwipeNavigationController(rootViewController: LearnerMainPageVC())
         home.tabBarItem = ESTabBarItem(QTTabBarItemContentView(), image: UIImage(named: "homeTabBarIcon"), selectedImage: UIImage(named: "homeTabBarIcon"))
-        let discover = UINavigationController(rootViewController: QTLearnerDiscoverViewController(nibName: String(describing: QTLearnerDiscoverViewController.self), bundle: nil))
+        let discover = SwipeNavigationController(rootViewController: QTLearnerDiscoverViewController(nibName: String(describing: QTLearnerDiscoverViewController.self), bundle: nil))
         discover.tabBarItem = ESTabBarItem(QTTabBarItemContentView(), image: UIImage(named: "discoverTabIcon"), selectedImage: UIImage(named: "discoverTabIcon"))
         discover.navigationBar.barTintColor = Colors.newNavigationBarBackground
         discover.navigationBar.backgroundColor = Colors.newNavigationBarBackground
-        let sessions = UINavigationController(rootViewController: LearnerSessionsVC())
+        let sessions = SwipeNavigationController(rootViewController: LearnerSessionsVC())
         sessions.tabBarItem = ESTabBarItem(QTTabBarItemContentView(), image: UIImage(named: "sessionsTabBarIcon"), selectedImage: UIImage(named: "sessionsTabBarIcon"))
         sessions.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
-        let messages = UINavigationController(rootViewController: MessagesVC())
+        let messages = SwipeNavigationController(rootViewController: MessagesVC())
         messages.tabBarItem = ESTabBarItem(QTTabBarItemContentView(), image: UIImage(named: "chatTabBarIcon"), selectedImage: UIImage(named: "chatTabBarIcon"))
         messages.navigationBar.barTintColor = Colors.newNavigationBarBackground
         messages.navigationBar.backgroundColor = Colors.newNavigationBarBackground
-        let profile = UINavigationController(rootViewController: ProfileVC())
+        let profile = SwipeNavigationController(rootViewController: ProfileVC())
         profile.tabBarItem = ESTabBarItem(QTTabBarItemContentView(), image: UIImage(named: "profileTabBarIcon"), selectedImage: UIImage(named: "profileTabBarIcon"))
         let controllers = [home, discover, sessions, messages, profile]
 
@@ -42,7 +42,7 @@ class LearnerTabBarController: BaseTabBarController {
         }
         viewControllers = controllers
         viewControllers?.forEach {
-            if let navController = $0 as? UINavigationController {
+            if let navController = $0 as? SwipeNavigationController {
                 let _ = navController.topViewController?.view
             } else {
                 let _ = $0.view.description
@@ -63,7 +63,7 @@ class LearnerTabBarController: BaseTabBarController {
     @objc
     func handleQuickSearchTapped(_ notification: Notification) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            if let viewControllers = self.viewControllers, let nav = viewControllers[1] as? UINavigationController, let controller = nav.viewControllers[0] as? QTLearnerDiscoverViewController {
+            if let viewControllers = self.viewControllers, let nav = viewControllers[1] as? SwipeNavigationController, let controller = nav.viewControllers[0] as? QTLearnerDiscoverViewController {
                 self.selectedViewController = nav
                 controller.onClickBtnSearch(controller.view)
             }

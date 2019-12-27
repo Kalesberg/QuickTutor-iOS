@@ -32,6 +32,9 @@ class QTRatingReviewCustomTipViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+       
+        scrollView.backgroundColor = UIColor.black.withAlphaComponent(0.85)
+
         tipTextField.becomeFirstResponder()
     }
     
@@ -58,7 +61,7 @@ class QTRatingReviewCustomTipViewController: UIViewController {
     private func initViewController () {
         
         // text field
-        tipTextField.text = "5.0"
+        tipTextField.text = "5.00"
         
         // add notification observer
         NotificationCenter.default.addObserver(self,
