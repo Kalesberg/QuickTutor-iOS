@@ -96,7 +96,7 @@ class NavbarButtonBack: NavbarButtonImage {
     override func configureView() {
         super.configureView()
 
-        image.image = UIImage(named: "backButton")
+        image.image = UIImage(named: "ic_back_arrow")
         image.contentMode = .scaleAspectFit
     }
 
