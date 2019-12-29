@@ -152,10 +152,16 @@ class QTAllSearchViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     var searchFilter: SearchFilter?
     
+    private var aryTutorIds: [QTTutorSubjectInterface] = []
+    private var aryTutors: [AWTutor] = []
+    private var aryConnectedTutorIds: [String] = []
+    private var aryRecentedTutorIds: [String] = []
+    private let limit = 5
+    private var _observing = false
+    
     var allSubjects = [(String, String)]()
     var recentSearches: [QTRecentSearchModel] = []
     var filteredUsers = [UsernameQuery]()
-    var suggestedUsers = [UsernameQuery]()
     var resultUsers = [UsernameQuery]()
     var filteredSubjects = [(String, String)]()
     var isSearchMode: Bool = false
@@ -173,8 +179,8 @@ class QTAllSearchViewController: UIViewController {
     }
     
     lazy var indicatorView: HLActivityIndicatorView = HLActivityIndicatorView()
-    lazy var recentSectionHeaderView = HLRecentSectionHeaderView()
     lazy var suggestedSectionHeaderView = HLSuggestedSectionHeaderView()
+    lazy var recentSectionHeaderView = HLRecentSectionHeaderView()
 
     
     static var controller: QTAllSearchViewController {
@@ -200,13 +206,153 @@ class QTAllSearchViewController: UIViewController {
         
         allSubjects = SubjectStore.shared.loadTotalSubjectList() ?? []
         recentSearches = QTUtils.shared.getRecentSearches()
+        getRecentTutorIds()
         
         tableView.delegate = self
         tableView.dataSource = self
         
         setupDelegates()
+        
+        loadConnectedTutors() {
+            self.loadLearnerRelativeTutorIds() {
+                self.loadTutors()
+            }
+        }
     }
-
+    private func getRecentTutorIds(){
+        aryRecentedTutorIds.removeAll()
+        for recent in recentSearches {
+            if let recentUid = recent.uid {
+                aryRecentedTutorIds.append(recentUid)
+            }
+        }
+    }
+    private func loadConnectedTutors(completion: @escaping () -> Void) {
+        if 0 == CurrentUser.shared.learner.connectedTutorsCount {
+            completion()
+            return
+        }
+        
+        FirebaseData.manager.fetchLearnerConnections(uid: CurrentUser.shared.learner.uid) { aryConnectedTutorIds in
+            if let aryConnectedTutorIds = aryConnectedTutorIds {
+                self.aryConnectedTutorIds = aryConnectedTutorIds
+            }
+            completion()
+        }
+    }
+    
+    private func loadLearnerRelativeTutorIds(completion: @escaping () -> Void) {
+        guard let interests = CurrentUser.shared.learner.interests else { return }
+        
+        // load same subjects tutors
+        var categories: [String] = []
+        var subcategories: [String] = []
+        let interestsGroup = DispatchGroup()
+        for interest in interests {
+            if let category = SubjectStore.shared.findCategoryBy(subject: interest),
+                !categories.contains(category) {
+                categories.append(category)
+            }
+            if let subcategory = SubjectStore.shared.findSubCategory(subject: interest),
+                !subcategories.contains(subcategory) {
+                subcategories.append(subcategory)
+            }
+            
+            interestsGroup.enter()
+            TutorSearchService.shared.getTutorIdsBySubject(interest) { tutorIds in
+                guard let tutorIds = tutorIds else {
+                    interestsGroup.leave()
+                    return
+                }
+                tutorIds.forEach { tutorId in
+                    if CurrentUser.shared.learner.uid != tutorId,
+                    !self.aryConnectedTutorIds.contains(tutorId),
+                    !self.aryRecentedTutorIds.contains(tutorId),
+                        !self.aryTutorIds.contains(where: { $0.tutorId == tutorId }) {
+                        self.aryTutorIds.append(QTTutorSubjectInterface(tutorId: tutorId, subject: interest))
+                    }
+                }
+                interestsGroup.leave()
+            }
+        }
+        
+        interestsGroup.notify(queue: .main) {
+            // load same subcategory tutors
+            let subcategoriesGroup = DispatchGroup()
+            for subcategory in subcategories {
+                subcategoriesGroup.enter()
+                TutorSearchService.shared.getTutorIdsBySubcategory(subcategory) { tutorIds in
+                    guard let tutorIds = tutorIds else {
+                        subcategoriesGroup.leave()
+                        return
+                    }
+                    tutorIds.forEach { tutorId in
+                        if CurrentUser.shared.learner.uid != tutorId,
+                            !self.aryConnectedTutorIds.contains(tutorId),
+                            !self.aryTutorIds.contains(where: { $0.tutorId == tutorId }) {
+                            self.aryTutorIds.append(QTTutorSubjectInterface(tutorId: tutorId, subcategory: subcategory))
+                        }
+                    }
+                    subcategoriesGroup.leave()
+                }
+            }
+            subcategoriesGroup.notify(queue: .main) {
+                // load same category tutors
+                let categoriesGroup = DispatchGroup()
+                for category in categories {
+                    categoriesGroup.enter()
+                    TutorSearchService.shared.getTutorIdsByCategory(category) { tutorIds in
+                        guard let tutorIds = tutorIds else {
+                            categoriesGroup.leave()
+                            return
+                        }
+                        tutorIds.forEach { tutorId in
+                            if CurrentUser.shared.learner.uid != tutorId,
+                                !self.aryConnectedTutorIds.contains(tutorId),
+                                !self.aryTutorIds.contains(where: { $0.tutorId == tutorId }) {
+                                self.aryTutorIds.append(QTTutorSubjectInterface(tutorId: tutorId, category: category))
+                            }
+                        }
+                        categoriesGroup.leave()
+                    }
+                }
+                categoriesGroup.notify(queue: .main) {
+                    completion()
+                }
+            }
+        }
+    }
+    
+    private func loadTutors() {
+        _observing = true
+        let tutorsGroup = DispatchGroup()
+        var tutors: [AWTutor] = []
+        var tutorsCount = self.aryTutors.count
+        
+        while tutorsCount < limit && !self.aryTutorIds.isEmpty {
+            tutorsGroup.enter()
+            FirebaseData.manager.fetchTutor(aryTutorIds[0].tutorId, isQuery: false) { tutor in
+                guard let tutor = tutor else {
+                    tutorsGroup.leave()
+                    return
+                }
+                tutors.append(tutor)
+                tutorsGroup.leave()
+            }
+            self.aryTutorIds.remove(at: 0)
+            tutorsCount += 1
+        }
+        tutorsGroup.notify(queue: .main) {
+            self._observing = false
+            self.aryTutorIds = Array(self.aryTutorIds.dropFirst(self.limit))
+            self.aryTutors.append(contentsOf: tutors)
+            if !self.aryTutorIds.isEmpty && self.aryTutors.count < self.limit {
+                self.loadTutors()
+                return
+            }
+            self.tableView.reloadData()
+        }
+    }
     // MARK: - Actions
     @objc
     func handleSearch(_ notification: Notification) {
@@ -243,6 +389,8 @@ class QTAllSearchViewController: UIViewController {
             filteredSubjects.removeAll()
             filteredUsers.removeAll()
             recentSearches = QTUtils.shared.getRecentSearches()
+            getRecentTutorIds()
+            self.loadTutors()
             self.tableView.reloadData()
             return
         }
@@ -250,6 +398,7 @@ class QTAllSearchViewController: UIViewController {
         isSearchMode = true
         filteredSubjects.removeAll()
         filteredUsers.removeAll()
+        aryTutors.removeAll()
         self.tableView.reloadData()
         self.unknownSubject = nil
         
@@ -390,17 +539,33 @@ extension QTAllSearchViewController: UITableViewDelegate {
                 self.goToTutorProfileScreen(tutorId: user.uid)
             }
         } else {
-            let item = self.recentSearches[indexPath.row]
-            if item.type == QTRecentSearchType.subject {
-                if let subject = item.name2 {
-                    self.goToCategorySearchScreen(subject: subject)
+
+            if indexPath.section == 1 {
+                let item = self.recentSearches[indexPath.row]
+                if item.type == QTRecentSearchType.subject {
+                    if let subject = item.name2 {
+                        self.goToCategorySearchScreen(subject: subject)
+                    }
+                } else {
+                    if let uid = item.uid {
+                        self.goToTutorProfileScreen(tutorId: uid)
+                    }
                 }
-            } else {
-                if let uid = item.uid {
-                    self.goToTutorProfileScreen(tutorId: uid)
-                }
+                QTUtils.shared.saveRecentSearch(search: item)
+            }else{
+                let objTutor = aryTutors[indexPath.row]
+                let item: QTRecentSearchModel = QTRecentSearchModel()
+                item.uid = objTutor.uid
+                item.type = .people
+                item.name1 = objTutor.name
+                item.name2 = objTutor.username
+                item.imageUrl = objTutor.profilePicUrl.absoluteString
+                self.aryTutors.remove(at: indexPath.row)
+                self.loadTutors()
+                self.goToTutorProfileScreen(tutorId: objTutor.uid)
+                QTUtils.shared.saveRecentSearch(search: item)
             }
-            QTUtils.shared.saveRecentSearch(search: item)
+            
         }
         
         /*cell?.growSemiShrink {
@@ -450,6 +615,9 @@ extension QTAllSearchViewController: UITableViewDelegate {
 extension QTAllSearchViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
+        if isSearchMode  {
+            return 1
+        }
         return 2
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -457,7 +625,7 @@ extension QTAllSearchViewController: UITableViewDataSource {
             return nil
         }
         
-        if section == 0 {
+        if section == 1 {
             if recentSearches.isEmpty {
                 return nil
             }
@@ -465,6 +633,9 @@ extension QTAllSearchViewController: UITableViewDataSource {
             return recentSectionHeaderView
 
         } else {
+            if aryTutors.isEmpty {
+                return nil
+            }
             return suggestedSectionHeaderView
         }
         
@@ -474,10 +645,13 @@ extension QTAllSearchViewController: UITableViewDataSource {
         if isSearchMode  {
             return .leastNonzeroMagnitude
         }
-        if section == 0 && recentSearches.isEmpty {
+        if section == 1 && recentSearches.isEmpty {
             return .leastNonzeroMagnitude
         }
         
+        if section == 0 && aryTutors.isEmpty {
+            return .leastNonzeroMagnitude
+        }
         return 45
     }
     
@@ -486,13 +660,14 @@ extension QTAllSearchViewController: UITableViewDataSource {
             if filteredSubjects.count + filteredUsers.count > 0 {
                 indicatorView.stopAnimation()
             }
+            return filteredSubjects.count + filteredUsers.count
         }
     
-        if section == 1 {
-            return suggestedUsers.count
+        if section == 0 {
+            return aryTutors.count
         }
         
-          return isSearchMode ? (filteredSubjects.count + filteredUsers.count) : recentSearches.count
+        return recentSearches.count
        
     }
     
@@ -516,14 +691,29 @@ extension QTAllSearchViewController: UITableViewDataSource {
             }
             cell.deleteButton.isHidden = true
         } else {
-            item = recentSearches[indexPath.row]
+            if indexPath.section == 1 {
+                item = recentSearches[indexPath.row]
+            }else{
+                let objTutor = aryTutors[indexPath.row]
+                item.uid = objTutor.uid
+                item.type = .people
+                item.name1 = objTutor.name
+                item.name2 = objTutor.username
+                item.imageUrl = objTutor.profilePicUrl.absoluteString
+            }
             cell.deleteButton.isHidden = false
         }
         cell.onDeleteHandler = { recentSearch in
             if let recentSearch = recentSearch {
-                QTUtils.shared.removeRecentSearch(search: recentSearch)
-                self.recentSearches = QTUtils.shared.getRecentSearches()
-                self.tableView.reloadData()
+                if indexPath.section == 1 {
+                    QTUtils.shared.removeRecentSearch(search: recentSearch)
+                    self.recentSearches = QTUtils.shared.getRecentSearches()
+                    self.getRecentTutorIds()
+                    self.tableView.reloadData()
+                }else{
+                    self.aryTutors.remove(at: indexPath.row)
+                    self.loadTutors()
+                }
             }
         }
         cell.setData(recentSearch: item)
@@ -550,157 +740,6 @@ extension UITableView {
     func removeUnknownSubjectView() {
         self.backgroundView = nil
     }
-    
-//    private func loadLearnerRelativeTutorIds(completion: @escaping () -> Void) {
-//        guard let interests = CurrentUser.shared.learner.interests else { return }
-//
-//        // load same subjects tutors
-//        var categories: [String] = []
-//        var subcategories: [String] = []
-//        let interestsGroup = DispatchGroup()
-//        for interest in interests {
-//            if let category = SubjectStore.shared.findCategoryBy(subject: interest),
-//                !categories.contains(category) {
-//                categories.append(category)
-//            }
-//            if let subcategory = SubjectStore.shared.findSubCategory(subject: interest),
-//                !subcategories.contains(subcategory) {
-//                subcategories.append(subcategory)
-//            }
-//
-//            interestsGroup.enter()
-//            TutorSearchService.shared.getTutorIdsBySubject(interest) { tutorIds in
-//                guard let tutorIds = tutorIds else {
-//                    interestsGroup.leave()
-//                    return
-//                }
-//                tutorIds.forEach { tutorId in
-//                    if CurrentUser.shared.learner.uid != tutorId,
-//                        !self.suggestedTutors.contains(tutorId),
-//                        !self.aryTutorIds.contains(where: { $0.tutorId == tutorId }) {
-//                        self.aryTutorIds.append(QTTutorSubjectInterface(tutorId: tutorId, subject: interest))
-//                    }
-//                }
-//                interestsGroup.leave()
-//            }
-//        }
-//
-//        interestsGroup.notify(queue: .main) {
-//            // load same subcategory tutors
-//            let subcategoriesGroup = DispatchGroup()
-//            for subcategory in subcategories {
-//                subcategoriesGroup.enter()
-//                TutorSearchService.shared.getTutorIdsBySubcategory(subcategory) { tutorIds in
-//                    guard let tutorIds = tutorIds else {
-//                        subcategoriesGroup.leave()
-//                        return
-//                    }
-//                    tutorIds.forEach { tutorId in
-//                        if CurrentUser.shared.learner.uid != tutorId,
-//                            !self.aryConnectedTutorIds.contains(tutorId),
-//                            !self.aryTutorIds.contains(where: { $0.tutorId == tutorId }) {
-//                            self.aryTutorIds.append(QTTutorSubjectInterface(tutorId: tutorId, subcategory: subcategory))
-//                        }
-//                    }
-//                    subcategoriesGroup.leave()
-//                }
-//            }
-//            subcategoriesGroup.notify(queue: .main) {
-//                // load same category tutors
-//                let categoriesGroup = DispatchGroup()
-//                for category in categories {
-//                    categoriesGroup.enter()
-//                    TutorSearchService.shared.getTutorIdsByCategory(category) { tutorIds in
-//                        guard let tutorIds = tutorIds else {
-//                            categoriesGroup.leave()
-//                            return
-//                        }
-//                        tutorIds.forEach { tutorId in
-//                            if CurrentUser.shared.learner.uid != tutorId,
-//                                !self.aryConnectedTutorIds.contains(tutorId),
-//                                !self.aryTutorIds.contains(where: { $0.tutorId == tutorId }) {
-//                                self.aryTutorIds.append(QTTutorSubjectInterface(tutorId: tutorId, category: category))
-//                            }
-//                        }
-//                        categoriesGroup.leave()
-//                    }
-//                }
-//                categoriesGroup.notify(queue: .main) {
-//                    completion()
-//                }
-//            }
-//        }
-//    }
-//
-//    private func loadTutors() {
-//        _observing = true
-//        let tutorsGroup = DispatchGroup()
-//        var tutors: [AWTutor] = []
-//
-//        let realLimit = limit < aryTutorIds.count ? limit : aryTutorIds.count
-//        for index in 0 ..< realLimit {
-//            tutorsGroup.enter()
-//            FirebaseData.manager.fetchTutor(aryTutorIds[index].tutorId, isQuery: false) { tutor in
-//                guard let tutor = tutor else {
-//                    tutorsGroup.leave()
-//                    return
-//                }
-//                if let subject = self.aryTutorIds[index].subject {
-//                    tutor.featuredSubject = subject
-//                } else {
-//                    if let subcategory = self.aryTutorIds[index].subcategory {
-//                        if let subcategorySubjects = CategoryFactory.shared.getSubjectsFor(subcategoryName: subcategory),
-//                            let tutorSubjects = tutor.subjects?.filter({ subcategorySubjects.contains($0) }), !tutorSubjects.isEmpty {
-//                            var rndIndex = Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(tutorSubjects.count))
-//                            if rndIndex >= tutorSubjects.count {
-//                                rndIndex = tutorSubjects.count - 1
-//                            }
-//                            tutor.featuredSubject = tutorSubjects[rndIndex]
-//                        }
-//                    } else if let category = self.aryTutorIds[index].category {
-//                        if let category = Category.category(for: category) {
-//                            let subcategories = category.subcategory.subcategories.map({ $0.title })
-//                            var categorySubjects: [String] = []
-//                            for subcategory in subcategories {
-//                                if let subcategorySubjects = CategoryFactory.shared.getSubjectsFor(subcategoryName: subcategory),
-//                                    let tutorSubjects = tutor.subjects?.filter({ subcategorySubjects.contains($0) }), !tutorSubjects.isEmpty {
-//                                    categorySubjects.append(contentsOf: tutorSubjects)
-//                                }
-//                            }
-//                            // get random subject
-//                            var rndIndex = Int((Float(arc4random()) / Float(UINT32_MAX)) * Float(categorySubjects.count))
-//                            if rndIndex >= categorySubjects.count {
-//                                rndIndex = categorySubjects.count - 1
-//                            }
-//                            tutor.featuredSubject = categorySubjects[rndIndex]
-//                        }
-//                    }
-//                }
-//                tutors.append(tutor)
-//                tutorsGroup.leave()
-//            }
-//        }
-//        tutorsGroup.notify(queue: .main) {
-//            self._observing = false
-//            if self.tableView.isSkeletonActive {
-//                self.tableView.hideSkeleton()
-//                self.tableView.isUserInteractionEnabled = true
-//
-//                self.tableView.rowHeight = UITableView.automaticDimension
-//                self.tableView.estimatedRowHeight = 80
-//            }
-//            self.aryTutorIds = Array(self.aryTutorIds.dropFirst(realLimit))
-//            self.shouldLoadMore = 0 < self.aryTutorIds.count
-//            let beforeTutorsCount = self.aryTutors.count
-//            self.aryTutors.append(contentsOf: tutors)
-//            self.tableView.reloadData()
-//            if 0 < beforeTutorsCount {
-//                DispatchQueue.main.async {
-//                    self.tableView.scrollToRow(at: IndexPath(row: beforeTutorsCount - 1, section: 0), at: .bottom, animated: false)
-//                }
-//            }
-//        }
-//    }
 }
 
 // MARK: - MFMailComposeViewControllerDelegate
