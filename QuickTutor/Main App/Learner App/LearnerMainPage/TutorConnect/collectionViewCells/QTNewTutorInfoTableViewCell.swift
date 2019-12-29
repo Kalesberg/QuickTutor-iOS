@@ -199,24 +199,33 @@ class QTNewTutorInfoTableViewCell: UITableViewCell {
         nameLabel.text = tutor.formattedName
         hourlyRateLabel.text = "$\(tutor.price ?? 5)/hr"
         
-        if let rating = tutor.tRating, rating > 0 {
-            ratingImageView.isHidden = false
-            ratingCaptionLabel.isHidden = false
-            ratingLabel.text = String(format: "%0.1f", rating)
-        } else {
-            ratingImageView.isHidden = true
-            ratingCaptionLabel.isHidden = true
-            
-            if let experienceSubject = tutor.experienceSubject, let experiencePeriod = tutor.experiencePeriod, !experienceSubject.isEmpty {
-                if experiencePeriod == 0.5 {
-                    ratingLabel.text = "6 Months Experience in \(experienceSubject)"
+        let uid = tutor.uid
+        FirebaseData.manager.fetchTutor(uid!, isQuery: false, { (tutor) in
+            guard let tutor = tutor else { return }
+            DispatchQueue.main.async {
+
+                if let rating = tutor.tRating, rating > 0, let reviews = tutor.reviews , !reviews.isEmpty {
+                    self.ratingImageView.isHidden = false
+                    self.ratingCaptionLabel.isHidden = false
+                    self.ratingLabel.text = String(format: "%0.1f", rating)
                 } else {
-                    ratingLabel.text = "\(Int(experiencePeriod)) Years Experience in \(experienceSubject)"
+                    self.ratingImageView.isHidden = true
+                    self.ratingCaptionLabel.isHidden = true
+                    
+                    if let experienceSubject = tutor.experienceSubject, let experiencePeriod = tutor.experiencePeriod, !experienceSubject.isEmpty {
+                        if experiencePeriod == 0.5 {
+                            self.ratingLabel.text = "6 Months Experience in \(experienceSubject)"
+                        } else {
+                            self.ratingLabel.text = "\(Int(experiencePeriod)) Years Experience in \(experienceSubject)"
+                        }
+                    } else if let address = tutor.region {
+                        self.ratingLabel.text = address
+                    }
                 }
-            } else if let address = tutor.region {
-                ratingLabel.text = address
+                
             }
-        }
+        })
+        
         
         if let featuredSubject = tutor.featuredSubject {
             var text = "Teaches "
