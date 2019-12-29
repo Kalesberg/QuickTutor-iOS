@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -507,6 +507,7 @@
                 <outlet property="nameLabel" destination="i2L-X3-UU8" id="eF3-ac-HgJ"/>
                 <outlet property="partnerSessionLabel" destination="Q4P-mJ-8uv" id="sy0-0C-RdZ"/>
                 <outlet property="partnerSessionNumberLabel" destination="Kk3-hu-FkY" id="PM3-BQ-IbG"/>
+                <outlet property="partnerTotalLbl" destination="BKH-wR-o0B" id="mGm-zR-FdI"/>
                 <outlet property="processingFeeLabel" destination="0Jf-NI-Pzh" id="vri-U5-bjo"/>
                 <outlet property="processingFeeTitleLabel" destination="gMA-dH-GDE" id="K9i-yU-AGV"/>
                 <outlet property="receiptView" destination="3zO-Qy-6W6" id="BII-bI-nen"/>

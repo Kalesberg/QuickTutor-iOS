@@ -28,6 +28,7 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var totalTitleLabel: UILabel!
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var totalSessionNumberLabel: UILabel!
+    @IBOutlet weak var partnerTotalLbl: UILabel!
     @IBOutlet weak var partnerSessionLabel: UILabel!
     @IBOutlet weak var partnerSessionNumberLabel: UILabel!
     
@@ -121,9 +122,11 @@ class QTRatingReceiptCollectionViewCell: UICollectionViewCell {
         nameLabel.text = String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1) + ".")
         
         if sessionType == .quickCalls {
-            partnerSessionLabel.text = "Call completed with \(String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1))):"
+            partnerTotalLbl.text = "Call completed:"
+            partnerSessionLabel.text = "Calls completed with \(String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1))):"
             sessionLengthCaptionLabel.text = "Call duration:"
         } else {
+            partnerTotalLbl.text = "Sessions completed:"
             partnerSessionLabel.text = "Sessions completed with \(String(nameSplit[0]) + " " + String(nameSplit[1].prefix(1))):"
             sessionLengthCaptionLabel.text = "Session duration:"
         }
