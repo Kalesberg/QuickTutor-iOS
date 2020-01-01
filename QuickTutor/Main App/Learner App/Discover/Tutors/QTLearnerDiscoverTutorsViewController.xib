@@ -32,11 +32,11 @@
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kh6-81-5vS">
                     <rect key="frame" x="20" y="548" width="374" height="44"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JCO-tS-dhx" customClass="QTCustomView" customModule="QuickTutor" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="0.0" width="374" height="44"/>
+                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JCO-tS-dhx" customClass="QTCustomView" customModule="QuickTutor" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="8" width="374" height="44"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3000 people in the list" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RTv-Lf-1kJ">
-                                    <rect key="frame" x="16" y="15" width="120" height="14.5"/>
+                                    <rect key="frame" x="16" y="15" width="118.5" height="14"/>
                                     <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="12"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>

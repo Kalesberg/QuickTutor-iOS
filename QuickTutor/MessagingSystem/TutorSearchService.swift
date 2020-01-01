@@ -12,7 +12,7 @@ import Firebase
 class TutorSearchService {
     static let shared = TutorSearchService()
     
-    func getTutorsByCategory(_ categoryName: String, lastKnownKey: String?, limit: UInt = 60, queue: DispatchQueue = .main, completion: @escaping ([AWTutor]?, Bool) -> Void) {
+    func getTutorsByCategory(_ categoryName: String, lastKnownKey: String?, limit: UInt = 3000, queue: DispatchQueue = .main, completion: @escaping ([AWTutor]?, Bool) -> Void) {
         var tutors = [AWTutor]()
         let myGroup = DispatchGroup()
         var ref = Database.database().reference().child("categories").child(categoryName).queryOrderedByKey().queryLimited(toFirst: limit)
@@ -51,7 +51,7 @@ class TutorSearchService {
         }
     }
     
-    func getTutorsBySubcategory(_ subcategoryName: String, lastKnownKey: String?, limit: UInt = 60, queue: DispatchQueue = .main, completion: @escaping ([AWTutor]?, Bool) -> Void) {
+    func getTutorsBySubcategory(_ subcategoryName: String, lastKnownKey: String?, limit: UInt = 3000, queue: DispatchQueue = .main, completion: @escaping ([AWTutor]?, Bool) -> Void) {
         var tutors = [AWTutor]()
         let desiredSubjects = CategoryFactory.shared.getSubjectsFor(subcategoryName: subcategoryName)
         
@@ -90,7 +90,7 @@ class TutorSearchService {
         }
     }
     
-    func getTutorsBySubject(_ subject: String, lastKnownKey: String?, limit: UInt = 60, queue: DispatchQueue = .main, completion: @escaping ([AWTutor]?, Bool) -> Void) {
+    func getTutorsBySubject(_ subject: String, lastKnownKey: String?, limit: UInt = 3000, queue: DispatchQueue = .main, completion: @escaping ([AWTutor]?, Bool) -> Void) {
         var tutors = [AWTutor]()
         var ref = Database.database().reference().child("subjects").child(subject).queryOrderedByKey().queryLimited(toFirst: limit)
         
@@ -169,7 +169,7 @@ class TutorSearchService {
         }
     }
     
-    func getTopTutors(limit: UInt = 25, completion: @escaping([AWTutor]) -> Void) {
+    func getTopTutors(limit: UInt = 1000, completion: @escaping([AWTutor]) -> Void) {
         Database.database().reference().child("tutor-info").queryOrdered(byChild: "nos").queryLimited(toLast: limit).observeSingleEvent(of: .value) { (snapshot) in
             guard let tutorsDict = snapshot.value as? [String: Any] else {
                 completion([])
@@ -314,7 +314,7 @@ class TutorSearchService {
         }
     }
     
-    func fetchLearnerRisingTalents(category: String? = nil, subcategory: String? = nil, limit: Int = 60, completion: @escaping ([AWTutor]) -> Void) {
+    func fetchLearnerRisingTalents(category: String? = nil, subcategory: String? = nil, limit: Int = 3000, completion: @escaping ([AWTutor]) -> Void) {
         
         var accountIds: [String] = []
         let lastCreateTime = Date().timeIntervalSince1970 - 60 * 24 * 3600
@@ -416,7 +416,7 @@ class TutorSearchService {
         }
     }
     
-    func fetchRecentlyActiveTutors(category: String? = nil, subcategory: String? = nil, limit: Int = 60, completion: @escaping ([AWTutor]) -> Void) {
+    func fetchRecentlyActiveTutors(category: String? = nil, subcategory: String? = nil, limit: Int = 3000, completion: @escaping ([AWTutor]) -> Void) {
         let lastActiveTime = Date().timeIntervalSince1970 - 72 * 3600
         Database.database().reference().child("account").queryOrdered(byChild: "online").queryStarting(atValue: lastActiveTime).observeSingleEvent(of: .value) { snapshot in
             guard let dicAccount = snapshot.value as? [String: Any] else {

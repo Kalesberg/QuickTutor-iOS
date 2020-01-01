@@ -37,7 +37,7 @@ class QTLearnerDiscoverService {
     var isRisingTalent = false
     
     var topTutorsLimit: Int?
-    var risingTalentLimit = 50
+    var risingTalentLimit = 3000
     
     var sectionTutors: [QTLearnerDiscoverTutorSectionInterface] = []    
 }
