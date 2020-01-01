@@ -9,6 +9,10 @@
 import UIKit
 import Sheet
 
+protocol QTProfileSheetContentVCDelegate {
+    func tapCancelButton()
+}
+
 class QTProfileSheetContentViewController: SheetContentsViewController {
     
     private var titles = ["Share profile", "Request Session", "Disconnect", "Report"]
@@ -18,6 +22,8 @@ class QTProfileSheetContentViewController: SheetContentsViewController {
     
     private var alert: CustomModal?
     private var reportTypeModal: ReportTypeModal?
+    
+    var qTProfileSheetContentVCDelegate:QTProfileSheetContentVCDelegate?
     
     var name: String?
     var partnerId: String?
@@ -37,7 +43,7 @@ class QTProfileSheetContentViewController: SheetContentsViewController {
         }
     }
     
-    var dismissHandler: (() -> ())?
+    var dismissHandler: ((_ type:Int) -> ())?
     
     static var controller: QTProfileSheetContentViewController {
         return QTProfileSheetContentViewController(nibName: String(describing: QTProfileSheetContentViewController.self), bundle: nil)
@@ -49,7 +55,6 @@ class QTProfileSheetContentViewController: SheetContentsViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        dismissHandler?()
     }
     
     override func registCollectionElement() {
@@ -81,6 +86,7 @@ class QTProfileSheetContentViewController: SheetContentsViewController {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: QTProfileSheetTitleViewCell.reuseIdentifier, for: indexPath) as! QTProfileSheetTitleViewCell
             cell.didClickClose = {
                 self.dismiss()
+                self.dismissHandler?(0)
             }
             return cell
         } else {
@@ -101,6 +107,7 @@ class QTProfileSheetContentViewController: SheetContentsViewController {
 //        let velocity = scrollView.panGestureRecognizer.velocity(in: nil)
         if scrollView.contentOffset.y <= -10/* && velocity.y >= 100*/ {
             dismiss()
+            dismissHandler?(0)
         }
     }
     
@@ -122,6 +129,9 @@ class QTProfileSheetContentViewController: SheetContentsViewController {
         guard let disconnectModal = alert as? DisconnectModal, let id = partnerId else { return }
         disconnectModal.partnerId = id
         disconnectModal.show()
+        
+        disconnectModal.baseCustomModalDelegate = self
+        dismissHandler?(1)
     }
     
     private func onClickReportButton() {
@@ -130,11 +140,14 @@ class QTProfileSheetContentViewController: SheetContentsViewController {
         reportTypeModal?.chatPartnerId = id
         reportTypeModal?.show()
         reportTypeModal?.parentVC = parentVC
+        reportTypeModal?.baseCustomModalDelegate = self
         dismiss()
+        dismissHandler?(2)
     }
     
     private func shareUsernameForUserId() {
         dismiss()
+        dismissHandler?(0)
         
         guard let id = partnerId else { return }
         guard let username = self.name, let subject = self.subject else {
@@ -184,6 +197,7 @@ class QTProfileSheetContentViewController: SheetContentsViewController {
     
     private func requestSession() {
         dismiss()
+        dismissHandler?(0)
         guard let id = partnerId else { return }
         FirebaseData.manager.fetchRequestSessionData(uid: id) { requestData in
             let vc = SessionRequestVC()
@@ -238,7 +252,13 @@ class QTProfileSheetContentViewController: SheetContentsViewController {
         }
     }
 }
-
+extension QTProfileSheetContentViewController: BaseCustomModalDelegaete {
+    func tapCancelButton() {
+        qTProfileSheetContentVCDelegate?.tapCancelButton()
+    }
+    
+    
+}
 extension QTProfileSheetContentViewController: QTProfileSheetContentViewCellDelegate {
     func profileSheetContentViewDidSelect(_ contentViewCell: QTProfileSheetContentViewCell) {
         
@@ -292,3 +312,4 @@ extension QTProfileSheetContentViewController: QTProfileSheetContentViewCellDele
         }
     }
 }
+

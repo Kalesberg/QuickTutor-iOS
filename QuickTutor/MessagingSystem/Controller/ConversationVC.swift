@@ -385,7 +385,6 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
 
     @objc func showReportSheet() {
-        resignFirstResponder()
 
         /*let name = chatPartner.formattedName
         if #available(iOS 11.0, *) {
@@ -399,6 +398,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         actionSheet?.partnerId = chatPartner.uid
         actionSheet?.subject = subject
         actionSheet?.show()*/
+        
         SheetManager.shared.options.cornerRadius = 15
         SheetManager.shared.options.isToolBarHidden = true
         SheetManager.shared.options.sheetBackgroundColor = Colors.newScreenBackground
@@ -432,8 +432,23 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         vc.isTutorSheet = isTutorSheet
         vc.parentVC = self
         vc.subject = subject
+        vc.qTProfileSheetContentVCDelegate = self
         vc.name = String(chatPartner.formattedName)
-        vc.dismissHandler = {
+        vc.dismissHandler = { type in
+            switch type {
+                case 0:
+                    break
+                case 1:
+                    self.studentKeyboardAccessory.isHidden = true
+                    self.teacherKeyboardAccessory.isHidden = true
+                    break
+                case 2:
+                    self.studentKeyboardAccessory.isHidden = true
+                    self.teacherKeyboardAccessory.isHidden = true
+                    break
+            default:
+                break
+            }
 //          self.becomeFirstResponder()
         }
       
@@ -1400,5 +1415,11 @@ extension ConversationVC {
             self.messagesCollection.layoutIfNeeded()
             self.messagesCollection.contentOffset = CGPoint(x: 0, y: self.messagesCollection.contentSize.height - oldOffset)
         }
+    }
+}
+extension ConversationVC : QTProfileSheetContentVCDelegate{
+    func tapCancelButton() {
+        self.studentKeyboardAccessory.isHidden = false
+        self.teacherKeyboardAccessory.isHidden = false
     }
 }

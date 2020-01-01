@@ -8,7 +8,14 @@
 
 import UIKit
 
+protocol BaseCustomModalDelegaete{
+    func tapCancelButton()
+}
+
+
 class BaseCustomModal: UIView {
+    
+    var baseCustomModalDelegate : BaseCustomModalDelegaete!
     var isShown = false
     
     let lastWindow: UIWindow? = {
@@ -120,6 +127,9 @@ class BaseCustomModal: UIView {
         
         contentAnimator.startAnimation()
         backgroundAnimator.startAnimation()
+        
+        baseCustomModalDelegate.tapCancelButton()
+
     }
     
     override init(frame: CGRect) {

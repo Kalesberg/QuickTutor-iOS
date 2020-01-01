@@ -540,7 +540,7 @@ extension QTAllSearchViewController: UITableViewDelegate {
             }
         } else {
 
-            if indexPath.section == 1 {
+            if indexPath.section == 0 {
                 let item = self.recentSearches[indexPath.row]
                 if item.type == QTRecentSearchType.subject {
                     if let subject = item.name2 {
@@ -625,7 +625,7 @@ extension QTAllSearchViewController: UITableViewDataSource {
             return nil
         }
         
-        if section == 1 {
+        if section == 0 {
             if recentSearches.isEmpty {
                 return nil
             }
@@ -645,11 +645,11 @@ extension QTAllSearchViewController: UITableViewDataSource {
         if isSearchMode  {
             return .leastNonzeroMagnitude
         }
-        if section == 1 && recentSearches.isEmpty {
+        if section == 0 && recentSearches.isEmpty {
             return .leastNonzeroMagnitude
         }
         
-        if section == 0 && aryTutors.isEmpty {
+        if section == 1 && aryTutors.isEmpty {
             return .leastNonzeroMagnitude
         }
         return 45
@@ -663,7 +663,7 @@ extension QTAllSearchViewController: UITableViewDataSource {
             return filteredSubjects.count + filteredUsers.count
         }
     
-        if section == 0 {
+        if section == 1 {
             return aryTutors.count
         }
         
@@ -691,7 +691,7 @@ extension QTAllSearchViewController: UITableViewDataSource {
             }
             cell.deleteButton.isHidden = true
         } else {
-            if indexPath.section == 1 {
+            if indexPath.section == 0 {
                 item = recentSearches[indexPath.row]
             }else{
                 let objTutor = aryTutors[indexPath.row]
@@ -705,7 +705,7 @@ extension QTAllSearchViewController: UITableViewDataSource {
         }
         cell.onDeleteHandler = { recentSearch in
             if let recentSearch = recentSearch {
-                if indexPath.section == 1 {
+                if indexPath.section == 0 {
                     QTUtils.shared.removeRecentSearch(search: recentSearch)
                     self.recentSearches = QTUtils.shared.getRecentSearches()
                     self.getRecentTutorIds()

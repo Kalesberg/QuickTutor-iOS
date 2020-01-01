@@ -10,9 +10,9 @@ import Firebase
 import UIKit
 
 
-
-
 class ReportTypeModal: BaseCustomModal {
+    
+
     
     let reportTypeStrings = ["Inappropriate Language", "Inappropriate Action", "Harassment/Bullying", "Impersonation", "Cancel"]
     var reportSuccessfulModal: ReportSuccessfulModal?
