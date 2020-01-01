@@ -366,7 +366,7 @@ extension QTTutorSearchViewController: UITableViewDelegate {
             QTUtils.shared.saveRecentSearch(search: item)
             self.goToTutorProfileScreen(tutorId: user.uid)
         } else {
-            if indexPath.section == 1 {
+            if indexPath.section == 0 {
                 let user = self.recentSearches[indexPath.row]
                 QTUtils.shared.saveRecentSearch(search: user)
                 if let uid  = user.uid {
@@ -419,11 +419,11 @@ extension QTTutorSearchViewController: UITableViewDataSource {
         return 2
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if isSearchMode || recentSearches.isEmpty {
+        if isSearchMode {
             return nil
         }
         
-        if section == 1 {
+        if section == 0 {
             if recentSearches.isEmpty {
                 return nil
             }
@@ -443,11 +443,11 @@ extension QTTutorSearchViewController: UITableViewDataSource {
             return .leastNonzeroMagnitude
         }
         
-        if section == 1 && recentSearches.isEmpty {
+        if section == 0 && recentSearches.isEmpty {
             return .leastNonzeroMagnitude
         }
         
-        if section == 0 && aryTutors.isEmpty {
+        if section == 1 && aryTutors.isEmpty {
             return .leastNonzeroMagnitude
         }
         return 45
@@ -462,7 +462,7 @@ extension QTTutorSearchViewController: UITableViewDataSource {
             return filteredUsers.count
         }
         
-        if section == 0 {
+        if section == 1 {
             return aryTutors.count
         }
         return recentSearches.count
@@ -480,7 +480,7 @@ extension QTTutorSearchViewController: UITableViewDataSource {
                                                      for: indexPath) as! QTRecentSearchTableViewCell
             cell.deleteButton.isHidden = false
             
-            if indexPath.section == 1 {
+            if indexPath.section == 0 {
                 cell.setData(recentSearch: recentSearches[indexPath.row])
             }else{
                 let objTutor = aryTutors[indexPath.row]
@@ -495,7 +495,7 @@ extension QTTutorSearchViewController: UITableViewDataSource {
             
             cell.onDeleteHandler = { recentSearch in
                 if let recentSearch = recentSearch {
-                    if indexPath.section == 1 {
+                    if indexPath.section == 0 {
                         QTUtils.shared.removeRecentSearch(search: recentSearch)
                         self.recentSearches = QTUtils.shared.getRecentSearches()
                         self.getRecentTutorIds()

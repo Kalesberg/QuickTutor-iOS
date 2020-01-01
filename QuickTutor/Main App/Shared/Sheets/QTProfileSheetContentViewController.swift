@@ -9,6 +9,10 @@
 import UIKit
 import Sheet
 
+protocol QTProfileSheetContentVCDelegate {
+    func tapCancelButton()
+}
+
 class QTProfileSheetContentViewController: SheetContentsViewController {
     
     private var titles = ["Share profile", "Request Session", "Disconnect", "Report"]
@@ -18,6 +22,8 @@ class QTProfileSheetContentViewController: SheetContentsViewController {
     
     private var alert: CustomModal?
     private var reportTypeModal: ReportTypeModal?
+    
+    var qTProfileSheetContentVCDelegate:QTProfileSheetContentVCDelegate?
     
     var name: String?
     var partnerId: String?
@@ -124,6 +130,7 @@ class QTProfileSheetContentViewController: SheetContentsViewController {
         disconnectModal.partnerId = id
         disconnectModal.show()
         
+        disconnectModal.baseCustomModalDelegate = self
         dismissHandler?(1)
     }
     
@@ -133,6 +140,7 @@ class QTProfileSheetContentViewController: SheetContentsViewController {
         reportTypeModal?.chatPartnerId = id
         reportTypeModal?.show()
         reportTypeModal?.parentVC = parentVC
+        reportTypeModal?.baseCustomModalDelegate = self
         dismiss()
         dismissHandler?(2)
     }
@@ -244,7 +252,13 @@ class QTProfileSheetContentViewController: SheetContentsViewController {
         }
     }
 }
-
+extension QTProfileSheetContentViewController: BaseCustomModalDelegaete {
+    func tapCancelButton() {
+        qTProfileSheetContentVCDelegate?.tapCancelButton()
+    }
+    
+    
+}
 extension QTProfileSheetContentViewController: QTProfileSheetContentViewCellDelegate {
     func profileSheetContentViewDidSelect(_ contentViewCell: QTProfileSheetContentViewCell) {
         
@@ -298,3 +312,4 @@ extension QTProfileSheetContentViewController: QTProfileSheetContentViewCellDele
         }
     }
 }
+

@@ -385,7 +385,6 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
 
     @objc func showReportSheet() {
-        resignFirstResponder()
 
         /*let name = chatPartner.formattedName
         if #available(iOS 11.0, *) {
@@ -433,6 +432,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         vc.isTutorSheet = isTutorSheet
         vc.parentVC = self
         vc.subject = subject
+        vc.qTProfileSheetContentVCDelegate = self
         vc.name = String(chatPartner.formattedName)
         vc.dismissHandler = { type in
             switch type {
@@ -1415,5 +1415,11 @@ extension ConversationVC {
             self.messagesCollection.layoutIfNeeded()
             self.messagesCollection.contentOffset = CGPoint(x: 0, y: self.messagesCollection.contentSize.height - oldOffset)
         }
+    }
+}
+extension ConversationVC : QTProfileSheetContentVCDelegate{
+    func tapCancelButton() {
+        self.studentKeyboardAccessory.isHidden = false
+        self.teacherKeyboardAccessory.isHidden = false
     }
 }
