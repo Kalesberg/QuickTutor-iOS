@@ -64,9 +64,11 @@ class QTInviteOthersContactTableViewCell: UITableViewCell {
         userNameLabel.text = contact.givenName + " " + contact.familyName
         if let imageData = contact.imageData {
             avatarInitialsLabel.text = ""
+            avatarImageView.isHighlighted = true
             avatarImageView.image = UIImage(data: imageData)
         } else {
             avatarInitialsLabel.text = "\(contact.givenName[0])\(contact.familyName[0])"
+            avatarImageView.isHighlighted = false
             avatarImageView.image = AVATAR_PLACEHOLDER_IMAGE
         }
         checkImageView.isHighlighted = checked
