@@ -399,6 +399,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         actionSheet?.partnerId = chatPartner.uid
         actionSheet?.subject = subject
         actionSheet?.show()*/
+        
         SheetManager.shared.options.cornerRadius = 15
         SheetManager.shared.options.isToolBarHidden = true
         SheetManager.shared.options.sheetBackgroundColor = Colors.newScreenBackground
@@ -433,7 +434,21 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         vc.parentVC = self
         vc.subject = subject
         vc.name = String(chatPartner.formattedName)
-        vc.dismissHandler = {
+        vc.dismissHandler = { type in
+            switch type {
+                case 0:
+                    break
+                case 1:
+                    self.studentKeyboardAccessory.isHidden = true
+                    self.teacherKeyboardAccessory.isHidden = true
+                    break
+                case 2:
+                    self.studentKeyboardAccessory.isHidden = true
+                    self.teacherKeyboardAccessory.isHidden = true
+                    break
+            default:
+                break
+            }
 //          self.becomeFirstResponder()
         }
       
