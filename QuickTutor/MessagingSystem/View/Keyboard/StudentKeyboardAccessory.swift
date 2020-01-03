@@ -164,16 +164,19 @@ class StudentKeyboardAccessory: KeyboardAccessory {
         UIViewPropertyAnimator(duration: 0.15, curve: .easeOut, animations: {
             self.layoutIfNeeded()
         }).startAnimation()
+        
     }
     
     func hideQuickChatView() {
         quickChatViewShown = false
+//        chatView.isHidden = true
         messageFieldTopAnchor?.constant = 8
         self.layoutIfNeeded()
         quickChatBottomAnchor?.constant = 45
         UIViewPropertyAnimator(duration: 0.15, curve: .easeOut, animations: {
             self.layoutIfNeeded()
         }).startAnimation()
+        
     }
     
     func removeBackgroundBlurView() {
@@ -197,3 +200,4 @@ extension StudentKeyboardAccessory: QuickChatViewDelegate {
         
     }
 }
+

@@ -16,7 +16,7 @@ class MessageTextView: UITextView {
         label.text = "Enter a message..."
         return label
     }()
-    
+
     func setupViews() {
         setupMainView()
         setupPlaceHolder()

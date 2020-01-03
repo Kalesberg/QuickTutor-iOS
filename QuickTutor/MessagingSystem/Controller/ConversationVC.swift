@@ -279,7 +279,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         if #available(iOS 11, *) {
             let bottom = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
-            emptyCellBackground.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: bottom + offset, paddingRight: 0, width: 0, height: 0)
+            emptyCellBackground.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: bottom + 500, paddingRight: 0, width: 0, height: 0)
         } else {
             emptyCellBackground.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: offset, paddingRight: 0, width: 0, height: 0)
         }
@@ -313,6 +313,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
 
     func enterConnectionRequestMode() {
         studentKeyboardAccessory.showQuickChatView()
+//        studentKeyboardAccessory.chatView.isHidden = false
         if AccountService.shared.currentUserType == .learner {
             setupEmptyBackground()
         }

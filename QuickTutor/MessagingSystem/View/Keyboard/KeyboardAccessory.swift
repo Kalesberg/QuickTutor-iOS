@@ -224,6 +224,7 @@ class KeyboardAccessory: UIView, UITextViewDelegate {
         adjustHeightForText(messageTextview.text)
     }
     
+    
     private func adjustHeightForText(_ text: String = "") {
         let height = text.height(withConstrainedWidth: messageTextview.bounds.width, font: messageTextview.font ?? UIFont.systemFont(ofSize: 14))
         let isOversize = height >= maxMessageHeightConstraint?.constant ?? MAX_MESSAGE_HEIGHT
