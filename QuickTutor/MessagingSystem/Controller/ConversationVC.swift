@@ -279,7 +279,19 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         if #available(iOS 11, *) {
             let bottom = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
-            emptyCellBackground.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: bottom + 500, paddingRight: 0, width: 0, height: 0)
+            emptyCellBackground.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: bottom + offset, paddingRight: 0, width: 0, height: 0)
+        } else {
+            emptyCellBackground.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: offset, paddingRight: 0, width: 0, height: 0)
+        }
+    }
+    private func setupEmptyBackground1() {
+        view.addSubview(emptyCellBackground)
+        
+        let offset = isRecentAcitivy ? 450 - (navigationController?.navigationBar.frame.height ?? 0) : 450
+        
+        if #available(iOS 11, *) {
+            let bottom = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
+            emptyCellBackground.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: bottom + offset, paddingRight: 0, width: 0, height: 0)
         } else {
             emptyCellBackground.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: offset, paddingRight: 0, width: 0, height: 0)
         }
@@ -313,9 +325,18 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
 
     func enterConnectionRequestMode() {
         studentKeyboardAccessory.showQuickChatView()
-//        studentKeyboardAccessory.chatView.isHidden = false
         if AccountService.shared.currentUserType == .learner {
             setupEmptyBackground()
+        }
+        
+        setActionViewUsable(false)
+        headerHeight = 0
+        messagesCollection.collectionViewLayout.invalidateLayout()
+    }
+    func enterConnectionRequestMode1() {
+        studentKeyboardAccessory.showQuickChatView()
+        if AccountService.shared.currentUserType == .learner {
+            setupEmptyBackground1()
         }
         
         setActionViewUsable(false)
@@ -375,6 +396,11 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         if studentKeyboardAccessory.messageTextview.text.isEmpty && teacherKeyboardAccessory.messageTextview.text.isEmpty {
             typingIndicatorManager?.emitStopTyping()
         }
+    }
+    
+    @objc func textFieldGetFocus(_ sender: UITextView){
+        enterConnectionRequestMode1()
+//        print("222222")
     }
     
     @objc func handleRightViewTapped() {
@@ -798,6 +824,8 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         NotificationCenter.default.addObserver(self, selector: #selector(becomeFirstResponder), name: NSNotification.Name(rawValue: "actionSheetDismissed"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didDisconnect), name: Notifications.didDisconnect.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidChangeText(_:)), name: UITextView.textDidChangeNotification, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(textFieldGetFocus(_:)), name: UITextView.textDidBeginEditingNotification, object: nil)
         
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -805,7 +833,7 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     @objc func adjustForKeyboard(notification: Notification) {
-        guard conversationManager.messages.count > 0 else { return }
+        guard conversationManager.messages.count > 0 else {return}
         let userInfo = notification.userInfo!
         
         let keyboardScreenEndFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
