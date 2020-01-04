@@ -469,10 +469,14 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
                 case 1:
                     self.studentKeyboardAccessory.isHidden = true
                     self.teacherKeyboardAccessory.isHidden = true
+                    self.studentKeyboardAccessory.isUserInteractionEnabled = false
+                    self.teacherKeyboardAccessory.isUserInteractionEnabled = false
                     break
                 case 2:
                     self.studentKeyboardAccessory.isHidden = true
                     self.teacherKeyboardAccessory.isHidden = true
+                    self.studentKeyboardAccessory.isUserInteractionEnabled = false
+                    self.teacherKeyboardAccessory.isUserInteractionEnabled = false
                     break
             default:
                 break
@@ -1451,5 +1455,7 @@ extension ConversationVC : QTProfileSheetContentVCDelegate{
     func tapCancelButton() {
         self.studentKeyboardAccessory.isHidden = false
         self.teacherKeyboardAccessory.isHidden = false
+        self.studentKeyboardAccessory.isUserInteractionEnabled = true
+        self.teacherKeyboardAccessory.isUserInteractionEnabled = true
     }
 }
