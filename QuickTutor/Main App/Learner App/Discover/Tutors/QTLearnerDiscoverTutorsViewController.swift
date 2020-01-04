@@ -51,7 +51,7 @@ class QTLearnerDiscoverTutorsViewController: UIViewController {
     
     func getTutors() {
         if isRisingTalent {
-            TutorSearchService.shared.fetchLearnerRisingTalents(category: category?.mainPageData.name, subcategory: subcategory, limit: QTLearnerDiscoverService.shared.risingTalentLimit) { tutors in
+            TutorSearchService.shared.fetchLearnerRisingTalents(category: category?.mainPageData.name, subcategory: subcategory) { tutors in
                 self.showTutors(tutors)
                 self.loadedAllTutors = true
                 

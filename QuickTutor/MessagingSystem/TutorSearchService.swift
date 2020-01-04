@@ -12,10 +12,10 @@ import Firebase
 class TutorSearchService {
     static let shared = TutorSearchService()
     
-    func getTutorsByCategory(_ categoryName: String, lastKnownKey: String?, limit: UInt = 3000, queue: DispatchQueue = .main, completion: @escaping ([AWTutor]?, Bool) -> Void) {
+    func getTutorsByCategory(_ categoryName: String, lastKnownKey: String?, queue: DispatchQueue = .main, completion: @escaping ([AWTutor]?, Bool) -> Void) {
         var tutors = [AWTutor]()
         let myGroup = DispatchGroup()
-        var ref = Database.database().reference().child("categories").child(categoryName).queryOrderedByKey().queryLimited(toFirst: limit)
+        var ref = Database.database().reference().child("categories").child(categoryName).queryOrderedByKey()
         if let key = lastKnownKey {
             ref = ref.queryStarting(atValue: key)
         }
@@ -46,16 +46,16 @@ class TutorSearchService {
                 if let _ = lastKnownKey {
                     tutors.removeFirst()
                 }
-                completion(tutors, tutorIds.count > limit)
+                completion(tutors, false)
             }
         }
     }
     
-    func getTutorsBySubcategory(_ subcategoryName: String, lastKnownKey: String?, limit: UInt = 3000, queue: DispatchQueue = .main, completion: @escaping ([AWTutor]?, Bool) -> Void) {
+    func getTutorsBySubcategory(_ subcategoryName: String, lastKnownKey: String?, queue: DispatchQueue = .main, completion: @escaping ([AWTutor]?, Bool) -> Void) {
         var tutors = [AWTutor]()
         let desiredSubjects = CategoryFactory.shared.getSubjectsFor(subcategoryName: subcategoryName)
         
-        var ref = Database.database().reference().child("subcategories").child(subcategoryName.lowercased()).queryOrderedByKey().queryLimited(toFirst: limit)
+        var ref = Database.database().reference().child("subcategories").child(subcategoryName.lowercased()).queryOrderedByKey()
         if let key = lastKnownKey {
             ref = ref.queryStarting(atValue: key)
         }
@@ -85,14 +85,14 @@ class TutorSearchService {
                 if let _ = lastKnownKey {
                     tutors.removeFirst()
                 }
-                completion(tutors, tutorIds.count > limit)
+                completion(tutors, false)
             }
         }
     }
     
-    func getTutorsBySubject(_ subject: String, lastKnownKey: String?, limit: UInt = 3000, queue: DispatchQueue = .main, completion: @escaping ([AWTutor]?, Bool) -> Void) {
+    func getTutorsBySubject(_ subject: String, lastKnownKey: String?, queue: DispatchQueue = .main, completion: @escaping ([AWTutor]?, Bool) -> Void) {
         var tutors = [AWTutor]()
-        var ref = Database.database().reference().child("subjects").child(subject).queryOrderedByKey().queryLimited(toFirst: limit)
+        var ref = Database.database().reference().child("subjects").child(subject).queryOrderedByKey()
         
         if let key = lastKnownKey {
             ref = ref.queryStarting(atValue: key)
@@ -122,7 +122,7 @@ class TutorSearchService {
                 if let _ = lastKnownKey {
                     tutors.removeFirst()
                 }
-                completion(tutors, tutorIds.count > limit)
+                completion(tutors, false)
             }
         }
     }
@@ -169,8 +169,8 @@ class TutorSearchService {
         }
     }
     
-    func getTopTutors(limit: UInt = 1000, completion: @escaping([AWTutor]) -> Void) {
-        Database.database().reference().child("tutor-info").queryOrdered(byChild: "nos").queryLimited(toLast: limit).observeSingleEvent(of: .value) { (snapshot) in
+    func getTopTutors(completion: @escaping([AWTutor]) -> Void) {
+        Database.database().reference().child("tutor-info").queryOrdered(byChild: "nos").observeSingleEvent(of: .value) { (snapshot) in
             guard let tutorsDict = snapshot.value as? [String: Any] else {
                 completion([])
                 return
@@ -314,7 +314,7 @@ class TutorSearchService {
         }
     }
     
-    func fetchLearnerRisingTalents(category: String? = nil, subcategory: String? = nil, limit: Int = 3000, completion: @escaping ([AWTutor]) -> Void) {
+    func fetchLearnerRisingTalents(category: String? = nil, subcategory: String? = nil, completion: @escaping ([AWTutor]) -> Void) {
         
         var accountIds: [String] = []
         let lastCreateTime = Date().timeIntervalSince1970 - 60 * 24 * 3600
@@ -364,7 +364,7 @@ class TutorSearchService {
                 accountIdsGroup.notify(queue: .global()) {
                     var aryTutors: [AWTutor] = []
                     let tutorsGroup = DispatchGroup()
-                    for accountId in accountIds.prefix(limit) {
+                    for accountId in accountIds {
                         if accountId == Auth.auth().currentUser?.uid { continue }
                         
                         tutorsGroup.enter()
@@ -388,7 +388,7 @@ class TutorSearchService {
                     }
                     
                     tutorsGroup.notify(queue: .main) {
-                        completion(self.sortTutors(tutors: aryTutors, category: category, subcategory: subcategory).suffix(limit))
+                        completion(self.sortTutors(tutors: aryTutors, category: category, subcategory: subcategory))
                     }
                 }
             }
