@@ -399,8 +399,9 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     @objc func textFieldGetFocus(_ sender: UITextView){
-        enterConnectionRequestMode1()
-//        print("222222")
+        if self.metaData?.lastMessageId == nil {
+            enterConnectionRequestMode1()
+        }
     }
     
     @objc func handleRightViewTapped() {
