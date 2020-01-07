@@ -58,10 +58,10 @@ class QTReviewTableViewCell: UITableViewCell {
         avatarInitialsLabel.text = "\(review.studentName[0].uppercased())"
         UserFetchService.shared.getStudentWithId(review.reviewerId) { (student) in
             guard let student = student else {
-                self.avatarInitialsLabel.text = ""
                 self.avatarImageView.image = UIImage(named: "ic_avatar_placeholder")
                 return
             }
+            self.avatarInitialsLabel.text = ""
             self.avatarImageView.sd_setImage(with: student.profilePicUrl,
                                              placeholderImage: UIImage(named: "ic_avatar_placeholder"),
                                              options: [],

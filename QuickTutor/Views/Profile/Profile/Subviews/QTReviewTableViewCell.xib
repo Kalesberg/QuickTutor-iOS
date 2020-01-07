@@ -90,7 +90,7 @@
                         </userDefinedRuntimeAttributes>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="review" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="raC-Ya-Nz2">
-                        <rect key="frame" x="0.0" y="78" width="394" height="72"/>
+                        <rect key="frame" x="20" y="78" width="374" height="72"/>
                         <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="16"/>
                         <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
@@ -124,7 +124,7 @@
                     <constraint firstItem="10F-tW-6oe" firstAttribute="top" secondItem="PmL-sE-9QQ" secondAttribute="bottom" constant="4" id="XUx-vg-IbW"/>
                     <constraint firstItem="raC-Ya-Nz2" firstAttribute="top" secondItem="G7A-ka-Ffg" secondAttribute="bottom" constant="18" id="cHm-tV-flg"/>
                     <constraint firstItem="G7A-ka-Ffg" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="fMe-X1-iZU"/>
-                    <constraint firstItem="raC-Ya-Nz2" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="gaf-Ka-CAE"/>
+                    <constraint firstItem="raC-Ya-Nz2" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="gaf-Ka-CAE"/>
                     <constraint firstItem="t8E-k5-yPp" firstAttribute="centerY" secondItem="10F-tW-6oe" secondAttribute="centerY" constant="1.5" id="kX8-bg-sKO"/>
                     <constraint firstAttribute="trailing" secondItem="raC-Ya-Nz2" secondAttribute="trailing" id="mJp-Cs-da3"/>
                     <constraint firstItem="G7A-ka-Ffg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" symbolic="YES" id="msa-Mf-Ccl"/>
