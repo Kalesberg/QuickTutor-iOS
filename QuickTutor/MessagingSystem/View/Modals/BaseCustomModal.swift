@@ -128,7 +128,8 @@ class BaseCustomModal: UIView {
         contentAnimator.startAnimation()
         backgroundAnimator.startAnimation()
         
-        baseCustomModalDelegate.tapCancelButton()
+        navigationController.popViewController(animated: true)
+
 
     }
     
