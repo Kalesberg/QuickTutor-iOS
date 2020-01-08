@@ -67,5 +67,6 @@ extension HandlesSessionStartData {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let sessionStartsRef = Database.database().reference().child("sessionStarts").child(uid)
         sessionStartsRef.removeAllObservers()
+        sessionStartsRef.removeValue()
     }
 }
