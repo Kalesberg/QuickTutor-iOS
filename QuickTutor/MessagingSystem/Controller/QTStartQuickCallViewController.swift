@@ -213,6 +213,9 @@ class QTStartQuickCallViewController: QTSessionBaseViewController, QTStartQuickC
     @IBAction func onHangUpButtonClicked(_ sender: Any) {
         animateRotate(sender as? UIView)
         socket.emit(SocketEvents.cancelSession, ["roomKey": sessionId])
+        socket.disconnect()
+        self.removeStartData()
+    self.navigationController?.popToViewController(QTRequestQuickCallViewController.controller, animated: false)
     }
     
     @IBAction func onPickUpButtonClicked(_ sender: Any) {
