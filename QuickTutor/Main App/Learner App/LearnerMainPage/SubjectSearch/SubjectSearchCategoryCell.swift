@@ -31,7 +31,7 @@ class SubjectSearchCategoryCell: UITableViewCell {
 
     let dropDownArrow: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = #imageLiteral(resourceName: "backButton")
+        imageView.image = #imageLiteral(resourceName: "newBackButton.pdf")
         imageView.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / 2))
         return imageView
     }()
