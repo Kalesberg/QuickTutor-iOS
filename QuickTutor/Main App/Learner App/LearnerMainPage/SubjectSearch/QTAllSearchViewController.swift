@@ -140,7 +140,7 @@ class HLSuggestedSectionHeaderView: UIView {
     func configureViews() {
         self.addSubview(suggestedLabel)
         suggestedLabel.translatesAutoresizingMaskIntoConstraints = false
-        suggestedLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 25).isActive = true
+        suggestedLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 18).isActive = true
         suggestedLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 16).isActive = true
         suggestedLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
     }
