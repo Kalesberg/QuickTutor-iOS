@@ -136,14 +136,14 @@ struct CustomNavButtons {
     static let backButton: UIButton = {
         let button = UIButton()
         button.contentMode = .scaleAspectFit
-        button.setImage(#imageLiteral(resourceName: "newBackButton.pdf"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "backButton"), for: .normal)
         return button
     }()
 
     static let addTutorButton: UIButton = {
         let button = UIButton()
         button.contentMode = .scaleAspectFit
-        button.setImage(#imageLiteral(resourceName: "newBackButton.pdf"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "backButton"), for: .normal)
         return button
     }()
 }
