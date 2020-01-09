@@ -450,6 +450,14 @@ class TutorAddSubjectsResultsVC: UIViewController {
         }
     }
     
+    @objc func swipe(sender: UISwipeGestureRecognizer) {
+        switch sender.direction {
+        case UISwipeGestureRecognizer.Direction.right:
+            navigationController?.popViewController(animated: true)
+        default:
+            break
+        }
+    }
     @objc func onBack() {
         navigationController?.popViewController(animated: true)
     }
@@ -460,6 +468,10 @@ class TutorAddSubjectsResultsVC: UIViewController {
         indicatorView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         indicatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
         indicatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        let swipeRight : UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipe(sender:)))
+        swipeRight.direction = UISwipeGestureRecognizer.Direction.right
+        self.view.addGestureRecognizer(swipeRight)
+        
     }
     
     func setupDelegates() {

@@ -94,6 +94,7 @@ class SignInVCView: UIView {
         setupFacebookButton()
         setupPatentLabel()
         setupInfoTextView()
+        setupRightSwipe()
     }
     
     func setupMainView() {
@@ -138,10 +139,25 @@ class SignInVCView: UIView {
         infoTextView.anchor(top: nil, left: leftAnchor, bottom: patentLabel.topAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 17, paddingBottom: 15, paddingRight: 16, width: 0, height: 80)
     }
     
+    func setupRightSwipe(){
+        
+        let swipeRight : UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipe(sender:)))
+        swipeRight.direction = UISwipeGestureRecognizer.Direction.right
+        self.addGestureRecognizer(swipeRight)
+    }
+    
     @objc func backButtonTapped() {
         delegate?.backButtonTapped()
     }
     
+    @objc func swipe(sender: UISwipeGestureRecognizer) {
+        switch sender.direction {
+        case UISwipeGestureRecognizer.Direction.right:
+        delegate?.backButtonTapped()
+        default:
+            break
+        }
+    }
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()

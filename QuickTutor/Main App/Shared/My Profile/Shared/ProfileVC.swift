@@ -355,3 +355,24 @@ extension ProfileVC: ProfileVCFooterCellDelegate {
         inviteOthers()
     }
 }
+
+extension UINavigationController {
+    func pushViewControllerFormLeft(controller: UIViewController){
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.type = CATransitionType.push
+        transition.subtype = CATransitionSubtype.fromLeft
+        transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
+        view.window!.layer.add(transition, forKey: kCATransition)
+        pushViewController(controller, animated: false)
+    }
+    func popViewControllerFormRight(controller: UIViewController){
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.type = CATransitionType.push
+        transition.subtype = CATransitionSubtype.fromRight
+        transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
+        view.window!.layer.add(transition, forKey: kCATransition)
+        pushViewController(controller, animated: false)
+    }
+}

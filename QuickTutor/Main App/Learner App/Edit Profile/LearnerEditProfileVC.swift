@@ -33,6 +33,9 @@ class EditPreferencesVC: TutorPreferencesVC {
         contentView.distanceSliderView.slider.value = Float(CurrentUser.shared.tutor.distance!)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"newCheck"), style: .plain, target: self, action: #selector(savePreferences))
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_back_arrow"), style: .plain, target: self, action: #selector(backAction))
+        let swipeRight : UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipe(sender:)))
+        swipeRight.direction = UISwipeGestureRecognizer.Direction.right
+        self.view.addGestureRecognizer(swipeRight)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -50,6 +53,9 @@ class TutorEditProfileVC: LearnerEditProfileVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let swipeRight : UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipe(sender:)))
+        swipeRight.direction = UISwipeGestureRecognizer.Direction.right
+        self.view.addGestureRecognizer(swipeRight)
         // Remove interest section title when tutor.
         sectionTitles.remove(at: 1)
         
@@ -730,6 +736,18 @@ class LearnerEditProfileVC: UIViewController {
         return false
     }
     
+    @objc func swipe(sender: UISwipeGestureRecognizer) {
+        switch sender.direction {
+        case UISwipeGestureRecognizer.Direction.right:
+        if isContextDirty() {
+            displayUnSavedChangesAlertController()
+        } else {
+            self.navigationController?.popViewController(animated: true)
+        }
+        default:
+            break
+        }
+    }
     @objc func backAction() {
         if isContextDirty() {
             displayUnSavedChangesAlertController()
