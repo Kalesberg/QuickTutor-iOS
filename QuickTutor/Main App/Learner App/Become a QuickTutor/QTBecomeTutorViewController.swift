@@ -30,6 +30,9 @@ class QTBecomeTutorViewController: BaseRegistrationController {
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationItem.leftBarButtonItem?.tintColor = UIColor.white
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_back_arrow"), style: .plain, target: self, action: #selector(backAction))
+        let swipeRight : UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipe(sender:)))
+        swipeRight.direction = UISwipeGestureRecognizer.Direction.right
+        self.view.addGestureRecognizer(swipeRight)
     }
     
     // MARK: - Actions
@@ -37,6 +40,18 @@ class QTBecomeTutorViewController: BaseRegistrationController {
         navigationController?.pushViewController(TutorAddSubjectsVC(), animated: true)
     }
     
+    @objc func swipe(sender: UISwipeGestureRecognizer) {
+        switch sender.direction {
+        case UISwipeGestureRecognizer.Direction.right:
+        if isRegistration {
+            navigationController?.popViewController(animated: true)
+        } else {
+            dismiss(animated: true, completion: nil)
+        }
+        default:
+            break
+        }
+    }
     @objc func backAction() {
         if isRegistration {
             navigationController?.popViewController(animated: true)

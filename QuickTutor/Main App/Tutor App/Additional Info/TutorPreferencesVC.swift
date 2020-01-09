@@ -63,6 +63,10 @@ class TutorPreferencesVC: BaseRegistrationController {
         let contentViewHeightAnchor = contentView.heightAnchor.constraint(greaterThanOrEqualTo: scrollView.heightAnchor)
         contentViewHeightAnchor.priority = UILayoutPriority(rawValue: 750)
         contentViewHeightAnchor.isActive = true
+        let swipeRight : UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipe(sender:)))
+        swipeRight.direction = UISwipeGestureRecognizer.Direction.right
+        self.view.addGestureRecognizer(swipeRight)
+        
     }
     
     func setupAccessoryView() {
@@ -128,6 +132,18 @@ class TutorPreferencesVC: BaseRegistrationController {
             || quickCallPrice != roundedQuickCallPrice()
     }
     
+    @objc func swipe(sender: UISwipeGestureRecognizer) {
+        switch sender.direction {
+        case UISwipeGestureRecognizer.Direction.right:
+        if isContextDirty() {
+            displayUnSavedChangesAlertController()
+        } else {
+            self.navigationController?.popViewController(animated: true)
+        }
+        default:
+            break
+        }
+    }
     @objc func backAction() {
         if isContextDirty() {
             displayUnSavedChangesAlertController()

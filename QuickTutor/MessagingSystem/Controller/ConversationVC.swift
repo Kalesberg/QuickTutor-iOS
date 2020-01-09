@@ -263,8 +263,20 @@ class ConversationVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         teacherKeyboardAccessory.delegate = self
         studentKeyboardAccessory.messageTextview.delegate = self
         teacherKeyboardAccessory.messageTextview.delegate = self
+        let swipeRight : UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipe(sender:)))
+        swipeRight.direction = UISwipeGestureRecognizer.Direction.right
+        self.view.addGestureRecognizer(swipeRight)
+        
     }
     
+    @objc func swipe(sender: UISwipeGestureRecognizer) {
+        switch sender.direction {
+        case UISwipeGestureRecognizer.Direction.right:
+            navigationController?.popViewController(animated: true)
+        default:
+            break
+        }
+    }
     private func setupMessagesCollection() {
         messagesCollection.dataSource = self
         messagesCollection.delegate = self
