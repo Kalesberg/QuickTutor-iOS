@@ -9,7 +9,7 @@
 import Foundation
 import SocketIO
 
-let socketUrl = "https://tidycoder.com"
+let socketUrl = "35.231.239.116"
 
 // class SocketBuilder {
 //

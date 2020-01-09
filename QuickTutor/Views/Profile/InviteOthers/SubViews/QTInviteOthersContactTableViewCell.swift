@@ -69,6 +69,8 @@ class QTInviteOthersContactTableViewCell: UITableViewCell {
         } else {
             if contact.givenName != "" && contact.familyName != "" {
                 avatarInitialsLabel.text = "\(contact.givenName[0])\(contact.familyName[0])"
+            } else if contact.givenName != "" {
+                 avatarInitialsLabel.text = "\(contact.givenName[0])"
             }
           
             avatarImageView.isHighlighted = false

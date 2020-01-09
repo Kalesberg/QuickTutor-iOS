@@ -14,7 +14,7 @@ protocol TwilioSessionManagerDelegate {
 }
 
 class TwilioSessionManager: NSObject {
-    let tokenUrl = "http://tidycoder.com/token"
+    let tokenUrl = "http://35.231.239.116"
     var sessionId: String!
     var accessToken = ""
     var room: TVIRoom?
@@ -29,7 +29,8 @@ class TwilioSessionManager: NSObject {
 
     func fetchAccessToken() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        URLSession.shared.dataTask(with: URL(string: "http://tidycoder.com/twilio/token/\(uid)")!) { data, _, error in
+        URLSession.shared.dataTask(with: URL(string: "http://35.231.239.116/twilio/token/\(uid)")!) { data, _, error in
+            
             guard error == nil, let data = data else {
                 print(error.debugDescription)
                 return
