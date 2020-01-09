@@ -84,6 +84,9 @@ class QTLearnerDiscoverSubcategoryViewController: UIViewController {
         guard let controller = navigationController else { return }
         popRecognizer = QTInteractivePopRecognizer(controller: controller)
         controller.interactivePopGestureRecognizer?.delegate = popRecognizer
+        let swipeRight : UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipe(sender:)))
+        swipeRight.direction = UISwipeGestureRecognizer.Direction.right
+        self.view.addGestureRecognizer(swipeRight)
     }
     
     private func updateNavigationBar() {
@@ -136,7 +139,15 @@ class QTLearnerDiscoverSubcategoryViewController: UIViewController {
             }
         }
     }
-
+    
+    @objc func swipe(sender: UISwipeGestureRecognizer) {
+        switch sender.direction {
+        case UISwipeGestureRecognizer.Direction.right:
+            navigationController?.popViewController(animated: true)
+        default:
+            break
+        }
+    }
     @IBAction func onClickBtnBack(_ sender: Any) {
         navigationController?.popViewController(animated: true)
     }

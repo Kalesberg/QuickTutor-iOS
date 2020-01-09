@@ -175,9 +175,20 @@ class QTSavedTutorsViewController: UIViewController {
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_back_arrow"), style: .plain, target: self, action: #selector(onClickBack))
         
+        let swipeRight : UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipe(sender:)))
+        swipeRight.direction = UISwipeGestureRecognizer.Direction.right
+        self.view.addGestureRecognizer(swipeRight)
         setInteractiveRecognizer()
     }
     
+    @objc func swipe(sender: UISwipeGestureRecognizer) {
+        switch sender.direction {
+        case UISwipeGestureRecognizer.Direction.right:
+            navigationController?.popViewController(animated: true)
+        default:
+            break
+        }
+    }
     private func setInteractiveRecognizer() {
         guard let controller = navigationController else { return }
         popRecognizer = QTInteractivePopRecognizer(controller: controller)

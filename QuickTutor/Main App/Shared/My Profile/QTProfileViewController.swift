@@ -144,8 +144,22 @@ class QTProfileViewController: UIViewController {
         btnSave.setImage(UIImage(named: "heartIcon"), for: .normal)
         btnSave.setImage(UIImage(named: "heartIconFilled"), for: .selected)
         btnSave.addTarget(self, action: #selector(onClickBtnSaveTutor), for: .touchUpInside)
+        
+        
+        let swipeRight : UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipe(sender:)))
+        swipeRight.direction = UISwipeGestureRecognizer.Direction.right
+        self.view.addGestureRecognizer(swipeRight)
+        
     }
     
+    @objc func swipe(sender: UISwipeGestureRecognizer) {
+        switch sender.direction {
+        case UISwipeGestureRecognizer.Direction.right:
+            navigationController?.popViewController(animated: true)
+        default:
+            break
+        }
+    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         initData()

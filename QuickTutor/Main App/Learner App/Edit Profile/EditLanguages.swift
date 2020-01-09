@@ -93,6 +93,9 @@ class EditLanguageVC: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"newCheck"), style: .plain, target: self, action: #selector(saveLanguages))
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_back_arrow"), style: .plain, target: self, action: #selector(backAction))
+        let swipeRight : UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipe(sender:)))
+        swipeRight.direction = UISwipeGestureRecognizer.Direction.right
+        self.view.addGestureRecognizer(swipeRight)
     }
     
     func displayUnSavedChangesAlertController() {
@@ -122,6 +125,18 @@ class EditLanguageVC: UIViewController {
         }
     }
     
+    @objc func swipe(sender: UISwipeGestureRecognizer) {
+        switch sender.direction {
+        case UISwipeGestureRecognizer.Direction.right:
+        if isContextDirty() {
+            displayUnSavedChangesAlertController()
+        } else {
+            self.navigationController?.popViewController(animated: true)
+        }
+        default:
+            break
+        }
+    }
     @objc func backAction() {
         if isContextDirty() {
             displayUnSavedChangesAlertController()
