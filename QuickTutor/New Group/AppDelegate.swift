@@ -45,6 +45,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HandlesSessionStartData, 
     let launchScreen = LaunchScreen()
 	
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        let appversion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        
+        
         let (keyboardHeight, statusbarHeight, fontSize, multiplier) = setDeviceInfo()
         
         DeviceInfo.keyboardHeight = keyboardHeight

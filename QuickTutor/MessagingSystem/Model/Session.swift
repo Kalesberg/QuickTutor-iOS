@@ -97,18 +97,39 @@ class Session: Codable {
     func cancel() {}
     
     var sessionCost: Double {
-        if .learner == AccountService.shared.currentUserType {
-            return (cost + 0.57) / 0.968
-        }
         
+        let dateFormatterGet = DateFormatter()
+        dateFormatterGet.dateFormat = "yyyy-MM-dd HH:mm:ss"
+
+        let updatingDate = dateFormatterGet.date(from: "2020-01-1 12:24:26")!
+        
+        if Date().timeIntervalSince(updatingDate) > date{
+            if .learner == AccountService.shared.currentUserType {
+                return (cost + 0.57) / 0.968
+            }
+        }else{
+            if .learner == AccountService.shared.currentUserType {
+                return (cost + 0.3) / 0.971
+            }
+        }
         return cost
     }
     
     var sessionPrice: Double {
-        if .learner == AccountService.shared.currentUserType {
-            return (price + 0.57) / 0.968
-        }
         
+        let dateFormatterGet = DateFormatter()
+        dateFormatterGet.dateFormat = "yyyy-MM-dd HH:mm:ss"
+
+        let updatingDate = dateFormatterGet.date(from: "2020-01-1 12:24:26")!
+        if Date().timeIntervalSince(updatingDate) > date{
+            if .learner == AccountService.shared.currentUserType {
+                return (price + 0.57) / 0.968
+            }
+        }else{
+            if .learner == AccountService.shared.currentUserType {
+                return (price + 0.3) / 0.971
+            }
+        }
         return price
     }
 }
